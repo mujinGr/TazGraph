@@ -1,7 +1,8 @@
 #include "MainGraph.h"
 #include <iostream>
 #include <string>
-#include "ConsoleLogger.h"
+#include "ConsoleLogger/ConsoleLogger.h"
+#include <IMGUI/imgui.h>
 
 MainGraph::MainGraph()
 {
@@ -57,7 +58,9 @@ void MainGraph::initSystems()
 
 void MainGraph::initShaders()
 {
-	_colorProgram.compileShaders("");
+	_colorProgram.compileShaders("Shaders/colorShading.vert", "Shaders/colorShading.frag");
+	_colorProgram.addAttribute("vertexPosition");
+	_colorProgram.linkShaders();
 }
 
 void MainGraph::graphLoop()
@@ -65,6 +68,7 @@ void MainGraph::graphLoop()
 	while (_graphState != GraphState::EXIT) {
 		processInput();
 		drawGraph();
+		//updateUI();
 	}
 
 }
@@ -94,7 +98,20 @@ void MainGraph::drawGraph()
 	glClearDepth(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the color and depth bits
 
+	_colorProgram.use();
+
 	_node.draw();
 
+	_colorProgram.unuse();
+
+
 	SDL_GL_SwapWindow(_window);
+}
+
+void MainGraph::updateUI() {
+	// Default ImGui window
+	//ImGui::Begin("Default UI");
+	//ImGui::Text("This is a permanent UI element.");
+	//ImGui::End();
+
 }

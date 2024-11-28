@@ -28,6 +28,8 @@ private:
 	void processInput();
 	void drawGraph();
 
+	void updateUI();
+
 	SDL_Window* _window;
 	int _screenWidth, _screenHeight;
 

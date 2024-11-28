@@ -1,8 +1,9 @@
 #include "GLSLProgram.h"
+#include "../ConsoleLogger/ConsoleLogger.h"
 
 #include <fstream>
 
-GLSLProgram::GLSLProgram() : _programID(0), _vertexShaderID(0), _fragmentShaderID(0)
+GLSLProgram::GLSLProgram() : _programID(0), _vertexShaderID(0), _fragmentShaderID(0), _numAttributes(0)
 {
 
 }
@@ -16,6 +17,8 @@ GLSLProgram::~GLSLProgram()
 
 void GLSLProgram::compileShaders(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath)
 {
+	_programID = glCreateProgram();
+
 	std::vector<unsigned char> vertSourceVec;
 	std::vector<unsigned char> fragSourceVec;
 
@@ -47,7 +50,6 @@ void GLSLProgram::compileShadersFromSource(const char* vertexSource, const char*
 
 void GLSLProgram::linkShaders()
 {
-	_programID = glCreateProgram();
 
 	// Attach our shaders to our program
 	glAttachShader(_programID, _vertexShaderID);
@@ -83,6 +85,32 @@ void GLSLProgram::linkShaders()
 	glDetachShader(_programID, _fragmentShaderID);
 	glDeleteShader(_vertexShaderID);
 	glDeleteShader(_fragmentShaderID);
+}
+
+void GLSLProgram::addAttribute(const std::string& attributeName)
+{
+	glBindAttribLocation(_programID, _numAttributes++, attributeName.c_str());
+}
+
+void GLSLProgram::use()
+{
+	glUseProgram(_programID);
+	for (int i = 0; i < _numAttributes; i++) {
+		glEnableVertexAttribArray(0);
+	}
+}
+
+void GLSLProgram::unuse()
+{
+	glUseProgram(0);
+	for (int i = 0; i < _numAttributes; i++) {
+		glDisableVertexAttribArray(i);
+	}
+}
+
+void GLSLProgram::dispose()
+{
+	if (_programID != 0) glDeleteProgram(_programID);
 }
 
 void GLSLProgram::compileShader(const char* source, const std::string& name, GLuint id)

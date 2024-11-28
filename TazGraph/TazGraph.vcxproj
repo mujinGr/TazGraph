@@ -132,17 +132,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConsoleLogger\ConsoleLogger.cpp" />
     <ClCompile Include="GLSLProgram\GLSLProgram.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGraph.cpp" />
+    <ClCompile Include="AssetManager\AssetManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ConsoleLogger.h" />
+    <ClInclude Include="ConsoleLogger\ConsoleLogger.h" />
     <ClInclude Include="GLSLProgram\GLSLProgram.h" />
+    <ClInclude Include="GLTexture.h" />
     <ClInclude Include="GraphSystem\GraphSystem.h" />
     <ClInclude Include="GraphSystem\Link.h" />
     <ClInclude Include="GraphSystem\Node.h" />
     <ClInclude Include="MainGraph.h" />
+    <ClInclude Include="AssetManager\AssetManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

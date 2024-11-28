@@ -4,7 +4,6 @@
 #include <vector>
 #include <GL/glew.h>
 
-#include "../ConsoleLogger.h"
 #include "../AssetManager/AssetManager.h"
 
 class GLSLProgram {
@@ -18,11 +17,20 @@ public:
 
 	void linkShaders();
 
+	void addAttribute(const std::string& attributeName);
+
+	void use();
+	void unuse();
+
+	void dispose();
+
 private:
 	GLuint _programID;
 
 	GLuint _vertexShaderID;
 	GLuint _fragmentShaderID;
+
+	int _numAttributes;
 
 	void compileShader(const char* source, const std::string& name, GLuint id);
 };

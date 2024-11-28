@@ -1,6 +1,7 @@
 #include "AssetManager.h"
 
-#include "../ConsoleLogger.h"
+#include <fstream>
+#include "../ConsoleLogger/ConsoleLogger.h"
 
 bool AssetManager::readFileToBuffer(const char* filePath, std::vector<unsigned char>& buffer)
 {

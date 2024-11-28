@@ -24,12 +24,18 @@
     <ClCompile Include="GLSLProgram\GLSLProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AssetManager\AssetManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleLogger\ConsoleLogger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleLogger.h">
+    <ClInclude Include="ConsoleLogger\ConsoleLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GraphSystem\GraphSystem.h">
@@ -42,6 +48,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GLSLProgram\GLSLProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager\AssetManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
