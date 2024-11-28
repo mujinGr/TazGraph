@@ -1,4 +1,4 @@
-#version 400
+#version 430
 
 out vec3 color; //rgb value
 

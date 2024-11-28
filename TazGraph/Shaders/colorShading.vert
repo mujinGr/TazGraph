@@ -1,4 +1,4 @@
-#version 400
+#version 430
 
 in vec2 vertexPosition; //vec2 is array of 2 floats
 

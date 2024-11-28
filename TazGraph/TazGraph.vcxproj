@@ -134,6 +134,13 @@
   <ItemGroup>
     <ClCompile Include="ConsoleLogger\ConsoleLogger.cpp" />
     <ClCompile Include="GLSLProgram\GLSLProgram.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="imgui\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="imgui\imgui_tables.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGraph.cpp" />
     <ClCompile Include="AssetManager\AssetManager.cpp" />

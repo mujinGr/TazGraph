@@ -3,6 +3,8 @@
 #include <string>
 #include "ConsoleLogger/ConsoleLogger.h"
 #include <IMGUI/imgui.h>
+#include <IMGUI/imgui_impl_sdl2.h>
+#include <IMGUI/imgui_impl_opengl3.h>
 
 MainGraph::MainGraph()
 {
@@ -48,6 +50,22 @@ void MainGraph::initSystems()
 		nmConsoleLogger::error("Could not initialize glew");
 	}
 
+	IMGUI_CHECKVERSION();
+
+	ImGui::CreateContext();
+	ImGui_ImplSDL2_InitForOpenGL(_window, &glContext);
+	ImGui_ImplOpenGL3_Init("#version 430"); // Or whatever GLSL version suits your needs
+
+	//Check the OpenGL version
+	std::cout << "Mujin: ***   OpenGL Version: " << glGetString(GL_VERSION) << "    ***\n";
+
+	//Set VSYNC
+	SDL_GL_SetSwapInterval(0);
+
+	// Enable alpha blend
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 	glClearColor(0.0f, 0.0f, 1.0f, 1.0f); // whenever you clear the color bit it will get the value in the call
@@ -68,7 +86,7 @@ void MainGraph::graphLoop()
 	while (_graphState != GraphState::EXIT) {
 		processInput();
 		drawGraph();
-		//updateUI();
+		updateUI();
 	}
 
 }
@@ -109,9 +127,16 @@ void MainGraph::drawGraph()
 }
 
 void MainGraph::updateUI() {
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
 	// Default ImGui window
-	//ImGui::Begin("Default UI");
-	//ImGui::Text("This is a permanent UI element.");
-	//ImGui::End();
+	ImGui::Begin("Default UI");
+	ImGui::Text("This is a permanent UI element.");
+	ImGui::End();
+
+	// Rendering
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 }
