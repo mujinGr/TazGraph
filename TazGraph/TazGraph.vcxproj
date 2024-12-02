@@ -154,6 +154,7 @@
     <ClInclude Include="GraphSystem\Node.h" />
     <ClInclude Include="MainGraph.h" />
     <ClInclude Include="AssetManager\AssetManager.h" />
+    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

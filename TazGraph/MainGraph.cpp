@@ -50,21 +50,17 @@ void MainGraph::initSystems()
 		nmConsoleLogger::error("Could not initialize glew");
 	}
 
-	IMGUI_CHECKVERSION();
+	//IMGUI_CHECKVERSION();
 
-	ImGui::CreateContext();
-	ImGui_ImplSDL2_InitForOpenGL(_window, &glContext);
-	ImGui_ImplOpenGL3_Init("#version 430"); // Or whatever GLSL version suits your needs
+	//ImGui::CreateContext();
+	//ImGui_ImplSDL2_InitForOpenGL(_window, &glContext);
+	//ImGui_ImplOpenGL3_Init("#version 400"); // Or whatever GLSL version suits your needs
 
 	//Check the OpenGL version
 	std::cout << "Mujin: ***   OpenGL Version: " << glGetString(GL_VERSION) << "    ***\n";
 
 	//Set VSYNC
 	SDL_GL_SetSwapInterval(0);
-
-	// Enable alpha blend
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
@@ -78,6 +74,7 @@ void MainGraph::initShaders()
 {
 	_colorProgram.compileShaders("Shaders/colorShading.vert", "Shaders/colorShading.frag");
 	_colorProgram.addAttribute("vertexPosition");
+	_colorProgram.addAttribute("vertexColor");
 	_colorProgram.linkShaders();
 }
 
@@ -104,8 +101,6 @@ void MainGraph::processInput()
 		case SDL_MOUSEMOTION:
 			std::cout << e.motion.x << " " << e.motion.y << std::endl;
 			break;
-
-
 		}
 	}
 	
@@ -127,16 +122,16 @@ void MainGraph::drawGraph()
 }
 
 void MainGraph::updateUI() {
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
-	// Default ImGui window
-	ImGui::Begin("Default UI");
-	ImGui::Text("This is a permanent UI element.");
-	ImGui::End();
+	//ImGui_ImplOpenGL3_NewFrame();
+	//ImGui_ImplSDL2_NewFrame();
+	//ImGui::NewFrame();
+	//// Default ImGui window
+	//ImGui::Begin("Default UI");
+	//ImGui::Text("This is a permanent UI element.");
+	//ImGui::End();
 
-	// Rendering
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	//// Rendering
+	//ImGui::Render();
+	//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 }

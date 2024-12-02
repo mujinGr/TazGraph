@@ -96,7 +96,7 @@ void GLSLProgram::use()
 {
 	glUseProgram(_programID);
 	for (int i = 0; i < _numAttributes; i++) {
-		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(i);
 	}
 }
 
