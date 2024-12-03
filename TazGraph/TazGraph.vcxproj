@@ -133,6 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleLogger\ConsoleLogger.cpp" />
+    <ClCompile Include="BaseFPSLimiter\BaseFPSLimiter.cpp" />
     <ClCompile Include="GLSLProgram\GLSLProgram.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -141,20 +142,25 @@
     <ClCompile Include="imgui\imgui_impl_sdl2.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="imgui\implot.cpp" />
+    <ClCompile Include="imgui\implot_items.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainGraph.cpp" />
+    <ClCompile Include="BaseGraph.cpp" />
     <ClCompile Include="AssetManager\AssetManager.cpp" />
+    <ClCompile Include="Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleLogger\ConsoleLogger.h" />
+    <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h" />
     <ClInclude Include="GLSLProgram\GLSLProgram.h" />
     <ClInclude Include="GLTexture.h" />
     <ClInclude Include="GraphSystem\GraphSystem.h" />
     <ClInclude Include="GraphSystem\Link.h" />
     <ClInclude Include="GraphSystem\Node.h" />
-    <ClInclude Include="MainGraph.h" />
+    <ClInclude Include="BaseGraph.h" />
     <ClInclude Include="AssetManager\AssetManager.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="Window\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

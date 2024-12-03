@@ -18,7 +18,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MainGraph.cpp">
+    <ClCompile Include="BaseGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GLSLProgram\GLSLProgram.cpp">
@@ -51,9 +51,21 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Window\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\implot_items.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\implot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseFPSLimiter\BaseFPSLimiter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainGraph.h">
+    <ClInclude Include="BaseGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleLogger\ConsoleLogger.h">
@@ -78,6 +90,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

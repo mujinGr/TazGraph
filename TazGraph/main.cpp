@@ -1,9 +1,9 @@
 #include <iostream>
-#include "MainGraph.h"
+#include "BaseGraph.h"
 
 int main(int argc, char** argv) {
 	
-	MainGraph mainGraph;
+	BaseGraph mainGraph;
 	mainGraph.run();
 
 	return 0;
