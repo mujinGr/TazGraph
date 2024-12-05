@@ -14,7 +14,9 @@ x64/
 *.out
 *.app
 
+.vs/
 .vscode/
+deps/
 
 *.bak
 *.tmp
