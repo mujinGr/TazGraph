@@ -63,13 +63,18 @@ public:
 	void draw() override {
 		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 
-		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(0); // give positions ( point to 0 element for position)
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
 
 		// This is the position attribute
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
-
 		// This is the color attribute
 		glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+		// UV attribute pointer
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+
+		glBindVertexArray(0);
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 

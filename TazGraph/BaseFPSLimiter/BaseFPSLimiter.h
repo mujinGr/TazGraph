@@ -1,8 +1,8 @@
 #pragma once
-
+#include <deque>
 class BaseFPSLimiter {
 public:
-	static constexpr int fps_history_count = 100;
+	static constexpr int FPS_HISTORY_COUNT = 100;
 
 	BaseFPSLimiter();
 
@@ -20,7 +20,7 @@ public:
 	float frameTime;
 	unsigned int startTicks;
 
-	float fpsHistory[fps_history_count] = { 0 };
+	std::deque<float> fpsHistory;
 	int fpsHistoryIndx = 0;
 
 	void setHistoryValue(float currentFPS);

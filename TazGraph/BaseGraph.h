@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include <numeric>
 #include <SDL/SDL.h>
 #include <GL/glew.h>
 #include "Window/Window.h"
@@ -44,6 +44,8 @@ private:
 	BaseFPSLimiter _limiter;
 
 	Node _node; //  test node
+	Node _node2; //  test node
+
 
 	GLSLProgram _colorProgram;
 };

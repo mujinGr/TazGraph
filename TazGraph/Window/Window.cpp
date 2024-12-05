@@ -13,7 +13,9 @@ TazGraph::Window::~Window()
 
 int TazGraph::Window::create(std::string windowName, int screenWidth, int screenHeight, float scale, unsigned int currentFlags) {
 
+    //Uint32 flags = (1 << 1) | (1 << 5) | (1 << 7);
     Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
+
     _screenWidth = screenWidth * scale;
     _screenHeight = screenHeight * scale;
     _scale = scale;
@@ -53,7 +55,7 @@ int TazGraph::Window::create(std::string windowName, int screenWidth, int screen
     ImPlot::CreateContext();
     // Setup Platform/Renderer bindings
     ImGui_ImplSDL2_InitForOpenGL(_sdlWindow, &glContext);
-    ImGui_ImplOpenGL3_Init("#version 330"); // Or whatever GLSL version suits your needs
+    ImGui_ImplOpenGL3_Init("#version 400"); // Or whatever GLSL version suits your needs
 
     //Check the OpenGL version
     std::cout << "***   OpenGL Version: " << glGetString(GL_VERSION) << "    ***\n";
@@ -69,6 +71,8 @@ int TazGraph::Window::create(std::string windowName, int screenWidth, int screen
 }
 
 void TazGraph::Window::swapBuffer() {
+    //Uint32 flags = SDL_GetWindowFlags(_sdlWindow); // Get window flags
+    //std::cout << flags << std::endl;
     SDL_GL_SwapWindow(_sdlWindow);
 }
 

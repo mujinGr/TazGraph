@@ -1,6 +1,7 @@
 #include "BaseGraph.h"
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include "ConsoleLogger/ConsoleLogger.h"
 #include <IMGUI/imgui.h>
 #include <IMGUI/imgui_impl_sdl2.h>
@@ -24,8 +25,11 @@ void BaseGraph::run()
 	limiter.setMaxFPS(60.0f);
 
 	// here is main graph init
-	_node = Node(-0.5f, -0.5f , 1.0f, 1.0f);
+	_node = Node(-0.5f, -0.5f , 0.5f, 0.5f);
 	_node.init();
+
+	_node2 = Node(0.5f, 0.5f, 0.5f, 0.5f);
+	_node2.init();
 
 	graphLoop();
 }
@@ -53,6 +57,7 @@ void BaseGraph::initShaders()
 	_colorProgram.compileShaders("Shaders/colorShading.vert", "Shaders/colorShading.frag");
 	_colorProgram.addAttribute("vertexPosition");
 	_colorProgram.addAttribute("vertexColor");
+	//_colorProgram.addAttribute("vertexUV");
 	_colorProgram.linkShaders();
 }
 
@@ -145,6 +150,13 @@ void BaseGraph::drawGraph()
 	_node.draw();
 
 	_colorProgram.unuse();
+
+	_colorProgram.use();
+
+	_node2.draw();
+
+	_colorProgram.unuse();
+
 }
 
 void BaseGraph::updateUI() {
@@ -159,16 +171,28 @@ void BaseGraph::updateUI() {
 	ImGui::End();
 
 	ImGui::Begin("Performance");
-	if (ImPlot::BeginPlot("FPS Plot")) {
-		int plot_count = std::min(_limiter.fps_history_count, _limiter.fpsHistoryIndx); // Ensuring we do not read out of bounds
-		int plot_offset = std::max(0, _limiter.fpsHistoryIndx - _limiter.fps_history_count); // Ensure a positive offset
+	if (ImPlot::BeginSubplots("", 1, 1, ImVec2(400, 300)))
+	{
+		if (ImPlot::BeginPlot(""))
+		{
+			ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, 5.f);
 
-		ImPlot::SetupAxesLimits(0, 100, 0, 70);
+			ImPlot::SetupAxis(ImAxis_X1, "Frame Number", ImPlotAxisFlags_AutoFit);
+			ImPlot::SetupAxis(ImAxis_Y1, "Frame Rate");
+			ImPlot::SetupAxisLimits(ImAxis_Y1, 0, 100);
 
-		ImPlot::PlotLine("FPS", &_limiter.fpsHistory[0], plot_count);
-		
-		ImPlot::EndPlot();
+			std::vector<float> local_samples(_limiter.FPS_HISTORY_COUNT);
+			std::iota(local_samples.begin(), local_samples.end(), 0);
+
+			std::vector<float> fps_data(_limiter.fpsHistory.begin(), _limiter.fpsHistory.end());
+
+			ImPlot::PlotLine("Frame Rate", local_samples.data(), fps_data.data(), fps_data.size());
+			ImPlot::EndPlot();
+
+		}
+		ImPlot::EndSubplots();
 	}
+
 	ImGui::End();
 	// Rendering
 	ImGui::Render();
