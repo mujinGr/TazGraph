@@ -1,2 +1,25 @@
-.vs/
+
+# Build results
+Debug/
 x64/
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Executables
+*.exe
+*.out
+*.app
+
+.vscode/
+
+*.bak
+*.tmp
+*.temp
+
+/MujinGame/MujinGame/assets/Maps/RandomBackground.csv
+/MujinGame/MujinGame/assets/Maps/RandomMap.csv
+/MujinGame/MujinGame/imgui.ini
