@@ -1,7 +1,7 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef GRAPH_H
+#define GRAPH_H
 
-#include <GameScreen/IGameScreen.h>
+#include <GraphScreen/IGraphScreen.h>
 #include <SDL/SDL.h>
 #include <SDL_IMAGE/SDL_image.h>
 #include <GL/glew.h>
@@ -20,7 +20,7 @@
 
 #include "ECS/ECSManager.h"
 
-#include "GameScreen/ScreenIndices.h"
+#include "GraphScreen/ScreenIndices.h"
 
 #include "Grid/Grid.h"
 
@@ -32,11 +32,11 @@ class TransformComponent;
 
 constexpr int CELL_SIZE = 128;
 
-class Game : public IGameScreen {
+class Graph : public IGraphScreen {
 
 public:
-	Game(MujinEngine::Window* window);
-	~Game();
+	Graph(TazGraphEngine::Window* window);
+	~Graph();
 
 
 	virtual int getNextScreenIndex() const override;
@@ -82,7 +82,7 @@ public:
 
 	//std::unique_ptr<Grid> grid;
 
-	static MujinEngine::Window* _window;
+	static TazGraphEngine::Window* _window;
 	float startTime = SDL_GetTicks() / 1000.0f;
 
 	static float backgroundColor[4];
@@ -90,7 +90,7 @@ public:
 private:
 	void selectEntityAtPosition(glm::vec2 worldCoords);
 	void checkInput();
-	bool onPauseGame();
+	bool onPauseGraph();
 
 	GLSLProgram _colorProgram;
 	GLSLProgram _circleColorProgram;
@@ -100,8 +100,8 @@ private:
 	
 	Grid* _grid = nullptr; //< Grid for spatial partitioning for collision
 
-	int _nextScreenIndex = SCREEN_INDEX_GAMEPLAY;
-	int _prevScreenIndex = SCREEN_INDEX_GAMEPLAY;
+	int _nextScreenIndex = SCREEN_INDEX_GRAPHPLAY;
+	int _prevScreenIndex = SCREEN_INDEX_GRAPHPLAY;
 
 	const float SCALE_SPEED = 0.1f;
 	bool _firstLoop = true;

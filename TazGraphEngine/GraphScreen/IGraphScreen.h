@@ -4,7 +4,7 @@
 
 #define SCREEN_INDEX_NO_SCREEN -1
 
-class IMainGame;
+class IMainGraph;
 
 enum class ScreenState {
 	NONE,
@@ -14,13 +14,13 @@ enum class ScreenState {
 	CHANGE_PREVIOUS
 };
 
-class IGameScreen {
+class IGraphScreen {
 public:
 	friend class ScreenList;
-	IGameScreen() {
+	IGraphScreen() {
 
 	}
-	virtual ~IGameScreen() {
+	virtual ~IGraphScreen() {
 
 	}
 
@@ -50,11 +50,11 @@ public:
 
 	ScreenState getState() const { return _currentState; }
 
-	void setParentGame(IMainGame* game) { _game = game; }
+	void setParentGraph(IMainGraph* graph) { _graph = graph; }
 
 protected:
 	ScreenState _currentState = ScreenState::NONE;
-	IMainGame* _game = nullptr;
+	IMainGraph* _graph = nullptr;
 	int _screenIndex = -1;
 
 	DebugRenderer _debugRenderer;

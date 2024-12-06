@@ -60,7 +60,7 @@ void Collision::moveFromCollision(Entity& player) {
 	}
 }
 
-bool Collision::moveFromOuterBounds(Entity& entity, MujinEngine::Window& window) {
+bool Collision::moveFromOuterBounds(Entity& entity, TazGraphEngine::Window& window) {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 	auto pos = entity.GetComponent<TransformComponent>().getPosition();

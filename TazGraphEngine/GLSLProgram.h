@@ -44,12 +44,12 @@ public:
 
 		_vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 		if (_vertexShaderID == 0) {
-			MujinEngine::ConsoleLogger::error("Vertex Shader Failed to create!");
+			TazGraphEngine::ConsoleLogger::error("Vertex Shader Failed to create!");
 		}
 
 		_fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 		if (_fragmentShaderID == 0) {
-			MujinEngine::ConsoleLogger::error("Fragment Shader Failed to create!");
+			TazGraphEngine::ConsoleLogger::error("Fragment Shader Failed to create!");
 		}
 
 		compileShader(vertexSource, "vertex Shader", _vertexShaderID);
@@ -83,7 +83,7 @@ public:
 			glDeleteShader(_fragmentShaderID);
 
 			std::printf("%s\n", &(errorLog[0]));
-			MujinEngine::ConsoleLogger::error("Shaders failed to link");
+			TazGraphEngine::ConsoleLogger::error("Shaders failed to link");
 		}
 
 		// Always detach shaders after a successful link.
@@ -101,7 +101,7 @@ public:
 		GLint location = glGetUniformLocation(_programID, uniformName.c_str());
 
 		if (location == GL_INVALID_INDEX) {
-			MujinEngine::ConsoleLogger::error("Uniform " + uniformName + " not found in shader!");
+			TazGraphEngine::ConsoleLogger::error("Uniform " + uniformName + " not found in shader!");
 		}
 		return location;
 	}

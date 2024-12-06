@@ -1,23 +1,23 @@
 #include "ScreenList.h"
-#include "IGameScreen.h"
+#include "IGraphScreen.h"
 
-ScreenList::ScreenList(IMainGame* game) :
-	_game(game) {
+ScreenList::ScreenList(IMainGraph* graph) :
+	_graph(graph) {
 
 }
 ScreenList::~ScreenList() {
 	destroy();
 }
 
-IGameScreen* ScreenList::moveNext() {
-	IGameScreen* currentScreen = getCurrent();
+IGraphScreen* ScreenList::moveNext() {
+	IGraphScreen* currentScreen = getCurrent();
 	if (currentScreen->getNextScreenIndex() != SCREEN_INDEX_NO_SCREEN) {
 		_currentScreenIndex = currentScreen->getNextScreenIndex();
 	}
 	return getCurrent();
 }
-IGameScreen* ScreenList::movePrevious() {
-	IGameScreen* currentScreen = getCurrent();
+IGraphScreen* ScreenList::movePrevious() {
+	IGraphScreen* currentScreen = getCurrent();
 	if (currentScreen->getPreviousScreenIndex() != SCREEN_INDEX_NO_SCREEN) {
 		_currentScreenIndex = currentScreen->getPreviousScreenIndex();
 	}
@@ -27,11 +27,11 @@ IGameScreen* ScreenList::movePrevious() {
 void ScreenList::setScreen(int nextScreen) {
 	_currentScreenIndex = nextScreen;
 }
-void ScreenList::addScreen(IGameScreen* newScreen) {
+void ScreenList::addScreen(IGraphScreen* newScreen) {
 	newScreen->_screenIndex = _screens.size();
 	_screens.push_back(newScreen);
 	newScreen->build();
-	newScreen->setParentGame(_game);
+	newScreen->setParentGraph(_graph);
 }
 
 void ScreenList::destroy() {
@@ -42,7 +42,7 @@ void ScreenList::destroy() {
 	_currentScreenIndex = SCREEN_INDEX_NO_SCREEN;
 }
 
-IGameScreen* ScreenList::getCurrent() {
+IGraphScreen* ScreenList::getCurrent() {
 	if (_currentScreenIndex == SCREEN_INDEX_NO_SCREEN) return nullptr;
 
 	return _screens[_currentScreenIndex];

@@ -1,5 +1,5 @@
 ﻿
-#include "Game.h"
+#include "Graph.h"
 #include "TextureManager/TextureManager.h"
 #include "Camera2.5D/CameraManager.h"
 #include "Map/Map.h"
@@ -10,57 +10,57 @@
 #include "AssetManager/AssetManager.h"
 #include "SceneManager/SceneManager.h"
 #include <sstream>
-#include "GameScreen/IMainGame.h"
+#include "GraphScreen/IMainGraph.h"
 
 #undef main
 
-SDL_Event Game::event;
+SDL_Event Graph::event;
 Manager manager;
 Collision collision;
 
-SpriteBatch Game::_spriteBatch;
-SpriteBatch Game::_hudSpriteBatch;
+SpriteBatch Graph::_spriteBatch;
+SpriteBatch Graph::_hudSpriteBatch;
 
-AudioEngine Game::audioEngine;
+AudioEngine Graph::audioEngine;
 
-Map* Game::map = nullptr;
-AssetManager* Game::assets = nullptr;
-SceneManager* Game::scenes = new SceneManager();
-float Game::backgroundColor[4] = {0.025f, 0.05f, 0.15f, 1.0f};
-MujinEngine::Window* Game::_window = nullptr;
+Map* Graph::map = nullptr;
+AssetManager* Graph::assets = nullptr;
+SceneManager* Graph::scenes = new SceneManager();
+float Graph::backgroundColor[4] = {0.025f, 0.05f, 0.15f, 1.0f};
+TazGraphEngine::Window* Graph::_window = nullptr;
 
 auto& player1(manager.addEntity());
 auto& stagelabel(manager.addEntity(true));
 
-Game::Game(MujinEngine::Window* window)
+Graph::Graph(TazGraphEngine::Window* window)
 {
 	_window = window;
-	_screenIndex = SCREEN_INDEX_GAMEPLAY;
+	_screenIndex = SCREEN_INDEX_GRAPHPLAY;
 }
-Game::~Game()
+Graph::~Graph()
 {
 
 }
 
-int Game::getNextScreenIndex() const {
+int Graph::getNextScreenIndex() const {
 	return _nextScreenIndex;
 }
 
-int Game::getPreviousScreenIndex() const {
+int Graph::getPreviousScreenIndex() const {
 	return _prevScreenIndex;
 }
 
-void Game::build() {
+void Graph::build() {
 
 }
 
-void Game::destroy() {
+void Graph::destroy() {
 
 }
 
-void Game::onEntry()
+void Graph::onEntry()
 {
-	assets = new AssetManager(&manager, _game->_inputManager, _game->_window);
+	assets = new AssetManager(&manager, _graph->_inputManager, _graph->_window);
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -105,8 +105,8 @@ void Game::onEntry()
 		_textureProgram.addAttribute("vertexUV");
 		_textureProgram.linkShaders();
 
-		Game::_spriteBatch.init();
-		Game::_hudSpriteBatch.init();
+		Graph::_spriteBatch.init();
+		Graph::_hudSpriteBatch.init();
 	}
 
 	if (TTF_Init() == -1)
@@ -127,7 +127,7 @@ void Game::onEntry()
 
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 
-	Game::map = new Map("terrain", 1, 32);
+	Graph::map = new Map("terrain", 1, 32);
 
 	main_camera2D->worldDimensions= map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
 
@@ -146,7 +146,7 @@ void Game::onEntry()
 	music.play(-1);
 }
 
-void Game::onExit() {
+void Graph::onExit() {
 	_debugRenderer.dispose();
 }
 
@@ -159,7 +159,7 @@ auto& screenshapes(manager.getGroup(Manager::screenShapes));
 auto& hpbars(manager.getGroup(Manager::groupHPBars));
 auto& generators(manager.getGroup(Manager::groupEnvironmentGenerators));
 
-void Game::update(float deltaTime) //game objects updating
+void Graph::update(float deltaTime) //game objects updating
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -194,7 +194,7 @@ glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
 	return screenCoords;
 }
 
-void Game::selectEntityAtPosition(glm::vec2 worldCoords) {
+void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	for (auto& groups : { tiles})
 	{
@@ -212,16 +212,16 @@ void Game::selectEntityAtPosition(glm::vec2 worldCoords) {
 	
 }
 
-void Game::checkInput() {
+void Graph::checkInput() {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
-	_game->_inputManager.update();
+	_graph->_inputManager.update();
 
 	SDL_Event evnt;
 	while (SDL_PollEvent(&evnt)) {
 		ImGui_ImplSDL2_ProcessEvent(&evnt);
-		_game->onSDLEvent(evnt);
+		_graph->onSDLEvent(evnt);
 
 		switch (evnt.type)
 		{
@@ -238,9 +238,9 @@ void Game::checkInput() {
 			}
 			break;
 		case SDL_MOUSEMOTION:
-			glm::vec2 mouseCoordsVec = _game->_inputManager.getMouseCoords();
-			_game->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
-			mouseCoordsVec = _game->_inputManager.getMouseCoords();
+			glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
+			_graph->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
+			mouseCoordsVec = _graph->_inputManager.getMouseCoords();
 			if (_selectedEntity) {
 				_selectedEntity->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(mouseCoordsVec ).x);
 				_selectedEntity->GetComponent<TransformComponent>().setPosition_Y (convertScreenToWorld(mouseCoordsVec ).y);
@@ -248,28 +248,28 @@ void Game::checkInput() {
 					_selectedEntity->GetComponent<GridComponent>().updateCollidersGrid();
 			}
 		}
-		if (_game->_inputManager.isKeyPressed(SDLK_p)) {
-			onPauseGame();
+		if (_graph->_inputManager.isKeyPressed(SDLK_p)) {
+			onPauseGraph();
 		}
 
-		if (_game->_inputManager.isKeyPressed(SDLK_n)) {
-			Game::map->setMapCompleted(true);
+		if (_graph->_inputManager.isKeyPressed(SDLK_n)) {
+			Graph::map->setMapCompleted(true);
 		}
 
-		if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
-			glm::vec2 mouseCoordsVec = _game->_inputManager.getMouseCoords();
+		if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+			glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
 			if ( _selectedEntity == nullptr) {
 				selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec));
 			}	
 		}
-		if (!_game->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
+		if (!_graph->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
 			_selectedEntity = nullptr;
 		}
 
 	}
 }
 
-void Game::updateUI() {
+void Graph::updateUI() {
 
 	// Default ImGui window
 	ImGui::Begin("Default UI");
@@ -309,7 +309,7 @@ void Game::updateUI() {
 		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
 	}
 
-	ImGui::Text("Mouse Coords: {x: %f, y: %f}", _game->_inputManager.getMouseCoords().x, _game->_inputManager.getMouseCoords().y);
+	ImGui::Text("Mouse Coords: {x: %f, y: %f}", _graph->_inputManager.getMouseCoords().x, _graph->_inputManager.getMouseCoords().y);
 
 	if (_selectedEntity) {
 		ImGui::Text("Selected Entity Details");
@@ -325,7 +325,7 @@ void Game::updateUI() {
 
 }
 
-void Game::setupShader_Texture(GLSLProgram& shaderProgram, const std::string& textureName) {
+void Graph::setupShader_Texture(GLSLProgram& shaderProgram, const std::string& textureName) {
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
 	glBindTexture(GL_TEXTURE_2D, texture->id);
@@ -333,7 +333,7 @@ void Game::setupShader_Texture(GLSLProgram& shaderProgram, const std::string& te
 	glUniform1i(textureLocation, 0);
 }
 
-void Game::setupShader(GLSLProgram& shaderProgram, const std::string& textureName, ICamera& camera) {
+void Graph::setupShader(GLSLProgram& shaderProgram, const std::string& textureName, ICamera& camera) {
 	shaderProgram.use();
 	if (!textureName.empty()) {
 		setupShader_Texture(shaderProgram, textureName);
@@ -343,7 +343,7 @@ void Game::setupShader(GLSLProgram& shaderProgram, const std::string& textureNam
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 
-void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { 
+void Graph::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
@@ -352,18 +352,18 @@ void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch)
 		if (!entity->getIsHud() && entity->hasComponent<Rectangle_w_Color>()) {
 			Rectangle_w_Color entityRectangle = entity->GetComponent<Rectangle_w_Color>();
 			if (entity->checkCollision(entityRectangle.destRect, main_camera2D->getCameraRect())) { //draw culling
-				entity->draw(batch, *Game::_window);
+				entity->draw(batch, *Graph::_window);
 			}
 		}
 		else {
-			entity->draw(batch, *Game::_window);
+			entity->draw(batch, *Graph::_window);
 		}
 	}
 	batch.end();
 	batch.renderBatch();
 }
 
-void Game::draw()
+void Graph::draw()
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -480,14 +480,14 @@ void Game::draw()
 }
 
 
-void Game::drawHUD(const std::vector<Entity*>& entities, const std::string& textureName) {
+void Graph::drawHUD(const std::vector<Entity*>& entities, const std::string& textureName) {
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 	setupShader(_textureProgram, textureName, *hud_camera2D);
 	renderBatch(entities, _hudSpriteBatch);
 }
 
-bool Game::onPauseGame() {
+bool Graph::onPauseGraph() {
 	_prevScreenIndex = SCREEN_INDEX_MAIN_MENU;
 	_currentState = ScreenState::CHANGE_PREVIOUS;
 	return true;

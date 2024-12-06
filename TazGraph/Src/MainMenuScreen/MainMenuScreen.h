@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameScreen/IGameScreen.h"
+#include "GraphScreen/IGraphScreen.h"
 #include <SDL/SDL.h>
 #include <SDL_IMAGE/SDL_image.h>
 #include <GL/glew.h>
@@ -19,13 +19,13 @@
 
 #include "ECS/ECSManager.h"
 
-#include "GameScreen/ScreenIndices.h"
+#include "GraphScreen/ScreenIndices.h"
 
 class AssetManager;
 
-class MainMenuScreen : public IGameScreen {
+class MainMenuScreen : public IGraphScreen {
 public:
-	MainMenuScreen(MujinEngine::Window* window);
+	MainMenuScreen(TazGraphEngine::Window* window);
 	~MainMenuScreen();
 
     virtual int getNextScreenIndex() const override;
@@ -55,16 +55,16 @@ public:
 
 private:
     void checkInput();
-    bool onStartGame();
-    bool onResumeGame();
-    void onExitGame();
+    bool onStartSimulator();
+    bool onResumeSimulator();
+    void onExitSimulator();
 
-    MujinEngine::Window* _window;
+    TazGraphEngine::Window* _window;
 
     GLSLProgram _colorProgram;
     GLSLProgram _textureProgram;
 
-    int _nextScreenIndex = SCREEN_INDEX_GAMEPLAY;
-    int _prevScreenIndex = SCREEN_INDEX_GAMEPLAY;
+    int _nextScreenIndex = SCREEN_INDEX_GRAPHPLAY;
+    int _prevScreenIndex = SCREEN_INDEX_GRAPHPLAY;
 
 };

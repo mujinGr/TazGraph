@@ -6,7 +6,7 @@
 #include <random>
 
 
-AssetManager::AssetManager(Manager* man, InputManager& inputManager, MujinEngine::Window& window)
+AssetManager::AssetManager(Manager* man, InputManager& inputManager, TazGraphEngine::Window& window)
 	: manager(man), _inputManager(inputManager), _window(window) // todo make triggers manager
 {
 	onpipeTriggers[0].x = 1840;

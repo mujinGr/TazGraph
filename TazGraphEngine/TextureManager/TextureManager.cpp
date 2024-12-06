@@ -43,13 +43,13 @@ GLTexture* TextureManager::loadPNG(const char* filePath) {
 
 	unsigned long width, height;
 	if (TextureManager::readFileToBuffer(filePath, in) == false) {
-		MujinEngine::ConsoleLogger::error("Failed to load PNG file to buffer!");
+		TazGraphEngine::ConsoleLogger::error("Failed to load PNG file to buffer!");
 	}
 
 	int errorCode = decodePNG(out, width, height, &(in[0]), in.size(), true);
 
 	if (errorCode != 0) {
-		MujinEngine::ConsoleLogger::error("decodePNG failed with error: " + std::to_string(errorCode));
+		TazGraphEngine::ConsoleLogger::error("decodePNG failed with error: " + std::to_string(errorCode));
 	}
 
 	glGenTextures(1, &(texture.id));

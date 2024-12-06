@@ -1,20 +1,20 @@
-#include "IMainGame.h"
+#include "IMainGraph.h"
 #include "../Timing/Timing.h"
 
 #include "ScreenList.h"
-#include "IGameScreen.h"
+#include "IGraphScreen.h"
 
 #include "../Camera2.5D/CameraManager.h"
 
-IMainGame::IMainGame() {
+IMainGraph::IMainGraph() {
 	_screenList = std::make_unique<ScreenList>(this);
 }
 
-IMainGame::~IMainGame() {
+IMainGraph::~IMainGraph() {
 
 }
 
-void IMainGame::run() {
+void IMainGraph::run() {
 
 	const float DESIRED_FPS = 60;
 	const int MAX_PHYSICS_STEPS = 6;
@@ -66,7 +66,7 @@ void IMainGame::run() {
 		_window.swapBuffer();
 	}
 }
-void IMainGame::exitGame() {
+void IMainGraph::exitSimulator() {
 	_currentScreen->onExit();
 	if (_screenList) {
 		_screenList->destroy();
@@ -75,11 +75,11 @@ void IMainGame::exitGame() {
 	_isRunning = false;
 }
 
-void IMainGame::onSDLEvent(SDL_Event& evnt) {
+void IMainGraph::onSDLEvent(SDL_Event& evnt) {
 	switch (evnt.type)
 	{
 	case SDL_QUIT:
-		exitGame();
+		exitSimulator();
 		break;
 	case SDL_KEYDOWN:
 		_inputManager.pressKey(evnt.key.keysym.sym);
@@ -124,11 +124,11 @@ void IMainGame::onSDLEvent(SDL_Event& evnt) {
 		break;
 	}
 	if (_inputManager.isKeyDown(SDLK_ESCAPE)) {
-		exitGame();
+		exitSimulator();
 	}
 }
 
-bool IMainGame::init() {
+bool IMainGraph::init() {
 	//Initialize SDL
 	SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -152,12 +152,12 @@ bool IMainGame::init() {
 	return true;
 }
 
-bool IMainGame::initSystems() {
-	_window.create("Taz Graph", 800, 640, 1.0f, MujinEngine::VISIBLE);
+bool IMainGraph::initSystems() {
+	_window.create("Taz Graph", 800, 640, 1.0f, TazGraphEngine::VISIBLE);
 	return true;
 }
 
-void IMainGame::update(float deltaTime) {
+void IMainGraph::update(float deltaTime) {
 	if (_currentScreen) {
 		switch (_currentScreen->getState()) {
 		case ScreenState::RUNNING:
@@ -180,25 +180,25 @@ void IMainGame::update(float deltaTime) {
 			}
 			break;
 		case ScreenState::EXIT_APPLICATION:
-			exitGame();
+			exitSimulator();
 			break;
 		default:
 			break;
 		}
 	}
 	else {
-		exitGame();
+		exitSimulator();
 	}
 
 }
-void IMainGame::draw() {
+void IMainGraph::draw() {
 	glViewport(0, 0, _window.getScreenWidth(), _window.getScreenHeight());
 	if (_currentScreen && _currentScreen->getState() == ScreenState::RUNNING) {
 		_currentScreen->draw();
 	}
 }
 
-void IMainGame::updateUI()
+void IMainGraph::updateUI()
 {
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();

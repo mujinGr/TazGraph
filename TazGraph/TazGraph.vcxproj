@@ -126,7 +126,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;opengl32.lib;glew32.lib;Winmm.lib;MujinEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;opengl32.lib;glew32.lib;Winmm.lib;TazGraphEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -149,7 +149,7 @@
     <ClCompile Include="Src\App\App.cpp" />
     <ClCompile Include="Src\AssetManager\AssetManager.cpp" />
     <ClCompile Include="Src\Collision\Collision.cpp" />
-    <ClCompile Include="Src\Game.cpp" />
+    <ClCompile Include="Src\Graph.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\MainMenuScreen\MainMenuScreen.cpp" />
     <ClCompile Include="Src\Map\Map.cpp" />
@@ -166,12 +166,12 @@
     <ClInclude Include="Src\ECS\Scripts\ScoreComponent.h" />
     <ClInclude Include="Src\ECS\ScriptComponents.h" />
     <ClInclude Include="Src\ECS\Scripts\HPBar.h" />
-    <ClInclude Include="Src\Game.h" />
+    <ClInclude Include="Src\Graph.h" />
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h" />
     <ClInclude Include="Src\Map\Map.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MujinEngine\MujinEngine.vcxproj">
+    <ProjectReference Include="..\TazGraphEngine\TazGraphEngine.vcxproj">
       <Project>{fb55d28c-40b5-4e5e-aee2-6a23d72411b6}</Project>
     </ProjectReference>
   </ItemGroup>

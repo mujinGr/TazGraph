@@ -53,7 +53,7 @@ public:
 
 	virtual void init(){}
 	virtual void update(float deltaTime) {}
-	virtual void draw(SpriteBatch&  batch, MujinEngine::Window& window) {}
+	virtual void draw(SpriteBatch&  batch, TazGraphEngine::Window& window) {}
 
 	virtual SDL_Rect getRect() 
 	{
@@ -123,7 +123,7 @@ public:
 			c->update(deltaTime); // start from which was added first
 		}
 	}
-	void draw(SpriteBatch&  batch, MujinEngine::Window& window) 
+	void draw(SpriteBatch&  batch, TazGraphEngine::Window& window) 
 	{
 		for (auto& c : components) { 
 			c->draw(batch, window); 

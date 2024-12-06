@@ -7,7 +7,7 @@
 #include "../ECS/ScriptComponents.h"
 #include "../Collision/Collision.h"
 #include "../AssetManager/AssetManager.h"
-#include "GameScreen/IMainGame.h"
+#include "GraphScreen/IMainGraph.h"
 
 Manager main_menu_manager;
 
@@ -18,10 +18,10 @@ SpriteBatch MainMenuScreen::_spriteBatch;
 AssetManager* MainMenuScreen::assets = nullptr;
 
 auto& Mainmenubackground(main_menu_manager.addEntity());
-auto& StartGameButton(main_menu_manager.addEntity());
-auto& ExitGameButton(main_menu_manager.addEntity());
+auto& StartGraphButton(main_menu_manager.addEntity());
+auto& ExitGraphButton(main_menu_manager.addEntity());
 
-MainMenuScreen::MainMenuScreen(MujinEngine::Window* window)
+MainMenuScreen::MainMenuScreen(TazGraphEngine::Window* window)
 	: _window(window)
 {
 	_screenIndex = SCREEN_INDEX_MAIN_MENU;
@@ -54,7 +54,7 @@ void MainMenuScreen::destroy()
 
 void MainMenuScreen::onEntry()
 {
-	assets = new AssetManager(&manager, _game->_inputManager, _game->_window);
+	assets = new AssetManager(&manager, _graph->_inputManager, _graph->_window);
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
@@ -117,31 +117,31 @@ void MainMenuScreen::onEntry()
 
 	// initial entities
 	glm::ivec2 mainMenuButtonsDims = glm::ivec2(200,50);
-	StartGameButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - mainMenuButtonsDims.x / 2, 200.0f), Manager::actionLayer,
+	StartGraphButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - mainMenuButtonsDims.x / 2, 200.0f), Manager::actionLayer,
 		mainMenuButtonsDims,
 		1.0f);
-	StartGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onStartGame, this), "ENTER SIMULATOR", mainMenuButtonsDims, Color(120, 120, 120, 200));
-	StartGameButton.addGroup(Manager::startGameGroup);
+	StartGraphButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onStartSimulator, this), "ENTER SIMULATOR", mainMenuButtonsDims, Color(120, 120, 120, 200));
+	StartGraphButton.addGroup(Manager::startGraphGroup);
 
-	ExitGameButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - mainMenuButtonsDims.x / 2, 300.0f), Manager::actionLayer,
+	ExitGraphButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - mainMenuButtonsDims.x / 2, 300.0f), Manager::actionLayer,
 		mainMenuButtonsDims,
 		1.0f);
-	ExitGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onExitGame, this), "EXIT", mainMenuButtonsDims, Color(70, 70, 70, 255));
-	ExitGameButton.addGroup(Manager::exitGameGroup);
+	ExitGraphButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onExitSimulator, this), "EXIT", mainMenuButtonsDims, Color(70, 70, 70, 255));
+	ExitGraphButton.addGroup(Manager::exitGraphGroup);
 }
 
 auto& mainmenubackground(main_menu_manager.getGroup(Manager::groupBackgroundLayer));
-auto& startgamebuttons(main_menu_manager.getGroup(Manager::startGameGroup));
-auto& exitgamebuttons(main_menu_manager.getGroup(Manager::exitGameGroup));
+auto& startgraphbuttons(main_menu_manager.getGroup(Manager::startGraphGroup));
+auto& exitgraphbuttons(main_menu_manager.getGroup(Manager::exitGraphGroup));
 auto& backgroundPanels(main_menu_manager.getGroup(Manager::backgroundPanels));
 auto& buttonLabels(main_menu_manager.getGroup(Manager::buttonLabels));
 
 
 void MainMenuScreen::onExit()
 {
-	for (auto& sb : startgamebuttons)
+	for (auto& sb : startgraphbuttons)
 	{
-		sb->GetComponent<ButtonComponent>().setOnClick(std::bind(&MainMenuScreen::onResumeGame, this));
+		sb->GetComponent<ButtonComponent>().setOnClick(std::bind(&MainMenuScreen::onResumeSimulator, this));
 	}
 }
 
@@ -161,18 +161,18 @@ void MainMenuScreen::update(float deltaTime)
 	hud_camera2D->update();
 
 
-	for (auto& sb : startgamebuttons)
+	for (auto& sb : startgraphbuttons)
 	{
 		TransformComponent entityTr = sb->GetComponent<TransformComponent>();
-		if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT) && _game->_inputManager.checkMouseCollision(entityTr.getPosition(), glm::ivec2(entityTr.width, entityTr.height))) { //culling
+		if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_LEFT) && _graph->_inputManager.checkMouseCollision(entityTr.getPosition(), glm::ivec2(entityTr.width, entityTr.height))) { //culling
 			std::cout << "clicked button" << std::endl;
 			sb->GetComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
 		}
 	}
-	for (auto& eb : exitgamebuttons)
+	for (auto& eb : exitgraphbuttons)
 	{
 		TransformComponent entityTr = eb->GetComponent<TransformComponent>();
-		if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT) && _game->_inputManager.checkMouseCollision(entityTr.getPosition(), glm::ivec2(entityTr.width, entityTr.height))) { //culling
+		if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_LEFT) && _graph->_inputManager.checkMouseCollision(entityTr.getPosition(), glm::ivec2(entityTr.width, entityTr.height))) { //culling
 			std::cout << "clicked button" << std::endl;
 			eb->GetComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
 		}
@@ -196,7 +196,7 @@ void MainMenuScreen::setupShaderAndTexture(const std::string& textureName) {
 void MainMenuScreen::renderBatch(const std::vector<Entity*>& entities) {
 	_spriteBatch.begin();
 	for (const auto& entity : entities) {
-		entity->draw(_spriteBatch, *Game::_window);
+		entity->draw(_spriteBatch, *Graph::_window);
 	}
 	_spriteBatch.end();
 	_spriteBatch.renderBatch();
@@ -227,9 +227,9 @@ void MainMenuScreen::draw()
 	renderBatch(mainmenubackground);
 
 	setupShaderAndTexture("startgame");
-	renderBatch(startgamebuttons);
+	renderBatch(startgraphbuttons);
 	setupShaderAndTexture("exitgame");
-	renderBatch(exitgamebuttons);
+	renderBatch(exitgraphbuttons);
 
 	_colorProgram.use();
 
@@ -255,21 +255,21 @@ void MainMenuScreen::checkInput() {
 
 	SDL_Event evnt;
 
-	_game->_inputManager.update();
+	_graph->_inputManager.update();
 
 	while (SDL_PollEvent(&evnt)) {
 		ImGui_ImplSDL2_ProcessEvent(&evnt);
-		_game->onSDLEvent(evnt);
+		_graph->onSDLEvent(evnt);
 
 		switch (evnt.type)
 		{
 			case SDL_MOUSEMOTION:
-				glm::vec2 mouseCoordsVec = _game->_inputManager.getMouseCoords();
-				_game->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
+				glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
+				_graph->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
 		}
 
-		if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
-			glm::vec2 mouseCoordsVec = _game->_inputManager.getMouseCoords();
+		if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+			glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
 			std::cout << mouseCoordsVec.x << " " << mouseCoordsVec.y << std::endl;
 		}
 
@@ -303,23 +303,23 @@ void MainMenuScreen::updateUI() {
 		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
 	}
 
-	ImGui::Text("Mouse Coords: {x: %f, y: %f}", _game->_inputManager.getMouseCoords().x, _game->_inputManager.getMouseCoords().y);
+	ImGui::Text("Mouse Coords: {x: %f, y: %f}", _graph->_inputManager.getMouseCoords().x, _graph->_inputManager.getMouseCoords().y);
 
 	ImGui::End();
 }
 
-bool MainMenuScreen::onStartGame() {
-	_nextScreenIndex = SCREEN_INDEX_GAMEPLAY;
+bool MainMenuScreen::onStartSimulator() {
+	_nextScreenIndex = SCREEN_INDEX_GRAPHPLAY;
 	_currentState = ScreenState::CHANGE_NEXT;
 	return true;
 }
 
-bool MainMenuScreen::onResumeGame() {
-	_prevScreenIndex = SCREEN_INDEX_GAMEPLAY;
+bool MainMenuScreen::onResumeSimulator() {
+	_prevScreenIndex = SCREEN_INDEX_GRAPHPLAY;
 	_currentState = ScreenState::CHANGE_PREVIOUS;
 	return true;
 }
 
-void MainMenuScreen::onExitGame() {
-	_game->exitGame();
+void MainMenuScreen::onExitSimulator() {
+	_graph->exitSimulator();
 }

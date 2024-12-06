@@ -22,7 +22,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{fb55d28c-40b5-4e5e-aee2-6a23d72411b6}</ProjectGuid>
-    <RootNamespace>MujinEngine</RootNamespace>
+    <RootNamespace>TazGraphEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -140,10 +140,10 @@
     <ClCompile Include="Camera2.5D\OrthoCamera.h" />
     <ClCompile Include="DebugRenderer\DebugRenderer.cpp" />
     <ClCompile Include="ECS\ECS.cpp" />
-    <ClCompile Include="GameScreen\IGameScreen.cpp" />
-    <ClCompile Include="GameScreen\IMainGame.cpp" />
-    <ClCompile Include="GameScreen\ScreenIndices.h" />
-    <ClCompile Include="GameScreen\ScreenList.cpp" />
+    <ClCompile Include="GraphScreen\IGraphScreen.cpp" />
+    <ClCompile Include="GraphScreen\IMainGraph.cpp" />
+    <ClCompile Include="GraphScreen\ScreenIndices.h" />
+    <ClCompile Include="GraphScreen\ScreenList.cpp" />
     <ClCompile Include="Grid\Grid.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -184,9 +184,9 @@
     <ClInclude Include="ECS\SpriteComponent.h" />
     <ClInclude Include="ECS\TileComponent.h" />
     <ClInclude Include="ECS\TransformComponent.h" />
-    <ClInclude Include="GameScreen\IGameScreen.h" />
-    <ClInclude Include="GameScreen\IMainGame.h" />
-    <ClInclude Include="GameScreen\ScreenList.h" />
+    <ClInclude Include="GraphScreen\IGraphScreen.h" />
+    <ClInclude Include="GraphScreen\IMainGraph.h" />
+    <ClInclude Include="GraphScreen\ScreenList.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTexture.h" />
     <ClInclude Include="Grid\Grid.h" />

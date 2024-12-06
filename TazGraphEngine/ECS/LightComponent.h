@@ -30,7 +30,7 @@ public:
         destRect.y = static_cast<int>(transform->getPosition().y);
     }
 
-    void draw(SpriteBatch&  batch, MujinEngine::Window& window) override
+    void draw(SpriteBatch&  batch, TazGraphEngine::Window& window) override
     {
         float tempScreenScale = window.getScale();
         glm::vec4 pos((float)destRect.x * tempScreenScale, (float)destRect.y * tempScreenScale,

@@ -2,16 +2,16 @@
 #include "../ConsoleLogger.h"
 
 
-MujinEngine::Window::Window()
+TazGraphEngine::Window::Window()
 {
 }
 
 
-MujinEngine::Window::~Window()
+TazGraphEngine::Window::~Window()
 {
 }
 
-int MujinEngine::Window::create(std::string windowName, int screenWidth, int screenHeight, float scale, unsigned int currentFlags) {
+int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int screenHeight, float scale, unsigned int currentFlags) {
 
     //Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
     Uint32 flags = (1 << 1) | (1 << 5) | (1 << 7);
@@ -35,19 +35,19 @@ int MujinEngine::Window::create(std::string windowName, int screenWidth, int scr
     //Open an SDL window
     _sdlWindow = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screenWidth, _screenHeight, flags);
     if (_sdlWindow == nullptr) {
-        MujinEngine::ConsoleLogger::error("SDL Window could not be created!");
+        TazGraphEngine::ConsoleLogger::error("SDL Window could not be created!");
     }
 
     //Set up our OpenGL context
     SDL_GLContext glContext = SDL_GL_CreateContext(_sdlWindow);
     if (glContext == nullptr) {
-        MujinEngine::ConsoleLogger::error("SDL_GL context could not be created!");
+        TazGraphEngine::ConsoleLogger::error("SDL_GL context could not be created!");
     }
 
     //Set up glew (optional but recommended)
     GLenum error = glewInit();
     if (error != GLEW_OK) {
-        MujinEngine::ConsoleLogger::error("Could not initialize glew!");
+        TazGraphEngine::ConsoleLogger::error("Could not initialize glew!");
     }
 
     ImGui::CreateContext();
@@ -68,7 +68,7 @@ int MujinEngine::Window::create(std::string windowName, int screenWidth, int scr
     return 0;
 }
 
-void MujinEngine::Window::swapBuffer() {
+void TazGraphEngine::Window::swapBuffer() {
     SDL_GL_SwapWindow(_sdlWindow);
 }
 

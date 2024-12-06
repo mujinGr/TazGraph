@@ -55,7 +55,7 @@ public:
 		
 	}
 
-	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override
+	void draw(SpriteBatch&  batch, TazGraphEngine::Window& window) override
 	{
 		//sprite->draw(batch);
 		//TextureManager::Draw(texture, srcRect, destRect, SDL_FLIP_NONE);

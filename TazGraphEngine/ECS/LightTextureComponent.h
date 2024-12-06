@@ -33,7 +33,7 @@ public:
 
     }
 
-    void draw(SpriteBatch&  batch, MujinEngine::Window& window) override
+    void draw(SpriteBatch&  batch, TazGraphEngine::Window& window) override
     {
         float tempScreenScale = window.getScale();
         glm::vec4 pos((float)sprite->destRect.x * tempScreenScale, (float)sprite->destRect.y * tempScreenScale,

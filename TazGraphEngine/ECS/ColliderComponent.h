@@ -49,7 +49,7 @@ public:
 		srcR = { 0, 0, 8, 8 };
 		destR = { collider.x, collider.y , collider.w , collider.h };
 
-		//Game::colliders.push_back(this);
+		//Graph::colliders.push_back(this);
 
 	}
 
@@ -72,7 +72,7 @@ public:
 		collider.y = static_cast<int>(transform->getPosition().y) + transform->scale + gridpos.y;
 	}
 
-	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override
+	void draw(SpriteBatch&  batch, TazGraphEngine::Window& window) override
 	{
 	}
 

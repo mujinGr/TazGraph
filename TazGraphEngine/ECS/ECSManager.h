@@ -46,7 +46,7 @@ public:
 			}
 		}
 	}
-	void draw(SpriteBatch& batch, MujinEngine::Window& window)
+	void draw(SpriteBatch& batch, TazGraphEngine::Window& window)
 	{
 		for (auto& e : entities) e->draw(batch, window);
 	}
@@ -149,8 +149,8 @@ public:
 		groupHPBars,
 		groupFog,
 		groupEnvironmentGenerators,
-		startGameGroup,
-		exitGameGroup,
+		startGraphGroup,
+		exitGraphGroup,
 		buttonLabels,
 		groupCircles
 	};

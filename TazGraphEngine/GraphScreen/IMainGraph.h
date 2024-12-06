@@ -6,15 +6,15 @@
 #include <iostream>
 
 class ScreenList;
-class IGameScreen;
+class IGraphScreen;
 
-class IMainGame {
+class IMainGraph {
 public:
-	IMainGame();
-	virtual ~IMainGame();
+	IMainGraph();
+	virtual ~IMainGraph();
 
 	void run();
-	void exitGame();
+	void exitSimulator();
 
 	virtual void onInit() = 0;
 	virtual void addScreens() = 0;
@@ -27,7 +27,7 @@ public:
 	}
 
 	InputManager _inputManager;
-	MujinEngine::Window _window;
+	TazGraphEngine::Window _window;
 
 protected:
 	virtual void update(float deltaTime);
@@ -38,7 +38,7 @@ protected:
 	bool initSystems();
 
 	std::unique_ptr<ScreenList> _screenList = nullptr;
-	IGameScreen* _currentScreen = nullptr;
+	IGraphScreen* _currentScreen = nullptr;
 	bool _isRunning = false;
 	float _fps = 0.0f;
 

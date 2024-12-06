@@ -5,7 +5,7 @@
 #include "../ShapeManager.h"
 #include "ECS\ECSManager.h"
 #include <TTF/SDL_ttf.h>
-#include "../Game.h"
+#include "../Graph.h"
 
 
 class AssetManager //this class created when we added projectiles, based on this class other components changed
@@ -17,7 +17,7 @@ public:
 	SDL_Color red = { 255, 0 ,0 ,255 };
 	SDL_Color green = { 0, 255 ,0 ,255 };
 
-	AssetManager(Manager* man, InputManager& inputManager, MujinEngine::Window& window);
+	AssetManager(Manager* man, InputManager& inputManager, TazGraphEngine::Window& window);
 	~AssetManager();
 
 	//gameobjects
@@ -30,7 +30,7 @@ public:
 private:
 	Manager* manager;
 	InputManager& _inputManager;
-	MujinEngine::Window& _window;
+	TazGraphEngine::Window& _window;
 
 	SDL_Rect onpipeTriggers[2];
 	SDL_Rect leftofpipeTriggers[1];

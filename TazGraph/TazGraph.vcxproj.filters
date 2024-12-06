@@ -18,7 +18,7 @@
     <ClCompile Include="Src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game.cpp">
+    <ClCompile Include="Src\Graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Map\Map.cpp">
@@ -30,15 +30,15 @@
     <ClCompile Include="Src\AssetManager\AssetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\App\App.cpp">
+    <ClCompile Include="Src\MainMenuScreen\MainMenuScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\MainMenuScreen\MainMenuScreen.cpp">
+    <ClCompile Include="Src\App\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Game.h">
+    <ClInclude Include="Src\Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Map\Map.h">
@@ -65,9 +65,6 @@
     <ClInclude Include="Src\ECS\KeyboardController2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\App\App.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -78,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\ECS\Scripts\MainMenuBackground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\App\App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

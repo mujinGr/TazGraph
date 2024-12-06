@@ -607,19 +607,19 @@ static void ImGui_ImplSDL2_CloseGamepads()
     bd->Gamepads.resize(0);
 }
 
-void ImGui_ImplSDL2_SetGamepadMode(ImGui_ImplSDL2_GamepadMode mode, struct _SDL_GameController** manual_gamepads_array, int manual_gamepads_count)
+void ImGui_ImplSDL2_SetGamepadMode(ImGui_ImplSDL2_GamepadMode mode, struct _SDL_GameController** manual_graphpads_array, int manual_graphpads_count)
 {
     ImGui_ImplSDL2_Data* bd = ImGui_ImplSDL2_GetBackendData();
     ImGui_ImplSDL2_CloseGamepads();
     if (mode == ImGui_ImplSDL2_GamepadMode_Manual)
     {
-        IM_ASSERT(manual_gamepads_array != nullptr && manual_gamepads_count > 0);
-        for (int n = 0; n < manual_gamepads_count; n++)
-            bd->Gamepads.push_back(manual_gamepads_array[n]);
+        IM_ASSERT(manual_graphpads_array != nullptr && manual_graphpads_count > 0);
+        for (int n = 0; n < manual_graphpads_count; n++)
+            bd->Gamepads.push_back(manual_graphpads_array[n]);
     }
     else
     {
-        IM_ASSERT(manual_gamepads_array == nullptr && manual_gamepads_count <= 0);
+        IM_ASSERT(manual_graphpads_array == nullptr && manual_graphpads_count <= 0);
         bd->WantUpdateGamepadsList = true;
     }
     bd->GamepadMode = mode;
@@ -676,7 +676,7 @@ static void ImGui_ImplSDL2_UpdateGamepads()
     io.BackendFlags |= ImGuiBackendFlags_HasGamepad;
 
     // Update gamepad inputs
-    const int thumb_dead_zone = 8000; // SDL_gamecontroller.h suggests using this value.
+    const int thumb_dead_zone = 8000; // SDL_graphcontroller.h suggests using this value.
     ImGui_ImplSDL2_UpdateGamepadButton(bd, io, ImGuiKey_GamepadStart,       SDL_CONTROLLER_BUTTON_START);
     ImGui_ImplSDL2_UpdateGamepadButton(bd, io, ImGuiKey_GamepadBack,        SDL_CONTROLLER_BUTTON_BACK);
     ImGui_ImplSDL2_UpdateGamepadButton(bd, io, ImGuiKey_GamepadFaceLeft,    SDL_CONTROLLER_BUTTON_X);              // Xbox X, PS Square

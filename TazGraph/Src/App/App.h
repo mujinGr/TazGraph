@@ -1,10 +1,10 @@
 #pragma once
 
-#include "GameScreen/IMainGame.h"
-#include "../Game.h"
+#include "GraphScreen/IMainGraph.h"
+#include "../Graph.h"
 #include "../MainMenuScreen/MainMenuScreen.h"
 
-class App : public IMainGame
+class App : public IMainGraph
 {
 public:
 	App();
@@ -18,7 +18,7 @@ public:
     virtual void onExit() override;
 private:
 
-    std::unique_ptr<Game> _gameplayScreen = nullptr;
+    std::unique_ptr<Graph> _graphplayScreen = nullptr;
     std::unique_ptr<MainMenuScreen> _mainMenuScreen = nullptr;
 
     //std::unique_ptr<EditorScreen> m_editorScreen = nullptr;

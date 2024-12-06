@@ -4,7 +4,7 @@
 #include <string>
 #include <ctime>
 
-namespace MujinEngine {
+namespace TazGraphEngine {
     class ConsoleLogger {
     public:
         static void log(const std::string& message) {

@@ -8,7 +8,7 @@
 #include <IMGUI/imgui_impl_sdl2.h>
 #include <IMGUI/imgui_impl_opengl3.h>
 
-namespace MujinEngine {
+namespace TazGraphEngine {
 
     enum WindowFlags { INVISIBLE = 0x1, VISIBLE = 0x2, FULLSCREEN = 0x4, BORDERLESS = 0x8 };
 

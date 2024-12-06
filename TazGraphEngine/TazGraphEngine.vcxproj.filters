@@ -27,16 +27,16 @@
     <ClCompile Include="InputManager\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameScreen\IGameScreen.cpp">
+    <ClCompile Include="GraphScreen\IGraphScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameScreen\IMainGame.cpp">
+    <ClCompile Include="GraphScreen\IMainGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameScreen\ScreenList.cpp">
+    <ClCompile Include="GraphScreen\ScreenList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameScreen\ScreenIndices.h">
+    <ClCompile Include="GraphScreen\ScreenIndices.h">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Timing\Timing.cpp">
@@ -110,13 +110,13 @@
     <ClInclude Include="InputManager\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameScreen\IGameScreen.h">
+    <ClInclude Include="GraphScreen\IGraphScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameScreen\IMainGame.h">
+    <ClInclude Include="GraphScreen\IMainGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameScreen\ScreenList.h">
+    <ClInclude Include="GraphScreen\ScreenList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Timing\Timing.h">
