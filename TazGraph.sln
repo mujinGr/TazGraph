@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TazGraphEngine", "TazGraphEngine\TazGraphEngine.vcxproj", "{FB55D28C-40B5-4E5E-AEE2-6A23D72411B6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MujinGame", "TazGraph\TazGraph.vcxproj", "{CE9A77DD-D906-4E29-A5E8-624300E0513A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TazGraph", "TazGraph\TazGraph.vcxproj", "{CE9A77DD-D906-4E29-A5E8-624300E0513A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

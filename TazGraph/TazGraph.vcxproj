@@ -157,11 +157,7 @@
   <ItemGroup>
     <ClInclude Include="Src\App\App.h" />
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
-    <ClInclude Include="Src\CircularBackground.h" />
     <ClInclude Include="Src\Collision\Collision.h" />
-    <ClInclude Include="Src\ECS\KeyboardController.h" />
-    <ClInclude Include="Src\ECS\KeyboardController2.h" />
-    <ClInclude Include="Src\ECS\ProjectileComponent.h" />
     <ClInclude Include="Src\ECS\Scripts\MainMenuBackground.h" />
     <ClInclude Include="Src\ECS\Scripts\ScoreComponent.h" />
     <ClInclude Include="Src\ECS\ScriptComponents.h" />
