@@ -17,6 +17,7 @@ x64/
 .vs/
 .vscode/
 deps/
+build/
 
 *.bak
 *.tmp
