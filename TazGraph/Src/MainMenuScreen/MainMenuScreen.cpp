@@ -56,6 +56,10 @@ void MainMenuScreen::destroy()
 
 void MainMenuScreen::onEntry()
 {
+	_resourceManager.addGLSLProgram("texture");
+	_resourceManager.addGLSLProgram("color");
+
+
 	assets = new AssetManager(&manager, _graph->_inputManager, _graph->_window);
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
@@ -83,18 +87,19 @@ void MainMenuScreen::onEntry()
 
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-		//InitShaders function from Bengine
-		_textureProgram.compileShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
-		_textureProgram.addAttribute("vertexPosition");
-		_textureProgram.addAttribute("vertexColor");
-		_textureProgram.addAttribute("vertexUV");
-		_textureProgram.linkShaders();
 
-		_colorProgram.compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
-		_colorProgram.addAttribute("vertexPosition");
-		_colorProgram.addAttribute("vertexColor");
-		_colorProgram.addAttribute("vertexUV");
-		_colorProgram.linkShaders();
+		//InitShaders function from Bengine
+		_resourceManager.getGLSLProgram("texture")->compileShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
+		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
+		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
+		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
+		_resourceManager.getGLSLProgram("texture")->linkShaders();
+
+		_resourceManager.getGLSLProgram("color")->compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
+		_resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
+		_resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
+		_resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
+		_resourceManager.getGLSLProgram("color")->linkShaders();
 
 		MainMenuScreen::_spriteBatch.init();
 	}
@@ -177,20 +182,6 @@ void MainMenuScreen::update(float deltaTime)
 	}
 }
 
-void MainMenuScreen::setupShaderAndTexture(const std::string& textureName) {
-	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
-
-	_textureProgram.use();
-	glActiveTexture(GL_TEXTURE0);
-	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName); // can also use the sprites' textureName
-	glBindTexture(GL_TEXTURE_2D, texture->id);
-	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
-	glUniform1i(textureLocation, 0);
-	GLint pLocation = _textureProgram.getUniformLocation("projection");
-	glm::mat4 cameraMatrix = hud_camera2D->getCameraMatrix();
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-}
-
 void MainMenuScreen::renderBatch(const std::vector<Entity*>& entities) {
 	_spriteBatch.begin();
 	for (const auto& entity : entities) {
@@ -211,35 +202,20 @@ void MainMenuScreen::draw()
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 	//////////////////////////////////////
 
-	_textureProgram.use();
-	glActiveTexture(GL_TEXTURE0);
-	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture("graphnetwork"); // can also use the sprites' textureName
-	glBindTexture(GL_TEXTURE_2D, texture->id);
-	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
-	glUniform1i(textureLocation, 0);
-
-	GLint pLocation = _textureProgram.getUniformLocation("projection");
-	glm::mat4 cameraMatrix = main_camera2D->getCameraMatrix();
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-
+	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), "graphnetwork", *main_camera2D);
 	renderBatch(mainmenubackground);
 
-	_colorProgram.use();
-
-	pLocation = _colorProgram.getUniformLocation("projection");
-	cameraMatrix = hud_camera2D->getCameraMatrix();
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-
+	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("color"), "", *hud_camera2D);
 	renderBatch(panelBackground);
 
-	_colorProgram.unuse();
+	_resourceManager.getGLSLProgram("color")->unuse();
 	// render letters
-	setupShaderAndTexture("arial");
+	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), "arial", *hud_camera2D);
 	renderBatch(buttonLabels);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//drawHUD();
-	_textureProgram.unuse();
+	_resourceManager.getGLSLProgram("texture")->unuse();
 }
 
 void MainMenuScreen::checkInput() {

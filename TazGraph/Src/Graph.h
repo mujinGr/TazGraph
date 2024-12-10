@@ -6,6 +6,7 @@
 #include <SDL_IMAGE/SDL_image.h>
 #include <GL/glew.h>
 #include "GLSLProgram.h"
+#include "ResourceManager/ResourceManager.h"
 #undef main
 #include <iostream>
 #include <vector>
@@ -57,11 +58,10 @@ public:
 
 	virtual void updateUI() override;
 
-	void setupShader_Texture(GLSLProgram& shaderProgram, const std::string& textureName);
+
 
 	/////////////////////////
 	
-	void setupShader(GLSLProgram& shaderProgram, const std::string& textureName, ICamera& camera);
 	void renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch);
 	void drawHUD(const std::vector<Entity*>& entities, const std::string& textureName);
 
@@ -92,9 +92,9 @@ private:
 	void checkInput();
 	bool onPauseGraph();
 
-	GLSLProgram _colorProgram;
-	GLSLProgram _circleColorProgram;
-	GLSLProgram _textureProgram;
+	ResourceManager _resourceManager;
+
+	//ResourceManager _resourceManager
 
 	Entity* _selectedEntity;
 	

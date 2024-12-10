@@ -1,0 +1,31 @@
+#include "ResourceManager.h"
+
+
+void ResourceManager::setupShader_Texture(GLSLProgram& shaderProgram, const std::string& textureName) {
+	glActiveTexture(GL_TEXTURE0);
+	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
+	glBindTexture(GL_TEXTURE_2D, texture->id);
+	GLint textureLocation = shaderProgram.getUniformLocation("texture_sampler");
+	glUniform1i(textureLocation, 0);
+}
+
+void ResourceManager::setupShader(GLSLProgram& shaderProgram, const std::string& textureName, ICamera& camera) {
+	shaderProgram.use();
+	if (!textureName.empty()) {
+		setupShader_Texture(shaderProgram, textureName);
+	}
+	GLint pLocation = shaderProgram.getUniformLocation("projection");
+	glm::mat4 cameraMatrix = camera.getCameraMatrix();
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+}
+
+void ResourceManager::addGLSLProgram(std::string programName)
+{	
+	GLSLProgram* newGLSLProgram = new GLSLProgram();
+	glsl_programs.emplace(programName, newGLSLProgram);
+}
+
+GLSLProgram* ResourceManager::getGLSLProgram(std::string id)
+{
+	return glsl_programs[id];
+}

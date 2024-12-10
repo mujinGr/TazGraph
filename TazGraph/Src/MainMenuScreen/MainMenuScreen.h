@@ -5,6 +5,7 @@
 #include <SDL_IMAGE/SDL_image.h>
 #include <GL/glew.h>
 #include "GLSLProgram.h"
+#include "ResourceManager/ResourceManager.h"
 #undef main
 #include <iostream>
 #include <vector>
@@ -51,7 +52,6 @@ public:
     static AssetManager* assets;
     static float backgroundColor[4];
 
-    void setupShaderAndTexture(const std::string& textureName);
     void renderBatch(const std::vector<Entity*>& entities);
 
 private:
@@ -62,8 +62,7 @@ private:
 
     TazGraphEngine::Window* _window;
 
-    GLSLProgram _colorProgram;
-    GLSLProgram _textureProgram;
+    ResourceManager _resourceManager;
 
     int _nextScreenIndex = SCREEN_INDEX_GRAPHPLAY;
     int _prevScreenIndex = SCREEN_INDEX_GRAPHPLAY;

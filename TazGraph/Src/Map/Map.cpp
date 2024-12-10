@@ -149,7 +149,7 @@ void Map::LoadMap( std::string actionlayerpath)
 
 void Map::AddActionTile(Entity &tile, int xpos, int ypos)
 {
-	tile.addComponent<TileComponent>(xpos, ypos, tileSize, mapScale); //insert tile and grid and colliders(somehow we refer to background)
+	tile.addComponent<NodeComponent>(xpos, ypos, tileSize, mapScale); //insert tile and grid and colliders(somehow we refer to background)
 
 	tile.addGroup(Manager::groupActionLayer);
 }

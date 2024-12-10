@@ -154,6 +154,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="InputManager\InputManager.cpp" />
     <ClCompile Include="PNG_Letters.cpp" />
+    <ClCompile Include="ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="SceneManager\SceneManager.cpp" />
     <ClCompile Include="SpriteBatch\SpriteBatch.cpp" />
     <ClCompile Include="TextureManager\TextureManager.cpp" />
@@ -179,10 +180,11 @@
     <ClInclude Include="ECS\GridComponent.h" />
     <ClInclude Include="ECS\LightComponent.h" />
     <ClInclude Include="ECS\LightTextureComponent.h" />
+    <ClInclude Include="ECS\LinkComponent.h" />
     <ClInclude Include="ECS\Rectangle_w_Color.h" />
     <ClInclude Include="ECS\RigidBodyComponent.h" />
     <ClInclude Include="ECS\SpriteComponent.h" />
-    <ClInclude Include="ECS\TileComponent.h" />
+    <ClInclude Include="ECS\NodeComponent.h" />
     <ClInclude Include="ECS\TransformComponent.h" />
     <ClInclude Include="GraphScreen\IGraphScreen.h" />
     <ClInclude Include="GraphScreen\IMainGraph.h" />
@@ -193,6 +195,7 @@
     <ClInclude Include="InputManager\InputManager.h" />
     <ClInclude Include="picoPNG.h" />
     <ClInclude Include="PNG_Letters.h" />
+    <ClInclude Include="ResourceManager\ResourceManager.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="SpriteBatch\SpriteBatch.h" />
     <ClInclude Include="TextureManager\TextureManager.h" />

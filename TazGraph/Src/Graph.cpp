@@ -60,6 +60,11 @@ void Graph::destroy() {
 
 void Graph::onEntry()
 {
+	_resourceManager.addGLSLProgram("color");
+	_resourceManager.addGLSLProgram("circleColor");
+	_resourceManager.addGLSLProgram("texture");
+
+
 	assets = new AssetManager(&manager, _graph->_inputManager, _graph->_window);
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
@@ -87,23 +92,23 @@ void Graph::onEntry()
 
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-		_colorProgram.compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
-		_colorProgram.addAttribute("vertexPosition");
-		_colorProgram.addAttribute("vertexColor");
-		_colorProgram.addAttribute("vertexUV");
-		_colorProgram.linkShaders();
+		_resourceManager.getGLSLProgram("color")->compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
+		_resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
+		_resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
+		_resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
+		_resourceManager.getGLSLProgram("color")->linkShaders();
 
-		_circleColorProgram.compileShaders("Src/Shaders/circleColorShading.vert", "Src/Shaders/circleColorShading.frag");
-		_circleColorProgram.addAttribute("vertexPosition");
-		_circleColorProgram.addAttribute("vertexColor");
-		_circleColorProgram.addAttribute("vertexUV");
-		_circleColorProgram.linkShaders();
+		_resourceManager.getGLSLProgram("circleColor")->compileShaders("Src/Shaders/circleColorShading.vert", "Src/Shaders/circleColorShading.frag");
+		_resourceManager.getGLSLProgram("circleColor")->addAttribute("vertexPosition");
+		_resourceManager.getGLSLProgram("circleColor")->addAttribute("vertexColor");
+		_resourceManager.getGLSLProgram("circleColor")->addAttribute("vertexUV");
+		_resourceManager.getGLSLProgram("circleColor")->linkShaders();
 
-		_textureProgram.compileShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
-		_textureProgram.addAttribute("vertexPosition");
-		_textureProgram.addAttribute("vertexColor");
-		_textureProgram.addAttribute("vertexUV");
-		_textureProgram.linkShaders();
+		_resourceManager.getGLSLProgram("texture")->compileShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
+		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
+		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
+		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
+		_resourceManager.getGLSLProgram("texture")->linkShaders();
 
 		Graph::_spriteBatch.init();
 		Graph::_hudSpriteBatch.init();
@@ -307,24 +312,6 @@ void Graph::updateUI() {
 
 }
 
-void Graph::setupShader_Texture(GLSLProgram& shaderProgram, const std::string& textureName) {
-	glActiveTexture(GL_TEXTURE0);
-	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
-	glBindTexture(GL_TEXTURE_2D, texture->id);
-	GLint textureLocation = shaderProgram.getUniformLocation("texture_sampler");
-	glUniform1i(textureLocation, 0);
-}
-
-void Graph::setupShader(GLSLProgram& shaderProgram, const std::string& textureName, ICamera& camera) {
-	shaderProgram.use();
-	if (!textureName.empty()) {
-		setupShader_Texture(shaderProgram, textureName);
-	}
-	GLint pLocation = shaderProgram.getUniformLocation("projection");
-	glm::mat4 cameraMatrix = camera.getCameraMatrix();
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-}
-
 void Graph::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -372,30 +359,31 @@ void Graph::draw()
 			int y = (cellIndex / manager.grid->getNumXCells()) * manager.grid->getCellSize();
 
 			glm::vec4 destRect(x, y, manager.grid->getCellSize(), manager.grid->getCellSize());
-			_debugRenderer.drawBox(destRect, Color(0, 255, 0, 50), 0.0f);  // Drawing each cell in red for visibility
+			_debugRenderer.drawBox(destRect, Color(0, 255, 0, 100), 0.0f);  // Drawing each cell in red for visibility
 
 			cellIndex++;
 		}
-		for (auto& p : players) //player with colliders
-		{
-			for (auto& c : manager.adjacentEntities(p, Manager::groupColliders))
-			{
-				//SDL_Rect cCol = c->GetComponent<ColliderComponent>().collider;
-				for (auto& ccomp : c->components) { // get all the ColliderComponents
+		//! find adjacent entities based on grid from a main entity
+		//for (auto& p : players) //player with colliders
+		//{
+		//	for (auto& c : manager.adjacentEntities(p, Manager::groupColliders))
+		//	{
+		//		//SDL_Rect cCol = c->GetComponent<ColliderComponent>().collider;
+		//		for (auto& ccomp : c->components) { // get all the ColliderComponents
 
-					ColliderComponent* colliderComponentPtr = dynamic_cast<ColliderComponent*>(ccomp.get());
+		//			ColliderComponent* colliderComponentPtr = dynamic_cast<ColliderComponent*>(ccomp.get());
 
-					if (!colliderComponentPtr) {
-						continue;
-					}
-					SDL_Rect cCol = ccomp->getRect();
-					glm::vec4 destRect(cCol.x, cCol.y, cCol.w, cCol.h);
-					_debugRenderer.drawBox(destRect, Color(255, 0, 0, 255), 0.0f);
-					_debugRenderer.end();
-					_debugRenderer.render(cameraMatrix, 4.0f);
-				}
-			}
-		}
+		//			if (!colliderComponentPtr) {
+		//				continue;
+		//			}
+		//			SDL_Rect cCol = ccomp->getRect();
+		//			glm::vec4 destRect(cCol.x, cCol.y, cCol.w, cCol.h);
+		//			_debugRenderer.drawBox(destRect, Color(255, 0, 0, 255), 0.0f);
+		//			_debugRenderer.end();
+		//			_debugRenderer.render(cameraMatrix, 4.0f);
+		//		}
+		//	}
+		//}
 		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
 
 			std::vector<Entity*>& groupVec = manager.getGroup(group);
@@ -431,21 +419,21 @@ void Graph::draw()
 		_debugRenderer.render(cameraMatrix, 2.0f);
 	}
 
-	setupShader(_circleColorProgram, "", *main_camera2D);
+	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("circleColor"), "", *main_camera2D);
 	renderBatch(nodes, _spriteBatch);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 	drawHUD(labels, "arial");
-	_colorProgram.use();
+	_resourceManager.getGLSLProgram("color")->use();
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	///////////////////////////////////////////////////////
-	setupShader(_colorProgram, "", *main_camera2D);
+	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("color"), "", *main_camera2D);
 
-	_circleColorProgram.unuse();
+	_resourceManager.getGLSLProgram("circleColor")->unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -454,7 +442,7 @@ void Graph::draw()
 void Graph::drawHUD(const std::vector<Entity*>& entities, const std::string& textureName) {
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
-	setupShader(_textureProgram, textureName, *hud_camera2D);
+	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), textureName, *hud_camera2D);
 	renderBatch(entities, _hudSpriteBatch);
 }
 
