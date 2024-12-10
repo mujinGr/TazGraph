@@ -27,15 +27,15 @@ public: // it is like it has init that creates Animator Component since it inher
 		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 
 		if (!entity->hasComponent<TransformComponent>()) {
-			entity->addComponent<TransformComponent>(glm::vec2(main_camera2D->getCameraDimensions().x / 2 - TextureManager::getInstance().Get_GLTexture("dungeonhall")->width / 2, 100.0f), Manager::menubackgroundLayer,
+			entity->addComponent<TransformComponent>(glm::vec2(main_camera2D->getCameraDimensions().x / 2 - TextureManager::getInstance().Get_GLTexture("graphnetwork")->width / 2, 100.0f), Manager::menubackgroundLayer,
 				glm::ivec2(
-					TextureManager::getInstance().Get_GLTexture("dungeonhall")->width,
-					TextureManager::getInstance().Get_GLTexture("dungeonhall")->height
+					TextureManager::getInstance().Get_GLTexture("graphnetwork")->width,
+					TextureManager::getInstance().Get_GLTexture("graphnetwork")->height
 				),
 				1.0f);
 		}
 		if (!entity->hasComponent<SpriteComponent>()) {
-			entity->addComponent<SpriteComponent>("dungeonhall", true);
+			entity->addComponent<SpriteComponent>("graphnetwork", true);
 		}
 		transform = &entity->GetComponent<TransformComponent>();
 		sprite = &entity->GetComponent<SpriteComponent>();

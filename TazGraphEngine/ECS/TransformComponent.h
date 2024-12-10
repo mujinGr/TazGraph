@@ -7,7 +7,7 @@
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {
 private:
-	float _zIndex = -5.0f;
+	float _zIndex = 0.0f;
 	float _rotation = 0.0f;
 
 	glm::vec2 _position;

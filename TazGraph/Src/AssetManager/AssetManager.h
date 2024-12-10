@@ -23,15 +23,8 @@ public:
 	//gameobjects
 	void CreatePlayer(Entity& player);
 
-	//triggers
-	bool OnPipeTrigger(SDL_Rect collider) const;
-	bool LeftOfPipeTrigger(SDL_Rect collider) const;
-
 private:
 	Manager* manager;
 	InputManager& _inputManager;
 	TazGraphEngine::Window& _window;
-
-	SDL_Rect onpipeTriggers[2];
-	SDL_Rect leftofpipeTriggers[1];
 };

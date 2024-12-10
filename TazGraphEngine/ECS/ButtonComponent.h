@@ -56,7 +56,7 @@ public:
             buttonBackground->GetComponent<Rectangle_w_Color>().color = bBackground; // Grey color
             buttonBackground->setParentEntity(entity);
 
-            buttonBackground->addGroup(Manager::backgroundPanels);
+            buttonBackground->addGroup(Manager::panelBackground);
         }
     }
 

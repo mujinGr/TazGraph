@@ -125,40 +125,29 @@ public:
 
 	enum groupLabels : std::size_t //todo should add groups at end for some reason
 	{
+		//back
 		groupBackgroundLayer,
-		groupBackActionLayer,
-		backgroundPanels,
+		panelBackground,
+
+		//action
 		groupActionLayer,
 		groupPlayers,
-		groupBackgrounds,
-		//groupEnemies,
+		groupCircles,
 		groupColliders,
-		groupLights,
-		groupRainDrop,
-		groupSnow,
 		groupLabels,
+		
+		//fore
 		groupForeActionLayer,
-		screenShapes,
-		groupHPBars,
-		groupFog,
-		groupEnvironmentGenerators,
 		startGraphGroup,
 		exitGraphGroup,
 		buttonLabels,
-		groupCircles
 	};
 
 	
 	enum layerIndexes : int
 	{
-		fogLayer = -10000,
-		foregroundLayer = -5000,
 		actionLayer = 0,
 
-		cloudsLayer = 1000,
-
-
-		backgroundLayer = 5000,
 		menubackgroundLayer = 10000,
 	};
 

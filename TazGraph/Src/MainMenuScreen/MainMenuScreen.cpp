@@ -105,7 +105,7 @@ void MainMenuScreen::onEntry()
 	}
 
 	// Texture Loads
-	TextureManager::getInstance().Add_GLTexture("dungeonhall", "assets/Sprites/block_networkMiserable.png");
+	TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/block_networkMiserable.png");
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 
 	//main menu moving background
@@ -131,7 +131,7 @@ void MainMenuScreen::onEntry()
 auto& mainmenubackground(main_menu_manager.getGroup(Manager::groupBackgroundLayer));
 auto& startgraphbuttons(main_menu_manager.getGroup(Manager::startGraphGroup));
 auto& exitgraphbuttons(main_menu_manager.getGroup(Manager::exitGraphGroup));
-auto& backgroundPanels(main_menu_manager.getGroup(Manager::backgroundPanels));
+auto& panelBackground(main_menu_manager.getGroup(Manager::panelBackground));
 auto& buttonLabels(main_menu_manager.getGroup(Manager::buttonLabels));
 
 
@@ -213,7 +213,7 @@ void MainMenuScreen::draw()
 
 	_textureProgram.use();
 	glActiveTexture(GL_TEXTURE0);
-	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture("dungeonhall"); // can also use the sprites' textureName
+	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture("graphnetwork"); // can also use the sprites' textureName
 	glBindTexture(GL_TEXTURE_2D, texture->id);
 	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);
@@ -230,7 +230,7 @@ void MainMenuScreen::draw()
 	cameraMatrix = hud_camera2D->getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
-	renderBatch(backgroundPanels);
+	renderBatch(panelBackground);
 
 	_colorProgram.unuse();
 	// render letters

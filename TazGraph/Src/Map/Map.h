@@ -27,11 +27,6 @@ public:
 
 	bool tileHasFeature(Entity& tile, int wordNum, int featureTileArray[], int featureTileArraySize); //, void (Map::* addTileFeature)(Entity&)
 	//void DrawMap();
-
-	void setMapCompleted(bool isCompleted);
-	bool getMapCompleted();
-
-	int getStage();
 private:
 	int stage = 0;
 	std::string texID;

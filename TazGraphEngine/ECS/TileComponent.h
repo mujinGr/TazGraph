@@ -7,9 +7,6 @@
 class TileComponent : public Component //tileComp --> GridComp --> ColliderComp -> transform
 {
 public:
-	bool fullSolid;
-	bool hasGrid = false;
-
 	SDL_Rect destRect;
 	glm::ivec2 position;
 
@@ -47,7 +44,7 @@ public:
 		// make this rectangle_w_Color before turning it into circle
 		
 		entity->addComponent<Rectangle_w_Color>();
-		entity->GetComponent<Rectangle_w_Color>().color = Color(255, 255, 255, 255);
+		entity->GetComponent<Rectangle_w_Color>().color = Color(45, 55, 89, 255);
 	}
 	
 	void update(float deltaTime) override //function like in sprite, but diffent moving in draw

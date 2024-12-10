@@ -44,31 +44,16 @@
     <ClInclude Include="Src\Map\Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\ECS\KeyboardController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Collision\Collision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\AssetManager\AssetManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\ECS\ProjectileComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\CircularBackground.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\ECS\Scripts\ScoreComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\ECS\KeyboardController2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\ECS\Scripts\HPBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\ECS\ScriptComponents.h">

@@ -3,9 +3,9 @@
 constexpr float PI = 3.14159265358f;
 
 namespace {
-	const char* VERT_SRC = R"(#version 330
+	const char* VERT_SRC = R"(#version 400
 
-in vec2 vertexPosition; //vec2 is array of 2 floats
+in vec3 vertexPosition; //vec3 is array of 3 floats
 in vec4 vertexColor;
 in vec2 vertexUV;
 
@@ -15,14 +15,14 @@ out vec2 fragmentUV;
 uniform mat4 projection;
 
 void main() {
-    gl_Position = projection * vec4(vertexPosition.xy,10.0, 1.0);
+    gl_Position = projection * vec4(vertexPosition.xyz, 1.0);
 
     fragmentColor = vertexColor;
 
     fragmentUV = vertexUV;
 })";
 
-	const char* FRAG_SRC = R"(#version 330
+	const char* FRAG_SRC = R"(#version 400
 
 in vec4 fragmentColor;
 in vec2 fragmentUV;
@@ -129,7 +129,7 @@ void DebugRenderer::drawBox(const glm::vec4& destRect, const Color& color, float
 		_verts[j].color = color;
 	}
 
-	_indices.reserve(_indices.size() + 8); // indices for the ibo
+	_indices.reserve(_indices.size() + sizeof(GLuint)); // indices for the ibo
 
 	_indices.push_back(  i  );
 	_indices.push_back(i + 1);

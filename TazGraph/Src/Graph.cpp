@@ -144,10 +144,6 @@ auto& nodes(manager.getGroup(Manager::groupActionLayer));
 auto& players(manager.getGroup(Manager::groupPlayers));
 auto& colliders(manager.getGroup(Manager::groupColliders));
 auto& labels(manager.getGroup(Manager::groupLabels));
-auto& lights(manager.getGroup(Manager::groupLights));
-auto& screenshapes(manager.getGroup(Manager::screenShapes));
-auto& hpbars(manager.getGroup(Manager::groupHPBars));
-auto& generators(manager.getGroup(Manager::groupEnvironmentGenerators));
 
 void Graph::update(float deltaTime) //game objects updating
 {
@@ -242,10 +238,6 @@ void Graph::checkInput() {
 			onPauseGraph();
 		}
 
-		if (_graph->_inputManager.isKeyPressed(SDLK_n)) {
-			Graph::map->setMapCompleted(true);
-		}
-
 		if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
 			glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
 			if ( _selectedEntity == nullptr) {
@@ -307,7 +299,7 @@ void Graph::updateUI() {
 		// Example: Display components of the selected entity
 		if (_selectedEntity->hasComponent<TransformComponent>()) {
 			TransformComponent* tr = &_selectedEntity->GetComponent<TransformComponent>();
-			ImGui::Text("Position: (%d, %d)", tr->getPosition().x, tr->getPosition().y);
+			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
 			ImGui::Text("Size: (%d, %d)", tr->width, tr->height);
 		}
 	}
@@ -367,26 +359,7 @@ void Graph::draw()
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	
-	setupShader(_circleColorProgram,"", *main_camera2D);
-	renderBatch(nodes, _spriteBatch);
-	//renderBatch(colliders);
-	//based on weather change Shader of textures
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	//renderBatch(lights);
-
-	drawHUD(labels, "arial");
-	_colorProgram.use();
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	///////////////////////////////////////////////////////
-	setupShader(_colorProgram, "", *main_camera2D);
-
-	renderBatch(hpbars, _spriteBatch);
-	_circleColorProgram.unuse();
 	
 	// Debug Rendering
 	if (_renderDebug) {
@@ -399,7 +372,7 @@ void Graph::draw()
 			int y = (cellIndex / manager.grid->getNumXCells()) * manager.grid->getCellSize();
 
 			glm::vec4 destRect(x, y, manager.grid->getCellSize(), manager.grid->getCellSize());
-			_debugRenderer.drawBox(destRect, Color(0, 255, 0, 25), 0.0f);  // Drawing each cell in red for visibility
+			_debugRenderer.drawBox(destRect, Color(0, 255, 0, 50), 0.0f);  // Drawing each cell in red for visibility
 
 			cellIndex++;
 		}
@@ -423,11 +396,7 @@ void Graph::draw()
 				}
 			}
 		}
-		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::groupCircles; group++) {
-
-			if (group == Manager::groupHPBars) {
-				continue; 
-			}
+		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
 
 			std::vector<Entity*>& groupVec = manager.getGroup(group);
 			for (auto& entity : groupVec) {
@@ -441,7 +410,7 @@ void Graph::draw()
 					destRect.y = tr->getPosition().y;
 					destRect.z = tr->width;
 					destRect.w = tr->height;
-					_debugRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f, -5.0f); //todo add angle for drawbox
+					_debugRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f, 0.0f); //todo add angle for drawbox
 					//_debugRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
 					//break;
 				}
@@ -456,11 +425,27 @@ void Graph::draw()
 			destRect.y = tr->getPosition().y;
 			destRect.z = tr->width;
 			destRect.w = tr->height;
-			_debugRenderer.drawBox(destRect, Color(255, 255, 0, 255), 0.0f, -5.0f); //todo add angle for drawbox
+			_debugRenderer.drawBox(destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawbox
 		}
 		_debugRenderer.end();
 		_debugRenderer.render(cameraMatrix, 2.0f);
 	}
+
+	setupShader(_circleColorProgram, "", *main_camera2D);
+	renderBatch(nodes, _spriteBatch);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+	drawHUD(labels, "arial");
+	_colorProgram.use();
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	///////////////////////////////////////////////////////
+	setupShader(_colorProgram, "", *main_camera2D);
+
+	_circleColorProgram.unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

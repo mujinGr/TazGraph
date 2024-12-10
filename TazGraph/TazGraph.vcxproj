@@ -161,7 +161,6 @@
     <ClInclude Include="Src\ECS\Scripts\MainMenuBackground.h" />
     <ClInclude Include="Src\ECS\Scripts\ScoreComponent.h" />
     <ClInclude Include="Src\ECS\ScriptComponents.h" />
-    <ClInclude Include="Src\ECS\Scripts\HPBar.h" />
     <ClInclude Include="Src\Graph.h" />
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h" />
     <ClInclude Include="Src\Map\Map.h" />

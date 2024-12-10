@@ -4,7 +4,7 @@
 
 extern Manager manager;
 
-int solidTiles[] = {52,69,177 ,176 , 112 , 16 , 17 , 18 , 75, 0, 1 , 2 , 48, 49 , 50 , 51, 83 , 85 , 99 , 101 , 522 , 521 , 548, 524, 496, 470 , 495 ,68 };
+int solidTiles[] = {1};
 
 std::vector<TileFeatureCallback> tileFeatures;
 
@@ -50,7 +50,6 @@ void Map::saveMapToCSV(const std::vector<std::vector<int>>& map, const std::stri
 
 void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Entity&, int, int)) {
 	
-	bool isSolid = false;
 	int x = 0, y = 0;
 
 	int wordNum = 0;
@@ -72,15 +71,6 @@ void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Enti
 				srcY = (wordNum / 16) * tileSize;
 				srcX = (wordNum % 16) * tileSize; //adding tile based on srcX,srcY coordinates
 
-				for (arrayTilesIndex = 0; arrayTilesIndex < (sizeof(solidTiles) / sizeof(solidTiles[0])); arrayTilesIndex++)
-				{
-					if (wordNum == solidTiles[arrayTilesIndex])
-					{
-						isSolid = true;
-						break;
-					}
-				}
-
 				auto& tile(manager.addEntity());
 				(this->*addTileFunction)(tile, x * scaledSize, y * scaledSize);
 
@@ -89,9 +79,7 @@ void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Enti
 				}
 				manager.grid->addEntity(&tile);
 			}
-			
 
-			isSolid = false;
 			x++;
 		}
 		x = 0;
@@ -164,18 +152,4 @@ void Map::AddActionTile(Entity &tile, int xpos, int ypos)
 	tile.addComponent<TileComponent>(xpos, ypos, tileSize, mapScale); //insert tile and grid and colliders(somehow we refer to background)
 
 	tile.addGroup(Manager::groupActionLayer);
-}
-
-void Map::setMapCompleted(bool completed)
-{
-	isMapCompleted = completed;
-}
-
-bool Map::getMapCompleted()
-{
-	return isMapCompleted;
-}
-
-int Map::getStage() {
-	return stage;
 }
