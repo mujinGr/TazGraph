@@ -132,6 +132,7 @@ public:
 		//action
 		groupActionLayer,
 		groupPlayers,
+		groupLinks,
 		groupCircles,
 		groupColliders,
 		groupLabels,

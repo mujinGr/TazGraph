@@ -23,6 +23,8 @@ public:
 	//gameobjects
 	void CreatePlayer(Entity& player);
 
+	void CreateLink(Entity& linkEntity, Entity& sourceEntity, Entity& destEntity);
+
 private:
 	Manager* manager;
 	InputManager& _inputManager;

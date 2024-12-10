@@ -96,6 +96,29 @@ void DebugRenderer::end()
 	_verts.clear();
 }
 
+void DebugRenderer::drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& color, float zIndex)
+{
+	int i = _verts.size();
+	_verts.resize(_verts.size() + 2); // more efficient than calling pushBack 4 times
+
+	auto linkPoint = [&](float x, float y) -> glm::vec3 {
+		return glm::vec3(x,y,zIndex);
+		};
+
+	_verts[i].setPosition(linkPoint(srcPosition.x, srcPosition.y ));
+	_verts[i + 1].setPosition(linkPoint(destPosition.x, destPosition.y));
+
+	for (int j = i; j < i + 2; j++) {
+		_verts[j].color = color;
+	}
+
+	_indices.reserve(_indices.size() + 2); // indices for the ibo
+
+	_indices.push_back(i);
+	_indices.push_back(i + 1);
+
+}
+
 void DebugRenderer::drawBox(const glm::vec4& destRect, const Color& color, float angle, float zIndex)
 {
 	int i = _verts.size();
@@ -129,7 +152,7 @@ void DebugRenderer::drawBox(const glm::vec4& destRect, const Color& color, float
 		_verts[j].color = color;
 	}
 
-	_indices.reserve(_indices.size() + sizeof(GLuint)); // indices for the ibo
+	_indices.reserve(_indices.size() + 8); // indices for the ibo // + the number of verts in total
 
 	_indices.push_back(  i  );
 	_indices.push_back(i + 1);

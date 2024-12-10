@@ -29,3 +29,11 @@ void AssetManager::CreatePlayer(Entity& player)
 
 	player.addGroup(Manager::groupPlayers);
 }
+
+void AssetManager::CreateLink(Entity& linkEntity, Entity& sourceEntity, Entity& destEntity)
+{
+	linkEntity.addComponent<TransformComponent>(glm::vec2(200.0f, 320.0f), Manager::actionLayer, glm::ivec2(64, 64), 1); // 1448 for near pipe, 200 for start
+	linkEntity.addComponent<TransformComponent>(glm::vec2(500.0f, 320.0f), Manager::actionLayer, glm::ivec2(64, 64), 1); // 1448 for near pipe, 200 for start
+
+	linkEntity.addGroup(Manager::groupLinks);
+}

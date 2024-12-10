@@ -180,11 +180,10 @@
     <ClInclude Include="ECS\GridComponent.h" />
     <ClInclude Include="ECS\LightComponent.h" />
     <ClInclude Include="ECS\LightTextureComponent.h" />
-    <ClInclude Include="ECS\LinkComponent.h" />
     <ClInclude Include="ECS\Rectangle_w_Color.h" />
     <ClInclude Include="ECS\RigidBodyComponent.h" />
     <ClInclude Include="ECS\SpriteComponent.h" />
-    <ClInclude Include="ECS\NodeComponent.h" />
+    <ClInclude Include="ECS\TileComponent.h" />
     <ClInclude Include="ECS\TransformComponent.h" />
     <ClInclude Include="GraphScreen\IGraphScreen.h" />
     <ClInclude Include="GraphScreen\IMainGraph.h" />

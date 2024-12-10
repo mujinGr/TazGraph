@@ -415,6 +415,9 @@ void Graph::draw()
 			destRect.w = tr->height;
 			_debugRenderer.drawBox(destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawbox
 		}
+
+		_debugRenderer.drawLine(glm::vec2(0,0), glm::vec2(200, 200), Color(255, 0, 0, 255), 0.0f);
+
 		_debugRenderer.end();
 		_debugRenderer.render(cameraMatrix, 2.0f);
 	}
