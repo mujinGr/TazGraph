@@ -85,3 +85,4 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 add_subdirectory(TazGraph)
 add_subdirectory(TazGraphEngine)
 
+add_dependencies(TazGraph TazGraphEngine)

@@ -17,6 +17,8 @@ SpriteBatch MainMenuScreen::_spriteBatch;
 
 AssetManager* MainMenuScreen::assets = nullptr;
 
+float MainMenuScreen::backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
+
 auto& Mainmenubackground(main_menu_manager.addEntity());
 auto& StartGraphButton(main_menu_manager.addEntity());
 auto& ExitGraphButton(main_menu_manager.addEntity());
@@ -104,10 +106,6 @@ void MainMenuScreen::onEntry()
 
 	// Texture Loads
 	TextureManager::getInstance().Add_GLTexture("dungeonhall", "assets/Sprites/block_networkMiserable.png");
-
-	TextureManager::getInstance().Add_GLTexture("startgame", "assets/Sprites/StartGame.png");
-	TextureManager::getInstance().Add_GLTexture("exitgame", "assets/Sprites/ExitGame.png");
-
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 
 	//main menu moving background
@@ -210,7 +208,7 @@ void MainMenuScreen::draw()
 
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1.0f, 1.0f, 1.f, 1.0f);
+	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 	//////////////////////////////////////
 
 	_textureProgram.use();
@@ -225,11 +223,6 @@ void MainMenuScreen::draw()
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
 	renderBatch(mainmenubackground);
-
-	setupShaderAndTexture("startgame");
-	renderBatch(startgraphbuttons);
-	setupShaderAndTexture("exitgame");
-	renderBatch(exitgraphbuttons);
 
 	_colorProgram.use();
 

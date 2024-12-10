@@ -176,17 +176,6 @@ bool Map::getMapCompleted()
 	return isMapCompleted;
 }
 
-void Map::resetMap()
-{
-	setMapCompleted(false);
-
-	stage++;
-
-	saveMapToCSV(generateMap(120, 20), "assets/Maps/RandomMap.csv");
-
-	LoadMap("assets/Maps/RandomMap.csv");
-}
-
 int Map::getStage() {
 	return stage;
 }

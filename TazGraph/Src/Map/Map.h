@@ -31,8 +31,6 @@ public:
 	void setMapCompleted(bool isCompleted);
 	bool getMapCompleted();
 
-	void resetMap();
-
 	int getStage();
 private:
 	int stage = 0;

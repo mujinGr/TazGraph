@@ -26,11 +26,11 @@ AudioEngine Graph::audioEngine;
 Map* Graph::map = nullptr;
 AssetManager* Graph::assets = nullptr;
 SceneManager* Graph::scenes = new SceneManager();
-float Graph::backgroundColor[4] = {0.025f, 0.05f, 0.15f, 1.0f};
+float Graph::backgroundColor[4] = {0.84f, 0.91f, 1.f, 1.0f};
 TazGraphEngine::Window* Graph::_window = nullptr;
 
 auto& player1(manager.addEntity());
-auto& stagelabel(manager.addEntity(true));
+auto& nodeslabel(manager.addEntity(true));
 
 Graph::Graph(TazGraphEngine::Window* window)
 {
@@ -115,16 +115,6 @@ void Graph::onEntry()
 	}
 
 	//add the textures to our texture library
-	TextureManager::getInstance().Add_GLTexture("backgroundMountains","assets/Sprites/villageBackground.png");
-	TextureManager::getInstance().Add_GLTexture("terrain", "assets/Sprites/village_tileset.png");
-	TextureManager::getInstance().Add_GLTexture("warrior", "assets/Sprites/samurai.png");
-	TextureManager::getInstance().Add_GLTexture("projectile", "assets/Sprites/my_projectile.png");
-	TextureManager::getInstance().Add_GLTexture("warriorProjectile", "assets/Sprites/warriorSlash.png");
-	TextureManager::getInstance().Add_GLTexture("skeleton", "assets/Sprites/skeleton.png"); // same path since the same png has all entities
-	TextureManager::getInstance().Add_GLTexture("greenkoopatroopa", "assets/Sprites/mushroom.png");
-	TextureManager::getInstance().Add_GLTexture("shield", "assets/Sprites/shield.png");
-	TextureManager::getInstance().Add_GLTexture("healthPotion", "assets/Sprites/healthPotion.png");
-
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 
 	Graph::map = new Map("terrain", 1, 32);
@@ -138,9 +128,9 @@ void Graph::onEntry()
 	assets->CreatePlayer(player1);
 	manager.grid->addEntity(&player1);
 
-	stagelabel.addComponent<TransformComponent>(glm::vec2(32, 608), Manager::actionLayer, glm::ivec2(32, 32), 1);
-	stagelabel.addComponent<UILabel>(&manager, "total nodes: 0", "arial");
-	stagelabel.addGroup(Manager::groupLabels);
+	nodeslabel.addComponent<TransformComponent>(glm::vec2(32, 608), Manager::actionLayer, glm::ivec2(32, 32), 1);
+	nodeslabel.addComponent<UILabel>(&manager, "total nodes: 0", "arial");
+	nodeslabel.addGroup(Manager::groupLabels);
 
 	Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
 	music.play(-1);
@@ -150,7 +140,7 @@ void Graph::onExit() {
 	_debugRenderer.dispose();
 }
 
-auto& tiles(manager.getGroup(Manager::groupActionLayer));
+auto& nodes(manager.getGroup(Manager::groupActionLayer));
 auto& players(manager.getGroup(Manager::groupPlayers));
 auto& colliders(manager.getGroup(Manager::groupColliders));
 auto& labels(manager.getGroup(Manager::groupLabels));
@@ -196,7 +186,7 @@ glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
 
 void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-	for (auto& groups : { tiles})
+	for (auto& groups : { nodes})
 	{
 		for (auto& entity : groups) {
 			TransformComponent* tr = &entity->GetComponent<TransformComponent>();
@@ -379,13 +369,9 @@ void Graph::draw()
 
 	
 	setupShader(_circleColorProgram,"", *main_camera2D);
-	renderBatch(tiles, _spriteBatch);
+	renderBatch(nodes, _spriteBatch);
 	//renderBatch(colliders);
 	//based on weather change Shader of textures
-
-	setupShader(_textureProgram, "warrior", *main_camera2D);
-	renderBatch(players, _spriteBatch);
-	setupShader(_textureProgram, "terrain", *main_camera2D);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	//renderBatch(lights);

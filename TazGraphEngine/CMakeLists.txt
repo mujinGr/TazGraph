@@ -180,6 +180,14 @@ endif()
 ################################################################################
 # Dependencies
 ################################################################################
+
+# Assuming your project structure has a 'deps' directory as described
+set(SDL_INCLUDE_PATH "${PROJECT_SOURCE_DIR}/deps/include/SDL")
+set(SDL_LIB_PATH "${PROJECT_SOURCE_DIR}/deps/lib/SDL2")
+
+include_directories(${SDL_INCLUDE_DIR})
+link_directories(${SDL_LIB_DIR})
+
 if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
     set(ADDITIONAL_LIBRARY_DEPENDENCIES
         "$<$<CONFIG:Debug>:"
@@ -194,5 +202,5 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
         ">"
     )
 endif()
-target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2 SDL2_mixer SDL2_image SDL2_ttf SDL2main)
 

@@ -49,6 +49,7 @@ public:
     static SpriteBatch _spriteBatch;
 
     static AssetManager* assets;
+    static float backgroundColor[4];
 
     void setupShaderAndTexture(const std::string& textureName);
     void renderBatch(const std::vector<Entity*>& entities);
