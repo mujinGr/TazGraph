@@ -347,10 +347,10 @@ void Graph::draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-	
+	glm::mat4 cameraMatrix = main_camera2D->getCameraMatrix();
+
 	// Debug Rendering
 	if (_renderDebug) {
-		glm::mat4 cameraMatrix = main_camera2D->getCameraMatrix();
 
 		int cellIndex = 0;
 		for (const auto& cell : manager.grid->getCells()) {
@@ -416,12 +416,12 @@ void Graph::draw()
 			_debugRenderer.drawBox(destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawbox
 		}
 
-		_debugRenderer.drawLine(glm::vec2(0,0), glm::vec2(200, 200), Color(255, 0, 0, 255), 0.0f);
-
-		_debugRenderer.end();
-		_debugRenderer.render(cameraMatrix, 2.0f);
+		
 	}
+	_debugRenderer.drawLine(nodes[0]->GetComponent<TransformComponent>().getCenterTransform(), nodes[1]->GetComponent<TransformComponent>().getCenterTransform(), Color(255, 0, 0, 255), 0.0f);
 
+	_debugRenderer.end();
+	_debugRenderer.render(cameraMatrix, 2.0f);
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("circleColor"), "", *main_camera2D);
 	renderBatch(nodes, _spriteBatch);
 
