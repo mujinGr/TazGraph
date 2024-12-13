@@ -1,6 +1,6 @@
 #include "MainMenuScreen.h"
 #include <iostream>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include "ECS/Components.h"
 #include "../ECS/ScriptComponents.h"
 #include "Camera2.5D/CameraManager.h"

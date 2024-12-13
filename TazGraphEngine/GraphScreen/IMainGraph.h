@@ -5,6 +5,7 @@
 #include <memory>
 #include <iostream>
 
+#include "ScreenList.h"
 class ScreenList;
 class IGraphScreen;
 

@@ -33,6 +33,27 @@ set(ALL_FILES
 )
 
 ################################################################################
+# Setting libs with find_package
+################################################################################
+# Find SDL2 core library
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
+# Find SDL2_image core library
+find_package(SDL2_image REQUIRED)
+include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
+
+# Find SDL2 core library
+find_package(SDL2_ttf REQUIRED)
+include_directories(${SDL2_TTF_INCLUDE_DIRS})
+
+
+# Set the local include of IMGUI
+set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/IMGUI")
+include_directories(${IMGUI_INCLUDE_DIR})
+
+
+################################################################################
 # Target
 ################################################################################
 add_executable(${PROJECT_NAME} ${ALL_FILES})
@@ -158,6 +179,11 @@ endif()
 # Dependencies
 ################################################################################
 # Link with other targets.
+set(TAZGRAPHENGINE_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/TazGraphEngine")
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${TAZGRAPHENGINE_INCLUDE_DIR}  
+)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE
     TazGraphEngine
 )

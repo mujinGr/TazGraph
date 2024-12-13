@@ -99,6 +99,11 @@ include_directories(${SDL2_INCLUDE_DIRS})
 find_package(SDL2_mixer REQUIRED)
 include_directories(${SDL2_MIXER_INCLUDE_DIRS})
 
+# Find Glew library
+#find_package(GLEW REQUIRED)
+#include_directories(${GLEW_INCLUDE_DIRS})
+#target_link_libraries(${PROJECT_NAME} ${GLEW_LIBRARIES})
+
 # Set the local include of IMGUI
 set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/IMGUI")
 include_directories(${IMGUI_INCLUDE_DIR})

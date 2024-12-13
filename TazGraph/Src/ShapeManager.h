@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ECS\ECSManager.h"
-#include <TTF/SDL_ttf.h>
+#include "ECS/ECSManager.h"
+#include <SDL2/SDL_ttf.h>
 #include <glm/glm.hpp>
 
 class ShapeManager {

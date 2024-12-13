@@ -1,5 +1,5 @@
 #pragma once
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include "ECS/Components.h"
 #include "Window/Window.h"
 #include <algorithm>

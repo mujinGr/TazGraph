@@ -17,8 +17,8 @@ bool Collision::checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_
 
 	Collision::storedColliderRect = recB;
 
-	Collision::overlap.x = min(moving_recA.x + moving_recA.w, recB.x + recB.w) - max(moving_recA.x, recB.x);
-	Collision::overlap.y = min(moving_recA.y + moving_recA.h, recB.y + recB.h) - max(moving_recA.y, recB.y);
+	Collision::overlap.x = std::min(moving_recA.x + moving_recA.w, recB.x + recB.w) - std::max(moving_recA.x, recB.x);
+	Collision::overlap.y = std::min(moving_recA.y + moving_recA.h, recB.y + recB.h) - std::max(moving_recA.y, recB.y);
 
 	//check if it is sideways collision (bool isSidewaysCollision)
 	if (Collision::overlap.x < Collision::overlap.y) { //todo: if velocity.y < 0 then have it >= to slide on left wall
