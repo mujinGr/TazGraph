@@ -8,7 +8,6 @@ set(Header_Files
     "Src/AssetManager/AssetManager.h"
     "Src/Collision/Collision.h"
     "Src/ECS/ScriptComponents.h"
-    "Src/ECS/Scripts/HPBar.h"
     "Src/ECS/Scripts/MainMenuBackground.h"
     "Src/ECS/Scripts/ScoreComponent.h"
     "Src/Graph.h"

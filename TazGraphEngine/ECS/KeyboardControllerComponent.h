@@ -2,8 +2,15 @@
 
 
 #include "./Components.h"
-#include <Windows.h>
-#include <MMSystem.h>
+
+#if defined(_WIN32) || defined(_WIN64)
+	#include <Windows.h>
+	#include <MMSystem.h>
+	#pragma comment(lib, "winmm.lib") // Link to Windows multimedia library
+#elif defined(__linux__) || defined(__unix__)
+	#include <unistd.h> // Common Unix/Linux header
+#endif
+
 #include "../InputManager/InputManager.h"
 
 constexpr float walkingSpeed = 3.5f, runningSpeed = 8.5f, jumpingSpeed = 3.0f;

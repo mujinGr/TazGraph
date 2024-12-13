@@ -1,7 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include "ICamera.h"
 
 class PerspectiveCamera : public ICamera{

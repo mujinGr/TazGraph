@@ -1,6 +1,6 @@
 #include "Timing.h"
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 FPSLimiter::FPSLimiter() {
 

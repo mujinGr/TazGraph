@@ -77,9 +77,9 @@
 //  2017-08-25: Inputs: MousePos set to -FLT_MAX,-FLT_MAX when mouse is unavailable/missing (instead of -1,-1).
 //  2016-10-15: Misc: Added a void* user_data parameter to Clipboard function handlers.
 
-#include <IMGUI/imgui.h>
+#include <imgui.h>
 #ifndef IMGUI_DISABLE
-#include <IMGUI/imgui_impl_sdl2.h>
+#include <imgui_impl_sdl2.h>
 
 // Clang warnings with -Weverything
 #if defined(__clang__)
@@ -88,8 +88,8 @@
 #endif
 
 // SDL
-#include <SDL/SDL.h>
-#include <SDL/SDL_syswm.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_syswm.h>
 #if defined(__APPLE__)
 #include <TargetConditionals.h>
 #endif

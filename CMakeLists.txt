@@ -4,6 +4,9 @@ set(CMAKE_SYSTEM_VERSION 10.0 CACHE STRING "" FORCE)
 
 project(TazGraph CXX)
 
+message("Configuring project: ${PROJECT_NAME}")
+message("Architecture in use: ${CMAKE_VS_PLATFORM_NAME}")
+
 ################################################################################
 # Set target arch type if empty. Visual studio solution generator provides it.
 ################################################################################
@@ -82,7 +85,11 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 ################################################################################
 # Sub-projects
 ################################################################################
-add_subdirectory(TazGraph)
+message("Adding TazGraphEngine...")
 add_subdirectory(TazGraphEngine)
 
+message("Adding TazGraph...")
+add_subdirectory(TazGraph)
+
 add_dependencies(TazGraph TazGraphEngine)
+message("TazGraph will build after TazGraphEngine.")

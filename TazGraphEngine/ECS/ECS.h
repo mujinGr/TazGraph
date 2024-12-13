@@ -7,7 +7,7 @@
 #include <bitset>
 #include <array>
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include "../SpriteBatch/SpriteBatch.h"
 #include "../Camera2.5D/CameraManager.h"
 #include "../Window/Window.h"

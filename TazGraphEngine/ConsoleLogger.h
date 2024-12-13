@@ -21,7 +21,12 @@ namespace TazGraphEngine {
         static void printCurrentTime() {
             std::time_t now = std::time(nullptr);
             struct tm timeInfo;
-            localtime_s(&timeInfo, &now);
+            
+            #if defined(_WIN32) || defined(_WIN64)
+                localtime_s(&timeInfo, &now);
+            #else
+                localtime_r(&now, &timeInfo);
+            #endif
 
             char timestamp[20]; // Sufficient space for the timestamp
             strftime(timestamp, sizeof(timestamp), "[%Y-%m-%d %H:%M:%S]", &timeInfo);

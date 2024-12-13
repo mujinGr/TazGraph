@@ -1,7 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 class ICamera {
 public:

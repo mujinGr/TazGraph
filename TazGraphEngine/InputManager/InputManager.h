@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <glm/glm.hpp>
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 class InputManager {
 public:
     InputManager();

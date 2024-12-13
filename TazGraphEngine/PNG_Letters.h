@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 #define RECT_a SDL_Rect{ 0, 0,  10, 20 };
 #define RECT_b  SDL_Rect{ 10, 0, 10 , 20};

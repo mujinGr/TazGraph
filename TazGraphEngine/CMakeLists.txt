@@ -1,3 +1,5 @@
+message("\nInside TazGraphEngine Cmake...\n")
+
 set(PROJECT_NAME TazGraphEngine)
 
 ################################################################################
@@ -36,6 +38,7 @@ set(Header_Files
     "InputManager/InputManager.h"
     "picoPNG.h"
     "PNG_Letters.h"
+    "ResourceManager/ResourceManager.h"
     "SceneManager/SceneManager.h"
     "SpriteBatch/SpriteBatch.h"
     "TextureManager/TextureManager.h"
@@ -64,6 +67,7 @@ set(Source_Files
     "imgui/imgui_widgets.cpp"
     "InputManager/InputManager.cpp"
     "PNG_Letters.cpp"
+    "ResourceManager/ResourceManager.cpp"
     "SceneManager/SceneManager.cpp"
     "SpriteBatch/SpriteBatch.cpp"
     "TextureManager/TextureManager.cpp"
@@ -71,6 +75,36 @@ set(Source_Files
     "Window/Window.cpp"
 )
 source_group("Source Files" FILES ${Source_Files})
+
+################################################################################
+# Setting libs with local folder
+################################################################################
+#set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include")
+#set(LIB_DIR "${PROJECT_SOURCE_DIR}/deps/lib")
+
+#message("project source dir: ${PROJECT_SOURCE_DIR}")
+#message("deps include dir: ${INCLUDE_DIR}")
+
+#include_directories(${INCLUDE_DIR})
+#link_directories(${LIB_DIR})
+
+################################################################################
+# Setting libs with find_package
+################################################################################
+# Find SDL2 core library
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
+# Find SDL2 Mixer library
+find_package(SDL2_mixer REQUIRED)
+include_directories(${SDL2_MIXER_INCLUDE_DIRS})
+
+# Set the local include of IMGUI
+set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/IMGUI")
+include_directories(${IMGUI_INCLUDE_DIR})
+
+#file(GLOB IMGUI_SOURCES ${PROJECT_NAME}/imgui/*.cpp)
+#target_sources(${PROJECT_NAME} PRIVATE ${IMGUI_SOURCES})
 
 set(ALL_FILES
     ${Header_Files}
@@ -80,7 +114,7 @@ set(ALL_FILES
 ################################################################################
 # Target
 ################################################################################
-add_executable(${PROJECT_NAME} ${ALL_FILES})
+add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
 use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
 set(ROOT_NAMESPACE TazGraphEngine)
@@ -180,14 +214,6 @@ endif()
 ################################################################################
 # Dependencies
 ################################################################################
-
-# Assuming your project structure has a 'deps' directory as described
-set(SDL_INCLUDE_PATH "${PROJECT_SOURCE_DIR}/deps/include/SDL")
-set(SDL_LIB_PATH "${PROJECT_SOURCE_DIR}/deps/lib/SDL2")
-
-include_directories(${SDL_INCLUDE_DIR})
-link_directories(${SDL_LIB_DIR})
-
 if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
     set(ADDITIONAL_LIBRARY_DEPENDENCIES
         "$<$<CONFIG:Debug>:"
@@ -202,5 +228,8 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
         ">"
     )
 endif()
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2 SDL2_mixer SDL2_image SDL2_ttf SDL2main)
+
+message(" additional lib dependencies: ${ADDITIONAL_LIBRARY_DEPENDENCIES}")
+
+target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
