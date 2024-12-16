@@ -1,7 +1,7 @@
 message("\nInside TazGraphEngine Cmake...\n")
 
 set(PROJECT_NAME TazGraphEngine)
-
+#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -z noexecstack")
 ################################################################################
 # Source groups
 ################################################################################
@@ -97,12 +97,26 @@ include_directories(${SDL2_INCLUDE_DIRS})
 
 # Find SDL2 Mixer library
 find_package(SDL2_mixer REQUIRED)
-include_directories(${SDL2_MIXER_INCLUDE_DIRS})
+#include_directories(${SDL2_MIXER_INCLUDE_DIRS})
+
+if(SDL2_mixer_FOUND)
+    message(STATUS "Found SDL2_mixer: ${SDL2_MIXER_INCLUDE_DIRS}")
+else()
+    message(STATUS "Checking in: ${CMAKE_PREFIX_PATH}")
+    message(WARNING "SDL2_mixer not found!")
+endif()
+
+#Find OpenGL library
+find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIR})
+
 
 # Find Glew library
-#find_package(GLEW REQUIRED)
-#include_directories(${GLEW_INCLUDE_DIRS})
-#target_link_libraries(${PROJECT_NAME} ${GLEW_LIBRARIES})
+find_package(GLEW REQUIRED)
+include_directories(${GLEW_INCLUDE_DIRS}) # LIBS added at end
+
+#set(GLEW_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/GL")
+#include_directories(${GLEW_INCLUDE_DIR})
 
 # Set the local include of IMGUI
 set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/IMGUI")
@@ -235,6 +249,12 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
 endif()
 
 message(" additional lib dependencies: ${ADDITIONAL_LIBRARY_DEPENDENCIES}")
-
 target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
+target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARIES})
 
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_mixer::SDL2_mixer)
+message(STATUS "Linking SDL2_mixer with ${PROJECT_NAME} using ${SDL2_MIXER_LIBRARIES}")
+#target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE ${GLEW_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENGL_LIBRARIES})
