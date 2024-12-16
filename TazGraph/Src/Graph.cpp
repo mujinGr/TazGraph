@@ -26,7 +26,7 @@ AudioEngine Graph::audioEngine;
 Map* Graph::map = nullptr;
 AssetManager* Graph::assets = nullptr;
 SceneManager* Graph::scenes = new SceneManager();
-float Graph::backgroundColor[4] = {0.84f, 0.91f, 1.f, 1.0f};
+float Graph::backgroundColor[4] = {1.0f, 0.0f, 0.0f, 1.0f};
 TazGraphEngine::Window* Graph::_window = nullptr;
 
 auto& player1(manager.addEntity());

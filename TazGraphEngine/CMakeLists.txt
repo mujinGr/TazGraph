@@ -241,9 +241,6 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
             "SDL2_image;"
             "SDL2_ttf;"
             "SDL2_mixer;"
-            "opengl32;"
-            "glew32;"
-            "Winmm"
         ">"
     )
 endif()

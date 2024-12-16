@@ -170,6 +170,9 @@
       <Project>{fb55d28c-40b5-4e5e-aee2-6a23d72411b6}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\Sprites\block_networkMiserable.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

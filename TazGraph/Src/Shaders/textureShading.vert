@@ -1,4 +1,4 @@
-#version 400
+#version 330
 
 in vec3 vertexPosition; //vec2 is array of 2 floats
 in vec4 vertexColor;
