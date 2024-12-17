@@ -44,7 +44,7 @@ public:
 		// make this rectangle_w_Color before turning it into circle
 		
 		entity->addComponent<Rectangle_w_Color>();
-		entity->GetComponent<Rectangle_w_Color>().color = Color(255, 0, 0, 255);
+		entity->GetComponent<Rectangle_w_Color>().color = Color(100, 0, 100, 255);
 	}
 	
 	void update(float deltaTime) override //function like in sprite, but diffent moving in draw

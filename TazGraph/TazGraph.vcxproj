@@ -79,7 +79,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)deps/include;$(SolutionDir)TazGraphEngine;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)deps/include;$(SolutionDir)deps/include/IMGUI;$(SolutionDir)TazGraphEngine;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)deps/lib;$(SolutionDir)x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
