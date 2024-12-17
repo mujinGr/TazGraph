@@ -16,7 +16,7 @@ x64/
 
 .vs/
 .vscode/
-deps/
+deps/*
 !deps/include/imgui/
 build/
 
