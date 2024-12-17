@@ -36,7 +36,7 @@ bool TextureManager::readFileToBuffer(const char* filePath, std::vector <unsigne
 }
 
 GLTexture* TextureManager::loadPNG(const char* filePath) {
-	GLTexture texture = {};
+	GLTexture* texture = new GLTexture{};
 
 	std::vector<unsigned char> in;
 	std::vector<unsigned char> out;
@@ -52,9 +52,9 @@ GLTexture* TextureManager::loadPNG(const char* filePath) {
 		TazGraphEngine::ConsoleLogger::error("decodePNG failed with error: " + std::to_string(errorCode));
 	}
 
-	glGenTextures(1, &(texture.id));
+	glGenTextures(1, &(texture->id));
 
-	glBindTexture(GL_TEXTURE_2D, texture.id);
+	glBindTexture(GL_TEXTURE_2D, texture->id);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &(out[0]));
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -66,10 +66,10 @@ GLTexture* TextureManager::loadPNG(const char* filePath) {
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	texture.width = width;
-	texture.height = height;
+	texture->width = width;
+	texture->height = height;
 
-	return &texture;
+	return texture;
 }
 
 
