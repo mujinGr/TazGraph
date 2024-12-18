@@ -17,7 +17,7 @@ AssetManager::~AssetManager()
 
 void AssetManager::CreatePlayer(Entity& player)
 {
-	player.addComponent<TransformComponent>(glm::vec2(200.0f, 320.0f), Manager::actionLayer, glm::ivec2(64, 64), 1); // 1448 for near pipe, 200 for start
+	player.addComponent<TransformComponent>(glm::vec2(0.0f, 0.0f), Manager::actionLayer, glm::ivec2(64, 64), 1); // 1448 for near pipe, 200 for start
 	player.addComponent<KeyboardControllerComponent>(
 		_inputManager,
 		SDLK_w,

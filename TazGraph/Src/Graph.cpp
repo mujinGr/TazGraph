@@ -171,8 +171,8 @@ void Graph::update(float deltaTime) //game objects updating
 
 	for (auto& pl : players) //player rules
 	{
-		main_camera2D->setPosition_X(pl->GetComponent<TransformComponent>().getPosition().x - main_camera2D->getCameraDimensions().x / 2);
-		main_camera2D->setPosition_Y(pl->GetComponent<TransformComponent>().getPosition().y - main_camera2D->getCameraDimensions().y / 2);
+		main_camera2D->setPosition_X(pl->GetComponent<TransformComponent>().getPosition().x);
+		main_camera2D->setPosition_Y(pl->GetComponent<TransformComponent>().getPosition().y);
 
 		collision.moveFromOuterBounds(*pl, *_window);
 	}

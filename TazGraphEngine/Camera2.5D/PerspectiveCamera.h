@@ -22,8 +22,8 @@ public:
 		_screenWidth(800),
 		_screenHeight(640)
 	{
-		eyePos = glm::vec3(400.f, 320.f, -780.0f);
-		aimPos = glm::vec3(400.f, 320.f, 0.f);
+		eyePos = glm::vec3(0.f, 0.f, -780.0f);
+		aimPos = glm::vec3(0.f, 0.f, 0.f);
 	}
 
 	PerspectiveCamera(glm::vec3 eye_pos, glm::vec3 aim_pos) : PerspectiveCamera()
@@ -77,8 +77,8 @@ public:
 		screenCoords /= _scale;
 		screenCoords += glm::vec2(_screenWidth / 2, _screenHeight / 2);
 		//Translate with the camera2D.worldLocation position
-		screenCoords.x += _position.x;
-		screenCoords.y += _position.y;
+		/*screenCoords.x += _position.x;
+		screenCoords.y += _position.y;*/
 
 
 		return screenCoords;
@@ -122,8 +122,8 @@ public:
 		float cameraWidth = getCameraDimensions().x / getScale();
 		float cameraHeight = getCameraDimensions().y / getScale();
 
-		int cameraX = _position.x - cameraWidth / 2.0f + getCameraDimensions().x / 2;
-		int cameraY = _position.y - cameraHeight / 2.0f + getCameraDimensions().y / 2;
+		int cameraX = _position.x - cameraWidth / 2.0f ;
+		int cameraY = _position.y - cameraHeight / 2.0f ;
 
 		SDL_Rect cameraRect = { cameraX , cameraY , cameraWidth, cameraHeight };
 		return cameraRect;
