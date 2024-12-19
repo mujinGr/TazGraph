@@ -24,6 +24,10 @@ public:
     void setMouseCoords(float x, float y);
 
     glm::vec2 getMouseCoords() const;
+
+    // Panning
+    void setPanningPoint(glm::vec2 position);
+    glm::vec2 calculatePanningDelta(glm::vec2 position);
 private:
     bool wasKeyDown(unsigned int keyID);
 
@@ -31,4 +35,6 @@ private:
     std::unordered_map<unsigned int, bool> _prevKeyMap;
 
     glm::vec2 _mouseCoords;
+
+    glm::vec2 _panningPoint;
 };

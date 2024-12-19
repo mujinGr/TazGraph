@@ -19,7 +19,7 @@
 #include "Window/Window.h"
 #include "TextureManager/TextureManager.h"
 
-#include "ECS/ECSManager.h"
+#include "GOS/GOSManager.h"
 
 #include "GraphScreen/ScreenIndices.h"
 

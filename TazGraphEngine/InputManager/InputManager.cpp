@@ -66,3 +66,14 @@ void InputManager::setMouseCoords(float x, float y) {
 glm::vec2 InputManager::getMouseCoords() const {
     return _mouseCoords;
 }
+
+void InputManager::setPanningPoint(glm::vec2 position)
+{
+    _panningPoint = position;
+}
+
+glm::vec2 InputManager::calculatePanningDelta(glm::vec2 position)
+{
+    glm::vec2 deltaMotion = position - _panningPoint;
+    return deltaMotion;
+}

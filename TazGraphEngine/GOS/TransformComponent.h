@@ -2,7 +2,7 @@
 
 #include "Components.h"
 
-#include "ECSManager.h"
+#include "GOSManager.h"
 
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {

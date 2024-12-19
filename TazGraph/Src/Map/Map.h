@@ -2,7 +2,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include "ECS/ECSManager.h"
+#include "GOS/GOSManager.h"
 
 #include <algorithm>
 #include <random>

@@ -6,7 +6,7 @@
 #include <string>
 
 #include "../GLSLProgram.h"
-#include "../ECS/ECS.h"
+#include "../GOS/GOS.h"
 
 class ResourceManager
 {

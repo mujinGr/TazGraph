@@ -1,10 +1,10 @@
 #include "MainMenuScreen.h"
 #include <iostream>
 #include <SDL2/SDL.h>
-#include "ECS/Components.h"
-#include "../ECS/ScriptComponents.h"
+#include "GOS/Components.h"
+#include "../GOS/ScriptComponents.h"
 #include "Camera2.5D/CameraManager.h"
-#include "../ECS/ScriptComponents.h"
+#include "../GOS/ScriptComponents.h"
 #include "../Collision/Collision.h"
 #include "../AssetManager/AssetManager.h"
 #include "GraphScreen/IMainGraph.h"

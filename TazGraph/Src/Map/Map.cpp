@@ -1,6 +1,6 @@
 #include "Map.h"
-#include "ECS/Components.h"
-#include "../ECS/ScriptComponents.h"
+#include "GOS/Components.h"
+#include "../GOS/ScriptComponents.h"
 
 extern Manager manager;
 

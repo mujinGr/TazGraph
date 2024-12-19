@@ -158,9 +158,9 @@
     <ClInclude Include="Src\App\App.h" />
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
     <ClInclude Include="Src\Collision\Collision.h" />
-    <ClInclude Include="Src\ECS\Scripts\MainMenuBackground.h" />
-    <ClInclude Include="Src\ECS\Scripts\ScoreComponent.h" />
-    <ClInclude Include="Src\ECS\ScriptComponents.h" />
+    <ClInclude Include="Src\GOS\Scripts\MainMenuBackground.h" />
+    <ClInclude Include="Src\GOS\Scripts\ScoreComponent.h" />
+    <ClInclude Include="Src\GOS\ScriptComponents.h" />
     <ClInclude Include="Src\Graph.h" />
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h" />
     <ClInclude Include="Src\Map\Map.h" />

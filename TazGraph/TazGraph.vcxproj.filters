@@ -50,16 +50,16 @@
     <ClInclude Include="Src\AssetManager\AssetManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\ECS\Scripts\ScoreComponent.h">
+    <ClInclude Include="Src\GOS\Scripts\ScoreComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\ECS\ScriptComponents.h">
+    <ClInclude Include="Src\GOS\ScriptComponents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\ECS\Scripts\MainMenuBackground.h">
+    <ClInclude Include="Src\GOS\Scripts\MainMenuBackground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\App\App.h">

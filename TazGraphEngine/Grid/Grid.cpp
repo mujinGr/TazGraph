@@ -1,5 +1,5 @@
 #include "Grid.h"
-#include "../ECS/Components.h"
+#include "../GOS/Components.h"
 
 Grid::Grid(int width, int height, int cellSize)
 	: _width(width), _height(height), _cellSize(cellSize)

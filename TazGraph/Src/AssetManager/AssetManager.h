@@ -3,7 +3,7 @@
 #include <string>
 #include "TextureManager/TextureManager.h"
 #include "../ShapeManager.h"
-#include "ECS/ECSManager.h"
+#include "GOS/GOSManager.h"
 #include <SDL2/SDL_ttf.h>
 #include "../Graph.h"
 

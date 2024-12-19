@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ECS/Components.h"
+#include "GOS/Components.h"
 
 extern Manager manager;
 

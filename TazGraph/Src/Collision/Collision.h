@@ -1,6 +1,6 @@
 #pragma once
 #include <SDL2/SDL.h>
-#include "ECS/Components.h"
+#include "GOS/Components.h"
 #include "Window/Window.h"
 #include <algorithm>
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ECS/Animators/AnimatorComponent.h"
+#include "GOS/Animators/AnimatorComponent.h"
 #include "AudioEngine/AudioEngine.h"
 
 

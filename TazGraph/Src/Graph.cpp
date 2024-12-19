@@ -3,8 +3,8 @@
 #include "TextureManager/TextureManager.h"
 #include "Camera2.5D/CameraManager.h"
 #include "Map/Map.h"
-#include "ECS/Components.h"
-#include "ECS/ScriptComponents.h"
+#include "GOS/Components.h"
+#include "GOS/ScriptComponents.h"
 #include "Collision/Collision.h"
 #include "Map/Map.h"
 #include "AssetManager/AssetManager.h"
@@ -233,25 +233,42 @@ void Graph::checkInput() {
 			_graph->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
 			mouseCoordsVec = _graph->_inputManager.getMouseCoords();
 			if (_selectedEntity) {
-				_selectedEntity->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(mouseCoordsVec ).x);
-				_selectedEntity->GetComponent<TransformComponent>().setPosition_Y (convertScreenToWorld(mouseCoordsVec ).y);
-				if(_selectedEntity->hasComponent<GridComponent>())
+				_selectedEntity->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(mouseCoordsVec).x);
+				_selectedEntity->GetComponent<TransformComponent>().setPosition_Y(convertScreenToWorld(mouseCoordsVec).y);
+				if (_selectedEntity->hasComponent<GridComponent>())
 					_selectedEntity->GetComponent<GridComponent>().updateCollidersGrid();
+			}
+
+			if (_graph->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
+				// Calculate new camera position based on the mouse movement
+				glm::vec2 delta = _graph->_inputManager.calculatePanningDelta(mouseCoordsVec);
+				/*_graph->_camera.move(delta);*/
+				main_camera2D->setPosition_X(delta.x);
+				main_camera2D->setPosition_Y(delta.y);
+
+			}
+
+		case SDL_MOUSEBUTTONDOWN:
+			if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+				glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
+				if (_selectedEntity == nullptr) {
+					selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec));
+				}
+			}
+			if (!_graph->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
+				_selectedEntity = nullptr;
+			}
+
+			if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
+				glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
+				_graph->_inputManager.setPanningPoint(mouseCoordsVec);
 			}
 		}
 		if (_graph->_inputManager.isKeyPressed(SDLK_p)) {
 			onPauseGraph();
 		}
 
-		if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
-			glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
-			if ( _selectedEntity == nullptr) {
-				selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec));
-			}	
-		}
-		if (!_graph->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
-			_selectedEntity = nullptr;
-		}
+		
 
 	}
 }
