@@ -52,6 +52,7 @@ public:
 
 	void setParentGraph(IMainGraph* graph) { _graph = graph; }
 
+	IMainGraph* getInterfaceGraph() const { return _graph; }
 protected:
 	ScreenState _currentState = ScreenState::NONE;
 	IMainGraph* _graph = nullptr;

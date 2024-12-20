@@ -6,6 +6,8 @@
 #include <iostream>
 
 #include "ScreenList.h"
+#include "../BaseFPSLimiter/BaseFPSLimiter.h"
+
 class ScreenList;
 class IGraphScreen;
 
@@ -23,12 +25,10 @@ public:
 
 	void onSDLEvent(SDL_Event& evnt);
 
-	const float getFps() const {
-		return _fps;
-	}
-
 	InputManager _inputManager;
 	TazGraphEngine::Window _window;
+
+	BaseFPSLimiter getFPSLimiter() const { return _limiter; }
 
 protected:
 	virtual void update(float deltaTime);
@@ -38,10 +38,11 @@ protected:
 	bool init();
 	bool initSystems();
 
+	BaseFPSLimiter _limiter;
+
 	std::unique_ptr<ScreenList> _screenList = nullptr;
 	IGraphScreen* _currentScreen = nullptr;
 	bool _isRunning = false;
-	float _fps = 0.0f;
 
 	const float SCALE_SPEED = 0.1f;
 };

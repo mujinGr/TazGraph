@@ -51,6 +51,7 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
     }
 
     ImGui::CreateContext();
+    ImPlot::CreateContext();
     // Setup Platform/Renderer bindings
     ImGui_ImplSDL2_InitForOpenGL(_sdlWindow, &glContext);
     ImGui_ImplOpenGL3_Init("#version 330"); // Or whatever GLSL version suits your needs

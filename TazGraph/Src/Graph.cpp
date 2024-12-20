@@ -26,10 +26,9 @@ AudioEngine Graph::audioEngine;
 Map* Graph::map = nullptr;
 AssetManager* Graph::assets = nullptr;
 SceneManager* Graph::scenes = new SceneManager();
-float Graph::backgroundColor[4] = {0.0f, 0.5f, 0.2f, 1.0f};
+float Graph::backgroundColor[4] = { 0.78f,0.88f,1.f, 1.0f};
 TazGraphEngine::Window* Graph::_window = nullptr;
 
-auto& player1(manager.addEntity());
 auto& nodeslabel(manager.addEntity(true));
 
 Graph::Graph(TazGraphEngine::Window* window)
@@ -130,9 +129,6 @@ void Graph::onEntry()
 
 	map->LoadMap("assets/Maps/map_v3_Tile_Layer.csv");
 
-	assets->CreatePlayer(player1);
-	manager.grid->addEntity(&player1);
-
 	nodeslabel.addComponent<TransformComponent>(glm::vec2(32, 608), Manager::actionLayer, glm::ivec2(32, 32), 1);
 	nodeslabel.addComponent<UILabel>(&manager, "total nodes: 0", "arial");
 	nodeslabel.addGroup(Manager::groupLabels);
@@ -146,7 +142,6 @@ void Graph::onExit() {
 }
 
 auto& nodes(manager.getGroup(Manager::groupActionLayer));
-auto& players(manager.getGroup(Manager::groupPlayers));
 auto& colliders(manager.getGroup(Manager::groupColliders));
 auto& labels(manager.getGroup(Manager::groupLabels));
 
@@ -169,13 +164,8 @@ void Graph::update(float deltaTime) //game objects updating
 		manager.update(deltaTime);
 	}
 
-	for (auto& pl : players) //player rules
-	{
-		main_camera2D->setPosition_X(pl->GetComponent<TransformComponent>().getPosition().x);
-		main_camera2D->setPosition_Y(pl->GetComponent<TransformComponent>().getPosition().y);
-
-		collision.moveFromOuterBounds(*pl, *_window);
-	}
+	// make camera not being able to move out of bounds
+	//collision.moveFromOuterBounds(*pl, *_window);
 }
 
 glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
@@ -241,11 +231,10 @@ void Graph::checkInput() {
 
 			if (_graph->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
 				// Calculate new camera position based on the mouse movement
-				glm::vec2 delta = _graph->_inputManager.calculatePanningDelta(mouseCoordsVec);
+				glm::vec2 delta = _graph->_inputManager.calculatePanningDelta(convertScreenToWorld(mouseCoordsVec));
 				/*_graph->_camera.move(delta);*/
-				main_camera2D->setPosition_X(delta.x);
-				main_camera2D->setPosition_Y(delta.y);
-
+				main_camera2D->setPosition_X(_graph->_inputManager.getStartDragPos().x - delta.x);
+				main_camera2D->setPosition_Y(_graph->_inputManager.getStartDragPos().y - delta.y);
 			}
 
 		case SDL_MOUSEBUTTONDOWN:
@@ -261,7 +250,8 @@ void Graph::checkInput() {
 
 			if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
 				glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
-				_graph->_inputManager.setPanningPoint(mouseCoordsVec);
+				_graph->_inputManager.setPanningPoint(convertScreenToWorld(mouseCoordsVec));
+				_graph->_inputManager.setStartDragPos(main_camera2D->getPosition());
 			}
 		}
 		if (_graph->_inputManager.isKeyPressed(SDLK_p)) {
@@ -326,6 +316,28 @@ void Graph::updateUI() {
 		}
 	}
 	ImGui::End();
+	ImGui::Begin("Performance");
+	if (ImPlot::BeginPlot("FPS Plot")) {
+#if defined(_WIN32) || defined(_WIN64)
+		int plot_count = min(getInterfaceGraph()->getFPSLimiter().fps_history_count,
+			getInterfaceGraph()->getFPSLimiter().fpsHistoryIndx); // Ensuring we do not read out of bounds
+		int plot_offset = max(0,
+			getInterfaceGraph()->getFPSLimiter().fpsHistoryIndx - getInterfaceGraph()->getFPSLimiter().fps_history_count); // Ensure a positive offset
+#else
+		int plot_count = std::min(getInterfaceGraph()->getFPSLimiter().fps_history_count,
+			getInterfaceGraph()->getFPSLimiter().fpsHistoryIndx); // Ensuring we do not read out of bounds
+		int plot_offset = std::max(0,
+			getInterfaceGraph()->getFPSLimiter().fpsHistoryIndx - getInterfaceGraph()->getFPSLimiter().fps_history_count); // Ensure a positive offset
+
+#endif
+		
+		ImPlot::SetupAxesLimits(0, 100, 0, 70);
+
+		ImPlot::PlotLine("FPS", &getInterfaceGraph()->getFPSLimiter().fpsHistory[0], plot_count);
+
+		ImPlot::EndPlot();
+	}
+	ImGui::End();
 
 }
 
@@ -380,27 +392,6 @@ void Graph::draw()
 
 			cellIndex++;
 		}
-		//! find adjacent entities based on grid from a main entity
-		//for (auto& p : players) //player with colliders
-		//{
-		//	for (auto& c : manager.adjacentEntities(p, Manager::groupColliders))
-		//	{
-		//		//SDL_Rect cCol = c->GetComponent<ColliderComponent>().collider;
-		//		for (auto& ccomp : c->components) { // get all the ColliderComponents
-
-		//			ColliderComponent* colliderComponentPtr = dynamic_cast<ColliderComponent*>(ccomp.get());
-
-		//			if (!colliderComponentPtr) {
-		//				continue;
-		//			}
-		//			SDL_Rect cCol = ccomp->getRect();
-		//			glm::vec4 destRect(cCol.x, cCol.y, cCol.w, cCol.h);
-		//			_debugRenderer.drawBox(destRect, Color(255, 0, 0, 255), 0.0f);
-		//			_debugRenderer.end();
-		//			_debugRenderer.render(cameraMatrix, 4.0f);
-		//		}
-		//	}
-		//}
 		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
 
 			std::vector<Entity*>& groupVec = manager.getGroup(group);

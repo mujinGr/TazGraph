@@ -1,5 +1,5 @@
 #include "IMainGraph.h"
-#include "../Timing/Timing.h"
+#include "../BaseFPSLimiter/BaseFPSLimiter.h"
 
 #include "ScreenList.h"
 #include "IGraphScreen.h"
@@ -27,12 +27,11 @@ void IMainGraph::run() {
 
 	float prevTicks = SDL_GetTicks();
 
-	FPSLimiter limiter;
-	limiter.setMaxFPS(60.0f);
+	_limiter.setMaxFPS(60.0f);
 
 	_isRunning = true;
 	while (_isRunning) {
-		limiter.begin();
+		_limiter.begin();
 
 		float newTicks = SDL_GetTicks();
 		float frameTime = newTicks - prevTicks;
@@ -52,12 +51,14 @@ void IMainGraph::run() {
 			}
 		}
 
-		_fps = limiter.end();
+		_limiter.fps = _limiter.end();
 
 		static int frameCounter = 0;
 		frameCounter++;
 		if (frameCounter == 10) {
-			std::cout << _fps << std::endl;
+			_limiter.setHistoryValue(_limiter.fps);
+
+			//std::cout << _limiter.fps << std::endl;
 			frameCounter = 0;
 		}
 
@@ -90,18 +91,6 @@ void IMainGraph::onSDLEvent(SDL_Event& evnt) {
 		//std::cout << event.motion.x << " " << event.motion.y << std::endl;
 		_inputManager.setMouseCoords(evnt.motion.x / _window.getScale(), evnt.motion.y / _window.getScale());
 		break;
-		//case SDL_MOUSEWHEEL:
-		//	if (evnt.wheel.y > 0)
-		//	{
-		//		// Scrolling up
-		//		camera2D.setScale(camera2D.getScale() + SCALE_SPEED);
-		//	}
-		//	else if (evnt.wheel.y < 0)
-		//	{
-		//		// Scrolling down
-		//		camera2D.setScale(camera2D.getScale() - SCALE_SPEED);
-		//	}
-		//	break;
 	case SDL_MOUSEBUTTONDOWN:
 		_inputManager.pressKey(evnt.button.button);
 		break;

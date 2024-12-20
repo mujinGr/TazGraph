@@ -20,9 +20,7 @@ public:
 	AssetManager(Manager* man, InputManager& inputManager, TazGraphEngine::Window& window);
 	~AssetManager();
 
-	//gameobjects
-	void CreatePlayer(Entity& player);
-
+	//graphobjects
 	void CreateLink(Entity& linkEntity, Entity& sourceEntity, Entity& destEntity);
 
 private:

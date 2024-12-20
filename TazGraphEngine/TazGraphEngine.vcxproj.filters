@@ -39,7 +39,7 @@
     <ClCompile Include="GraphScreen\ScreenIndices.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Timing\Timing.cpp">
+    <ClCompile Include="BaseFPSLimiter\BaseFPSLimiter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SpriteBatch\SpriteBatch.cpp">
@@ -122,7 +122,7 @@
     <ClInclude Include="GraphScreen\ScreenList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Timing\Timing.h">
+    <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpriteBatch\SpriteBatch.h">

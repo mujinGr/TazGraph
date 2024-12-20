@@ -12,7 +12,7 @@
 #include "Camera2.5D/PerspectiveCamera.h"
 #include "SpriteBatch/SpriteBatch.h"
 #include "InputManager/InputManager.h"
-#include "Timing/Timing.h"
+#include "BaseFPSLimiter/BaseFPSLimiter.h"
 //#include "../SpriteFont/SpriteFont.h"
 #include "AudioEngine/AudioEngine.h"
 #include "Window/Window.h"

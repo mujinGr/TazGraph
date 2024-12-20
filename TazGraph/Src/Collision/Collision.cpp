@@ -39,26 +39,26 @@ bool Collision::checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_
 	return true;
 }
 
-void Collision::moveFromCollision(Entity& player) {
-	auto& playerTransform = player.GetComponent<TransformComponent>();
-	auto playerCollider = player.GetComponent<ColliderComponent>();
+void Collision::moveFromCollision(Entity& entity) {
+	auto& entityTransform = entity.GetComponent<TransformComponent>();
+	auto entityCollider = entity.GetComponent<ColliderComponent>();
 
 	switch (Collision::movingRectColSide) {
-		case Collision::ColSide::RIGHT: // Move player to the left of the collider
-			playerTransform.setPosition_X(playerTransform.getPosition().x - Collision::overlap.x);
+		case Collision::ColSide::RIGHT: // Move entity to the left of the collider
+			entityTransform.setPosition_X(entityTransform.getPosition().x - Collision::overlap.x);
 			break;
 
-		case Collision::ColSide::LEFT: // Move player to the right of the collider
-			playerTransform.setPosition_X(playerTransform.getPosition().x + Collision::overlap.x);
+		case Collision::ColSide::LEFT: // Move entity to the right of the collider
+			entityTransform.setPosition_X(entityTransform.getPosition().x + Collision::overlap.x);
 			break;
 
-		case Collision::ColSide::DOWN: // Move player above the collider
-			playerTransform.setPosition_Y(playerTransform.getPosition().y - Collision::overlap.y);
+		case Collision::ColSide::DOWN: // Move entity above the collider
+			entityTransform.setPosition_Y(entityTransform.getPosition().y - Collision::overlap.y);
 			break;
 
-		case Collision::ColSide::TOP: // Move player below the collider
-			playerTransform.setPosition_Y(playerTransform.getPosition().y + Collision::overlap.y);
-			playerTransform.setVelocity_Y(0);
+		case Collision::ColSide::TOP: // Move entity below the collider
+			entityTransform.setPosition_Y(entityTransform.getPosition().y + Collision::overlap.y);
+			entityTransform.setVelocity_Y(0);
 			break;
 
 		default:
