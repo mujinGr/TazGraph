@@ -97,14 +97,14 @@ public:
 		return cameraDimensions;
 	}
 
-	SDL_Rect getCameraRect() const override {
+	SDL_FRect getCameraRect() const override {
 		float cameraWidth = getCameraDimensions().x / getScale();
 		float cameraHeight = getCameraDimensions().y / getScale();
 
-		int cameraX = _position.x - cameraWidth / 2.0f + getCameraDimensions().x / 2;
-		int cameraY = _position.y - cameraHeight / 2.0f + getCameraDimensions().y / 2;
+		float cameraX = _position.x - cameraWidth / 2.0f + getCameraDimensions().x / 2;
+		float cameraY = _position.y - cameraHeight / 2.0f + getCameraDimensions().y / 2;
 
-		SDL_Rect cameraRect = { cameraX , cameraY , cameraWidth, cameraHeight };
+		SDL_FRect cameraRect = { cameraX , cameraY , cameraWidth, cameraHeight };
 		return cameraRect;
 	}
 

@@ -22,3 +22,11 @@ void AssetManager::CreateLink(Entity& linkEntity, Entity& sourceEntity, Entity& 
 
 	linkEntity.addGroup(Manager::groupLinks);
 }
+
+void AssetManager::CreateCursor(Entity& cursor)
+{
+	cursor.addComponent<TransformComponent>(glm::vec2(200.0f, 320.0f), Manager::actionLayer, glm::ivec2(4, 4), 1);
+	cursor.addComponent<Rectangle_w_Color>();
+	cursor.addComponent<Rectangle_w_Color>().color = Color(0, 0, 0, 255);
+	cursor.addGroup(Manager::cursorGroup);
+}

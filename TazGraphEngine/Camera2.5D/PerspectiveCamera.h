@@ -22,7 +22,7 @@ public:
 		_screenWidth(800),
 		_screenHeight(640)
 	{
-		eyePos = glm::vec3(0.f, 0.f, -780.0f);
+		eyePos = glm::vec3(0.f, 0.f, -770.0f);
 		aimPos = glm::vec3(0.f, 0.f, 0.f);
 	}
 
@@ -71,17 +71,18 @@ public:
 	}
 
 	glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) const override {
-		//Make 0 the center
-		screenCoords -= glm::vec2(_screenWidth / 2, _screenHeight / 2);
-		//Scale coordinates
-		screenCoords /= _scale;
-		screenCoords += glm::vec2(_screenWidth / 2, _screenHeight / 2);
-		//Translate with the camera2D.worldLocation position
-		/*screenCoords.x += _position.x;
-		screenCoords.y += _position.y;*/
+		SDL_FRect cameraRect = getCameraRect();
+
+		glm::vec2 worldCoords;
+
+		worldCoords = screenCoords;
+		worldCoords /= _scale;
+
+		worldCoords.x = worldCoords.x + cameraRect.x;
+		worldCoords.y = worldCoords.y + cameraRect.y;
 
 
-		return screenCoords;
+		return worldCoords;
 	}
 
 	//setters
@@ -118,14 +119,14 @@ public:
 		return cameraDimensions;
 	}
 
-	SDL_Rect getCameraRect() const override {
+	SDL_FRect getCameraRect() const override {
 		float cameraWidth = getCameraDimensions().x / getScale();
 		float cameraHeight = getCameraDimensions().y / getScale();
 
-		int cameraX = _position.x - cameraWidth / 2.0f ;
-		int cameraY = _position.y - cameraHeight / 2.0f ;
+		float cameraX = _position.x - cameraWidth / 2.0f ;
+		float cameraY = _position.y - cameraHeight / 2.0f ;
 
-		SDL_Rect cameraRect = { cameraX , cameraY , cameraWidth, cameraHeight };
+		SDL_FRect cameraRect = { cameraX , cameraY , cameraWidth, cameraHeight };
 		return cameraRect;
 	}
 
@@ -136,7 +137,7 @@ public:
 
 private:
 	int _screenWidth, _screenHeight;
-	float _scale;
+	float _scale; // decreases when zoom-out
 	bool _cameraChange;
 
 	glm::vec2 _position;

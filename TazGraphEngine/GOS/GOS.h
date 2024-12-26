@@ -88,7 +88,7 @@ private:
 public:
 	bool paused = false;
 
-	bool checkCollision(const SDL_Rect recA, const SDL_Rect recB) {
+	bool checkCollision(const SDL_Rect recA, const SDL_FRect recB) {
 		if (recA.x > recB.x + recB.w + CULLING_OFFSET || recA.x + recA.w < recB.x - CULLING_OFFSET ||
 			recA.y > recB.y + recB.h + CULLING_OFFSET || recA.y + recA.h < recB.y - CULLING_OFFSET) {
 			return false; // no collision

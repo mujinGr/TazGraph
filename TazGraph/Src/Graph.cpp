@@ -29,6 +29,8 @@ SceneManager* Graph::scenes = new SceneManager();
 float Graph::backgroundColor[4] = { 0.78f,0.88f,1.f, 1.0f};
 TazGraphEngine::Window* Graph::_window = nullptr;
 
+auto& cursor(manager.addEntity());
+
 auto& nodeslabel(manager.addEntity(true));
 
 Graph::Graph(TazGraphEngine::Window* window)
@@ -129,6 +131,8 @@ void Graph::onEntry()
 
 	map->LoadMap("assets/Maps/map_v3_Tile_Layer.csv");
 
+	assets->CreateCursor(cursor);
+
 	nodeslabel.addComponent<TransformComponent>(glm::vec2(32, 608), Manager::actionLayer, glm::ivec2(32, 32), 1);
 	nodeslabel.addComponent<UILabel>(&manager, "total nodes: 0", "arial");
 	nodeslabel.addGroup(Manager::groupLabels);
@@ -145,10 +149,20 @@ auto& nodes(manager.getGroup(Manager::groupActionLayer));
 auto& colliders(manager.getGroup(Manager::groupColliders));
 auto& labels(manager.getGroup(Manager::groupLabels));
 
+auto& cursors(manager.getGroup(Manager::cursorGroup));
+
+glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	return main_camera2D->convertScreenToWorld(screenCoords);
+}
+
 void Graph::update(float deltaTime) //game objects updating
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
+
+	glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
 
 	checkInput(); //handleEvents
 
@@ -164,16 +178,20 @@ void Graph::update(float deltaTime) //game objects updating
 		manager.update(deltaTime);
 	}
 
+	for (auto& cursor : cursors) {
+		cursor->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(mouseCoordsVec).x);
+		cursor->GetComponent<TransformComponent>().setPosition_Y(convertScreenToWorld(mouseCoordsVec).y);
+
+		TransformComponent* transform = &cursor->GetComponent<TransformComponent>();
+		cursor->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x - transform->getSizeCenter().x);
+		cursor->GetComponent<TransformComponent>().setPosition_Y(transform->getPosition().y - transform->getSizeCenter().y);
+
+	}
 	// make camera not being able to move out of bounds
 	//collision.moveFromOuterBounds(*pl, *_window);
 }
 
-glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-	screenCoords = main_camera2D->convertScreenToWorld(screenCoords);  
-	return screenCoords;
-}
 
 void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
@@ -231,7 +249,7 @@ void Graph::checkInput() {
 
 			if (_graph->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
 				// Calculate new camera position based on the mouse movement
-				glm::vec2 delta = _graph->_inputManager.calculatePanningDelta(convertScreenToWorld(mouseCoordsVec));
+				glm::vec2 delta = _graph->_inputManager.calculatePanningDelta(mouseCoordsVec / main_camera2D->getScale());
 				/*_graph->_camera.move(delta);*/
 				main_camera2D->setPosition_X(_graph->_inputManager.getStartDragPos().x - delta.x);
 				main_camera2D->setPosition_Y(_graph->_inputManager.getStartDragPos().y - delta.y);
@@ -240,8 +258,10 @@ void Graph::checkInput() {
 		case SDL_MOUSEBUTTONDOWN:
 			if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
 				glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
+				std::cout << "clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
 				if (_selectedEntity == nullptr) {
 					selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec));
+					std::cout << "convertedScreenToWorld: " << convertScreenToWorld(mouseCoordsVec).x << " - " << convertScreenToWorld(mouseCoordsVec).y << std::endl;
 				}
 			}
 			if (!_graph->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
@@ -250,7 +270,7 @@ void Graph::checkInput() {
 
 			if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
 				glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
-				_graph->_inputManager.setPanningPoint(convertScreenToWorld(mouseCoordsVec));
+				_graph->_inputManager.setPanningPoint(mouseCoordsVec / main_camera2D->getScale());
 				_graph->_inputManager.setStartDragPos(main_camera2D->getPosition());
 			}
 		}
@@ -291,7 +311,7 @@ void Graph::updateUI() {
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-	ImGui::Text("Rect: {x: %d, y: %d, w: %d, h: %d}", main_camera2D->getCameraRect().x, main_camera2D->getCameraRect().y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
+	ImGui::Text("Rect: {x: %f, y: %f, w: %f, h: %f}", main_camera2D->getCameraRect().x, main_camera2D->getCameraRect().y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
 	
 	if (ImGui::SliderFloat3("Eye Position", &main_camera2D->eyePos[0], -1000.0f, 1000.0f)) {
 		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
@@ -432,6 +452,7 @@ void Graph::draw()
 	_debugRenderer.render(cameraMatrix, 2.0f);
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("circleColor"), "", *main_camera2D);
 	renderBatch(nodes, _spriteBatch);
+	renderBatch(cursors, _spriteBatch);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 

@@ -61,7 +61,7 @@ public:
 		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 		SDL_Rect dimensions = { _position.x, _position.y, width, height };
-		SDL_Rect cameraDimensions = main_camera2D->getCameraRect();
+		SDL_FRect cameraDimensions = main_camera2D->getCameraRect();
 
 		if (entity->checkCollision(dimensions, cameraDimensions)) { //culling
 			entity->paused = false;

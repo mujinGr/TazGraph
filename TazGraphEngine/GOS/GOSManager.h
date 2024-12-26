@@ -142,6 +142,7 @@ public:
 		startGraphGroup,
 		exitGraphGroup,
 		buttonLabels,
+		cursorGroup
 	};
 
 	

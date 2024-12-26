@@ -20,7 +20,7 @@ public:
     virtual glm::ivec2 getCameraDimensions() const = 0;
 
     // Returns the SDL_Rect representing the camera2D.worldLocation's viewport
-    virtual SDL_Rect getCameraRect() const = 0;
+    virtual SDL_FRect getCameraRect() const = 0;
 
     // Additional methods to expose camera2D.worldLocation properties as needed
     virtual glm::vec2 getPosition() const = 0;

@@ -22,6 +22,7 @@ public:
 
 	//graphobjects
 	void CreateLink(Entity& linkEntity, Entity& sourceEntity, Entity& destEntity);
+	void CreateCursor(Entity& cursor);
 
 private:
 	Manager* manager;
