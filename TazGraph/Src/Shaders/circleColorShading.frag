@@ -15,7 +15,9 @@ void main() {
 
     if (dist > radius) {
         discard;
+    }else {
+        float edgeWidth = 0.05; // Width of the edge where the color transitions to black
+        float alpha = 1.0 - smoothstep(radius - edgeWidth, radius, dist); // Smooth transition to zero alpha at the edge
+        color = vec4(fragmentColor.rgb * alpha, fragmentColor.a);
     }
-
-    color = vec4(fragmentColor.rgb, fragmentColor.a);
 }

@@ -82,3 +82,13 @@ glm::vec2 InputManager::calculatePanningDelta(glm::vec2 position)
     glm::vec2 deltaMotion = position - _panningPoint;
     return deltaMotion;
 }
+
+void InputManager::setObjectRelativePos(glm::vec2 relativeObjectPos) 
+{
+    _relativeObjectPos = relativeObjectPos;
+}
+
+glm::vec2 InputManager::getObjectRelativePos()
+{
+    return _relativeObjectPos;
+}

@@ -84,7 +84,7 @@ void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Enti
 		}
 		x = 0;
 		y++;
-		if (y == 20) {
+		if (y == 40) {
 			break;
 		}
 	}

@@ -204,6 +204,7 @@ void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
 			if (worldCoords.x > pos.x && worldCoords.x < pos.x + tr->width &&
 				worldCoords.y > pos.y && worldCoords.y < pos.y + tr->height) {
 				_selectedEntity = entity;  // Store a pointer or reference to the selected entity
+				_graph->_inputManager.setObjectRelativePos(glm::vec2(worldCoords - pos));
 				break;
 			}
 		}
@@ -241,8 +242,8 @@ void Graph::checkInput() {
 			_graph->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
 			mouseCoordsVec = _graph->_inputManager.getMouseCoords();
 			if (_selectedEntity) {
-				_selectedEntity->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(mouseCoordsVec).x);
-				_selectedEntity->GetComponent<TransformComponent>().setPosition_Y(convertScreenToWorld(mouseCoordsVec).y);
+				_selectedEntity->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(mouseCoordsVec).x - _graph->_inputManager.getObjectRelativePos().x);
+				_selectedEntity->GetComponent<TransformComponent>().setPosition_Y(convertScreenToWorld(mouseCoordsVec).y - _graph->_inputManager.getObjectRelativePos().y);
 				if (_selectedEntity->hasComponent<GridComponent>())
 					_selectedEntity->GetComponent<GridComponent>().updateCollidersGrid();
 			}

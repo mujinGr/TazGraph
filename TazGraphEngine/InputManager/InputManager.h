@@ -31,6 +31,9 @@ public:
 
     void setPanningPoint(glm::vec2 position);
     glm::vec2 calculatePanningDelta(glm::vec2 position);
+
+    void setObjectRelativePos(glm::vec2 relativeObjectPos);
+    glm::vec2 getObjectRelativePos();
 private:
     bool wasKeyDown(unsigned int keyID);
 
@@ -42,4 +45,6 @@ private:
     glm::vec2 _panningPoint;
 
     glm::vec2 _startingDragPoint;
+
+    glm::vec2 _relativeObjectPos;
 };
