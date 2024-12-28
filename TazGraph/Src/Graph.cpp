@@ -334,6 +334,23 @@ void Graph::updateUI() {
 			ImGui::Text("Grid index: %d with x: %d and y: %d", manager.grid->getCell(*_selectedEntity), cellX, cellY);
 		}
 	}
+	else {
+		ImGui::NewLine();
+		ImGui::NewLine();
+		ImGui::NewLine();
+		ImGui::NewLine();
+	}
+	ImGui::Separator();
+	ImGui::Text("Actions:");
+	if (ImGui::Button("Save", ImVec2(-1.0f, 0.0f))) {
+		map->saveMapAsText();
+	}
+	if (ImGui::Button("Load", ImVec2(-1.0f, 0.0f))) {
+		// Code to load a state
+	}
+	if (ImGui::Button("Back", ImVec2(-1.0f, 0.0f))) {
+		// Code to go back or close the window
+	}
 	ImGui::End();
 	ImGui::Begin("Performance");
 	if (ImPlot::BeginPlot("FPS Plot")) {

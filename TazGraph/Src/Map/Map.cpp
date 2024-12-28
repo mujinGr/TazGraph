@@ -48,6 +48,16 @@ void Map::saveMapToCSV(const std::vector<std::vector<int>>& map, const std::stri
 	file.close();
 }
 
+void Map::saveMapAsText(const std::string& fileName) {
+	std::ofstream file(fileName);
+
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file for writing: " << fileName << std::endl;
+		return;
+	}
+
+}
+
 void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Entity&, int, int)) {
 	
 	int x = 0, y = 0;
