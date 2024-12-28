@@ -5,17 +5,17 @@
 struct Animation //todo for now just add a bool hasFinished (useful for scripts) and much later may need onStop(when game paused)
 {					// todo also we might need to have setReps/getReps and replace "play_once" with "play_n_times" where we pass 1 more value to call
 	typedef enum {
-		ANIMTYPE_NONE = 0,
+		ANIMTYPE_NONE = 0, // just one animation
 		ANIMTYPE_PLAY_N_TIMES = 1, // just iterates over the images one time. it holds the final image when finished.
 		ANIMTYPE_LOOPED = 2, // going over the images again and again.
 		ANIMTYPE_BACK_FORTH = 3  // iterate from index=0 to maxframe and back again. keeps holding the first image afterwards.
 	} animType;
 
-	int indexX; // initial position
-	int indexY;
-	int total_frames;
-	float speed;
-	animType type;
+	int indexX = 0; // initial position
+	int indexY = 0;
+	int total_frames = 0;
+	float speed = 1.0f;
+	animType type = animType::ANIMTYPE_NONE;
 	int reps = 0;
 
 	int frame_times_played = 0;

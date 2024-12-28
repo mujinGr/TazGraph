@@ -20,8 +20,6 @@ AssetManager* MainMenuScreen::assets = nullptr;
 float MainMenuScreen::backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 
 auto& Mainmenubackground(main_menu_manager.addEntity());
-auto& StartGraphButton(main_menu_manager.addEntity());
-auto& ExitGraphButton(main_menu_manager.addEntity());
 
 MainMenuScreen::MainMenuScreen(TazGraphEngine::Window* window)
 	: _window(window)
@@ -112,40 +110,19 @@ void MainMenuScreen::onEntry()
 	// Texture Loads
 	TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/block_networkMiserable.png");
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
-
 	//main menu moving background
 	Mainmenubackground.addComponent<MainMenuBackground>();
-
 	Mainmenubackground.addGroup(Manager::groupBackgroundLayer);
-
-	// initial entities
-	glm::ivec2 mainMenuButtonsDims = glm::ivec2(200,50);
-	StartGraphButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - mainMenuButtonsDims.x / 2, 200.0f), Manager::actionLayer,
-		mainMenuButtonsDims,
-		1.0f);
-	StartGraphButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onStartSimulator, this), "ENTER SIMULATOR", mainMenuButtonsDims, Color(120, 120, 120, 200));
-	StartGraphButton.addGroup(Manager::startGraphGroup);
-
-	ExitGraphButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - mainMenuButtonsDims.x / 2, 300.0f), Manager::actionLayer,
-		mainMenuButtonsDims,
-		1.0f);
-	ExitGraphButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onExitSimulator, this), "EXIT", mainMenuButtonsDims, Color(70, 70, 70, 255));
-	ExitGraphButton.addGroup(Manager::exitGraphGroup);
 }
 
 auto& mainmenubackground(main_menu_manager.getGroup(Manager::groupBackgroundLayer));
-auto& startgraphbuttons(main_menu_manager.getGroup(Manager::startGraphGroup));
-auto& exitgraphbuttons(main_menu_manager.getGroup(Manager::exitGraphGroup));
 auto& panelBackground(main_menu_manager.getGroup(Manager::panelBackground));
 auto& buttonLabels(main_menu_manager.getGroup(Manager::buttonLabels));
 
 
 void MainMenuScreen::onExit()
 {
-	for (auto& sb : startgraphbuttons)
-	{
-		sb->GetComponent<ButtonComponent>().setOnClick(std::bind(&MainMenuScreen::onResumeSimulator, this));
-	}
+	
 }
 
 
@@ -162,24 +139,6 @@ void MainMenuScreen::update(float deltaTime)
 
 	main_camera2D->update();
 	hud_camera2D->update();
-
-
-	for (auto& sb : startgraphbuttons)
-	{
-		TransformComponent entityTr = sb->GetComponent<TransformComponent>();
-		if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_LEFT) && _graph->_inputManager.checkMouseCollision(entityTr.getPosition(), glm::ivec2(entityTr.width, entityTr.height))) { //culling
-			std::cout << "clicked button" << std::endl;
-			sb->GetComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
-		}
-	}
-	for (auto& eb : exitgraphbuttons)
-	{
-		TransformComponent entityTr = eb->GetComponent<TransformComponent>();
-		if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_LEFT) && _graph->_inputManager.checkMouseCollision(entityTr.getPosition(), glm::ivec2(entityTr.width, entityTr.height))) { //culling
-			std::cout << "clicked button" << std::endl;
-			eb->GetComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
-		}
-	}
 }
 
 void MainMenuScreen::renderBatch(const std::vector<Entity*>& entities) {
@@ -247,32 +206,37 @@ void MainMenuScreen::checkInput() {
 }
 
 void MainMenuScreen::updateUI() {
-	// Default ImGui window
-	ImGui::Begin("Default UI");
-	ImGui::Text("This is a permanent UI element.");
-	ImGui::End();
+	float windowWidth = 200; // Increased window width
+	float windowHeight = 200;
+	float buttonWidth = 180;  // Define a larger button width
+	float buttonHeight = 50;  // Define a larger button height
+	
+	ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x * 0.5f, ImGui::GetIO().DisplaySize.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+	ImGui::SetNextWindowSize(ImVec2(windowWidth, windowHeight));  // Set the size of the window as needed
+	ImGui::Begin("Control Window", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
 
-	ImGui::Begin("Background UI");
-	ImGui::Text("This is a Background UI element.");
-	// Change color based on the debug mode state
+	float buttonPosX = (windowWidth - buttonWidth) * 0.5f; // Center the button
+	float buttonSpacing = 5;
 
-	ImGui::Text("Camera Position");
-
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
-
-	ImGui::Text("Rect: {x: %d, y: %d, w: %d, h: %d}", main_camera2D->getCameraRect().x, main_camera2D->getCameraRect().y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
-
-	if (ImGui::SliderFloat3("Eye Position", &main_camera2D->eyePos[0], -1000.0f, 1000.0f)) {
-		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
-	}
-	if (ImGui::SliderFloat3("Aim Position", &main_camera2D->aimPos[0], -1000.0f, 1000.0f)) {
-		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
-	}
-	if (ImGui::SliderFloat3("Up Direction", &main_camera2D->upDir[0], -1000.0f, 1000.0f)) {
-		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
+	ImGui::SetCursorPosX(buttonPosX);
+	if (ImGui::Button("Start New", ImVec2(buttonWidth, buttonHeight))) {
+		MainMenuScreen::onStartSimulator();
 	}
 
-	ImGui::Text("Mouse Coords: {x: %f, y: %f}", _graph->_inputManager.getMouseCoords().x, _graph->_inputManager.getMouseCoords().y);
+	ImGui::Dummy(ImVec2(0.0f, buttonSpacing));
+	
+	ImGui::SetCursorPosX(buttonPosX);
+	if (ImGui::Button("Load", ImVec2(buttonWidth, buttonHeight))) {
+		// Code to load an existing graph
+		// Example: _graph->loadGraphFromFile();
+	}
+
+	ImGui::Dummy(ImVec2(0.0f, buttonSpacing));
+
+	ImGui::SetCursorPosX(buttonPosX);
+	if (ImGui::Button("Exit", ImVec2(buttonWidth, buttonHeight))) {
+		MainMenuScreen::onExitSimulator();
+	}
 
 	ImGui::End();
 }

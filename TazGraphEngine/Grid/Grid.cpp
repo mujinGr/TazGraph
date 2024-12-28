@@ -38,20 +38,20 @@ void Grid::removeEntity(Entity* entity) {
 
 Cell* Grid::getCell(int x, int y)
 {
-	if (x < 0) x = 0;
-	if (x >= _numXCells) x = _numXCells - 1;
-	if (y < 0) y = 0;
-	if (y >= _numYCells) y = _numYCells - 1;
+	if (x < -(_numXCells/2)) x = -(_numXCells / 2);
+	if (x >= (_numXCells/2)) x = (_numXCells / 2) - 1;
+	if (y < -(_numYCells / 2)) y = -(_numYCells / 2);
+	if (y >= (_numYCells / 2)) y = (_numYCells / 2) - 1;
 
 
-	return &_cells[y * _numXCells + x];
+	return &_cells[(y+ (_numYCells / 2)) * _numXCells + (x + (_numXCells / 2))];
 }
 
 Cell* Grid::getCell(const Entity& entity)
 {
 	auto pos = entity.GetComponent<TransformComponent>().getPosition();
-	int cellX = (int)(pos.x / _cellSize);
-	int cellY = (int)(pos.y / _cellSize);
+	int cellX = (int)(std::floor(pos.x / _cellSize));
+	int cellY = (int)(std::floor(pos.y / _cellSize));
 
 	return getCell(cellX, cellY);
 }

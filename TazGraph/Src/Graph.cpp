@@ -127,7 +127,7 @@ void Graph::onEntry()
 
 	main_camera2D->worldDimensions= map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
 
-	manager.grid = std::make_unique<Grid>(main_camera2D->worldDimensions.x, main_camera2D->worldDimensions.y, CELL_SIZE);
+	manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, CELL_SIZE);
 
 	map->LoadMap("assets/Maps/map_v3_Tile_Layer.csv");
 
@@ -286,11 +286,6 @@ void Graph::checkInput() {
 
 void Graph::updateUI() {
 
-	// Default ImGui window
-	ImGui::Begin("Default UI");
-	ImGui::Text("This is a permanent UI element.");
-	ImGui::End();
-
 	ImGui::Begin("Background UI");
 	ImGui::Text("This is a Background UI element.");
 	ImGui::ColorEdit4("Background Color", backgroundColor);
@@ -334,6 +329,9 @@ void Graph::updateUI() {
 			TransformComponent* tr = &_selectedEntity->GetComponent<TransformComponent>();
 			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
 			ImGui::Text("Size: (%d, %d)", tr->width, tr->height);
+			int cellX = (int)(std::floor(tr->getPosition().x / CELL_SIZE));
+			int cellY = (int)(std::floor(tr->getPosition().y / CELL_SIZE));
+			ImGui::Text("Grid index: %d with x: %d and y: %d", manager.grid->getCell(*_selectedEntity), cellX, cellY);
 		}
 	}
 	ImGui::End();
@@ -405,8 +403,8 @@ void Graph::draw()
 		int cellIndex = 0;
 		for (const auto& cell : manager.grid->getCells()) {
 			// Calculate the position of the cell in world coordinates based on its index
-			int x = (cellIndex % manager.grid->getNumXCells()) * manager.grid->getCellSize();
-			int y = (cellIndex / manager.grid->getNumXCells()) * manager.grid->getCellSize();
+			int x = ((cellIndex % manager.grid->getNumXCells()) - (AXIS_CELLS / 2)) * manager.grid->getCellSize();
+			int y = ((cellIndex / manager.grid->getNumYCells()) - (AXIS_CELLS / 2)) * manager.grid->getCellSize();
 
 			glm::vec4 destRect(x, y, manager.grid->getCellSize(), manager.grid->getCellSize());
 			_debugRenderer.drawBox(destRect, Color(0, 255, 0, 100), 0.0f);  // Drawing each cell in red for visibility

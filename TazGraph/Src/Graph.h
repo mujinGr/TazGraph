@@ -31,7 +31,10 @@ class SceneManager;
 class ColliderComponent;
 class TransformComponent;
 
-constexpr int CELL_SIZE = 128;
+constexpr int CELL_SIZE = 64;
+constexpr int AXIS_CELLS = 100;
+constexpr int ROW_CELL_SIZE = AXIS_CELLS * CELL_SIZE;
+constexpr int COLUMN_CELL_SIZE = AXIS_CELLS * CELL_SIZE;
 
 class Graph : public IGraphScreen {
 

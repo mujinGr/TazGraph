@@ -9,10 +9,10 @@
 class ColliderComponent : public Component //collider -> transform
 {
 public:
-	SDL_Rect collider;
-	std::string tag;
+	SDL_Rect collider{ 0,0,0,0 };
+	std::string tag = "";
 
-	SDL_Rect srcR, destR;
+	SDL_Rect srcR{ 0,0,0,0 }, destR{0,0,0,0};
 
 	TransformComponent* transform = nullptr;
 

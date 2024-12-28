@@ -12,15 +12,15 @@ public:
     };
 
 private:
-    ButtonState _state;
+    ButtonState _state = ButtonState::NORMAL;
     std::function<void()> _onClick; // Callback function for click action
 
     std::string buttonLabel = "";
-    glm::ivec2 bDimensions;
-    Color bBackground;
+    glm::ivec2 bDimensions{0,0};
+    Color bBackground{255,255,255,255};
 
-    Entity* uiLabel;
-    Entity* buttonBackground;
+    Entity* uiLabel = nullptr;
+    Entity* buttonBackground = nullptr;
 public:
     ButtonComponent(std::function<void()> onClick)
         : _state(ButtonState::NORMAL), _onClick(onClick) {}

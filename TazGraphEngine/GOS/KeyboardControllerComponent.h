@@ -21,10 +21,10 @@ class KeyboardControllerComponent : public Component //! moving animation
 public: //TODO: maybe have variables as private
 	InputManager& _inputManager;
 
-	TransformComponent* transform;
-	AnimatorComponent* animator;
-	RigidBodyComponent* rigidbody;
-	SpriteComponent* sprite;
+	TransformComponent* transform = nullptr;
+	AnimatorComponent* animator = nullptr;
+	RigidBodyComponent* rigidbody = nullptr;
+	SpriteComponent* sprite = nullptr;
 
 	SDL_KeyCode walkUpKey, walkLeftKey, walkRightKey, walkDownKey;
 

@@ -6,7 +6,7 @@
 
 class OrthoCamera : public ICamera {
 public:
-	glm::ivec2 worldDimensions;
+	glm::ivec2 worldDimensions{ 0,0 };
 
 	OrthoCamera() : _position(0.0f, 0.0f),
 		_cameraMatrix(1.0f),	//I
