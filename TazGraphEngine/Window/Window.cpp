@@ -50,6 +50,7 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
         TazGraphEngine::ConsoleLogger::error("Could not initialize glew!");
     }
 
+    // this is setup of Imgui
     ImGui::CreateContext();
     ImPlot::CreateContext();
     // Setup Platform/Renderer bindings

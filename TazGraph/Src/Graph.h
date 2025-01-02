@@ -24,6 +24,7 @@
 #include "GraphScreen/ScreenIndices.h"
 
 #include "Grid/Grid.h"
+#include "EditorIMGUI/EditorIMGUI.h"
 
 class Map;
 class AssetManager;
@@ -59,8 +60,9 @@ public:
 
 	virtual void draw() override;
 
+	virtual void BeginRender() override;
 	virtual void updateUI() override;
-
+	virtual void EndRender() override;
 
 
 	/////////////////////////
@@ -107,6 +109,11 @@ private:
 
 	const float SCALE_SPEED = 0.1f;
 	bool _firstLoop = true;
+
+	EditorIMGUI _editorImgui;
+
+	bool _showSaveWindow = false;
+
 };
 
 

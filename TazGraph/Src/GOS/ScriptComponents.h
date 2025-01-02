@@ -1,5 +1,5 @@
 #pragma once
 
-#include "Scripts/ScoreComponent.h"
+extern Manager manager;
 
 #include "Scripts/MainMenuBackground.h"

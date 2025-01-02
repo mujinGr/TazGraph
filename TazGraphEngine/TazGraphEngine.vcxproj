@@ -145,6 +145,7 @@
     <ClCompile Include="GraphScreen\ScreenIndices.h" />
     <ClCompile Include="GraphScreen\ScreenList.cpp" />
     <ClCompile Include="Grid\Grid.cpp" />
+    <ClCompile Include="ImGuiInterface\ImGuiInterface.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -153,7 +154,7 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="imgui\implot.cpp" />
-    <ClCompile Include="imgui\implot_items.cpp" />    
+    <ClCompile Include="imgui\implot_items.cpp" />
     <ClCompile Include="InputManager\InputManager.cpp" />
     <ClCompile Include="PNG_Letters.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTexture.h" />
     <ClInclude Include="Grid\Grid.h" />
+    <ClInclude Include="ImGuiInterface\ImGuiInterface.h" />
     <ClInclude Include="InputManager\InputManager.h" />
     <ClInclude Include="picoPNG.h" />
     <ClInclude Include="PNG_Letters.h" />

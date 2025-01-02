@@ -66,18 +66,16 @@ void Collision::moveFromCollision(Entity& entity) {
 	}
 }
 
-bool Collision::moveFromOuterBounds(Entity& entity, TazGraphEngine::Window& window) {
+bool Collision::moveFromOuterBounds() {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-	auto pos = entity.GetComponent<TransformComponent>().getPosition();
-
-	if (pos.x < 0) {
-		entity.GetComponent<TransformComponent>().setPosition_X(0);
-		return true;
-	}
-	else if (pos.x + entity.GetComponent<TransformComponent>().width > main_camera2D->worldDimensions.x) {
-		entity.GetComponent<TransformComponent>().setPosition_X(main_camera2D->worldDimensions.x - entity.GetComponent<TransformComponent>().width);
-		return true;
-	}
+	//if (pos.x < 0) {
+	//	entity.GetComponent<TransformComponent>().setPosition_X(0);
+	//	return true;
+	//}
+	//else if (pos.x + entity.GetComponent<TransformComponent>().width > 0/*main_camera2D->worldDimensions.x*/) {
+	//	entity.GetComponent<TransformComponent>().setPosition_X(/*main_camera2D->worldDimensions.x */- entity.GetComponent<TransformComponent>().width);
+	//	return true;
+	//}
 	return false;
 }

@@ -119,7 +119,7 @@ include_directories(${GLEW_INCLUDE_DIRS}) # LIBS added at end
 #include_directories(${GLEW_INCLUDE_DIR})
 
 # Set the local include of IMGUI
-set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/IMGUI")
+set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/imgui")
 include_directories(${IMGUI_INCLUDE_DIR})
 
 #file(GLOB IMGUI_SOURCES ${PROJECT_NAME}/imgui/*.cpp)

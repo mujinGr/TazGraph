@@ -3,6 +3,7 @@
 #include "../GOS/ScriptComponents.h"
 
 extern Manager manager;
+extern std::vector<Entity*>& nodes;
 
 int solidTiles[] = {1};
 
@@ -22,40 +23,43 @@ Map::~Map()
 
 }
 
-std::vector<std::vector<int>> Map::generateMap(int width, int height) {
-	std::vector<std::vector<int>> map(height, std::vector<int>(width, -1));
-	
-	return map;
-}
-
-void Map::saveMapToCSV(const std::vector<std::vector<int>>& map, const std::string& fileName) {
-	std::ofstream file(fileName);
-
-	if (!file.is_open()) {
-		std::cerr << "Failed to open file for writing: " << fileName << std::endl;
-		return;
-	}
-
-	for (const auto& row : map) {
-		for (size_t i = 0; i < row.size(); ++i) {
-			file << row[i];
-			if (i < row.size() - 1)
-				file << ",";
-		}
-		file << "\n";
-	}
-
-	file.close();
-}
 
 void Map::saveMapAsText(const std::string& fileName) {
-	std::ofstream file(fileName);
+
+	std::string text = "assets/Maps/" + fileName + ".txt";
+	std::ofstream file(text);
 
 	if (!file.is_open()) {
-		std::cerr << "Failed to open file for writing: " << fileName << std::endl;
+		std::cerr << "Failed to open file for writing: " << text << std::endl;
 		return;
 	}
 
+	file << "Total number of nodes: " << nodes.size() << "\n";
+
+	for (auto& entity : nodes) { 
+		
+		if (entity->hasComponent<TransformComponent>()) {
+			TransformComponent& tc = entity->GetComponent<TransformComponent>();
+			file << entity->getId() << "\t"; // id is the index in the vector of entities
+			file <<  tc.getPosition().x << " " << tc.getPosition().y << "\t";
+			file << tc.width << "x" << tc.height << "\n";
+		}
+	}
+
+	file << "\n";
+	//file << "Total number of links: " << links.size() << "\n";
+
+	//for (auto& entity : links) {
+
+	//	if (entity->hasComponent<TransformComponent>()) {
+	//		TransformComponent& tc = entity->GetComponent<TransformComponent>();
+	//		file << entity->getId() << "\t"; // id is the index in the vector of entities
+	//		file << tc.getPosition().x << " " << tc.getPosition().y << "\t";
+	//		file << tc.width << "x" << tc.height << "\n";
+	//	}
+	//}
+
+	file.close();
 }
 
 void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Entity&, int, int)) {
@@ -100,40 +104,6 @@ void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Enti
 	}
 }
 
-glm::ivec2 Map::GetLayerDimensions(std::string filePath)
-{
-	std::fstream mapFile;
-
-	mapFile.open(filePath);
-
-	if (!mapFile.is_open()) {
-		throw std::runtime_error("File stream is not open or in a bad state.");
-	}
-
-	std::string line;
-	int width = 0, height = 0;
-
-	if (getline(mapFile, line)) {
-		std::stringstream ss(line);
-		std::string cell;
-
-		while (getline(ss, cell, ',')) {
-			width++; 
-		}
-
-		height++;  
-	}
-
-	while (getline(mapFile, line)) {
-		height++;  
-	}
-
-	mapFile.clear();  
-	mapFile.seekg(0);
-
-	return glm::ivec2(width * scaledSize, height * scaledSize );
-}
-
 bool Map::tileHasFeature(Entity& tile, int wordNum, int featureTileArray[], int featureTileArraySize) {
 	int arrayTilesIndex = 0;
 
@@ -162,5 +132,5 @@ void Map::AddActionTile(Entity &tile, int xpos, int ypos)
 	//create Node function
 	tile.addComponent<TileComponent>(xpos, ypos, tileSize, mapScale); //insert tile and grid and colliders(somehow we refer to background)
 
-	tile.addGroup(Manager::groupActionLayer);
+	tile.addGroup(Manager::groupNodes_0);
 }

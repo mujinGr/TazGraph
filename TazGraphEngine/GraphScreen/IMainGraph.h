@@ -28,7 +28,7 @@ public:
 	InputManager _inputManager;
 	TazGraphEngine::Window _window;
 
-	BaseFPSLimiter getFPSLimiter() const { return _limiter; }
+	BaseFPSLimiter& getFPSLimiter() { return _limiter; }
 
 protected:
 	virtual void update(float deltaTime);

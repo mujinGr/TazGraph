@@ -17,12 +17,8 @@ public:
 	Map(std::string tID, int ms, int ts);
 	~Map();
 
-	std::vector<std::vector<int>> generateMap(int width, int height);
-
-	void saveMapToCSV(const std::vector<std::vector<int>>& map, const std::string& fileName);
 	void saveMapAsText(const std::string& fileName);
 	void ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Entity&, int, int));
-	glm::ivec2 GetLayerDimensions(std::string mapFile);
 	void LoadMap(std::string actionlayerpath);
 	void AddActionTile(Entity& tile, int xpos, int ypos);
 

@@ -22,6 +22,8 @@
 
 #include "GraphScreen/ScreenIndices.h"
 
+#include "../EditorIMGUI/EditorIMGUI.h"
+
 class AssetManager;
 
 class MainMenuScreen : public IGraphScreen {
@@ -45,7 +47,9 @@ public:
 
     virtual void draw() override;
 
+    virtual void BeginRender() override;
     virtual void updateUI() override;
+    virtual void EndRender() override;
 
     static SpriteBatch _spriteBatch;
 
@@ -67,4 +71,5 @@ private:
     int _nextScreenIndex = SCREEN_INDEX_GRAPHPLAY;
     int _prevScreenIndex = SCREEN_INDEX_GRAPHPLAY;
 
+    EditorIMGUI _editorImgui;
 };

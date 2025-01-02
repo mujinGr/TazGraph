@@ -93,6 +93,7 @@ public:
 	Entity& addEntity(bool is_hud = false)
 	{
 		Entity* e = new Entity(*this, is_hud);
+		e->setId(static_cast<unsigned int>(entities.size()));
 		std::unique_ptr<Entity> uPtr{ e };
 		entities.emplace_back(std::move(uPtr));
 
@@ -130,17 +131,11 @@ public:
 		panelBackground,
 
 		//action
-		groupActionLayer,
-		groupPlayers,
+		groupNodes_0,
 		groupLinks,
-		groupCircles,
 		groupColliders,
-		groupLabels,
 		
 		//fore
-		groupForeActionLayer,
-		startGraphGroup,
-		exitGraphGroup,
 		buttonLabels,
 		cursorGroup
 	};

@@ -21,5 +21,5 @@ public:
 	static bool checkCollision(const SDL_Rect recA, const SDL_Rect recB);
 	bool checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_Rect& recB);
 	void moveFromCollision(Entity& player);
-	bool moveFromOuterBounds(Entity& entity, TazGraphEngine::Window& window);
+	bool moveFromOuterBounds();
 };

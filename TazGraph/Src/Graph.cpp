@@ -31,8 +31,6 @@ TazGraphEngine::Window* Graph::_window = nullptr;
 
 auto& cursor(manager.addEntity());
 
-auto& nodeslabel(manager.addEntity(true));
-
 Graph::Graph(TazGraphEngine::Window* window)
 {
 	_window = window;
@@ -125,17 +123,13 @@ void Graph::onEntry()
 
 	Graph::map = new Map("terrain", 1, 32);
 
-	main_camera2D->worldDimensions= map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
+	//main_camera2D->worldDimensions= grid->GetLayerDimensions();
 
 	manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, CELL_SIZE);
 
 	map->LoadMap("assets/Maps/map_v3_Tile_Layer.csv");
 
 	assets->CreateCursor(cursor);
-
-	nodeslabel.addComponent<TransformComponent>(glm::vec2(32, 608), Manager::actionLayer, glm::ivec2(32, 32), 1);
-	nodeslabel.addComponent<UILabel>(&manager, "total nodes: 0", "arial");
-	nodeslabel.addGroup(Manager::groupLabels);
 
 	Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
 	music.play(-1);
@@ -145,9 +139,8 @@ void Graph::onExit() {
 	_debugRenderer.dispose();
 }
 
-auto& nodes(manager.getGroup(Manager::groupActionLayer));
+auto& nodes(manager.getGroup(Manager::groupNodes_0));
 auto& colliders(manager.getGroup(Manager::groupColliders));
-auto& labels(manager.getGroup(Manager::groupLabels));
 
 auto& cursors(manager.getGroup(Manager::cursorGroup));
 
@@ -188,7 +181,7 @@ void Graph::update(float deltaTime) //game objects updating
 
 	}
 	// make camera not being able to move out of bounds
-	//collision.moveFromOuterBounds(*pl, *_window);
+	//collision.moveFromOuterBounds();
 }
 
 
@@ -284,8 +277,12 @@ void Graph::checkInput() {
 	}
 }
 
-void Graph::updateUI() {
+void Graph::BeginRender() {
+	_editorImgui.BeginRender();
+}
 
+void Graph::updateUI() {
+	_editorImgui.BackGroundUIElement();
 	ImGui::Begin("Background UI");
 	ImGui::Text("This is a Background UI element.");
 	ImGui::ColorEdit4("Background Color", backgroundColor);
@@ -334,47 +331,13 @@ void Graph::updateUI() {
 			ImGui::Text("Grid index: %d with x: %d and y: %d", manager.grid->getCell(*_selectedEntity), cellX, cellY);
 		}
 	}
-	else {
-		ImGui::NewLine();
-		ImGui::NewLine();
-		ImGui::NewLine();
-		ImGui::NewLine();
-	}
-	ImGui::Separator();
-	ImGui::Text("Actions:");
-	if (ImGui::Button("Save", ImVec2(-1.0f, 0.0f))) {
-		map->saveMapAsText();
-	}
-	if (ImGui::Button("Load", ImVec2(-1.0f, 0.0f))) {
-		// Code to load a state
-	}
-	if (ImGui::Button("Back", ImVec2(-1.0f, 0.0f))) {
-		// Code to go back or close the window
-	}
 	ImGui::End();
-	ImGui::Begin("Performance");
-	if (ImPlot::BeginPlot("FPS Plot")) {
-#if defined(_WIN32) || defined(_WIN64)
-		int plot_count = min(getInterfaceGraph()->getFPSLimiter().fps_history_count,
-			getInterfaceGraph()->getFPSLimiter().fpsHistoryIndx); // Ensuring we do not read out of bounds
-		int plot_offset = max(0,
-			getInterfaceGraph()->getFPSLimiter().fpsHistoryIndx - getInterfaceGraph()->getFPSLimiter().fps_history_count); // Ensure a positive offset
-#else
-		int plot_count = std::min(getInterfaceGraph()->getFPSLimiter().fps_history_count,
-			getInterfaceGraph()->getFPSLimiter().fpsHistoryIndx); // Ensuring we do not read out of bounds
-		int plot_offset = std::max(0,
-			getInterfaceGraph()->getFPSLimiter().fpsHistoryIndx - getInterfaceGraph()->getFPSLimiter().fps_history_count); // Ensure a positive offset
+	_editorImgui.FileActions(map);
+	_editorImgui.FPSCounter(getInterfaceGraph()->getFPSLimiter());
+}
 
-#endif
-		
-		ImPlot::SetupAxesLimits(0, 100, 0, 70);
-
-		ImPlot::PlotLine("FPS", &getInterfaceGraph()->getFPSLimiter().fpsHistory[0], plot_count);
-
-		ImPlot::EndPlot();
-	}
-	ImGui::End();
-
+void Graph::EndRender() {
+	_editorImgui.EndRender();
 }
 
 void Graph::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { 
@@ -394,7 +357,7 @@ void Graph::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch
 		}
 	}
 	batch.end();
-	batch.renderBatch();
+	batch.renderBatch(); // todo: instead of rendering on each group, import allentities for renderBatches
 }
 
 void Graph::draw()
@@ -472,9 +435,9 @@ void Graph::draw()
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
-	drawHUD(labels, "arial");
+	/*drawHUD(labels, "arial");
 	_resourceManager.getGLSLProgram("color")->use();
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 

@@ -190,13 +190,10 @@ void IMainGraph::draw() {
 void IMainGraph::updateUI()
 {
 	// Start the Dear ImGui frame
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
+	_currentScreen->BeginRender();
 	if (_currentScreen && _currentScreen->getState() == ScreenState::RUNNING) {
 		_currentScreen->updateUI();
 	}
 	// Rendering
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	_currentScreen->EndRender();
 }

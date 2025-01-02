@@ -116,8 +116,6 @@ void MainMenuScreen::onEntry()
 }
 
 auto& mainmenubackground(main_menu_manager.getGroup(Manager::groupBackgroundLayer));
-auto& panelBackground(main_menu_manager.getGroup(Manager::panelBackground));
-auto& buttonLabels(main_menu_manager.getGroup(Manager::buttonLabels));
 
 
 void MainMenuScreen::onExit()
@@ -163,15 +161,7 @@ void MainMenuScreen::draw()
 
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), "graphnetwork", *main_camera2D);
 	renderBatch(mainmenubackground);
-
-	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("color"), "", *hud_camera2D);
-	renderBatch(panelBackground);
-
-	_resourceManager.getGLSLProgram("color")->unuse();
-	// render letters
-	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), "arial", *hud_camera2D);
-	renderBatch(buttonLabels);
-
+	
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//drawHUD();
 	_resourceManager.getGLSLProgram("texture")->unuse();
@@ -203,6 +193,10 @@ void MainMenuScreen::checkInput() {
 
 
 	}
+}
+
+void MainMenuScreen::BeginRender() {
+	_editorImgui.BeginRender();
 }
 
 void MainMenuScreen::updateUI() {
@@ -239,6 +233,10 @@ void MainMenuScreen::updateUI() {
 	}
 
 	ImGui::End();
+}
+
+void MainMenuScreen::EndRender() {
+	_editorImgui.EndRender();
 }
 
 bool MainMenuScreen::onStartSimulator() {

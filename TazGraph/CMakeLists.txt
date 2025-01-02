@@ -49,7 +49,7 @@ include_directories(${SDL2_TTF_INCLUDE_DIRS})
 
 
 # Set the local include of IMGUI
-set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/IMGUI")
+set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/imgui")
 include_directories(${IMGUI_INCLUDE_DIR})
 
 

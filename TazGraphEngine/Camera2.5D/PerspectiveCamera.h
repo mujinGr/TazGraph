@@ -6,8 +6,6 @@
 
 class PerspectiveCamera : public ICamera{
 public:
-	glm::ivec2 worldDimensions{0,0};
-
 	glm::vec3 eyePos{ 0,0,0 };
 	glm::vec3 aimPos{ 0,0,0 };
 	glm::vec3 upDir{0,-1,0};

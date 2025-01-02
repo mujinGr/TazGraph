@@ -73,6 +73,8 @@ public:
 class Entity
 {
 private:
+	unsigned int id;
+
 	Manager& manager;
 	bool active = true;
 	ComponentArray componentArray;//create 2 arrays, this is for the fast access
@@ -83,10 +85,11 @@ private:
 
 	Entity* parent_entity = nullptr;
 
-
-
 public:
 	bool paused = false;
+
+	void setId(unsigned int m_id) { id = m_id; }
+	unsigned int getId() { return id; }
 
 	bool checkCollision(const SDL_Rect recA, const SDL_FRect recB) {
 		if (recA.x > recB.x + recB.w + CULLING_OFFSET || recA.x + recA.w < recB.x - CULLING_OFFSET ||
