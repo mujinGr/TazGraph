@@ -282,58 +282,12 @@ void Graph::BeginRender() {
 }
 
 void Graph::updateUI() {
-	_editorImgui.BackGroundUIElement();
-	ImGui::Begin("Background UI");
-	ImGui::Text("This is a Background UI element.");
-	ImGui::ColorEdit4("Background Color", backgroundColor);
-	// Change color based on the debug mode state
-	if (_renderDebug) {
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.7f, 0.2f, 1.0f));  // Green for ON
-	}
-	else {
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.7f, 0.2f, 0.2f, 1.0f));  // Red for OFF
-	}
-
-	// Button toggles the debug mode
-	if (ImGui::Button("Enable Debug Mode")) {
-		_renderDebug = !_renderDebug;  // Toggle the state
-	}
-
-	ImGui::PopStyleColor(1);
-	ImGui::Text("Camera Position");
-
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-
-	ImGui::Text("Rect: {x: %f, y: %f, w: %f, h: %f}", main_camera2D->getCameraRect().x, main_camera2D->getCameraRect().y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
-	
-	if (ImGui::SliderFloat3("Eye Position", &main_camera2D->eyePos[0], -1000.0f, 1000.0f)) {
-		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
-	}
-	if (ImGui::SliderFloat3("Aim Position", &main_camera2D->aimPos[0], -1000.0f, 1000.0f)) {
-		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
-	}
-	if (ImGui::SliderFloat3("Up Direction", &main_camera2D->upDir[0], -1000.0f, 1000.0f)) {
-		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
-	}
-
-	ImGui::Text("Mouse Coords: {x: %f, y: %f}", _graph->_inputManager.getMouseCoords().x, _graph->_inputManager.getMouseCoords().y);
-
-	if (_selectedEntity) {
-		ImGui::Text("Selected Entity Details");
-
-		// Example: Display components of the selected entity
-		if (_selectedEntity->hasComponent<TransformComponent>()) {
-			TransformComponent* tr = &_selectedEntity->GetComponent<TransformComponent>();
-			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
-			ImGui::Text("Size: (%d, %d)", tr->width, tr->height);
-			int cellX = (int)(std::floor(tr->getPosition().x / CELL_SIZE));
-			int cellY = (int)(std::floor(tr->getPosition().y / CELL_SIZE));
-			ImGui::Text("Grid index: %d with x: %d and y: %d", manager.grid->getCell(*_selectedEntity), cellX, cellY);
-		}
-	}
-	ImGui::End();
+	_editorImgui.BackGroundUIElement(_renderDebug, _graph->_inputManager.getMouseCoords(), manager, _selectedEntity, backgroundColor, CELL_SIZE);
 	_editorImgui.FileActions(map);
 	_editorImgui.FPSCounter(getInterfaceGraph()->getFPSLimiter());
+	if (_editorImgui.isSaving()) {
+		_editorImgui.InputFileName();
+	}
 }
 
 void Graph::EndRender() {
