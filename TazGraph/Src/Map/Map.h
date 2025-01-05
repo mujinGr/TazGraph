@@ -17,13 +17,11 @@ public:
 	Map(std::string tID, int ms, int ts);
 	~Map();
 
-	void saveMapAsText(const std::string& fileName);
-	void ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Entity&, int, int));
-	void LoadMap(std::string actionlayerpath);
-	void AddActionTile(Entity& tile, int xpos, int ypos);
+	void saveMapAsText(const char* fileName);
+	void ProcessFile(std::ifstream& mapFile, void(Map::* addNodeFunction)(Entity&, int, int));
+	void loadTextMap(const char* fileName);
+	void AddDefaultNode(Entity& node, int xpos, int ypos);
 
-	bool tileHasFeature(Entity& tile, int wordNum, int featureTileArray[], int featureTileArraySize); //, void (Map::* addTileFeature)(Entity&)
-	//void DrawMap();
 private:
 	int stage = 0;
 	std::string texID;

@@ -11,18 +11,28 @@
 
 namespace fs = std::filesystem;
 
+// it is to provide the ImgUI functions for the whole project
 class EditorIMGUI : public ImGuiInterface {
 private:
+	std::vector<std::string> _fileNames;
+	ImGui::ComboAutoSelectData _data;
+	bool _filesLoaded = false;
+
 	bool _isSaving = false;
+	bool _isLoading = false;
 public:
 	EditorIMGUI();
 
 	~EditorIMGUI();
 
 	bool isSaving();
+	bool isLoading();
 
 	void BackGroundUIElement(bool& renderDebug, glm::vec2 mouseCoords, const Manager& manager, Entity* selectedEntity, float(&backgroundColor)[4], int cell_size);
-	void FileActions(Map* map);
+	void FileActions();
 	void FPSCounter(const BaseFPSLimiter& baseFPSLimiter);
-	void InputFileName();
+	void ReloadAccessibleFiles();
+	void SavingUI(Map* map);
+	void LoadingUI(Map* map);
+	void MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onExitSimulator);
 };

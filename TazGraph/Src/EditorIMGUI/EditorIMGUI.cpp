@@ -12,6 +12,11 @@ bool EditorIMGUI::isSaving() {
 	return _isSaving;
 }
 
+bool EditorIMGUI::isLoading()
+{
+	return _isLoading;
+}
+
 void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, const Manager& manager, Entity* selectedEntity, float(& backgroundColor)[4], int cell_size) {
 	ImGui::Begin("Background UI");
 	ImGui::Text("This is a Background UI element.");
@@ -64,14 +69,13 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 	ImGui::End();
 }
 
-void EditorIMGUI::FileActions(Map* map) {
+void EditorIMGUI::FileActions() {
 	ImGui::Begin("File Actions");
 	if (ImGui::Button("Save", ImVec2(-1.0f, 0.0f))) {
-		map->saveMapAsText("dummy_graph");
 		_isSaving = true;
 	}
 	if (ImGui::Button("Load", ImVec2(-1.0f, 0.0f))) {
-		// Code to load a state
+		_isLoading = true;
 	}
 	if (ImGui::Button("Back", ImVec2(-1.0f, 0.0f))) {
 		// Code to go back or close the window
@@ -106,29 +110,126 @@ void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
 
 }
 
-void EditorIMGUI::InputFileName() {
-	ImGui::Begin("File Input Window");
-
-	static std::vector<std::string> fileNames; // Vector to store file names
-	static bool filesLoaded = false; // To ens
-
-	if (!filesLoaded) {
-		fileNames.clear();
+void EditorIMGUI::ReloadAccessibleFiles() {
+	if (!_filesLoaded) {
+		_fileNames.clear();
 		const std::string path = "assets/Maps"; // Directory path
 		for (const auto& entry : fs::directory_iterator(path)) {
 			if (entry.is_regular_file()) {
-				fileNames.push_back(entry.path().filename().string()); // Add file name to vector
+				_fileNames.push_back(entry.path().filename().string()); // Add file name to vector
 			}
 		}
-		filesLoaded = true; // Set to true so we don't reload unnecessarily
+		_filesLoaded = true; // Set to true so we don't reload unnecessarily
+	}
+}
+
+void EditorIMGUI::SavingUI(Map* map) {
+
+	ImGuiIO& io = ImGui::GetIO();
+	ImVec2 windowSize(400, 100); // Desired window size
+	ImVec2 windowPos((io.DisplaySize.x - windowSize.x) * 0.5f,
+		(io.DisplaySize.y - windowSize.y) * 0.5f);
+
+	ImGui::SetNextWindowPos(windowPos);
+	ImGui::SetNextWindowSize(windowSize);
+
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize;
+	bool open = true;
+	ImGui::Begin("Saving...", &open, window_flags);
+
+	ReloadAccessibleFiles();
+
+	_data.SetSelectData(std::move(_fileNames));
+
+	if (ImGui::ComboAutoSelect("Select File", _data)) {
+	}
+	ImGui::NewLine();
+	float windowWidth = ImGui::GetContentRegionAvail().x;
+	float buttonWidth = 100; // Define the button width you want
+	ImGui::SetCursorPosX((windowWidth - buttonWidth) * 0.5f); // Center the button
+
+	if (ImGui::Button("Save", ImVec2(buttonWidth, 0))) {
+		map->saveMapAsText(_data.input); // save Map that is selected
+		_isSaving = false;
+		_filesLoaded = false;
 	}
 
-	static ImGui::ComboAutoSelectData data(std::move(fileNames));
-
-	if (ImGui::ComboAutoSelect("my combofilter", data)) {
+	if (!open) {
+		_isSaving = false;
 	}
 
-	ImGui::Text("Selection: %s, index = %d", data.input, data.index);
+	ImGui::End();
+}
+
+void EditorIMGUI::LoadingUI(Map* map) {
+	ImGuiIO& io = ImGui::GetIO();
+	ImVec2 windowSize(400, 100); // Desired window size
+	ImVec2 windowPos((io.DisplaySize.x - windowSize.x) * 0.5f,
+		(io.DisplaySize.y - windowSize.y) * 0.5f);
+
+	ImGui::SetNextWindowPos(windowPos);
+	ImGui::SetNextWindowSize(windowSize);
+
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize;
+	bool open = true;
+	ImGui::Begin("Loading...", &open, window_flags);
+
+	ReloadAccessibleFiles();
+
+	_data.SetSelectData(std::move(_fileNames));
+
+	if (ImGui::ComboAutoSelect("Select File", _data)) {
+	}
+	ImGui::NewLine();
+	float windowWidth = ImGui::GetContentRegionAvail().x;
+	float buttonWidth = 100; // Define the button width you want
+	ImGui::SetCursorPosX((windowWidth - buttonWidth) * 0.5f); // Center the button
+
+	if (ImGui::Button("Load", ImVec2(buttonWidth, 0))) {
+		map->loadTextMap(_data.input);
+		_isLoading = false;
+	}
+
+	if (!open) {
+		_isLoading = false;
+	}
+
+	ImGui::End();
+}
+
+void EditorIMGUI::MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onExitSimulator)
+{
+	float windowWidth = 200; // Increased window width
+	float windowHeight = 200;
+	float buttonWidth = 180;  // Define a larger button width
+	float buttonHeight = 50;  // Define a larger button height
+
+	ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x * 0.5f, ImGui::GetIO().DisplaySize.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+	ImGui::SetNextWindowSize(ImVec2(windowWidth, windowHeight));  // Set the size of the window as needed
+	ImGui::Begin("Control Window", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
+
+	float buttonPosX = (windowWidth - buttonWidth) * 0.5f; // Center the button
+	float buttonSpacing = 5;
+
+	ImGui::SetCursorPosX(buttonPosX);
+	if (ImGui::Button("Start New", ImVec2(buttonWidth, buttonHeight))) {
+		onStartSimulator();
+	}
+
+	ImGui::Dummy(ImVec2(0.0f, buttonSpacing));
+
+	ImGui::SetCursorPosX(buttonPosX);
+	if (ImGui::Button("Load", ImVec2(buttonWidth, buttonHeight))) {
+		// Code to load an existing graph
+		// Example: _graph->loadGraphFromFile();
+	}
+
+	ImGui::Dummy(ImVec2(0.0f, buttonSpacing));
+
+	ImGui::SetCursorPosX(buttonPosX);
+	if (ImGui::Button("Exit", ImVec2(buttonWidth, buttonHeight))) {
+		onExitSimulator();
+	}
 
 	ImGui::End();
 }

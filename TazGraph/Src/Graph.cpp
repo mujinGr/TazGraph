@@ -127,7 +127,7 @@ void Graph::onEntry()
 
 	manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, CELL_SIZE);
 
-	map->LoadMap("assets/Maps/map_v3_Tile_Layer.csv");
+	map->loadTextMap("dummy_graph.txt");
 
 	assets->CreateCursor(cursor);
 
@@ -283,10 +283,13 @@ void Graph::BeginRender() {
 
 void Graph::updateUI() {
 	_editorImgui.BackGroundUIElement(_renderDebug, _graph->_inputManager.getMouseCoords(), manager, _selectedEntity, backgroundColor, CELL_SIZE);
-	_editorImgui.FileActions(map);
+	_editorImgui.FileActions();
 	_editorImgui.FPSCounter(getInterfaceGraph()->getFPSLimiter());
 	if (_editorImgui.isSaving()) {
-		_editorImgui.InputFileName();
+		_editorImgui.SavingUI(map);
+	}
+	if (_editorImgui.isLoading()) {
+		_editorImgui.LoadingUI(map);
 	}
 }
 

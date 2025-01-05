@@ -1,21 +1,14 @@
 #include "Map.h"
 #include "GOS/Components.h"
 #include "../GOS/ScriptComponents.h"
+#include <iostream>
 
 extern Manager manager;
 extern std::vector<Entity*>& nodes;
 
-int solidTiles[] = {1};
-
-std::vector<TileFeatureCallback> tileFeatures;
-
 Map::Map(std::string tID, int ms, int ts) : texID(tID), mapScale(ms), tileSize(ts) //probably initiallization
 {
 	scaledSize = ms * ts;
-
-	//TileFeatureCallback addBouncyFeature = &Map::addBouncyTileFeature;
-
-	//tileFeatures.push_back(addBouncyFeature);
 }
 
 Map::~Map()
@@ -24,9 +17,9 @@ Map::~Map()
 }
 
 
-void Map::saveMapAsText(const std::string& fileName) {
+void Map::saveMapAsText(const char* fileName) {
 
-	std::string text = "assets/Maps/" + fileName + ".txt";
+	std::string text = "assets/Maps/" + std::string(fileName);
 	std::ofstream file(text);
 
 	if (!file.is_open()) {
@@ -62,75 +55,50 @@ void Map::saveMapAsText(const std::string& fileName) {
 	file.close();
 }
 
-void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Entity&, int, int)) {
-	
-	int x = 0, y = 0;
+void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Entity&, int, int)) {
+	std::string line;
+	std::getline(mapFile, line);
 
-	int wordNum = 0;
-	int arrayTilesIndex = 0;
+	while (std::getline(mapFile, line)) {
+		std::istringstream nodeLine(line);
+		int id;
+		float x, y;
+		int width, height;
+		char separator;
 
-	int srcX, srcY;
+		nodeLine >> id; // Read entity ID
+		nodeLine >> x >> y; // Read position x, y
+		nodeLine >> width >> separator >> height; // Read dimensions width x height
 
-	std::string line, word;
+		auto& tile(manager.addEntity());
+		(this->*addNodeFunction)(tile, x, y);
 
-	while (getline(mapFile, line)) //reading tiles (action layer)
-	{
-		std::stringstream str(line);
+		manager.grid->addEntity(&tile);
 
-		while (getline(str, word, ',')) //this is searching in tilemap
-		{
-			wordNum = stoi(word);
-
-			if (wordNum >= 0) {
-				srcY = (wordNum / 16) * tileSize;
-				srcX = (wordNum % 16) * tileSize; //adding tile based on srcX,srcY coordinates
-
-				auto& tile(manager.addEntity());
-				(this->*addTileFunction)(tile, x * scaledSize, y * scaledSize);
-
-				for (int i = 0; i < tileFeatures.size(); i++) {
-					(this->*tileFeatures[i])(tile, wordNum);
-				}
-				manager.grid->addEntity(&tile);
-			}
-
-			x++;
-		}
-		x = 0;
-		y++;
-		if (y == 40) {
-			break;
-		}
+		std::cout << "Loaded entity ID " << id << " at position (" << x << ", " << y
+			<< ") with size " << width << "x" << height << std::endl;
 	}
 }
 
-bool Map::tileHasFeature(Entity& tile, int wordNum, int featureTileArray[], int featureTileArraySize) {
-	int arrayTilesIndex = 0;
+void Map::loadTextMap(const char* fileName) {
 
-	for (arrayTilesIndex = 0; arrayTilesIndex < featureTileArraySize; arrayTilesIndex++)
-	{
-		if (wordNum == featureTileArray[arrayTilesIndex])
-		{
-			return true;//(this->*addTileFeature)(tile);
-		}
+	std::string text = "assets/Maps/" + std::string(fileName);
+	std::ifstream file(text);
+
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file for writing: " << text << std::endl;
+		return;
 	}
-	return false;
+
+	ProcessFile(file, &Map::AddDefaultNode);
+
+	file.close();
 }
 
-void Map::LoadMap( std::string actionlayerpath)
-{
-	std::fstream mapFile;
-
-	mapFile.open(actionlayerpath);
-	ProcessLayer(mapFile, &Map::AddActionTile);
-	mapFile.close();
-
-}
-
-void Map::AddActionTile(Entity &tile, int xpos, int ypos)
+void Map::AddDefaultNode(Entity &node, int xpos, int ypos)
 {
 	//create Node function
-	tile.addComponent<TileComponent>(xpos, ypos, tileSize, mapScale); //insert tile and grid and colliders(somehow we refer to background)
+	node.addComponent<TileComponent>(xpos, ypos, tileSize, mapScale); //insert tile and grid and colliders(somehow we refer to background)
 
-	tile.addGroup(Manager::groupNodes_0);
+	node.addGroup(Manager::groupNodes_0);
 }
