@@ -90,9 +90,9 @@ public:
 		return groupedEntities[mGroup];
 	}
 
-	Entity& addEntity(bool is_hud = false)
+	Entity& addEntity()
 	{
-		Entity* e = new Entity(*this, is_hud);
+		Entity* e = new Entity(*this);
 		e->setId(static_cast<unsigned int>(entities.size()));
 		std::unique_ptr<Entity> uPtr{ e };
 		entities.emplace_back(std::move(uPtr));
@@ -105,6 +105,14 @@ public:
 			group.clear();
 		}
 		entities.clear();
+	}
+
+	void removeAllEntitiesFromGroup(Group mGroup) {
+		auto& entitiesInGroup = groupedEntities[mGroup];
+
+		for (Entity* entity : entitiesInGroup) {
+			entity->destroy();
+		}
 	}
 
 	std::vector<Entity*> adjacentEntities(Entity* mainEntity, Group group) {

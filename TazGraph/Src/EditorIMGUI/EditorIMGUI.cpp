@@ -70,7 +70,22 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 }
 
 void EditorIMGUI::FileActions() {
-	ImGui::Begin("File Actions");
+
+	ImVec2 displaySize = ImGui::GetIO().DisplaySize;
+
+	// Calculate the window size as a fraction of display size
+	float windowWidth = displaySize.x * 0.15f;  // 40% of the application window's width
+	float windowHeight = displaySize.y * 0.08f; // 30% of the application window's height
+
+	// Set the next window size
+	ImGui::SetNextWindowSize(ImVec2(windowWidth, windowHeight), ImGuiCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(0.0f,0.0f), ImGuiCond_Once);
+
+	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoResize |
+		ImGuiWindowFlags_NoTitleBar;
+
+	ImGui::Begin("File Actions", NULL, windowFlags);
 	if (ImGui::Button("Save", ImVec2(-1.0f, 0.0f))) {
 		_isSaving = true;
 	}

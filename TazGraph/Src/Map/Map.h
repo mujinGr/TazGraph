@@ -18,9 +18,9 @@ public:
 	~Map();
 
 	void saveMapAsText(const char* fileName);
-	void ProcessFile(std::ifstream& mapFile, void(Map::* addNodeFunction)(Entity&, int, int));
+	void ProcessFile(std::ifstream& mapFile, void(Map::* addNodeFunction)(Entity&, glm::vec2 mPosition));
 	void loadTextMap(const char* fileName);
-	void AddDefaultNode(Entity& node, int xpos, int ypos);
+	void AddDefaultNode(Entity& node, glm::vec2 mPosition);
 
 private:
 	int stage = 0;

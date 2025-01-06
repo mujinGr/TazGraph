@@ -55,7 +55,7 @@ void Map::saveMapAsText(const char* fileName) {
 	file.close();
 }
 
-void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Entity&, int, int)) {
+void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Entity&, glm::vec2 mPosition)) {
 	std::string line;
 	std::getline(mapFile, line);
 
@@ -71,7 +71,7 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 		nodeLine >> width >> separator >> height; // Read dimensions width x height
 
 		auto& tile(manager.addEntity());
-		(this->*addNodeFunction)(tile, x, y);
+		(this->*addNodeFunction)(tile, glm::vec2(x, y));
 
 		manager.grid->addEntity(&tile);
 
@@ -89,16 +89,19 @@ void Map::loadTextMap(const char* fileName) {
 		std::cerr << "Failed to open file for writing: " << text << std::endl;
 		return;
 	}
-
+	//todo: loop through the entities and destroy them
+	manager.removeAllEntitiesFromGroup(Manager::groupNodes_0);
 	ProcessFile(file, &Map::AddDefaultNode);
 
 	file.close();
 }
 
-void Map::AddDefaultNode(Entity &node, int xpos, int ypos)
+void Map::AddDefaultNode(Entity &node, glm::vec2 mPosition)
 {
 	//create Node function
-	node.addComponent<TileComponent>(xpos, ypos, tileSize, mapScale); //insert tile and grid and colliders(somehow we refer to background)
+	node.addComponent<TransformComponent>(mPosition, Manager::actionLayer, glm::ivec2(32, 32), 1);
+	node.addComponent<Rectangle_w_Color>();
+	node.GetComponent<Rectangle_w_Color>().color = Color(0, 40, 224, 255);
 
 	node.addGroup(Manager::groupNodes_0);
 }

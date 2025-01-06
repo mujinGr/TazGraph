@@ -13,8 +13,6 @@
 #include "./RigidBodyComponent.h"
 
 #include "./KeyboardControllerComponent.h"
-#include "./LightComponent.h"
 
 #include "./GridComponent.h"
-#include "./TileComponent.h"
 

@@ -81,8 +81,6 @@ private:
 	ComponentBitSet componentBitSet;
 	GroupBitSet groupBitSet;
 
-	bool isHud = false;
-
 	Entity* parent_entity = nullptr;
 
 public:
@@ -100,17 +98,10 @@ public:
 	}
 	Cell* ownerCell = nullptr;
 	std::vector<std::unique_ptr<Component>> components; //create 2 arrays, this is for the concurrent access
-	Entity(Manager& mManager, bool is_hud ) : manager(mManager), isHud(is_hud) {}
-
-	bool getIsHud() {
-		return isHud;
-	}
+	Entity(Manager& mManager) : manager(mManager) {}
 
 	void update(float deltaTime)
 	{
-		if (isHud) {
-			updateFully(deltaTime);
-		}
 		
 		for (auto& c : components) {
 			c->update(deltaTime); // start from which was added first

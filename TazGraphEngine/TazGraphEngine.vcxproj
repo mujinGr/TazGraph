@@ -182,12 +182,9 @@
     <ClInclude Include="GOS\Animators\FlashAnimation.h" />
     <ClInclude Include="GOS\Animators\FlashAnimatorComponent.h" />
     <ClInclude Include="GOS\GridComponent.h" />
-    <ClInclude Include="GOS\LightComponent.h" />
-    <ClInclude Include="GOS\LightTextureComponent.h" />
     <ClInclude Include="GOS\Rectangle_w_Color.h" />
     <ClInclude Include="GOS\RigidBodyComponent.h" />
     <ClInclude Include="GOS\SpriteComponent.h" />
-    <ClInclude Include="GOS\TileComponent.h" />
     <ClInclude Include="GOS\TransformComponent.h" />
     <ClInclude Include="GraphScreen\IGraphScreen.h" />
     <ClInclude Include="GraphScreen\IMainGraph.h" />

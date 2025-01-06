@@ -303,7 +303,7 @@ void Graph::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch
 
 	batch.begin();
 	for (const auto& entity : entities) {
-		if (!entity->getIsHud() && entity->hasComponent<Rectangle_w_Color>()) {
+		if (entity->hasComponent<Rectangle_w_Color>()) {
 			Rectangle_w_Color entityRectangle = entity->GetComponent<Rectangle_w_Color>();
 			if (entity->checkCollision(entityRectangle.destRect, main_camera2D->getCameraRect())) { //draw culling
 				entity->draw(batch, *Graph::_window);
