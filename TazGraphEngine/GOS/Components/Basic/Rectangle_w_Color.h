@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Components.h"
+#include "../../Components.h"
 
 class Rectangle_w_Color : public Component
 {

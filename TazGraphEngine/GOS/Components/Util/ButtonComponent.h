@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Components.h"
+#include "../../Components.h"
 #include <functional>  // For std::function
 
 class ButtonComponent : public Component {

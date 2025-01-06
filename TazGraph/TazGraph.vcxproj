@@ -175,6 +175,16 @@
   <ItemGroup>
     <Image Include="assets\Sprites\block_networkMiserable.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Src\Shaders\circleColorShading.frag" />
+    <None Include="Src\Shaders\circleColorShading.vert" />
+    <None Include="Src\Shaders\colorShading.frag" />
+    <None Include="Src\Shaders\colorShading.vert" />
+    <None Include="Src\Shaders\textureBright.frag" />
+    <None Include="Src\Shaders\textureBright.vert" />
+    <None Include="Src\Shaders\textureShading.frag" />
+    <None Include="Src\Shaders\textureShading.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

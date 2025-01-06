@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Components.h"
+#include "../../Components.h"
 
-#include "GOSManager.h"
+#include "../../GOSManager.h"
 
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {

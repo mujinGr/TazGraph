@@ -1,5 +1,5 @@
 #pragma once
-#include "Components.h"
+#include "../../Components.h"
 
 class RigidBodyComponent : public Component
 {

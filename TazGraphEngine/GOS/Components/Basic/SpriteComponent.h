@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Components.h"
+#include "../../Components.h"
 #include <SDL2/SDL.h>
 #include "GL/glew.h"
-#include "../TextureManager/TextureManager.h"
-#include "Animators/Animation.h"
-#include "Animators/MovingAnimation.h"
-#include "Animators/FlashAnimation.h"
+#include "../../../TextureManager/TextureManager.h"
+#include "../../Animators/Animation.h"
+#include "../../Animators/MovingAnimation.h"
+#include "../../Animators/FlashAnimation.h"
 #include <map>
-#include "../Vertex.h"
+#include "../../../Vertex.h"
 #include <cstddef>
 
 

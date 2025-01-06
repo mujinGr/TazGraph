@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../PNG_Letters.h"
-#include "Components.h"
+#include "../../Components.h"
 
 class Manager;
 

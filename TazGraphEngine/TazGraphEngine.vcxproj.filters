@@ -143,25 +143,25 @@
     <ClInclude Include="Camera2.5D\PerspectiveCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\ColliderComponent.h">
+    <ClInclude Include="GOS\Components\Basic\ColliderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Rectangle_w_Color.h">
+    <ClInclude Include="GOS\Components\Basic\Rectangle_w_Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GOS\GOS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\TransformComponent.h">
+    <ClInclude Include="GOS\Components\Basic\TransformComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\SpriteComponent.h">
+    <ClInclude Include="GOS\Components\Basic\SpriteComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\RigidBodyComponent.h">
+    <ClInclude Include="GOS\Components\Util\RigidBodyComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\GridComponent.h">
+    <ClInclude Include="GOS\Components\Util\GridComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GOS\Animators\FlashAnimatorComponent.h">
@@ -170,7 +170,7 @@
     <ClInclude Include="GOS\Animators\FlashAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\ButtonComponent.h">
+    <ClInclude Include="GOS\Components\Util\ButtonComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GOS\Animators\AnimatorManager.h">
@@ -210,6 +210,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiInterface\ImGuiInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GOS\Components\Graph\LinkComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GOS\Components\Graph\NodeComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GOS\Components\Util\KeyboardControllerComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GOS\Components\Util\UILabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GOS\Animators\MovingAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GOS\Animators\MovingAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
