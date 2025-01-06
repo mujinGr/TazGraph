@@ -83,5 +83,7 @@
     <None Include="Src\Shaders\textureBright.vert" />
     <None Include="Src\Shaders\textureShading.frag" />
     <None Include="Src\Shaders\textureShading.vert" />
+    <None Include="Src\Shaders\lineColorShading.frag" />
+    <None Include="Src\Shaders\lineColorShading.vert" />
   </ItemGroup>
 </Project>

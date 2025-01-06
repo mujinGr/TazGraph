@@ -8,7 +8,7 @@
 #include <array>
 
 #include <SDL2/SDL.h>
-#include "../SpriteBatch/SpriteBatch.h"
+#include "../Renderers/PlaneModelRenderer/PlaneModelRenderer.h"
 #include "../Camera2.5D/CameraManager.h"
 #include "../Window/Window.h"
 
@@ -53,7 +53,7 @@ public:
 
 	virtual void init(){}
 	virtual void update(float deltaTime) {}
-	virtual void draw(SpriteBatch&  batch, TazGraphEngine::Window& window) {}
+	virtual void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) {}
 
 	virtual SDL_Rect getRect() 
 	{
@@ -117,7 +117,7 @@ public:
 			c->update(deltaTime); // start from which was added first
 		}
 	}
-	void draw(SpriteBatch&  batch, TazGraphEngine::Window& window) 
+	void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) 
 	{
 		for (auto& c : components) { 
 			c->draw(batch, window); 

@@ -42,7 +42,7 @@
     <ClCompile Include="BaseFPSLimiter\BaseFPSLimiter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteBatch\SpriteBatch.cpp">
+    <ClCompile Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GOS\GOS.cpp">
@@ -57,7 +57,7 @@
     <ClCompile Include="Grid\Grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DebugRenderer\DebugRenderer.cpp">
+    <ClCompile Include="Renderers\LineRenderer\LineRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Camera2.5D\OrthoCamera.h">
@@ -137,7 +137,7 @@
     <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteBatch\SpriteBatch.h">
+    <ClInclude Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera2.5D\PerspectiveCamera.h">
@@ -203,7 +203,7 @@
     <ClInclude Include="GOS\GOSManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DebugRenderer\DebugRenderer.h">
+    <ClInclude Include="Renderers\LineRenderer\LineRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager\ResourceManager.h">

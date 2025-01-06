@@ -11,7 +11,7 @@
 #include <vector>
 #include <functional>
 #include "Camera2.5D/PerspectiveCamera.h"
-#include "SpriteBatch/SpriteBatch.h"
+#include "Renderers/PlaneModelRenderer/PlaneModelRenderer.h"
 #include "InputManager/InputManager.h"
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
 //#include "../SpriteFont/SpriteFont.h"
@@ -52,7 +52,7 @@ public:
     virtual void updateUI() override;
     virtual void EndRender() override;
 
-    static SpriteBatch _spriteBatch;
+    static PlaneModelRenderer _PlaneModelRenderer;
 
     static AssetManager* assets;
     static float backgroundColor[4];

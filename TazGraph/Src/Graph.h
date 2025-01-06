@@ -11,7 +11,7 @@
 #include <iostream>
 #include <vector>
 #include "Camera2.5D/PerspectiveCamera.h"
-#include "SpriteBatch/SpriteBatch.h"
+#include "Renderers/PlaneModelRenderer/PlaneModelRenderer.h"
 #include "InputManager/InputManager.h"
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
 //#include "SpriteFont/SpriteFont.h"
@@ -67,15 +67,15 @@ public:
 
 	/////////////////////////
 	
-	void renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch);
+	void renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch);
 	void drawHUD(const std::vector<Entity*>& entities, const std::string& textureName);
 
 	/////////////////////////
 
 	static SDL_Event event;
 
-	static SpriteBatch _spriteBatch;
-	static SpriteBatch _hudSpriteBatch;
+	static PlaneModelRenderer _PlaneModelRenderer;
+	static PlaneModelRenderer _hudPlaneModelRenderer;
 
 	static AudioEngine audioEngine;
 

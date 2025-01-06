@@ -74,9 +74,6 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 		(this->*addNodeFunction)(tile, glm::vec2(x, y));
 
 		manager.grid->addEntity(&tile);
-
-		std::cout << "Loaded entity ID " << id << " at position (" << x << ", " << y
-			<< ") with size " << width << "x" << height << std::endl;
 	}
 }
 

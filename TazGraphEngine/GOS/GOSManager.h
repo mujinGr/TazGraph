@@ -46,7 +46,7 @@ public:
 			}
 		}
 	}
-	void draw(SpriteBatch& batch, TazGraphEngine::Window& window)
+	void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window)
 	{
 		for (auto& e : entities) e->draw(batch, window);
 	}

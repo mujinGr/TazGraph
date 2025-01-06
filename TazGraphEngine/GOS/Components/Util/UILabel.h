@@ -54,7 +54,7 @@ public:
 		}
 	}
 
-	void draw(SpriteBatch& batch, TazGraphEngine::Window& window) override {
+	void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) override {
 		//draw each letter
 		for (auto& l : letters) {
 			l->draw(batch, window);

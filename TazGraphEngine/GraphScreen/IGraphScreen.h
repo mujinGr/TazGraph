@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../DebugRenderer/DebugRenderer.h"
+#include "../Renderers/LineRenderer/LineRenderer.h"
 
 #define SCREEN_INDEX_NO_SCREEN -1
 
@@ -60,7 +60,7 @@ protected:
 	IMainGraph* _graph = nullptr;
 	int _screenIndex = -1;
 
-	DebugRenderer _debugRenderer;
+	LineRenderer _LineRenderer;
 
 	bool _renderDebug = false;
 };

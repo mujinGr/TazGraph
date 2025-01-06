@@ -1,4 +1,4 @@
-#include "DebugRenderer.h"
+#include "LineRenderer.h"
 
 constexpr float PI = 3.14159265358f;
 
@@ -7,10 +7,8 @@ namespace {
 
 in vec3 vertexPosition; //vec3 is array of 3 floats
 in vec4 vertexColor;
-in vec2 vertexUV;
 
 out vec4 fragmentColor;
-out vec2 fragmentUV;
 
 uniform mat4 projection;
 
@@ -18,14 +16,11 @@ void main() {
     gl_Position = projection * vec4(vertexPosition.xyz, 1.0);
 
     fragmentColor = vertexColor;
-
-    fragmentUV = vertexUV;
 })";
 
 	const char* FRAG_SRC = R"(#version 400
 
 in vec4 fragmentColor;
-in vec2 fragmentUV;
 
 out vec4 color; //rgb value
 
@@ -35,16 +30,16 @@ void main() {
 }
 
 
-DebugRenderer::DebugRenderer()
+LineRenderer::LineRenderer()
 {
 }
 
-DebugRenderer::~DebugRenderer()
+LineRenderer::~LineRenderer()
 {
 	dispose();
 }
 
-void DebugRenderer::init()
+void LineRenderer::init()
 {
 	// Shader init
 	_program.compileShadersFromSource(VERT_SRC, FRAG_SRC);
@@ -63,23 +58,23 @@ void DebugRenderer::init()
 
 	glEnableVertexAttribArray(0);
 	// 0 attrib, 2 floats, type, not normalised, sizeof Vertex, pointer to the Vertex Data
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(DebugVertex), (void *)offsetof(DebugVertex, position)); 
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(LineVertex), (void *)offsetof(LineVertex, position)); 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(DebugVertex), (void*)offsetof(DebugVertex, color));
+	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(LineVertex), (void*)offsetof(LineVertex, color));
 
 	glBindVertexArray(0); //! the buffers are bound withing the context of vao so when that is
 								//! unbinded all the other vbos are also unbinded
 }
 
-void DebugRenderer::end()
+void LineRenderer::end() // on end clear all indices reserved
 {
 	//Bind buffer for the information for the vertexes
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	//Orphan the buffer : replace the memory block for the buffer object, 
 	//dont wait the gpu for operations on the old data
-	glBufferData(GL_ARRAY_BUFFER, _verts.size() * sizeof(DebugVertex), nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _verts.size() * sizeof(LineVertex), nullptr, GL_DYNAMIC_DRAW);
 	//Upload the data
-	glBufferSubData(GL_ARRAY_BUFFER, 0, _verts.size() * sizeof(DebugVertex), _verts.data());
+	glBufferSubData(GL_ARRAY_BUFFER, 0, _verts.size() * sizeof(LineVertex), _verts.data());
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	//Bind buffer for the indices
@@ -96,10 +91,10 @@ void DebugRenderer::end()
 	_verts.clear();
 }
 
-void DebugRenderer::drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& color, float zIndex)
+void LineRenderer::drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& color, float zIndex)
 {
 	int i = _verts.size();
-	_verts.resize(_verts.size() + 2); // more efficient than calling pushBack 4 times
+	_verts.resize(_verts.size() + 2);
 
 	auto linkPoint = [&](float x, float y) -> glm::vec3 {
 		return glm::vec3(x,y,zIndex);
@@ -119,7 +114,7 @@ void DebugRenderer::drawLine(const glm::vec2 srcPosition, const glm::vec2 destPo
 
 }
 
-void DebugRenderer::drawBox(const glm::vec4& destRect, const Color& color, float angle, float zIndex)
+void LineRenderer::drawBox(const glm::vec4& destRect, const Color& color, float angle, float zIndex)
 {
 	int i = _verts.size();
 	_verts.resize(_verts.size() + 4); // more efficient than calling pushBack 4 times
@@ -168,7 +163,7 @@ void DebugRenderer::drawBox(const glm::vec4& destRect, const Color& color, float
 
 }
 
-void DebugRenderer::drawCircle(const glm::vec2& center, const Color& color, float radius)
+void LineRenderer::drawCircle(const glm::vec2& center, const Color& color, float radius)
 {
 	static const int NUM_VERTS = 255;
 	// Set up vertices
@@ -193,7 +188,7 @@ void DebugRenderer::drawCircle(const glm::vec2& center, const Color& color, floa
 	_indices.push_back(start);
 }
 
-void DebugRenderer::render( const glm::mat4& projectionMatrix, float lineWidth )
+void LineRenderer::renderBatch( const glm::mat4& projectionMatrix, float lineWidth )
 {
 	_program.use();
 
@@ -208,7 +203,7 @@ void DebugRenderer::render( const glm::mat4& projectionMatrix, float lineWidth )
 	_program.unuse();
 }
 
-void DebugRenderer::dispose()
+void LineRenderer::dispose()
 {
 	if (_vao) {
 		glDeleteVertexArrays(1, &_vao);

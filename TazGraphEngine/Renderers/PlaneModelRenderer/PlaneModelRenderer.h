@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-#include "../Vertex.h"
+#include "../../Vertex.h"
 
 
 enum class GlyphSortType {
@@ -80,10 +80,19 @@ public:
 	Vertex bottomRight;
 };
 
-class SpriteBatch {
+// init --_
+//		 `-->begin() 
+//		 |
+//		 | --> draw()
+//		 | --> draw()
+//		 |
+//		 |--> end() 
+//		 `--> renderBatch() 
+
+class PlaneModelRenderer {
 public:
-	SpriteBatch();
-	~SpriteBatch();
+	PlaneModelRenderer();
+	~PlaneModelRenderer();
 
 	void init();
 

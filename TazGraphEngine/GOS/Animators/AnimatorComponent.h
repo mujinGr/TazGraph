@@ -63,7 +63,7 @@ public:
 		sprite->setCurrFrame();
 	}
 
-	void draw(SpriteBatch&  batch, TazGraphEngine::Window& window) override
+	void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override
 	{
 		//sprite->draw(batch);
 	}

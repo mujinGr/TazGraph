@@ -13,7 +13,7 @@ Manager main_menu_manager;
 
 Collision main_menu_collision;
 
-SpriteBatch MainMenuScreen::_spriteBatch;
+PlaneModelRenderer MainMenuScreen::_PlaneModelRenderer;
 
 AssetManager* MainMenuScreen::assets = nullptr;
 
@@ -99,7 +99,7 @@ void MainMenuScreen::onEntry()
 		_resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
 		_resourceManager.getGLSLProgram("color")->linkShaders();
 
-		MainMenuScreen::_spriteBatch.init();
+		MainMenuScreen::_PlaneModelRenderer.init();
 	}
 
 	if (TTF_Init() == -1)
@@ -140,12 +140,12 @@ void MainMenuScreen::update(float deltaTime)
 }
 
 void MainMenuScreen::renderBatch(const std::vector<Entity*>& entities) {
-	_spriteBatch.begin();
+	_PlaneModelRenderer.begin();
 	for (const auto& entity : entities) {
-		entity->draw(_spriteBatch, *Graph::_window);
+		entity->draw(_PlaneModelRenderer, *Graph::_window);
 	}
-	_spriteBatch.end();
-	_spriteBatch.renderBatch();
+	_PlaneModelRenderer.end();
+	_PlaneModelRenderer.renderBatch();
 }
 
 void MainMenuScreen::draw()

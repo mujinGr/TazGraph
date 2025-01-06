@@ -72,7 +72,7 @@ public:
 		collider.y = static_cast<int>(transform->getPosition().y) + transform->scale + gridpos.y;
 	}
 
-	void draw(SpriteBatch&  batch, TazGraphEngine::Window& window) override
+	void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override
 	{
 	}
 

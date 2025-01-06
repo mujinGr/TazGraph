@@ -1,39 +1,45 @@
-#include "SpriteBatch.h"
+#include "PlaneModelRenderer.h"
 #include <algorithm>
 
-SpriteBatch::SpriteBatch() : _vbo(0), _vao(0) {
+PlaneModelRenderer::PlaneModelRenderer() : _vbo(0), _vao(0) {
 
 }
 
-SpriteBatch::~SpriteBatch() {
+PlaneModelRenderer::~PlaneModelRenderer() {
 
 }
 
-void SpriteBatch::init() {
+void PlaneModelRenderer::init() {
 	createVertexArray();
 }
 
-void SpriteBatch::begin(GlyphSortType sortType/*GlyphSortType::TEXTURE*/) {
+void PlaneModelRenderer::begin(GlyphSortType sortType/*GlyphSortType::TEXTURE*/) {
 	_sortType = sortType;
 	_renderBatches.clear();
 
+	_glyphPointers.clear();
 	_glyphs.clear();
 }
-void SpriteBatch::end() {
+void PlaneModelRenderer::end() {
 	//set up all pointers for fast sorting
 	_glyphPointers.resize(_glyphs.size());
 	for (int i = 0; i < _glyphs.size(); i++) {
 		_glyphPointers[i] = &_glyphs[i];
 	}
 	sortGlyphs();
+
 	createRenderBatches();
 }
 
-void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color, float angle) {
+// we can generalize the renderer for multiple kinds of meshes (triangle made instead of planes) by creating
+// more draw functions for those meshes (like draw function for triangle).
+// Also instead of glyphs have triangles, so when its time to createRenderBatches we see the next mesh
+// how many triangles it has and accordingly add those multiple vertices with the combined texture
+void PlaneModelRenderer::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color, float angle) {
 	_glyphs.emplace_back(destRect, uvRect, texture, depth, color, angle);
 }
 
-void SpriteBatch::renderBatch() {
+void PlaneModelRenderer::renderBatch() {
 	glBindVertexArray(_vao);
 
 	for (int i = 0; i < _renderBatches.size(); i++) {
@@ -45,7 +51,7 @@ void SpriteBatch::renderBatch() {
 	glBindVertexArray(0);
 }
 
-void SpriteBatch::createRenderBatches() {
+void PlaneModelRenderer::createRenderBatches() {
 	std::vector<Vertex> vertices;
 	vertices.resize(_glyphPointers.size() * 6);
 	if (_glyphPointers.empty()) {
@@ -80,7 +86,7 @@ void SpriteBatch::createRenderBatches() {
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	//orphan the buffer
+	//orphan the buffer / like using double buffer
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
 	//upload the data
 	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(Vertex), vertices.data());
@@ -88,7 +94,7 @@ void SpriteBatch::createRenderBatches() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void SpriteBatch::createVertexArray() {
+void PlaneModelRenderer::createVertexArray() {
 
 	if (_vao == 0) {
 		glGenVertexArrays(1, &_vao);
@@ -114,7 +120,7 @@ void SpriteBatch::createVertexArray() {
 	glBindVertexArray(0);
 }
 
-void SpriteBatch::sortGlyphs() {
+void PlaneModelRenderer::sortGlyphs() {
 	switch (_sortType)
 	{
 	case GlyphSortType::NONE:
@@ -133,12 +139,12 @@ void SpriteBatch::sortGlyphs() {
 	}
 }
 
-bool SpriteBatch::compareFrontToBack(Glyph* a, Glyph* b) {
+bool PlaneModelRenderer::compareFrontToBack(Glyph* a, Glyph* b) {
 	return (a->depth < b->depth);
 }
-bool SpriteBatch::compareBackToFront(Glyph* a, Glyph* b) {
+bool PlaneModelRenderer::compareBackToFront(Glyph* a, Glyph* b) {
 	return (a->depth > b->depth);
 }
-bool SpriteBatch::compareTexture(Glyph* a, Glyph* b) {
+bool PlaneModelRenderer::compareTexture(Glyph* a, Glyph* b) {
 	return (a->texture < b->texture);
 }

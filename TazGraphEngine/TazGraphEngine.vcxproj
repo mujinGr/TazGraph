@@ -138,7 +138,7 @@
   <ItemGroup>
     <ClCompile Include="AudioEngine\AudioEngine.cpp" />
     <ClCompile Include="Camera2.5D\OrthoCamera.h" />
-    <ClCompile Include="DebugRenderer\DebugRenderer.cpp" />
+    <ClCompile Include="Renderers\LineRenderer\LineRenderer.cpp" />
     <ClCompile Include="GOS\GOS.cpp" />
     <ClCompile Include="GraphScreen\IGraphScreen.cpp" />
     <ClCompile Include="GraphScreen\IMainGraph.cpp" />
@@ -160,7 +160,7 @@
     <ClCompile Include="PNG_Letters.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="SceneManager\SceneManager.cpp" />
-    <ClCompile Include="SpriteBatch\SpriteBatch.cpp" />
+    <ClCompile Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.cpp" />
     <ClCompile Include="TextureManager\TextureManager.cpp" />
     <ClCompile Include="BaseFPSLimiter\BaseFPSLimiter.cpp" />
     <ClCompile Include="Window\Window.cpp" />
@@ -171,7 +171,7 @@
     <ClInclude Include="Camera2.5D\CameraManager.h" />
     <ClInclude Include="Camera2.5D\ICamera.h" />
     <ClInclude Include="ConsoleLogger.h" />
-    <ClInclude Include="DebugRenderer\DebugRenderer.h" />
+    <ClInclude Include="Renderers\LineRenderer\LineRenderer.h" />
     <ClInclude Include="GOS\Animators\Animation.h" />
     <ClInclude Include="GOS\Animators\AnimatorComponent.h" />
     <ClInclude Include="GOS\Animators\AnimatorManager.h" />
@@ -205,7 +205,7 @@
     <ClInclude Include="PNG_Letters.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
-    <ClInclude Include="SpriteBatch\SpriteBatch.h" />
+    <ClInclude Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.h" />
     <ClInclude Include="TextureManager\TextureManager.h" />
     <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h" />
     <ClInclude Include="Vertex.h" />

@@ -18,8 +18,8 @@ SDL_Event Graph::event;
 Manager manager;
 Collision collision;
 
-SpriteBatch Graph::_spriteBatch;
-SpriteBatch Graph::_hudSpriteBatch;
+PlaneModelRenderer Graph::_PlaneModelRenderer;
+PlaneModelRenderer Graph::_hudPlaneModelRenderer;
 
 AudioEngine Graph::audioEngine;
 
@@ -69,7 +69,7 @@ void Graph::onEntry()
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
-	_debugRenderer.init();
+	_LineRenderer.init();
 
 	main_camera2D->init(); // Assuming a screen resolution of 800x600
 	main_camera2D->setPosition_X(main_camera2D->getPosition().x /*+ glm::vec2(
@@ -109,8 +109,8 @@ void Graph::onEntry()
 		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
 		_resourceManager.getGLSLProgram("texture")->linkShaders();
 
-		Graph::_spriteBatch.init();
-		Graph::_hudSpriteBatch.init();
+		Graph::_PlaneModelRenderer.init();
+		Graph::_hudPlaneModelRenderer.init();
 	}
 
 	if (TTF_Init() == -1)
@@ -136,7 +136,7 @@ void Graph::onEntry()
 }
 
 void Graph::onExit() {
-	_debugRenderer.dispose();
+	_LineRenderer.dispose();
 }
 
 auto& nodes(manager.getGroup(Manager::groupNodes_0));
@@ -297,15 +297,15 @@ void Graph::EndRender() {
 	_editorImgui.EndRender();
 }
 
-void Graph::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { 
+void Graph::renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch) { 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
-	batch.begin();
+
 	for (const auto& entity : entities) {
 		if (entity->hasComponent<Rectangle_w_Color>()) {
 			Rectangle_w_Color entityRectangle = entity->GetComponent<Rectangle_w_Color>();
-			if (entity->checkCollision(entityRectangle.destRect, main_camera2D->getCameraRect())) { //draw culling
+			if (entity->checkCollision(entityRectangle.destRect, main_camera2D->getCameraRect())) { //todo: draw culling, apply this on all entities
 				entity->draw(batch, *Graph::_window);
 			}
 		}
@@ -313,8 +313,8 @@ void Graph::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch
 			entity->draw(batch, *Graph::_window);
 		}
 	}
-	batch.end();
-	batch.renderBatch(); // todo: instead of rendering on each group, import allentities for renderBatches
+
+	 // todo: instead of rendering on each group, import allentities for renderBatches
 }
 
 void Graph::draw()
@@ -344,7 +344,7 @@ void Graph::draw()
 			int y = ((cellIndex / manager.grid->getNumYCells()) - (AXIS_CELLS / 2)) * manager.grid->getCellSize();
 
 			glm::vec4 destRect(x, y, manager.grid->getCellSize(), manager.grid->getCellSize());
-			_debugRenderer.drawBox(destRect, Color(0, 255, 0, 100), 0.0f);  // Drawing each cell in red for visibility
+			_LineRenderer.drawBox(destRect, Color(0, 255, 0, 100), 0.0f);  // Drawing each cell in red for visibility
 
 			cellIndex++;
 		}
@@ -362,8 +362,8 @@ void Graph::draw()
 					destRect.y = tr->getPosition().y;
 					destRect.z = tr->width;
 					destRect.w = tr->height;
-					_debugRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f, 0.0f); //todo add angle for drawbox
-					//_debugRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
+					_LineRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f, 0.0f); //todo add angle for drawbox
+					//_LineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
 					//break;
 				}
 				
@@ -377,19 +377,25 @@ void Graph::draw()
 			destRect.y = tr->getPosition().y;
 			destRect.z = tr->width;
 			destRect.w = tr->height;
-			_debugRenderer.drawBox(destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawbox
+			_LineRenderer.drawBox(destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawbox
 		}
 
-		
+		_LineRenderer.end();
+		_LineRenderer.renderBatch(cameraMatrix, 2.0f);
 	}
-	_debugRenderer.drawLine(nodes[0]->GetComponent<TransformComponent>().getCenterTransform(), nodes[1]->GetComponent<TransformComponent>().getCenterTransform(), Color(255, 0, 0, 255), 0.0f);
 
-	_debugRenderer.end();
-	_debugRenderer.render(cameraMatrix, 2.0f);
+	_LineRenderer.drawLine(nodes[0]->GetComponent<TransformComponent>().getCenterTransform(), nodes[1]->GetComponent<TransformComponent>().getCenterTransform(), Color(255, 0, 0, 255), 0.0f);
+
+	_LineRenderer.end();
+	_LineRenderer.renderBatch(cameraMatrix, 2.0f);
+
+
+	_PlaneModelRenderer.begin();
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("circleColor"), "", *main_camera2D);
-	renderBatch(nodes, _spriteBatch);
-	renderBatch(cursors, _spriteBatch);
-
+	renderBatch(nodes, _PlaneModelRenderer);
+	renderBatch(cursors, _PlaneModelRenderer);
+	_PlaneModelRenderer.end();
+	_PlaneModelRenderer.renderBatch();
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 	/*drawHUD(labels, "arial");
@@ -411,7 +417,7 @@ void Graph::drawHUD(const std::vector<Entity*>& entities, const std::string& tex
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), textureName, *hud_camera2D);
-	renderBatch(entities, _hudSpriteBatch);
+	renderBatch(entities, _hudPlaneModelRenderer);
 }
 
 bool Graph::onPauseGraph() {

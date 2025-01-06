@@ -180,6 +180,8 @@
     <None Include="Src\Shaders\circleColorShading.vert" />
     <None Include="Src\Shaders\colorShading.frag" />
     <None Include="Src\Shaders\colorShading.vert" />
+    <None Include="Src\Shaders\lineColorShading.frag" />
+    <None Include="Src\Shaders\lineColorShading.vert" />
     <None Include="Src\Shaders\textureBright.frag" />
     <None Include="Src\Shaders\textureBright.vert" />
     <None Include="Src\Shaders\textureShading.frag" />
