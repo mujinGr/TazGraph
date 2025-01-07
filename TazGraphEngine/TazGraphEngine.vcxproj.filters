@@ -212,12 +212,6 @@
     <ClInclude Include="ImGuiInterface\ImGuiInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Components\Graph\LinkComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GOS\Components\Graph\NodeComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GOS\Components\Util\KeyboardControllerComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -231,6 +225,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GOS\Animators\MovingAnimatorComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GOS\GOSEntityTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

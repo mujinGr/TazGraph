@@ -171,14 +171,13 @@
     <ClInclude Include="Camera2.5D\CameraManager.h" />
     <ClInclude Include="Camera2.5D\ICamera.h" />
     <ClInclude Include="ConsoleLogger.h" />
+    <ClInclude Include="GOS\GOSEntityTypes.h" />
     <ClInclude Include="Renderers\LineRenderer\LineRenderer.h" />
     <ClInclude Include="GOS\Animators\Animation.h" />
     <ClInclude Include="GOS\Animators\AnimatorComponent.h" />
     <ClInclude Include="GOS\Animators\AnimatorManager.h" />
     <ClInclude Include="GOS\Animators\MovingAnimation.h" />
     <ClInclude Include="GOS\Animators\MovingAnimatorComponent.h" />
-    <ClInclude Include="GOS\Components\Graph\LinkComponent.h" />
-    <ClInclude Include="GOS\Components\Graph\NodeComponent.h" />
     <ClInclude Include="GOS\Components\Util\ButtonComponent.h" />
     <ClInclude Include="GOS\Components\Basic\ColliderComponent.h" />
     <ClInclude Include="GOS\Components.h" />

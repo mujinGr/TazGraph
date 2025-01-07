@@ -6,6 +6,7 @@
 class Manager
 {
 private:
+	unsigned int lastEntityId = 0;
 	std::vector<std::unique_ptr<Entity>> entities;
 	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
 
@@ -90,14 +91,33 @@ public:
 		return groupedEntities[mGroup];
 	}
 
+	template <typename T, typename... TArgs>
+	T& addEntity(TArgs&&... mArgs)
+	{
+		T* e(new T(*this, std::forward<TArgs>(mArgs)...));
+		e->setId(lastEntityId++);
+		std::unique_ptr<T> uPtr{ e };
+		entities.emplace_back(std::move(uPtr));
+
+		return *e;
+	}
+
 	Entity& addEntity()
 	{
 		Entity* e = new Entity(*this);
-		e->setId(static_cast<unsigned int>(entities.size()));
+		e->setId(lastEntityId++);
 		std::unique_ptr<Entity> uPtr{ e };
 		entities.emplace_back(std::move(uPtr));
 
 		return *e;
+	}
+
+	Entity& getEntityFromId(unsigned int mId) {
+		for (auto& entity : entities) {
+			if (entity->getId() == mId) {
+				return *entity;
+			}
+		}
 	}
 
 	void clearAllEntities() {
@@ -139,6 +159,7 @@ public:
 		panelBackground,
 
 		//action
+		groupLinks_0,
 		groupNodes_0,
 		groupLinks,
 		groupColliders,

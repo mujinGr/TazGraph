@@ -81,7 +81,6 @@ private:
 	ComponentBitSet componentBitSet;
 	GroupBitSet groupBitSet;
 
-	Entity* parent_entity = nullptr;
 
 public:
 	bool paused = false;
@@ -173,13 +172,20 @@ public:
 		return &manager;
 	}
 
-	Entity* getParentEntity() {
-		return parent_entity;
+	// instead of virtual functions you can instead do dynamic casting on derived classes to get the functions
+	virtual Entity* getFromNode() {
+		return nullptr;
 	}
 
-	void setParentEntity(Entity* pEntity) {
-		parent_entity = pEntity;
+	virtual Entity* getToNode() {
+		return nullptr;
 	}
+
+	virtual Entity* getParentEntity() {
+		return nullptr;
+	}
+
+	virtual void setParentEntity(Entity* pEntity) {}
 
 };
 
