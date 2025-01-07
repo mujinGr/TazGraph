@@ -2,7 +2,8 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include "GOS/GOSManager.h"
+
+#include "GOS/GOSEntityTypes.h"
 
 #include <algorithm>
 #include <random>
@@ -18,9 +19,11 @@ public:
 	~Map();
 
 	void saveMapAsText(const char* fileName);
-	void ProcessFile(std::ifstream& mapFile, void(Map::* addNodeFunction)(Entity&, glm::vec2 mPosition));
+	void ProcessFile(std::ifstream& mapFile, void(Map::* addNodeFunction)(Entity&, glm::vec2 mPosition), void(Map::* addLinkFunction)(Entity&, unsigned int fromId, unsigned int toId));
 	void loadTextMap(const char* fileName);
+
 	void AddDefaultNode(Entity& node, glm::vec2 mPosition);
+	void AddDefaultLink(Entity& node, unsigned int fromNodeId, unsigned int toNodeId);
 
 private:
 	int stage = 0;

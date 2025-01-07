@@ -5,6 +5,8 @@
 
 extern Manager manager;
 extern std::vector<Entity*>& nodes;
+extern std::vector<Entity*>& links;
+
 
 Map::Map(std::string tID, int ms, int ts) : texID(tID), mapScale(ms), tileSize(ts) //probably initiallization
 {
@@ -40,26 +42,22 @@ void Map::saveMapAsText(const char* fileName) {
 	}
 
 	file << "\n";
-	//file << "Total number of links: " << links.size() << "\n";
+	
+	file << "Total number of links: " << links.size() << "\n";
 
-	//for (auto& entity : links) {
+	for (auto& entity : links) {
+		file << entity->getId() << entity->getFromNode()->getId() << " connected to: " << entity->getToNode()->getId() << "\n";
 
-	//	if (entity->hasComponent<TransformComponent>()) {
-	//		TransformComponent& tc = entity->GetComponent<TransformComponent>();
-	//		file << entity->getId() << "\t"; // id is the index in the vector of entities
-	//		file << tc.getPosition().x << " " << tc.getPosition().y << "\t";
-	//		file << tc.width << "x" << tc.height << "\n";
-	//	}
-	//}
+	}
 
 	file.close();
 }
 
-void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Entity&, glm::vec2 mPosition)) {
+void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Entity&, glm::vec2 mPosition), void (Map::* addLinkFunction)(Entity&, unsigned int fromId, unsigned int toId)) {
 	std::string line;
 	std::getline(mapFile, line);
 
-	while (std::getline(mapFile, line)) {
+	while (std::getline(mapFile, line) && !line.empty()) {
 		std::istringstream nodeLine(line);
 		int id;
 		float x, y;
@@ -70,10 +68,23 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 		nodeLine >> x >> y; // Read position x, y
 		nodeLine >> width >> separator >> height; // Read dimensions width x height
 
-		auto& tile(manager.addEntity());
-		(this->*addNodeFunction)(tile, glm::vec2(x, y));
+		auto& node(manager.addEntity<Node>());
+		(this->*addNodeFunction)(node, glm::vec2(x, y));
 
-		manager.grid->addEntity(&tile);
+		node.setId(id);
+
+		manager.grid->addEntity(&node);
+	}
+
+	while (std::getline(mapFile, line)) {
+		std::istringstream linkLine(line);
+		int id, fromNodeId, toNodeId;
+
+		linkLine >> id >> fromNodeId >> toNodeId; // Read link information
+
+		auto& link(manager.addEntity<Link>(fromNodeId, toNodeId));
+		link.setId(id);
+		(this->*addLinkFunction)(link, fromNodeId, toNodeId);
 	}
 }
 
@@ -88,7 +99,9 @@ void Map::loadTextMap(const char* fileName) {
 	}
 	//todo: loop through the entities and destroy them
 	manager.removeAllEntitiesFromGroup(Manager::groupNodes_0);
-	ProcessFile(file, &Map::AddDefaultNode);
+	manager.removeAllEntitiesFromGroup(Manager::groupLinks_0);
+
+	ProcessFile(file, &Map::AddDefaultNode, &Map::AddDefaultLink);
 
 	file.close();
 }
@@ -101,4 +114,9 @@ void Map::AddDefaultNode(Entity &node, glm::vec2 mPosition)
 	node.GetComponent<Rectangle_w_Color>().color = Color(0, 40, 224, 255);
 
 	node.addGroup(Manager::groupNodes_0);
+}
+
+void Map::AddDefaultLink(Entity& link, unsigned int fromNodeId, unsigned int toNodeId)
+{
+	link.addGroup(Manager::groupLinks_0);
 }

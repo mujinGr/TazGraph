@@ -127,7 +127,7 @@ void Graph::onEntry()
 
 	manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, CELL_SIZE);
 
-	map->loadTextMap("dummy_graph.txt");
+	map->loadTextMap("test_links.txt");
 
 	assets->CreateCursor(cursor);
 
@@ -140,6 +140,8 @@ void Graph::onExit() {
 }
 
 auto& nodes(manager.getGroup(Manager::groupNodes_0));
+auto& links(manager.getGroup(Manager::groupLinks_0));
+
 auto& colliders(manager.getGroup(Manager::groupColliders));
 
 auto& cursors(manager.getGroup(Manager::cursorGroup));
@@ -384,7 +386,9 @@ void Graph::draw()
 		_LineRenderer.renderBatch(cameraMatrix, 2.0f);
 	}
 
-	_LineRenderer.drawLine(nodes[0]->GetComponent<TransformComponent>().getCenterTransform(), nodes[1]->GetComponent<TransformComponent>().getCenterTransform(), Color(255, 0, 0, 255), 0.0f);
+	_LineRenderer.drawLine(links[1]->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(), links[1]->getToNode()->GetComponent<TransformComponent>().getCenterTransform(), Color(255, 0, 0, 255), 0.0f);
+	_LineRenderer.drawLine(links[2]->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(), links[2]->getToNode()->GetComponent<TransformComponent>().getCenterTransform(), Color(255, 0, 0, 255), 0.0f);
+
 
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(cameraMatrix, 2.0f);

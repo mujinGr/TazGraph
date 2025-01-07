@@ -161,7 +161,6 @@ Total number of nodes: 161
 160	3808 1248	32x32
 161	3808 1248	32x32
 
-Total number of links: 3
-0152865168 connected to: 152865168
-1621 connected to: 2
-1632 connected to: 3
+Total number of links: 0
+162	1	2
+163	2	3
