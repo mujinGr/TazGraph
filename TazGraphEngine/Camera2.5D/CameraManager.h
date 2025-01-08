@@ -9,7 +9,7 @@
 
 class CameraManager {
 public:
-    // Gets the single instance of CameraManager
+    // Gets the single instance of CameraManager (singleton)
     static CameraManager& getInstance() {
         static CameraManager instance; // Guaranteed to be destroyed. Instantiated on first use.
         return instance;

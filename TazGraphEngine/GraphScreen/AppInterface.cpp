@@ -1,20 +1,21 @@
-#include "IMainGraph.h"
+#include "AppInterface.h"
 #include "../BaseFPSLimiter/BaseFPSLimiter.h"
 
-#include "ScreenList.h"
-#include "IGraphScreen.h"
+#include "SceneList.h"
+#include "IScene.h"
 
+#include "../DataManager/DataManager.h"
 #include "../Camera2.5D/CameraManager.h"
 
-IMainGraph::IMainGraph() {
-	_screenList = std::make_unique<ScreenList>(this);
+AppInterface::AppInterface() {
+	_sceneList = std::make_unique<SceneList>(this);
 }
 
-IMainGraph::~IMainGraph() {
+AppInterface::~AppInterface() {
 
 }
 
-void IMainGraph::run() {
+void AppInterface::run() {
 
 	const float DESIRED_FPS = 60;
 	const int MAX_PHYSICS_STEPS = 6;
@@ -67,16 +68,16 @@ void IMainGraph::run() {
 		_window.swapBuffer();
 	}
 }
-void IMainGraph::exitSimulator() {
-	_currentScreen->onExit();
-	if (_screenList) {
-		_screenList->destroy();
-		_screenList.reset();
+void AppInterface::exitSimulator() {
+	_currentScene->onExit();
+	if (_sceneList) {
+		_sceneList->destroy();
+		_sceneList.reset();
 	}
 	_isRunning = false;
 }
 
-void IMainGraph::onSDLEvent(SDL_Event& evnt) {
+void AppInterface::onSDLEvent(SDL_Event& evnt) {
 	switch (evnt.type)
 	{
 	case SDL_QUIT:
@@ -117,7 +118,7 @@ void IMainGraph::onSDLEvent(SDL_Event& evnt) {
 	}
 }
 
-bool IMainGraph::init() {
+bool AppInterface::init() {
 	//Initialize SDL
 	SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -130,45 +131,47 @@ bool IMainGraph::init() {
 	if (!initSystems()) return false;
 
 	onInit();
-	addScreens();
+	addScenes();
+
+	_audioEngine.init();
 
 	CameraManager::getInstance().initializeCameras();
 
-	_currentScreen = _screenList->getCurrent();
-	_currentScreen->onEntry();
-	_currentScreen->setRunning();
+	_currentScene = _sceneList->getCurrent();
+	_currentScene->onEntry();
+	_currentScene->setRunning();
 
 	return true;
 }
 
-bool IMainGraph::initSystems() {
+bool AppInterface::initSystems() {
 	_window.create("Taz Graph", 800, 640, 1.0f, TazGraphEngine::VISIBLE);
 	return true;
 }
 
-void IMainGraph::update(float deltaTime) {
-	if (_currentScreen) {
-		switch (_currentScreen->getState()) {
-		case ScreenState::RUNNING:
-			_currentScreen->update(deltaTime);
+void AppInterface::update(float deltaTime) {
+	if (_currentScene) {
+		switch (_currentScene->getState()) {
+		case SceneState::RUNNING:
+			_currentScene->update(deltaTime);
 			break;
-		case ScreenState::CHANGE_NEXT:
-			_currentScreen->onExit();
-			_currentScreen = _screenList->moveNext();
-			if (_currentScreen) {
-				_currentScreen->setRunning();
-				_currentScreen->onEntry();
+		case SceneState::CHANGE_NEXT:
+			_currentScene->onExit();
+			_currentScene = _sceneList->moveNext();
+			if (_currentScene) {
+				_currentScene->setRunning();
+				_currentScene->onEntry();
 			}
 			break;
-		case ScreenState::CHANGE_PREVIOUS:
-			_currentScreen->onExit();
-			_currentScreen = _screenList->movePrevious();
-			if (_currentScreen) {
-				_currentScreen->setRunning();
-				//_currentScreen->onEntry();
+		case SceneState::CHANGE_PREVIOUS:
+			_currentScene->onExit();
+			_currentScene = _sceneList->movePrevious();
+			if (_currentScene) {
+				_currentScene->setRunning();
+				//_currentScene->onEntry();
 			}
 			break;
-		case ScreenState::EXIT_APPLICATION:
+		case SceneState::EXIT_APPLICATION:
 			exitSimulator();
 			break;
 		default:
@@ -180,20 +183,20 @@ void IMainGraph::update(float deltaTime) {
 	}
 
 }
-void IMainGraph::draw() {
+void AppInterface::draw() {
 	glViewport(0, 0, _window.getScreenWidth(), _window.getScreenHeight());
-	if (_currentScreen && _currentScreen->getState() == ScreenState::RUNNING) {
-		_currentScreen->draw();
+	if (_currentScene && _currentScene->getState() == SceneState::RUNNING) {
+		_currentScene->draw();
 	}
 }
 
-void IMainGraph::updateUI()
+void AppInterface::updateUI()
 {
 	// Start the Dear ImGui frame
-	_currentScreen->BeginRender();
-	if (_currentScreen && _currentScreen->getState() == ScreenState::RUNNING) {
-		_currentScreen->updateUI();
+	_currentScene->BeginRender();
+	if (_currentScene && _currentScene->getState() == SceneState::RUNNING) {
+		_currentScene->updateUI();
 	}
 	// Rendering
-	_currentScreen->EndRender();
+	_currentScene->EndRender();
 }

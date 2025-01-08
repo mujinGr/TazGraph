@@ -1,12 +1,13 @@
 #pragma once
 
 #include "../Renderers/LineRenderer/LineRenderer.h"
+#include "../DataManager/DataManager.h"
 
-#define SCREEN_INDEX_NO_SCREEN -1
+#define SCENE_INDEX_NO_SCENE -1
 
-class IMainGraph;
+class AppInterface;
 
-enum class ScreenState {
+enum class SceneState {
 	NONE,
 	RUNNING,
 	EXIT_APPLICATION,
@@ -14,19 +15,19 @@ enum class ScreenState {
 	CHANGE_PREVIOUS
 };
 
-class IGraphScreen {
+class IScene {
 public:
-	friend class ScreenList;
-	IGraphScreen() {
+	friend class SceneList;
+	IScene() {
 
 	}
-	virtual ~IGraphScreen() {
+	virtual ~IScene() {
 
 	}
 
 	//Returns the index of the next or previous screen when changing screens
-	virtual int getNextScreenIndex() const = 0;
-	virtual int getPreviousScreenIndex() const = 0;
+	virtual int getNextSceneIndex() const = 0;
+	virtual int getPreviousSceneIndex() const = 0;
 
 	//Called at beginning and end of application
 	virtual void build() = 0;
@@ -43,22 +44,22 @@ public:
 	virtual void updateUI() = 0;
 	virtual void EndRender() = 0;
 
-	int getScreenIndex() const {
-		return _screenIndex;
+	int getSceneIndex() const {
+		return _sceneIndex;
 	}
 	void setRunning() {
-		_currentState = ScreenState::RUNNING;
+		_currentState = SceneState::RUNNING;
 	}
 
-	ScreenState getState() const { return _currentState; }
+	SceneState getState() const { return _currentState; }
 
-	void setParentGraph(IMainGraph* graph) { _graph = graph; }
+	void setParentApp(AppInterface* app) { _app = app; }
 
-	IMainGraph* getInterfaceGraph() const { return _graph; }
+	AppInterface* getApp() const { return _app; }
 protected:
-	ScreenState _currentState = ScreenState::NONE;
-	IMainGraph* _graph = nullptr;
-	int _screenIndex = -1;
+	SceneState _currentState = SceneState::NONE;
+	AppInterface* _app = nullptr;
+	int _sceneIndex = -1;
 
 	LineRenderer _LineRenderer;
 

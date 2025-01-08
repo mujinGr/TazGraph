@@ -140,10 +140,10 @@
     <ClCompile Include="Camera2.5D\OrthoCamera.h" />
     <ClCompile Include="Renderers\LineRenderer\LineRenderer.cpp" />
     <ClCompile Include="GOS\GOS.cpp" />
-    <ClCompile Include="GraphScreen\IGraphScreen.cpp" />
-    <ClCompile Include="GraphScreen\IMainGraph.cpp" />
+    <ClCompile Include="GraphScreen\IScene.cpp" />
+    <ClCompile Include="GraphScreen\AppInterface.cpp" />
     <ClCompile Include="GraphScreen\ScreenIndices.h" />
-    <ClCompile Include="GraphScreen\ScreenList.cpp" />
+    <ClCompile Include="GraphScreen\SceneList.cpp" />
     <ClCompile Include="Grid\Grid.cpp" />
     <ClCompile Include="ImGuiInterface\ImGuiInterface.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -159,7 +159,6 @@
     <ClCompile Include="InputManager\InputManager.cpp" />
     <ClCompile Include="PNG_Letters.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
-    <ClCompile Include="SceneManager\SceneManager.cpp" />
     <ClCompile Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.cpp" />
     <ClCompile Include="TextureManager\TextureManager.cpp" />
     <ClCompile Include="BaseFPSLimiter\BaseFPSLimiter.cpp" />
@@ -171,6 +170,7 @@
     <ClInclude Include="Camera2.5D\CameraManager.h" />
     <ClInclude Include="Camera2.5D\ICamera.h" />
     <ClInclude Include="ConsoleLogger.h" />
+    <ClInclude Include="DataManager\DataManager.h" />
     <ClInclude Include="GOS\GOSEntityTypes.h" />
     <ClInclude Include="Renderers\LineRenderer\LineRenderer.h" />
     <ClInclude Include="GOS\Animators\Animation.h" />
@@ -192,9 +192,9 @@
     <ClInclude Include="GOS\Components\Util\RigidBodyComponent.h" />
     <ClInclude Include="GOS\Components\Basic\SpriteComponent.h" />
     <ClInclude Include="GOS\Components\Basic\TransformComponent.h" />
-    <ClInclude Include="GraphScreen\IGraphScreen.h" />
-    <ClInclude Include="GraphScreen\IMainGraph.h" />
-    <ClInclude Include="GraphScreen\ScreenList.h" />
+    <ClInclude Include="GraphScreen\IScene.h" />
+    <ClInclude Include="GraphScreen\AppInterface.h" />
+    <ClInclude Include="GraphScreen\SceneList.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTexture.h" />
     <ClInclude Include="Grid\Grid.h" />
@@ -203,7 +203,6 @@
     <ClInclude Include="picoPNG.h" />
     <ClInclude Include="PNG_Letters.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
-    <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.h" />
     <ClInclude Include="TextureManager\TextureManager.h" />
     <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h" />

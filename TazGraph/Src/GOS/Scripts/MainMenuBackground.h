@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GOS/Animators/AnimatorComponent.h"
-#include "AudioEngine/AudioEngine.h"
 
 
 class MainMenuBackground : public Component

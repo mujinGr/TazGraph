@@ -27,13 +27,13 @@
     <ClCompile Include="InputManager\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphScreen\IGraphScreen.cpp">
+    <ClCompile Include="GraphScreen\IScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphScreen\IMainGraph.cpp">
+    <ClCompile Include="GraphScreen\AppInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphScreen\ScreenList.cpp">
+    <ClCompile Include="GraphScreen\SceneList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GraphScreen\ScreenIndices.h">
@@ -49,9 +49,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PNG_Letters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Grid\Grid.cpp">
@@ -125,13 +122,13 @@
     <ClInclude Include="InputManager\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphScreen\IGraphScreen.h">
+    <ClInclude Include="GraphScreen\IScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphScreen\IMainGraph.h">
+    <ClInclude Include="GraphScreen\AppInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphScreen\ScreenList.h">
+    <ClInclude Include="GraphScreen\SceneList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h">
@@ -194,9 +191,6 @@
     <ClInclude Include="PNG_Letters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager\SceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Grid\Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -228,6 +222,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GOS\GOSEntityTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager\DataManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

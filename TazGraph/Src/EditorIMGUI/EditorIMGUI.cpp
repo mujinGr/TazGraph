@@ -12,6 +12,11 @@ bool EditorIMGUI::isSaving() {
 	return _isSaving;
 }
 
+void EditorIMGUI::setLoading(bool loading)
+{
+	_isLoading = loading;
+}
+
 bool EditorIMGUI::isLoading()
 {
 	return _isLoading;
@@ -176,7 +181,7 @@ void EditorIMGUI::SavingUI(Map* map) {
 	ImGui::End();
 }
 
-void EditorIMGUI::LoadingUI(Map* map) {
+char* EditorIMGUI::LoadingUI() {
 	ImGuiIO& io = ImGui::GetIO();
 	ImVec2 windowSize(400, 100); // Desired window size
 	ImVec2 windowPos((io.DisplaySize.x - windowSize.x) * 0.5f,
@@ -201,7 +206,6 @@ void EditorIMGUI::LoadingUI(Map* map) {
 	ImGui::SetCursorPosX((windowWidth - buttonWidth) * 0.5f); // Center the button
 
 	if (ImGui::Button("Load", ImVec2(buttonWidth, 0))) {
-		map->loadTextMap(_data.input);
 		_isLoading = false;
 	}
 
@@ -210,9 +214,11 @@ void EditorIMGUI::LoadingUI(Map* map) {
 	}
 
 	ImGui::End();
+	
+	return _data.input;
 }
 
-void EditorIMGUI::MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onExitSimulator)
+void EditorIMGUI::MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onLoadSimulator, std::function<void()> onExitSimulator)
 {
 	float windowWidth = 200; // Increased window width
 	float windowHeight = 200;
@@ -235,8 +241,7 @@ void EditorIMGUI::MainMenuUI(std::function<void()> onStartSimulator, std::functi
 
 	ImGui::SetCursorPosX(buttonPosX);
 	if (ImGui::Button("Load", ImVec2(buttonWidth, buttonHeight))) {
-		// Code to load an existing graph
-		// Example: _graph->loadGraphFromFile();
+		onLoadSimulator();
 	}
 
 	ImGui::Dummy(ImVec2(0.0f, buttonSpacing));

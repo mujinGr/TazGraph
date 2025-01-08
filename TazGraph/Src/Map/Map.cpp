@@ -8,9 +8,9 @@ extern std::vector<Entity*>& nodes;
 extern std::vector<Entity*>& links;
 
 
-Map::Map(std::string tID, int ms, int ts) : texID(tID), mapScale(ms), tileSize(ts) //probably initiallization
+Map::Map(int ms, int ns) : mapScale(ms), nodeSize(ns) //probably initiallization
 {
-	scaledSize = ms * ts;
+	scaledSize = ms * ns;
 }
 
 Map::~Map()

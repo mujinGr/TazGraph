@@ -5,22 +5,24 @@
 #include <memory>
 #include <iostream>
 
-#include "ScreenList.h"
+#include "SceneList.h"
 #include "../BaseFPSLimiter/BaseFPSLimiter.h"
 
-class ScreenList;
-class IGraphScreen;
+#include "../AudioEngine/AudioEngine.h"
 
-class IMainGraph {
+class SceneList;
+class IScene;
+
+class AppInterface {
 public:
-	IMainGraph();
-	virtual ~IMainGraph();
+	AppInterface();
+	virtual ~AppInterface();
 
 	void run();
 	void exitSimulator();
 
 	virtual void onInit() = 0;
-	virtual void addScreens() = 0;
+	virtual void addScenes() = 0;
 	virtual void onExit() = 0;
 
 	void onSDLEvent(SDL_Event& evnt);
@@ -29,6 +31,7 @@ public:
 	TazGraphEngine::Window _window;
 
 	BaseFPSLimiter& getFPSLimiter() { return _limiter; }
+	AudioEngine& getAudioEngine() { return _audioEngine; }
 
 protected:
 	virtual void update(float deltaTime);
@@ -39,9 +42,10 @@ protected:
 	bool initSystems();
 
 	BaseFPSLimiter _limiter;
+	AudioEngine _audioEngine;
 
-	std::unique_ptr<ScreenList> _screenList = nullptr;
-	IGraphScreen* _currentScreen = nullptr;
+	std::unique_ptr<SceneList> _sceneList = nullptr;
+	IScene* _currentScene = nullptr;
 	bool _isRunning = false;
 
 	const float SCALE_SPEED = 0.1f;

@@ -7,24 +7,16 @@
 #include "../GOS/ScriptComponents.h"
 #include "../Collision/Collision.h"
 #include "../AssetManager/AssetManager.h"
-#include "GraphScreen/IMainGraph.h"
+#include "GraphScreen/AppInterface.h"
 
-Manager main_menu_manager;
-
-Collision main_menu_collision;
-
-PlaneModelRenderer MainMenuScreen::_PlaneModelRenderer;
-
-AssetManager* MainMenuScreen::assets = nullptr;
-
-float MainMenuScreen::backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
+Manager main_menu_manager; // need manager as global so that the entities can be global
 
 auto& Mainmenubackground(main_menu_manager.addEntity());
 
 MainMenuScreen::MainMenuScreen(TazGraphEngine::Window* window)
 	: _window(window)
 {
-	_screenIndex = SCREEN_INDEX_MAIN_MENU;
+	_sceneIndex = SCENE_INDEX_MAIN_MENU;
 }
 
 MainMenuScreen::~MainMenuScreen()
@@ -32,14 +24,14 @@ MainMenuScreen::~MainMenuScreen()
 	//dtor
 }
 
-int MainMenuScreen::getNextScreenIndex() const
+int MainMenuScreen::getNextSceneIndex() const
 {
-	return _nextScreenIndex;
+	return _nextSceneIndex;
 }
 
-int MainMenuScreen::getPreviousScreenIndex() const
+int MainMenuScreen::getPreviousSceneIndex() const
 {
-	return _prevScreenIndex;
+	return _prevSceneIndex;
 }
 
 void MainMenuScreen::build()
@@ -57,8 +49,7 @@ void MainMenuScreen::onEntry()
 	_resourceManager.addGLSLProgram("texture");
 	_resourceManager.addGLSLProgram("color");
 
-
-	assets = new AssetManager(&manager, _graph->_inputManager, _graph->_window);
+	_assetsManager = new AssetManager(&manager, _app->_inputManager, _app->_window);
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
@@ -156,7 +147,7 @@ void MainMenuScreen::draw()
 
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
 	//////////////////////////////////////
 
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), "graphnetwork", *main_camera2D);
@@ -173,21 +164,21 @@ void MainMenuScreen::checkInput() {
 
 	SDL_Event evnt;
 
-	_graph->_inputManager.update();
+	_app->_inputManager.update();
 
 	while (SDL_PollEvent(&evnt)) {
 		ImGui_ImplSDL2_ProcessEvent(&evnt);
-		_graph->onSDLEvent(evnt);
+		_app->onSDLEvent(evnt);
 
 		switch (evnt.type)
 		{
 			case SDL_MOUSEMOTION:
-				glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
-				_graph->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
+				glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
+				_app->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
 		}
 
-		if (_graph->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
-			glm::vec2 mouseCoordsVec = _graph->_inputManager.getMouseCoords();
+		if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+			glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
 			std::cout << mouseCoordsVec.x << " " << mouseCoordsVec.y << std::endl;
 		}
 
@@ -202,8 +193,18 @@ void MainMenuScreen::BeginRender() {
 void MainMenuScreen::updateUI() {
 	_editorImgui.MainMenuUI(
 		[this]() { MainMenuScreen::onStartSimulator(); },
+		[this]() { MainMenuScreen::onLoadSimulator(); },
 		[this]() { MainMenuScreen::onExitSimulator(); }
 		);
+
+	if (_editorImgui.isLoading()) {
+		char* loadMapPath = _editorImgui.LoadingUI();
+		if (!_editorImgui.isLoading()) {
+			DataManager::getInstance().mapToLoad = loadMapPath;
+			_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
+			_currentState = SceneState::CHANGE_NEXT;
+		}
+	}
 }
 
 void MainMenuScreen::EndRender() {
@@ -211,17 +212,22 @@ void MainMenuScreen::EndRender() {
 }
 
 bool MainMenuScreen::onStartSimulator() {
-	_nextScreenIndex = SCREEN_INDEX_GRAPHPLAY;
-	_currentState = ScreenState::CHANGE_NEXT;
+	_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
+	_currentState = SceneState::CHANGE_NEXT;
 	return true;
 }
 
 bool MainMenuScreen::onResumeSimulator() {
-	_prevScreenIndex = SCREEN_INDEX_GRAPHPLAY;
-	_currentState = ScreenState::CHANGE_PREVIOUS;
+	_prevSceneIndex = SCENE_INDEX_GRAPHPLAY;
+	_currentState = SceneState::CHANGE_PREVIOUS;
+	return true;
+}
+
+bool MainMenuScreen::onLoadSimulator() {
+	_editorImgui.setLoading(true);
 	return true;
 }
 
 void MainMenuScreen::onExitSimulator() {
-	_graph->exitSimulator();
+	_app->exitSimulator();
 }

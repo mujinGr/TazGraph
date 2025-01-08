@@ -1,10 +1,10 @@
 #pragma once
 
-#include "GraphScreen/IMainGraph.h"
+#include "GraphScreen/AppInterface.h"
 #include "../Graph.h"
 #include "../MainMenuScreen/MainMenuScreen.h"
 
-class App : public IMainGraph
+class App : public AppInterface
 {
 public:
 	App();
@@ -13,7 +13,7 @@ public:
     // Called on initialization
     virtual void onInit() override;
     // For adding all screens
-    virtual void addScreens() override;
+    virtual void addScenes() override;
     // Called when exiting
     virtual void onExit() override;
 private:

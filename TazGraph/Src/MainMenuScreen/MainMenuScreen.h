@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphScreen/IGraphScreen.h"
+#include "GraphScreen/IScene.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <GL/glew.h>
@@ -15,7 +15,6 @@
 #include "InputManager/InputManager.h"
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
 //#include "../SpriteFont/SpriteFont.h"
-#include "AudioEngine/AudioEngine.h"
 #include "Window/Window.h"
 #include "TextureManager/TextureManager.h"
 
@@ -27,14 +26,14 @@
 
 class AssetManager;
 
-class MainMenuScreen : public IGraphScreen {
+class MainMenuScreen : public IScene {
 public:
 	MainMenuScreen(TazGraphEngine::Window* window);
 	~MainMenuScreen();
 
-    virtual int getNextScreenIndex() const override;
+    virtual int getNextSceneIndex() const override;
 
-    virtual int getPreviousScreenIndex() const override;
+    virtual int getPreviousSceneIndex() const override;
 
     virtual void build() override;
 
@@ -52,25 +51,28 @@ public:
     virtual void updateUI() override;
     virtual void EndRender() override;
 
-    static PlaneModelRenderer _PlaneModelRenderer;
-
-    static AssetManager* assets;
-    static float backgroundColor[4];
 
     void renderBatch(const std::vector<Entity*>& entities);
 
 private:
+    float _backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
+
+    AssetManager* _assetsManager;
+
     void checkInput();
     bool onStartSimulator();
     bool onResumeSimulator();
+    bool onLoadSimulator();
     void onExitSimulator();
 
     TazGraphEngine::Window* _window;
 
+    PlaneModelRenderer _PlaneModelRenderer;
+
     ResourceManager _resourceManager;
 
-    int _nextScreenIndex = SCREEN_INDEX_GRAPHPLAY;
-    int _prevScreenIndex = SCREEN_INDEX_GRAPHPLAY;
+    int _nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
+    int _prevSceneIndex = SCENE_INDEX_GRAPHPLAY;
 
     EditorIMGUI _editorImgui;
 };

@@ -26,6 +26,7 @@ public:
 	~EditorIMGUI();
 
 	bool isSaving();
+	void setLoading(bool loading);
 	bool isLoading();
 
 	void BackGroundUIElement(bool& renderDebug, glm::vec2 mouseCoords, const Manager& manager, Entity* selectedEntity, float(&backgroundColor)[4], int cell_size);
@@ -33,6 +34,6 @@ public:
 	void FPSCounter(const BaseFPSLimiter& baseFPSLimiter);
 	void ReloadAccessibleFiles();
 	void SavingUI(Map* map);
-	void LoadingUI(Map* map);
-	void MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onExitSimulator);
+	char* LoadingUI();
+	void MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onLoadSimulator, std::function<void()> onExitSimulator);
 };
