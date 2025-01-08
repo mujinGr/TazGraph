@@ -20,14 +20,17 @@ private:
 
 	bool _isSaving = false;
 	bool _isLoading = false;
+	bool _goingBack = false;
 public:
 	EditorIMGUI();
 
 	~EditorIMGUI();
 
 	bool isSaving();
-	void setLoading(bool loading);
 	bool isLoading();
+	void setLoading(bool loading);
+	bool isGoingBack();
+	void SetGoingBack(bool goingBack);
 
 	void BackGroundUIElement(bool& renderDebug, glm::vec2 mouseCoords, const Manager& manager, Entity* selectedEntity, float(&backgroundColor)[4], int cell_size);
 	void FileActions();

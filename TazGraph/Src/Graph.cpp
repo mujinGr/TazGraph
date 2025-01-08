@@ -118,9 +118,6 @@ void Graph::onEntry()
 		std::cout << "Loaded the mainMenu file chosen!" << std::endl;
 		map->loadTextMap(DataManager::getInstance().mapToLoad.c_str());
 	}
-	else {
-		map->loadTextMap("test_links.txt");
-	}
 
 	_assetsManager->CreateCursor(cursor);
 
@@ -288,6 +285,10 @@ void Graph::updateUI() {
 		if (!_editorImgui.isLoading()) {
 			map->loadTextMap(loadMapPath);
 		}
+	}
+	if (_editorImgui.isGoingBack()) {
+		_currentState = SceneState::CHANGE_PREVIOUS;
+		_editorImgui.SetGoingBack(false);
 	}
 }
 

@@ -62,11 +62,6 @@ public:
 		return a;
 	}
 
-	virtual bool getHasGridAbove()
-	{
-		return false;
-	}
-
 	virtual ~Component() {}
 };
 

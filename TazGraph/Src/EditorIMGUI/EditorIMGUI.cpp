@@ -22,6 +22,15 @@ bool EditorIMGUI::isLoading()
 	return _isLoading;
 }
 
+bool EditorIMGUI::isGoingBack()
+{
+	return _goingBack;
+}
+
+void EditorIMGUI::SetGoingBack(bool goingBack) {
+	_goingBack = goingBack;
+}
+
 void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, const Manager& manager, Entity* selectedEntity, float(& backgroundColor)[4], int cell_size) {
 	ImGui::Begin("Background UI");
 	ImGui::Text("This is a Background UI element.");
@@ -98,7 +107,7 @@ void EditorIMGUI::FileActions() {
 		_isLoading = true;
 	}
 	if (ImGui::Button("Back", ImVec2(-1.0f, 0.0f))) {
-		// Code to go back or close the window
+		_goingBack = true;
 	}
 	ImGui::End();
 }

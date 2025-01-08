@@ -100,7 +100,7 @@ private:
 	Grid* _grid = nullptr; //< Grid for spatial partitioning for collision
 
 	int _nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
-	int _prevSceneIndex = SCENE_INDEX_GRAPHPLAY;
+	int _prevSceneIndex = SCENE_INDEX_MAIN_MENU;
 
 	const float SCALE_SPEED = 0.1f;
 	bool _firstLoop = true;

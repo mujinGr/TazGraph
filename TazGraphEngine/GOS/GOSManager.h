@@ -66,19 +66,19 @@ public:
 		}
 
 
-		entities.erase(std::remove_if(std::begin(entities), std::end(entities),
-			[this](const std::unique_ptr<Entity>& mEntity)
-			{
-				if (!mEntity->isActive()) {
-					if (mEntity->ownerCell) {
-						grid->removeEntity(mEntity.get());  // Remove entity from the grid
-						mEntity->ownerCell = nullptr;
-					}
-					return true;
-				}
-				return false;
-			}),
-			std::end(entities));
+		//entities.erase(std::remove_if(std::begin(entities), std::end(entities),
+		//	[this](const std::unique_ptr<Entity>& mEntity)
+		//	{
+		//		if (!mEntity->isActive()) {
+		//			if (mEntity->ownerCell) {
+		//				grid->removeEntity(mEntity.get());  // Remove entity from the grid
+		//				mEntity->ownerCell = nullptr;
+		//			}
+		//			return true;
+		//		}
+		//		return false;
+		//	}),
+		//	std::end(entities));
 	}
 
 	void AddToGroup(Entity* mEntity, Group mGroup)
