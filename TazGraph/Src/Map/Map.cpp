@@ -46,8 +46,9 @@ void Map::saveMapAsText(const char* fileName) {
 	file << "Total number of links: " << links.size() << "\n";
 
 	for (auto& entity : links) {
-		file << entity->getId() << entity->getFromNode()->getId() << " connected to: " << entity->getToNode()->getId() << "\n";
-
+		file << entity->getId() << "\t";
+		file << entity->getFromNode()->getId() << "\t";
+		file << entity->getToNode()->getId() << "\n";
 	}
 
 	file.close();
@@ -64,9 +65,9 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 		int width, height;
 		char separator;
 
-		nodeLine >> id; // Read entity ID
-		nodeLine >> x >> y; // Read position x, y
-		nodeLine >> width >> separator >> height; // Read dimensions width x height
+		nodeLine >> id; 
+		nodeLine >> x >> y;
+		nodeLine >> width >> separator >> height;
 
 		auto& node(manager.addEntity<Node>());
 		(this->*addNodeFunction)(node, glm::vec2(x, y));
@@ -76,11 +77,13 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 		manager.grid->addEntity(&node);
 	}
 
+	std::getline(mapFile, line);
+
 	while (std::getline(mapFile, line)) {
 		std::istringstream linkLine(line);
 		int id, fromNodeId, toNodeId;
 
-		linkLine >> id >> fromNodeId >> toNodeId; // Read link information
+		linkLine >> id >> fromNodeId >> toNodeId;
 
 		auto& link(manager.addEntity<Link>(fromNodeId, toNodeId));
 		link.setId(id);

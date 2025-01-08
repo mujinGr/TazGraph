@@ -66,7 +66,7 @@ public:
 
 
 	/////////////////////////
-	
+	void renderBatch(const std::vector<Entity*>& entities, LineRenderer& batch);
 	void renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch);
 	void drawHUD(const std::vector<Entity*>& entities, const std::string& textureName);
 

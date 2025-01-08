@@ -5,6 +5,9 @@
 typedef class LinkEntity : public Entity {
 private:
 
+	unsigned int fromId = 0;
+	unsigned int toId = 0;
+
 	Entity* from = nullptr;
 	Entity* to = nullptr;
 
@@ -14,7 +17,11 @@ public:
 
 	}
 
-	LinkEntity(Manager& mManager, unsigned int fromId, unsigned int toId) : Entity(mManager) {
+	LinkEntity(Manager& mManager, unsigned int mfromId, unsigned int mtoId) 
+		: Entity(mManager),
+		fromId(mfromId),
+		toId(mtoId)
+	{
 		from = &mManager.getEntityFromId(fromId);
 		to = &mManager.getEntityFromId(toId);
 	}

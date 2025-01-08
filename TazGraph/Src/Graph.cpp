@@ -299,6 +299,20 @@ void Graph::EndRender() {
 	_editorImgui.EndRender();
 }
 
+void Graph::renderBatch(const std::vector<Entity*>& entities, LineRenderer& batch) {
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
+
+	for (const auto& entity : entities) {
+		// todo do culling here
+		// todo also add draw function to the link entity
+		glm::vec2 fromNodeCenter = entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform();
+		glm::vec2 toNodeCenter = entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform();
+
+		batch.drawLine(fromNodeCenter, toNodeCenter, Color(255, 0, 0, 255), 0.0f);
+	}
+}
+
 void Graph::renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch) { 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -386,10 +400,8 @@ void Graph::draw()
 		_LineRenderer.renderBatch(cameraMatrix, 2.0f);
 	}
 
-	_LineRenderer.drawLine(links[1]->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(), links[1]->getToNode()->GetComponent<TransformComponent>().getCenterTransform(), Color(255, 0, 0, 255), 0.0f);
-	_LineRenderer.drawLine(links[2]->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(), links[2]->getToNode()->GetComponent<TransformComponent>().getCenterTransform(), Color(255, 0, 0, 255), 0.0f);
-
-
+	renderBatch(links, _LineRenderer);
+	
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(cameraMatrix, 2.0f);
 

@@ -114,7 +114,7 @@ public:
 
 	Entity& getEntityFromId(unsigned int mId) {
 		for (auto& entity : entities) {
-			if (entity->getId() == mId) {
+			if (entity->getId() == mId && entity->isActive()) {
 				return *entity;
 			}
 		}
