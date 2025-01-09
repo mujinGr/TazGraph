@@ -95,7 +95,7 @@ private:
 
 	//ResourceManager _resourceManager
 
-	Entity* _selectedEntity;
+	Entity* _selectedEntity = nullptr;
 	
 	Grid* _grid = nullptr; //< Grid for spatial partitioning for collision
 

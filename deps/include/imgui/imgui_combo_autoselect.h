@@ -24,13 +24,14 @@ namespace ImGui
 			if (selected_index > -1 && selected_index < (int)items.size()) {
 				const std::string& selected_item = items[selected_index];
         		size_t input_len = sizeof(input); 
-				
-				 strncpy(input, selected_item.c_str(), input_len - 1);
-
-				// Ensure null termination
-				input[input_len - 1] = '\0';
-				
-				//strncpy_s(input, sizeof(input), items[selected_index].c_str(), sizeof(input) - 1);
+#ifdef _WIN32
+				// Windows-specific function
+				strncpy_s(input, input_len, selected_item.c_str(), input_len - 1);
+#else
+				// Standard POSIX function used on Linux
+				strncpy(input, selected_item.c_str(), input_len - 1);
+				input[input_len - 1] = '\0'; // Ensure null termination
+#endif
 				index = selected_index;
 			}
 		}

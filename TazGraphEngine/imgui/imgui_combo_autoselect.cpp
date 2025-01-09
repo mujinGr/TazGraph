@@ -272,15 +272,18 @@ bool ImGui::ComboAutoSelectComplex(const char* label, char* input, int inputlen,
 			*current_item = n;
 
 			size_t select_value_len = strlen(select_value);
-			//strncpy_s(input, inputlen, select_value, select_value_len);
+#ifdef _WIN32
+			strncpy_s(input, inputlen, select_value, select_value_len);
+#else
 			if (select_value_len < inputlen) {
 				strncpy(input, select_value, select_value_len);
-				input[select_value_len] = '\0'; 
+				input[select_value_len] = '\0';
 			}
 			else {
 				strncpy(input, select_value, inputlen - 1);
-				input[inputlen - 1] = '\0'; 
+				input[inputlen - 1] = '\0';
 			}
+#endif
 			CloseCurrentPopup();
 			done2 = true;
 		}
@@ -289,9 +292,12 @@ bool ImGui::ComboAutoSelectComplex(const char* label, char* input, int inputlen,
 	if (arrowScroll && *current_item > -1) {
 		const char* sActiveidxValue2 = NULL;
 		items_getter(data, *current_item, &sActiveidxValue2);
-		//strncpy_s(input, inputlen, sActiveidxValue2, inputlen);
+#ifdef _WIN32
+		strncpy_s(input, inputlen, sActiveidxValue2, inputlen);
+#else
 		strncpy(input, sActiveidxValue2, inputlen - 1);
-		input[inputlen - 1] = '\0'; // Ensure null termination
+		input[inputlen - 1] = '\0';
+#endif
 		ImGuiWindow* wnd = FindWindowByName(name);
 		const ImGuiID id = wnd->GetID("##inputText");
 		ImGuiInputTextState* state = GetInputTextState(id);
