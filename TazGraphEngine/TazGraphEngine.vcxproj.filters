@@ -45,7 +45,7 @@
     <ClCompile Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GOS\GOS.cpp">
+    <ClCompile Include="GECS\GECS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PNG_Letters.cpp">
@@ -140,46 +140,46 @@
     <ClInclude Include="Camera2.5D\PerspectiveCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Components\Basic\ColliderComponent.h">
+    <ClInclude Include="GECS\Components\Basic\ColliderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Components\Basic\Rectangle_w_Color.h">
+    <ClInclude Include="GECS\Components\Basic\Rectangle_w_Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\GOS.h">
+    <ClInclude Include="GECS\GECS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Components\Basic\TransformComponent.h">
+    <ClInclude Include="GECS\Components\Basic\TransformComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Components\Basic\SpriteComponent.h">
+    <ClInclude Include="GECS\Components\Basic\SpriteComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Components\Util\RigidBodyComponent.h">
+    <ClInclude Include="GECS\Components\Util\RigidBodyComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Components\Util\GridComponent.h">
+    <ClInclude Include="GECS\Components\Util\GridComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Animators\FlashAnimatorComponent.h">
+    <ClInclude Include="GECS\Animators\FlashAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Animators\FlashAnimation.h">
+    <ClInclude Include="GECS\Animators\FlashAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Components\Util\ButtonComponent.h">
+    <ClInclude Include="GECS\Components\Util\ButtonComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Animators\AnimatorManager.h">
+    <ClInclude Include="GECS\Animators\AnimatorManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Animators\AnimatorComponent.h">
+    <ClInclude Include="GECS\Animators\AnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Animators\Animation.h">
+    <ClInclude Include="GECS\Animators\Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Components.h">
+    <ClInclude Include="GECS\Components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera2.5D\CameraManager.h">
@@ -194,7 +194,7 @@
     <ClInclude Include="Grid\Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\GOSManager.h">
+    <ClInclude Include="GECS\GECSManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Renderers\LineRenderer\LineRenderer.h">
@@ -206,22 +206,22 @@
     <ClInclude Include="ImGuiInterface\ImGuiInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Components\Util\KeyboardControllerComponent.h">
+    <ClInclude Include="GECS\Components\Util\KeyboardControllerComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Components\Util\UILabel.h">
+    <ClInclude Include="GECS\Components\Util\UILabel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Animators\MovingAnimation.h">
+    <ClInclude Include="GECS\Animators\MovingAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\Animators\MovingAnimatorComponent.h">
+    <ClInclude Include="GECS\Animators\MovingAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GOS\GOSEntityTypes.h">
+    <ClInclude Include="GECS\GECSEntityTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DataManager\DataManager.h">

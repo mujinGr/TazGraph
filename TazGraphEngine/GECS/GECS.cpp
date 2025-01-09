@@ -1,4 +1,4 @@
-#include "GOSManager.h"
+#include "GECSManager.h"
 //#include "TransformComponent.h"
 void Entity::addGroup(Group mGroup)
 {

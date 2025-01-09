@@ -1,6 +1,6 @@
 #include "AssetManager.h"
-#include "GOS/Components.h"
-#include "../GOS/ScriptComponents.h"
+#include "GECS/Components.h"
+#include "../GECS/ScriptComponents.h"
 #include "../Collision/Collision.h"
 
 #include <random>

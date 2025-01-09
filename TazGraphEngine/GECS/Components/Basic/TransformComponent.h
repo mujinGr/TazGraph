@@ -2,7 +2,7 @@
 
 #include "../../Components.h"
 
-#include "../../GOSManager.h"
+#include "../../GECSManager.h"
 
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {

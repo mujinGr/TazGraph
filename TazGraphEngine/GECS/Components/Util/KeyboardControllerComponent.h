@@ -11,7 +11,7 @@
 	#include <unistd.h> // Common Unix/Linux header
 #endif
 
-#include "../InputManager/InputManager.h"
+#include "../../../InputManager/InputManager.h"
 
 constexpr float walkingSpeed = 3.5f, runningSpeed = 8.5f, jumpingSpeed = 3.0f;
 

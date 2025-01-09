@@ -1,6 +1,6 @@
 #include "Map.h"
-#include "GOS/Components.h"
-#include "../GOS/ScriptComponents.h"
+#include "GECS/Components.h"
+#include "../GECS/ScriptComponents.h"
 #include <iostream>
 
 extern Manager manager;

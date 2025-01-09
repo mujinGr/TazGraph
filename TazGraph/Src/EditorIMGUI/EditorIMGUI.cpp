@@ -122,10 +122,10 @@ void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
 		int plot_offset = max(0,
 			baseFPSLimiter.fpsHistoryIndx - baseFPSLimiter.fps_history_count); // Ensure a positive offset
 #else
-		int plot_count = std::min(baseFPSLimiter->fps_history_count,
-			baseFPSLimiter->fpsHistoryIndx); // Ensuring we do not read out of bounds
+		int plot_count = std::min(baseFPSLimiter.fps_history_count,
+			baseFPSLimiter.fpsHistoryIndx); // Ensuring we do not read out of bounds
 		int plot_offset = std::max(0,
-			baseFPSLimiter->fpsHistoryIndx - baseFPSLimiter->fps_history_count); // Ensure a positive offset
+			baseFPSLimiter.fpsHistoryIndx - baseFPSLimiter.fps_history_count); // Ensure a positive offset
 
 #endif
 

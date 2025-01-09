@@ -18,7 +18,7 @@
 #include "Window/Window.h"
 #include "TextureManager/TextureManager.h"
 
-#include "GOS/GOSManager.h"
+#include "GECS/GECSManager.h"
 
 #include "GraphScreen/ScreenIndices.h"
 

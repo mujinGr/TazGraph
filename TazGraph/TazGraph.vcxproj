@@ -161,8 +161,8 @@
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
     <ClInclude Include="Src\Collision\Collision.h" />
     <ClInclude Include="Src\EditorIMGUI\EditorIMGUI.h" />
-    <ClInclude Include="Src\GOS\Scripts\MainMenuBackground.h" />
-    <ClInclude Include="Src\GOS\ScriptComponents.h" />
+    <ClInclude Include="Src\GECS\Scripts\MainMenuBackground.h" />
+    <ClInclude Include="Src\GECS\ScriptComponents.h" />
     <ClInclude Include="Src\Graph.h" />
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h" />
     <ClInclude Include="Src\Map\Map.h" />

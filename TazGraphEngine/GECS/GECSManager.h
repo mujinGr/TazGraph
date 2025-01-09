@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GOS.h"
+#include "GECS.h"
 #include "../Grid/Grid.h"
 
 class Manager

@@ -3,8 +3,8 @@
 #include "TextureManager/TextureManager.h"
 #include "Camera2.5D/CameraManager.h"
 #include "Map/Map.h"
-#include "GOS/Components.h"
-#include "GOS/ScriptComponents.h"
+#include "GECS/Components.h"
+#include "GECS/ScriptComponents.h"
 #include "Collision/Collision.h"
 #include "Map/Map.h"
 #include "AssetManager/AssetManager.h"
@@ -208,6 +208,8 @@ void Graph::checkInput() {
 		ImGui_ImplSDL2_ProcessEvent(&evnt);
 		_app->onSDLEvent(evnt);
 
+		glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
+
 		switch (evnt.type)
 		{
 		case SDL_MOUSEWHEEL:
@@ -223,7 +225,6 @@ void Graph::checkInput() {
 			}
 			break;
 		case SDL_MOUSEMOTION:
-			glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
 			_app->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
 			mouseCoordsVec = _app->_inputManager.getMouseCoords();
 			if (_selectedEntity) {
@@ -240,10 +241,9 @@ void Graph::checkInput() {
 				main_camera2D->setPosition_X(_app->_inputManager.getStartDragPos().x - delta.x);
 				main_camera2D->setPosition_Y(_app->_inputManager.getStartDragPos().y - delta.y);
 			}
-
+			break;
 		case SDL_MOUSEBUTTONDOWN:
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
-				glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
 				std::cout << "clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
 				if (_selectedEntity == nullptr) {
 					selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec));
@@ -255,10 +255,10 @@ void Graph::checkInput() {
 			}
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
-				glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
 				_app->_inputManager.setPanningPoint(mouseCoordsVec / main_camera2D->getScale());
 				_app->_inputManager.setStartDragPos(main_camera2D->getPosition());
 			}
+			break;
 		}
 		if (_app->_inputManager.isKeyPressed(SDLK_p)) {
 			onPauseGraph();

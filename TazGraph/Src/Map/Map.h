@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "GOS/GOSEntityTypes.h"
+#include "GECS/GECSEntityTypes.h"
 
 #include <algorithm>
 #include <random>

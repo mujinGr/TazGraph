@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GOS/Animators/AnimatorComponent.h"
+#include "GECS/Animators/AnimatorComponent.h"
 
 
 class MainMenuBackground : public Component

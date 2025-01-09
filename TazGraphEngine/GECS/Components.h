@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./GOS.h"
+#include "./GECS.h"
 
 #include "./Components/Basic/TransformComponent.h"
 #include "./Components/Basic/SpriteComponent.h"

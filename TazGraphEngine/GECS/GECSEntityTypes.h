@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GOSManager.h"
+#include "GECSManager.h"
 
 typedef class LinkEntity : public Entity {
 private:

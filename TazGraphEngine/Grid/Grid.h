@@ -1,5 +1,5 @@
 #pragma once
-#include "../GOS/GOS.h"
+#include "../GECS/GECS.h"
 
 #include <vector>
 
