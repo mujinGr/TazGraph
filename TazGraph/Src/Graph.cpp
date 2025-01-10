@@ -57,7 +57,7 @@ void Graph::onEntry()
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
-	_LineRenderer.init();
+	_resourceManager.addGLSLProgram("lineColor");
 
 	main_camera2D->init(); // Assuming a screen resolution of 800x600
 	main_camera2D->setPosition_X(main_camera2D->getPosition().x /*+ glm::vec2(
@@ -98,6 +98,13 @@ void Graph::onEntry()
 
 		Graph::_PlaneModelRenderer.init();
 		Graph::_hudPlaneModelRenderer.init();
+
+		_resourceManager.getGLSLProgram("lineColor")->compileShadersFromSource(_LineRenderer.VERT_SRC, _LineRenderer.FRAG_SRC);
+		_resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexPosition");
+		_resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexColor");
+		_resourceManager.getGLSLProgram("lineColor")->linkShaders();
+
+		Graph::_LineRenderer.init();
 	}
 
 	if (TTF_Init() == -1)
@@ -126,7 +133,8 @@ void Graph::onEntry()
 }
 
 void Graph::onExit() {
-	_LineRenderer.dispose();
+	//_LineRenderer.dispose(); 
+	// todo dispose all renderers on Exit
 }
 
 auto& nodes(manager.getGroup(Manager::groupNodes_0));
@@ -241,7 +249,6 @@ void Graph::checkInput() {
 				main_camera2D->setPosition_X(_app->_inputManager.getStartDragPos().x - delta.x);
 				main_camera2D->setPosition_Y(_app->_inputManager.getStartDragPos().y - delta.y);
 			}
-			break;
 		case SDL_MOUSEBUTTONDOWN:
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
 				std::cout << "clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
@@ -258,7 +265,6 @@ void Graph::checkInput() {
 				_app->_inputManager.setPanningPoint(mouseCoordsVec / main_camera2D->getScale());
 				_app->_inputManager.setStartDragPos(main_camera2D->getPosition());
 			}
-			break;
 		}
 		if (_app->_inputManager.isKeyPressed(SDLK_p)) {
 			onPauseGraph();
@@ -290,6 +296,7 @@ void Graph::updateUI() {
 		_currentState = SceneState::CHANGE_PREVIOUS;
 		_editorImgui.SetGoingBack(false);
 	}
+	_editorImgui.ShowAllEntities(manager);
 }
 
 void Graph::EndRender() {
@@ -343,9 +350,7 @@ void Graph::draw()
 
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
-	glm::mat4 cameraMatrix = main_camera2D->getCameraMatrix();
+	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("lineColor"), "", *main_camera2D);
 
 	// Debug Rendering
 	if (_renderDebug) {
@@ -394,13 +399,17 @@ void Graph::draw()
 		}
 
 		_LineRenderer.end();
-		_LineRenderer.renderBatch(cameraMatrix, 2.0f);
+		_resourceManager.getGLSLProgram("lineColor")->unuse();
+
 	}
 
 	renderBatch(links, _LineRenderer);
 	
 	_LineRenderer.end();
-	_LineRenderer.renderBatch(cameraMatrix, 2.0f);
+	_LineRenderer.renderBatch(2.0f);
+	_resourceManager.getGLSLProgram("lineColor")->unuse();
+
+	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
 
 
 	_PlaneModelRenderer.begin();
@@ -416,11 +425,11 @@ void Graph::draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-
+	_resourceManager.getGLSLProgram("circleColor")->unuse();
 	///////////////////////////////////////////////////////
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("color"), "", *main_camera2D);
 
-	_resourceManager.getGLSLProgram("circleColor")->unuse();
+	_resourceManager.getGLSLProgram("color")->unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

@@ -262,3 +262,21 @@ void EditorIMGUI::MainMenuUI(std::function<void()> onStartSimulator, std::functi
 
 	ImGui::End();
 }
+
+void EditorIMGUI::ShowAllEntities(Manager& manager) {
+	ImGui::Begin("Entity List");
+
+	for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
+		std::string s = manager.getGroupName(group);
+		ImGui::Text("Group: %s", s.c_str());
+
+		std::vector<Entity*>& groupVec = manager.getGroup(group);
+		for (auto& entity : groupVec) {
+
+			ImGui::Text("Entity ID: %d", entity->getId());
+
+		}
+	}
+
+	ImGui::End();
+}

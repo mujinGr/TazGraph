@@ -169,6 +169,24 @@ public:
 		cursorGroup
 	};
 
+	std::unordered_map<Group, std::string> groupNames = {
+		{groupBackgroundLayer, "groupBackgroundLayer" },
+		{panelBackground, "panelBackground"},
+
+		//action
+		{ groupLinks_0,"groupLinks_0" },
+		{ groupNodes_0,"groupNodes_0" },
+		{ groupLinks,"groupLinks" },
+		{ groupColliders,"groupColliders" },
+
+		//fore
+		{ buttonLabels,"buttonLabels" },
+		{ cursorGroup,"cursorGroup" }
+	};
+
+	std::string getGroupName(Group mGroup) {
+		return groupNames[mGroup];
+	}
 	
 	enum layerIndexes : int
 	{

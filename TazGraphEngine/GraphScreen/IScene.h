@@ -61,7 +61,6 @@ protected:
 	AppInterface* _app = nullptr;
 	int _sceneIndex = -1;
 
-	LineRenderer _LineRenderer;
 
 	bool _renderDebug = false;
 };

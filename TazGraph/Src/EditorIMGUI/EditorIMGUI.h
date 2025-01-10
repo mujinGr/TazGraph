@@ -39,4 +39,5 @@ public:
 	void SavingUI(Map* map);
 	char* LoadingUI();
 	void MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onLoadSimulator, std::function<void()> onExitSimulator);
+	void ShowAllEntities(Manager& manager);
 };

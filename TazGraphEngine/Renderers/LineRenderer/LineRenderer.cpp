@@ -3,30 +3,7 @@
 constexpr float PI = 3.14159265358f;
 
 namespace {
-	const char* VERT_SRC = R"(#version 400
-
-in vec3 vertexPosition; //vec3 is array of 3 floats
-in vec4 vertexColor;
-
-out vec4 fragmentColor;
-
-uniform mat4 projection;
-
-void main() {
-    gl_Position = projection * vec4(vertexPosition.xyz, 1.0);
-
-    fragmentColor = vertexColor;
-})";
-
-	const char* FRAG_SRC = R"(#version 400
-
-in vec4 fragmentColor;
-
-out vec4 color; //rgb value
-
-void main() {
-    color = vec4(fragmentColor.rgb, fragmentColor.a);
-})";
+	
 }
 
 
@@ -41,12 +18,6 @@ LineRenderer::~LineRenderer()
 
 void LineRenderer::init()
 {
-	// Shader init
-	_program.compileShadersFromSource(VERT_SRC, FRAG_SRC);
-	_program.addAttribute("vertexPosition");
-	_program.addAttribute("vertexColor");
-	_program.linkShaders();
-
 	//Set up buffers
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(1, &_vbo);
@@ -188,19 +159,12 @@ void LineRenderer::drawCircle(const glm::vec2& center, const Color& color, float
 	_indices.push_back(start);
 }
 
-void LineRenderer::renderBatch( const glm::mat4& projectionMatrix, float lineWidth )
+void LineRenderer::renderBatch(float lineWidth )
 {
-	_program.use();
-
-	GLint pLocation = _program.getUniformLocation("projection");
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(projectionMatrix[0][0]));
-
 	glLineWidth(lineWidth);
 	glBindVertexArray(_vao);
 	glDrawElements(GL_LINES, _numElements, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-
-	_program.unuse();
 }
 
 void LineRenderer::dispose()
@@ -214,5 +178,5 @@ void LineRenderer::dispose()
 	if (_ibo) {
 		glDeleteBuffers(1, &_ibo);
 	}
-	_program.dispose();
+	//_program.dispose();
 }

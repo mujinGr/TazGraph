@@ -88,12 +88,11 @@ private:
 
 	PlaneModelRenderer _PlaneModelRenderer;
 	PlaneModelRenderer _hudPlaneModelRenderer;
+	LineRenderer _LineRenderer;
 
 	AssetManager* _assetsManager;
 
 	ResourceManager _resourceManager;
-
-	//ResourceManager _resourceManager
 
 	Entity* _selectedEntity = nullptr;
 	
