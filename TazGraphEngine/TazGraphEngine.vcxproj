@@ -172,6 +172,7 @@
     <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="DataManager\DataManager.h" />
     <ClInclude Include="GECS\GECSEntityTypes.h" />
+    <ClInclude Include="JsonParser\JsonParser.h" />
     <ClInclude Include="Renderers\LineRenderer\LineRenderer.h" />
     <ClInclude Include="GECS\Animators\Animation.h" />
     <ClInclude Include="GECS\Animators\AnimatorComponent.h" />

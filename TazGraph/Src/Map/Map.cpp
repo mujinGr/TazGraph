@@ -91,6 +91,13 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 	}
 }
 
+void Map::ProcessPythonFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Entity&, glm::vec2 mPosition), void (Map::* addLinkFunction)(Entity&, unsigned int fromId, unsigned int toId)) {
+	
+	JsonParser fileParser(mapFile);
+	JsonValue rootFromFile = fileParser.parse();
+	std::cout << "Parsed JSON from file successfully!" << std::endl;
+}
+
 void Map::loadTextMap(const char* fileName) {
 
 	std::string text = "assets/Maps/" + std::string(fileName);
@@ -105,6 +112,24 @@ void Map::loadTextMap(const char* fileName) {
 	manager.removeAllEntitiesFromGroup(Manager::groupLinks_0);
 
 	ProcessFile(file, &Map::AddDefaultNode, &Map::AddDefaultLink);
+
+	file.close();
+}
+
+void Map::loadPythonMap(const char* fileName) {
+	std::string text = "assets/Maps/" + std::string(fileName);
+	std::ifstream file(text);
+
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file for writing: " << text << std::endl;
+		return;
+	}
+
+	//todo: loop through the entities and destroy them
+	manager.removeAllEntitiesFromGroup(Manager::groupNodes_0);
+	manager.removeAllEntitiesFromGroup(Manager::groupLinks_0);
+
+	ProcessPythonFile(file, &Map::AddDefaultNode, &Map::AddDefaultLink);
 
 	file.close();
 }

@@ -122,8 +122,12 @@ void Graph::onEntry()
 	manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, CELL_SIZE);
 
 	if (!DataManager::getInstance().mapToLoad.empty()) {
-		std::cout << "Loaded the mainMenu file chosen!" << std::endl;
-		map->loadTextMap(DataManager::getInstance().mapToLoad.c_str());
+		if (strstr(DataManager::getInstance().mapToLoad.c_str(), ".py") != nullptr) {
+			map->loadPythonMap(DataManager::getInstance().mapToLoad.c_str()); // Assuming loadPythonMap is a method for loading Python maps
+		}
+		else {
+			map->loadTextMap(DataManager::getInstance().mapToLoad.c_str());
+		}
 	}
 
 	_assetsManager->CreateCursor(cursor);
@@ -289,7 +293,12 @@ void Graph::updateUI() {
 	if (_editorImgui.isLoading()) {
 		char* loadMapPath = _editorImgui.LoadingUI();
 		if (!_editorImgui.isLoading()) {
-			map->loadTextMap(loadMapPath);
+			if (strstr(loadMapPath, ".py") != nullptr) {
+				map->loadPythonMap(loadMapPath); // Assuming loadPythonMap is a method for loading Python maps
+			}
+			else {
+				map->loadTextMap(loadMapPath);
+			}
 		}
 	}
 	if (_editorImgui.isGoingBack()) {
