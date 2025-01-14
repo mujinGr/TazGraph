@@ -95,6 +95,25 @@ void Map::ProcessPythonFile(std::ifstream& mapFile, void (Map::* addNodeFunction
 	
 	JsonParser fileParser(mapFile);
 	JsonValue rootFromFile = fileParser.parse();
+
+	auto& nodes = rootFromFile.obj["graph"].obj["nodes"];
+	int count = 0;
+	const int maxNodes = 10000;
+	for (auto& nodeEntry : nodes.obj) {
+		if (count >= maxNodes) {
+			break;
+		}
+		++count;
+		int nodeId = std::stoi(nodeEntry.first);
+		auto& nodeInfo = nodeEntry.second;
+		float x = nodeInfo.obj["metadata"].obj["x"].num / 100.0f;
+		float y = nodeInfo.obj["metadata"].obj["y"].num / 100.0f;
+
+		auto& node = manager.addEntity<Node>();
+		glm::vec2 position(x, y);
+		(this->*addNodeFunction)(node, position);
+	}
+
 	std::cout << "Parsed JSON from file successfully!" << std::endl;
 }
 
@@ -137,7 +156,7 @@ void Map::loadPythonMap(const char* fileName) {
 void Map::AddDefaultNode(Entity &node, glm::vec2 mPosition)
 {
 	//create Node function
-	node.addComponent<TransformComponent>(mPosition, Manager::actionLayer, glm::ivec2(32, 32), 1);
+	node.addComponent<TransformComponent>(mPosition, Manager::actionLayer, glm::ivec2(10, 10), 1);
 	node.addComponent<Rectangle_w_Color>();
 	node.GetComponent<Rectangle_w_Color>().color = Color(0, 40, 224, 255);
 

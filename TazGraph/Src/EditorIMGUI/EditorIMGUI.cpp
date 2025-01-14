@@ -273,7 +273,15 @@ void EditorIMGUI::ShowAllEntities(Manager& manager) {
 		std::vector<Entity*>& groupVec = manager.getGroup(group);
 		for (auto& entity : groupVec) {
 
-			ImGui::Text("Entity ID: %d", entity->getId());
+			std::string label = "Entity ID: " + std::to_string(entity->getId());
+
+			if (ImGui::TreeNode(label.c_str())) {  // TreeNode creates a clickable node that can expand/collapse
+				// Assume position is stored in some kind of Vec2 or similar structure
+				glm::vec2 position = entity->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
+				ImGui::Text("Position: (%.2f, %.2f)", position.x, position.y);
+
+				ImGui::TreePop(); // This call tells ImGui to end the TreeNode section
+			}
 
 		}
 	}

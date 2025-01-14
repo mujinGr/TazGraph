@@ -408,6 +408,7 @@ void Graph::draw()
 		}
 
 		_LineRenderer.end();
+		_LineRenderer.renderBatch(2.0f);
 		_resourceManager.getGLSLProgram("lineColor")->unuse();
 
 	}

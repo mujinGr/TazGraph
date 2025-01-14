@@ -26,16 +26,18 @@ class JsonParser {
 public:
     explicit JsonParser(const std::string& input) : input(input), pos(0) {}
 
-    explicit JsonParser(const char* filePath) {
-        std::ifstream file(filePath);
-        if (!file.is_open()) {
-            throw std::runtime_error("Failed to open file.");
-        }
+    explicit JsonParser(std::ifstream& file) {
         std::stringstream buffer;
         buffer << file.rdbuf();
         input = buffer.str();
         pos = 0;
-        file.close();
+
+        pos = input.find('{');
+        input = input.substr(pos);
+        pos = 0;
+        for (size_t i = 96607602; i < 96607603; ++i) {
+            std::cout << input.substr(96607602, i - 96607602 + 1) << std::endl;
+        }
     }
 
     JsonValue parse() {
@@ -78,9 +80,9 @@ private:
         char ch = peek();
         if (ch == '{') return parseObject();
         if (ch == '[') return parseArray();
-        if (ch == '\"') return parseString();
+        if (ch == '\"' || ch == '\'') return parseString();
         if (std::isdigit(ch) || ch == '-') return parseNumber();
-        if (ch == 't' || ch == 'f') return parseBoolean();
+        if (ch == 't' || ch == 'T' || ch == 'f' || ch == 'F') return parseBoolean();
         if (ch == 'n') return parseNull();
 
         throw std::runtime_error("Unexpected character.");
@@ -99,7 +101,15 @@ private:
 
         while (true) {
             skipWhitespace();
-            JsonValue key = parseString();
+            JsonValue key;
+            if (std::isdigit(peek()) || peek() == '-') {
+                key = parseNumber();
+                key.type = JsonType::String; 
+                key.str = std::to_string(key.num);
+            }
+            else if (peek() == '\"' || peek() == '\'') {
+                key = parseString();
+            }
             skipWhitespace();
             if (consume() != ':') {
                 throw std::runtime_error("Expected ':' after key in object.");
@@ -109,7 +119,7 @@ private:
 
             skipWhitespace();
             char ch = consume();
-            if (ch == '}') break;
+            if (ch == '}' || ch == '\0') break;
             if (ch != ',') {
                 throw std::runtime_error("Expected ',' or '}' in object.");
             }
@@ -149,12 +159,13 @@ private:
             if (eof()) throw std::runtime_error("Unexpected end of input during string parsing.");
 
             char ch = consume();
-            if (ch == '\"') break; // end of string
+            if (ch == '\"' || ch == '\'') break; // end of string
             if (ch == '\\') { // handle escapes
                 if (eof()) throw std::runtime_error("Unexpected end of input during escape sequence.");
                 char esc = consume();
                 switch (esc) {
                 case '\"': result << '\"'; break;
+                case '\'': result << '\''; break;
                 case '\\': result << '\\'; break;
                 case '/':  result << '/'; break;
                 case 'b':  result << '\b'; break;
@@ -185,6 +196,17 @@ private:
         while (!eof() && (std::isdigit(peek()) || peek() == '.')) {
             result << consume();
         }
+        if (!eof() && (peek() == 'e' || peek() == 'E')) {
+            result << consume(); 
+
+            if (!eof() && (peek() == '+' || peek() == '-')) {
+                result << consume();
+            }
+
+            while (!eof() && std::isdigit(peek())) {
+                result << consume();
+            }
+        }
 
         JsonValue number;
         number.type = JsonType::Number;
@@ -201,10 +223,10 @@ private:
         JsonValue boolValue;
         boolValue.type = JsonType::Boolean;
         std::string res = result.str();
-        if (res == "true") {
+        if (res == "true" || res == "True") {
             boolValue.boolean = true;
         }
-        else if (res == "false") {
+        else if (res == "false" || res == "False") {
             boolValue.boolean = false;
         }
         else {
