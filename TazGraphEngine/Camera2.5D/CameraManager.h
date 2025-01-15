@@ -1,6 +1,6 @@
 #pragma once
 
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <string>
 #include "ICamera.h"
@@ -48,5 +48,5 @@ public:
     }
 
 private:
-    std::map<std::string, std::shared_ptr<ICamera>> cameras;
+    std::unordered_map<std::string, std::shared_ptr<ICamera>> cameras;
 };

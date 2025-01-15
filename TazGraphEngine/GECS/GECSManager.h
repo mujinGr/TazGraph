@@ -15,7 +15,9 @@ public:
 
 	void update(float deltaTime = 1.0f)
 	{
+		int i = 0;
 		for (auto& e : entities) {
+			i++;
 			if (!e || !e->isActive()) continue;
 			e->update(deltaTime);
 

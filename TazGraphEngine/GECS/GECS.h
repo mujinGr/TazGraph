@@ -5,7 +5,7 @@
 #include <memory>
 #include <algorithm>
 #include <bitset>
-#include <array>v
+#include <array>
 #include <unordered_map>
 
 #include <SDL2/SDL.h>
@@ -38,7 +38,7 @@ template <typename T> inline ComponentID GetComponentTypeID() noexcept
 }
 
 constexpr std::size_t maxComponents = 32;
-constexpr std::size_t maxGroups = 64;
+constexpr std::size_t maxGroups = 32;
 
 using ComponentBitSet = std::bitset<maxComponents>;
 using GroupBitSet = std::bitset<maxGroups>;

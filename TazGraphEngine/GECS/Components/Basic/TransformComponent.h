@@ -7,6 +7,7 @@
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {
 private:
+	std::shared_ptr<PerspectiveCamera> _main_camera2D;
 	float _zIndex = 0.0f;
 	float _rotation = 0.0f;
 
@@ -57,11 +58,12 @@ public:
 	}
 	void update(float deltaTime) override
 	{
-
-		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+		if (!_main_camera2D) {
+			_main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+		}
 
 		SDL_Rect dimensions = { _position.x, _position.y, width, height };
-		SDL_FRect cameraDimensions = main_camera2D->getCameraRect();
+		SDL_FRect cameraDimensions = _main_camera2D->getCameraRect();
 
 		if (entity->checkCollision(dimensions, cameraDimensions)) { //culling
 			entity->paused = false;
