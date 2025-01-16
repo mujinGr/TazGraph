@@ -9,6 +9,23 @@ Grid::Grid(int width, int height, int cellSize)
 
 	//Allocate all the calls
 	_cells.resize(_numYCells * _numXCells);
+
+	for (int y = -(_numYCells / 2); y < (_numYCells / 2); y++) {
+		for (int x = -(_numXCells / 2); x < (_numXCells / 2); x++) {
+			int index = (y + (_numYCells / 2)) * _numXCells + (x+ (_numXCells / 2));
+			_cells[index].boundingBox.x = x * _cellSize;
+			_cells[index].boundingBox.y = y * _cellSize;
+			_cells[index].boundingBox.w = _cellSize;
+			_cells[index].boundingBox.h = _cellSize;
+
+			if (x == _numXCells - 1 && _width % _cellSize != 0) {
+				_cells[index].boundingBox.w = _width - (x * _cellSize);
+			}
+			if (y == _numYCells - 1 && _height % _cellSize != 0) {
+				_cells[index].boundingBox.h = _height - (y * _cellSize);
+			}
+		}
+	}
 }
 
 Grid::~Grid()
@@ -44,7 +61,7 @@ Cell* Grid::getCell(int x, int y)
 	if (y >= (_numYCells / 2)) y = (_numYCells / 2) - 1;
 
 
-	return &_cells[(y+ (_numYCells / 2)) * _numXCells + (x + (_numXCells / 2))];
+	return &_cells[(y + (_numYCells / 2)) * _numXCells + (x + (_numXCells / 2))];
 }
 
 Cell* Grid::getCell(const Entity& entity)
@@ -94,4 +111,15 @@ int Grid::getNumXCells() {
 }
 int Grid::getNumYCells() {
 	return _numYCells;
+}
+
+std::vector<Entity*> Grid::getEntitiesInCameraCells(ICamera& camera) {
+	std::vector<Entity*> result;
+
+	for (auto& cell : this->_cells) {
+		if (checkCollision(camera.getCameraRect(), cell.boundingBox)) { // Assuming each cell has a bounding box
+			result.insert(result.end(), cell.entities.begin(), cell.entities.end());
+		}
+	}
+	return result;
 }

@@ -97,21 +97,17 @@ void Map::ProcessPythonFile(std::ifstream& mapFile, void (Map::* addNodeFunction
 	JsonValue rootFromFile = fileParser.parse();
 
 	auto& nodes = rootFromFile.obj["graph"].obj["nodes"];
-	int count = 0;
-	const int maxNodes = 10000;
 	for (auto& nodeEntry : nodes.obj) {
-		if (count >= maxNodes) {
-			break;
-		}
-		++count;
 		int nodeId = std::stoi(nodeEntry.first);
 		auto& nodeInfo = nodeEntry.second;
-		float x = nodeInfo.obj["metadata"].obj["x"].num / 100.0f;
-		float y = nodeInfo.obj["metadata"].obj["y"].num / 100.0f;
+		float x = nodeInfo.obj["metadata"].obj["x"].num / 10.0f;
+		float y = nodeInfo.obj["metadata"].obj["y"].num / 10.0f;
 
 		auto& node = manager.addEntity<Node>();
 		glm::vec2 position(x, y);
 		(this->*addNodeFunction)(node, position);
+
+		manager.grid->addEntity(&node);
 	}
 
 	std::cout << "Parsed JSON from file successfully!" << std::endl;

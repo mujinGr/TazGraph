@@ -35,9 +35,6 @@ public:
         pos = input.find('{');
         input = input.substr(pos);
         pos = 0;
-        for (size_t i = 96607602; i < 96607603; ++i) {
-            std::cout << input.substr(96607602, i - 96607602 + 1) << std::endl;
-        }
     }
 
     JsonValue parse() {

@@ -10,28 +10,49 @@ private:
 	std::vector<std::unique_ptr<Entity>> entities;
 	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
 
+	std::vector<Entity*> visible_entities;
+	std::array<std::vector<Entity*>, maxGroups> visible_groupedEntities;
+
+
 public:
 	std::unique_ptr<Grid> grid;
 
-	void update(float deltaTime = 1.0f)
+	void update(float deltaTime = 1.0f, ICamera* camera = nullptr)
 	{
-		int i = 0;
-		for (auto& e : entities) {
-			i++;
-			if (!e || !e->isActive()) continue;
-			e->update(deltaTime);
+		if (grid) {
+			for (Entity* e : visible_entities) {
+				if (!e || !e->isActive()) continue;
+				e->update(deltaTime);
 
-			//check if entity that has cell has to change cell
-			if (e->ownerCell) {
-				Cell* newCell = grid->getCell(*e);
-				if (newCell != e->ownerCell) {
-					// Need to shift the entity
-					grid->removeEntity(e.get());
-					grid->addEntity(e.get(), newCell);
+				//check if entity that has cell has to change cell
+				if (e->ownerCell) {
+					Cell* newCell = grid->getCell(*e);
+					if (newCell != e->ownerCell) {
+						// Need to shift the entity
+						grid->removeEntity(e);
+						grid->addEntity(e, newCell);
+					}
+				}
+			}
+		}
+		else {
+			for (auto& e : entities) {
+				if (!e || !e->isActive()) continue;
+				e->update(deltaTime);
+
+				//check if entity that has cell has to change cell
+				if (e->ownerCell) {
+					Cell* newCell = grid->getCell(*e);
+					if (newCell != e->ownerCell) {
+						// Need to shift the entity
+						grid->removeEntity(e.get());
+						grid->addEntity(e.get(), newCell);
+					}
 				}
 			}
 		}
 	}
+
 	void updateFully(float deltaTime = 1.0f)
 	{
 		for (auto& e : entities) {
@@ -49,23 +70,43 @@ public:
 			}
 		}
 	}
-	void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window)
+
+	void refresh(ICamera* camera = nullptr)
 	{
-		for (auto& e : entities) e->draw(batch, window);
-	}
-	void refresh()
-	{
-		for (auto i(0u); i < maxGroups; i++)
-		{
-			auto& v(groupedEntities[i]);
-			v.erase(
-				std::remove_if(std::begin(v), std::end(v),
-					[this,i](Entity* mEntity)
-					{
-						return !mEntity->isActive() || !mEntity->hasGroup(i);
-					}),
-				std::end(v));
+		if (grid) {
+			visible_entities = grid->getEntitiesInCameraCells(*camera);
+
+			for (auto i(0u); i < maxGroups; i++)
+			{
+				visible_groupedEntities[i].clear();
+				std::copy_if(visible_entities.begin(), visible_entities.end(), std::back_inserter(visible_groupedEntities[i]),
+					[this, i](Entity* entity) {
+						return entity->hasGroup(i) && entity->isActive();
+					});
+
+				visible_groupedEntities[i].erase(
+					std::remove_if(std::begin(visible_groupedEntities[i]), std::end(visible_groupedEntities[i]),
+						[this, i](Entity* mEntity)
+						{
+							return !mEntity->isActive() || !mEntity->hasGroup(i);
+						}),
+					std::end(visible_groupedEntities[i]));
+			}
 		}
+		else {
+			for (auto i(0u); i < maxGroups; i++)
+			{
+				auto& v(groupedEntities[i]);
+				v.erase(
+					std::remove_if(std::begin(v), std::end(v),
+						[this, i](Entity* mEntity)
+						{
+							return !mEntity->isActive() || !mEntity->hasGroup(i);
+						}),
+					std::end(v));
+			}
+		}
+		
 
 
 		//entities.erase(std::remove_if(std::begin(entities), std::end(entities),
@@ -91,6 +132,11 @@ public:
 	std::vector<Entity*>& getGroup(Group mGroup)
 	{
 		return groupedEntities[mGroup];
+	}
+
+	std::vector<Entity*>& getVisibleGroup(Group mGroup)
+	{
+		return visible_groupedEntities[mGroup];
 	}
 
 	template <typename T, typename... TArgs>

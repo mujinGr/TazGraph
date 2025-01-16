@@ -65,6 +65,10 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
 	}
 
+	if (ImGui::Button("Reset")) {
+		main_camera2D->resetCameraPosition();  // Toggle the state
+	}
+	
 	ImGui::Text("Mouse Coords: {x: %f, y: %f}", mouseCoords.x, mouseCoords.y);
 
 	if (selectedEntity) {
@@ -268,21 +272,23 @@ void EditorIMGUI::ShowAllEntities(Manager& manager) {
 
 	for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
 		std::string s = manager.getGroupName(group);
-		ImGui::Text("Group: %s", s.c_str());
 
-		std::vector<Entity*>& groupVec = manager.getGroup(group);
-		for (auto& entity : groupVec) {
+		if (ImGui::CollapsingHeader(s.c_str())) {
 
-			std::string label = "Entity ID: " + std::to_string(entity->getId());
+			std::vector<Entity*>& groupVec = manager.getGroup(group);
+			for (auto& entity : groupVec) {
 
-			if (ImGui::TreeNode(label.c_str())) {  // TreeNode creates a clickable node that can expand/collapse
-				// Assume position is stored in some kind of Vec2 or similar structure
-				glm::vec2 position = entity->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
-				ImGui::Text("Position: (%.2f, %.2f)", position.x, position.y);
+				std::string label = "Entity ID: " + std::to_string(entity->getId());
 
-				ImGui::TreePop(); // This call tells ImGui to end the TreeNode section
+				if (ImGui::TreeNode(label.c_str())) {  // TreeNode creates a clickable node that can expand/collapse
+					// Assume position is stored in some kind of Vec2 or similar structure
+					glm::vec2 position = entity->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
+					ImGui::Text("Position: (%.2f, %.2f)", position.x, position.y);
+
+					ImGui::TreePop(); // This call tells ImGui to end the TreeNode section
+				}
+
 			}
-
 		}
 	}
 

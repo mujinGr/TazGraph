@@ -166,13 +166,15 @@ void Graph::update(float deltaTime) //game objects updating
 	main_camera2D->update();
 	hud_camera2D->update();
 
-	manager.refresh();
+	manager.refresh(main_camera2D.get());
 	if (_firstLoop) {
 		manager.updateFully(deltaTime);
 		_firstLoop = false;
 	}
 	else {
-		manager.update(deltaTime);
+		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+		manager.update(deltaTime, main_camera2D.get());
 	}
 
 	for (auto& cursor : cursors) {
@@ -330,7 +332,6 @@ void Graph::renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
-
 	for (const auto& entity : entities) {
 		if (entity->hasComponent<Rectangle_w_Color>()) {
 			Rectangle_w_Color entityRectangle = entity->GetComponent<Rectangle_w_Color>();
@@ -366,11 +367,7 @@ void Graph::draw()
 
 		int cellIndex = 0;
 		for (const auto& cell : manager.grid->getCells()) {
-			// Calculate the position of the cell in world coordinates based on its index
-			int x = ((cellIndex % manager.grid->getNumXCells()) - (AXIS_CELLS / 2)) * manager.grid->getCellSize();
-			int y = ((cellIndex / manager.grid->getNumYCells()) - (AXIS_CELLS / 2)) * manager.grid->getCellSize();
-
-			glm::vec4 destRect(x, y, manager.grid->getCellSize(), manager.grid->getCellSize());
+			glm::vec4 destRect(cell.boundingBox.x, cell.boundingBox.y, cell.boundingBox.w, cell.boundingBox.h);
 			_LineRenderer.drawBox(destRect, Color(0, 255, 0, 100), 0.0f);  // Drawing each cell in red for visibility
 
 			cellIndex++;
@@ -424,7 +421,7 @@ void Graph::draw()
 
 	_PlaneModelRenderer.begin();
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("circleColor"), "", *main_camera2D);
-	renderBatch(nodes, _PlaneModelRenderer);
+	renderBatch(manager.getVisibleGroup(Manager::groupNodes_0), _PlaneModelRenderer);
 	renderBatch(cursors, _PlaneModelRenderer);
 	_PlaneModelRenderer.end();
 	_PlaneModelRenderer.renderBatch();

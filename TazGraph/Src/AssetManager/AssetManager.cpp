@@ -29,4 +29,5 @@ void AssetManager::CreateCursor(Entity& cursor)
 	cursor.addComponent<Rectangle_w_Color>();
 	cursor.addComponent<Rectangle_w_Color>().color = Color(0, 0, 0, 255);
 	cursor.addGroup(Manager::cursorGroup);
+	manager->grid->addEntity(&cursor);
 }

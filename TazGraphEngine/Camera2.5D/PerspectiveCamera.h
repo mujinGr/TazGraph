@@ -131,7 +131,10 @@ public:
 	void setCameraMatrix(glm::mat4 newMatrix) {
 		_cameraChange = true;
 	}
-
+	void resetCameraPosition() {
+		_position = glm::vec2(0.0f,0.0f);
+		_cameraChange = true;
+	}
 
 private:
 	int _screenWidth, _screenHeight;

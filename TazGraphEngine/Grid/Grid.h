@@ -1,5 +1,6 @@
 #pragma once
 #include "../GECS/GECS.h"
+#include "../AABB/AABB.h"
 
 #include <vector>
 
@@ -7,6 +8,7 @@
 
 struct Cell {
 	std::vector<Entity*> entities;
+	SDL_FRect boundingBox;
 };
 
 
@@ -27,6 +29,7 @@ public:
 	int getNumXCells();
 	int getNumYCells();
 
+	std::vector<Entity*> getEntitiesInCameraCells(ICamera& camera);
 private:
 	std::vector<Cell> _cells;
 	int _cellSize;
