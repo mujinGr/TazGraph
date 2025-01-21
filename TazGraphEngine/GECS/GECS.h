@@ -77,8 +77,9 @@ private:
 	ComponentBitSet componentBitSet;
 	GroupBitSet groupBitSet;
 
-
 public:
+	bool isLink = false;
+
 	bool paused = false;
 
 	void setId(unsigned int m_id) { id = m_id; }
@@ -169,11 +170,11 @@ public:
 	}
 
 	// instead of virtual functions you can instead do dynamic casting on derived classes to get the functions
-	virtual Entity* getFromNode() {
+	virtual Entity* getFromNode() const {
 		return nullptr;
 	}
 
-	virtual Entity* getToNode() {
+	virtual Entity* getToNode() const {
 		return nullptr;
 	}
 

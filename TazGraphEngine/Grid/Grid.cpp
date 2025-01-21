@@ -1,5 +1,6 @@
 #include "Grid.h"
 #include "../GECS/Components.h"
+#include <unordered_set>
 
 Grid::Grid(int width, int height, int cellSize)
 	: _width(width), _height(height), _cellSize(cellSize)
@@ -32,6 +33,64 @@ Grid::~Grid()
 {
 }
 
+// adding link to grid
+void Grid::addLink(Entity* link)
+{
+	std::vector<Cell*> cells = getLinkCells(*link);
+	for (auto& cell : cells) {
+		addLink(link, cell);
+	}
+}
+
+std::vector<Cell*> Grid::getLinkCells(const Entity& link) {
+	std::vector<Cell*> intersectedCells;
+	std::unordered_set<Cell*> uniqueCells;
+
+	int x0 = static_cast<int>(round(link.getFromNode()->GetComponent<TransformComponent>().getCenterTransform().x));
+	int y0 = static_cast<int>(round(link.getFromNode()->GetComponent<TransformComponent>().getCenterTransform().y));
+	int x1 = static_cast<int>(round(link.getToNode()->GetComponent<TransformComponent>().getCenterTransform().x));
+	int y1 = static_cast<int>(round(link.getToNode()->GetComponent<TransformComponent>().getCenterTransform().y));
+	
+	int dx = std::abs(x1 - x0);
+	int sx = x0 < x1 ? 1 : -1;
+	int dy = -std::abs(y1 - y0);
+	int sy = y0 < y1 ? 1 : -1;
+
+	int err = dx + dy;
+	int e2;
+
+	// Logic to calculate all cells the line intersects
+	// Bresenham algorithm
+	while (true) {
+		Cell* currentCell = getCell(x0, y0);
+		if (uniqueCells.insert(currentCell).second) {
+			intersectedCells.push_back(currentCell);
+		}
+		if (x0 == x1 && y0 == y1) break;
+		e2 = 2 * err;
+		if (e2 >= dy) {
+			err += dy;
+			x0 += sx;
+		}
+		if (e2 <= dx) {
+			err += dx;
+			y0 += sy;
+		}
+	}
+	return intersectedCells;
+}
+
+void Grid::addLink(Entity* link, Cell* cell)
+{
+	cell->links.push_back(link);
+
+	if(!link->ownerCell)
+	{
+		link->ownerCell = cell;
+	}
+}
+
+// adding node to grid
 void Grid::addEntity(Entity* entity)
 {
 	Cell* cell = getCell(*entity);
@@ -66,7 +125,7 @@ Cell* Grid::getCell(int x, int y)
 
 Cell* Grid::getCell(const Entity& entity)
 {
-	auto pos = entity.GetComponent<TransformComponent>().getPosition();
+	auto pos = entity.GetComponent<TransformComponent>().getCenterTransform();
 	int cellX = (int)(std::floor(pos.x / _cellSize));
 	int cellY = (int)(std::floor(pos.y / _cellSize));
 
@@ -113,13 +172,43 @@ int Grid::getNumYCells() {
 	return _numYCells;
 }
 
-std::vector<Entity*> Grid::getEntitiesInCameraCells(ICamera& camera) {
-	std::vector<Entity*> result;
+std::vector<Cell*> Grid::getIntercectedCameraCells(ICamera& camera) {
+	std::vector<Cell*> result;
 
 	for (auto& cell : this->_cells) {
 		if (checkCollision(camera.getCameraRect(), cell.boundingBox)) { // Assuming each cell has a bounding box
-			result.insert(result.end(), cell.entities.begin(), cell.entities.end());
+			result.push_back(&cell);
 		}
+	}
+	return result;
+}
+
+std::vector<Entity*> Grid::getEntitiesInCameraCells(const std::vector<Cell*>& intercepted_cells) {
+	std::vector<Entity*> result;
+
+	for (auto& cell : intercepted_cells) {
+		result.insert(result.end(), cell->entities.begin(), cell->entities.end());
+	}
+	return result;
+}
+
+std::vector<Entity*> Grid::getLinksInCameraCells(const std::vector<Cell*>& intercepted_cells) {
+	std::map<unsigned int, Entity*> uniqueEntities;
+
+	for (auto& cell : intercepted_cells) {
+		for (auto& link : cell->links) {
+			unsigned int linkId = link->getId();
+
+			if (uniqueEntities.find(linkId) == uniqueEntities.end()) {
+				uniqueEntities[linkId] = link;
+			}
+		}
+	}
+
+	std::vector<Entity*> result;
+
+	for (auto& entry : uniqueEntities) {
+		result.push_back(entry.second);
 	}
 	return result;
 }

@@ -8,6 +8,8 @@
 
 struct Cell {
 	std::vector<Entity*> entities;
+	std::vector<Entity*> links;
+
 	SDL_FRect boundingBox;
 };
 
@@ -18,8 +20,13 @@ public:
 	Grid(int width, int height, int cellSize);
 	~Grid();
 
+	void addLink(Entity* link);
+	std::vector<Cell*> getLinkCells(const Entity& link);
+	void addLink(Entity* link, Cell* cell);
+
 	void addEntity(Entity* entity);
 	void addEntity(Entity* entity, Cell* cell);
+
 	void removeEntity(Entity* entity);
 	Cell* getCell(int x, int y);
 	Cell* getCell(const Entity& position);
@@ -29,7 +36,12 @@ public:
 	int getNumXCells();
 	int getNumYCells();
 
-	std::vector<Entity*> getEntitiesInCameraCells(ICamera& camera);
+	std::vector<Cell*> getIntercectedCameraCells(ICamera& camera);
+
+	std::vector<Entity*> getLinksInCameraCells(const std::vector<Cell*>& intercepted_cells);
+
+	std::vector<Entity*> getEntitiesInCameraCells(const std::vector<Cell*>& intercepted_cells);
+
 private:
 	std::vector<Cell> _cells;
 	int _cellSize;

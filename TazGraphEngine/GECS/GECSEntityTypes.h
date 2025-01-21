@@ -14,7 +14,7 @@ private:
 public:
 
 	LinkEntity(Manager& mManager) : Entity(mManager) {
-
+		isLink = true;
 	}
 
 	LinkEntity(Manager& mManager, unsigned int mfromId, unsigned int mtoId) 
@@ -22,6 +22,7 @@ public:
 		fromId(mfromId),
 		toId(mtoId)
 	{
+		isLink = true;
 		from = &mManager.getEntityFromId(fromId);
 		to = &mManager.getEntityFromId(toId);
 	}
@@ -30,11 +31,11 @@ public:
 
 	}
 
-	Entity* getFromNode() override {
+	Entity* getFromNode() const override {
 		return from;
 	}
 
-	Entity* getToNode() override {
+	Entity* getToNode() const override {
 		return to;
 	}
 } Link;

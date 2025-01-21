@@ -54,7 +54,7 @@ void Map::saveMapAsText(const char* fileName) {
 	file.close();
 }
 
-void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Entity&, glm::vec2 mPosition), void (Map::* addLinkFunction)(Entity&, unsigned int fromId, unsigned int toId)) {
+void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Entity&, glm::vec2 mPosition), void (Map::* addLinkFunction)(Entity&)) {
 	std::string line;
 	std::getline(mapFile, line);
 
@@ -87,11 +87,14 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 
 		auto& link(manager.addEntity<Link>(fromNodeId, toNodeId));
 		link.setId(id);
-		(this->*addLinkFunction)(link, fromNodeId, toNodeId);
+		(this->*addLinkFunction)(link);
 	}
 }
 
-void Map::ProcessPythonFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Entity&, glm::vec2 mPosition), void (Map::* addLinkFunction)(Entity&, unsigned int fromId, unsigned int toId)) {
+void Map::ProcessPythonFile(std::ifstream& mapFile,
+	void (Map::* addNodeFunction)(Entity&, glm::vec2 mPosition),
+	void (Map::* addLinkFunction)(Entity&)
+) {
 	
 	JsonParser fileParser(mapFile);
 	JsonValue rootFromFile = fileParser.parse();
@@ -109,7 +112,22 @@ void Map::ProcessPythonFile(std::ifstream& mapFile, void (Map::* addNodeFunction
 
 		manager.grid->addEntity(&node);
 	}
+	int i = 0;
+	auto& links = rootFromFile.obj["graph"].obj["edges"];
+	for (auto& linkEntry : links.arr) {
+		if (i > 100) {
+			break;
+		}
+		i++;
+		auto& linkInfo = linkEntry;
+		unsigned int fromID = linkInfo.obj["source"].num;
+		unsigned int toID	= linkInfo.obj["target"].num;
 
+		auto& link = manager.addEntity<Link>(fromID, toID);
+		(this->*addLinkFunction)(link);
+
+		manager.grid->addLink(&link);
+	}
 	std::cout << "Parsed JSON from file successfully!" << std::endl;
 }
 
@@ -159,7 +177,7 @@ void Map::AddDefaultNode(Entity &node, glm::vec2 mPosition)
 	node.addGroup(Manager::groupNodes_0);
 }
 
-void Map::AddDefaultLink(Entity& link, unsigned int fromNodeId, unsigned int toNodeId)
+void Map::AddDefaultLink(Entity& link)
 {
 	link.addGroup(Manager::groupLinks_0);
 }

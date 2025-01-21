@@ -18,14 +18,14 @@ public:
 	~Map();
 
 	void saveMapAsText(const char* fileName);
-	void ProcessFile(std::ifstream& mapFile, void(Map::* addNodeFunction)(Entity&, glm::vec2 mPosition), void(Map::* addLinkFunction)(Entity&, unsigned int fromId, unsigned int toId));
-	void ProcessPythonFile(std::ifstream& mapFile, void(Map::* addNodeFunction)(Entity&, glm::vec2 mPosition), void(Map::* addLinkFunction)(Entity&, unsigned int fromId, unsigned int toId));
+	void ProcessFile(std::ifstream& mapFile, void(Map::* addNodeFunction)(Entity&, glm::vec2 mPosition), void(Map::* addLinkFunction)(Entity&));
+	void ProcessPythonFile(std::ifstream& mapFile, void(Map::* addNodeFunction)(Entity&, glm::vec2 mPosition), void(Map::* addLinkFunction)(Entity&));
 	void loadTextMap(const char* fileName);
 
 	void loadPythonMap(const char* fileName);
 
 	void AddDefaultNode(Entity& node, glm::vec2 mPosition);
-	void AddDefaultLink(Entity& node, unsigned int fromNodeId, unsigned int toNodeId);
+	void AddDefaultLink(Entity& node);
 
 private:
 	int mapScale;

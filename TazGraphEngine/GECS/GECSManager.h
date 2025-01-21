@@ -11,17 +11,17 @@ private:
 	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
 
 	std::vector<Entity*> visible_entities;
+	std::vector<Entity*> visible_links;
 	std::array<std::vector<Entity*>, maxGroups> visible_groupedEntities;
-
 
 public:
 	std::unique_ptr<Grid> grid;
 
-	void update(float deltaTime = 1.0f, ICamera* camera = nullptr)
+	void update(float deltaTime = 1.0f)
 	{
 		if (grid) {
 			for (Entity* e : visible_entities) {
-				if (!e || !e->isActive()) continue;
+				if (!e || !e->isActive() || e->isLink) continue;
 				e->update(deltaTime);
 
 				//check if entity that has cell has to change cell
@@ -37,7 +37,7 @@ public:
 		}
 		else {
 			for (auto& e : entities) {
-				if (!e || !e->isActive()) continue;
+				if (!e || !e->isActive() || e->isLink) continue;
 				e->update(deltaTime);
 
 				//check if entity that has cell has to change cell
@@ -56,7 +56,7 @@ public:
 	void updateFully(float deltaTime = 1.0f)
 	{
 		for (auto& e : entities) {
-			if (!e || !e->isActive()) continue;
+			if (!e || !e->isActive() || e->isLink) continue;
 			e->updateFully(deltaTime);
 
 			//check if entity that has cell has to change cell
@@ -74,23 +74,36 @@ public:
 	void refresh(ICamera* camera = nullptr)
 	{
 		if (grid) {
-			visible_entities = grid->getEntitiesInCameraCells(*camera);
+			std::vector<Cell*> intercepted_cells = grid->getIntercectedCameraCells(*camera);
 
-			for (auto i(0u); i < maxGroups; i++)
-			{
-				visible_groupedEntities[i].clear();
-				std::copy_if(visible_entities.begin(), visible_entities.end(), std::back_inserter(visible_groupedEntities[i]),
-					[this, i](Entity* entity) {
-						return entity->hasGroup(i) && entity->isActive();
-					});
+			visible_entities = grid->getEntitiesInCameraCells(intercepted_cells);
+			visible_links	 = grid->getLinksInCameraCells(intercepted_cells);
 
-				visible_groupedEntities[i].erase(
-					std::remove_if(std::begin(visible_groupedEntities[i]), std::end(visible_groupedEntities[i]),
-						[this, i](Entity* mEntity)
-						{
-							return !mEntity->isActive() || !mEntity->hasGroup(i);
-						}),
-					std::end(visible_groupedEntities[i]));
+			for (auto& vgroup : visible_groupedEntities) {
+				vgroup.clear();
+			}
+
+			for (auto* ventity : visible_entities) {
+				if (!ventity->isActive()) {
+					continue; 
+				}
+
+				for (unsigned i = 0; i < maxGroups; ++i) {
+					if (ventity->hasGroup(i)) {
+						visible_groupedEntities[i].push_back(ventity);
+					}
+				}
+			}
+			for (auto* vlink : visible_links) {
+				if (!vlink->isActive()) {
+					continue;
+				}
+
+				for (unsigned i = 0; i < maxGroups; ++i) {
+					if (vlink->hasGroup(i)) {
+						visible_groupedEntities[i].push_back(vlink);
+					}
+				}
 			}
 		}
 		else {
@@ -108,20 +121,19 @@ public:
 		}
 		
 
-
-		//entities.erase(std::remove_if(std::begin(entities), std::end(entities),
-		//	[this](const std::unique_ptr<Entity>& mEntity)
-		//	{
-		//		if (!mEntity->isActive()) {
-		//			if (mEntity->ownerCell) {
-		//				grid->removeEntity(mEntity.get());  // Remove entity from the grid
-		//				mEntity->ownerCell = nullptr;
-		//			}
-		//			return true;
-		//		}
-		//		return false;
-		//	}),
-		//	std::end(entities));
+		entities.erase(std::remove_if(std::begin(entities), std::end(entities),
+			[this](const std::unique_ptr<Entity>& mEntity)
+			{
+				if (!mEntity->isActive()) {
+					if (mEntity->ownerCell) {
+						grid->removeEntity(mEntity.get());  // Remove entity from the grid
+						mEntity->ownerCell = nullptr;
+					}
+					return true;
+				}
+				return false;
+			}),
+			std::end(entities));
 	}
 
 	void AddToGroup(Entity* mEntity, Group mGroup)

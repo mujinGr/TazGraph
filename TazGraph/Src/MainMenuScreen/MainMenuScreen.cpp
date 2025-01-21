@@ -123,7 +123,7 @@ void MainMenuScreen::update(float deltaTime)
 
 	checkInput();
 
-	main_menu_manager.update(deltaTime, main_camera2D.get());
+	main_menu_manager.update(deltaTime);
 	main_menu_manager.refresh(main_camera2D.get());
 
 	main_camera2D->update();

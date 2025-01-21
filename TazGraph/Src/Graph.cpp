@@ -174,7 +174,7 @@ void Graph::update(float deltaTime) //game objects updating
 	else {
 		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-		manager.update(deltaTime, main_camera2D.get());
+		manager.update(deltaTime);
 	}
 
 	for (auto& cursor : cursors) {
@@ -409,8 +409,17 @@ void Graph::draw()
 		_resourceManager.getGLSLProgram("lineColor")->unuse();
 
 	}
+	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("lineColor"), "", *main_camera2D);
 
-	renderBatch(links, _LineRenderer);
+	glm::vec4 destRect;
+	destRect.x = main_camera2D->getPosition().x - main_camera2D->getCameraDimensions().x/2;
+	destRect.y = main_camera2D->getPosition().y - main_camera2D->getCameraDimensions().y/2;
+	destRect.z = main_camera2D->getCameraDimensions().x;
+	destRect.w = main_camera2D->getCameraDimensions().y;
+
+	_LineRenderer.drawBox(destRect, Color(0, 0, 0, 255), 0.0f, 0.0f);
+
+	renderBatch(manager.getVisibleGroup(Manager::groupLinks_0), _LineRenderer);
 	
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(2.0f);

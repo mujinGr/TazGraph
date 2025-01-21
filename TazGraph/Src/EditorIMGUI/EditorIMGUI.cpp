@@ -119,6 +119,7 @@ void EditorIMGUI::FileActions() {
 void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
 
 	ImGui::Begin("Performance");
+	ImGui::Text("FPS: %f", baseFPSLimiter.fps);
 	if (ImPlot::BeginPlot("FPS Plot")) {
 #if defined(_WIN32) || defined(_WIN64)
 		int plot_count = min(baseFPSLimiter.fps_history_count,
@@ -133,7 +134,7 @@ void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
 
 #endif
 
-		ImPlot::SetupAxesLimits(0, 100, 0, 70);
+		ImPlot::SetupAxesLimits(0, 100, 0, 1000);
 
 		ImPlot::PlotLine("FPS", &baseFPSLimiter.fpsHistory[0], plot_count);
 
