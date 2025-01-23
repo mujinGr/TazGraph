@@ -27,7 +27,6 @@ public:
 	void addEntity(Entity* entity);
 	void addEntity(Entity* entity, Cell* cell);
 
-	void removeEntity(Entity* entity);
 	Cell* getCell(int x, int y);
 	Cell* getCell(const Entity& position);
 	std::vector<Cell*> getAdjacentCells(const Entity& entity);

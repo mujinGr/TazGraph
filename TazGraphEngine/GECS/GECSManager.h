@@ -20,35 +20,19 @@ public:
 	void update(float deltaTime = 1.0f)
 	{
 		if (grid) {
-			for (Entity* e : visible_entities) {
-				if (!e || !e->isActive() || e->isLink) continue;
+			for (auto& e : visible_entities) {
+				if (!e || !e->isActive()) continue;
 				e->update(deltaTime);
 
-				//check if entity that has cell has to change cell
-				if (e->ownerCell) {
-					Cell* newCell = grid->getCell(*e);
-					if (newCell != e->ownerCell) {
-						// Need to shift the entity
-						grid->removeEntity(e);
-						grid->addEntity(e, newCell);
-					}
-				}
+				e->cellUpdate();
 			}
 		}
 		else {
 			for (auto& e : entities) {
-				if (!e || !e->isActive() || e->isLink) continue;
+				if (!e || !e->isActive()) continue;
 				e->update(deltaTime);
 
-				//check if entity that has cell has to change cell
-				if (e->ownerCell) {
-					Cell* newCell = grid->getCell(*e);
-					if (newCell != e->ownerCell) {
-						// Need to shift the entity
-						grid->removeEntity(e.get());
-						grid->addEntity(e.get(), newCell);
-					}
-				}
+				e->cellUpdate();
 			}
 		}
 	}
@@ -56,18 +40,10 @@ public:
 	void updateFully(float deltaTime = 1.0f)
 	{
 		for (auto& e : entities) {
-			if (!e || !e->isActive() || e->isLink) continue;
+			if (!e || !e->isActive()) continue;
 			e->updateFully(deltaTime);
 
-			//check if entity that has cell has to change cell
-			if (e->ownerCell) {
-				Cell* newCell = grid->getCell(*e);
-				if (newCell != e->ownerCell) {
-					// Need to shift the entity
-					grid->removeEntity(e.get());
-					grid->addEntity(e.get(), newCell);
-				}
-			}
+			e->cellUpdate();
 		}
 	}
 
@@ -125,10 +101,8 @@ public:
 			[this](const std::unique_ptr<Entity>& mEntity)
 			{
 				if (!mEntity->isActive()) {
-					if (mEntity->ownerCell) {
-						grid->removeEntity(mEntity.get());  // Remove entity from the grid
-						mEntity->ownerCell = nullptr;
-					}
+					mEntity->removeFromCell();
+					
 					return true;
 				}
 				return false;

@@ -88,6 +88,8 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 		auto& link(manager.addEntity<Link>(fromNodeId, toNodeId));
 		link.setId(id);
 		(this->*addLinkFunction)(link);
+
+		manager.grid->addLink(&link);
 	}
 }
 
@@ -112,17 +114,15 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 
 		manager.grid->addEntity(&node);
 	}
-	int i = 0;
 	auto& links = rootFromFile.obj["graph"].obj["edges"];
 	for (auto& linkEntry : links.arr) {
-		if (i > 100) {
-			break;
-		}
-		i++;
 		auto& linkInfo = linkEntry;
 		unsigned int fromID = linkInfo.obj["source"].num;
 		unsigned int toID	= linkInfo.obj["target"].num;
 
+		if (fromID == 0 || toID == 0) {
+			continue;
+		}
 		auto& link = manager.addEntity<Link>(fromID, toID);
 		(this->*addLinkFunction)(link);
 

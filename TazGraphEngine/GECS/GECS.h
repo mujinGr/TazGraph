@@ -71,15 +71,13 @@ class Entity
 private:
 	unsigned int id;
 
-	Manager& manager;
 	bool active = true;
 	ComponentArray componentArray;//create 2 arrays, this is for the fast access
 	ComponentBitSet componentBitSet;
 	GroupBitSet groupBitSet;
-
+protected:
+	Manager& manager;
 public:
-	bool isLink = false;
-
 	bool paused = false;
 
 	void setId(unsigned int m_id) { id = m_id; }
@@ -92,7 +90,7 @@ public:
 		}
 		return true;
 	}
-	Cell* ownerCell = nullptr;
+
 	std::vector<std::unique_ptr<Component>> components; //create 2 arrays, this is for the concurrent access
 	Entity(Manager& mManager) : manager(mManager) {}
 
@@ -113,6 +111,15 @@ public:
 			c->update(deltaTime); // start from which was added first
 		}
 	}
+
+	virtual void cellUpdate() {};
+
+	virtual void removeFromCell() {};
+
+	virtual void setOwnerCell(Cell* cell) {};
+
+	virtual Cell* getOwnerCell() const { return nullptr; };
+
 	void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) 
 	{
 		for (auto& c : components) { 
@@ -184,5 +191,6 @@ public:
 
 	virtual void setParentEntity(Entity* pEntity) {}
 
+	virtual void imgui_print() {}
 };
 

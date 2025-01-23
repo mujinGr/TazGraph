@@ -46,37 +46,35 @@ std::vector<Cell*> Grid::getLinkCells(const Entity& link) {
 	std::vector<Cell*> intersectedCells;
 	std::unordered_set<Cell*> uniqueCells;
 
-	int x0 = static_cast<int>(round(link.getFromNode()->GetComponent<TransformComponent>().getCenterTransform().x));
-	int y0 = static_cast<int>(round(link.getFromNode()->GetComponent<TransformComponent>().getCenterTransform().y));
-	int x1 = static_cast<int>(round(link.getToNode()->GetComponent<TransformComponent>().getCenterTransform().x));
-	int y1 = static_cast<int>(round(link.getToNode()->GetComponent<TransformComponent>().getCenterTransform().y));
+	float x0 = link.getFromNode()->GetComponent<TransformComponent>().getCenterTransform().x;
+	float y0 = link.getFromNode()->GetComponent<TransformComponent>().getCenterTransform().y;
+	float x1 = link.getToNode()->GetComponent<TransformComponent>().getCenterTransform().x;
+	float y1 = link.getToNode()->GetComponent<TransformComponent>().getCenterTransform().y;
 	
-	int dx = std::abs(x1 - x0);
-	int sx = x0 < x1 ? 1 : -1;
-	int dy = -std::abs(y1 - y0);
-	int sy = y0 < y1 ? 1 : -1;
+	float dx = x1 - x0;
+	float dy = y1 - y0;
 
-	int err = dx + dy;
-	int e2;
+	float distance = sqrt(dx * dx + dy * dy);
+	float stepSize = 10;
 
-	// Logic to calculate all cells the line intersects
-	// Bresenham algorithm
-	while (true) {
-		Cell* currentCell = getCell(x0, y0);
-		if (uniqueCells.insert(currentCell).second) {
+	int steps = static_cast<int>(distance / stepSize);
+	float xIncrement = dx / steps;
+	float yIncrement = dy / steps;
+
+	for (int i = 0; i <= steps; i++) {
+		Cell* currentCell = getCell((int)(std::floor(x0 / _cellSize)), (int)(std::floor(y0 / _cellSize)) );
+		if (uniqueCells.insert(currentCell).second) { 
 			intersectedCells.push_back(currentCell);
 		}
-		if (x0 == x1 && y0 == y1) break;
-		e2 = 2 * err;
-		if (e2 >= dy) {
-			err += dy;
-			x0 += sx;
-		}
-		if (e2 <= dx) {
-			err += dx;
-			y0 += sy;
-		}
+		x0 += xIncrement;
+		y0 += yIncrement;
 	}
+	Cell* currentCell = getCell((int)(std::floor(x1 / _cellSize)), (int)(std::floor(y1 / _cellSize)));
+
+	if (uniqueCells.insert(currentCell).second) { 
+		intersectedCells.push_back(currentCell);
+	}
+
 	return intersectedCells;
 }
 
@@ -84,10 +82,7 @@ void Grid::addLink(Entity* link, Cell* cell)
 {
 	cell->links.push_back(link);
 
-	if(!link->ownerCell)
-	{
-		link->ownerCell = cell;
-	}
+	link->setOwnerCell(cell);
 }
 
 // adding node to grid
@@ -101,14 +96,7 @@ void Grid::addEntity(Entity* entity, Cell* cell)
 {
 	cell->entities.push_back(entity);
 
-	entity->ownerCell = cell;
-}
-
-void Grid::removeEntity(Entity* entity) {
-	entity->ownerCell->entities.erase(
-		std::remove(entity->ownerCell->entities.begin(), entity->ownerCell->entities.end(),
-			entity),
-		entity->ownerCell->entities.end());
+	entity->setOwnerCell(cell);
 }
 
 
@@ -119,8 +107,8 @@ Cell* Grid::getCell(int x, int y)
 	if (y < -(_numYCells / 2)) y = -(_numYCells / 2);
 	if (y >= (_numYCells / 2)) y = (_numYCells / 2) - 1;
 
-
-	return &_cells[(y + (_numYCells / 2)) * _numXCells + (x + (_numXCells / 2))];
+	size_t index = (y + (_numYCells / 2)) * _numXCells + (x + (_numXCells / 2));
+	return &_cells[index];
 }
 
 Cell* Grid::getCell(const Entity& entity)
@@ -143,7 +131,7 @@ std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity) {
 	for (int offsetX = -1; offsetX <= 1; offsetX++) {
 		for (int offsetY = -1; offsetY <= 1; offsetY++) {
 			if (offsetX == 0 && offsetY == 0) {
-				adjacentCells.push_back(entity.ownerCell);
+				adjacentCells.push_back(entity.getOwnerCell());
 				continue;
 			}
 			int neighborX = cellX + offsetX;

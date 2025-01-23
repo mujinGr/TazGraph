@@ -74,14 +74,13 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 	if (selectedEntity) {
 		ImGui::Text("Selected Entity Details");
 
-		// Example: Display components of the selected entity
 		if (selectedEntity->hasComponent<TransformComponent>()) {
+
 			TransformComponent* tr = &selectedEntity->GetComponent<TransformComponent>();
 			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
 			ImGui::Text("Size: (%d, %d)", tr->width, tr->height);
-			int cellX = (int)(std::floor(tr->getPosition().x / cell_size));
-			int cellY = (int)(std::floor(tr->getPosition().y / cell_size));
-			ImGui::Text("Grid index: %d with x: %d and y: %d", manager.grid->getCell(*selectedEntity), cellX, cellY);
+			SDL_FRect cellBox = manager.grid->getCell(*selectedEntity)->boundingBox;
+			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
 		}
 	}
 	ImGui::End();
@@ -281,12 +280,11 @@ void EditorIMGUI::ShowAllEntities(Manager& manager) {
 
 				std::string label = "Entity ID: " + std::to_string(entity->getId());
 
-				if (ImGui::TreeNode(label.c_str())) {  // TreeNode creates a clickable node that can expand/collapse
-					// Assume position is stored in some kind of Vec2 or similar structure
-					glm::vec2 position = entity->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
-					ImGui::Text("Position: (%.2f, %.2f)", position.x, position.y);
+				if (ImGui::TreeNode(label.c_str())) {  
 
-					ImGui::TreePop(); // This call tells ImGui to end the TreeNode section
+					entity->imgui_print();
+					
+					ImGui::TreePop();
 				}
 
 			}
