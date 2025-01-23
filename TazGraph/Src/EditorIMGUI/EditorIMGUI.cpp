@@ -76,6 +76,8 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 
 		if (selectedEntity->hasComponent<TransformComponent>()) {
 
+			ImGui::Text("Id: %d", selectedEntity->getId());
+
 			TransformComponent* tr = &selectedEntity->GetComponent<TransformComponent>();
 			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
 			ImGui::Text("Size: (%d, %d)", tr->width, tr->height);

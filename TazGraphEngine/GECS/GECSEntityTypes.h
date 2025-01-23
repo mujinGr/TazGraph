@@ -32,7 +32,18 @@ public:
 	}
 
 	void cellUpdate() override {
+		// if cell(or position) of fromNode or cell(or position) of toNode is different than
+		// the saved cells in ownerCells then update it
+		if (manager.grid->getCell(*getFromNode()) != ownerCells.front()
+			|| manager.grid->getCell(*getToNode()) != ownerCells.back()) 
+		{
+			removeEntity();
 
+			std::vector<Cell*> cells = manager.grid->getLinkCells(*this);
+			for (auto& cell : cells) {
+				manager.grid->addLink(this, cell);
+			}
+		}
 	}
 
 	void removeFromCell() override {
@@ -42,8 +53,16 @@ public:
 					std::remove(cell->entities.begin(), cell->entities.end(),
 						this),
 					cell->entities.end());
-				ownerCells.clear();
 			}
+		}
+		ownerCells.clear();
+	}
+
+	void removeEntity() {
+		for (auto cell : ownerCells) {
+			cell->links.erase(std::remove(cell->links.begin(), cell->links.end(),
+				this),
+				cell->links.end());
 		}
 	}
 

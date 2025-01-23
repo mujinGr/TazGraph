@@ -18,7 +18,7 @@ Manager manager;
 Map* Graph::map = nullptr;
 TazGraphEngine::Window* Graph::_window = nullptr;
 
-auto& cursor(manager.addEntity());
+auto& cursor(manager.addEntity(-1));
 
 Graph::Graph(TazGraphEngine::Window* window)
 {
@@ -194,9 +194,10 @@ void Graph::update(float deltaTime) //game objects updating
 
 void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-	for (auto& groups : { nodes})
-	{
-		for (auto& entity : groups) {
+
+	auto cells = manager.grid->getIntercectedCameraCells(*main_camera2D);
+	for (auto cell : cells) {
+		for (auto& entity : cell->entities) {
 			TransformComponent* tr = &entity->GetComponent<TransformComponent>();
 			glm::vec2 pos = glm::vec2(tr->getPosition().x, tr->getPosition().y);
 			// Check if the mouse click is within the entity's bounding box
@@ -208,7 +209,6 @@ void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
 			}
 		}
 	}
-	
 }
 
 void Graph::checkInput() {
@@ -364,19 +364,18 @@ void Graph::draw()
 
 	// Debug Rendering
 	if (_renderDebug) {
-
-		int cellIndex = 0;
-		for (const auto& cell : manager.grid->getCells()) {
-			glm::vec4 destRect(cell.boundingBox.x, cell.boundingBox.y, cell.boundingBox.w, cell.boundingBox.h);
+		std::vector<Cell*> intercectedCells = manager.grid->getIntercectedCameraCells(*main_camera2D);
+		for (const auto& cell : intercectedCells) {
+			glm::vec4 destRect(cell->boundingBox.x, cell->boundingBox.y, cell->boundingBox.w, cell->boundingBox.h);
 			_LineRenderer.drawBox(destRect, Color(0, 255, 0, 100), 0.0f);  // Drawing each cell in red for visibility
-
-			cellIndex++;
 		}
-		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
 
-			std::vector<Entity*>& groupVec = manager.getGroup(group);
+		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
+			if (group == Manager::groupLinks_0) continue;
+
+			std::vector<Entity*>& groupVec = manager.getVisibleGroup(group);
 			for (auto& entity : groupVec) {
-				
+
 				if (entity->hasComponent<TransformComponent>())
 				{
 					TransformComponent* tr = &entity->GetComponent<TransformComponent>();
@@ -390,7 +389,7 @@ void Graph::draw()
 					//_LineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
 					//break;
 				}
-				
+
 			}
 		}
 		if (_selectedEntity) {

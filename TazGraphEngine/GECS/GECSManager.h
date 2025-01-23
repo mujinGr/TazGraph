@@ -26,6 +26,12 @@ public:
 
 				e->cellUpdate();
 			}
+			for (auto& le : visible_links) {
+				if (!le || !le->isActive()) continue;
+				le->update(deltaTime);
+
+				le->cellUpdate();
+			}
 		}
 		else {
 			for (auto& e : entities) {
@@ -138,8 +144,13 @@ public:
 
 	Entity& addEntity()
 	{
+		return addEntity(lastEntityId++);
+	}
+
+	Entity& addEntity(int id)
+	{
 		Entity* e = new Entity(*this);
-		e->setId(lastEntityId++);
+		e->setId(id);
 		std::unique_ptr<Entity> uPtr{ e };
 		entities.emplace_back(std::move(uPtr));
 

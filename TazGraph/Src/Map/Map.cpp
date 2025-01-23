@@ -120,9 +120,6 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 		unsigned int fromID = linkInfo.obj["source"].num;
 		unsigned int toID	= linkInfo.obj["target"].num;
 
-		if (fromID == 0 || toID == 0) {
-			continue;
-		}
 		auto& link = manager.addEntity<Link>(fromID, toID);
 		(this->*addLinkFunction)(link);
 
