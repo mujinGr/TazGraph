@@ -32,7 +32,7 @@ public:
 	bool isGoingBack();
 	void SetGoingBack(bool goingBack);
 
-	void BackGroundUIElement(bool& renderDebug, glm::vec2 mouseCoords, const Manager& manager, Entity* selectedEntity, float(&backgroundColor)[4], int cell_size);
+	void BackGroundUIElement(bool& renderDebug, glm::vec2 mouseCoords, Manager& manager, Entity* selectedEntity, float(&backgroundColor)[4], int cell_size);
 	void FileActions();
 	void FPSCounter(const BaseFPSLimiter& baseFPSLimiter);
 	void ReloadAccessibleFiles();

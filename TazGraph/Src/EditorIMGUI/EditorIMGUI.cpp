@@ -31,7 +31,7 @@ void EditorIMGUI::SetGoingBack(bool goingBack) {
 	_goingBack = goingBack;
 }
 
-void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, const Manager& manager, Entity* selectedEntity, float(& backgroundColor)[4], int cell_size) {
+void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, Manager& manager, Entity* selectedEntity, float(& backgroundColor)[4], int cell_size) {
 	ImGui::Begin("Background UI");
 	ImGui::Text("This is a Background UI element.");
 	ImGui::ColorEdit4("Background Color", backgroundColor);
@@ -68,7 +68,15 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 	if (ImGui::Button("Reset")) {
 		main_camera2D->resetCameraPosition();  // Toggle the state
 	}
-	
+
+	int i = 0;
+	for (std::size_t managerGroup = Manager::groupBackgroundLayer; managerGroup != Manager::cursorGroup + 1; managerGroup++) {
+		ImGui::Text("group %s has %d entities", manager.getGroupName(managerGroup).c_str(), manager.getVisibleGroup(managerGroup).size());
+
+		i += manager.getVisibleGroup(managerGroup).size();
+	}
+	ImGui::Text("Total Visible Entities: %d", i);
+
 	ImGui::Text("Mouse Coords: {x: %f, y: %f}", mouseCoords.x, mouseCoords.y);
 
 	if (selectedEntity) {
@@ -272,24 +280,76 @@ void EditorIMGUI::MainMenuUI(std::function<void()> onStartSimulator, std::functi
 void EditorIMGUI::ShowAllEntities(Manager& manager) {
 	ImGui::Begin("Entity List");
 
-	for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
+	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+	int size = 10;
+
+	for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::cursorGroup + 1; group++) {
 		std::string s = manager.getGroupName(group);
 
 		if (ImGui::CollapsingHeader(s.c_str())) {
-
 			std::vector<Entity*>& groupVec = manager.getGroup(group);
-			for (auto& entity : groupVec) {
 
-				std::string label = "Entity ID: " + std::to_string(entity->getId());
-
-				if (ImGui::TreeNode(label.c_str())) {  
-
-					entity->imgui_print();
+			for (auto& entity : groupVec) { // loops 1 time
+				if (entity->hasComponent<Rectangle_w_Color>()) {
+					Color initialColor = entity->GetComponent<Rectangle_w_Color>().color;
+					color = ImVec4(initialColor.r / 255.0f, initialColor.g / 255.0f, initialColor.b / 255.0f, initialColor.a / 255.0f);
 					
-					ImGui::TreePop();
+					TransformComponent* tr = &entity->GetComponent<TransformComponent>();
+					int initialSize[2] = { tr->width, tr->height };
+					size = initialSize[0];
+					break;
 				}
-
 			}
+
+			if (ImGui::ColorEdit4(("Color##" + s).c_str(), (float*)&color)) {
+				std::vector<Entity*>& groupVec = manager.getGroup(group);
+				Color newColor = {
+				   (GLubyte)(color.x * 255),
+				   (GLubyte)(color.y * 255),
+				   (GLubyte)(color.z * 255),
+				   (GLubyte)(color.w * 255)
+				};
+
+				for (auto& entity : groupVec) {
+					if (entity->hasComponent<Rectangle_w_Color>()) {
+						entity->GetComponent<Rectangle_w_Color>().color = newColor;
+					}
+				}
+			}
+			if (ImGui::SliderInt("Node Size", &size, 0, 100)) {
+				for (auto& entity : groupVec) {
+					if (entity->hasComponent<Rectangle_w_Color>()) {
+						entity->GetComponent<TransformComponent>().width = size;
+						entity->GetComponent<TransformComponent>().height = size;
+					}
+				}
+			}
+
+			/*if (ImGui::SliderInt("Node Shape Radius", &radius, 0, 100)) {
+				for (auto& entity : groupVec) {
+					if (entity->hasComponent<Rectangle_w_Color>()) {
+						entity->GetComponent<TransformComponent>().width = size;
+						entity->GetComponent<TransformComponent>().height = size;
+					}
+				}
+			}*/
+
+			if (ImGui::TreeNode("Entities")) {
+
+				for (auto& entity : groupVec) {
+
+					std::string label = "Entity ID: " + std::to_string(entity->getId());
+
+					if (ImGui::TreeNode(label.c_str())) {
+
+						entity->imgui_print();
+
+						ImGui::TreePop();
+					}
+
+				}
+			}
+			
 		}
 	}
 

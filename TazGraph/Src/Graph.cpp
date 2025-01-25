@@ -178,13 +178,10 @@ void Graph::update(float deltaTime) //game objects updating
 	}
 
 	for (auto& cursor : cursors) {
-		cursor->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(mouseCoordsVec).x);
-		cursor->GetComponent<TransformComponent>().setPosition_Y(convertScreenToWorld(mouseCoordsVec).y);
-
-		TransformComponent* transform = &cursor->GetComponent<TransformComponent>();
-		cursor->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x - transform->getSizeCenter().x);
-		cursor->GetComponent<TransformComponent>().setPosition_Y(transform->getPosition().y - transform->getSizeCenter().y);
-
+		TransformComponent* tr = &cursor->GetComponent<TransformComponent>();
+		tr->setPosition_X(convertScreenToWorld(mouseCoordsVec).x - tr->getSizeCenter().x);
+		tr->setPosition_Y(convertScreenToWorld(mouseCoordsVec).y - tr->getSizeCenter().y);
+		cursor->update(deltaTime);
 	}
 	// make camera not being able to move out of bounds
 	//collision.moveFromOuterBounds();
@@ -195,9 +192,13 @@ void Graph::update(float deltaTime) //game objects updating
 void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-	auto cells = manager.grid->getIntercectedCameraCells(*main_camera2D);
+	TransformComponent* tr = &cursor.GetComponent<TransformComponent>();
+	auto cells = manager.grid->getAdjacentCells(tr->getCenterTransform().x, tr->getCenterTransform().y);
 	for (auto cell : cells) {
 		for (auto& entity : cell->entities) {
+			if (entity->hasGroup(Manager::cursorGroup)) {
+				continue;
+			}
 			TransformComponent* tr = &entity->GetComponent<TransformComponent>();
 			glm::vec2 pos = glm::vec2(tr->getPosition().x, tr->getPosition().y);
 			// Check if the mouse click is within the entity's bounding box

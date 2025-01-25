@@ -120,31 +120,38 @@ Cell* Grid::getCell(const Entity& entity)
 	return getCell(cellX, cellY);
 }
 
-// Returns a vector of pointers to all adjacent cells (including diagonally adjacent cells)
-std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity) {
+std::vector<Cell*> Grid::getAdjacentCells(int x, int y) {
 	std::vector<Cell*> adjacentCells;
 
-	auto pos = entity.GetComponent<TransformComponent>().getPosition();
-	int cellX = (int)(pos.x / _cellSize);
-	int cellY = (int)(pos.y / _cellSize);
+	int cellX = (int)(x / _cellSize);
+	int cellY = (int)(y / _cellSize);
 
 	for (int offsetX = -1; offsetX <= 1; offsetX++) {
 		for (int offsetY = -1; offsetY <= 1; offsetY++) {
 			if (offsetX == 0 && offsetY == 0) {
-				adjacentCells.push_back(entity.getOwnerCell());
+				adjacentCells.push_back(getCell(cellX, cellY));
 				continue;
 			}
 			int neighborX = cellX + offsetX;
 			int neighborY = cellY + offsetY;
 
 			// Check bounds and add the cell to the list
-			if (neighborX >= 0 && neighborX < _numXCells &&
-				neighborY >= 0 && neighborY < _numYCells) {
+			if (neighborX >= -_numXCells/2 && neighborX < _numXCells/2 &&
+				neighborY >= -_numYCells/2 && neighborY < _numYCells/2) {
 				adjacentCells.push_back(getCell(neighborX, neighborY));
 			}
 		}
 	}
 	return adjacentCells;
+}
+
+// Returns a vector of pointers to all adjacent cells (including diagonally adjacent cells)
+std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity) {
+	std::vector<Cell*> adjacentCells;
+
+	auto pos = entity.GetComponent<TransformComponent>().getPosition();
+
+	return getAdjacentCells(pos.x, pos.y);
 }
 
 std::vector<Cell> Grid::getCells() {

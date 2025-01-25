@@ -29,6 +29,7 @@ public:
 
 	Cell* getCell(int x, int y);
 	Cell* getCell(const Entity& position);
+	std::vector<Cell*> getAdjacentCells(int x, int y);
 	std::vector<Cell*> getAdjacentCells(const Entity& entity);
 	std::vector<Cell> getCells();
 	int getCellSize();
