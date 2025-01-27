@@ -6,6 +6,7 @@
 #include "./Components/Basic/SpriteComponent.h"
 #include "./Components/Basic/ColliderComponent.h"
 #include "./Components/Basic/Rectangle_w_Color.h"
+#include "./Components/Basic/Line_w_Color.h"
 
 
 #include "./Animators/AnimatorComponent.h"

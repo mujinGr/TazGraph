@@ -64,13 +64,6 @@ public:
 
 		SDL_Rect dimensions = { _position.x, _position.y, width, height };
 		SDL_FRect cameraDimensions = _main_camera2D->getCameraRect();
-
-		if (entity->checkCollision(dimensions, cameraDimensions)) { //culling
-			entity->paused = false;
-		}
-		else {
-			entity->paused = true;
-		}
 		
 		if (entity->getParentEntity() != nullptr) {
 			_position.x = entity->getParentEntity()->GetComponent<TransformComponent>().getPosition().x;

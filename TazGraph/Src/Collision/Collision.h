@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include "GECS/Components.h"
 #include "Window/Window.h"
+#include "AABB/AABB.h"
 #include <algorithm>
 
 class Collision;
@@ -18,7 +19,6 @@ public:
 	bool isSidewaysCollision = false;
 	bool isCollision = false;
 
-	static bool checkCollision(const SDL_Rect recA, const SDL_Rect recB);
 	bool checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_Rect& recB);
 	void moveFromCollision(Entity& player);
 	bool moveFromOuterBounds();

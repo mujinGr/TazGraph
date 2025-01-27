@@ -62,6 +62,8 @@ void LineRenderer::end() // on end clear all indices reserved
 	_verts.clear();
 }
 
+// todo can be optimized, by having something like glyphs in planeModelRenederer where first you pass info in a vector and
+// todo on render pass that info in verts and indices
 void LineRenderer::drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& color, float zIndex)
 {
 	int i = _verts.size();

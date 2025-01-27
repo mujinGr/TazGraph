@@ -181,6 +181,7 @@
     <ClInclude Include="Camera2.5D\ICamera.h" />
     <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="DataManager\DataManager.h" />
+    <ClInclude Include="GECS\Components\Basic\Line_w_Color.h" />
     <ClInclude Include="GECS\GECSEntityTypes.h" />
     <ClInclude Include="JsonParser\JsonParser.h" />
     <ClInclude Include="Renderers\LineRenderer\LineRenderer.h" />

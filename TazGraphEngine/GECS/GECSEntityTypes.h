@@ -15,6 +15,8 @@ private:
 public:
 	std::vector<Cell*> ownerCells = {};
 
+	Color color = {};
+
 	LinkEntity(Manager& mManager) : Entity(mManager) {
 	}
 

@@ -1,17 +1,9 @@
 #include "Collision.h"
 
 
-bool Collision::checkCollision(const SDL_Rect recA, const SDL_Rect recB) {
-	if (recA.x >= recB.x + recB.w || recA.x + recA.w <= recB.x ||
-		recA.y >= recB.y + recB.h || recA.y + recA.h <= recB.y) {
-		return false; // no collision
-	}
-	return true;
-}
-
 bool Collision::checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_Rect& recB) {
 
-	if (!Collision::checkCollision(moving_recA, recB)) {
+	if (!checkCollision(moving_recA, recB)) {
 		return false;
 	}
 

@@ -20,6 +20,8 @@ TazGraphEngine::Window* Graph::_window = nullptr;
 
 auto& cursor(manager.addEntity(-1));
 
+float nodeRadius = 0.0f;
+
 Graph::Graph(TazGraphEngine::Window* window)
 {
 	_window = window;
@@ -231,12 +233,16 @@ void Graph::checkInput() {
 			if (evnt.wheel.y > 0)
 			{
 				// Scrolling up
-				main_camera2D->setScale(main_camera2D->getScale() + SCALE_SPEED);
+				if (main_camera2D->getScale() < main_camera2D->getMinScale()) {
+					main_camera2D->setScale(main_camera2D->getScale() + SCALE_SPEED);
+				}
 			}
 			else if (evnt.wheel.y < 0)
 			{
 				// Scrolling down
-				main_camera2D->setScale(main_camera2D->getScale() - SCALE_SPEED);
+				if (main_camera2D->getScale() > main_camera2D->getMaxScale()) {
+					main_camera2D->setScale(main_camera2D->getScale() - SCALE_SPEED);
+				}
 			}
 			break;
 		case SDL_MOUSEMOTION:
@@ -308,7 +314,7 @@ void Graph::updateUI() {
 		_currentState = SceneState::CHANGE_PREVIOUS;
 		_editorImgui.SetGoingBack(false);
 	}
-	_editorImgui.ShowAllEntities(manager);
+	_editorImgui.ShowAllEntities(manager, nodeRadius);
 }
 
 void Graph::EndRender() {
@@ -321,11 +327,7 @@ void Graph::renderBatch(const std::vector<Entity*>& entities, LineRenderer& batc
 
 	for (const auto& entity : entities) {
 		// todo do culling here
-		// todo also add draw function to the link entity
-		glm::vec2 fromNodeCenter = entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform();
-		glm::vec2 toNodeCenter = entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform();
-
-		batch.drawLine(fromNodeCenter, toNodeCenter, Color(255, 0, 0, 255), 0.0f);
+		entity->draw(batch, *Graph::_window);
 	}
 }
 
@@ -336,7 +338,7 @@ void Graph::renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer
 	for (const auto& entity : entities) {
 		if (entity->hasComponent<Rectangle_w_Color>()) {
 			Rectangle_w_Color entityRectangle = entity->GetComponent<Rectangle_w_Color>();
-			if (entity->checkCollision(entityRectangle.destRect, main_camera2D->getCameraRect())) { //todo: draw culling, apply this on all entities
+			if (checkCollision(entityRectangle.destRect, main_camera2D->getCameraRect())) { //todo: draw culling, apply this on all entities
 				entity->draw(batch, *Graph::_window);
 			}
 		}
@@ -405,7 +407,7 @@ void Graph::draw()
 		}
 
 		_LineRenderer.end();
-		_LineRenderer.renderBatch(2.0f);
+		_LineRenderer.renderBatch(main_camera2D->getScale() * 2.0f);
 		_resourceManager.getGLSLProgram("lineColor")->unuse();
 
 	}
@@ -422,7 +424,7 @@ void Graph::draw()
 	renderBatch(manager.getVisibleGroup(Manager::groupLinks_0), _LineRenderer);
 	
 	_LineRenderer.end();
-	_LineRenderer.renderBatch(2.0f);
+	_LineRenderer.renderBatch(main_camera2D->getScale() * 2.0f);
 	_resourceManager.getGLSLProgram("lineColor")->unuse();
 
 	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
@@ -430,6 +432,8 @@ void Graph::draw()
 
 	_PlaneModelRenderer.begin();
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("circleColor"), "", *main_camera2D);
+	GLint radiusLocation = _resourceManager.getGLSLProgram("circleColor")->getUniformLocation("u_radius");
+	glUniform1f(radiusLocation, nodeRadius);
 	renderBatch(manager.getVisibleGroup(Manager::groupNodes_0), _PlaneModelRenderer);
 	renderBatch(cursors, _PlaneModelRenderer);
 	_PlaneModelRenderer.end();

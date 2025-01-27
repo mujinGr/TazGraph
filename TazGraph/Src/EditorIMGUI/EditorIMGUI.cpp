@@ -277,7 +277,7 @@ void EditorIMGUI::MainMenuUI(std::function<void()> onStartSimulator, std::functi
 	ImGui::End();
 }
 
-void EditorIMGUI::ShowAllEntities(Manager& manager) {
+void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 	ImGui::Begin("Entity List");
 
 	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -289,51 +289,75 @@ void EditorIMGUI::ShowAllEntities(Manager& manager) {
 		if (ImGui::CollapsingHeader(s.c_str())) {
 			std::vector<Entity*>& groupVec = manager.getGroup(group);
 
-			for (auto& entity : groupVec) { // loops 1 time
-				if (entity->hasComponent<Rectangle_w_Color>()) {
+			if ( group == Manager::groupNodes_0) {
+
+				for (auto& entity : groupVec) { // loops 1 time
 					Color initialColor = entity->GetComponent<Rectangle_w_Color>().color;
 					color = ImVec4(initialColor.r / 255.0f, initialColor.g / 255.0f, initialColor.b / 255.0f, initialColor.a / 255.0f);
-					
+
 					TransformComponent* tr = &entity->GetComponent<TransformComponent>();
 					int initialSize[2] = { tr->width, tr->height };
 					size = initialSize[0];
 					break;
 				}
-			}
 
-			if (ImGui::ColorEdit4(("Color##" + s).c_str(), (float*)&color)) {
-				std::vector<Entity*>& groupVec = manager.getGroup(group);
-				Color newColor = {
-				   (GLubyte)(color.x * 255),
-				   (GLubyte)(color.y * 255),
-				   (GLubyte)(color.z * 255),
-				   (GLubyte)(color.w * 255)
-				};
+				if (ImGui::ColorEdit4(("Color##" + s).c_str(), (float*)&color)) {
+					std::vector<Entity*>& groupVec = manager.getGroup(group);
+					Color newColor = {
+					   (GLubyte)(color.x * 255),
+					   (GLubyte)(color.y * 255),
+					   (GLubyte)(color.z * 255),
+					   (GLubyte)(color.w * 255)
+					};
 
-				for (auto& entity : groupVec) {
-					if (entity->hasComponent<Rectangle_w_Color>()) {
+					for (auto& entity : groupVec) {
 						entity->GetComponent<Rectangle_w_Color>().color = newColor;
 					}
 				}
+
+				if (ImGui::SliderInt("Node Size", &size, 0, 100)) {
+					for (auto& entity : groupVec) {
+							entity->GetComponent<TransformComponent>().width = size;
+							entity->GetComponent<TransformComponent>().height = size;
+					}
+				}
+
+				ImGui::SliderFloat("Border Radius", &m_nodeRadius, 0, 1.0f);
+
 			}
-			if (ImGui::SliderInt("Node Size", &size, 0, 100)) {
-				for (auto& entity : groupVec) {
-					if (entity->hasComponent<Rectangle_w_Color>()) {
+
+			if (group == Manager::groupLinks_0) {
+				for (auto& entity : groupVec) { // loops 1 time
+					Color initialColor = entity->GetComponent<Line_w_Color>().src_color;
+					color = ImVec4(initialColor.r / 255.0f, initialColor.g / 255.0f, initialColor.b / 255.0f, initialColor.a / 255.0f);
+
+					break;
+				}
+
+				if (ImGui::ColorEdit4(("Color##" + s).c_str(), (float*)&color)) {
+					std::vector<Entity*>& groupVec = manager.getGroup(group);
+					Color newColor = {
+					   (GLubyte)(color.x * 255),
+					   (GLubyte)(color.y * 255),
+					   (GLubyte)(color.z * 255),
+					   (GLubyte)(color.w * 255)
+					};
+
+					for (auto& entity : groupVec) {
+						entity->GetComponent<Line_w_Color>().src_color = newColor;
+						entity->GetComponent<Line_w_Color>().dest_color = newColor;
+					}
+				}
+
+				/*if (ImGui::SliderInt("Line Width", &size, 0, 100)) {
+					for (auto& entity : groupVec) {
 						entity->GetComponent<TransformComponent>().width = size;
 						entity->GetComponent<TransformComponent>().height = size;
 					}
-				}
+				}*/
 			}
 
-			/*if (ImGui::SliderInt("Node Shape Radius", &radius, 0, 100)) {
-				for (auto& entity : groupVec) {
-					if (entity->hasComponent<Rectangle_w_Color>()) {
-						entity->GetComponent<TransformComponent>().width = size;
-						entity->GetComponent<TransformComponent>().height = size;
-					}
-				}
-			}*/
-
+			
 			if (ImGui::TreeNode("Entities")) {
 
 				for (auto& entity : groupVec) {

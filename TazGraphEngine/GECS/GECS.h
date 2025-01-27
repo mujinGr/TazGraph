@@ -10,6 +10,7 @@
 
 #include <SDL2/SDL.h>
 #include "../Renderers/PlaneModelRenderer/PlaneModelRenderer.h"
+#include "../Renderers/LineRenderer/LineRenderer.h"
 #include "../Camera2.5D/CameraManager.h"
 #include "../Window/Window.h"
 
@@ -55,6 +56,7 @@ public:
 	virtual void init(){}
 	virtual void update(float deltaTime) {}
 	virtual void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) {}
+	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) {}
 
 	virtual SDL_Rect getRect() 
 	{
@@ -78,18 +80,8 @@ private:
 protected:
 	Manager& manager;
 public:
-	bool paused = false;
-
 	void setId(unsigned int m_id) { id = m_id; }
 	unsigned int getId() { return id; }
-
-	bool checkCollision(const SDL_Rect recA, const SDL_FRect recB) {
-		if (recA.x > recB.x + recB.w + CULLING_OFFSET || recA.x + recA.w < recB.x - CULLING_OFFSET ||
-			recA.y > recB.y + recB.h + CULLING_OFFSET || recA.y + recA.h < recB.y - CULLING_OFFSET) {
-			return false; // no collision
-		}
-		return true;
-	}
 
 	std::vector<std::unique_ptr<Component>> components; //create 2 arrays, this is for the concurrent access
 	Entity(Manager& mManager) : manager(mManager) {}
@@ -99,10 +91,6 @@ public:
 		
 		for (auto& c : components) {
 			c->update(deltaTime); // start from which was added first
-			if (c->id == 0 && paused)
-			{
-				break;
-			}
 		}
 	}
 	void updateFully(float deltaTime)
@@ -124,6 +112,12 @@ public:
 	{
 		for (auto& c : components) { 
 			c->draw(batch, window); 
+		}
+	}
+	void draw(LineRenderer& batch, TazGraphEngine::Window& window)
+	{
+		for (auto& c : components) {
+			c->draw(batch, window);
 		}
 	}
 	bool isActive() { return active; }

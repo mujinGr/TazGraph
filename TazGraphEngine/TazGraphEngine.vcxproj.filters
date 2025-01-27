@@ -233,5 +233,8 @@
     <ClInclude Include="AABB\AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GECS\Components\Basic\Line_w_Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
