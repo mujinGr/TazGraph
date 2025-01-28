@@ -120,8 +120,13 @@ void Graph::onEntry()
 	Graph::map = new Map(1, 32);
 
 	//main_camera2D->worldDimensions= grid->GetLayerDimensions();
-
-	manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, CELL_SIZE);
+	if (!manager.grid)
+	{
+		manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, CELL_SIZE);
+		_assetsManager->CreateCursor(cursor);
+	}
+	
+	manager.resetEntityId();
 
 	if (!DataManager::getInstance().mapToLoad.empty()) {
 		if (strstr(DataManager::getInstance().mapToLoad.c_str(), ".py") != nullptr) {
@@ -132,7 +137,6 @@ void Graph::onEntry()
 		}
 	}
 
-	_assetsManager->CreateCursor(cursor);
 
 	Music music = getApp()->getAudioEngine().loadMusic("Sounds/JPEGSnow.ogg");
 	music.play(-1);
@@ -141,6 +145,12 @@ void Graph::onEntry()
 void Graph::onExit() {
 	//_LineRenderer.dispose(); 
 	// todo dispose all renderers on Exit
+
+	Graph::_PlaneModelRenderer.dispose();
+	Graph::_hudPlaneModelRenderer.dispose();
+	Graph::_LineRenderer.dispose();
+
+	_resourceManager.disposeGLSLPrograms();
 }
 
 auto& nodes(manager.getGroup(Manager::groupNodes_0));

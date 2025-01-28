@@ -148,3 +148,14 @@ bool PlaneModelRenderer::compareBackToFront(Glyph* a, Glyph* b) {
 bool PlaneModelRenderer::compareTexture(Glyph* a, Glyph* b) {
 	return (a->texture < b->texture);
 }
+
+void PlaneModelRenderer::dispose()
+{
+	if (_vao) {
+		glDeleteVertexArrays(1, &_vao);
+	}
+	if (_vbo) {
+		glDeleteBuffers(1, &_vbo);
+	}
+	//_program.dispose();
+}

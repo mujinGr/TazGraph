@@ -137,10 +137,9 @@ void Map::loadTextMap(const char* fileName) {
 		std::cerr << "Failed to open file for writing: " << text << std::endl;
 		return;
 	}
-	//todo: loop through the entities and destroy them
-	manager.removeAllEntitiesFromGroup(Manager::groupNodes_0);
-	manager.removeAllEntitiesFromGroup(Manager::groupLinks_0);
-
+	
+	manager.removeAllEntites();
+	
 	ProcessFile(file, &Map::AddDefaultNode, &Map::AddDefaultLink);
 
 	file.close();
@@ -155,9 +154,7 @@ void Map::loadPythonMap(const char* fileName) {
 		return;
 	}
 
-	//todo: loop through the entities and destroy them
-	manager.removeAllEntitiesFromGroup(Manager::groupNodes_0);
-	manager.removeAllEntitiesFromGroup(Manager::groupLinks_0);
+	manager.removeAllEntites();
 
 	ProcessPythonFile(file, &Map::AddDefaultNode, &Map::AddDefaultLink);
 

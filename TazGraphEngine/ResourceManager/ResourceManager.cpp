@@ -22,10 +22,17 @@ void ResourceManager::setupShader(GLSLProgram& shaderProgram, const std::string&
 void ResourceManager::addGLSLProgram(std::string programName)
 {	
 	GLSLProgram* newGLSLProgram = new GLSLProgram();
-	glsl_programs.emplace(programName, newGLSLProgram);
+	glsl_programs.try_emplace(programName, newGLSLProgram);
 }
 
 GLSLProgram* ResourceManager::getGLSLProgram(std::string id)
 {
 	return glsl_programs[id];
+}
+
+void ResourceManager::disposeGLSLPrograms() {
+	for (auto& programPair : glsl_programs) {
+		programPair.second->dispose();
+	}
+	glsl_programs.clear();
 }

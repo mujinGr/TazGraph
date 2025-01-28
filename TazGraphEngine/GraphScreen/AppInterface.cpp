@@ -159,15 +159,8 @@ void AppInterface::update(float deltaTime) {
 			_currentScene->onExit();
 			_currentScene = _sceneList->moveNext();
 			if (_currentScene) {
-				if (_currentScene->getState() == SceneState::CHANGE_NEXT
-					|| _currentScene->getState() == SceneState::CHANGE_PREVIOUS) {
-					_currentScene->setRunning();
-					//_currentScene->onEntry();
-				}
-				else {
-					_currentScene->setRunning();
-					_currentScene->onEntry();
-				}
+				_currentScene->setRunning();
+				_currentScene->onEntry();
 			}
 			break;
 		case SceneState::CHANGE_PREVIOUS:

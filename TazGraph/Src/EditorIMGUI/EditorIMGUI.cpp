@@ -69,13 +69,32 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		main_camera2D->resetCameraPosition();  // Toggle the state
 	}
 
-	int i = 0;
-	for (std::size_t managerGroup = Manager::groupBackgroundLayer; managerGroup != Manager::cursorGroup + 1; managerGroup++) {
-		ImGui::Text("group %s has %d entities", manager.getGroupName(managerGroup).c_str(), manager.getVisibleGroup(managerGroup).size());
+	if (ImGui::BeginTable("GroupsTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
+		ImGui::TableSetupColumn("Group Name", ImGuiTableColumnFlags_WidthStretch);
+		ImGui::TableSetupColumn("Entity Count", ImGuiTableColumnFlags_WidthFixed, 100.0f);
+		ImGui::TableHeadersRow();
 
-		i += manager.getVisibleGroup(managerGroup).size();
+		int totalEntities = 0;
+		for (std::size_t managerGroup = Manager::groupBackgroundLayer; managerGroup != Manager::cursorGroup + 1; ++managerGroup) {
+			ImGui::TableNextRow();
+			ImGui::TableSetColumnIndex(0);
+			ImGui::Text("%s", manager.getGroupName(managerGroup).c_str());
+			ImGui::TableSetColumnIndex(1);
+			int groupSize = manager.getVisibleGroup(managerGroup).size();
+			ImGui::Text("%d", groupSize);
+
+			totalEntities += groupSize;
+		}
+
+		ImGui::TableNextRow();
+		ImGui::TableSetColumnIndex(0);
+		ImGui::Text("Total Visible Entities");
+		ImGui::TableSetColumnIndex(1);
+		ImGui::Text("%d", totalEntities);
+
+		ImGui::EndTable();
 	}
-	ImGui::Text("Total Visible Entities: %d", i);
+
 
 	ImGui::Text("Mouse Coords: {x: %f, y: %f}", mouseCoords.x, mouseCoords.y);
 

@@ -102,6 +102,8 @@ public:
 	void draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color, float angle = 0);
 
 	void renderBatch();
+
+	void dispose();
 private:
 	void createRenderBatches();
 	void createVertexArray();

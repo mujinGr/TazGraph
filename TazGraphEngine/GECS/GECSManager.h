@@ -6,7 +6,7 @@
 class Manager
 {
 private:
-	unsigned int lastEntityId = 0;
+	int lastEntityId = 0;
 	std::vector<std::unique_ptr<Entity>> entities;
 	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
 
@@ -56,6 +56,18 @@ public:
 	void refresh(ICamera* camera = nullptr)
 	{
 		if (grid) {
+			entities.erase(std::remove_if(std::begin(entities), std::end(entities),
+				[this](const std::unique_ptr<Entity>& mEntity)
+				{
+					if (!mEntity->isActive()) {
+						mEntity->removeFromCell();
+
+						return true;
+					}
+					return false;
+				}),
+				std::end(entities));
+
 			std::vector<Cell*> intercepted_cells = grid->getIntercectedCameraCells(*camera);
 
 			visible_entities = grid->getEntitiesInCameraCells(intercepted_cells);
@@ -100,20 +112,20 @@ public:
 						}),
 					std::end(v));
 			}
+
+			entities.erase(std::remove_if(std::begin(entities), std::end(entities),
+				[this](const std::unique_ptr<Entity>& mEntity)
+				{
+					if (!mEntity->isActive()) {
+						mEntity->removeFromCell();
+
+						return true;
+					}
+					return false;
+				}),
+				std::end(entities));
 		}
 		
-
-		entities.erase(std::remove_if(std::begin(entities), std::end(entities),
-			[this](const std::unique_ptr<Entity>& mEntity)
-			{
-				if (!mEntity->isActive()) {
-					mEntity->removeFromCell();
-					
-					return true;
-				}
-				return false;
-			}),
-			std::end(entities));
 	}
 
 	void AddToGroup(Entity* mEntity, Group mGroup)
@@ -140,6 +152,10 @@ public:
 		entities.emplace_back(std::move(uPtr));
 
 		return *e;
+	}
+
+	void resetEntityId() {
+		lastEntityId = 0;
 	}
 
 	Entity& addEntity()
@@ -170,6 +186,12 @@ public:
 			group.clear();
 		}
 		entities.clear();
+	}
+
+	void removeAllEntites() {
+		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::cursorGroup; group++) {
+			removeAllEntitiesFromGroup(group);
+		}
 	}
 
 	void removeAllEntitiesFromGroup(Group mGroup) {
@@ -226,6 +248,8 @@ public:
 
 		//fore
 		{ buttonLabels,"buttonLabels" },
+
+		//globals, dont remove
 		{ cursorGroup,"cursorGroup" }
 	};
 

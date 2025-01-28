@@ -39,8 +39,7 @@ public:
 		if (manager.grid->getCell(*getFromNode()) != ownerCells.front()
 			|| manager.grid->getCell(*getToNode()) != ownerCells.back()) 
 		{
-			removeEntity();
-
+			removeFromCell();
 			std::vector<Cell*> cells = manager.grid->getLinkCells(*this);
 			for (auto& cell : cells) {
 				manager.grid->addLink(this, cell);
@@ -49,14 +48,7 @@ public:
 	}
 
 	void removeFromCell() override {
-		for (auto cell : ownerCells) {
-			if (cell) {
-				cell->entities.erase(
-					std::remove(cell->entities.begin(), cell->entities.end(),
-						this),
-					cell->entities.end());
-			}
-		}
+		removeEntity();
 		ownerCells.clear();
 	}
 

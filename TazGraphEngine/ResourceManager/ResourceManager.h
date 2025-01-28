@@ -18,6 +18,8 @@ public:
 
 	void addGLSLProgram(std::string programName);
 	GLSLProgram* getGLSLProgram(std::string id);
+
+	void disposeGLSLPrograms();
 private:
 	std::map<std::string, GLSLProgram*> glsl_programs;
 };
