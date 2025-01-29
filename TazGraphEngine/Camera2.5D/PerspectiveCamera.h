@@ -135,16 +135,16 @@ public:
 		_position = glm::vec2(0.0f,0.0f);
 		_cameraChange = true;
 	}
+	float getMinScale() {
+		return _minScale;
+	}
+
 	float getMaxScale() {
 		return _maxScale;
 	}
-
-	float getMinScale() {
-		return _mixScale;
-	}
 private:
 	int _screenWidth, _screenHeight;
-	float _maxScale = 0.2f, _mixScale = 5.0f;
+	float _minScale = 0.2f, _maxScale = 5.0f;
 	float _scale; // decreases when zoom-out
 	bool _cameraChange;
 

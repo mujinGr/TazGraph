@@ -73,7 +73,8 @@ class Entity
 private:
 	unsigned int id;
 
-	bool active = true;
+	bool active = true; // false if about to delete
+	bool hidden = false; // true if not do updates
 	ComponentArray componentArray;//create 2 arrays, this is for the fast access
 	ComponentBitSet componentBitSet;
 	GroupBitSet groupBitSet;
@@ -82,6 +83,18 @@ protected:
 public:
 	void setId(unsigned int m_id) { id = m_id; }
 	unsigned int getId() { return id; }
+
+	void hide() {
+		hidden = true;
+	}
+
+	void reveal() {
+		hidden = false;
+	}
+
+	bool isHidden() {
+		return hidden;
+	}
 
 	std::vector<std::unique_ptr<Component>> components; //create 2 arrays, this is for the concurrent access
 	Entity(Manager& mManager) : manager(mManager) {}

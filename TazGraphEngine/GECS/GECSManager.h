@@ -17,6 +17,8 @@ private:
 public:
 	std::unique_ptr<Grid> grid;
 
+	bool entitiesAreGrouped = false;
+
 	void update(float deltaTime = 1.0f)
 	{
 		if (grid) {
@@ -70,7 +72,7 @@ public:
 
 			std::vector<Cell*> intercepted_cells = grid->getIntercectedCameraCells(*camera);
 
-			visible_entities = grid->getEntitiesInCameraCells(intercepted_cells);
+			visible_entities = entitiesAreGrouped ? grid->getVisibleEntitiesInCameraCells(intercepted_cells) : grid->getEntitiesInCameraCells(intercepted_cells);
 			visible_links	 = grid->getLinksInCameraCells(intercepted_cells);
 
 			for (auto& vgroup : visible_groupedEntities) {

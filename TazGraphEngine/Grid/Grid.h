@@ -38,10 +38,13 @@ public:
 
 	std::vector<Cell*> getIntercectedCameraCells(ICamera& camera);
 
+	std::vector<Entity*> getVisibleEntitiesInCameraCells(const std::vector<Cell*>& intercepted_cells);
+
 	std::vector<Entity*> getLinksInCameraCells(const std::vector<Cell*>& intercepted_cells);
 
 	std::vector<Entity*> getEntitiesInCameraCells(const std::vector<Cell*>& intercepted_cells);
 
+	float getGroupingZoomLevel();
 private:
 	std::vector<Cell> _cells;
 	int _cellSize;
@@ -49,4 +52,5 @@ private:
 	int _height;
 	int _numXCells;
 	int _numYCells;
+	float _groupingZoomLevel = 0.5f;
 };

@@ -194,6 +194,62 @@ void Graph::update(float deltaTime) //game objects updating
 	}
 	// make camera not being able to move out of bounds
 	//collision.moveFromOuterBounds();
+	if (main_camera2D->getScale() < manager.grid->getGroupingZoomLevel()) {
+		if (!manager.entitiesAreGrouped) {
+			// create a new node			
+			for (const auto& cell : manager.grid->getCells()) {
+				for (auto& entity : cell.entities) {
+					if (!entity->hasGroup(Manager::cursorGroup)) {
+						entity->hide();
+					}
+				}
+				for (auto& link : cell.links) {
+					link->hide();
+				}
+			}
+			auto& node = manager.addEntity<Node>();
+			node.addComponent<TransformComponent>(glm::vec2(0, 0), Manager::actionLayer, glm::ivec2(10, 10), 1);
+			node.addComponent<Rectangle_w_Color>();
+			node.GetComponent<Rectangle_w_Color>().color = Color(0, 40, 224, 255);
+
+			node.addGroup(Manager::groupNodes_0);
+			manager.grid->addEntity(&node);
+
+			// make all entitites have as parent that
+			// hide all the entities inside (dont update them, dont draw them)
+			// remove all links
+			manager.entitiesAreGrouped = true;
+
+		}
+	}
+	else {
+		if (manager.entitiesAreGrouped) {
+			// if it has happened, undo it
+			for (const auto& cell : manager.grid->getCells()) {
+				for (auto& entity : cell.entities) {
+					if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup))
+						entity->destroy();
+				}
+				for (auto& link : cell.links) {
+					if (!link->isHidden()) {
+						link->destroy();
+					}
+				}
+			}
+
+			for (const auto& cell : manager.grid->getCells()) {
+				for (auto& entity : cell.entities) {
+					if (!entity->hasGroup(Manager::cursorGroup)) {
+						entity->reveal();
+					}
+				}
+				for (auto& link : cell.links) {
+					link->reveal();
+				}
+			}
+			manager.entitiesAreGrouped = false;
+		}
+	}
 }
 
 
@@ -240,14 +296,14 @@ void Graph::checkInput() {
 			if (evnt.wheel.y > 0)
 			{
 				// Scrolling up
-				if (main_camera2D->getScale() < main_camera2D->getMinScale()) {
+				if (main_camera2D->getScale() < main_camera2D->getMaxScale()) {
 					main_camera2D->setScale(main_camera2D->getScale() + SCALE_SPEED);
 				}
 			}
 			else if (evnt.wheel.y < 0)
 			{
 				// Scrolling down
-				if (main_camera2D->getScale() > main_camera2D->getMaxScale()) {
+				if (main_camera2D->getScale() > main_camera2D->getMinScale()) {
 					main_camera2D->setScale(main_camera2D->getScale() - SCALE_SPEED);
 				}
 			}

@@ -178,6 +178,19 @@ std::vector<Cell*> Grid::getIntercectedCameraCells(ICamera& camera) {
 	return result;
 }
 
+std::vector<Entity*> Grid::getVisibleEntitiesInCameraCells(const std::vector<Cell*>& intercepted_cells) {
+	std::vector<Entity*> result;
+
+	for (auto& cell : intercepted_cells) {
+		for (auto& entity : cell->entities) {
+			if (!entity->isHidden()) {  // Check if the entity is visible
+				result.push_back(entity);
+			}
+		}
+	}
+	return result;
+}
+
 std::vector<Entity*> Grid::getEntitiesInCameraCells(const std::vector<Cell*>& intercepted_cells) {
 	std::vector<Entity*> result;
 
@@ -187,15 +200,22 @@ std::vector<Entity*> Grid::getEntitiesInCameraCells(const std::vector<Cell*>& in
 	return result;
 }
 
+float Grid::getGroupingZoomLevel()
+{
+	return _groupingZoomLevel;
+}
+
 std::vector<Entity*> Grid::getLinksInCameraCells(const std::vector<Cell*>& intercepted_cells) {
 	std::map<unsigned int, Entity*> uniqueEntities;
 
 	for (auto& cell : intercepted_cells) {
 		for (auto& link : cell->links) {
-			unsigned int linkId = link->getId();
+			if (!link->isHidden()) {
+				unsigned int linkId = link->getId();
 
-			if (uniqueEntities.find(linkId) == uniqueEntities.end()) {
-				uniqueEntities[linkId] = link;
+				if (uniqueEntities.find(linkId) == uniqueEntities.end()) {
+					uniqueEntities[linkId] = link;
+				}
 			}
 		}
 	}
