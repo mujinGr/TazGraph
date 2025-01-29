@@ -73,7 +73,7 @@ void Graph::onEntry()
 
 	AnimatorManager& animManager = AnimatorManager::getInstance();
 	animManager.InitializeAnimators();
-	
+
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
 		std::cout << "Subsystems Initialised..." << std::endl;
@@ -143,9 +143,6 @@ void Graph::onEntry()
 }
 
 void Graph::onExit() {
-	//_LineRenderer.dispose(); 
-	// todo dispose all renderers on Exit
-
 	Graph::_PlaneModelRenderer.dispose();
 	Graph::_hudPlaneModelRenderer.dispose();
 	Graph::_LineRenderer.dispose();
@@ -365,6 +362,11 @@ void Graph::draw()
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
+	GLSLProgram glsl_texture		= *_resourceManager.getGLSLProgram("texture");
+	GLSLProgram glsl_lineColor		= *_resourceManager.getGLSLProgram("lineColor");
+	GLSLProgram glsl_circleColor	= *_resourceManager.getGLSLProgram("circleColor");
+	GLSLProgram glsl_color			= *_resourceManager.getGLSLProgram("color");
+
 	////////////OPENGL USE
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -373,7 +375,7 @@ void Graph::draw()
 
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("lineColor"), "", *main_camera2D);
+	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
 
 	// Debug Rendering
 	if (_renderDebug) {
@@ -418,10 +420,10 @@ void Graph::draw()
 
 		_LineRenderer.end();
 		_LineRenderer.renderBatch(main_camera2D->getScale() * 2.0f);
-		_resourceManager.getGLSLProgram("lineColor")->unuse();
+		glsl_lineColor.unuse();
 
 	}
-	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("lineColor"), "", *main_camera2D);
+	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
 
 	glm::vec4 destRect;
 	destRect.x = main_camera2D->getPosition().x - main_camera2D->getCameraDimensions().x/2;
@@ -435,14 +437,14 @@ void Graph::draw()
 	
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getScale() * 2.0f);
-	_resourceManager.getGLSLProgram("lineColor")->unuse();
+	glsl_lineColor.unuse();
 
 	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
 
 
 	_PlaneModelRenderer.begin();
-	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("circleColor"), "", *main_camera2D);
-	GLint radiusLocation = _resourceManager.getGLSLProgram("circleColor")->getUniformLocation("u_radius");
+	_resourceManager.setupShader(glsl_circleColor, "", *main_camera2D);
+	GLint radiusLocation = glsl_circleColor.getUniformLocation("u_radius");
 	glUniform1f(radiusLocation, nodeRadius);
 	renderBatch(manager.getVisibleGroup(Manager::groupNodes_0), _PlaneModelRenderer);
 	renderBatch(cursors, _PlaneModelRenderer);
@@ -455,11 +457,11 @@ void Graph::draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-	_resourceManager.getGLSLProgram("circleColor")->unuse();
+	glsl_circleColor.unuse();
 	///////////////////////////////////////////////////////
-	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("color"), "", *main_camera2D);
+	_resourceManager.setupShader(glsl_color, "", *main_camera2D);
 
-	_resourceManager.getGLSLProgram("color")->unuse();
+	glsl_color.unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

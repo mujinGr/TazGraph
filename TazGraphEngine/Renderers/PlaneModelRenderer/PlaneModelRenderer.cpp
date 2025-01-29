@@ -96,14 +96,10 @@ void PlaneModelRenderer::createRenderBatches() {
 
 void PlaneModelRenderer::createVertexArray() {
 
-	if (_vao == 0) {
-		glGenVertexArrays(1, &_vao);
-	}
+	glGenVertexArrays(1, &_vao);
 	glBindVertexArray(_vao);
 
-	if (_vbo == 0) {
-		glGenBuffers(1, &_vbo);
-	}
+	glGenBuffers(1, &_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 
 	glEnableVertexAttribArray(0); // give positions ( point to 0 element for position)
