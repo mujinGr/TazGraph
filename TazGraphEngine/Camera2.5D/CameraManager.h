@@ -38,7 +38,7 @@ public:
         // Configure your hudCamera as needed, usually orthographic with fixed positioning
         CameraManager::getInstance().addCamera("hud", hudCamera);
 
-        auto mainMenu_mainCamera = std::make_shared<PerspectiveCamera>(glm::vec3(400.f, 512.f, -780.0f), glm::vec3(400.f, 512.f, 0.f));
+        auto mainMenu_mainCamera = std::make_shared<PerspectiveCamera>();
         // Configure your mainCamera as needed
         CameraManager::getInstance().addCamera("mainMenu_main", mainMenu_mainCamera);
 

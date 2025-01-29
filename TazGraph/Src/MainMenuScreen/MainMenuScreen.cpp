@@ -11,7 +11,7 @@
 
 Manager main_menu_manager; // need manager as global so that the entities can be global
 
-auto& Mainmenubackground(main_menu_manager.addEntity());
+auto& Mainmenubackground(main_menu_manager.addEntity<Node>());
 
 MainMenuScreen::MainMenuScreen(TazGraphEngine::Window* window)
 	: _window(window)
@@ -101,9 +101,15 @@ void MainMenuScreen::onEntry()
 	// Texture Loads
 	TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/block_networkMiserable.png");
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
-	//main menu moving background
-	Mainmenubackground.addComponent<MainMenuBackground>();
-	Mainmenubackground.addGroup(Manager::groupBackgroundLayer);
+
+	if (!main_menu_manager.grid)
+	{
+		main_menu_manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, CELL_SIZE);
+
+		Mainmenubackground.addComponent<MainMenuBackground>();
+		Mainmenubackground.addGroup(Manager::groupBackgroundLayer);
+		main_menu_manager.grid->addEntity(&Mainmenubackground);
+	}
 }
 
 auto& mainmenubackground(main_menu_manager.getGroup(Manager::groupBackgroundLayer));
@@ -142,7 +148,6 @@ void MainMenuScreen::renderBatch(const std::vector<Entity*>& entities) {
 void MainMenuScreen::draw()
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
-
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
 
 	glClearDepth(1.0);

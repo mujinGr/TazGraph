@@ -98,8 +98,9 @@ public:
 
 	std::vector<std::unique_ptr<Component>> components; //create 2 arrays, this is for the concurrent access
 	Entity(Manager& mManager) : manager(mManager) {}
+	virtual ~Entity() {}
 
-	void update(float deltaTime)
+	virtual void update(float deltaTime)
 	{
 		
 		for (auto& c : components) {
@@ -121,7 +122,7 @@ public:
 
 	virtual Cell* getOwnerCell() const { return nullptr; };
 
-	void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) 
+	void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) 
 	{
 		for (auto& c : components) { 
 			c->draw(batch, window); 

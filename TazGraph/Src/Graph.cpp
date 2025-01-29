@@ -197,16 +197,6 @@ void Graph::update(float deltaTime) //game objects updating
 	if (main_camera2D->getScale() < manager.grid->getGroupingZoomLevel()) {
 		if (!manager.entitiesAreGrouped) {
 			// create a new node			
-			for (const auto& cell : manager.grid->getCells()) {
-				for (auto& entity : cell.entities) {
-					if (!entity->hasGroup(Manager::cursorGroup)) {
-						entity->hide();
-					}
-				}
-				for (auto& link : cell.links) {
-					link->hide();
-				}
-			}
 			auto& node = manager.addEntity<Node>();
 			node.addComponent<TransformComponent>(glm::vec2(0, 0), Manager::actionLayer, glm::ivec2(10, 10), 1);
 			node.addComponent<Rectangle_w_Color>();
@@ -217,7 +207,23 @@ void Graph::update(float deltaTime) //game objects updating
 
 			// make all entitites have as parent that
 			// hide all the entities inside (dont update them, dont draw them)
-			// remove all links
+
+			for (const auto& cell : manager.grid->getCells()) {
+				for (auto& entity : cell.entities) {
+					if (!entity->hasGroup(Manager::cursorGroup)) {
+						entity->hide();
+					}
+				}
+				// remove all links
+				// ! removing them is going to take up time. dont create them again, the link
+				// ! entities exist and can be shown from pointer of the nodes
+				// ! so just hide them, when zooming in updateFully all links!!!!
+				for (auto& link : cell.links) {
+					link->hide();
+				}
+			}
+			
+			node.reveal();
 			manager.entitiesAreGrouped = true;
 
 		}

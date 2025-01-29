@@ -21,33 +21,24 @@ public:
 
 	void update(float deltaTime = 1.0f)
 	{
-		if (grid) {
-			for (auto& e : visible_entities) {
-				if (!e || !e->isActive()) continue;
-				e->update(deltaTime);
-
-				e->cellUpdate();
-			}
-			for (auto& le : visible_links) {
-				if (!le || !le->isActive()) continue;
-				le->update(deltaTime);
-
-				le->cellUpdate();
-			}
+		for (auto& e : visible_entities) {
+			if (!e || !e->isActive()) continue;
+			e->update(deltaTime);
+			// for all connected links update
+			e->cellUpdate();
 		}
-		else {
-			for (auto& e : entities) {
-				if (!e || !e->isActive()) continue;
-				e->update(deltaTime);
+		for (auto& le : visible_links) {
+			if (!le || !le->isActive()) continue;
+			le->update(deltaTime);
 
-				e->cellUpdate();
-			}
+			le->cellUpdate();
 		}
+		
 	}
 
 	void updateFully(float deltaTime = 1.0f)
 	{
-		for (auto& e : entities) {
+		for (auto& e : entities) { //todo since links depend on nodes, then nodes first update and then links. To make it correctly link should be as var in node
 			if (!e || !e->isActive()) continue;
 			e->updateFully(deltaTime);
 
@@ -57,75 +48,49 @@ public:
 
 	void refresh(ICamera* camera = nullptr)
 	{
-		if (grid) {
-			entities.erase(std::remove_if(std::begin(entities), std::end(entities),
-				[this](const std::unique_ptr<Entity>& mEntity)
-				{
-					if (!mEntity->isActive()) {
-						mEntity->removeFromCell();
+		
+		entities.erase(std::remove_if(std::begin(entities), std::end(entities),
+			[this](const std::unique_ptr<Entity>& mEntity)
+			{
+				if (!mEntity->isActive()) {
+					mEntity->removeFromCell();
 
-						return true;
-					}
-					return false;
-				}),
-				std::end(entities));
+					return true;
+				}
+				return false;
+			}),
+			std::end(entities));
 
-			std::vector<Cell*> intercepted_cells = grid->getIntercectedCameraCells(*camera);
+		std::vector<Cell*> intercepted_cells = grid->getIntercectedCameraCells(*camera);
 
-			visible_entities = entitiesAreGrouped ? grid->getVisibleEntitiesInCameraCells(intercepted_cells) : grid->getEntitiesInCameraCells(intercepted_cells);
-			visible_links	 = grid->getLinksInCameraCells(intercepted_cells);
+		visible_entities = entitiesAreGrouped ? grid->getVisibleEntitiesInCameraCells(intercepted_cells) : grid->getEntitiesInCameraCells(intercepted_cells);
+		visible_links	 = grid->getLinksInCameraCells(intercepted_cells);
 
-			for (auto& vgroup : visible_groupedEntities) {
-				vgroup.clear();
+		for (auto& vgroup : visible_groupedEntities) {
+			vgroup.clear();
+		}
+
+		for (auto* ventity : visible_entities) {
+			if (!ventity->isActive()) {
+				continue; 
 			}
 
-			for (auto* ventity : visible_entities) {
-				if (!ventity->isActive()) {
-					continue; 
-				}
-
-				for (unsigned i = 0; i < maxGroups; ++i) {
-					if (ventity->hasGroup(i)) {
-						visible_groupedEntities[i].push_back(ventity);
-					}
-				}
-			}
-			for (auto* vlink : visible_links) {
-				if (!vlink->isActive()) {
-					continue;
-				}
-
-				for (unsigned i = 0; i < maxGroups; ++i) {
-					if (vlink->hasGroup(i)) {
-						visible_groupedEntities[i].push_back(vlink);
-					}
+			for (unsigned i = 0; i < maxGroups; ++i) {
+				if (ventity->hasGroup(i)) {
+					visible_groupedEntities[i].push_back(ventity);
 				}
 			}
 		}
-		else {
-			for (auto i(0u); i < maxGroups; i++)
-			{
-				auto& v(groupedEntities[i]);
-				v.erase(
-					std::remove_if(std::begin(v), std::end(v),
-						[this, i](Entity* mEntity)
-						{
-							return !mEntity->isActive() || !mEntity->hasGroup(i);
-						}),
-					std::end(v));
+		for (auto* vlink : visible_links) {
+			if (!vlink->isActive()) {
+				continue;
 			}
 
-			entities.erase(std::remove_if(std::begin(entities), std::end(entities),
-				[this](const std::unique_ptr<Entity>& mEntity)
-				{
-					if (!mEntity->isActive()) {
-						mEntity->removeFromCell();
-
-						return true;
-					}
-					return false;
-				}),
-				std::end(entities));
+			for (unsigned i = 0; i < maxGroups; ++i) {
+				if (vlink->hasGroup(i)) {
+					visible_groupedEntities[i].push_back(vlink);
+				}
+			}
 		}
 		
 	}
