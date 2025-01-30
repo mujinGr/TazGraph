@@ -203,13 +203,13 @@ void Graph::update(float deltaTime) //game objects updating
 			node.GetComponent<Rectangle_w_Color>().color = Color(0, 40, 224, 255);
 
 			node.addGroup(Manager::groupNodes_0);
-			manager.grid->addEntity(&node);
+			manager.grid->addNode(&node);
 
 			// make all entitites have as parent that
 			// hide all the entities inside (dont update them, dont draw them)
 
 			for (const auto& cell : manager.grid->getCells()) {
-				for (auto& entity : cell.entities) {
+				for (auto& entity : cell.nodes) {
 					if (!entity->hasGroup(Manager::cursorGroup)) {
 						entity->hide();
 					}
@@ -232,7 +232,7 @@ void Graph::update(float deltaTime) //game objects updating
 		if (manager.entitiesAreGrouped) {
 			// if it has happened, undo it
 			for (const auto& cell : manager.grid->getCells()) {
-				for (auto& entity : cell.entities) {
+				for (auto& entity : cell.nodes) {
 					if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup))
 						entity->destroy();
 				}
@@ -244,7 +244,7 @@ void Graph::update(float deltaTime) //game objects updating
 			}
 
 			for (const auto& cell : manager.grid->getCells()) {
-				for (auto& entity : cell.entities) {
+				for (auto& entity : cell.nodes) {
 					if (!entity->hasGroup(Manager::cursorGroup)) {
 						entity->reveal();
 					}
@@ -266,7 +266,7 @@ void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
 	TransformComponent* tr = &cursor.GetComponent<TransformComponent>();
 	auto cells = manager.grid->getAdjacentCells(tr->getCenterTransform().x, tr->getCenterTransform().y);
 	for (auto cell : cells) {
-		for (auto& entity : cell->entities) {
+		for (auto& entity : cell->nodes) {
 			if (entity->hasGroup(Manager::cursorGroup)) {
 				continue;
 			}

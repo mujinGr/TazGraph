@@ -7,7 +7,7 @@
 #include <cmath>
 
 struct Cell {
-	std::vector<Entity*> entities;
+	std::vector<Entity*> nodes;
 	std::vector<Entity*> links;
 
 	SDL_FRect boundingBox;
@@ -24,8 +24,8 @@ public:
 	std::vector<Cell*> getLinkCells(const Entity& link);
 	void addLink(Entity* link, Cell* cell);
 
-	void addEntity(Entity* entity);
-	void addEntity(Entity* entity, Cell* cell);
+	void addNode(Entity* entity);
+	void addNode(Entity* entity, Cell* cell);
 
 	Cell* getCell(int x, int y);
 	Cell* getCell(const Entity& position);
@@ -38,11 +38,11 @@ public:
 
 	std::vector<Cell*> getIntercectedCameraCells(ICamera& camera);
 
-	std::vector<Entity*> getVisibleEntitiesInCameraCells(const std::vector<Cell*>& intercepted_cells);
+	std::vector<Entity*> getRevealedNodesInCameraCells(const std::vector<Cell*>& intercepted_cells);
 
 	std::vector<Entity*> getLinksInCameraCells(const std::vector<Cell*>& intercepted_cells);
 
-	std::vector<Entity*> getEntitiesInCameraCells(const std::vector<Cell*>& intercepted_cells);
+	std::vector<Entity*> getNodesInCameraCells(const std::vector<Cell*>& intercepted_cells);
 
 	float getGroupingZoomLevel();
 private:

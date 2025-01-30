@@ -8,8 +8,8 @@ class LinkEntity;
 typedef class NodeEntity : public Entity {
 private:
 	Entity* parent_entity = nullptr;
-	std::vector<LinkEntity*> inLinks;
-	std::vector<LinkEntity*> outLinks;
+	std::vector<Entity*> inLinks;
+	std::vector<Entity*> outLinks;
 
 public:
 	Cell* ownerCell = nullptr;
@@ -24,13 +24,8 @@ public:
 	void update(float deltaTime)
 	{
 		Entity::update(deltaTime);
-		// after cellUpdate then update the links
-		/*for (auto link : inLinks) {
-			link->update(deltaTime);
-		}
-		for (auto link : outLinks) {
-			link->update(deltaTime);
-		}*/
+
+		cellUpdate();
 	}
 
 	void cellUpdate() override{
@@ -39,7 +34,15 @@ public:
 			if (newCell != this->ownerCell) {
 				// Need to shift the entity
 				removeEntity();
-				manager.grid->addEntity(this, newCell);
+				manager.grid->addNode(this, newCell);
+
+				// now updateCells of all the in and out links
+				for (auto& link : inLinks) {
+					link->cellUpdate();
+				}
+				for (auto& link : outLinks) {
+					link->cellUpdate();
+				}
 			}
 		}
 	}
@@ -52,10 +55,10 @@ public:
 	}
 
 	void removeEntity() {
-		ownerCell->entities.erase(
-			std::remove(this->ownerCell->entities.begin(), this->ownerCell->entities.end(),
+		ownerCell->nodes.erase(
+			std::remove(this->ownerCell->nodes.begin(), this->ownerCell->nodes.end(),
 				this),
-			this->ownerCell->entities.end());
+			this->ownerCell->nodes.end());
 	}
 
 	void setOwnerCell(Cell* cell) override {
@@ -72,19 +75,19 @@ public:
 		parent_entity = pEntity;
 	}
 
-	void addInLink(LinkEntity* link) {
+	void addInLink(Entity* link) {
 		inLinks.push_back(link);
 	}
 
-	void addOutLink(LinkEntity* link) {
+	void addOutLink(Entity* link) {
 		outLinks.push_back(link);
 	}
 
-	const std::vector<LinkEntity*>& getInLinks() const {
+	const std::vector<Entity*>& getInLinks() const {
 		return inLinks;
 	}
 
-	const std::vector<LinkEntity*>& getOutLinks() const {
+	const std::vector<Entity*>& getOutLinks() const {
 		return outLinks;
 	}
 

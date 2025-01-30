@@ -107,12 +107,6 @@ public:
 			c->update(deltaTime); // start from which was added first
 		}
 	}
-	void updateFully(float deltaTime)
-	{
-		for (auto& c : components) {
-			c->update(deltaTime); // start from which was added first
-		}
-	}
 
 	virtual void cellUpdate() {};
 
@@ -165,9 +159,10 @@ public:
 		std::unique_ptr<Component> uPtr{ c };
 		components.emplace_back(std::move(uPtr));
 
-		componentArray[GetComponentTypeID<T>()] = c;
-		componentBitSet[GetComponentTypeID<T>()] = true;
-		c->id = GetComponentTypeID<T>();
+		ComponentID comp_id = GetComponentTypeID<T>();
+		componentArray[comp_id] = c;
+		componentBitSet[comp_id] = true;
+		c->id = comp_id;
 
 		c->init();
 		return *c;

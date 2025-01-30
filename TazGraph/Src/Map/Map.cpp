@@ -74,7 +74,7 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 
 		node.setId(id);
 
-		manager.grid->addEntity(&node);
+		manager.grid->addNode(&node);
 	}
 
 	std::getline(mapFile, line);
@@ -112,7 +112,7 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 		glm::vec2 position(x, y);
 		(this->*addNodeFunction)(node, position);
 
-		manager.grid->addEntity(&node);
+		manager.grid->addNode(&node);
 	}
 	auto& links = rootFromFile.obj["graph"].obj["edges"];
 	for (auto& linkEntry : links.arr) {

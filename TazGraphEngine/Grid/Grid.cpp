@@ -86,15 +86,15 @@ void Grid::addLink(Entity* link, Cell* cell)
 }
 
 // adding node to grid
-void Grid::addEntity(Entity* entity)
+void Grid::addNode(Entity* entity)
 {
 	Cell* cell = getCell(*entity);
-	addEntity(entity, cell);
+	addNode(entity, cell);
 }
 
-void Grid::addEntity(Entity* entity, Cell* cell)
+void Grid::addNode(Entity* entity, Cell* cell)
 {
-	cell->entities.push_back(entity);
+	cell->nodes.push_back(entity);
 
 	entity->setOwnerCell(cell);
 }
@@ -178,11 +178,11 @@ std::vector<Cell*> Grid::getIntercectedCameraCells(ICamera& camera) {
 	return result;
 }
 
-std::vector<Entity*> Grid::getVisibleEntitiesInCameraCells(const std::vector<Cell*>& intercepted_cells) {
+std::vector<Entity*> Grid::getRevealedNodesInCameraCells(const std::vector<Cell*>& intercepted_cells) {
 	std::vector<Entity*> result;
 
 	for (auto& cell : intercepted_cells) {
-		for (auto& entity : cell->entities) {
+		for (auto& entity : cell->nodes) {
 			if (!entity->isHidden()) {  // Check if the entity is visible
 				result.push_back(entity);
 			}
@@ -191,11 +191,11 @@ std::vector<Entity*> Grid::getVisibleEntitiesInCameraCells(const std::vector<Cel
 	return result;
 }
 
-std::vector<Entity*> Grid::getEntitiesInCameraCells(const std::vector<Cell*>& intercepted_cells) {
+std::vector<Entity*> Grid::getNodesInCameraCells(const std::vector<Cell*>& intercepted_cells) {
 	std::vector<Entity*> result;
 
 	for (auto& cell : intercepted_cells) {
-		result.insert(result.end(), cell->entities.begin(), cell->entities.end());
+		result.insert(result.end(), cell->nodes.begin(), cell->nodes.end());
 	}
 	return result;
 }

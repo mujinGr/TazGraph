@@ -10,7 +10,7 @@ private:
 	std::vector<std::unique_ptr<Entity>> entities;
 	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
 
-	std::vector<Entity*> visible_entities;
+	std::vector<Entity*> visible_nodes;
 	std::vector<Entity*> visible_links;
 	std::array<std::vector<Entity*>, maxGroups> visible_groupedEntities;
 
@@ -21,28 +21,21 @@ public:
 
 	void update(float deltaTime = 1.0f)
 	{
-		for (auto& e : visible_entities) {
+		for (auto& e : visible_nodes) {
 			if (!e || !e->isActive()) continue;
+			
 			e->update(deltaTime);
-			// for all connected links update
-			e->cellUpdate();
 		}
-		for (auto& le : visible_links) {
-			if (!le || !le->isActive()) continue;
-			le->update(deltaTime);
-
-			le->cellUpdate();
-		}
-		
 	}
 
+	// update fully will update all nodes and links in the world
 	void updateFully(float deltaTime = 1.0f)
 	{
-		for (auto& e : entities) { //todo since links depend on nodes, then nodes first update and then links. To make it correctly link should be as var in node
+		// the links are updating once since after first update we check wether the nodes are aligned with the ownerCells
+		for (auto& e : entities) { 
 			if (!e || !e->isActive()) continue;
-			e->updateFully(deltaTime);
-
-			e->cellUpdate();
+			
+			e->update(deltaTime);
 		}
 	}
 
@@ -63,14 +56,14 @@ public:
 
 		std::vector<Cell*> intercepted_cells = grid->getIntercectedCameraCells(*camera);
 
-		visible_entities = entitiesAreGrouped ? grid->getVisibleEntitiesInCameraCells(intercepted_cells) : grid->getEntitiesInCameraCells(intercepted_cells);
+		visible_nodes = entitiesAreGrouped ? grid->getRevealedNodesInCameraCells(intercepted_cells) : grid->getNodesInCameraCells(intercepted_cells);
 		visible_links	 = grid->getLinksInCameraCells(intercepted_cells);
 
 		for (auto& vgroup : visible_groupedEntities) {
 			vgroup.clear();
 		}
 
-		for (auto* ventity : visible_entities) {
+		for (auto* ventity : visible_nodes) {
 			if (!ventity->isActive()) {
 				continue; 
 			}
@@ -176,7 +169,7 @@ public:
 		auto adjacentCells = grid->getAdjacentCells(*mainEntity);
 
 		for (Cell* adjCell : adjacentCells) {
-			for (auto& neighbor : adjCell->entities) {
+			for (auto& neighbor : adjCell->nodes) {
 				if (neighbor->hasGroup(group)) { // Optional: Exclude the original entity if necessary
 					nearbyEntities.push_back(neighbor);
 				}
