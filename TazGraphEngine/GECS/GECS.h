@@ -159,10 +159,9 @@ public:
 		std::unique_ptr<Component> uPtr{ c };
 		components.emplace_back(std::move(uPtr));
 
-		ComponentID comp_id = GetComponentTypeID<T>();
-		componentArray[comp_id] = c;
-		componentBitSet[comp_id] = true;
-		c->id = comp_id;
+		componentArray[GetComponentTypeID<T>()] = c;
+		componentBitSet[GetComponentTypeID<T>()] = true;
+		c->id = GetComponentTypeID<T>();
 
 		c->init();
 		return *c;

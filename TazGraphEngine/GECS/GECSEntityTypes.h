@@ -128,6 +128,15 @@ public:
 		to->addInLink(this);
 	}
 
+	LinkEntity(Manager& mManager, Entity* mfrom, Entity* mto)
+		: Entity(mManager),
+		from(dynamic_cast<Node*>(mfrom)),
+		to(dynamic_cast<Node*>(mto))
+	{
+		fromId = from->getId();
+		toId = to->getId();
+	}
+
 	virtual ~LinkEntity() {
 
 	}
@@ -170,11 +179,11 @@ public:
 
 	Cell* getOwnerCell() const override { return ownerCells[0]; }
 
-	Node* getFromNode() const override {
+	Entity* getFromNode() const override {
 		return from;
 	}
 
-	Node* getToNode() const override {
+	Entity* getToNode() const override {
 		return to;
 	}
 

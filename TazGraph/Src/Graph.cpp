@@ -196,57 +196,94 @@ void Graph::update(float deltaTime) //game objects updating
 	//collision.moveFromOuterBounds();
 	if (main_camera2D->getScale() < manager.grid->getGroupingZoomLevel()) {
 		if (!manager.entitiesAreGrouped) {
-			// create a new node			
-			auto& node = manager.addEntity<Node>();
-			node.addComponent<TransformComponent>(glm::vec2(0, 0), Manager::actionLayer, glm::ivec2(10, 10), 1);
-			node.addComponent<Rectangle_w_Color>();
-			node.GetComponent<Rectangle_w_Color>().color = Color(0, 40, 224, 255);
-
-			node.addGroup(Manager::groupNodes_0);
-			manager.grid->addNode(&node);
-
-			// make all entitites have as parent that
+			
 			// hide all the entities inside (dont update them, dont draw them)
-
 			for (const auto& cell : manager.grid->getCells()) {
-				for (auto& entity : cell.nodes) {
-					if (!entity->hasGroup(Manager::cursorGroup)) {
-						entity->hide();
+				
+				if ( cell.nodes.empty() || ( !cell.nodes.empty() && (*cell.nodes.begin())->isHidden() ) ) continue;
+
+
+				// create a new node			
+				auto& node = manager.addEntity<Node>();
+				node.addComponent<TransformComponent>(glm::vec2(cell.boundingBox.x, cell.boundingBox.y), Manager::actionLayer, glm::ivec2(50, 50), 1);
+				node.addComponent<Rectangle_w_Color>();
+				node.GetComponent<Rectangle_w_Color>().color = Color(0, 155, 155, 255);
+
+				node.addGroup(Manager::groupNodes_0);
+				manager.grid->addNode(&node);
+				node.hide();
+				std::vector<Cell*> localCells = manager.grid->getAdjacentCells(node);
+
+				for (const auto& local_cell : localCells) {
+					for (auto& entity : local_cell->nodes) {
+						if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
+							glm::vec2 relativePosition = entity->GetComponent<TransformComponent>().getCenterTransform() - node.GetComponent<TransformComponent>().getCenterTransform();
+							entity->GetComponent<TransformComponent>().setPosition_X(relativePosition.x);
+							entity->GetComponent<TransformComponent>().setPosition_Y(relativePosition.y);
+
+							entity->setParentEntity(&node);
+							entity->hide();
+						}
 					}
 				}
+
 				// remove all links
-				// ! removing them is going to take up time. dont create them again, the link
-				// ! entities exist and can be shown from pointer of the nodes
-				// ! so just hide them, when zooming in updateFully all links!!!!
 				for (auto& link : cell.links) {
 					link->hide();
 				}
+
+				node.reveal();
 			}
 			
-			node.reveal();
+			auto group_links = manager.getGroup(Manager::groupLinks_0);
+			for (const auto& link : group_links) {
+				// get the links of the inside nodes
+				if (link->isHidden()) {
+					auto& groups_link = manager.addEntity<Link>(link->getFromNode()->getParentEntity(), link->getToNode()->getParentEntity());
+					groups_link.addComponent<Line_w_Color>();
+					groups_link.GetComponent<Line_w_Color>().src_color = Color(255, 255, 0, 255);
+					groups_link.GetComponent<Line_w_Color>().dest_color = Color(255, 255, 0, 255);
+
+					groups_link.addGroup(Manager::groupLinks_0);
+
+					manager.grid->addLink(&groups_link);
+
+				}
+			}
+
 			manager.entitiesAreGrouped = true;
 
 		}
 	}
 	else {
 		if (manager.entitiesAreGrouped) {
-			// if it has happened, undo it
+			// first destroy the group nodes
 			for (const auto& cell : manager.grid->getCells()) {
 				for (auto& entity : cell.nodes) {
 					if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup))
 						entity->destroy();
-				}
-				for (auto& link : cell.links) {
-					if (!link->isHidden()) {
-						link->destroy();
-					}
-				}
+				}	
 			}
 
+			for (auto& link : manager.getGroup(Manager::groupLinks_0)) {
+				if (!link->isHidden()) {
+					link->destroy();
+				}
+			}
+			// reveal all the hidden nodes
 			for (const auto& cell : manager.grid->getCells()) {
 				for (auto& entity : cell.nodes) {
-					if (!entity->hasGroup(Manager::cursorGroup)) {
+					if (entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
+						// ! update the nodes' position based on the parent position
+						TransformComponent* tr = &entity->getParentEntity()->GetComponent<TransformComponent>();
+						
+						glm::vec2 absolutePosition = entity->GetComponent<TransformComponent>().getCenterTransform() + tr->getCenterTransform();
+						entity->GetComponent<TransformComponent>().setPosition_X(absolutePosition.x);
+						entity->GetComponent<TransformComponent>().setPosition_Y(absolutePosition.y);
+						
+						entity->setParentEntity(nullptr);
 						entity->reveal();
+						_firstLoop = true;
 					}
 				}
 				for (auto& link : cell.links) {
@@ -479,6 +516,11 @@ void Graph::draw()
 			destRect.w = tr->height;
 			_LineRenderer.drawBox(destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawbox
 		}
+		_LineRenderer.drawBox(glm::vec4(-ROW_CELL_SIZE / 2, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE/2, COLUMN_CELL_SIZE/2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawBox(glm::vec4(0, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawBox(glm::vec4(-ROW_CELL_SIZE / 2, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawBox(glm::vec4(0, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+
 
 		_LineRenderer.end();
 		_LineRenderer.renderBatch(main_camera2D->getScale() * 2.0f);

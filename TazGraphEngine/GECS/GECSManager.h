@@ -41,16 +41,27 @@ public:
 
 	void refresh(ICamera* camera = nullptr)
 	{
-		
-		entities.erase(std::remove_if(std::begin(entities), std::end(entities),
-			[this](const std::unique_ptr<Entity>& mEntity)
-			{
-				if (!mEntity->isActive()) {
-					mEntity->removeFromCell();
+	
+		std::vector<Entity*> toBeRemoved;
 
-					return true;
-				}
-				return false;
+		for (const auto& entity : entities) {
+			if (!entity->isActive()) {
+				entity->removeFromCell();
+				toBeRemoved.push_back(entity.get());
+			}
+		}
+
+		for (auto i(0u); i < maxGroups; i++) {
+			auto& group(groupedEntities[i]);
+			group.erase(std::remove_if(std::begin(group), std::end(group),
+				[&toBeRemoved, i](Entity* mEntity) {
+					return !mEntity->isActive() || !mEntity->hasGroup(i);
+				}), group.end());
+		}
+
+		entities.erase(std::remove_if(std::begin(entities), std::end(entities),
+			[&toBeRemoved](const std::unique_ptr<Entity>& mEntity) {
+				return std::find(toBeRemoved.begin(), toBeRemoved.end(), mEntity.get()) != toBeRemoved.end();
 			}),
 			std::end(entities));
 
