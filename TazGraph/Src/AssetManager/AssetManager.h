@@ -20,8 +20,10 @@ public:
 	~AssetManager();
 
 	//graphobjects
-	void CreateLink(Entity& linkEntity, Entity& sourceEntity, Entity& destEntity);
 	void CreateCursor(Entity& cursor);
+	void CreateGroup(Entity& groupNode, SDL_FRect centerCell, float groupNodeSize);
+
+	void CreateGroupLink(Entity& groupLink);
 
 private:
 	Manager* manager;

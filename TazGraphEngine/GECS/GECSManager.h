@@ -198,7 +198,10 @@ public:
 
 		//action
 		groupLinks_0,
+		groupGroupLinks_0,
+
 		groupNodes_0,
+		groupGroupNodes_0,
 		groupLinks,
 		groupColliders,
 		
@@ -213,7 +216,11 @@ public:
 
 		//action
 		{ groupLinks_0,"groupLinks_0" },
+		{groupGroupLinks_0, "groupGroupLinks_0"},
+
 		{ groupNodes_0,"groupNodes_0" },
+		{ groupGroupNodes_0, "groupGroupNodes_0"},
+
 		{ groupLinks,"groupLinks" },
 		{ groupColliders,"groupColliders" },
 

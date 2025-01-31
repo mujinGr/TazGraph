@@ -123,6 +123,8 @@ Cell* Grid::getCell(const Entity& entity)
 std::vector<Cell*> Grid::getAdjacentCells(int x, int y) {
 	std::vector<Cell*> adjacentCells;
 
+	adjacentCells.reserve(9);
+
 	int cellX = (int)(x / _cellSize);
 	int cellY = (int)(y / _cellSize);
 
@@ -200,10 +202,22 @@ std::vector<Entity*> Grid::getNodesInCameraCells(const std::vector<Cell*>& inter
 	return result;
 }
 
-float Grid::getGroupingZoomLevel()
+
+
+Grid::Level Grid::getGridLevel()
 {
-	return _groupingZoomLevel;
+	return _level;
 }
+
+void Grid::setGridLevel(Level newLevel)
+{
+	_level = newLevel;
+}
+
+float Grid::getLevelScale(Level level) {
+	return gridLevels[level];
+}
+
 
 std::vector<Entity*> Grid::getLinksInCameraCells(const std::vector<Cell*>& intercepted_cells) {
 	std::map<unsigned int, Entity*> uniqueEntities;

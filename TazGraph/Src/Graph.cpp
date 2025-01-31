@@ -20,7 +20,7 @@ TazGraphEngine::Window* Graph::_window = nullptr;
 
 auto& cursor(manager.addEntity(-1));
 
-float nodeRadius = 0.0f;
+float nodeRadius = 1.0f;
 
 Graph::Graph(TazGraphEngine::Window* window)
 {
@@ -151,7 +151,10 @@ void Graph::onExit() {
 }
 
 auto& nodes(manager.getGroup(Manager::groupNodes_0));
+auto& group_nodes(manager.getGroup(Manager::groupGroupNodes_0));
+
 auto& links(manager.getGroup(Manager::groupLinks_0));
+auto& group_links(manager.getGroup(Manager::groupGroupLinks_0));
 
 auto& colliders(manager.getGroup(Manager::groupColliders));
 
@@ -194,7 +197,21 @@ void Graph::update(float deltaTime) //game objects updating
 	}
 	// make camera not being able to move out of bounds
 	//collision.moveFromOuterBounds();
-	if (main_camera2D->getScale() < manager.grid->getGroupingZoomLevel()) {
+
+
+	/*if (main_camera2D->getScale() < gridLevels[manager.grid->getGridLevel() + 1] ) {
+		manager.grid->setGridLevel(static_cast<GridLevel>(manager.grid->getGridLevel() + 1));
+
+
+	}
+	else if (main_camera2D->getScale() > gridLevels[manager.grid->getGridLevel() - 1] ) {
+		manager.grid->setGridLevel(static_cast<GridLevel>(manager.grid->getGridLevel() - 1));
+
+
+	}*/
+
+	if (main_camera2D->getScale() < manager.grid->getLevelScale(manager.grid->getGridLevel())) {
+		//manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() + 1))
 		if (!manager.entitiesAreGrouped) {
 			
 			// hide all the entities inside (dont update them, dont draw them)
@@ -202,22 +219,54 @@ void Graph::update(float deltaTime) //game objects updating
 				
 				if ( cell.nodes.empty() || ( !cell.nodes.empty() && (*cell.nodes.begin())->isHidden() ) ) continue;
 
+				int currentCellX = (int)(std::floor(cell.boundingBox.x / CELL_SIZE));
+				int currentCellY = (int)(std::floor(cell.boundingBox.y / CELL_SIZE));
+				Cell* bottomRightCell = manager.grid->getCell(currentCellX + 1, currentCellY + 1);
+				Cell* bottomCell = manager.grid->getCell(currentCellX, currentCellY + 1);
+				Cell* rightCell = manager.grid->getCell(currentCellX + 1, currentCellY);
+
+				const Cell* selectedCell = nullptr;
+
+				// Check and select the first appropriate cell
+				if (bottomRightCell && !bottomRightCell->nodes.empty() && !(*bottomRightCell->nodes.begin())->isHidden()) {
+					selectedCell = bottomRightCell;
+				}
+				else if (bottomCell && !bottomCell->nodes.empty() && !(*bottomCell->nodes.begin())->isHidden()) {
+					selectedCell = bottomCell;
+				}
+				else if (rightCell && !rightCell->nodes.empty() && !(*rightCell->nodes.begin())->isHidden()) {
+					selectedCell = rightCell;
+				}
+
+				// If no suitable adjacent cells found, continue with the current cell
+				if (!selectedCell) {
+					selectedCell = &cell;
+				}
 
 				// create a new node			
-				auto& node = manager.addEntity<Node>();
-				node.addComponent<TransformComponent>(glm::vec2(cell.boundingBox.x, cell.boundingBox.y), Manager::actionLayer, glm::ivec2(50, 50), 1);
-				node.addComponent<Rectangle_w_Color>();
-				node.GetComponent<Rectangle_w_Color>().color = Color(0, 155, 155, 255);
+				
+				std::vector<Cell*> localCells = manager.grid->getAdjacentCells(selectedCell->boundingBox.x, selectedCell->boundingBox.y);
 
-				node.addGroup(Manager::groupNodes_0);
+
+				int totalNodes = 0;  // Counter for total number of nodes in local cells
+
+				// Loop through each cell and count the nodes
+				for (const auto& cell : localCells) {
+					totalNodes += cell->nodes.size();
+				}
+
+				float groupNodeSize = 50 - 40 / (totalNodes + 1);
+
+				auto& node = manager.addEntity<Node>();
+
+				_assetsManager->CreateGroup(node, selectedCell->boundingBox, groupNodeSize);
 				manager.grid->addNode(&node);
 				node.hide();
-				std::vector<Cell*> localCells = manager.grid->getAdjacentCells(node);
 
 				for (const auto& local_cell : localCells) {
 					for (auto& entity : local_cell->nodes) {
 						if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
-							glm::vec2 relativePosition = entity->GetComponent<TransformComponent>().getCenterTransform() - node.GetComponent<TransformComponent>().getCenterTransform();
+							glm::vec2 relativePosition = entity->GetComponent<TransformComponent>().getPosition() - node.GetComponent<TransformComponent>().getCenterTransform();
 							entity->GetComponent<TransformComponent>().setPosition_X(relativePosition.x);
 							entity->GetComponent<TransformComponent>().setPosition_Y(relativePosition.y);
 
@@ -240,14 +289,8 @@ void Graph::update(float deltaTime) //game objects updating
 				// get the links of the inside nodes
 				if (link->isHidden()) {
 					auto& groups_link = manager.addEntity<Link>(link->getFromNode()->getParentEntity(), link->getToNode()->getParentEntity());
-					groups_link.addComponent<Line_w_Color>();
-					groups_link.GetComponent<Line_w_Color>().src_color = Color(255, 255, 0, 255);
-					groups_link.GetComponent<Line_w_Color>().dest_color = Color(255, 255, 0, 255);
-
-					groups_link.addGroup(Manager::groupLinks_0);
-
+					_assetsManager->CreateGroupLink(groups_link);
 					manager.grid->addLink(&groups_link);
-
 				}
 			}
 
@@ -265,7 +308,7 @@ void Graph::update(float deltaTime) //game objects updating
 				}	
 			}
 
-			for (auto& link : manager.getGroup(Manager::groupLinks_0)) {
+			for (auto& link : manager.getGroup(Manager::groupGroupLinks_0)) {
 				if (!link->isHidden()) {
 					link->destroy();
 				}
@@ -277,7 +320,7 @@ void Graph::update(float deltaTime) //game objects updating
 						// ! update the nodes' position based on the parent position
 						TransformComponent* tr = &entity->getParentEntity()->GetComponent<TransformComponent>();
 						
-						glm::vec2 absolutePosition = entity->GetComponent<TransformComponent>().getCenterTransform() + tr->getCenterTransform();
+						glm::vec2 absolutePosition = entity->GetComponent<TransformComponent>().getPosition() + tr->getCenterTransform();
 						entity->GetComponent<TransformComponent>().setPosition_X(absolutePosition.x);
 						entity->GetComponent<TransformComponent>().setPosition_Y(absolutePosition.y);
 						
@@ -376,15 +419,17 @@ void Graph::checkInput() {
 					std::cout << "convertedScreenToWorld: " << convertScreenToWorld(mouseCoordsVec).x << " - " << convertScreenToWorld(mouseCoordsVec).y << std::endl;
 				}
 			}
-			if (!_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
-				_selectedEntity = nullptr;
-			}
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
 				_app->_inputManager.setPanningPoint(mouseCoordsVec / main_camera2D->getScale());
 				_app->_inputManager.setStartDragPos(main_camera2D->getPosition());
 			}
+		case SDL_MOUSEBUTTONUP:
+			if (!_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
+				_selectedEntity = nullptr;
+			}
 		}
+		
 		if (_app->_inputManager.isKeyPressed(SDLK_p)) {
 			onPauseGraph();
 		}
@@ -540,7 +585,14 @@ void Graph::draw()
 	renderBatch(manager.getVisibleGroup(Manager::groupLinks_0), _LineRenderer);
 	
 	_LineRenderer.end();
+
 	_LineRenderer.renderBatch(main_camera2D->getScale() * 2.0f);
+
+	renderBatch(manager.getVisibleGroup(Manager::groupGroupLinks_0), _LineRenderer);
+
+	_LineRenderer.end();
+	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
+
 	glsl_lineColor.unuse();
 
 	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
@@ -551,6 +603,7 @@ void Graph::draw()
 	GLint radiusLocation = glsl_circleColor.getUniformLocation("u_radius");
 	glUniform1f(radiusLocation, nodeRadius);
 	renderBatch(manager.getVisibleGroup(Manager::groupNodes_0), _PlaneModelRenderer);
+	renderBatch(manager.getVisibleGroup(Manager::groupGroupNodes_0), _PlaneModelRenderer);
 	renderBatch(cursors, _PlaneModelRenderer);
 	_PlaneModelRenderer.end();
 	_PlaneModelRenderer.renderBatch();

@@ -144,7 +144,7 @@ public:
 	}
 private:
 	int _screenWidth, _screenHeight;
-	float _minScale = 0.2f, _maxScale = 5.0f;
+	float _minScale = 0.1f, _maxScale = 5.0f;
 	float _scale; // decreases when zoom-out
 	bool _cameraChange;
 

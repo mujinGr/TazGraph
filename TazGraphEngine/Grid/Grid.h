@@ -15,8 +15,13 @@ struct Cell {
 
 
 class Grid {
-	friend class Manager;
 public:
+	enum Level {
+		Basic,
+		Outer1,
+		Outer2
+	};
+
 	Grid(int width, int height, int cellSize);
 	~Grid();
 
@@ -44,7 +49,10 @@ public:
 
 	std::vector<Entity*> getNodesInCameraCells(const std::vector<Cell*>& intercepted_cells);
 
-	float getGroupingZoomLevel();
+	Level getGridLevel();
+	void setGridLevel(Level newLevel);
+
+	float getLevelScale(Level level);
 private:
 	std::vector<Cell> _cells;
 	int _cellSize;
@@ -52,5 +60,10 @@ private:
 	int _height;
 	int _numXCells;
 	int _numYCells;
-	float _groupingZoomLevel = 0.5f;
+
+	// can change between different scenes/managers
+	std::map<Level, float> gridLevels = { {Level::Basic, 0.5f}, {Level::Outer1, 0.1f}, {Level::Outer2, 0.0f} };
+
+	Level _level;
+
 };
