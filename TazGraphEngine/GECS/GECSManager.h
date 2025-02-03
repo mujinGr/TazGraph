@@ -17,8 +17,6 @@ private:
 public:
 	std::unique_ptr<Grid> grid;
 
-	bool entitiesAreGrouped = false;
-
 	void update(float deltaTime = 1.0f)
 	{
 		for (auto& e : visible_nodes) {
@@ -44,30 +42,37 @@ public:
 	
 		std::vector<Entity*> toBeRemoved;
 
-		for (const auto& entity : entities) {
-			if (!entity->isActive()) {
-				entity->removeFromCell();
-				toBeRemoved.push_back(entity.get());
+		for (auto& visible_entities : { std::ref(visible_nodes), std::ref(visible_links) })
+		{
+			for (const auto& v_entity : visible_entities.get()) {
+				if (!v_entity->isActive()) {
+					v_entity->removeFromCell();
+					toBeRemoved.push_back(v_entity);
+				}
 			}
 		}
+		
 
 		for (auto i(0u); i < maxGroups; i++) {
-			auto& group(groupedEntities[i]);
+			auto& group(visible_groupedEntities[i]);
 			group.erase(std::remove_if(std::begin(group), std::end(group),
 				[&toBeRemoved, i](Entity* mEntity) {
 					return !mEntity->isActive() || !mEntity->hasGroup(i);
 				}), group.end());
 		}
 
-		entities.erase(std::remove_if(std::begin(entities), std::end(entities),
-			[&toBeRemoved](const std::unique_ptr<Entity>& mEntity) {
-				return std::find(toBeRemoved.begin(), toBeRemoved.end(), mEntity.get()) != toBeRemoved.end();
-			}),
-			std::end(entities));
+		for (auto& visible_entities : { std::ref(visible_nodes), std::ref(visible_links) }) {
+			visible_entities.get().erase(std::remove_if(visible_entities.get().begin(), visible_entities.get().end(),
+				[&toBeRemoved](Entity* mEntity) {
+					return std::find(toBeRemoved.begin(), toBeRemoved.end(), mEntity) != toBeRemoved.end();
+				}),
+				visible_entities.get().end());
+		}
+		
 
 		std::vector<Cell*> intercepted_cells = grid->getIntercectedCameraCells(*camera);
 
-		visible_nodes = entitiesAreGrouped ? grid->getRevealedNodesInCameraCells(intercepted_cells) : grid->getNodesInCameraCells(intercepted_cells);
+		visible_nodes = grid->getGridLevel() ? grid->getRevealedNodesInCameraCells(intercepted_cells) : grid->getNodesInCameraCells(intercepted_cells);
 		visible_links	 = grid->getLinksInCameraCells(intercepted_cells);
 
 		for (auto& vgroup : visible_groupedEntities) {
@@ -102,6 +107,23 @@ public:
 	void AddToGroup(Entity* mEntity, Group mGroup)
 	{
 		groupedEntities[mGroup].emplace_back(mEntity);
+	}
+
+	std::vector<Entity*> getEntities() const {
+		std::vector<Entity*> allEntities;
+		allEntities.reserve(entities.size());
+		for (const auto& entity : entities) {
+			allEntities.push_back(entity.get());
+		}
+		return allEntities;
+	}
+
+	std::vector<Entity*> getVisibleNodes() {
+		return visible_nodes;
+	}
+
+	std::vector<Entity*> getVisibleLinks() {
+		return visible_links;
 	}
 
 	std::vector<Entity*>& getGroup(Group mGroup)

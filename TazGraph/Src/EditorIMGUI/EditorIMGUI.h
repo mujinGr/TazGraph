@@ -21,6 +21,10 @@ private:
 	bool _isSaving = false;
 	bool _isLoading = false;
 	bool _goingBack = false;
+
+	// Note: Switch this to true to enable dockspace
+	bool _dockingEnabled = true;
+
 public:
 	EditorIMGUI();
 
@@ -32,12 +36,15 @@ public:
 	bool isGoingBack();
 	void SetGoingBack(bool goingBack);
 
+	bool* getDockspaceRef();
+	void MenuBar();
+
 	void BackGroundUIElement(bool& renderDebug, glm::vec2 mouseCoords, Manager& manager, Entity* selectedEntity, float(&backgroundColor)[4], int cell_size);
-	void FileActions();
 	void FPSCounter(const BaseFPSLimiter& baseFPSLimiter);
 	void ReloadAccessibleFiles();
 	void SavingUI(Map* map);
 	char* LoadingUI();
 	void MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onLoadSimulator, std::function<void()> onExitSimulator);
 	void ShowAllEntities(Manager& manager, float& m_nodeRadius);
+	void SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2 storedWindowSize);
 };

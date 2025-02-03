@@ -31,8 +31,35 @@ void EditorIMGUI::SetGoingBack(bool goingBack) {
 	_goingBack = goingBack;
 }
 
+bool* EditorIMGUI::getDockspaceRef()
+{
+	return &_dockingEnabled;
+}
+
+void EditorIMGUI::MenuBar() {
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			if (ImGui::MenuItem("Save")) {
+				_isSaving = true;
+			}
+			if (ImGui::MenuItem("Load")) {
+				_isLoading = true;
+			}
+			if (ImGui::MenuItem("Back")) {
+				_goingBack = true;
+			}
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndMenuBar();
+	}
+
+}
+
 void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, Manager& manager, Entity* selectedEntity, float(& backgroundColor)[4], int cell_size) {
-	ImGui::Begin("Background UI");
+	ImGui::BeginChild("Background UI");
 	ImGui::Text("This is a Background UI element.");
 	ImGui::ColorEdit4("Background Color", backgroundColor);
 	// Change color based on the debug mode state
@@ -95,6 +122,32 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		ImGui::EndTable();
 	}
 
+	if (ImGui::BeginTable("GroupsTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
+		ImGui::TableSetupColumn("Vectors", ImGuiTableColumnFlags_WidthStretch);
+		ImGui::TableSetupColumn("Size()", ImGuiTableColumnFlags_WidthFixed, 100.0f);
+		ImGui::TableHeadersRow();
+
+		ImGui::TableNextRow();
+		ImGui::TableSetColumnIndex(0);
+		ImGui::Text("entities");
+		ImGui::TableSetColumnIndex(1);
+		ImGui::Text("%d", manager.getEntities().size());
+
+		ImGui::TableNextRow();
+		ImGui::TableSetColumnIndex(0);
+		ImGui::Text("visible nodes");
+		ImGui::TableSetColumnIndex(1);
+		ImGui::Text("%d", manager.getVisibleNodes().size());
+
+		ImGui::TableNextRow();
+		ImGui::TableSetColumnIndex(0);
+		ImGui::Text("visible links");
+		ImGui::TableSetColumnIndex(1);
+		ImGui::Text("%d", manager.getVisibleLinks().size());
+		
+		ImGui::EndTable();
+	}
+
 
 	ImGui::Text("Mouse Coords: {x: %f, y: %f}", mouseCoords.x, mouseCoords.y);
 
@@ -112,41 +165,12 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
 		}
 	}
-	ImGui::End();
-}
-
-void EditorIMGUI::FileActions() {
-
-	ImVec2 displaySize = ImGui::GetIO().DisplaySize;
-
-	// Calculate the window size as a fraction of display size
-	float windowWidth = displaySize.x * 0.15f;  // 40% of the application window's width
-	float windowHeight = displaySize.y * 0.08f; // 30% of the application window's height
-
-	// Set the next window size
-	ImGui::SetNextWindowSize(ImVec2(windowWidth, windowHeight), ImGuiCond_Once);
-	ImGui::SetNextWindowPos(ImVec2(0.0f,0.0f), ImGuiCond_Once);
-
-	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoResize |
-		ImGuiWindowFlags_NoTitleBar;
-
-	ImGui::Begin("File Actions", NULL, windowFlags);
-	if (ImGui::Button("Save", ImVec2(-1.0f, 0.0f))) {
-		_isSaving = true;
-	}
-	if (ImGui::Button("Load", ImVec2(-1.0f, 0.0f))) {
-		_isLoading = true;
-	}
-	if (ImGui::Button("Back", ImVec2(-1.0f, 0.0f))) {
-		_goingBack = true;
-	}
-	ImGui::End();
+	ImGui::EndChild();
 }
 
 void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
 
-	ImGui::Begin("Performance");
+	ImGui::BeginChild("Performance");
 	ImGui::Text("FPS: %f", baseFPSLimiter.fps);
 	if (ImPlot::BeginPlot("FPS Plot")) {
 #if defined(_WIN32) || defined(_WIN64)
@@ -162,13 +186,13 @@ void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
 
 #endif
 
-		ImPlot::SetupAxesLimits(0, 100, 0, 1000);
+		ImPlot::SetupAxesLimits(0, 100, 0, 200);
 
 		ImPlot::PlotLine("FPS", &baseFPSLimiter.fpsHistory[0], plot_count);
 
 		ImPlot::EndPlot();
 	}
-	ImGui::End();
+	ImGui::EndChild();
 
 }
 
@@ -297,7 +321,7 @@ void EditorIMGUI::MainMenuUI(std::function<void()> onStartSimulator, std::functi
 }
 
 void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
-	ImGui::Begin("Entity List");
+	ImGui::BeginChild("Tab 2");
 
 	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 	int size = 10;
@@ -396,5 +420,24 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 		}
 	}
 
-	ImGui::End();
+	ImGui::EndChild();
+}
+
+
+void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2 &storedWindowPos, ImVec2 storedWindowSize) {
+	ImGui::BeginChild("Viewport");
+	ImVec2 pos = ImGui::GetCursorScreenPos();
+	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+	//ImGui::Image();
+	ImGui::Image(
+		(void*)textureId,
+		viewportPanelSize,
+		ImVec2(0, 1),
+		ImVec2(1, 0)
+	);
+
+	storedWindowPos = ImGui::GetWindowPos(); // You need to call this when the window is in context (i.e., between ImGui::Begin and ImGui::End)
+	storedWindowSize = ImGui::GetWindowSize();
+
+	ImGui::EndChild();
 }

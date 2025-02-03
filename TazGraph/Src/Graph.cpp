@@ -22,6 +22,18 @@ auto& cursor(manager.addEntity(-1));
 
 float nodeRadius = 1.0f;
 
+float rectangleVertices[] =
+{
+	// Coords    // texCoords
+	 1.0f, -1.0f,  1.0f, 0.0f,
+	-1.0f, -1.0f,  0.0f, 0.0f,
+	-1.0f,  1.0f,  0.0f, 1.0f,
+
+	 1.0f,  1.0f,  1.0f, 1.0f,
+	 1.0f, -1.0f,  1.0f, 0.0f,
+	-1.0f,  1.0f,  0.0f, 1.0f
+};
+
 Graph::Graph(TazGraphEngine::Window* window)
 {
 	_window = window;
@@ -50,9 +62,11 @@ void Graph::destroy() {
 
 void Graph::onEntry()
 {
+	/////////////////////////////////////////////
 	_resourceManager.addGLSLProgram("color");
 	_resourceManager.addGLSLProgram("circleColor");
 	_resourceManager.addGLSLProgram("texture");
+	_resourceManager.addGLSLProgram("framebuffer");
 
 	_assetsManager = new AssetManager(&manager, _app->_inputManager, _app->_window);
 
@@ -98,6 +112,11 @@ void Graph::onEntry()
 		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
 		_resourceManager.getGLSLProgram("texture")->linkShaders();
 
+		_resourceManager.getGLSLProgram("framebuffer")->compileShaders("Src/Shaders/framebuffer.vert", "Src/Shaders/framebuffer.frag");
+		_resourceManager.getGLSLProgram("framebuffer")->addAttribute("inPos");
+		_resourceManager.getGLSLProgram("framebuffer")->addAttribute("inTexCoords");
+		_resourceManager.getGLSLProgram("framebuffer")->linkShaders();
+
 		Graph::_PlaneModelRenderer.init();
 		Graph::_hudPlaneModelRenderer.init();
 
@@ -140,6 +159,44 @@ void Graph::onEntry()
 
 	Music music = getApp()->getAudioEngine().loadMusic("Sounds/JPEGSnow.ogg");
 	music.play(-1);
+
+
+	_resourceManager.getGLSLProgram("framebuffer")->use();
+	glUniform1i(glGetUniformLocation(_resourceManager.getGLSLProgram("framebuffer")->getProgramID(), "screenTexture"), 0);
+
+	glGenVertexArrays(1, &_rectVAO);
+	glGenBuffers(1, &_rectVBO);
+	glBindVertexArray(_rectVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, _rectVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(rectangleVertices), &rectangleVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+
+
+	// Create frame buffer object
+	glGenFramebuffers(1, &_FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
+
+	// Create Framebuffer Texture
+	glGenTextures(1, &_framebufferTexture);
+	glBindTexture(GL_TEXTURE_2D, _framebufferTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _app->_window.getScreenWidth(), _app->_window.getScreenHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // Prevents edge bleeding
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); // Prevents edge bleeding
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _framebufferTexture, 0);
+
+	// Create Render Buffer Object
+	glGenRenderbuffers(1, &_RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, _RBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _app->_window.getScreenWidth(), _app->_window.getScreenHeight());
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _RBO);
+
+	ImGuiIO& io = ImGui::GetIO();
+	//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
 
 void Graph::onExit() {
@@ -211,129 +268,126 @@ void Graph::update(float deltaTime) //game objects updating
 	}*/
 
 	if (main_camera2D->getScale() < manager.grid->getLevelScale(manager.grid->getGridLevel())) {
-		//manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() + 1))
-		if (!manager.entitiesAreGrouped) {
-			
-			// hide all the entities inside (dont update them, dont draw them)
-			for (const auto& cell : manager.grid->getCells()) {
+		manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() + 1));
+		
+		// hide all the entities inside (dont update them, dont draw them)
+		for (const auto& cell : manager.grid->getCells()) {
 				
-				if ( cell.nodes.empty() || ( !cell.nodes.empty() && (*cell.nodes.begin())->isHidden() ) ) continue;
+			if ( cell.nodes.empty() || ( !cell.nodes.empty() && (*cell.nodes.begin())->isHidden() ) ) continue;
 
-				int currentCellX = (int)(std::floor(cell.boundingBox.x / CELL_SIZE));
-				int currentCellY = (int)(std::floor(cell.boundingBox.y / CELL_SIZE));
-				Cell* bottomRightCell = manager.grid->getCell(currentCellX + 1, currentCellY + 1);
-				Cell* bottomCell = manager.grid->getCell(currentCellX, currentCellY + 1);
-				Cell* rightCell = manager.grid->getCell(currentCellX + 1, currentCellY);
+			int currentCellX = (int)(std::floor(cell.boundingBox.x / CELL_SIZE));
+			int currentCellY = (int)(std::floor(cell.boundingBox.y / CELL_SIZE));
+			Cell* bottomRightCell = manager.grid->getCell(currentCellX + 1, currentCellY + 1);
+			Cell* bottomCell = manager.grid->getCell(currentCellX, currentCellY + 1);
+			Cell* rightCell = manager.grid->getCell(currentCellX + 1, currentCellY);
 
-				const Cell* selectedCell = nullptr;
+			const Cell* selectedCell = nullptr;
 
-				// Check and select the first appropriate cell
-				if (bottomRightCell && !bottomRightCell->nodes.empty() && !(*bottomRightCell->nodes.begin())->isHidden()) {
-					selectedCell = bottomRightCell;
-				}
-				else if (bottomCell && !bottomCell->nodes.empty() && !(*bottomCell->nodes.begin())->isHidden()) {
-					selectedCell = bottomCell;
-				}
-				else if (rightCell && !rightCell->nodes.empty() && !(*rightCell->nodes.begin())->isHidden()) {
-					selectedCell = rightCell;
-				}
+			// Check and select the first appropriate cell
+			if (bottomRightCell && !bottomRightCell->nodes.empty() && !(*bottomRightCell->nodes.begin())->isHidden()) {
+				selectedCell = bottomRightCell;
+			}
+			else if (bottomCell && !bottomCell->nodes.empty() && !(*bottomCell->nodes.begin())->isHidden()) {
+				selectedCell = bottomCell;
+			}
+			else if (rightCell && !rightCell->nodes.empty() && !(*rightCell->nodes.begin())->isHidden()) {
+				selectedCell = rightCell;
+			}
 
-				// If no suitable adjacent cells found, continue with the current cell
-				if (!selectedCell) {
-					selectedCell = &cell;
-				}
+			// If no suitable adjacent cells found, continue with the current cell
+			if (!selectedCell) {
+				selectedCell = &cell;
+			}
 
-				// create a new node			
+			// create a new node			
 				
-				std::vector<Cell*> localCells = manager.grid->getAdjacentCells(selectedCell->boundingBox.x, selectedCell->boundingBox.y);
+			std::vector<Cell*> localCells = manager.grid->getAdjacentCells(selectedCell->boundingBox.x, selectedCell->boundingBox.y);
 
 
-				int totalNodes = 0;  // Counter for total number of nodes in local cells
+			int totalNodes = 0;  // Counter for total number of nodes in local cells
 
-				// Loop through each cell and count the nodes
-				for (const auto& cell : localCells) {
-					totalNodes += cell->nodes.size();
-				}
+			// Loop through each cell and count the nodes
+			for (const auto& cell : localCells) {
+				totalNodes += cell->nodes.size();
+			}
 
-				float groupNodeSize = 50 - 40 / (totalNodes + 1);
+			float groupNodeSize = 50 - 40 / (totalNodes + 1);
 
-				auto& node = manager.addEntity<Node>();
+			auto& node = manager.addEntity<Node>();
 
-				_assetsManager->CreateGroup(node, selectedCell->boundingBox, groupNodeSize);
-				manager.grid->addNode(&node);
-				node.hide();
+			_assetsManager->CreateGroup(node, selectedCell->boundingBox, groupNodeSize);
+			manager.grid->addNode(&node);
+			node.hide();
 
-				for (const auto& local_cell : localCells) {
-					for (auto& entity : local_cell->nodes) {
-						if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
-							glm::vec2 relativePosition = entity->GetComponent<TransformComponent>().getPosition() - node.GetComponent<TransformComponent>().getCenterTransform();
-							entity->GetComponent<TransformComponent>().setPosition_X(relativePosition.x);
-							entity->GetComponent<TransformComponent>().setPosition_Y(relativePosition.y);
+			for (const auto& local_cell : localCells) {
+				for (auto& entity : local_cell->nodes) {
+					if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
+						glm::vec2 relativePosition = entity->GetComponent<TransformComponent>().getPosition() - node.GetComponent<TransformComponent>().getCenterTransform();
+						entity->GetComponent<TransformComponent>().setPosition_X(relativePosition.x);
+						entity->GetComponent<TransformComponent>().setPosition_Y(relativePosition.y);
 
-							entity->setParentEntity(&node);
-							entity->hide();
-						}
+						entity->setParentEntity(&node);
+						entity->hide();
 					}
 				}
-
-				// remove all links
-				for (auto& link : cell.links) {
-					link->hide();
-				}
-
-				node.reveal();
-			}
-			
-			auto group_links = manager.getGroup(Manager::groupLinks_0);
-			for (const auto& link : group_links) {
-				// get the links of the inside nodes
-				if (link->isHidden()) {
-					auto& groups_link = manager.addEntity<Link>(link->getFromNode()->getParentEntity(), link->getToNode()->getParentEntity());
-					_assetsManager->CreateGroupLink(groups_link);
-					manager.grid->addLink(&groups_link);
-				}
 			}
 
-			manager.entitiesAreGrouped = true;
+			// remove all links
+			for (auto& link : cell.links) {
+				link->hide();
+			}
 
+			node.reveal();
 		}
-	}
-	else {
-		if (manager.entitiesAreGrouped) {
-			// first destroy the group nodes
-			for (const auto& cell : manager.grid->getCells()) {
-				for (auto& entity : cell.nodes) {
-					if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup))
-						entity->destroy();
-				}	
+			
+		auto group_links = manager.getGroup(Manager::groupLinks_0);
+		for (const auto& link : group_links) {
+			// get the links of the inside nodes
+			if (link->isHidden()) {
+				auto& groups_link = manager.addEntity<Link>(link->getFromNode()->getParentEntity(), link->getToNode()->getParentEntity());
+				_assetsManager->CreateGroupLink(groups_link);
+				manager.grid->addLink(&groups_link);
 			}
+		}
 
-			for (auto& link : manager.getGroup(Manager::groupGroupLinks_0)) {
-				if (!link->isHidden()) {
-					link->destroy();
+		
+	}
+	else if(main_camera2D->getScale() < manager.grid->getLevelScale(static_cast<Grid::Level>(manager.grid->getGridLevel() - 1))){
+
+		manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() - 1));
+
+		// first destroy the group nodes
+		for (const auto& cell : manager.grid->getCells()) {
+			for (auto& entity : cell.nodes) {
+				if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup))
+					entity->destroy();
+			}	
+		}
+
+		for (auto& link : manager.getGroup(Manager::groupGroupLinks_0)) {
+			if (!link->isHidden()) {
+				link->destroy();
+			}
+		}
+		// reveal all the hidden nodes
+		for (const auto& cell : manager.grid->getCells()) {
+			for (auto& entity : cell.nodes) {
+				if (entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
+					// ! update the nodes' position based on the parent position
+					TransformComponent* tr = &entity->getParentEntity()->GetComponent<TransformComponent>();
+						
+					glm::vec2 absolutePosition = entity->GetComponent<TransformComponent>().getPosition() + tr->getCenterTransform();
+					entity->GetComponent<TransformComponent>().setPosition_X(absolutePosition.x);
+					entity->GetComponent<TransformComponent>().setPosition_Y(absolutePosition.y);
+						
+					entity->setParentEntity(nullptr);
+					entity->reveal();
+					_firstLoop = true;
 				}
 			}
-			// reveal all the hidden nodes
-			for (const auto& cell : manager.grid->getCells()) {
-				for (auto& entity : cell.nodes) {
-					if (entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
-						// ! update the nodes' position based on the parent position
-						TransformComponent* tr = &entity->getParentEntity()->GetComponent<TransformComponent>();
-						
-						glm::vec2 absolutePosition = entity->GetComponent<TransformComponent>().getPosition() + tr->getCenterTransform();
-						entity->GetComponent<TransformComponent>().setPosition_X(absolutePosition.x);
-						entity->GetComponent<TransformComponent>().setPosition_Y(absolutePosition.y);
-						
-						entity->setParentEntity(nullptr);
-						entity->reveal();
-						_firstLoop = true;
-					}
-				}
-				for (auto& link : cell.links) {
-					link->reveal();
-				}
+			for (auto& link : cell.links) {
+				link->reveal();
 			}
-			manager.entitiesAreGrouped = false;
 		}
 	}
 }
@@ -444,9 +498,34 @@ void Graph::BeginRender() {
 }
 
 void Graph::updateUI() {
+	ImGuiViewport* viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(viewport->Pos);
+	ImGui::SetNextWindowSize(viewport->Size);
+	ImGui::Begin("Example Window", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus);
+	_editorImgui.MenuBar();
+
+	ImGui::Columns(3, "mycolumns");
+	ImGui::BeginChild("Tab 1");
+
 	_editorImgui.BackGroundUIElement(_renderDebug, _app->_inputManager.getMouseCoords(), manager, _selectedEntity, _backgroundColor, CELL_SIZE);
-	_editorImgui.FileActions();
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 350.0f);
 	_editorImgui.FPSCounter(getApp()->getFPSLimiter());
+	
+	ImGui::EndChild();
+
+	ImGui::NextColumn();
+	ImVec2 windowPos; // You need to call this when the window is in context (i.e., between ImGui::Begin and ImGui::End)
+	ImVec2 windowSize;
+	_editorImgui.SceneViewport(_framebufferTexture, windowPos, windowSize);
+	glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
+
+	_app->_inputManager.setMouseCoords(mouseCoordsVec.x - windowPos.x, mouseCoordsVec.y - windowPos.y);
+
+	ImGui::NextColumn();
+	_editorImgui.ShowAllEntities(manager, nodeRadius);
+
+	ImGui::End();
+
 	if (_editorImgui.isSaving()) {
 		_editorImgui.SavingUI(map);
 	}
@@ -465,7 +544,8 @@ void Graph::updateUI() {
 		_currentState = SceneState::CHANGE_PREVIOUS;
 		_editorImgui.SetGoingBack(false);
 	}
-	_editorImgui.ShowAllEntities(manager, nodeRadius);
+
+	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
 }
 
 void Graph::EndRender() {
@@ -498,7 +578,7 @@ void Graph::renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer
 		}
 	}
 
-	 // todo: instead of rendering on each group, import allentities for renderBatches
+	 // todo: instead of rendering on each group, import all entities for renderBatches
 }
 
 void Graph::draw()
@@ -510,11 +590,14 @@ void Graph::draw()
 	GLSLProgram glsl_lineColor		= *_resourceManager.getGLSLProgram("lineColor");
 	GLSLProgram glsl_circleColor	= *_resourceManager.getGLSLProgram("circleColor");
 	GLSLProgram glsl_color			= *_resourceManager.getGLSLProgram("color");
+	GLSLProgram glsl_framebuffer	= *_resourceManager.getGLSLProgram("framebuffer");
 
+	glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
 	////////////OPENGL USE
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
 
 
 	/////////////////////////////////////////////////////
@@ -616,11 +699,12 @@ void Graph::draw()
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glsl_circleColor.unuse();
 	///////////////////////////////////////////////////////
-	_resourceManager.setupShader(glsl_color, "", *main_camera2D);
-
-	glsl_color.unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	glClear(GL_COLOR_BUFFER_BIT);
 }
 
 

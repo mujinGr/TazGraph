@@ -124,6 +124,10 @@ public:
 		if(_programID != 0) glDeleteProgram(_programID);
 	}
 
+	GLuint getProgramID() {
+		return _programID;
+	}
+
 private:
 	GLuint _programID;
 

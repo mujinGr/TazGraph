@@ -106,6 +106,13 @@ private:
 
 	bool _showSaveWindow = false;
 
+
+	unsigned int _rectVAO, _rectVBO;
+
+	unsigned int _FBO;
+	unsigned int _framebufferTexture;
+	unsigned int _RBO;
+
 };
 
 

@@ -85,5 +85,7 @@
     <None Include="Src\Shaders\textureShading.vert" />
     <None Include="Src\Shaders\lineColorShading.frag" />
     <None Include="Src\Shaders\lineColorShading.vert" />
+    <None Include="Src\Shaders\framebuffer.frag" />
+    <None Include="Src\Shaders\framebuffer.vert" />
   </ItemGroup>
 </Project>
