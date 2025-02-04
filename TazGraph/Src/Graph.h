@@ -11,6 +11,7 @@
 #include <iostream>
 #include <vector>
 #include "Camera2.5D/PerspectiveCamera.h"
+#include <Renderers/FrameBuffer/Framebuffer.h>
 #include "Renderers/PlaneModelRenderer/PlaneModelRenderer.h"
 #include "InputManager/InputManager.h"
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
@@ -106,6 +107,7 @@ private:
 
 	bool _showSaveWindow = false;
 
+	Framebuffer _framebuffer;
 
 	unsigned int _rectVAO, _rectVBO;
 
@@ -113,6 +115,8 @@ private:
 	unsigned int _framebufferTexture;
 	unsigned int _RBO;
 
+	ImVec2 _windowPos;
+	ImVec2 _windowSize;
 };
 
 

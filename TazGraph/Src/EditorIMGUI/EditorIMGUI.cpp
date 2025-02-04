@@ -424,7 +424,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 }
 
 
-void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2 &storedWindowPos, ImVec2 storedWindowSize) {
+void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize) {
 	ImGui::BeginChild("Viewport");
 	ImVec2 pos = ImGui::GetCursorScreenPos();
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
@@ -437,7 +437,7 @@ void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2 &storedWindowPos, ImV
 	);
 
 	storedWindowPos = ImGui::GetWindowPos(); // You need to call this when the window is in context (i.e., between ImGui::Begin and ImGui::End)
-	storedWindowSize = ImGui::GetWindowSize();
+	storedWindowSize = viewportPanelSize;
 
 	ImGui::EndChild();
 }

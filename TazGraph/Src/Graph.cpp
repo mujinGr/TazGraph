@@ -162,40 +162,14 @@ void Graph::onEntry()
 
 
 	_resourceManager.getGLSLProgram("framebuffer")->use();
+
+
 	glUniform1i(glGetUniformLocation(_resourceManager.getGLSLProgram("framebuffer")->getProgramID(), "screenTexture"), 0);
+	_resourceManager.getGLSLProgram("framebuffer")->unuse();
 
-	glGenVertexArrays(1, &_rectVAO);
-	glGenBuffers(1, &_rectVBO);
-	glBindVertexArray(_rectVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, _rectVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(rectangleVertices), &rectangleVertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+	_framebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
 
-
-	// Create frame buffer object
-	glGenFramebuffers(1, &_FBO);
-	glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
-
-	// Create Framebuffer Texture
-	glGenTextures(1, &_framebufferTexture);
-	glBindTexture(GL_TEXTURE_2D, _framebufferTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _app->_window.getScreenWidth(), _app->_window.getScreenHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // Prevents edge bleeding
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); // Prevents edge bleeding
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _framebufferTexture, 0);
-
-	// Create Render Buffer Object
-	glGenRenderbuffers(1, &_RBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, _RBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _app->_window.getScreenWidth(), _app->_window.getScreenHeight());
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _RBO);
-
-	ImGuiIO& io = ImGui::GetIO();
+	//ImGuiIO& io = ImGui::GetIO();
 	//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
 
@@ -429,7 +403,7 @@ void Graph::checkInput() {
 		_app->onSDLEvent(evnt);
 
 		glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
-
+		
 		switch (evnt.type)
 		{
 		case SDL_MOUSEWHEEL:
@@ -449,8 +423,24 @@ void Graph::checkInput() {
 			}
 			break;
 		case SDL_MOUSEMOTION:
-			_app->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
+		{
+			_app->_inputManager.setMouseCoords(
+				mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(),
+				mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight()
+			);
+
 			mouseCoordsVec = _app->_inputManager.getMouseCoords();
+			ImVec2 mainViewportSize = ImGui::GetMainViewport()->Size;
+			float scaleCameraToViewportX = mainViewportSize.x / main_camera2D->getCameraDimensions().x;
+			float scaleCameraToViewportY = mainViewportSize.y / main_camera2D->getCameraDimensions().y;
+
+			_app->_inputManager.setMouseCoords(
+				((mouseCoordsVec.x * scaleCameraToViewportX) - _windowPos.x) * main_camera2D->getCameraDimensions().x / _windowSize.x,
+				((mouseCoordsVec.y * scaleCameraToViewportY) - _windowPos.y) * main_camera2D->getCameraDimensions().y / _windowSize.y
+			);
+
+			mouseCoordsVec = _app->_inputManager.getMouseCoords();
+
 			if (_selectedEntity) {
 				_selectedEntity->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(mouseCoordsVec).x - _app->_inputManager.getObjectRelativePos().x);
 				_selectedEntity->GetComponent<TransformComponent>().setPosition_Y(convertScreenToWorld(mouseCoordsVec).y - _app->_inputManager.getObjectRelativePos().y);
@@ -465,6 +455,7 @@ void Graph::checkInput() {
 				main_camera2D->setPosition_X(_app->_inputManager.getStartDragPos().x - delta.x);
 				main_camera2D->setPosition_Y(_app->_inputManager.getStartDragPos().y - delta.y);
 			}
+		}
 		case SDL_MOUSEBUTTONDOWN:
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
 				std::cout << "clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
@@ -514,12 +505,8 @@ void Graph::updateUI() {
 	ImGui::EndChild();
 
 	ImGui::NextColumn();
-	ImVec2 windowPos; // You need to call this when the window is in context (i.e., between ImGui::Begin and ImGui::End)
-	ImVec2 windowSize;
-	_editorImgui.SceneViewport(_framebufferTexture, windowPos, windowSize);
-	glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
-
-	_app->_inputManager.setMouseCoords(mouseCoordsVec.x - windowPos.x, mouseCoordsVec.y - windowPos.y);
+	
+	_editorImgui.SceneViewport(_framebuffer._framebufferTexture, _windowPos, _windowSize);
 
 	ImGui::NextColumn();
 	_editorImgui.ShowAllEntities(manager, nodeRadius);
@@ -592,7 +579,8 @@ void Graph::draw()
 	GLSLProgram glsl_color			= *_resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer	= *_resourceManager.getGLSLProgram("framebuffer");
 
-	glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
+	//glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
+	_framebuffer.Bind();
 	////////////OPENGL USE
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -702,7 +690,8 @@ void Graph::draw()
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	_framebuffer.Unbind();
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	glClear(GL_COLOR_BUFFER_BIT);
 }
