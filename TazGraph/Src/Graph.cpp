@@ -251,9 +251,9 @@ void Graph::update(float deltaTime) //game objects updating
 
 			int currentCellX = (int)(std::floor(cell.boundingBox.x / CELL_SIZE));
 			int currentCellY = (int)(std::floor(cell.boundingBox.y / CELL_SIZE));
-			Cell* bottomRightCell = manager.grid->getCell(currentCellX + 1, currentCellY + 1);
-			Cell* bottomCell = manager.grid->getCell(currentCellX, currentCellY + 1);
-			Cell* rightCell = manager.grid->getCell(currentCellX + 1, currentCellY);
+			Cell* bottomRightCell = manager.grid->getCell(currentCellX + manager.grid->getGridLevel(), currentCellY + manager.grid->getGridLevel());
+			Cell* bottomCell = manager.grid->getCell(currentCellX, currentCellY + manager.grid->getGridLevel());
+			Cell* rightCell = manager.grid->getCell(currentCellX + manager.grid->getGridLevel(), currentCellY);
 
 			const Cell* selectedCell = nullptr;
 
@@ -326,7 +326,7 @@ void Graph::update(float deltaTime) //game objects updating
 
 		
 	}
-	else if(main_camera2D->getScale() < manager.grid->getLevelScale(static_cast<Grid::Level>(manager.grid->getGridLevel() - 1))){
+	else if(manager.grid->getGridLevel() && main_camera2D->getScale() > manager.grid->getLevelScale(static_cast<Grid::Level>(manager.grid->getGridLevel() - 1))){
 
 		manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() - 1));
 
@@ -579,7 +579,6 @@ void Graph::draw()
 	GLSLProgram glsl_color			= *_resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer	= *_resourceManager.getGLSLProgram("framebuffer");
 
-	//glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
 	_framebuffer.Bind();
 	////////////OPENGL USE
 	glClearDepth(1.0);
@@ -691,7 +690,6 @@ void Graph::draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	_framebuffer.Unbind();
-	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	glClear(GL_COLOR_BUFFER_BIT);
 }
