@@ -120,16 +120,17 @@ Cell* Grid::getCell(const Entity& entity)
 	return getCell(cellX, cellY);
 }
 
-std::vector<Cell*> Grid::getAdjacentCells(int x, int y) {
+std::vector<Cell*> Grid::getAdjacentCells(int x, int y, int radius = 1) {
 	std::vector<Cell*> adjacentCells;
 
-	adjacentCells.reserve(9);
+	int numCells = (2 * radius + 1) * (2 * radius + 1);
+	adjacentCells.reserve(numCells);
 
 	int cellX = (int)(x / _cellSize);
 	int cellY = (int)(y / _cellSize);
 
-	for (int offsetX = -1; offsetX <= 1; offsetX++) {
-		for (int offsetY = -1; offsetY <= 1; offsetY++) {
+	for (int offsetX = -radius; offsetX <= radius; offsetX++) {
+		for (int offsetY = -radius; offsetY <= radius; offsetY++) {
 			if (offsetX == 0 && offsetY == 0) {
 				adjacentCells.push_back(getCell(cellX, cellY));
 				continue;

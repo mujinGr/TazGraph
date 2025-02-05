@@ -249,6 +249,7 @@ void Graph::update(float deltaTime) //game objects updating
 				
 			if ( cell.nodes.empty() || ( !cell.nodes.empty() && (*cell.nodes.begin())->isHidden() ) ) continue;
 
+			//select grouping cell
 			int currentCellX = (int)(std::floor(cell.boundingBox.x / CELL_SIZE));
 			int currentCellY = (int)(std::floor(cell.boundingBox.y / CELL_SIZE));
 			Cell* bottomRightCell = manager.grid->getCell(currentCellX + manager.grid->getGridLevel(), currentCellY + manager.grid->getGridLevel());
@@ -273,9 +274,8 @@ void Graph::update(float deltaTime) //game objects updating
 				selectedCell = &cell;
 			}
 
-			// create a new node			
-				
-			std::vector<Cell*> localCells = manager.grid->getAdjacentCells(selectedCell->boundingBox.x, selectedCell->boundingBox.y);
+			//get local cells
+			std::vector<Cell*> localCells = manager.grid->getAdjacentCells(selectedCell->boundingBox.x, selectedCell->boundingBox.y, manager.grid->getGridLevel());
 
 
 			int totalNodes = 0;  // Counter for total number of nodes in local cells
@@ -372,7 +372,7 @@ void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 	TransformComponent* tr = &cursor.GetComponent<TransformComponent>();
-	auto cells = manager.grid->getAdjacentCells(tr->getCenterTransform().x, tr->getCenterTransform().y);
+	auto cells = manager.grid->getAdjacentCells(tr->getCenterTransform().x, tr->getCenterTransform().y, manager.grid->getGridLevel()+1);
 	for (auto cell : cells) {
 		for (auto& entity : cell->nodes) {
 			if (entity->hasGroup(Manager::cursorGroup)) {

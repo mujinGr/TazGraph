@@ -39,7 +39,7 @@ template <typename T> inline ComponentID GetComponentTypeID() noexcept
 }
 
 constexpr std::size_t maxComponents = 32;
-constexpr std::size_t maxGroups = 32;
+constexpr std::size_t maxGroups = 16;
 
 using ComponentBitSet = std::bitset<maxComponents>;
 using GroupBitSet = std::bitset<maxGroups>;
