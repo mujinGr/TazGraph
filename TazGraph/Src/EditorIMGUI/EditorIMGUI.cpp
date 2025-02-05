@@ -108,7 +108,7 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 			ImGui::Text("%s", manager.getGroupName(managerGroup).c_str());
 			ImGui::TableSetColumnIndex(1);
 			int groupSize = manager.getVisibleGroup(managerGroup).size();
-			ImGui::Text("%zu", groupSize);
+			ImGui::Text("%d", groupSize);
 
 			totalEntities += groupSize;
 		}
@@ -117,7 +117,7 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		ImGui::TableSetColumnIndex(0);
 		ImGui::Text("Total Visible Entities");
 		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("%zu", totalEntities);
+		ImGui::Text("%d", totalEntities);
 
 		ImGui::EndTable();
 	}
@@ -160,7 +160,7 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 
 			TransformComponent* tr = &selectedEntity->GetComponent<TransformComponent>();
 			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
-			ImGui::Text("Size: (%d, %d)", tr->width, tr->height);
+			ImGui::Text("Size: (%f, %f)", tr->width, tr->height);
 			SDL_FRect cellBox = manager.grid->getCell(*selectedEntity)->boundingBox;
 			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
 		}
@@ -324,7 +324,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 	ImGui::BeginChild("Tab 2");
 
 	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-	int size = 10;
+	float size = 10;
 
 	for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::cursorGroup + 1; group++) {
 		std::string s = manager.getGroupName(group);
@@ -339,7 +339,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 					color = ImVec4(initialColor.r / 255.0f, initialColor.g / 255.0f, initialColor.b / 255.0f, initialColor.a / 255.0f);
 
 					TransformComponent* tr = &entity->GetComponent<TransformComponent>();
-					int initialSize[2] = { tr->width, tr->height };
+					float initialSize[2] = { tr->width, tr->height };
 					size = initialSize[0];
 					break;
 				}
@@ -358,7 +358,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 					}
 				}
 
-				if (ImGui::SliderInt("Node Size", &size, 0, 100)) {
+				if (ImGui::SliderFloat("Node Size", &size, 0, 100)) {
 					for (auto& entity : groupVec) {
 							entity->GetComponent<TransformComponent>().width = size;
 							entity->GetComponent<TransformComponent>().height = size;
