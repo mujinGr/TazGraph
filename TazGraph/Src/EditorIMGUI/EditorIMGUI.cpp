@@ -108,7 +108,7 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 			ImGui::Text("%s", manager.getGroupName(managerGroup).c_str());
 			ImGui::TableSetColumnIndex(1);
 			int groupSize = manager.getVisibleGroup(managerGroup).size();
-			ImGui::Text("%d", groupSize);
+			ImGui::Text("%zu", groupSize);
 
 			totalEntities += groupSize;
 		}
@@ -117,7 +117,7 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		ImGui::TableSetColumnIndex(0);
 		ImGui::Text("Total Visible Entities");
 		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("%d", totalEntities);
+		ImGui::Text("%zu", totalEntities);
 
 		ImGui::EndTable();
 	}
@@ -131,19 +131,19 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		ImGui::TableSetColumnIndex(0);
 		ImGui::Text("entities");
 		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("%d", manager.getEntities().size());
+		ImGui::Text("%zu", manager.getEntities().size());
 
 		ImGui::TableNextRow();
 		ImGui::TableSetColumnIndex(0);
 		ImGui::Text("visible nodes");
 		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("%d", manager.getVisibleNodes().size());
+		ImGui::Text("%zu", manager.getVisibleNodes().size());
 
 		ImGui::TableNextRow();
 		ImGui::TableSetColumnIndex(0);
 		ImGui::Text("visible links");
 		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("%d", manager.getVisibleLinks().size());
+		ImGui::Text("%zu", manager.getVisibleLinks().size());
 		
 		ImGui::EndTable();
 	}

@@ -14,8 +14,8 @@ private:
 	glm::vec2 _position;
 	glm::vec2 _velocity;
 public:
-	int height = 32;
-	int width = 32;
+	float height = 32;
+	float width = 32;
 	float scale = 1;
 
 	int speed = 1;
@@ -38,14 +38,14 @@ public:
 		_position = position;
 	}
 
-	TransformComponent(glm::vec2 position, Layer layer , glm::ivec2 size, float sc) : TransformComponent(position){
+	TransformComponent(glm::vec2 position, Layer layer , glm::vec2 size, float sc) : TransformComponent(position){
 		width = size.x;
 		height = size.y;
 		_zIndex = entity->getLayerValue(layer);
 		scale = sc;
 	}
 
-	TransformComponent(glm::vec2 position, Layer layer, glm::ivec2 size, float sc, int sp) : TransformComponent(position, layer, size, sc)
+	TransformComponent(glm::vec2 position, Layer layer, glm::vec2 size, float sc, int sp) : TransformComponent(position, layer, size, sc)
 	{
 		speed = sp;
 	}
@@ -62,7 +62,7 @@ public:
 			_main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 		}
 
-		SDL_Rect dimensions = { _position.x, _position.y, width, height };
+		SDL_FRect dimensions = { _position.x, _position.y, width, height };
 		SDL_FRect cameraDimensions = _main_camera2D->getCameraRect();
 		
 		if (entity->getParentEntity() != nullptr) {

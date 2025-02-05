@@ -24,7 +24,7 @@ private:
 	unsigned int _FBO;
 	unsigned int _RBO;
 public:
-	unsigned int _framebufferTexture;
+	uint32_t _framebufferTexture;
 
 	Framebuffer();
 	~Framebuffer();
