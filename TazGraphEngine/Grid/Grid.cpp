@@ -8,29 +8,75 @@ Grid::Grid(int width, int height, int cellSize)
 	_numXCells = ceil((float)_width / _cellSize);
 	_numYCells = ceil((float)_height / _cellSize);
 
-	//Allocate all the calls
-	_cells.resize(_numYCells * _numXCells);
+	createCells(Level::Basic);
+	createCells(Level::Outer1);
+	createCells(Level::Outer2);
 
-	for (int y = -(_numYCells / 2); y < (_numYCells / 2); y++) {
-		for (int x = -(_numXCells / 2); x < (_numXCells / 2); x++) {
-			int index = (y + (_numYCells / 2)) * _numXCells + (x+ (_numXCells / 2));
-			_cells[index].boundingBox.x = x * _cellSize;
-			_cells[index].boundingBox.y = y * _cellSize;
-			_cells[index].boundingBox.w = _cellSize;
-			_cells[index].boundingBox.h = _cellSize;
-
-			if (x == _numXCells - 1 && _width % _cellSize != 0) {
-				_cells[index].boundingBox.w = _width - (x * _cellSize);
-			}
-			if (y == _numYCells - 1 && _height % _cellSize != 0) {
-				_cells[index].boundingBox.h = _height - (y * _cellSize);
-			}
-		}
-	}
 }
 
 Grid::~Grid()
 {
+}
+
+void Grid::createCells(Grid::Level m_level) {
+	int cellsGroupSize = m_level == Level::Basic ? 1 : (m_level == Level::Outer1 ? 2 : 4);
+	
+	int numXCells = ceil((float)_numXCells / cellsGroupSize);
+	int numYCells = ceil((float)_numYCells / cellsGroupSize);
+	
+	if (m_level == Level::Basic) {
+		_cells.resize(numYCells * numXCells);
+	}
+	else if (m_level == Level::Outer1) {
+		_parentCells.resize(numYCells * numXCells);
+	}
+	else {
+		_superParentCells.resize(numYCells * numXCells);
+	}
+
+	for (int py = -(numYCells / 2); py < (numYCells / 2); py++) {
+		for (int px = -(numXCells / 2); px < (numXCells / 2); px++) {
+			int parentIndex = (py + (numYCells / 2)) * numXCells + (px + (numXCells / 2));
+
+			Cell& cell = (m_level == Level::Basic) ? _cells[parentIndex] :
+				(m_level == Level::Outer1) ? _parentCells[parentIndex] :
+					_superParentCells[parentIndex];
+
+			cell.boundingBox.x = px * cellsGroupSize * _cellSize;
+			cell.boundingBox.y = py * cellsGroupSize * _cellSize;
+			cell.boundingBox.w = cellsGroupSize * _cellSize;
+			cell.boundingBox.h = cellsGroupSize * _cellSize;
+
+			if (px == numXCells / 2 - 1) {
+				cell.boundingBox.w = _width - cell.boundingBox.x;
+			}
+			if (py == numYCells / 2 - 1) {
+				cell.boundingBox.h = _height - cell.boundingBox.y;
+			}
+
+			if (m_level != Level::Outer2)
+			{
+				for (int cy = 0; cy < cellsGroupSize; cy++) {
+					for (int cx = 0; cx < cellsGroupSize; cx++) {
+
+						int childX = (px + (numXCells / 2)) * cellsGroupSize + cx;
+						int childY = (py + (numYCells / 2)) * cellsGroupSize + cy;
+						
+						if (childX < numXCells && childY < numYCells) {
+							int childIndex = childY * numXCells + childX;
+							if (m_level == Level::Basic) {
+								_cells[childIndex].parent = &cell;
+							}
+							else if (m_level == Level::Outer1) {
+								_parentCells[childIndex].parent = &cell;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 }
 
 // adding link to grid
@@ -170,7 +216,7 @@ int Grid::getNumYCells() {
 	return _numYCells;
 }
 
-std::vector<Cell*> Grid::getIntercectedCameraCells(ICamera& camera) {
+std::vector<Cell*> Grid::getIntersectedCameraCells(ICamera& camera) {
 	std::vector<Cell*> result;
 
 	for (auto& cell : this->_cells) {
@@ -203,6 +249,13 @@ std::vector<Entity*> Grid::getNodesInCameraCells(const std::vector<Cell*>& inter
 	return result;
 }
 
+bool Grid::gridLevelChanged() {
+	if (_level != _lastLevel) {
+		_lastLevel = _level; // Update the last known grid level
+		return true;
+	}
+	return false;
+}
 
 
 Grid::Level Grid::getGridLevel()
@@ -241,4 +294,22 @@ std::vector<Entity*> Grid::getLinksInCameraCells(const std::vector<Cell*>& inter
 		result.push_back(entry.second);
 	}
 	return result;
+}
+
+bool Grid::hasCellsChanged(const std::vector<Cell*>& intercepted_cells) {
+	if (intercepted_cells.size() != _lastInterceptedCells.size()) {
+		return true; // Different sizes mean they definitely changed
+	}
+
+	// Check if all elements are the same
+	for (size_t i = 0; i < intercepted_cells.size(); ++i) {
+		if (intercepted_cells[i] != _lastInterceptedCells[i]) {
+			return true; // Cells are not the same
+		}
+	}
+	return false; // No changes found
+}
+
+void Grid::updateLastInterceptedCells(const std::vector<Cell*>& intercepted_cells) {
+	_lastInterceptedCells = intercepted_cells;
 }

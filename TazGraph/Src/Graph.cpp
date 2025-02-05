@@ -249,60 +249,33 @@ void Graph::update(float deltaTime) //game objects updating
 				
 			if ( cell.nodes.empty() || ( !cell.nodes.empty() && (*cell.nodes.begin())->isHidden() ) ) continue;
 
-			//select grouping cell
-			int currentCellX = (int)(std::floor(cell.boundingBox.x / CELL_SIZE));
-			int currentCellY = (int)(std::floor(cell.boundingBox.y / CELL_SIZE));
-			Cell* bottomRightCell = manager.grid->getCell(currentCellX + manager.grid->getGridLevel(), currentCellY + manager.grid->getGridLevel());
-			Cell* bottomCell = manager.grid->getCell(currentCellX, currentCellY + manager.grid->getGridLevel());
-			Cell* rightCell = manager.grid->getCell(currentCellX + manager.grid->getGridLevel(), currentCellY);
-
-			const Cell* selectedCell = nullptr;
-
-			// Check and select the first appropriate cell
-			if (bottomRightCell && !bottomRightCell->nodes.empty() && !(*bottomRightCell->nodes.begin())->isHidden()) {
-				selectedCell = bottomRightCell;
-			}
-			else if (bottomCell && !bottomCell->nodes.empty() && !(*bottomCell->nodes.begin())->isHidden()) {
-				selectedCell = bottomCell;
-			}
-			else if (rightCell && !rightCell->nodes.empty() && !(*rightCell->nodes.begin())->isHidden()) {
-				selectedCell = rightCell;
-			}
-
-			// If no suitable adjacent cells found, continue with the current cell
-			if (!selectedCell) {
-				selectedCell = &cell;
-			}
-
-			//get local cells
-			std::vector<Cell*> localCells = manager.grid->getAdjacentCells(selectedCell->boundingBox.x, selectedCell->boundingBox.y, manager.grid->getGridLevel());
-
-
-			int totalNodes = 0;  // Counter for total number of nodes in local cells
-
 			// Loop through each cell and count the nodes
-			for (const auto& cell : localCells) {
-				totalNodes += cell->nodes.size();
-			}
-
+			int totalNodes = cell.nodes.size();
+			
 			float groupNodeSize = 50 - 40 / (totalNodes + 1);
 
 			auto& node = manager.addEntity<Node>();
 
-			_assetsManager->CreateGroup(node, selectedCell->boundingBox, groupNodeSize);
+			glm::vec2 centroid(0);
+			for (auto& entity : cell.nodes) {
+				if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
+					glm::vec2 node_position = entity->GetComponent<TransformComponent>().getCenterTransform();
+					centroid += node_position;
+
+					entity->setParentEntity(&node);
+					entity->hide();
+				}
+			}
+			centroid /= totalNodes;
+			_assetsManager->CreateGroup(node, centroid, groupNodeSize);
 			manager.grid->addNode(&node);
-			node.hide();
 
-			for (const auto& local_cell : localCells) {
-				for (auto& entity : local_cell->nodes) {
-					if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
-						glm::vec2 relativePosition = entity->GetComponent<TransformComponent>().getPosition() - node.GetComponent<TransformComponent>().getCenterTransform();
-						entity->GetComponent<TransformComponent>().setPosition_X(relativePosition.x);
-						entity->GetComponent<TransformComponent>().setPosition_Y(relativePosition.y);
 
-						entity->setParentEntity(&node);
-						entity->hide();
-					}
+			for (auto& entity : cell.nodes) {
+				if (entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
+					glm::vec2 relativePosition = entity->GetComponent<TransformComponent>().getPosition() - node.GetComponent<TransformComponent>().getCenterTransform();
+					entity->GetComponent<TransformComponent>().setPosition_X(relativePosition.x);
+					entity->GetComponent<TransformComponent>().setPosition_Y(relativePosition.y);
 				}
 			}
 
@@ -311,7 +284,6 @@ void Graph::update(float deltaTime) //game objects updating
 				link->hide();
 			}
 
-			node.reveal();
 		}
 			
 		auto group_links = manager.getGroup(Manager::groupLinks_0);
@@ -331,37 +303,30 @@ void Graph::update(float deltaTime) //game objects updating
 		manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() - 1));
 
 		// first destroy the group nodes
-		for (const auto& cell : manager.grid->getCells()) {
-			for (auto& entity : cell.nodes) {
-				if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup))
-					entity->destroy();
-			}	
-		}
+		for (auto& groupNode : manager.getGroup(Manager::groupGroupNodes_0)) {
+			groupNode->destroy();
+		}	
 
 		for (auto& link : manager.getGroup(Manager::groupGroupLinks_0)) {
-			if (!link->isHidden()) {
-				link->destroy();
-			}
+			link->destroy();
 		}
 		// reveal all the hidden nodes
-		for (const auto& cell : manager.grid->getCells()) {
-			for (auto& entity : cell.nodes) {
-				if (entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
-					// ! update the nodes' position based on the parent position
-					TransformComponent* tr = &entity->getParentEntity()->GetComponent<TransformComponent>();
+		for (auto& entity : manager.getGroup(Manager::groupNodes_0)) {
+			if (entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
+				// ! update the nodes' position based on the parent position
+				TransformComponent* parent_tr = &entity->getParentEntity()->GetComponent<TransformComponent>();
 						
-					glm::vec2 absolutePosition = entity->GetComponent<TransformComponent>().getPosition() + tr->getCenterTransform();
-					entity->GetComponent<TransformComponent>().setPosition_X(absolutePosition.x);
-					entity->GetComponent<TransformComponent>().setPosition_Y(absolutePosition.y);
+				glm::vec2 absolutePosition = entity->GetComponent<TransformComponent>().getPosition() + parent_tr->getCenterTransform();
+				entity->GetComponent<TransformComponent>().setPosition_X(absolutePosition.x);
+				entity->GetComponent<TransformComponent>().setPosition_Y(absolutePosition.y);
 						
-					entity->setParentEntity(nullptr);
-					entity->reveal();
-					_firstLoop = true;
-				}
+				entity->setParentEntity(nullptr);
+				entity->reveal();
+				_firstLoop = true;
 			}
-			for (auto& link : cell.links) {
-				link->reveal();
-			}
+		}
+		for (auto& link : manager.getGroup(Manager::groupLinks_0)) {
+			link->reveal();
 		}
 	}
 }
@@ -593,7 +558,7 @@ void Graph::draw()
 
 	// Debug Rendering
 	if (_renderDebug) {
-		std::vector<Cell*> intercectedCells = manager.grid->getIntercectedCameraCells(*main_camera2D);
+		std::vector<Cell*> intercectedCells = manager.grid->getIntersectedCameraCells(*main_camera2D);
 		for (const auto& cell : intercectedCells) {
 			glm::vec4 destRect(cell->boundingBox.x, cell->boundingBox.y, cell->boundingBox.w, cell->boundingBox.h);
 			_LineRenderer.drawBox(destRect, Color(0, 255, 0, 100), 0.0f);  // Drawing each cell in red for visibility

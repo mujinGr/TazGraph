@@ -23,10 +23,10 @@ void AssetManager::CreateCursor(Entity& cursor)
 	cursor.addGroup(Manager::cursorGroup);
 }
 
-void AssetManager::CreateGroup(Entity& groupNode, SDL_FRect centerCell, float groupNodeSize)
+void AssetManager::CreateGroup(Entity& groupNode, glm::vec2 centerGroup, float groupNodeSize)
 {
-	groupNode.addComponent<TransformComponent>(glm::vec2(centerCell.x + centerCell.w / 2 - groupNodeSize / 2,
-		centerCell.y + centerCell.h / 2 - groupNodeSize / 2), Manager::actionLayer, glm::ivec2(groupNodeSize, groupNodeSize), 1);
+	groupNode.addComponent<TransformComponent>(glm::vec2(centerGroup.x - groupNodeSize / 2,
+		centerGroup.y - groupNodeSize / 2), Manager::actionLayer, glm::ivec2(groupNodeSize, groupNodeSize), 1);
 	groupNode.addComponent<Rectangle_w_Color>();
 	groupNode.GetComponent<Rectangle_w_Color>().color = Color(0, 155, 155, 255);
 

@@ -11,6 +11,8 @@ struct Cell {
 	std::vector<Entity*> links;
 
 	SDL_FRect boundingBox;
+
+	Cell* parent = nullptr;
 };
 
 
@@ -24,6 +26,8 @@ public:
 
 	Grid(int width, int height, int cellSize);
 	~Grid();
+
+	void createCells(Grid::Level size);
 
 	void addLink(Entity* link);
 	std::vector<Cell*> getLinkCells(const Entity& link);
@@ -41,20 +45,31 @@ public:
 	int getNumXCells();
 	int getNumYCells();
 
-	std::vector<Cell*> getIntercectedCameraCells(ICamera& camera);
+	std::vector<Cell*> getIntersectedCameraCells(ICamera& camera);
 
 	std::vector<Entity*> getRevealedNodesInCameraCells(const std::vector<Cell*>& intercepted_cells);
 
 	std::vector<Entity*> getLinksInCameraCells(const std::vector<Cell*>& intercepted_cells);
 
+	bool hasCellsChanged(const std::vector<Cell*>& intercepted_cells);
+
+	void updateLastInterceptedCells(const std::vector<Cell*>& intercepted_cells);
+
 	std::vector<Entity*> getNodesInCameraCells(const std::vector<Cell*>& intercepted_cells);
+
+	bool gridLevelChanged();
 
 	Level getGridLevel();
 	void setGridLevel(Level newLevel);
 
 	float getLevelScale(Level level);
 private:
+	std::vector<Cell*> _lastInterceptedCells;
+	
 	std::vector<Cell> _cells;
+	std::vector<Cell> _parentCells;
+	std::vector<Cell> _superParentCells;
+
 	int _cellSize;
 	int _width;
 	int _height;
@@ -65,5 +80,5 @@ private:
 	std::map<Level, float> gridLevels = { {Level::Basic, 0.5f}, {Level::Outer1, 0.1f}, {Level::Outer2, 0.0f} };
 
 	Level _level;
-
+	Level _lastLevel;;
 };

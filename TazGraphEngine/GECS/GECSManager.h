@@ -8,8 +8,8 @@ class Manager
 private:
 	int lastEntityId = 0;
 	std::vector<std::unique_ptr<Entity>> entities;
-	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
 
+	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
 	std::vector<Entity*> visible_nodes;
 	std::vector<Entity*> visible_links;
 	std::array<std::vector<Entity*>, maxGroups> visible_groupedEntities;
@@ -52,6 +52,15 @@ public:
 			}
 		}
 		
+		for (auto& group : groupedEntities) {
+			for (Entity* entity : group) {
+				if (!entity->isActive()) {
+					entity->removeFromCell();
+					toBeRemoved.push_back(entity);
+				}
+			}
+		}
+
 
 		for (auto i(0u); i < maxGroups; i++) {
 			auto& group(visible_groupedEntities[i]);
@@ -70,7 +79,14 @@ public:
 		}
 		
 
-		std::vector<Cell*> intercepted_cells = grid->getIntercectedCameraCells(*camera);
+		std::vector<Cell*> intercepted_cells = grid->getIntersectedCameraCells(*camera);
+
+		if (grid->hasCellsChanged(intercepted_cells) || grid->gridLevelChanged()) {
+			grid->updateLastInterceptedCells(intercepted_cells);
+		}
+		else {
+			return;
+		}
 
 		visible_nodes = grid->getGridLevel() ? grid->getRevealedNodesInCameraCells(intercepted_cells) : grid->getNodesInCameraCells(intercepted_cells);
 		visible_links	 = grid->getLinksInCameraCells(intercepted_cells);
@@ -224,7 +240,6 @@ public:
 
 		groupNodes_0,
 		groupGroupNodes_0,
-		groupLinks,
 		groupColliders,
 		
 		//fore
@@ -243,7 +258,6 @@ public:
 		{ groupNodes_0,"groupNodes_0" },
 		{ groupGroupNodes_0, "groupGroupNodes_0"},
 
-		{ groupLinks,"groupLinks" },
 		{ groupColliders,"groupColliders" },
 
 		//fore

@@ -21,7 +21,7 @@ public:
 
 	//graphobjects
 	void CreateCursor(Entity& cursor);
-	void CreateGroup(Entity& groupNode, SDL_FRect centerCell, float groupNodeSize);
+	void CreateGroup(Entity& groupNode, glm::vec2 centerGroup, float groupNodeSize);
 
 	void CreateGroupLink(Entity& groupLink);
 
