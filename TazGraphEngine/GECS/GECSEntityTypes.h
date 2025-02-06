@@ -30,7 +30,7 @@ public:
 
 	void cellUpdate() override{
 		if (this->ownerCell) {
-			Cell* newCell = manager.grid->getCell(*this);
+			Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
 			if (newCell != this->ownerCell) {
 				// Need to shift the entity
 				removeEntity();
@@ -149,11 +149,11 @@ public:
 	void cellUpdate() override {
 		// if cell(or position) of fromNode or cell(or position) of toNode is different than
 		// the saved cells in ownerCells then update it
-		if (manager.grid->getCell(*getFromNode()) != ownerCells.front()
-			|| manager.grid->getCell(*getToNode()) != ownerCells.back())
+		if (manager.grid->getCell(*getFromNode(), manager.grid->getGridLevel()) != ownerCells.front()
+			|| manager.grid->getCell(*getToNode(), manager.grid->getGridLevel()) != ownerCells.back())
 		{
 			removeFromCell();
-			std::vector<Cell*> cells = manager.grid->getLinkCells(*this);
+			std::vector<Cell*> cells = manager.grid->getLinkCells(*this, manager.grid->getGridLevel());
 			for (auto& cell : cells) {
 				manager.grid->addLink(this, cell);
 			}

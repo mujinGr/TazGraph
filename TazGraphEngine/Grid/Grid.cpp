@@ -24,23 +24,22 @@ void Grid::createCells(Grid::Level m_level) {
 	int numXCells = ceil((float)_numXCells / cellsGroupSize);
 	int numYCells = ceil((float)_numYCells / cellsGroupSize);
 	
-	if (m_level == Level::Basic) {
-		_cells.resize(numYCells * numXCells);
-	}
-	else if (m_level == Level::Outer1) {
-		_parentCells.resize(numYCells * numXCells);
-	}
-	else {
-		_superParentCells.resize(numYCells * numXCells);
-	}
+	std::vector<Cell>& currentCells =	(m_level == Level::Basic) ? _cells :
+		(m_level == Level::Outer1) ? _parentCells :
+		_superParentCells;
+
+	std::vector<Cell> emptyCells;
+	std::vector<Cell>& childCells =		(m_level == Level::Outer1) ? _cells :
+		(m_level == Level::Outer2) ? _parentCells :
+		emptyCells;
+
+	currentCells.resize(numYCells * numXCells);
 
 	for (int py = -(numYCells / 2); py < (numYCells / 2); py++) {
 		for (int px = -(numXCells / 2); px < (numXCells / 2); px++) {
 			int parentIndex = (py + (numYCells / 2)) * numXCells + (px + (numXCells / 2));
 
-			Cell& cell = (m_level == Level::Basic) ? _cells[parentIndex] :
-				(m_level == Level::Outer1) ? _parentCells[parentIndex] :
-					_superParentCells[parentIndex];
+			Cell& cell = currentCells[parentIndex];
 
 			cell.boundingBox.x = px * cellsGroupSize * _cellSize;
 			cell.boundingBox.y = py * cellsGroupSize * _cellSize;
@@ -54,7 +53,7 @@ void Grid::createCells(Grid::Level m_level) {
 				cell.boundingBox.h = _height - cell.boundingBox.y;
 			}
 
-			if (m_level != Level::Outer2)
+			if (!childCells.empty())
 			{
 				for (int cy = 0; cy < cellsGroupSize; cy++) {
 					for (int cx = 0; cx < cellsGroupSize; cx++) {
@@ -62,14 +61,11 @@ void Grid::createCells(Grid::Level m_level) {
 						int childX = (px + (numXCells / 2)) * cellsGroupSize + cx;
 						int childY = (py + (numYCells / 2)) * cellsGroupSize + cy;
 						
-						if (childX < numXCells && childY < numYCells) {
-							int childIndex = childY * numXCells + childX;
-							if (m_level == Level::Basic) {
-								_cells[childIndex].parent = &cell;
-							}
-							else if (m_level == Level::Outer1) {
-								_parentCells[childIndex].parent = &cell;
-							}
+						
+						int childIndex = childY * (numXCells * cellsGroupSize) + childX;
+						
+						if (childIndex < childCells.size()) {
+							cell.children.push_back(&childCells[childIndex]);
 						}
 					}
 				}
@@ -80,15 +76,15 @@ void Grid::createCells(Grid::Level m_level) {
 }
 
 // adding link to grid
-void Grid::addLink(Entity* link)
+void Grid::addLink(Entity* link, Grid::Level m_level)
 {
-	std::vector<Cell*> cells = getLinkCells(*link);
+	std::vector<Cell*> cells = getLinkCells(*link, m_level);
 	for (auto& cell : cells) {
 		addLink(link, cell);
 	}
 }
 
-std::vector<Cell*> Grid::getLinkCells(const Entity& link) {
+std::vector<Cell*> Grid::getLinkCells(const Entity& link, Grid::Level m_level) {
 	std::vector<Cell*> intersectedCells;
 	std::unordered_set<Cell*> uniqueCells;
 
@@ -108,14 +104,14 @@ std::vector<Cell*> Grid::getLinkCells(const Entity& link) {
 	float yIncrement = dy / steps;
 
 	for (int i = 0; i <= steps; i++) {
-		Cell* currentCell = getCell((int)(std::floor(x0 / _cellSize)), (int)(std::floor(y0 / _cellSize)) );
+		Cell* currentCell = getCell((int)(std::floor(x0 / _cellSize)), (int)(std::floor(y0 / _cellSize)), m_level );
 		if (uniqueCells.insert(currentCell).second) { 
 			intersectedCells.push_back(currentCell);
 		}
 		x0 += xIncrement;
 		y0 += yIncrement;
 	}
-	Cell* currentCell = getCell((int)(std::floor(x1 / _cellSize)), (int)(std::floor(y1 / _cellSize)));
+	Cell* currentCell = getCell((int)(std::floor(x1 / _cellSize)), (int)(std::floor(y1 / _cellSize)), m_level);
 
 	if (uniqueCells.insert(currentCell).second) { 
 		intersectedCells.push_back(currentCell);
@@ -132,9 +128,9 @@ void Grid::addLink(Entity* link, Cell* cell)
 }
 
 // adding node to grid
-void Grid::addNode(Entity* entity)
+void Grid::addNode(Entity* entity, Grid::Level m_level)
 {
-	Cell* cell = getCell(*entity);
+	Cell* cell = getCell(*entity, m_level);
 	addNode(entity, cell);
 }
 
@@ -146,24 +142,32 @@ void Grid::addNode(Entity* entity, Cell* cell)
 }
 
 
-Cell* Grid::getCell(int x, int y)
+Cell* Grid::getCell(int x, int y, Grid::Level m_level)
 {
-	if (x < -(_numXCells/2)) x = -(_numXCells / 2);
-	if (x >= (_numXCells/2)) x = (_numXCells / 2) - 1;
-	if (y < -(_numYCells / 2)) y = -(_numYCells / 2);
-	if (y >= (_numYCells / 2)) y = (_numYCells / 2) - 1;
+	int cellsGroupSize = m_level == Level::Basic ? 1 : (m_level == Level::Outer1 ? 2 : 4);
 
-	size_t index = (y + (_numYCells / 2)) * _numXCells + (x + (_numXCells / 2));
-	return &_cells[index];
+	int numXCells = ceil((float)_numXCells / cellsGroupSize);
+	int numYCells = ceil((float)_numYCells / cellsGroupSize);
+
+
+	if (x < -(numXCells /2)) x = -(numXCells / 2);
+	if (x >= (numXCells /2)) x = (numXCells / 2) - 1;
+	if (y < -(numYCells / 2)) y = -(numYCells / 2);
+	if (y >= (numYCells / 2)) y = (numYCells / 2) - 1;
+
+	size_t index = (y + (numYCells / 2)) * numXCells + (x + (numXCells / 2));
+	return (m_level == Level::Basic) ? &_cells[index] :
+		(m_level == Level::Outer1 ? &_parentCells[index] :
+			&_superParentCells[index]);
 }
 
-Cell* Grid::getCell(const Entity& entity)
+Cell* Grid::getCell(const Entity& entity, Grid::Level m_level)
 {
 	auto pos = entity.GetComponent<TransformComponent>().getCenterTransform();
 	int cellX = (int)(std::floor(pos.x / _cellSize));
 	int cellY = (int)(std::floor(pos.y / _cellSize));
 
-	return getCell(cellX, cellY);
+	return getCell(cellX, cellY, m_level);
 }
 
 std::vector<Cell*> Grid::getAdjacentCells(int x, int y, int radius = 1) {
@@ -178,7 +182,7 @@ std::vector<Cell*> Grid::getAdjacentCells(int x, int y, int radius = 1) {
 	for (int offsetX = -radius; offsetX <= radius; offsetX++) {
 		for (int offsetY = -radius; offsetY <= radius; offsetY++) {
 			if (offsetX == 0 && offsetY == 0) {
-				adjacentCells.push_back(getCell(cellX, cellY));
+				adjacentCells.push_back(getCell(cellX, cellY, _level));
 				continue;
 			}
 			int neighborX = cellX + offsetX;
@@ -187,7 +191,7 @@ std::vector<Cell*> Grid::getAdjacentCells(int x, int y, int radius = 1) {
 			// Check bounds and add the cell to the list
 			if (neighborX >= -_numXCells/2 && neighborX < _numXCells/2 &&
 				neighborY >= -_numYCells/2 && neighborY < _numYCells/2) {
-				adjacentCells.push_back(getCell(neighborX, neighborY));
+				adjacentCells.push_back(getCell(neighborX, neighborY, _level));
 			}
 		}
 	}
@@ -203,8 +207,12 @@ std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity) {
 	return getAdjacentCells(pos.x, pos.y);
 }
 
-std::vector<Cell> Grid::getCells() {
-	return _cells;
+std::vector<Cell> Grid::getCells(Grid::Level m_level) {
+	if(m_level == Grid::Level::Basic)
+		return _cells;
+	else if (m_level == Grid::Level::Outer1)
+		return _parentCells;
+	return _superParentCells;
 }
 int Grid::getCellSize() {
 	return _cellSize;

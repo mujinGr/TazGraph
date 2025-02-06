@@ -244,90 +244,28 @@ void Graph::update(float deltaTime) //game objects updating
 	if (main_camera2D->getScale() < manager.grid->getLevelScale(manager.grid->getGridLevel())) {
 		manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() + 1));
 		
-		// hide all the entities inside (dont update them, dont draw them)
-		for (const auto& cell : manager.grid->getCells()) {
-				
-			if ( cell.nodes.empty() || ( !cell.nodes.empty() && (*cell.nodes.begin())->isHidden() ) ) continue;
-
-			// Loop through each cell and count the nodes
-			int totalNodes = cell.nodes.size();
-			
-			float groupNodeSize = 50 - 40 / (totalNodes + 1);
-
-			auto& node = manager.addEntity<Node>();
-
-			glm::vec2 centroid(0);
-			for (auto& entity : cell.nodes) {
-				if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
-					glm::vec2 node_position = entity->GetComponent<TransformComponent>().getCenterTransform();
-					centroid += node_position;
-
-					entity->setParentEntity(&node);
-					entity->hide();
-				}
-			}
-			centroid /= totalNodes;
-			_assetsManager->CreateGroup(node, centroid, groupNodeSize);
-			manager.grid->addNode(&node);
-
-
-			for (auto& entity : cell.nodes) {
-				if (entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
-					glm::vec2 relativePosition = entity->GetComponent<TransformComponent>().getPosition() - node.GetComponent<TransformComponent>().getCenterTransform();
-					entity->GetComponent<TransformComponent>().setPosition_X(relativePosition.x);
-					entity->GetComponent<TransformComponent>().setPosition_Y(relativePosition.y);
-				}
-			}
-
-			// remove all links
-			for (auto& link : cell.links) {
-				link->hide();
-			}
-
+		if (manager.grid->getGridLevel() == Grid::Level::Outer1) {
+			_assetsManager->createGroupLayout(Grid::Level::Outer1);
 		}
-			
-		auto group_links = manager.getGroup(Manager::groupLinks_0);
-		for (const auto& link : group_links) {
-			// get the links of the inside nodes
-			if (link->isHidden()) {
-				auto& groups_link = manager.addEntity<Link>(link->getFromNode()->getParentEntity(), link->getToNode()->getParentEntity());
-				_assetsManager->CreateGroupLink(groups_link);
-				manager.grid->addLink(&groups_link);
-			}
-		}
-
-		
+		else if (manager.grid->getGridLevel() == Grid::Level::Outer2) {
+			_assetsManager->createGroupLayout(Grid::Level::Outer2);
+		}		
 	}
 	else if(manager.grid->getGridLevel() && main_camera2D->getScale() > manager.grid->getLevelScale(static_cast<Grid::Level>(manager.grid->getGridLevel() - 1))){
 
+
+		if (manager.grid->getGridLevel() == Grid::Level::Outer1) {
+			_assetsManager->ungroupLayout(Grid::Level::Outer1);
+		}
+		else if (manager.grid->getGridLevel() == Grid::Level::Outer2) {
+			_assetsManager->ungroupLayout(Grid::Level::Outer2);
+		}
+
+		_firstLoop = true;
+
 		manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() - 1));
 
-		// first destroy the group nodes
-		for (auto& groupNode : manager.getGroup(Manager::groupGroupNodes_0)) {
-			groupNode->destroy();
-		}	
-
-		for (auto& link : manager.getGroup(Manager::groupGroupLinks_0)) {
-			link->destroy();
-		}
-		// reveal all the hidden nodes
-		for (auto& entity : manager.getGroup(Manager::groupNodes_0)) {
-			if (entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
-				// ! update the nodes' position based on the parent position
-				TransformComponent* parent_tr = &entity->getParentEntity()->GetComponent<TransformComponent>();
-						
-				glm::vec2 absolutePosition = entity->GetComponent<TransformComponent>().getPosition() + parent_tr->getCenterTransform();
-				entity->GetComponent<TransformComponent>().setPosition_X(absolutePosition.x);
-				entity->GetComponent<TransformComponent>().setPosition_Y(absolutePosition.y);
-						
-				entity->setParentEntity(nullptr);
-				entity->reveal();
-				_firstLoop = true;
-			}
-		}
-		for (auto& link : manager.getGroup(Manager::groupLinks_0)) {
-			link->reveal();
-		}
+		
 	}
 }
 

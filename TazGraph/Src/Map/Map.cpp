@@ -74,7 +74,7 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 
 		node.setId(id);
 
-		manager.grid->addNode(&node);
+		manager.grid->addNode(&node, manager.grid->getGridLevel());
 	}
 
 	std::getline(mapFile, line);
@@ -89,7 +89,7 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 		link.setId(id);
 		(this->*addLinkFunction)(link);
 
-		manager.grid->addLink(&link);
+		manager.grid->addLink(&link, manager.grid->getGridLevel());
 	}
 }
 
@@ -112,7 +112,7 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 		glm::vec2 position(x, y);
 		(this->*addNodeFunction)(node, position);
 
-		manager.grid->addNode(&node);
+		manager.grid->addNode(&node, manager.grid->getGridLevel());
 	}
 	auto& links = rootFromFile.obj["graph"].obj["edges"];
 	for (auto& linkEntry : links.arr) {
@@ -123,7 +123,7 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 		auto& link = manager.addEntity<Link>(fromID, toID);
 		(this->*addLinkFunction)(link);
 
-		manager.grid->addLink(&link);
+		manager.grid->addLink(&link, manager.grid->getGridLevel());
 	}
 	std::cout << "Parsed JSON from file successfully!" << std::endl;
 }

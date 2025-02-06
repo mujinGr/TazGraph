@@ -108,7 +108,7 @@ void MainMenuScreen::onEntry()
 
 		Mainmenubackground.addComponent<MainMenuBackground>();
 		Mainmenubackground.addGroup(Manager::groupBackgroundLayer);
-		main_menu_manager.grid->addNode(&Mainmenubackground);
+		main_menu_manager.grid->addNode(&Mainmenubackground, main_menu_manager.grid->getGridLevel());
 	}
 }
 

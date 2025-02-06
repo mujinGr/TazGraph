@@ -25,6 +25,10 @@ public:
 
 	void CreateGroupLink(Entity& groupLink);
 
+	void createGroupLayout(Grid::Level m_level);
+
+	void ungroupLayout(Grid::Level m_level);
+
 private:
 	Manager* manager;
 	InputManager& _inputManager;

@@ -13,6 +13,8 @@ struct Cell {
 	SDL_FRect boundingBox;
 
 	Cell* parent = nullptr;
+	std::vector<Cell*> children;
+
 };
 
 
@@ -29,18 +31,18 @@ public:
 
 	void createCells(Grid::Level size);
 
-	void addLink(Entity* link);
-	std::vector<Cell*> getLinkCells(const Entity& link);
+	void addLink(Entity* link, Grid::Level m_level);
+	std::vector<Cell*> getLinkCells(const Entity& link, Grid::Level m_level);
 	void addLink(Entity* link, Cell* cell);
 
-	void addNode(Entity* entity);
+	void addNode(Entity* entity, Grid::Level m_level);
 	void addNode(Entity* entity, Cell* cell);
 
-	Cell* getCell(int x, int y);
-	Cell* getCell(const Entity& position);
+	Cell* getCell(int x, int y, Grid::Level m_level);
+	Cell* getCell(const Entity& position, Grid::Level m_level);
 	std::vector<Cell*> getAdjacentCells(int x, int y, int radius);
 	std::vector<Cell*> getAdjacentCells(const Entity& entity);
-	std::vector<Cell> getCells();
+	std::vector<Cell> getCells(Grid::Level m_level);
 	int getCellSize();
 	int getNumXCells();
 	int getNumYCells();

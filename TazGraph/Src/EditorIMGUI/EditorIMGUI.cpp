@@ -161,7 +161,7 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 			TransformComponent* tr = &selectedEntity->GetComponent<TransformComponent>();
 			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
 			ImGui::Text("Size: (%f, %f)", tr->width, tr->height);
-			SDL_FRect cellBox = manager.grid->getCell(*selectedEntity)->boundingBox;
+			SDL_FRect cellBox = manager.grid->getCell(*selectedEntity, manager.grid->getGridLevel())->boundingBox;
 			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
 		}
 	}
