@@ -51,23 +51,23 @@ void Grid::createCells(Grid::Level m_level) {
 			cell.boundingBox.w = cellsGroupSize * _cellSize;
 			cell.boundingBox.h = cellsGroupSize * _cellSize;
 
-			if (px == (numXCells / 2) - 1) {
-				cell.boundingBox.w = (_width / 2) - cell.boundingBox.x;
+			if (px == endX - 1.0f) {
+				cell.boundingBox.w = (_width / 2.0f) - cell.boundingBox.x;
 			}
-			if (py == (numYCells / 2) - 1) {
-				cell.boundingBox.h = (_height / 2) - cell.boundingBox.y;
+			if (py == endY - 1.0f) {
+				cell.boundingBox.h = (_height / 2.0f) - cell.boundingBox.y;
 			}
 
 			if (!childCells.empty())
 			{
-				for (int cy = 0; cy < cellsGroupSize; cy++) {
-					for (int cx = 0; cx < cellsGroupSize; cx++) {
+				int groupedCells = sqrt(childCells.size() / currentCells.size());
+				for (int cy = 0; cy < groupedCells; cy++) {
+					for (int cx = 0; cx < groupedCells; cx++) {
 
-						int childX = (px + (numXCells / 2)) * cellsGroupSize + cx;
-						int childY = (py + (numYCells / 2)) * cellsGroupSize + cy;
-						
-						
-						int childIndex = childY * (numXCells * cellsGroupSize) + childX;
+						int childX = (px + endY) * groupedCells + cx;
+						int childY = (py + endY) * groupedCells + cy;
+												
+						int childIndex = childY * (numXCells * groupedCells) + childX;
 						
 						if (childIndex < childCells.size()) {
 							cell.children.push_back(&childCells[childIndex]);
