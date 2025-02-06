@@ -23,22 +23,45 @@ void AssetManager::CreateCursor(Entity& cursor)
 	cursor.addGroup(Manager::cursorGroup);
 }
 
-void AssetManager::CreateGroup(Entity& groupNode, glm::vec2 centerGroup, float groupNodeSize)
+void AssetManager::CreateGroup(Entity& groupNode, glm::vec2 centerGroup, float groupNodeSize, Grid::Level m_level)
 {
-	groupNode.addComponent<TransformComponent>(glm::vec2(centerGroup.x - groupNodeSize / 2,
-		centerGroup.y - groupNodeSize / 2), Manager::actionLayer, glm::ivec2(groupNodeSize, groupNodeSize), 1);
-	groupNode.addComponent<Rectangle_w_Color>();
-	groupNode.GetComponent<Rectangle_w_Color>().color = Color(0, 155, 155, 255);
+	if (m_level == Grid::Level::Outer1)
+	{
+		groupNode.addComponent<TransformComponent>(glm::vec2(centerGroup.x - groupNodeSize / 2,
+			centerGroup.y - groupNodeSize / 2), Manager::actionLayer, glm::ivec2(groupNodeSize, groupNodeSize), 1);
+		groupNode.addComponent<Rectangle_w_Color>();
+		groupNode.GetComponent<Rectangle_w_Color>().color = Color(0, 155, 155, 255);
 
-	groupNode.addGroup(Manager::groupGroupNodes_0);
+		groupNode.addGroup( Manager::groupGroupNodes_0 );
+	}
+	else if (m_level == Grid::Level::Outer2) {
+		groupNode.addComponent<TransformComponent>(glm::vec2(centerGroup.x - groupNodeSize / 2,
+			centerGroup.y - groupNodeSize / 2), Manager::actionLayer, glm::ivec2(groupNodeSize, groupNodeSize), 1);
+		groupNode.addComponent<Rectangle_w_Color>();
+		groupNode.GetComponent<Rectangle_w_Color>().color = Color(155, 155, 155, 255);
+
+		groupNode.addGroup(Manager::groupGroupNodes_1);
+
+	}
 }
 
-void AssetManager::CreateGroupLink(Entity& groupLink) {
-	groupLink.addComponent<Line_w_Color>();
-	groupLink.GetComponent<Line_w_Color>().src_color = Color(255, 255, 0, 255);
-	groupLink.GetComponent<Line_w_Color>().dest_color = Color(255, 255, 0, 255);
+void AssetManager::CreateGroupLink(Entity& groupLink, Grid::Level m_level) {
+	if (m_level == Grid::Level::Outer1)
+	{
+		groupLink.addComponent<Line_w_Color>();
+		groupLink.GetComponent<Line_w_Color>().src_color = Color(255, 255, 0, 255);
+		groupLink.GetComponent<Line_w_Color>().dest_color = Color(255, 255, 0, 255);
 
-	groupLink.addGroup(Manager::groupGroupLinks_0);
+		groupLink.addGroup(Manager::groupGroupLinks_0);
+	}
+	else if(m_level == Grid::Level::Outer2){
+		groupLink.addComponent<Line_w_Color>();
+		groupLink.GetComponent<Line_w_Color>().src_color = Color(255, 0, 0, 255);
+		groupLink.GetComponent<Line_w_Color>().dest_color = Color(0, 255, 0, 255);
+
+		groupLink.addGroup(Manager::groupGroupLinks_1);
+	}
+	
 }
 
 void AssetManager::createGroupLayout(Grid::Level m_level) {
@@ -53,7 +76,7 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 
 		if (totalNodes == 0) continue;
 
-		float groupNodeSize = 50 - 40 / (totalNodes + 1);
+		float groupNodeSize = 25 * manager->grid->getLevelCellScale(m_level) - 40 / (totalNodes + 1);
 
 		auto& node = manager->addEntity<Node>();
 
@@ -71,7 +94,7 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 		}
 		
 		centroid /= totalNodes;
-		CreateGroup(node, centroid, groupNodeSize);
+		CreateGroup(node, centroid, groupNodeSize, m_level);
 		manager->grid->addNode(&node, m_level);
 
 		for (const auto& childCell : cell.children)
@@ -95,12 +118,13 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 
 	}
 
-	auto group_links = manager->getGroup(Manager::groupLinks_0);
+	auto group_links = (m_level == Grid::Level::Outer1) ?
+		manager->getGroup(Manager::groupLinks_0) : manager->getGroup(Manager::groupGroupLinks_0);
 	for (const auto& link : group_links) {
 		// get the links of the inside nodes
 		if (link->isHidden()) {
 			auto& groups_link = manager->addEntity<Link>(link->getFromNode()->getParentEntity(), link->getToNode()->getParentEntity());
-			CreateGroupLink(groups_link);
+			CreateGroupLink(groups_link, m_level);
 			manager->grid->addLink(&groups_link, m_level);
 		}
 	}
@@ -108,15 +132,28 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 
 void AssetManager::ungroupLayout(Grid::Level m_level) {
 	// first destroy the group nodes
-	for (auto& groupNode : manager->getGroup(Manager::groupGroupNodes_0)) {
-		groupNode->destroy();
+	if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
+		for (auto& groupNode : manager->getGroup(Manager::groupGroupNodes_0)) {
+			groupNode->destroy();
+		}
+		for (auto& link : manager->getGroup(Manager::groupGroupLinks_0)) {
+			link->destroy();
+		}
 	}
+	else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
+		for (auto& groupNode : manager->getGroup(Manager::groupGroupNodes_1)) {
+			groupNode->destroy();
+		}
+		for (auto& link : manager->getGroup(Manager::groupGroupLinks_1)) {
+			link->destroy();
+		}
+	}
+	
+	Manager::groupLabels label = m_level == Grid::Level::Outer1 ? Manager::groupNodes_0 : Manager::groupGroupNodes_0;
+	Manager::groupLabels link_label = m_level == Grid::Level::Outer1 ? Manager::groupLinks_0 : Manager::groupGroupLinks_0;
 
-	for (auto& link : manager->getGroup(Manager::groupGroupLinks_0)) {
-		link->destroy();
-	}
 	// reveal all the hidden nodes
-	for (auto& entity : manager->getGroup(Manager::groupNodes_0)) {
+	for (auto& entity : manager->getGroup(label)) {
 		if (entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
 			// ! update the nodes' position based on the parent position
 			TransformComponent* parent_tr = &entity->getParentEntity()->GetComponent<TransformComponent>();
@@ -130,7 +167,7 @@ void AssetManager::ungroupLayout(Grid::Level m_level) {
 			
 		}
 	}
-	for (auto& link : manager->getGroup(Manager::groupLinks_0)) {
+	for (auto& link : manager->getGroup(link_label)) {
 		link->reveal();
 	}
 }

@@ -79,7 +79,7 @@ public:
 		}
 		
 
-		std::vector<Cell*> intercepted_cells = grid->getIntersectedCameraCells(*camera);
+		std::vector<Cell*> intercepted_cells = grid->getIntersectedCameraCells(*camera, this->grid->getGridLevel());
 
 		if (grid->hasCellsChanged(intercepted_cells) || grid->gridLevelChanged()) {
 			grid->updateLastInterceptedCells(intercepted_cells);
@@ -237,9 +237,11 @@ public:
 		//action
 		groupLinks_0,
 		groupGroupLinks_0,
+		groupGroupLinks_1,
 
 		groupNodes_0,
 		groupGroupNodes_0,
+		groupGroupNodes_1,
 		groupColliders,
 		
 		//fore
@@ -254,9 +256,11 @@ public:
 		//action
 		{ groupLinks_0,"groupLinks_0" },
 		{groupGroupLinks_0, "groupGroupLinks_0"},
+		{groupGroupLinks_1, "groupGroupLinks_1"},
 
 		{ groupNodes_0,"groupNodes_0" },
 		{ groupGroupNodes_0, "groupGroupNodes_0"},
+		{ groupGroupNodes_1, "groupGroupNodes_1"},
 
 		{ groupColliders,"groupColliders" },
 

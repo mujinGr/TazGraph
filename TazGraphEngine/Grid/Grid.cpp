@@ -19,7 +19,7 @@ Grid::~Grid()
 }
 
 void Grid::createCells(Grid::Level m_level) {
-	int cellsGroupSize = m_level == Level::Basic ? 1 : (m_level == Level::Outer1 ? 2 : 4);
+	int cellsGroupSize = gridLevels[m_level].second;
 	
 	int numXCells = ceil((float)_numXCells / cellsGroupSize);
 	int numYCells = ceil((float)_numYCells / cellsGroupSize);
@@ -35,9 +35,14 @@ void Grid::createCells(Grid::Level m_level) {
 
 	currentCells.resize(numYCells * numXCells);
 
-	for (int py = -(numYCells / 2); py < (numYCells / 2); py++) {
-		for (int px = -(numXCells / 2); px < (numXCells / 2); px++) {
-			int parentIndex = (py + (numYCells / 2)) * numXCells + (px + (numXCells / 2));
+	float startX = -(numXCells / 2.0f); // add one in order to take floor of division
+	float endX = (numXCells) / 2.0f;
+	float startY = -(numYCells / 2.0f);
+	float endY = (numYCells ) / 2.0f;
+
+	for (float py = startY; py < endY; py++) {
+		for (float px = startX; px < endX; px++) {
+			int parentIndex = (py - startY) * numXCells + (px - startX); // we dont want negative numbers thats why add the -startXY
 
 			Cell& cell = currentCells[parentIndex];
 
@@ -46,11 +51,11 @@ void Grid::createCells(Grid::Level m_level) {
 			cell.boundingBox.w = cellsGroupSize * _cellSize;
 			cell.boundingBox.h = cellsGroupSize * _cellSize;
 
-			if (px == numXCells / 2 - 1) {
-				cell.boundingBox.w = _width - cell.boundingBox.x;
+			if (px == (numXCells / 2) - 1) {
+				cell.boundingBox.w = (_width / 2) - cell.boundingBox.x;
 			}
-			if (py == numYCells / 2 - 1) {
-				cell.boundingBox.h = _height - cell.boundingBox.y;
+			if (py == (numYCells / 2) - 1) {
+				cell.boundingBox.h = (_height / 2) - cell.boundingBox.y;
 			}
 
 			if (!childCells.empty())
@@ -144,7 +149,7 @@ void Grid::addNode(Entity* entity, Cell* cell)
 
 Cell* Grid::getCell(int x, int y, Grid::Level m_level)
 {
-	int cellsGroupSize = m_level == Level::Basic ? 1 : (m_level == Level::Outer1 ? 2 : 4);
+	int cellsGroupSize = gridLevels[m_level].second;
 
 	int numXCells = ceil((float)_numXCells / cellsGroupSize);
 	int numYCells = ceil((float)_numYCells / cellsGroupSize);
@@ -164,8 +169,8 @@ Cell* Grid::getCell(int x, int y, Grid::Level m_level)
 Cell* Grid::getCell(const Entity& entity, Grid::Level m_level)
 {
 	auto pos = entity.GetComponent<TransformComponent>().getCenterTransform();
-	int cellX = (int)(std::floor(pos.x / _cellSize));
-	int cellY = (int)(std::floor(pos.y / _cellSize));
+	int cellX = (int)(std::floor(pos.x / (_cellSize * gridLevels[m_level].second) ));
+	int cellY = (int)(std::floor(pos.y / (_cellSize * gridLevels[m_level].second) ));
 
 	return getCell(cellX, cellY, m_level);
 }
@@ -207,7 +212,7 @@ std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity) {
 	return getAdjacentCells(pos.x, pos.y);
 }
 
-std::vector<Cell> Grid::getCells(Grid::Level m_level) {
+std::vector<Cell>& Grid::getCells(Grid::Level m_level) {
 	if(m_level == Grid::Level::Basic)
 		return _cells;
 	else if (m_level == Grid::Level::Outer1)
@@ -224,10 +229,10 @@ int Grid::getNumYCells() {
 	return _numYCells;
 }
 
-std::vector<Cell*> Grid::getIntersectedCameraCells(ICamera& camera) {
+std::vector<Cell*> Grid::getIntersectedCameraCells(ICamera& camera, Grid::Level m_level) {
 	std::vector<Cell*> result;
 
-	for (auto& cell : this->_cells) {
+	for (auto& cell : getCells(m_level)) {
 		if (checkCollision(camera.getCameraRect(), cell.boundingBox)) { // Assuming each cell has a bounding box
 			result.push_back(&cell);
 		}
@@ -277,9 +282,12 @@ void Grid::setGridLevel(Level newLevel)
 }
 
 float Grid::getLevelScale(Level level) {
-	return gridLevels[level];
+	return gridLevels[level].first;
 }
 
+float Grid::getLevelCellScale(Level level) {
+	return gridLevels[level].second;
+}
 
 std::vector<Entity*> Grid::getLinksInCameraCells(const std::vector<Cell*>& intercepted_cells) {
 	std::map<unsigned int, Entity*> uniqueEntities;

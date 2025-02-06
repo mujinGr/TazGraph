@@ -40,7 +40,7 @@ void main() {
 
 	void init();
 	void end();
-	void drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& color, float zIndex);
+	void drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& srcColor, const Color& destColor, float zIndex);
 	void drawBox(const glm::vec4& destRect, const Color& color, float angle, float zIndex =0.0f);
 	void drawCircle(const glm::vec2& center, const Color& color, float radius);
 	void renderBatch(float lineWidth);

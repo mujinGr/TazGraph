@@ -395,7 +395,7 @@ void Graph::updateUI() {
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGui::SetNextWindowPos(viewport->Pos);
 	ImGui::SetNextWindowSize(viewport->Size);
-	ImGui::Begin("Example Window", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus);
+	ImGui::Begin("Main Window", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus);
 	_editorImgui.MenuBar();
 
 	ImGui::Columns(3, "mycolumns");
@@ -496,7 +496,7 @@ void Graph::draw()
 
 	// Debug Rendering
 	if (_renderDebug) {
-		std::vector<Cell*> intercectedCells = manager.grid->getIntersectedCameraCells(*main_camera2D);
+		std::vector<Cell*> intercectedCells = manager.grid->getIntersectedCameraCells(*main_camera2D, manager.grid->getGridLevel());
 		for (const auto& cell : intercectedCells) {
 			glm::vec4 destRect(cell->boundingBox.x, cell->boundingBox.y, cell->boundingBox.w, cell->boundingBox.h);
 			_LineRenderer.drawBox(destRect, Color(0, 255, 0, 100), 0.0f);  // Drawing each cell in red for visibility
@@ -541,7 +541,7 @@ void Graph::draw()
 
 
 		_LineRenderer.end();
-		_LineRenderer.renderBatch(main_camera2D->getScale() * 2.0f);
+		_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f * manager.grid->getGridLevel());
 		glsl_lineColor.unuse();
 
 	}
@@ -566,6 +566,13 @@ void Graph::draw()
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
 
+	_LineRenderer.renderBatch(main_camera2D->getScale() * 2.0f);
+
+	renderBatch(manager.getVisibleGroup(Manager::groupGroupLinks_1), _LineRenderer);
+
+	_LineRenderer.end();
+	_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f);
+
 	glsl_lineColor.unuse();
 
 	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
@@ -577,6 +584,8 @@ void Graph::draw()
 	glUniform1f(radiusLocation, nodeRadius);
 	renderBatch(manager.getVisibleGroup(Manager::groupNodes_0), _PlaneModelRenderer);
 	renderBatch(manager.getVisibleGroup(Manager::groupGroupNodes_0), _PlaneModelRenderer);
+	renderBatch(manager.getVisibleGroup(Manager::groupGroupNodes_1), _PlaneModelRenderer);
+
 	renderBatch(cursors, _PlaneModelRenderer);
 	_PlaneModelRenderer.end();
 	_PlaneModelRenderer.renderBatch();

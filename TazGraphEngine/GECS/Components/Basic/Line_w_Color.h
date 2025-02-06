@@ -30,6 +30,6 @@ public:
 		glm::vec2 fromNodeCenter = entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform();
 		glm::vec2 toNodeCenter = entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform();
 
-		batch.drawLine(fromNodeCenter, toNodeCenter, src_color, 0.0f);
+		batch.drawLine(fromNodeCenter, toNodeCenter, src_color, dest_color, 0.0f);
 	}
 };

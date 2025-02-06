@@ -64,7 +64,7 @@ void LineRenderer::end() // on end clear all indices reserved
 
 // todo can be optimized, by having something like glyphs in planeModelRenederer where first you pass info in a vector and
 // todo on render pass that info in verts and indices
-void LineRenderer::drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& color, float zIndex)
+void LineRenderer::drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& srcColor, const Color& destColor, float zIndex)
 {
 	int i = _verts.size();
 	_verts.resize(_verts.size() + 2);
@@ -76,9 +76,8 @@ void LineRenderer::drawLine(const glm::vec2 srcPosition, const glm::vec2 destPos
 	_verts[i].setPosition(linkPoint(srcPosition.x, srcPosition.y ));
 	_verts[i + 1].setPosition(linkPoint(destPosition.x, destPosition.y));
 
-	for (int j = i; j < i + 2; j++) {
-		_verts[j].color = color;
-	}
+	_verts[i].color = srcColor;
+	_verts[i + 1].color = destColor;
 
 	_indices.reserve(_indices.size() + 2); // indices for the ibo
 
