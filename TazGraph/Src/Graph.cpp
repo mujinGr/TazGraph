@@ -274,8 +274,7 @@ void Graph::update(float deltaTime) //game objects updating
 void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-	TransformComponent* tr = &cursor.GetComponent<TransformComponent>();
-	auto cells = manager.grid->getAdjacentCells(tr->getCenterTransform().x, tr->getCenterTransform().y, manager.grid->getGridLevel()+1);
+	auto cells = manager.grid->getAdjacentCells(cursor, manager.grid->getGridLevel());
 	for (auto cell : cells) {
 		for (auto& entity : cell->nodes) {
 			if (entity->hasGroup(Manager::cursorGroup)) {
@@ -486,7 +485,7 @@ void Graph::draw()
 	////////////OPENGL USE
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 
 

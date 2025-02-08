@@ -332,7 +332,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 		if (ImGui::CollapsingHeader(s.c_str())) {
 			std::vector<Entity*>& groupVec = manager.getGroup(group);
 
-			if ( group == Manager::groupNodes_0) {
+			if ( group == Manager::groupNodes_0 || group == Manager::groupGroupNodes_0 || group == Manager::groupGroupNodes_1 || group == Manager::cursorGroup) {
 
 				for (auto& entity : groupVec) { // loops 1 time
 					Color initialColor = entity->GetComponent<Rectangle_w_Color>().color;

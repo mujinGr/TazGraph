@@ -14,6 +14,7 @@ private:
 	std::vector<Entity*> visible_links;
 	std::array<std::vector<Entity*>, maxGroups> visible_groupedEntities;
 
+	bool _update_active_entities = false;
 public:
 	std::unique_ptr<Grid> grid;
 
@@ -42,40 +43,46 @@ public:
 	
 		std::vector<Entity*> toBeRemoved;
 
-		for (auto& visible_entities : { std::ref(visible_nodes), std::ref(visible_links) })
-		{
-			for (const auto& v_entity : visible_entities.get()) {
-				if (!v_entity->isActive()) {
-					v_entity->removeFromCell();
-					toBeRemoved.push_back(v_entity);
+		if (_update_active_entities) {
+			_update_active_entities = false;
+
+			for (auto& visible_entities : { std::ref(visible_nodes), std::ref(visible_links) })
+			{
+				for (const auto& v_entity : visible_entities.get()) {
+					if (!v_entity->isActive()) {
+						v_entity->removeFromCell();
+						toBeRemoved.push_back(v_entity);
+					}
 				}
 			}
-		}
-		
-		for (auto& group : groupedEntities) {
-			for (Entity* entity : group) {
-				if (!entity->isActive()) {
-					entity->removeFromCell();
-					toBeRemoved.push_back(entity);
+			// if from visible entities is something deleted, then delete it from all data structures (groupedEntities + enentities)
+			// ! or instead of updating the groupedEntities when we see an inactive entity, update the groupedEntities the moment an entity goes
+			// ! inactive and wait until we about to delete more
+			for (auto& group : groupedEntities) {
+				for (Entity* entity : group) {
+					if (!entity->isActive()) {
+						entity->removeFromCell();
+						toBeRemoved.push_back(entity);
+					}
 				}
 			}
-		}
 
 
-		for (auto i(0u); i < maxGroups; i++) {
-			auto& group(visible_groupedEntities[i]);
-			group.erase(std::remove_if(std::begin(group), std::end(group),
-				[&toBeRemoved, i](Entity* mEntity) {
-					return !mEntity->isActive() || !mEntity->hasGroup(i);
-				}), group.end());
-		}
+			for (auto i(0u); i < maxGroups; i++) {
+				auto& group(visible_groupedEntities[i]);
+				group.erase(std::remove_if(std::begin(group), std::end(group),
+					[&toBeRemoved, i](Entity* mEntity) {
+						return !mEntity->isActive() || !mEntity->hasGroup(i);
+					}), group.end());
+			}
 
-		for (auto& visible_entities : { std::ref(visible_nodes), std::ref(visible_links) }) {
-			visible_entities.get().erase(std::remove_if(visible_entities.get().begin(), visible_entities.get().end(),
-				[&toBeRemoved](Entity* mEntity) {
-					return std::find(toBeRemoved.begin(), toBeRemoved.end(), mEntity) != toBeRemoved.end();
-				}),
-				visible_entities.get().end());
+			for (auto& visible_entities : { std::ref(visible_nodes), std::ref(visible_links) }) {
+				visible_entities.get().erase(std::remove_if(visible_entities.get().begin(), visible_entities.get().end(),
+					[&toBeRemoved](Entity* mEntity) {
+						return std::find(toBeRemoved.begin(), toBeRemoved.end(), mEntity) != toBeRemoved.end();
+					}),
+					visible_entities.get().end());
+			}
 		}
 		
 
@@ -118,6 +125,10 @@ public:
 			}
 		}
 		
+	}
+
+	void updateActiveEntities() {
+		_update_active_entities = true;
 	}
 
 	void AddToGroup(Entity* mEntity, Group mGroup)
@@ -215,7 +226,7 @@ public:
 		std::vector<Entity*> nearbyEntities;
 
 		// get entities of adjacent cells and return those that belong to group, and append them to result
-		auto adjacentCells = grid->getAdjacentCells(*mainEntity);
+		auto adjacentCells = grid->getAdjacentCells(*mainEntity, grid->getGridLevel());
 
 		for (Cell* adjCell : adjacentCells) {
 			for (auto& neighbor : adjCell->nodes) {

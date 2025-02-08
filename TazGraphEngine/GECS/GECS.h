@@ -129,7 +129,7 @@ public:
 		}
 	}
 	bool isActive() { return active; }
-	void destroy() { active = false; } // destroy happens relative to the group referencing
+	virtual void destroy() { active = false; } // destroy happens relative to the group referencing
 
 	bool hasGroup(Group mGroup)
 	{

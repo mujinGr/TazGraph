@@ -71,7 +71,11 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 
 		for (const auto& childCell : cell.children)
 		{
-			totalNodes += childCell->nodes.size();
+			for (const auto& node : childCell->nodes) {
+				if (!node->isHidden()) {  // Assuming `isHidden()` is a method that tells if the node is hidden
+					totalNodes++;
+				}
+			}
 		}
 
 		if (totalNodes == 0) continue;
@@ -149,8 +153,8 @@ void AssetManager::ungroupLayout(Grid::Level m_level) {
 		}
 	}
 	
-	Manager::groupLabels label = m_level == Grid::Level::Outer1 ? Manager::groupNodes_0 : Manager::groupGroupNodes_0;
-	Manager::groupLabels link_label = m_level == Grid::Level::Outer1 ? Manager::groupLinks_0 : Manager::groupGroupLinks_0;
+	Manager::groupLabels label = (m_level == Grid::Level::Outer1) ? Manager::groupNodes_0 : Manager::groupGroupNodes_0;
+	Manager::groupLabels link_label = (m_level == Grid::Level::Outer1) ? Manager::groupLinks_0 : Manager::groupGroupLinks_0;
 
 	// reveal all the hidden nodes
 	for (auto& entity : manager->getGroup(label)) {

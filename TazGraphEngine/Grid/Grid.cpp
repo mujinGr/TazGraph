@@ -154,13 +154,18 @@ Cell* Grid::getCell(int x, int y, Grid::Level m_level)
 	int numXCells = ceil((float)_numXCells / cellsGroupSize);
 	int numYCells = ceil((float)_numYCells / cellsGroupSize);
 
+	float startX	= ceil(-((numXCells) / 2)) ; // add one in order to take floor of division
+	float endX		= ceil((numXCells) / 2) - 1;
+	float startY	= ceil(-((numYCells) / 2));
+	float endY		= ceil((numYCells) / 2) - 1;
 
-	if (x < -(numXCells /2)) x = -(numXCells / 2);
-	if (x >= (numXCells /2)) x = (numXCells / 2) - 1;
-	if (y < -(numYCells / 2)) y = -(numYCells / 2);
-	if (y >= (numYCells / 2)) y = (numYCells / 2) - 1;
 
-	size_t index = (y + (numYCells / 2)) * numXCells + (x + (numXCells / 2));
+	if (x < startX) x = startX;
+	if (x >= endX) x = endX;
+	if (y < startY) y = startY;
+	if (y >= endY) y = endY;
+
+	size_t index = (y - startY) * numXCells + (x - startX);
 	return (m_level == Level::Basic) ? &_cells[index] :
 		(m_level == Level::Outer1 ? &_parentCells[index] :
 			&_superParentCells[index]);
@@ -169,33 +174,42 @@ Cell* Grid::getCell(int x, int y, Grid::Level m_level)
 Cell* Grid::getCell(const Entity& entity, Grid::Level m_level)
 {
 	auto pos = entity.GetComponent<TransformComponent>().getCenterTransform();
-	int cellX = (int)(std::floor(pos.x / (_cellSize * gridLevels[m_level].second) ));
-	int cellY = (int)(std::floor(pos.y / (_cellSize * gridLevels[m_level].second) ));
+	if (m_level == Grid::Level::Outer2) {
+		pos -= (_cellSize * gridLevels[m_level].second) / 2;
+	}
+	int cellX = (int)(std::floor((pos.x) / (_cellSize * gridLevels[m_level].second) ));
+	int cellY = (int)(std::floor((pos.y) / (_cellSize * gridLevels[m_level].second) ));
 
 	return getCell(cellX, cellY, m_level);
 }
 
-std::vector<Cell*> Grid::getAdjacentCells(int x, int y, int radius = 1) {
+std::vector<Cell*> Grid::getAdjacentCells(int x, int y, Grid::Level m_level) {
 	std::vector<Cell*> adjacentCells;
 
-	int numCells = (2 * radius + 1) * (2 * radius + 1);
-	adjacentCells.reserve(numCells);
+	int cellsGroupSize = gridLevels[m_level].second;
 
-	int cellX = (int)(x / _cellSize);
-	int cellY = (int)(y / _cellSize);
+	int numXCells = ceil((float)_numXCells / cellsGroupSize);
+	int numYCells = ceil((float)_numYCells / cellsGroupSize);
 
-	for (int offsetX = -radius; offsetX <= radius; offsetX++) {
-		for (int offsetY = -radius; offsetY <= radius; offsetY++) {
+	float startX = ceil(-((numXCells) / 2)); // add one in order to take floor of division
+	float endX = ceil((numXCells) / 2) - 1;
+	float startY = ceil(-((numYCells) / 2));
+	float endY = ceil((numYCells) / 2) - 1;
+
+	adjacentCells.reserve(9);
+
+	for (int offsetX = -1; offsetX <= 1; offsetX++) {
+		for (int offsetY = -1; offsetY <= 1; offsetY++) {
 			if (offsetX == 0 && offsetY == 0) {
-				adjacentCells.push_back(getCell(cellX, cellY, _level));
+				adjacentCells.push_back(getCell(x, y, _level));
 				continue;
 			}
-			int neighborX = cellX + offsetX;
-			int neighborY = cellY + offsetY;
+			int neighborX = x + offsetX;
+			int neighborY = y + offsetY;
 
 			// Check bounds and add the cell to the list
-			if (neighborX >= -_numXCells/2 && neighborX < _numXCells/2 &&
-				neighborY >= -_numYCells/2 && neighborY < _numYCells/2) {
+			if (neighborX >= startX && neighborX < endX &&
+				neighborY >= startY && neighborY < endY) {
 				adjacentCells.push_back(getCell(neighborX, neighborY, _level));
 			}
 		}
@@ -204,12 +218,19 @@ std::vector<Cell*> Grid::getAdjacentCells(int x, int y, int radius = 1) {
 }
 
 // Returns a vector of pointers to all adjacent cells (including diagonally adjacent cells)
-std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity) {
+std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity, Grid::Level m_level) {
 	std::vector<Cell*> adjacentCells;
 
 	auto pos = entity.GetComponent<TransformComponent>().getPosition();
 
-	return getAdjacentCells(pos.x, pos.y);
+	if (m_level == Grid::Level::Outer2) {
+		pos -= (_cellSize * gridLevels[m_level].second) / 2;
+	}
+
+	int cellX = (int)(std::floor((pos.x) / (_cellSize * gridLevels[m_level].second)));
+	int cellY = (int)(std::floor((pos.y) / (_cellSize * gridLevels[m_level].second)));
+
+	return getAdjacentCells(cellX, cellY, m_level);
 }
 
 std::vector<Cell>& Grid::getCells(Grid::Level m_level) {

@@ -96,7 +96,10 @@ public:
 		ImGui::Text("Position: (%.2f, %.2f)", position.x, position.y);
 	}
 	
-
+	void destroy() {
+		Entity::destroy();
+		manager.updateActiveEntities();
+	}
 } Node;
 
 
@@ -199,6 +202,11 @@ public:
 		for (auto cell : ownerCells) {
 			ImGui::Text("- %.2f , %.2f", cell->boundingBox.x, cell->boundingBox.y);
 		}
+	}
+
+	void destroy() {
+		Entity::destroy();
+		manager.updateActiveEntities();
 	}
 
 } Link;
