@@ -126,7 +126,8 @@ if(MSVC)
         target_compile_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Release>:
                 /Oi;
-                /Gy
+                /Gy;
+                /O2;
             >
             /permissive-;
             /sdl;
@@ -138,7 +139,8 @@ if(MSVC)
         target_compile_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Release>:
                 /Oi;
-                /Gy
+                /Gy;
+                /O2;
             >
             /permissive-;
             /sdl;

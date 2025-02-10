@@ -190,7 +190,8 @@ if(MSVC)
         target_compile_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Release>:
                 /Oi;
-                /Gy
+                /Gy;
+                /O2;
             >
             /permissive-;
             /sdl;
@@ -246,6 +247,8 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
         ">"
     )
 endif()
+
+message(STATUS "Current build configuration: ${CMAKE_BUILD_TYPE}")
 
 message(" additional lib dependencies: ${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")

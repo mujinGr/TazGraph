@@ -261,8 +261,6 @@ void Graph::update(float deltaTime) //game objects updating
 			_assetsManager->ungroupLayout(Grid::Level::Outer2);
 		}
 
-		_firstLoop = true;
-
 		manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() - 1));
 
 		
