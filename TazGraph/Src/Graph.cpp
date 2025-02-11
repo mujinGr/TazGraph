@@ -432,6 +432,7 @@ void Graph::updateUI() {
 		_editorImgui.SetGoingBack(false);
 	}
 
+	_editorImgui.SceneTabs();
 	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
 }
 
@@ -473,6 +474,8 @@ void Graph::draw()
 
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	_LineRenderer.begin();
 	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
 
 	// Debug Rendering
@@ -537,22 +540,13 @@ void Graph::draw()
 	_LineRenderer.drawBox(destRect, Color(0, 0, 0, 255), 0.0f, 0.0f);
 
 	renderBatch(manager.getVisibleGroup(Manager::groupLinks_0), _LineRenderer);
-	
-	_LineRenderer.end();
-
-	_LineRenderer.renderBatch(main_camera2D->getScale() * 2.0f);
 
 	renderBatch(manager.getVisibleGroup(Manager::groupGroupLinks_0), _LineRenderer);
-
-	_LineRenderer.end();
-	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
-
-	_LineRenderer.renderBatch(main_camera2D->getScale() * 2.0f);
 
 	renderBatch(manager.getVisibleGroup(Manager::groupGroupLinks_1), _LineRenderer);
 
 	_LineRenderer.end();
-	_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f);
+	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
 
 	glsl_lineColor.unuse();
 

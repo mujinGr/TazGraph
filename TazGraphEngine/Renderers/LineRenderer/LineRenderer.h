@@ -30,13 +30,13 @@ class LineGlyph {
 	
 public:
 	LineGlyph() {};
-	LineGlyph(const glm::vec2& fromPosition, const glm::vec2& toPosition, const Color& srcColor, const Color& destColor, float mdepth, const Color& color) :
+	LineGlyph(const glm::vec2& fromPosition, const glm::vec2& toPosition, const Color& srcColor, const Color& destColor, float mdepth) :
 		depth(mdepth) {
 
-		fromV.color = color;
+		fromV.color = srcColor;
 		fromV.setPosition(fromPosition.x, fromPosition.y, depth);
 
-		toV.color = color;
+		toV.color = destColor;
 		toV.setPosition(toPosition.x, toPosition.y, depth);
 	};
 
@@ -94,18 +94,12 @@ private:
 	void createVertexArray();
 	void sortGlyphs();
 
-	bool compareFrontToBack(LineGlyph* a, LineGlyph* b);
-	bool compareBackToFront(LineGlyph* a, LineGlyph* b);
-
 	GLuint _vbo = 0, _vao = 0, _ibo = 0; //! ibo is what is going to store the integers for each 
 
 	LineGlyphSortType _sortType;
 
 	std::vector<LineGlyph*> _lineGlyphPointers;
 	std::vector<LineGlyph>	_lineGlyphs;
-
-	//! vertex so we can use index drawing, without specifying the lines by duplicating the vertices
-	int _numElements = 0;
 
 	std::vector<RenderLineBatch> _renderBatches;
 };

@@ -44,7 +44,6 @@ void LineRenderer::end() // on end clear all indices reserved
 void LineRenderer::drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& srcColor, const Color& destColor, float mdepth)
 {
 	_lineGlyphs.emplace_back(srcPosition, destPosition, srcColor, destColor, mdepth);
-	
 }
 
 
@@ -126,7 +125,10 @@ void LineRenderer::renderBatch(float lineWidth )
 {
 	glLineWidth(lineWidth);
 	glBindVertexArray(_vao);
-	glDrawElements(GL_LINES, _numElements, GL_UNSIGNED_INT, 0);
+
+	for (int i = 0; i < _renderBatches.size(); i++) {
+		glDrawElements(GL_LINES, _renderBatches[i].numIndices, GL_UNSIGNED_INT, 0);
+	}
 	glBindVertexArray(0);
 }
 
@@ -136,6 +138,8 @@ void LineRenderer::createRenderBatches() {
 	std::vector<GLuint> indices;
 
 	vertices.resize(_lineGlyphPointers.size() * LINE_OFFSET);
+	indices.resize(_lineGlyphPointers.size() * LINE_OFFSET);
+
 	if (_lineGlyphPointers.empty()) {
 		return;
 	}
@@ -143,7 +147,7 @@ void LineRenderer::createRenderBatches() {
 	int offset = 0;
 	int cv = 0; //current vertex
 
-	_renderBatches.emplace_back(offset, LINE_OFFSET, _lineGlyphPointers[0]);
+	_renderBatches.emplace_back(offset, LINE_OFFSET);
 	indices[cv] = cv;
 	vertices[cv++] = _lineGlyphPointers[0]->fromV;
 	indices[cv] = cv;
@@ -209,21 +213,18 @@ void LineRenderer::sortGlyphs() {
 	case LineGlyphSortType::NONE:
 		break;
 	case LineGlyphSortType::FRONT_TO_BACK:
-		std::stable_sort(_lineGlyphPointers.begin(), _lineGlyphPointers.end(), compareFrontToBack);
+		std::stable_sort(_lineGlyphPointers.begin(), _lineGlyphPointers.end(), [](LineGlyph* a, LineGlyph* b) {
+			return (a->depth < b->depth);
+			});
 		break;
 	case LineGlyphSortType::BACK_TO_FRONT:
-		std::stable_sort(_lineGlyphPointers.begin(), _lineGlyphPointers.end(), compareBackToFront);
+		std::stable_sort(_lineGlyphPointers.begin(), _lineGlyphPointers.end(), [](LineGlyph* a, LineGlyph* b) {
+			return (a->depth > b->depth);
+			});
 		break;
 	default:
 		break;
 	}
-}
-
-bool LineRenderer::compareFrontToBack(LineGlyph* a, LineGlyph* b) {
-	return (a->depth < b->depth);
-}
-bool LineRenderer::compareBackToFront(LineGlyph* a, LineGlyph* b) {
-	return (a->depth > b->depth);
 }
 
 void LineRenderer::dispose()
