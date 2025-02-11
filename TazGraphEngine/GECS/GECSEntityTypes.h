@@ -5,6 +5,76 @@
 
 class LinkEntity;
 
+typedef class EmptyEntity : public Entity {
+private:
+	Entity* parent_entity = nullptr;
+public:
+	Cell* ownerCell = nullptr;
+
+	EmptyEntity(Manager& mManager) : Entity(mManager) {
+
+	}
+	virtual ~EmptyEntity() {
+
+	}
+
+	void update(float deltaTime)
+	{
+		Entity::update(deltaTime);
+
+		cellUpdate();
+	}
+
+	void cellUpdate() override {
+		if (this->ownerCell) {
+			Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
+			if (newCell != this->ownerCell) {
+				// Need to shift the entity
+				removeEntity();
+				manager.grid->addNode(this, newCell);
+			}
+		}
+	}
+
+	void removeFromCell() override {
+		if (this->ownerCell) {
+			removeEntity();
+			this->ownerCell = nullptr;
+		}
+	}
+
+	void removeEntity() {
+		ownerCell->nodes.erase(
+			std::remove(this->ownerCell->nodes.begin(), this->ownerCell->nodes.end(),
+				this),
+			this->ownerCell->nodes.end());
+	}
+
+	void setOwnerCell(Cell* cell) override {
+		this->ownerCell = cell;
+	}
+
+	Cell* getOwnerCell() const override { return ownerCell; }
+
+	Entity* getParentEntity() override {
+		return parent_entity;
+	}
+
+	void setParentEntity(Entity* pEntity) override {
+		parent_entity = pEntity;
+	}
+
+	void imgui_print() override {
+		glm::vec2 position = this->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
+		ImGui::Text("Position: (%.2f, %.2f)", position.x, position.y);
+	}
+
+	void destroy() {
+		Entity::destroy();
+		manager.updateActiveEntities();
+	}
+} Empty;
+
 typedef class NodeEntity : public Entity {
 private:
 	Entity* parent_entity = nullptr;
@@ -112,6 +182,8 @@ private:
 	Node* from = nullptr;
 	Node* to = nullptr;
 
+	std::vector<Empty*> _children;
+
 public:
 	std::vector<Cell*> ownerCells = {};
 
@@ -129,6 +201,39 @@ public:
 		from->addOutLink(this);
 		to = dynamic_cast<Node*>(&mManager.getEntityFromId(toId));
 		to->addInLink(this);
+
+		// add arrow head
+		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
+		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
+
+		glm::vec2 direction = toTR->getCenterTransform() - fromTR->getCenterTransform();
+
+		glm::vec2 unitDirection = glm::normalize(direction);
+		float offset = toTR->width + 5.0f;
+
+		glm::vec2 arrowHeadPos = toTR->getCenterTransform() - unitDirection * offset;
+		
+		auto& arrowHead = mManager.addEntity<Empty>();
+
+		// Calculate the angle in radians, and convert it to degrees
+		float angleRadians = atan2(direction.y, direction.x);
+		float angleDegrees = glm::degrees(angleRadians);
+
+		glm::ivec2 arrowSize(10, 20);
+		glm::vec2 farrowSize(10.0f, 20.0f);
+
+		arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), Manager::actionLayer, arrowSize, 1);
+		arrowHead.addComponent<Triangle_w_Color>();
+		arrowHead.GetComponent<Triangle_w_Color>().color = Color(255, 255, 255, 255);
+
+		arrowHead.addGroup(Manager::groupArrowHeads_0);
+
+		arrowHead.GetComponent<TransformComponent>().setRotation(angleDegrees + 90.0f);
+
+		arrowHead.setParentEntity(this);
+		_children.push_back(&arrowHead);
+
+		mManager.grid->addNode(&arrowHead, mManager.grid->getGridLevel());
 	}
 
 	LinkEntity(Manager& mManager, Entity* mfrom, Entity* mto)
@@ -147,6 +252,10 @@ public:
 	void update(float deltaTime) override
 	{
 		Entity::update(deltaTime);
+
+		for (auto& child : _children) {
+			child->update(deltaTime);
+		}
 	}
 
 	void cellUpdate() override {
@@ -206,6 +315,11 @@ public:
 
 	void destroy() {
 		Entity::destroy();
+
+		for (auto& child : _children) {
+			child->destroy();
+		}
+
 		manager.updateActiveEntities();
 	}
 

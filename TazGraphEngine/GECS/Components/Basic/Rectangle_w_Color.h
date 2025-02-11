@@ -6,7 +6,6 @@ class Rectangle_w_Color : public Component
 {
 public:
 	Color color = { 255, 255, 255, 255 };
-	float rotation = 0.0f;
 
 	SDL_Rect destRect;
 	TransformComponent* transform = nullptr;
@@ -16,10 +15,6 @@ public:
 
 	}
 
-	Rectangle_w_Color(float degrees) 
-		: rotation(degrees)
-	{
-	}
 
 	~Rectangle_w_Color() {
 
@@ -41,6 +36,8 @@ public:
 
 	void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override {
 		float tempScreenScale = window.getScale();
+		float rotation = transform->getRotation();
+
 		glm::vec4 pos((float)destRect.x * tempScreenScale, (float)destRect.y * tempScreenScale, (float)destRect.w * tempScreenScale, (float)destRect.h * tempScreenScale);
 		batch.draw(pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, transform->getZIndex(), color, rotation);
 	}

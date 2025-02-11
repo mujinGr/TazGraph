@@ -18,7 +18,7 @@ Manager manager;
 Map* Graph::map = nullptr;
 TazGraphEngine::Window* Graph::_window = nullptr;
 
-auto& cursor(manager.addEntity(-1));
+auto& cursor(manager.addEntityWithId<Node>(-1));
 
 float nodeRadius = 1.0f;
 
@@ -440,9 +440,6 @@ void Graph::EndRender() {
 }
 
 void Graph::renderBatch(const std::vector<Entity*>& entities, LineRenderer& batch) {
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
-
 	for (const auto& entity : entities) {
 		// todo do culling here
 		entity->draw(batch, *Graph::_window);
@@ -450,22 +447,9 @@ void Graph::renderBatch(const std::vector<Entity*>& entities, LineRenderer& batc
 }
 
 void Graph::renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch) { 
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
-
 	for (const auto& entity : entities) {
-		if (entity->hasComponent<Rectangle_w_Color>()) {
-			Rectangle_w_Color entityRectangle = entity->GetComponent<Rectangle_w_Color>();
-			if (checkCollision(entityRectangle.destRect, main_camera2D->getCameraRect())) { //todo: draw culling, apply this on all entities
-				entity->draw(batch, *Graph::_window);
-			}
-		}
-		else {
-			entity->draw(batch, *Graph::_window);
-		}
+		entity->draw(batch, *Graph::_window);
 	}
-
-	 // todo: instead of rendering on each group, import all entities for renderBatches
 }
 
 void Graph::draw()
@@ -582,6 +566,7 @@ void Graph::draw()
 	renderBatch(manager.getVisibleGroup(Manager::groupNodes_0), _PlaneModelRenderer);
 	renderBatch(manager.getVisibleGroup(Manager::groupGroupNodes_0), _PlaneModelRenderer);
 	renderBatch(manager.getVisibleGroup(Manager::groupGroupNodes_1), _PlaneModelRenderer);
+	renderBatch(manager.getVisibleGroup(Manager::groupArrowHeads_0), _PlaneModelRenderer);
 
 	renderBatch(cursors, _PlaneModelRenderer);
 	_PlaneModelRenderer.end();

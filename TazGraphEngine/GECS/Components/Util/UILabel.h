@@ -2,6 +2,7 @@
 
 #include "../../../PNG_Letters.h"
 #include "../../Components.h"
+#include "../../UtilComponents.h"
 
 class Manager;
 
@@ -65,16 +66,17 @@ public:
 		letters.clear();
 		label = lab;
 		for (char c : label) {
-			auto& label(_manager->addEntity());
-			SDL_Rect charRect = getLetterRect(c);
-			label.addComponent<TransformComponent>(transform->getPosition(), Manager::actionLayer,
-				glm::ivec2(charRect.w, charRect.h),//!set the dest.w/h from the table and then also set src.x/y/w/h. dest.x/y is based on previous letter and original label position
-				1);
-			label.addComponent<SpriteComponent>(fontFamily);
-			label.GetComponent<SpriteComponent>().srcRect.x = charRect.x;
-			label.GetComponent<SpriteComponent>().srcRect.y = charRect.y;
+			// todo make this as an entity
+			//auto& label(_manager->addEntity());
+			//SDL_Rect charRect = getLetterRect(c);
+			//label.addComponent<TransformComponent>(transform->getPosition(), Manager::actionLayer,
+			//	glm::ivec2(charRect.w, charRect.h),//!set the dest.w/h from the table and then also set src.x/y/w/h. dest.x/y is based on previous letter and original label position
+			//	1);
+			//label.addComponent<SpriteComponent>(fontFamily);
+			//label.GetComponent<SpriteComponent>().srcRect.x = charRect.x;
+			//label.GetComponent<SpriteComponent>().srcRect.y = charRect.y;
 
-			letters.push_back(&label);
+			//letters.push_back(&label);
 
 		}
 	}

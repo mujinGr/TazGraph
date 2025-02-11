@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include "GECS/Components.h"
+#include "GECS/UtilComponents.h"
 #include "Window/Window.h"
 #include "AABB/AABB.h"
 #include <algorithm>

@@ -8,6 +8,7 @@
 #include "ImGuiInterface/ImGuiInterface.h"
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
 #include "GECS/Components.h"
+#include "GECS/UtilComponents.h"
 
 namespace fs = std::filesystem;
 

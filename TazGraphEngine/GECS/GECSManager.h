@@ -164,6 +164,17 @@ public:
 	}
 
 	template <typename T, typename... TArgs>
+	T& addEntityWithId(unsigned int id, TArgs&&... mArgs)
+	{
+		T* e(new T(*this, std::forward<TArgs>(mArgs)...));
+		e->setId(id);
+		std::unique_ptr<T> uPtr{ e };
+		entities.emplace_back(std::move(uPtr));
+
+		return *e;
+	}
+
+	template <typename T, typename... TArgs>
 	T& addEntity(TArgs&&... mArgs)
 	{
 		T* e(new T(*this, std::forward<TArgs>(mArgs)...));
@@ -176,21 +187,6 @@ public:
 
 	void resetEntityId() {
 		lastEntityId = 0;
-	}
-
-	Entity& addEntity()
-	{
-		return addEntity(lastEntityId++);
-	}
-
-	Entity& addEntity(int id)
-	{
-		Entity* e = new Entity(*this);
-		e->setId(id);
-		std::unique_ptr<Entity> uPtr{ e };
-		entities.emplace_back(std::move(uPtr));
-
-		return *e;
 	}
 
 	Entity& getEntityFromId(unsigned int mId) {
@@ -250,6 +246,8 @@ public:
 		groupGroupLinks_0,
 		groupGroupLinks_1,
 
+		groupArrowHeads_0,
+
 		groupNodes_0,
 		groupGroupNodes_0,
 		groupGroupNodes_1,
@@ -268,6 +266,8 @@ public:
 		{ groupLinks_0,"groupLinks_0" },
 		{groupGroupLinks_0, "groupGroupLinks_0"},
 		{groupGroupLinks_1, "groupGroupLinks_1"},
+
+		{groupArrowHeads_0, "groupArrowHeads_0"},
 
 		{ groupNodes_0,"groupNodes_0" },
 		{ groupGroupNodes_0, "groupGroupNodes_0"},

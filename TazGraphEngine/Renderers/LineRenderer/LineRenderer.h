@@ -3,10 +3,48 @@
 #include "../../GLSLProgram.h"
 #include <GL/glew.h>
 #include <glm/glm.hpp>
-#include "../../Vertex.h"
-#include "../../Camera2.5D/CameraManager.h"
 #include <vector>
 
+#include "../../Vertex.h"
+
+#define LINE_OFFSET 2
+#define BOX_OFFSET 4
+
+enum class LineGlyphSortType {
+	NONE,
+	FRONT_TO_BACK,
+	BACK_TO_FRONT
+};
+
+class RenderLineBatch {
+public:
+	RenderLineBatch(GLuint Offset, GLuint NumIndices) : offset(Offset),
+		numIndices(NumIndices){
+
+	}
+	GLuint offset;
+	GLuint numIndices;
+};
+
+class LineGlyph {
+	
+public:
+	LineGlyph() {};
+	LineGlyph(const glm::vec2& fromPosition, const glm::vec2& toPosition, const Color& srcColor, const Color& destColor, float mdepth, const Color& color) :
+		depth(mdepth) {
+
+		fromV.color = color;
+		fromV.setPosition(fromPosition.x, fromPosition.y, depth);
+
+		toV.color = color;
+		toV.setPosition(toPosition.x, toPosition.y, depth);
+	};
+
+	float depth;
+
+	ColorVertex fromV;
+	ColorVertex toV;
+};
 
 class LineRenderer {
 public:
@@ -39,29 +77,35 @@ void main() {
 	~LineRenderer();
 
 	void init();
+	void begin(LineGlyphSortType sortType = LineGlyphSortType::FRONT_TO_BACK);
+
 	void end();
-	void drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& srcColor, const Color& destColor, float zIndex);
+
+	void drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& srcColor, const Color& destColor, float mDepth);
 	void drawBox(const glm::vec4& destRect, const Color& color, float angle, float zIndex =0.0f);
 	void drawCircle(const glm::vec2& center, const Color& color, float radius);
+
 	void renderBatch(float lineWidth);
+	
 	void dispose();
 
-	struct LineVertex { //instead of using the general Vertex that has also info about texture
-							// we use this where we want just color
-		Position position;
-		Color color;
-
-		void setPosition(glm::vec3 mposition) {
-			position.x = mposition.x;
-			position.y = mposition.y;
-			position.z = mposition.z;
-		}
-	};
-
 private:
-	std::vector<LineVertex> _verts;
-	std::vector<GLuint> _indices;
+	void createRenderBatches();
+	void createVertexArray();
+	void sortGlyphs();
+
+	bool compareFrontToBack(LineGlyph* a, LineGlyph* b);
+	bool compareBackToFront(LineGlyph* a, LineGlyph* b);
+
 	GLuint _vbo = 0, _vao = 0, _ibo = 0; //! ibo is what is going to store the integers for each 
+
+	LineGlyphSortType _sortType;
+
+	std::vector<LineGlyph*> _lineGlyphPointers;
+	std::vector<LineGlyph>	_lineGlyphs;
+
 	//! vertex so we can use index drawing, without specifying the lines by duplicating the vertices
 	int _numElements = 0;
+
+	std::vector<RenderLineBatch> _renderBatches;
 };

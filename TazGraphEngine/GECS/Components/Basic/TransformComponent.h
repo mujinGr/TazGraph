@@ -65,18 +65,19 @@ public:
 		SDL_FRect dimensions = { _position.x, _position.y, width, height };
 		SDL_FRect cameraDimensions = _main_camera2D->getCameraRect();
 		
-		if (entity->getParentEntity() != nullptr) {
-			_position.x = entity->getParentEntity()->GetComponent<TransformComponent>().getPosition().x;
-			_position.y = entity->getParentEntity()->GetComponent<TransformComponent>().getPosition().y;
+		// todo do this for component when needed
+		//if (entity->getParentEntity() != nullptr) {
+		//	_position.x = entity->getParentEntity()->GetComponent<TransformComponent>().getPosition().x;
+		//	_position.y = entity->getParentEntity()->GetComponent<TransformComponent>().getPosition().y;
 
-			// here i can have specific positioning based on display layout of entity
-			// todo: create a UILayout Class for the entities that have inside them other entities that also has a enum 
-			// todo: for the layout mode
-			_position.x += entity->getParentEntity()->GetComponent<TransformComponent>().getSizeCenter().x 
-				- getSizeCenter().x ;
-			_position.y += entity->getParentEntity()->GetComponent<TransformComponent>().getSizeCenter().y 
-				- getSizeCenter().y ;
-		}
+		//	// here i can have specific positioning based on display layout of entity
+		//	// todo: create a UILayout Class for the entities that have inside them other entities that also has a enum 
+		//	// todo: for the layout mode
+		//	_position.x += entity->getParentEntity()->GetComponent<TransformComponent>().getSizeCenter().x 
+		//		- getSizeCenter().x ;
+		//	_position.y += entity->getParentEntity()->GetComponent<TransformComponent>().getSizeCenter().y 
+		//		- getSizeCenter().y ;
+		//}
 
 		_position.x += _velocity.x * speed * deltaTime;
 		float distanceY = _velocity.y * speed * deltaTime;

@@ -5,6 +5,7 @@
 #include "./Components/Basic/TransformComponent.h"
 #include "./Components/Basic/SpriteComponent.h"
 #include "./Components/Basic/ColliderComponent.h"
+#include "./Components/Basic/Triangle_w_Color.h"
 #include "./Components/Basic/Rectangle_w_Color.h"
 #include "./Components/Basic/Line_w_Color.h"
 
@@ -14,9 +15,4 @@
 #include "./Animators/FlashAnimatorComponent.h"
 
 
-#include "./Components/Util/UILabel.h"
-#include "./Components/Util/ButtonComponent.h"
-#include "./Components/Util/RigidBodyComponent.h"
-#include "./Components/Util/KeyboardControllerComponent.h"
-#include "./Components/Util/GridComponent.h"
 

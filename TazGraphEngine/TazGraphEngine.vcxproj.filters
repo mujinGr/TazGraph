@@ -242,5 +242,11 @@
     <ClInclude Include="Renderers\FrameBuffer\Framebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GECS\Components\Basic\Triangle_w_Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GECS\UtilComponents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

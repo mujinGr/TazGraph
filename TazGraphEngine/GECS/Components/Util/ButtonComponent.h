@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Components.h"
+#include "../../UtilComponents.h"
 #include <functional>  // For std::function
 
 class ButtonComponent : public Component {
@@ -38,7 +39,7 @@ public:
     void init() override {
         if (buttonLabel.length() > 0) {
             // need different shader to render text so it has to be different 
-            uiLabel = &entity->getManager()->addEntity();
+            uiLabel = &entity->getManager()->addEntity<Node>();
             
             uiLabel->addComponent<TransformComponent>(glm::vec2(0, 0), Manager::actionLayer, glm::ivec2(32, 32), 1);
             uiLabel->addComponent<UILabel>(uiLabel->getManager(), buttonLabel, "arial");
@@ -48,7 +49,7 @@ public:
             uiLabel->addGroup(Manager::buttonLabels);
         }
         if (bDimensions != glm::ivec2(0, 0)) {
-            buttonBackground = &entity->getManager()->addEntity();
+            buttonBackground = &entity->getManager()->addEntity<Node>();
 
             buttonBackground->addComponent<TransformComponent>(glm::vec2(0, 0), Manager::actionLayer, bDimensions, 1);
             buttonBackground->addComponent<Rectangle_w_Color>();

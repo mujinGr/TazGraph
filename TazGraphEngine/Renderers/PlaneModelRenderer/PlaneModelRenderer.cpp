@@ -19,6 +19,9 @@ void PlaneModelRenderer::begin(GlyphSortType sortType/*GlyphSortType::TEXTURE*/)
 
 	_glyphPointers.clear();
 	_glyphs.clear();
+
+	_triangleGlyphPointers.clear();
+	_triangleGlyphs.clear();
 }
 void PlaneModelRenderer::end() {
 	//set up all pointers for fast sorting
@@ -26,11 +29,23 @@ void PlaneModelRenderer::end() {
 	for (int i = 0; i < _glyphs.size(); i++) {
 		_glyphPointers[i] = &_glyphs[i];
 	}
+	_triangleGlyphPointers.resize(_triangleGlyphs.size());
+	for (int i = 0; i < _triangleGlyphs.size(); i++) {
+		_triangleGlyphPointers[i] = &_triangleGlyphs[i];
+	}
 	sortGlyphs();
 
 	createRenderBatches();
 }
 
+
+void PlaneModelRenderer::drawTriangle(
+	const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
+	const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
+	GLuint texture, float depth, const Color& color, float angle = 0.f
+) {
+	_triangleGlyphs.emplace_back(v1,v2,v3,uv1,uv2,uv3, texture, depth, color, angle);
+}
 // we can generalize the renderer for multiple kinds of meshes (triangle made instead of planes) by creating
 // more draw functions for those meshes (like draw function for triangle).
 // Also instead of glyphs have triangles, so when its time to createRenderBatches we see the next mesh
@@ -53,36 +68,60 @@ void PlaneModelRenderer::renderBatch() {
 
 void PlaneModelRenderer::createRenderBatches() {
 	std::vector<Vertex> vertices;
-	vertices.resize(_glyphPointers.size() * 6);
-	if (_glyphPointers.empty()) {
+	vertices.resize((_glyphPointers.size() * RECT_OFFSET) + (_triangleGlyphPointers.size() * TRIANGLE_OFFSET));
+	if (_glyphPointers.empty() && _triangleGlyphPointers.empty()) {
 		return;
 	}
 
 	int offset = 0;
 	int cv = 0; //current vertex
-	_renderBatches.emplace_back(offset, 6, _glyphPointers[0]->texture);
-	vertices[cv++] = _glyphPointers[0]->topLeft;
-	vertices[cv++] = _glyphPointers[0]->bottomLeft;
-	vertices[cv++] = _glyphPointers[0]->bottomRight;
-	vertices[cv++] = _glyphPointers[0]->bottomRight;
-	vertices[cv++] = _glyphPointers[0]->topRight;
-	vertices[cv++] = _glyphPointers[0]->topLeft;
-	offset += 6;
+	if (_glyphPointers.size())
+	{
+		_renderBatches.emplace_back(offset, RECT_OFFSET, _glyphPointers[0]->texture);
+		vertices[cv++] = _glyphPointers[0]->topLeft;
+		vertices[cv++] = _glyphPointers[0]->bottomLeft;
+		vertices[cv++] = _glyphPointers[0]->bottomRight;
+		vertices[cv++] = _glyphPointers[0]->bottomRight;
+		vertices[cv++] = _glyphPointers[0]->topRight;
+		vertices[cv++] = _glyphPointers[0]->topLeft;
+		offset += RECT_OFFSET;
 
-	for (int cg = 1; cg < _glyphPointers.size(); cg++) { //current Glyph
-		if (_glyphPointers[cg]->texture != _glyphPointers[cg - 1]->texture) {
-			_renderBatches.emplace_back(offset, 6, _glyphPointers[0]->texture);
+		for (int cg = 1; cg < _glyphPointers.size(); cg++) { //current Glyph
+			if (_glyphPointers[cg]->texture != _glyphPointers[cg - 1]->texture) {
+				_renderBatches.emplace_back(offset, RECT_OFFSET, _glyphPointers[0]->texture);
+			}
+			else {
+				_renderBatches.back().numVertices += RECT_OFFSET;
+			}
+			vertices[cv++] = _glyphPointers[cg]->topLeft;
+			vertices[cv++] = _glyphPointers[cg]->bottomLeft;
+			vertices[cv++] = _glyphPointers[cg]->bottomRight;
+			vertices[cv++] = _glyphPointers[cg]->bottomRight;
+			vertices[cv++] = _glyphPointers[cg]->topRight;
+			vertices[cv++] = _glyphPointers[cg]->topLeft;
+			offset += RECT_OFFSET;
 		}
-		else {
-			_renderBatches.back().numVertices += 6;
+	}
+
+	if (_triangleGlyphPointers.size()) {
+		_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, _triangleGlyphPointers[0]->texture);
+		vertices[cv++] = _triangleGlyphPointers[0]->topLeft;
+		vertices[cv++] = _triangleGlyphPointers[0]->bottomLeft;
+		vertices[cv++] = _triangleGlyphPointers[0]->bottomRight;
+		offset += TRIANGLE_OFFSET;
+
+		for (int cg = 1; cg < _triangleGlyphPointers.size(); cg++) { //current Glyph
+			if (_triangleGlyphPointers[cg]->texture != _triangleGlyphPointers[cg - 1]->texture) {
+				_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, _triangleGlyphPointers[0]->texture);
+			}
+			else {
+				_renderBatches.back().numVertices += TRIANGLE_OFFSET;
+			}
+			vertices[cv++] = _triangleGlyphPointers[cg]->topLeft;
+			vertices[cv++] = _triangleGlyphPointers[cg]->bottomLeft;
+			vertices[cv++] = _triangleGlyphPointers[cg]->bottomRight;
+			offset += TRIANGLE_OFFSET;
 		}
-		vertices[cv++] = _glyphPointers[cg]->topLeft;
-		vertices[cv++] = _glyphPointers[cg]->bottomLeft;
-		vertices[cv++] = _glyphPointers[cg]->bottomRight;
-		vertices[cv++] = _glyphPointers[cg]->bottomRight;
-		vertices[cv++] = _glyphPointers[cg]->topRight;
-		vertices[cv++] = _glyphPointers[cg]->topLeft;
-		offset += 6;
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);

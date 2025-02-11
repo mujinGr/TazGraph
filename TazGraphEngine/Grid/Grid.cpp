@@ -1,5 +1,7 @@
 #include "Grid.h"
 #include "../GECS/Components.h"
+#include "../GECS/UtilComponents.h"
+
 #include <unordered_set>
 
 Grid::Grid(int width, int height, int cellSize)

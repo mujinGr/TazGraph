@@ -41,13 +41,10 @@ struct UV {
 	float v;
 };
 
-struct Vertex {
+struct ColorVertex { //instead of using the general Vertex that has also info about texture
+	// we use this where we want just color
 	Position position;
-
 	Color color;
-
-	// UV texture coordinates
-	UV uv;
 
 	void setPosition(float x, float y, float z = -5.0f) {
 		position.x = x;
@@ -61,6 +58,11 @@ struct Vertex {
 		color.b = b;
 		color.a = a;
 	}
+};
+
+struct Vertex  : ColorVertex{
+	// UV texture coordinates
+	UV uv;
 
 	void setUV(float u, float v) {
 		uv.u = u;

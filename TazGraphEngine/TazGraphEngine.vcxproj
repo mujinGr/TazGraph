@@ -184,6 +184,8 @@
     <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="DataManager\DataManager.h" />
     <ClInclude Include="GECS\Components\Basic\Line_w_Color.h" />
+    <ClInclude Include="GECS\Components\Basic\Triangle_w_Color.h" />
+    <ClInclude Include="GECS\UtilComponents.h" />
     <ClInclude Include="GECS\GECSEntityTypes.h" />
     <ClInclude Include="JsonParser\JsonParser.h" />
     <ClInclude Include="Renderers\FrameBuffer\Framebuffer.h" />
