@@ -159,6 +159,7 @@ public:
 	void begin(GlyphSortType sortType = GlyphSortType::TEXTURE);
 	void end();
 
+	void initBatch(size_t mSize);
 	void drawTriangle(const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3, const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3, GLuint texture, float depth, const Color& color, float angle);
 
 	void draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color, float angle = 0);

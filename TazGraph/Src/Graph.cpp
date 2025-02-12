@@ -270,10 +270,19 @@ void Graph::update(float deltaTime) //game objects updating
 
 
 void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-
 	auto cells = manager.grid->getAdjacentCells(cursor, manager.grid->getGridLevel());
 	for (auto cell : cells) {
+		for (auto& entity : cell->links) {
+
+			if (checkCircleLineCollision(worldCoords, 5,
+				entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(),
+				entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform())
+				) {
+				_selectedEntity = entity;  // Store a pointer or reference to the selected entity
+				break;
+			}
+
+		}
 		for (auto& entity : cell->nodes) {
 			if (entity->hasGroup(Manager::cursorGroup)) {
 				continue;
@@ -281,8 +290,8 @@ void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
 			TransformComponent* tr = &entity->GetComponent<TransformComponent>();
 			glm::vec2 pos = glm::vec2(tr->getPosition().x, tr->getPosition().y);
 			// Check if the mouse click is within the entity's bounding box
-			if (worldCoords.x > pos.x && worldCoords.x < pos.x + tr->width &&
-				worldCoords.y > pos.y && worldCoords.y < pos.y + tr->height) {
+			//todo call check collision
+			if (checkCollision(SDL_FRect{worldCoords.x,worldCoords.y, 0,0 }, tr->bodyDims)) {
 				_selectedEntity = entity;  // Store a pointer or reference to the selected entity
 				_app->_inputManager.setObjectRelativePos(glm::vec2(worldCoords - pos));
 				break;
@@ -441,13 +450,14 @@ void Graph::EndRender() {
 }
 
 void Graph::renderBatch(const std::vector<Entity*>& entities, LineRenderer& batch) {
+	batch.initBatch(entities.size());
 	for (const auto& entity : entities) {
-		// todo do culling here
 		entity->draw(batch, *Graph::_window);
 	}
 }
 
 void Graph::renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch) { 
+	batch.initBatch(entities.size());
 	for (const auto& entity : entities) {
 		entity->draw(batch, *Graph::_window);
 	}
@@ -499,8 +509,8 @@ void Graph::draw()
 					glm::vec4 destRect;
 					destRect.x = tr->getPosition().x;
 					destRect.y = tr->getPosition().y;
-					destRect.z = tr->width;
-					destRect.w = tr->height;
+					destRect.z = tr->bodyDims.w;
+					destRect.w = tr->bodyDims.h;
 					_LineRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f, 0.0f); //todo add angle for drawbox
 					//_LineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
 					//break;
@@ -514,8 +524,8 @@ void Graph::draw()
 			glm::vec4 destRect;
 			destRect.x = tr->getPosition().x;
 			destRect.y = tr->getPosition().y;
-			destRect.z = tr->width;
-			destRect.w = tr->height;
+			destRect.z = tr->bodyDims.w;
+			destRect.w = tr->bodyDims.h;
 			_LineRenderer.drawBox(destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawbox
 		}
 		_LineRenderer.drawBox(glm::vec4(-ROW_CELL_SIZE / 2, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE/2, COLUMN_CELL_SIZE/2), Color(255, 0, 255, 255), 0.0f, 0.0f);

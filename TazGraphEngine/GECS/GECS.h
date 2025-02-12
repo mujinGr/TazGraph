@@ -58,13 +58,6 @@ public:
 	virtual void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) {}
 	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) {}
 
-	virtual SDL_Rect getRect() 
-	{
-		SDL_Rect a;
-		a.x = a.y = a.w = a.h = 0;
-		return a;
-	}
-
 	virtual ~Component() {}
 };
 

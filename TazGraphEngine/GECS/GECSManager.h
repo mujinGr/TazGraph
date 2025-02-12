@@ -136,13 +136,8 @@ public:
 		groupedEntities[mGroup].emplace_back(mEntity);
 	}
 
-	std::vector<Entity*> getEntities() const {
-		std::vector<Entity*> allEntities;
-		allEntities.reserve(entities.size());
-		for (const auto& entity : entities) {
-			allEntities.push_back(entity.get());
-		}
-		return allEntities;
+	const std::vector<std::unique_ptr<Entity>>& getEntities() const {
+		return entities;
 	}
 
 	std::vector<Entity*> getVisibleNodes() {

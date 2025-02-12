@@ -10,12 +10,12 @@ private:
 	std::shared_ptr<PerspectiveCamera> _main_camera2D;
 	float _zIndex = 0.0f;
 	float _rotation = 0.0f;
-
-	glm::vec2 _position;
+	// todo make position as SDL_FRect
+	
 	glm::vec2 _velocity;
 public:
-	float height = 32;
-	float width = 32;
+	SDL_FRect bodyDims = { 0,0,32,32 };
+
 	float scale = 1;
 
 	int speed = 1;
@@ -24,23 +24,21 @@ public:
 
 	TransformComponent()
 	{
-		_position = glm::zero<glm::vec2>();
 	}
 
 	TransformComponent(float sc)
 	{
-		_position = glm::zero<glm::vec2>();
 		scale = sc;
 	}
 
 	TransformComponent(glm::vec2 position)
 	{
-		_position = position;
+		bodyDims.x = position.x;
+		bodyDims.y = position.y;
 	}
 
 	TransformComponent(glm::vec2 position, Layer layer , glm::vec2 size, float sc) : TransformComponent(position){
-		width = size.x;
-		height = size.y;
+		bodyDims = { position.x, position.y, size.x,size.y };
 		_zIndex = entity->getLayerValue(layer);
 		scale = sc;
 	}
@@ -50,8 +48,7 @@ public:
 		speed = sp;
 	}
 
-	
-	
+
 	void init() override
 	{
 		_velocity = glm::zero<glm::ivec2>();
@@ -62,9 +59,9 @@ public:
 			_main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 		}
 
-		SDL_FRect dimensions = { _position.x, _position.y, width, height };
+		/*SDL_FRect dimensions = { _position.x, _position.y, width, height };
 		SDL_FRect cameraDimensions = _main_camera2D->getCameraRect();
-		
+		*/
 		// todo do this for component when needed
 		//if (entity->getParentEntity() != nullptr) {
 		//	_position.x = entity->getParentEntity()->GetComponent<TransformComponent>().getPosition().x;
@@ -79,12 +76,12 @@ public:
 		//		- getSizeCenter().y ;
 		//}
 
-		_position.x += _velocity.x * speed * deltaTime;
+		bodyDims.x += _velocity.x * speed * deltaTime;
 		float distanceY = _velocity.y * speed * deltaTime;
 		if(distanceY < 1)
-			_position.y += _velocity.y * speed;
+			bodyDims.y += _velocity.y * speed;
 		else
-			_position.y += _velocity.y * speed * deltaTime;
+			bodyDims.y += _velocity.y * speed * deltaTime;
 	}
 
 	glm::vec2 getCenterTransform()
@@ -109,18 +106,18 @@ public:
 	}
 
 	glm::vec2 getPosition() {
-		return _position;
+		return glm::vec2(bodyDims.x, bodyDims.y);
 	}
 
 	glm::vec2 getSizeCenter() {
-		return glm::vec2(width * scale / 2,height * scale / 2);
+		return glm::vec2(bodyDims.w * scale / 2, bodyDims.h * scale / 2);
 	}
 
 	void setPosition_X(int newPosition_X) {
-		_position.x = newPosition_X;
+		bodyDims.x = newPosition_X;
 	}
 	void setPosition_Y(int newPosition_Y) {
-		_position.y = newPosition_Y;
+		bodyDims.y = newPosition_Y;
 	}
 
 	glm::ivec2 getVelocity() {

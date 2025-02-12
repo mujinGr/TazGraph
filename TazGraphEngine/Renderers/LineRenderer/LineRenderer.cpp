@@ -39,6 +39,11 @@ void LineRenderer::end() // on end clear all indices reserved
 	createRenderBatches();
 }
 
+
+void LineRenderer::initBatch(size_t msize)
+{
+	_lineGlyphs.reserve(msize);
+}
 // todo can be optimized, by having something like glyphs in planeModelRenederer where first you pass info in a vector and
 // todo on render pass that info in verts and indices
 void LineRenderer::drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& srcColor, const Color& destColor, float mdepth)
@@ -120,6 +125,7 @@ void LineRenderer::drawCircle(const glm::vec2& center, const Color& color, float
 	//_indices.push_back(start + NUM_VERTS - 1);
 	//_indices.push_back(start);
 }
+
 
 void LineRenderer::renderBatch(float lineWidth )
 {

@@ -38,7 +38,7 @@ void Map::saveMapAsText(const char* fileName) {
 			TransformComponent& tc = entity->GetComponent<TransformComponent>();
 			file << entity->getId() << "\t"; // id is the index in the vector of entities
 			file <<  tc.getPosition().x << " " << tc.getPosition().y << "\t";
-			file << tc.width << "x" << tc.height << "\n";
+			file << tc.bodyDims.w << "x" << tc.bodyDims.h << "\n";
 		}
 	}
 

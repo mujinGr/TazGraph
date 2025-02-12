@@ -27,14 +27,14 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		v1.x = transform->getPosition().x + (transform->width / 2.0f); //make player move with the camera, being stable in centre, except on edges
+		v1.x = transform->getPosition().x + (transform->bodyDims.w / 2.0f); //make player move with the camera, being stable in centre, except on edges
 		v1.y = transform->getPosition().y;
 		
 		v2.x = transform->getPosition().x; //make player move with the camera, being stable in centre, except on edges
-		v2.y = transform->getPosition().y + transform->height;
+		v2.y = transform->getPosition().y + transform->bodyDims.h;
 		
-		v3.x = transform->getPosition().x + transform->width; //make player move with the camera, being stable in centre, except on edges
-		v3.y = transform->getPosition().y + transform->height;
+		v3.x = transform->getPosition().x + transform->bodyDims.w; //make player move with the camera, being stable in centre, except on edges
+		v3.y = transform->getPosition().y + transform->bodyDims.h;
 
 		//transform->setRotation(transform->getRotation() + 0.1f);
 	}

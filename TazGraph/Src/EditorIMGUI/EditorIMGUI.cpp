@@ -160,7 +160,7 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 
 			TransformComponent* tr = &selectedEntity->GetComponent<TransformComponent>();
 			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
-			ImGui::Text("Size: (%f, %f)", tr->width, tr->height);
+			ImGui::Text("Size: (%f, %f)", tr->bodyDims.w, tr->bodyDims.h);
 			SDL_FRect cellBox = manager.grid->getCell(*selectedEntity, manager.grid->getGridLevel())->boundingBox;
 			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
 		}
@@ -339,7 +339,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 					color = ImVec4(initialColor.r / 255.0f, initialColor.g / 255.0f, initialColor.b / 255.0f, initialColor.a / 255.0f);
 
 					TransformComponent* tr = &entity->GetComponent<TransformComponent>();
-					float initialSize[2] = { tr->width, tr->height };
+					float initialSize[2] = { tr->bodyDims.w, tr->bodyDims.h };
 					size = initialSize[0];
 					break;
 				}
@@ -360,8 +360,8 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 
 				if (ImGui::SliderFloat("Node Size", &size, 0, 100)) {
 					for (auto& entity : groupVec) {
-							entity->GetComponent<TransformComponent>().width = size;
-							entity->GetComponent<TransformComponent>().height = size;
+							entity->GetComponent<TransformComponent>().bodyDims.w = size;
+							entity->GetComponent<TransformComponent>().bodyDims.h = size;
 					}
 				}
 
@@ -443,12 +443,13 @@ void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImV
 }
 
 void EditorIMGUI::SceneTabs() {
+	ImGui::Begin("Scene Tabs");
 	struct Scene {
 		std::string name;
 		std::string filePath;
 	};
 	std::vector<Scene> scenes = {};
-	scenes.push_back({ "asdasd", "asdasdasd" });
+	scenes.push_back({ "asdasasdasdasd", "asdasdasd" });
 	scenes.push_back({ "asaasdasd", "asdasdasd" });
 	scenes.push_back({ "asasdasdasdasdasd", "dfssdfsdfasdasdasd" });
 
@@ -463,4 +464,5 @@ void EditorIMGUI::SceneTabs() {
 		}
 		ImGui::EndTabBar();
 	}
+	ImGui::End();
 }

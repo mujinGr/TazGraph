@@ -39,6 +39,11 @@ void PlaneModelRenderer::end() {
 }
 
 
+void PlaneModelRenderer::initBatch(size_t mSize)
+{
+	_triangleGlyphs.reserve(mSize);
+}
+
 void PlaneModelRenderer::drawTriangle(
 	const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
 	const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,

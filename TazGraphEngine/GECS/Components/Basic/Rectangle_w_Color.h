@@ -23,15 +23,15 @@ public:
 	void init() override {
 		transform = &entity->GetComponent<TransformComponent>();
 
-		destRect.w = transform->width * transform->scale;
-		destRect.h = transform->height * transform->scale;
+		destRect.w = transform->bodyDims.w * transform->scale;
+		destRect.h = transform->bodyDims.h * transform->scale;
 	}
 
 	void update(float deltaTime) override {
 		destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
 		destRect.y = static_cast<int>(transform->getPosition().y);
-		destRect.w = transform->width * transform->scale;
-		destRect.h = transform->height * transform->scale;
+		destRect.w = transform->bodyDims.w * transform->scale;
+		destRect.h = transform->bodyDims.h * transform->scale;
 	}
 
 	void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override {

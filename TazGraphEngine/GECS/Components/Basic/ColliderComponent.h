@@ -59,8 +59,8 @@ public:
 		{
 			collider.x = static_cast<int>(transform->getPosition().x) + (2 * (transform->scale) * COL_POS_OFFSET);
 			collider.y = static_cast<int>(transform->getPosition().y) + (2 * (transform->scale) * COL_POS_OFFSET);
-			collider.w = (transform->width * transform->scale) - (4 * (transform->scale) * COL_POS_OFFSET);
-			collider.h = (transform->height * transform->scale) - (2 * (transform->scale) * COL_POS_OFFSET);
+			collider.w = (transform->bodyDims.w * transform->scale) - (4 * (transform->scale) * COL_POS_OFFSET);
+			collider.h = (transform->bodyDims.h * transform->scale) - (2 * (transform->scale) * COL_POS_OFFSET);
 		}
 
 		//destR.x = collider.x - main_camera2D->worldLocation.x;
@@ -76,7 +76,7 @@ public:
 	{
 	}
 
-	SDL_Rect getRect() override
+	SDL_Rect getRect()
 	{
 		return collider;
 	}

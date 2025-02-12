@@ -85,6 +85,7 @@ void main() {
 	void drawBox(const glm::vec4& destRect, const Color& color, float angle, float zIndex =0.0f);
 	void drawCircle(const glm::vec2& center, const Color& color, float radius);
 
+	void initBatch(size_t msize);
 	void renderBatch(float lineWidth);
 	
 	void dispose();

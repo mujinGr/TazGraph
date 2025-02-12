@@ -47,11 +47,11 @@ public:
 		for (auto& l : letters) {
 			l->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x + previousCharX) ;
 			l->GetComponent<TransformComponent>().setPosition_Y(transform->getPosition().y);
-			previousCharX += l->GetComponent<TransformComponent>().width;
+			previousCharX += l->GetComponent<TransformComponent>().bodyDims.w;
 		}
 
-		if (previousCharX > transform->width) {
-			transform->width = previousCharX;
+		if (previousCharX > transform->bodyDims.w) {
+			transform->bodyDims.w = previousCharX;
 		}
 	}
 

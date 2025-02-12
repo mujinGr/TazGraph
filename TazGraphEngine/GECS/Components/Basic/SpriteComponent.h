@@ -73,14 +73,14 @@ public:
 		transform = &entity->GetComponent<TransformComponent>();
 		
 		srcRect.x = srcRect.y = 0;
-		srcRect.w = transform->width;
-		srcRect.h = transform->height;
+		srcRect.w = transform->bodyDims.w;
+		srcRect.h = transform->bodyDims.h;
 
 		destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
 		destRect.y = static_cast<int>(transform->getPosition().y);
 
-		destRect.w = transform->width * transform->scale;
-		destRect.h = transform->height * transform->scale;
+		destRect.w = transform->bodyDims.w * transform->scale;
+		destRect.h = transform->bodyDims.h * transform->scale;
 
 
 	}
@@ -140,8 +140,8 @@ public:
 	}
 
 	void setCurrFrame() {
-		this->srcRect.x = (this->animation.indexX * this->transform->width) /* init */ + ( this->srcRect.w * animation.cur_frame_index/* curframe from total frams */);
-		this->srcRect.y = this->animation.indexY * this->transform->height;
+		this->srcRect.x = (this->animation.indexX * this->transform->bodyDims.w) /* init */ + ( this->srcRect.w * animation.cur_frame_index/* curframe from total frams */);
+		this->srcRect.y = this->animation.indexY * this->transform->bodyDims.h;
 	}
 
 	void setMoveFrame() {

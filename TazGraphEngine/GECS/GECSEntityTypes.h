@@ -209,7 +209,7 @@ public:
 		glm::vec2 direction = toTR->getCenterTransform() - fromTR->getCenterTransform();
 
 		glm::vec2 unitDirection = glm::normalize(direction);
-		float offset = toTR->width + 5.0f;
+		float offset = toTR->bodyDims.w + 5.0f;
 
 		glm::vec2 arrowHeadPos = toTR->getCenterTransform() - unitDirection * offset;
 		
