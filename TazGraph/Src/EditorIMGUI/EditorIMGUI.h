@@ -48,5 +48,5 @@ public:
 	void MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onLoadSimulator, std::function<void()> onExitSimulator);
 	void ShowAllEntities(Manager& manager, float& m_nodeRadius);
 	void SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize);
-	void SceneTabs();
+	std::string SceneTabs();
 };

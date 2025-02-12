@@ -442,27 +442,21 @@ void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImV
 	ImGui::EndChild();
 }
 
-void EditorIMGUI::SceneTabs() {
+std::string EditorIMGUI::SceneTabs() {
 	ImGui::Begin("Scene Tabs");
-	struct Scene {
-		std::string name;
-		std::string filePath;
-	};
-	std::vector<Scene> scenes = {};
-	scenes.push_back({ "asdasasdasdasd", "asdasdasd" });
-	scenes.push_back({ "asaasdasd", "asdasdasd" });
-	scenes.push_back({ "asasdasdasdasdasd", "dfssdfsdfasdasdasd" });
-
+	
+	std::vector<std::string> scenes = { "test_links.txt", "test_medium" };
 
 	if (ImGui::BeginTabBar("SceneTabs")) {
 		for (int i = 0; i < scenes.size(); i++) {
 			// Check if the tab is selected
 			bool isSelected = ( i == 1);
-			if (ImGui::BeginTabItem(scenes[i].name.c_str(), nullptr, isSelected ? ImGuiTabItemFlags_SetSelected : 0)) {
+			if (ImGui::BeginTabItem(scenes[i].c_str(), nullptr, isSelected ? ImGuiTabItemFlags_SetSelected : 0)) {
 				ImGui::EndTabItem();
 			}
 		}
 		ImGui::EndTabBar();
 	}
 	ImGui::End();
+	return scenes[0];
 }

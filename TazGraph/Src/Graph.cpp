@@ -485,11 +485,12 @@ void Graph::draw()
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	_LineRenderer.begin();
-	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
-
+	
 	// Debug Rendering
 	if (_renderDebug) {
+		_LineRenderer.begin();
+		_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
+
 		std::vector<Cell*> intercectedCells = manager.grid->getIntersectedCameraCells(*main_camera2D, manager.grid->getGridLevel());
 		for (const auto& cell : intercectedCells) {
 			glm::vec4 destRect(cell->boundingBox.x, cell->boundingBox.y, cell->boundingBox.w, cell->boundingBox.h);
@@ -533,22 +534,22 @@ void Graph::draw()
 		_LineRenderer.drawBox(glm::vec4(-ROW_CELL_SIZE / 2, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
 		_LineRenderer.drawBox(glm::vec4(0, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
 
-
 		_LineRenderer.end();
-		_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f * manager.grid->getGridLevel());
+		_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f * (manager.grid->getGridLevel() + 1));
 		glsl_lineColor.unuse();
 
 	}
-	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
-
 	glm::vec4 destRect;
-	destRect.x = main_camera2D->getPosition().x - main_camera2D->getCameraDimensions().x/2;
-	destRect.y = main_camera2D->getPosition().y - main_camera2D->getCameraDimensions().y/2;
+	destRect.x = main_camera2D->getPosition().x - main_camera2D->getCameraDimensions().x / 2;
+	destRect.y = main_camera2D->getPosition().y - main_camera2D->getCameraDimensions().y / 2;
 	destRect.z = main_camera2D->getCameraDimensions().x;
 	destRect.w = main_camera2D->getCameraDimensions().y;
 
 	_LineRenderer.drawBox(destRect, Color(0, 0, 0, 255), 0.0f, 0.0f);
 
+	_LineRenderer.begin();
+	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
+	
 	renderBatch(manager.getVisibleGroup(Manager::groupLinks_0), _LineRenderer);
 
 	renderBatch(manager.getVisibleGroup(Manager::groupGroupLinks_0), _LineRenderer);

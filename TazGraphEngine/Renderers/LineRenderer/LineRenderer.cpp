@@ -24,6 +24,9 @@ void LineRenderer::begin(LineGlyphSortType sortType)
 
 	_lineGlyphPointers.clear();
 	_lineGlyphs.clear();
+
+	_squareGlyphPointers.clear();
+	_squareGlyphs.clear();
 }
 
 void LineRenderer::end() // on end clear all indices reserved
@@ -32,6 +35,10 @@ void LineRenderer::end() // on end clear all indices reserved
 	_lineGlyphPointers.resize(_lineGlyphs.size());
 	for (int i = 0; i < _lineGlyphs.size(); i++) {
 		_lineGlyphPointers[i] = &_lineGlyphs[i];
+	}
+	_squareGlyphPointers.resize(_squareGlyphs.size());
+	for (int i = 0; i < _squareGlyphs.size(); i++) {
+		_squareGlyphPointers[i] = &_squareGlyphs[i];
 	}
 
 	sortGlyphs();
@@ -54,6 +61,7 @@ void LineRenderer::drawLine(const glm::vec2 srcPosition, const glm::vec2 destPos
 
 void LineRenderer::drawBox(const glm::vec4& destRect, const Color& color, float angle, float zIndex)
 {
+	_squareGlyphs.emplace_back(destRect, color, angle, zIndex);
 	//int i = _verts.size();
 	//_verts.resize(_verts.size() + 4); // more efficient than calling pushBack 4 times
 
@@ -143,36 +151,81 @@ void LineRenderer::createRenderBatches() {
 	std::vector<ColorVertex> vertices;
 	std::vector<GLuint> indices;
 
-	vertices.resize(_lineGlyphPointers.size() * LINE_OFFSET);
-	indices.resize(_lineGlyphPointers.size() * LINE_OFFSET);
+	vertices.resize(_lineGlyphPointers.size() * LINE_OFFSET + _squareGlyphPointers.size() * SQUARE_OFFSET);
+	indices.resize(_lineGlyphPointers.size() * LINE_OFFSET + _squareGlyphPointers.size() * SQUARE_OFFSET * 2);
 
-	if (_lineGlyphPointers.empty()) {
+	if (_lineGlyphPointers.empty() && _squareGlyphPointers.empty()) {
 		return;
 	}
 
 	int offset = 0;
 	int cv = 0; //current vertex
 
-	_renderBatches.emplace_back(offset, LINE_OFFSET);
-	indices[cv] = cv;
-	vertices[cv++] = _lineGlyphPointers[0]->fromV;
-	indices[cv] = cv;
-	vertices[cv++] = _lineGlyphPointers[0]->toV;
-
-	offset += LINE_OFFSET;
-
-	for (int cg = 1; cg < _lineGlyphPointers.size(); cg++) { //current Glyph
-
-		_renderBatches.back().numIndices += LINE_OFFSET;
-
+	if (_lineGlyphPointers.size()) {
+		_renderBatches.emplace_back(offset, LINE_OFFSET);
 		indices[cv] = cv;
-		vertices[cv++] = _lineGlyphPointers[cg]->fromV;
+		vertices[cv++] = _lineGlyphPointers[0]->fromV;
 		indices[cv] = cv;
-		vertices[cv++] = _lineGlyphPointers[cg]->toV;
+		vertices[cv++] = _lineGlyphPointers[0]->toV;
+
 		offset += LINE_OFFSET;
+
+		for (int cg = 1; cg < _lineGlyphPointers.size(); cg++) { //current Glyph
+
+			_renderBatches.back().numIndices += LINE_OFFSET;
+
+			indices[cv] = cv;
+			vertices[cv++] = _lineGlyphPointers[cg]->fromV;
+			indices[cv] = cv;
+			vertices[cv++] = _lineGlyphPointers[cg]->toV;
+			offset += LINE_OFFSET;
+		}
 	}
+	if (_squareGlyphPointers.size()) {
+		_renderBatches.emplace_back(offset, SQUARE_OFFSET);
 
+		indices[cv * 2] = cv;
+		indices[cv * 2 + 1] = cv /*+ 1*/;
+		vertices[cv++] = _squareGlyphPointers[0]->topLeft;
 
+		indices[cv * 2] = cv;
+		indices[cv * 2 + 1] = cv /*+ 1*/;
+		vertices[cv++] = _squareGlyphPointers[0]->bottomLeft;
+
+		indices[cv * 2] = cv;
+		indices[cv * 2 + 1] = cv /*+ 1*/;
+		vertices[cv++] = _squareGlyphPointers[0]->bottomRight;
+
+		indices[cv * 2] = cv;
+		indices[cv * 2 + 1] = cv /*- SQUARE_OFFSET + 1*/;
+		vertices[cv++] = _squareGlyphPointers[0]->topRight;
+
+		offset += SQUARE_OFFSET;
+
+		for (int cg = 1; cg < _squareGlyphPointers.size(); cg++) { //current Glyph
+
+			_renderBatches.back().numIndices += 2 * SQUARE_OFFSET;
+
+			indices[cv * 2] = cv;        
+			indices[cv * 2 + 1] = cv + 1;
+			vertices[cv++] = _squareGlyphPointers[cg]->topLeft;
+
+			indices[cv * 2] = cv;
+			indices[cv * 2 + 1] = cv + 1;
+			vertices[cv++] = _squareGlyphPointers[cg]->bottomLeft;
+
+			indices[cv * 2] = cv;
+			indices[cv * 2 + 1] = cv + 1;
+			vertices[cv++] = _squareGlyphPointers[cg]->bottomRight;
+
+			indices[cv * 2] = cv;
+			indices[cv * 2 + 1] = cv - SQUARE_OFFSET + 1;
+			vertices[cv++] = _squareGlyphPointers[cg]->topRight;
+
+			offset += SQUARE_OFFSET;
+		}
+	}
+	
 	//Bind buffer for the information for the vertexes
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	//Orphan the buffer : replace the memory block for the buffer object, 

@@ -8,7 +8,7 @@
 #include "../../Vertex.h"
 
 #define LINE_OFFSET 2
-#define BOX_OFFSET 4
+#define SQUARE_OFFSET 4
 
 enum class LineGlyphSortType {
 	NONE,
@@ -44,6 +44,56 @@ public:
 
 	ColorVertex fromV;
 	ColorVertex toV;
+};
+
+class SquareGlyph {
+
+public:
+	SquareGlyph() {};
+	SquareGlyph(const glm::vec4& destRect, const Color& color, float angle, float mdepth) :
+		depth(mdepth) {
+
+		float centerX = destRect.x + destRect.z / 2.0f;
+		float centerY = destRect.y + destRect.w / 2.0f;
+
+		// Convert angle from degrees to radians if necessary
+		float radians = glm::radians(angle);
+
+
+		auto rotatePoint = [&](float x, float y) -> glm::vec2 {
+			float dx = x - centerX;
+			float dy = y - centerY;
+			return glm::vec2(
+				centerX + dx * cos(radians) - dy * sin(radians),
+				centerY + dx * sin(radians) + dy * cos(radians)
+			);
+			};
+
+		glm::vec2 rotatedTopLeft = rotatePoint(destRect.x, destRect.y);
+		glm::vec2 rotatedBottomLeft = rotatePoint(destRect.x, destRect.y + destRect.w);
+		glm::vec2 rotatedBottomRight = rotatePoint(destRect.x + destRect.z, destRect.y + destRect.w);
+		glm::vec2 rotatedTopRight = rotatePoint(destRect.x + destRect.z, destRect.y);
+
+		topLeft.color = color;
+		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y, depth);
+
+		bottomLeft.color = color;
+		bottomLeft.setPosition(rotatedBottomLeft.x, rotatedBottomLeft.y, depth);
+
+		bottomRight.color = color;
+		bottomRight.setPosition(rotatedBottomRight.x, rotatedBottomRight.y, depth);
+
+		topRight.color = color;
+		topRight.setPosition(rotatedTopRight.x, rotatedTopRight.y, depth);
+
+	};
+
+	float depth;
+
+	ColorVertex topLeft;
+	ColorVertex bottomLeft;
+	ColorVertex bottomRight;
+	ColorVertex topRight;
 };
 
 class LineRenderer {
@@ -101,6 +151,9 @@ private:
 
 	std::vector<LineGlyph*> _lineGlyphPointers;
 	std::vector<LineGlyph>	_lineGlyphs;
+
+	std::vector<SquareGlyph*> _squareGlyphPointers;
+	std::vector<SquareGlyph> _squareGlyphs;
 
 	std::vector<RenderLineBatch> _renderBatches;
 };
