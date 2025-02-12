@@ -329,6 +329,9 @@ void Graph::checkInput() {
 				if (main_camera2D->getScale() > main_camera2D->getMinScale()) {
 					main_camera2D->setScale(main_camera2D->getScale() - SCALE_SPEED);
 				}
+				else {
+					main_camera2D->setScale(main_camera2D->getMinScale());
+				}
 			}
 			break;
 		case SDL_MOUSEMOTION:
@@ -539,6 +542,8 @@ void Graph::draw()
 		glsl_lineColor.unuse();
 
 	}
+	_LineRenderer.begin();
+
 	glm::vec4 destRect;
 	destRect.x = main_camera2D->getPosition().x - main_camera2D->getCameraDimensions().x / 2;
 	destRect.y = main_camera2D->getPosition().y - main_camera2D->getCameraDimensions().y / 2;
@@ -546,6 +551,10 @@ void Graph::draw()
 	destRect.w = main_camera2D->getCameraDimensions().y;
 
 	_LineRenderer.drawBox(destRect, Color(0, 0, 0, 255), 0.0f, 0.0f);
+	
+	_LineRenderer.end();
+	_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f * (manager.grid->getGridLevel() + 1));
+
 
 	_LineRenderer.begin();
 	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);

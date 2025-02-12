@@ -86,6 +86,6 @@ private:
 		{Level::Outer2, {0.0f, 4}}
 	};
 
-	Level _level;
-	Level _lastLevel;
+	Level _level = Level::Basic;
+	Level _lastLevel = Level::Basic;
 };

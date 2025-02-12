@@ -161,6 +161,50 @@ void LineRenderer::createRenderBatches() {
 	int offset = 0;
 	int cv = 0; //current vertex
 
+	if (_squareGlyphPointers.size()) {
+		_renderBatches.emplace_back(offset, 2 * SQUARE_OFFSET);
+
+		indices[cv * 2] = cv;
+		indices[cv * 2 + 1] = cv + 1;
+		vertices[cv++] = _squareGlyphPointers[0]->topLeft;
+
+		indices[cv * 2] = cv;
+		indices[cv * 2 + 1] = cv + 1;
+		vertices[cv++] = _squareGlyphPointers[0]->bottomLeft;
+
+		indices[cv * 2] = cv;
+		indices[cv * 2 + 1] = cv + 1;
+		vertices[cv++] = _squareGlyphPointers[0]->bottomRight;
+
+		indices[cv * 2] = cv;
+		indices[cv * 2 + 1] = cv - SQUARE_OFFSET + 1;
+		vertices[cv++] = _squareGlyphPointers[0]->topRight;
+
+		offset += 2 * SQUARE_OFFSET;
+
+		for (int cg = 1; cg < _squareGlyphPointers.size(); cg++) { //current Glyph
+
+			_renderBatches.back().numIndices += 2 * SQUARE_OFFSET;
+
+			indices[cv * 2] = cv;
+			indices[cv * 2 + 1] = cv + 1;
+			vertices[cv++] = _squareGlyphPointers[cg]->topLeft;
+
+			indices[cv * 2] = cv;
+			indices[cv * 2 + 1] = cv + 1;
+			vertices[cv++] = _squareGlyphPointers[cg]->bottomLeft;
+
+			indices[cv * 2] = cv;
+			indices[cv * 2 + 1] = cv + 1;
+			vertices[cv++] = _squareGlyphPointers[cg]->bottomRight;
+
+			indices[cv * 2] = cv;
+			indices[cv * 2 + 1] = cv - SQUARE_OFFSET + 1;
+			vertices[cv++] = _squareGlyphPointers[cg]->topRight;
+
+			offset += 2 * SQUARE_OFFSET;
+		}
+	}
 	if (_lineGlyphPointers.size()) {
 		_renderBatches.emplace_back(offset, LINE_OFFSET);
 		indices[cv] = cv;
@@ -179,50 +223,6 @@ void LineRenderer::createRenderBatches() {
 			indices[cv] = cv;
 			vertices[cv++] = _lineGlyphPointers[cg]->toV;
 			offset += LINE_OFFSET;
-		}
-	}
-	if (_squareGlyphPointers.size()) {
-		_renderBatches.emplace_back(offset, SQUARE_OFFSET);
-
-		indices[cv * 2] = cv;
-		indices[cv * 2 + 1] = cv /*+ 1*/;
-		vertices[cv++] = _squareGlyphPointers[0]->topLeft;
-
-		indices[cv * 2] = cv;
-		indices[cv * 2 + 1] = cv /*+ 1*/;
-		vertices[cv++] = _squareGlyphPointers[0]->bottomLeft;
-
-		indices[cv * 2] = cv;
-		indices[cv * 2 + 1] = cv /*+ 1*/;
-		vertices[cv++] = _squareGlyphPointers[0]->bottomRight;
-
-		indices[cv * 2] = cv;
-		indices[cv * 2 + 1] = cv /*- SQUARE_OFFSET + 1*/;
-		vertices[cv++] = _squareGlyphPointers[0]->topRight;
-
-		offset += SQUARE_OFFSET;
-
-		for (int cg = 1; cg < _squareGlyphPointers.size(); cg++) { //current Glyph
-
-			_renderBatches.back().numIndices += 2 * SQUARE_OFFSET;
-
-			indices[cv * 2] = cv;        
-			indices[cv * 2 + 1] = cv + 1;
-			vertices[cv++] = _squareGlyphPointers[cg]->topLeft;
-
-			indices[cv * 2] = cv;
-			indices[cv * 2 + 1] = cv + 1;
-			vertices[cv++] = _squareGlyphPointers[cg]->bottomLeft;
-
-			indices[cv * 2] = cv;
-			indices[cv * 2 + 1] = cv + 1;
-			vertices[cv++] = _squareGlyphPointers[cg]->bottomRight;
-
-			indices[cv * 2] = cv;
-			indices[cv * 2 + 1] = cv - SQUARE_OFFSET + 1;
-			vertices[cv++] = _squareGlyphPointers[cg]->topRight;
-
-			offset += SQUARE_OFFSET;
 		}
 	}
 	
