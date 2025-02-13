@@ -83,7 +83,7 @@ public:
 private:
 	float _backgroundColor[4] = { 0.78f,0.88f,1.f, 1.0f };
 
-	void selectEntityAtPosition(glm::vec2 worldCoords);
+	void selectEntityAtPosition(glm::vec2 worldCoords, int activateMode);
 	void checkInput();
 	bool onPauseGraph();
 
@@ -96,6 +96,7 @@ private:
 	ResourceManager _resourceManager;
 
 	Entity* _selectedEntity = nullptr;
+	Entity* _displayedEntity = nullptr;
 	
 	int _nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 	int _prevSceneIndex = SCENE_INDEX_MAIN_MENU;
@@ -117,6 +118,8 @@ private:
 
 	ImVec2 _windowPos;
 	ImVec2 _windowSize;
+
+	glm::vec2 _mousePosition;
 };
 
 

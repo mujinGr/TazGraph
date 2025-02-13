@@ -165,6 +165,10 @@ public:
 		glm::vec2 position = this->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
 		ImGui::Text("Position: (%.2f, %.2f)", position.x, position.y);
 	}
+
+	void imgui_display() override {
+		ImGui::Text("Display Info Here Node");
+	}
 	
 	void destroy() {
 		Entity::destroy();
@@ -311,6 +315,10 @@ public:
 		for (auto cell : ownerCells) {
 			ImGui::Text("- %.2f , %.2f", cell->boundingBox.x, cell->boundingBox.y);
 		}
+	}
+
+	void imgui_display() override {
+		ImGui::Text("Display Info Here Link");
 	}
 
 	void destroy() {

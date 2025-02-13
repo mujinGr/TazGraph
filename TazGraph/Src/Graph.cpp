@@ -269,20 +269,10 @@ void Graph::update(float deltaTime) //game objects updating
 
 
 
-void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
+void Graph::selectEntityAtPosition(glm::vec2 worldCoords, int activateMode) {
 	auto cells = manager.grid->getAdjacentCells(cursor, manager.grid->getGridLevel());
+	bool hasSelected = false;
 	for (auto cell : cells) {
-		for (auto& entity : cell->links) {
-
-			if (checkCircleLineCollision(worldCoords, 5,
-				entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(),
-				entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform())
-				) {
-				_selectedEntity = entity;  // Store a pointer or reference to the selected entity
-				break;
-			}
-
-		}
 		for (auto& entity : cell->nodes) {
 			if (entity->hasGroup(Manager::cursorGroup)) {
 				continue;
@@ -290,12 +280,38 @@ void Graph::selectEntityAtPosition(glm::vec2 worldCoords) {
 			TransformComponent* tr = &entity->GetComponent<TransformComponent>();
 			glm::vec2 pos = glm::vec2(tr->getPosition().x, tr->getPosition().y);
 			// Check if the mouse click is within the entity's bounding box
-			//todo call check collision
 			if (checkCollision(SDL_FRect{worldCoords.x,worldCoords.y, 0,0 }, tr->bodyDims)) {
-				_selectedEntity = entity;  // Store a pointer or reference to the selected entity
+				if (activateMode == SDL_BUTTON_RIGHT)
+				{
+					_displayedEntity = entity;
+				}
+				else if(activateMode == SDL_BUTTON_LEFT) {
+					_selectedEntity = entity;
+				}
 				_app->_inputManager.setObjectRelativePos(glm::vec2(worldCoords - pos));
+				hasSelected = true;
 				break;
 			}
+		}
+
+		if (hasSelected) break;
+		
+		for (auto& entity : cell->links) {
+
+			if (checkCircleLineCollision(worldCoords, 2,
+				entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(),
+				entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform())
+				) {
+				if (activateMode == SDL_BUTTON_RIGHT)
+				{
+					_displayedEntity = entity;
+				}
+				else if (activateMode == SDL_BUTTON_LEFT) {
+					_selectedEntity = entity;
+				}
+				break;
+			}
+
 		}
 	}
 }
@@ -336,28 +352,37 @@ void Graph::checkInput() {
 			break;
 		case SDL_MOUSEMOTION:
 		{
-			_app->_inputManager.setMouseCoords(
-				mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(),
-				mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight()
-			);
+			ImVec2 mainViewportSize = ImGui::GetMainViewport()->Size;
 
 			mouseCoordsVec = _app->_inputManager.getMouseCoords();
-			ImVec2 mainViewportSize = ImGui::GetMainViewport()->Size;
-			float scaleCameraToViewportX = mainViewportSize.x / main_camera2D->getCameraDimensions().x;
-			float scaleCameraToViewportY = mainViewportSize.y / main_camera2D->getCameraDimensions().y;
+
+			glm::vec2 viewportSize(mainViewportSize.x , mainViewportSize.y);
+
+			glm::vec2 windowPos(_windowPos.x, _windowPos.y);
+			glm::vec2 windowDimension(_window->getScreenWidth(), _window->getScreenHeight());
+			glm::vec2 windowSize(_windowSize.x, _windowSize.y);
+
+			glm::vec2 getCameraMousePos = _app->_inputManager.convertWindowToCameraCoords(
+				mouseCoordsVec,
+				viewportSize,
+				windowDimension,
+				windowPos, windowSize,
+				*main_camera2D
+			);
 
 			_app->_inputManager.setMouseCoords(
-				((mouseCoordsVec.x * scaleCameraToViewportX) - _windowPos.x) * main_camera2D->getCameraDimensions().x / _windowSize.x,
-				((mouseCoordsVec.y * scaleCameraToViewportY) - _windowPos.y) * main_camera2D->getCameraDimensions().y / _windowSize.y
+				getCameraMousePos.x,
+				getCameraMousePos.y
 			);
 
 			mouseCoordsVec = _app->_inputManager.getMouseCoords();
 
 			if (_selectedEntity) {
-				_selectedEntity->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(mouseCoordsVec).x - _app->_inputManager.getObjectRelativePos().x);
-				_selectedEntity->GetComponent<TransformComponent>().setPosition_Y(convertScreenToWorld(mouseCoordsVec).y - _app->_inputManager.getObjectRelativePos().y);
-				if (_selectedEntity->hasComponent<GridComponent>())
-					_selectedEntity->GetComponent<GridComponent>().updateCollidersGrid();
+				Node* node = dynamic_cast<Node*>(_selectedEntity);
+				if (node) {
+					_selectedEntity->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(mouseCoordsVec).x - _app->_inputManager.getObjectRelativePos().x);
+					_selectedEntity->GetComponent<TransformComponent>().setPosition_Y(convertScreenToWorld(mouseCoordsVec).y - _app->_inputManager.getObjectRelativePos().y);
+				}
 			}
 
 			if (_app->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
@@ -369,17 +394,24 @@ void Graph::checkInput() {
 			}
 		}
 		case SDL_MOUSEBUTTONDOWN:
-			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) { // this is for selection and moving around nodes
 				std::cout << "clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
 				if (_selectedEntity == nullptr) {
-					selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec));
+					selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec), SDL_BUTTON_LEFT);
 					std::cout << "convertedScreenToWorld: " << convertScreenToWorld(mouseCoordsVec).x << " - " << convertScreenToWorld(mouseCoordsVec).y << std::endl;
+				}
+				if (_displayedEntity) {
+					_displayedEntity = nullptr;
 				}
 			}
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
 				_app->_inputManager.setPanningPoint(mouseCoordsVec / main_camera2D->getScale());
 				_app->_inputManager.setStartDragPos(main_camera2D->getPosition());
+			}
+			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
+				std::cout << "right-clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
+				selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec) , SDL_BUTTON_RIGHT);
 			}
 		case SDL_MOUSEBUTTONUP:
 			if (!_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
@@ -445,6 +477,10 @@ void Graph::updateUI() {
 	}
 
 	_editorImgui.SceneTabs();
+	
+	//glm::vec2 worldToVieport
+	_editorImgui.ShowStatisticsAbout(_app->_inputManager.getMouseCoords(), _displayedEntity);
+
 	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
 }
 
@@ -522,15 +558,16 @@ void Graph::draw()
 
 			}
 		}
-		if (_selectedEntity) {
-			TransformComponent* tr = &_selectedEntity->GetComponent<TransformComponent>();
+		if (_selectedEntity && _selectedEntity->hasComponent<TransformComponent>()) {
+				TransformComponent* tr = &_selectedEntity->GetComponent<TransformComponent>();
 
-			glm::vec4 destRect;
-			destRect.x = tr->getPosition().x;
-			destRect.y = tr->getPosition().y;
-			destRect.z = tr->bodyDims.w;
-			destRect.w = tr->bodyDims.h;
-			_LineRenderer.drawBox(destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawbox
+				glm::vec4 destRect;
+				destRect.x = tr->getPosition().x;
+				destRect.y = tr->getPosition().y;
+				destRect.z = tr->bodyDims.w;
+				destRect.w = tr->bodyDims.h;
+				_LineRenderer.drawBox(destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawbox
+
 		}
 		_LineRenderer.drawBox(glm::vec4(-ROW_CELL_SIZE / 2, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE/2, COLUMN_CELL_SIZE/2), Color(255, 0, 255, 255), 0.0f, 0.0f);
 		_LineRenderer.drawBox(glm::vec4(0, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);

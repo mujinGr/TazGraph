@@ -187,5 +187,7 @@ public:
 	virtual void setParentEntity(Entity* pEntity) {}
 
 	virtual void imgui_print() {}
+
+	virtual void imgui_display() {}
 };
 

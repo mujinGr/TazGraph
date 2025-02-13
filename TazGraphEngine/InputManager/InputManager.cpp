@@ -92,3 +92,50 @@ glm::vec2 InputManager::getObjectRelativePos()
 {
     return _relativeObjectPos;
 }
+
+glm::vec2 InputManager::convertWindowToCameraCoords(glm::vec2 mousePos,
+    glm::vec2 viewportSize,
+    glm::vec2 windowDimensions,
+    const glm::vec2& windowPos, const glm::vec2& windowSize,
+    const ICamera& camera
+) {
+    
+    glm::vec2 cameraDimensions = camera.getCameraDimensions();
+
+    float scale_CToV_X = viewportSize.x / cameraDimensions.x ;
+    float scale_CToV_Y = viewportSize.y / cameraDimensions.y ;
+
+    glm::vec2 interMouseCoord(
+        mousePos.x * cameraDimensions.x / windowDimensions.x,
+        mousePos.y * cameraDimensions.y / windowDimensions.y);
+
+    mousePos.x = ((interMouseCoord.x * scale_CToV_X) - windowPos.x) * cameraDimensions.x / windowSize.x;
+    mousePos.y = ((interMouseCoord.y * scale_CToV_Y) - windowPos.y) * cameraDimensions.y / windowSize.y;
+    glm::vec2 resultMousePos(mousePos.x, mousePos.y);
+    return resultMousePos;
+}
+
+glm::vec2 InputManager::convertCameraToWindowCoords(glm::vec2 mousePos,
+    glm::vec2 viewportSize,
+    glm::vec2 windowDimensions,
+    const glm::vec2& windowPos, const glm::vec2& windowSize,
+    const ICamera& camera
+) {
+    glm::vec2 cameraDimensions = camera.getCameraDimensions();
+
+    // Calculate the scaling factors from camera to viewport
+    float scale_CToV_X = viewportSize.x / cameraDimensions.x;
+    float scale_CToV_Y = viewportSize.y / cameraDimensions.y;
+
+    // Convert camera coordinates to viewport coordinates
+    glm::vec2 viewportPos(
+        (mousePos.x / cameraDimensions.x) * viewportSize.x,
+        (mousePos.y / cameraDimensions.y) * viewportSize.y);
+
+    // Adjust by window position and scale according to the window dimensions
+    glm::vec2 windowPosAdjusted(
+        ((viewportPos.x + windowPos.x) / viewportSize.x) * windowSize.x,
+        ((viewportPos.y + windowPos.y) / viewportSize.y) * windowSize.y);
+
+    return windowPosAdjusted;
+}

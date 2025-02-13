@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 
 #include <SDL2/SDL.h>
+
+#include "../Camera2.5D/ICamera.h"
 class InputManager {
 public:
     InputManager();
@@ -34,6 +36,20 @@ public:
 
     void setObjectRelativePos(glm::vec2 relativeObjectPos);
     glm::vec2 getObjectRelativePos();
+
+    glm::vec2 convertWindowToCameraCoords(glm::vec2 mousePos,
+        glm::vec2 viewportSize,
+        glm::vec2 windowDimensions,
+        const glm::vec2& windowPos, const glm::vec2& windowSize,
+        const ICamera& camera);
+
+    glm::vec2 convertCameraToWindowCoords(glm::vec2 mousePos,
+        glm::vec2 viewportSize,
+        glm::vec2 windowDimensions,
+        const glm::vec2& windowPos, const glm::vec2& windowSize,
+        const ICamera& camera);
+
+
 private:
     bool wasKeyDown(unsigned int keyID);
 

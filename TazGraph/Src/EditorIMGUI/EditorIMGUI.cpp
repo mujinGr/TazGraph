@@ -369,7 +369,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 
 			}
 
-			if (group == Manager::groupLinks_0) {
+			if (group == Manager::groupLinks_0 || group == Manager::groupGroupLinks_0 || group == Manager::groupGroupLinks_1) {
 				for (auto& entity : groupVec) { // loops 1 time
 					Color initialColor = entity->GetComponent<Line_w_Color>().src_color;
 					color = ImVec4(initialColor.r / 255.0f, initialColor.g / 255.0f, initialColor.b / 255.0f, initialColor.a / 255.0f);
@@ -415,6 +415,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 					}
 
 				}
+				ImGui::TreePop();
 			}
 			
 		}
@@ -459,4 +460,18 @@ std::string EditorIMGUI::SceneTabs() {
 	}
 	ImGui::End();
 	return scenes[0];
+}
+
+void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity)
+{
+	if (!displayedEntity) return;
+
+	ImGui::SetNextWindowPos(ImVec2(mousePos.x, mousePos.y), ImGuiCond_Always, ImVec2(0, 0));
+
+	if (ImGui::Begin("Display Entity Statistics")) {
+		displayedEntity->imgui_print();
+	}
+
+	ImGui::End();
+
 }
