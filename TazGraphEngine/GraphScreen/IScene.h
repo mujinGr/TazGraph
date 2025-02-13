@@ -37,6 +37,8 @@ public:
 	virtual void onEntry() = 0;
 	virtual void onExit() = 0;
 
+	virtual void checkInput() = 0;
+
 	virtual void update(float deltaTime) = 0;
 	virtual void draw() = 0;
 

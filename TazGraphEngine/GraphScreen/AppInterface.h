@@ -34,6 +34,7 @@ public:
 	AudioEngine& getAudioEngine() { return _audioEngine; }
 
 protected:
+	virtual void checkInput();
 	virtual void update(float deltaTime);
 	virtual void draw();
 	virtual void updateUI();

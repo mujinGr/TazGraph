@@ -43,11 +43,11 @@ public:
         const glm::vec2& windowPos, const glm::vec2& windowSize,
         const ICamera& camera);
 
-    glm::vec2 convertCameraToWindowCoords(glm::vec2 mousePos,
+    /*glm::vec2 convertCameraToWindowCoords(glm::vec2 mousePos,
         glm::vec2 viewportSize,
         glm::vec2 windowDimensions,
         const glm::vec2& windowPos, const glm::vec2& windowSize,
-        const ICamera& camera);
+        const ICamera& camera);*/
 
 
 private:

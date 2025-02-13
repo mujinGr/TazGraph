@@ -127,8 +127,6 @@ void MainMenuScreen::update(float deltaTime)
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
 
-	checkInput();
-
 	main_menu_manager.update(deltaTime);
 	main_menu_manager.refresh(main_camera2D.get());
 
@@ -168,8 +166,6 @@ void MainMenuScreen::checkInput() {
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 	SDL_Event evnt;
-
-	_app->_inputManager.update();
 
 	while (SDL_PollEvent(&evnt)) {
 		ImGui_ImplSDL2_ProcessEvent(&evnt);

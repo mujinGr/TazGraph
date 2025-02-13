@@ -115,27 +115,27 @@ glm::vec2 InputManager::convertWindowToCameraCoords(glm::vec2 mousePos,
     return resultMousePos;
 }
 
-glm::vec2 InputManager::convertCameraToWindowCoords(glm::vec2 mousePos,
-    glm::vec2 viewportSize,
-    glm::vec2 windowDimensions,
-    const glm::vec2& windowPos, const glm::vec2& windowSize,
-    const ICamera& camera
-) {
-    glm::vec2 cameraDimensions = camera.getCameraDimensions();
-
-    // Calculate the scaling factors from camera to viewport
-    float scale_CToV_X = viewportSize.x / cameraDimensions.x;
-    float scale_CToV_Y = viewportSize.y / cameraDimensions.y;
-
-    // Convert camera coordinates to viewport coordinates
-    glm::vec2 viewportPos(
-        (mousePos.x / cameraDimensions.x) * viewportSize.x,
-        (mousePos.y / cameraDimensions.y) * viewportSize.y);
-
-    // Adjust by window position and scale according to the window dimensions
-    glm::vec2 windowPosAdjusted(
-        ((viewportPos.x + windowPos.x) / viewportSize.x) * windowSize.x,
-        ((viewportPos.y + windowPos.y) / viewportSize.y) * windowSize.y);
-
-    return windowPosAdjusted;
-}
+//glm::vec2 InputManager::convertCameraToWindowCoords(glm::vec2 mousePos,
+//    glm::vec2 viewportSize,
+//    glm::vec2 windowDimensions,
+//    const glm::vec2& windowPos, const glm::vec2& windowSize,
+//    const ICamera& camera
+//) {
+//    glm::vec2 cameraDimensions = camera.getCameraDimensions();
+//
+//    // Calculate the scaling factors from camera to viewport
+//    float scale_CToV_X = viewportSize.x / cameraDimensions.x;
+//    float scale_CToV_Y = viewportSize.y / cameraDimensions.y;
+//
+//    // Convert camera coordinates to viewport coordinates
+//    glm::vec2 viewportPos(
+//        (mousePos.x / cameraDimensions.x) * viewportSize.x,
+//        (mousePos.y / cameraDimensions.y) * viewportSize.y);
+//
+//    // Adjust by window position and scale according to the window dimensions
+//    glm::vec2 windowPosAdjusted(
+//        ((viewportPos.x + windowPos.x) / viewportSize.x) * windowSize.x,
+//        ((viewportPos.y + windowPos.y) / viewportSize.y) * windowSize.y);
+//
+//    return windowPosAdjusted;
+//}

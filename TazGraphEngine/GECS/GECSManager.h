@@ -7,6 +7,7 @@ class Manager
 {
 private:
 	int lastEntityId = 0;
+	int negativeEntityId = -1;
 	std::vector<std::unique_ptr<Entity>> entities;
 
 	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
@@ -23,6 +24,12 @@ public:
 		for (auto& e : visible_nodes) {
 			if (!e || !e->isActive()) continue;
 			
+			e->update(deltaTime);
+		}
+
+		for (auto& e : visible_links) {
+			if (!e || !e->isActive()) continue;
+
 			e->update(deltaTime);
 		}
 	}
@@ -159,10 +166,10 @@ public:
 	}
 
 	template <typename T, typename... TArgs>
-	T& addEntityWithId(unsigned int id, TArgs&&... mArgs)
+	T& addEntityNoId(TArgs&&... mArgs)
 	{
 		T* e(new T(*this, std::forward<TArgs>(mArgs)...));
-		e->setId(id);
+		e->setId(negativeEntityId--);
 		std::unique_ptr<T> uPtr{ e };
 		entities.emplace_back(std::move(uPtr));
 

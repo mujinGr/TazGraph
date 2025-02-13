@@ -119,7 +119,8 @@ private:
 	ImVec2 _windowPos;
 	ImVec2 _windowSize;
 
-	glm::vec2 _mousePosition;
+	glm::vec2 _sceneMousePosition = {0.f,0.f};
+	glm::vec2 _savedMainViewportMousePosition = { 0.f,0.f };
 };
 
 

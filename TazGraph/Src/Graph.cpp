@@ -18,7 +18,7 @@ Manager manager;
 Map* Graph::map = nullptr;
 TazGraphEngine::Window* Graph::_window = nullptr;
 
-auto& cursor(manager.addEntityWithId<Node>(-1));
+auto& cursor(manager.addEntityNoId<Node>());
 
 float nodeRadius = 1.0f;
 
@@ -202,9 +202,7 @@ void Graph::update(float deltaTime) //game objects updating
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
-	glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
-
-	checkInput(); //handleEvents
+	glm::vec2 mouseCoordsVec = _sceneMousePosition;
 
 	main_camera2D->update();
 	hud_camera2D->update();
@@ -320,14 +318,13 @@ void Graph::checkInput() {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
-	_app->_inputManager.update();
 
 	SDL_Event evnt;
 	while (SDL_PollEvent(&evnt)) {
 		ImGui_ImplSDL2_ProcessEvent(&evnt);
 		_app->onSDLEvent(evnt);
 
-		glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
+		glm::vec2 mouseCoordsVec = _sceneMousePosition; // in graph we have another variable for the worldCoords of mouse
 		
 		switch (evnt.type)
 		{
@@ -354,7 +351,7 @@ void Graph::checkInput() {
 		{
 			ImVec2 mainViewportSize = ImGui::GetMainViewport()->Size;
 
-			mouseCoordsVec = _app->_inputManager.getMouseCoords();
+			glm::vec2 ogMouseCoordsVec = _app->_inputManager.getMouseCoords();
 
 			glm::vec2 viewportSize(mainViewportSize.x , mainViewportSize.y);
 
@@ -363,31 +360,26 @@ void Graph::checkInput() {
 			glm::vec2 windowSize(_windowSize.x, _windowSize.y);
 
 			glm::vec2 getCameraMousePos = _app->_inputManager.convertWindowToCameraCoords(
-				mouseCoordsVec,
+				ogMouseCoordsVec,
 				viewportSize,
 				windowDimension,
 				windowPos, windowSize,
 				*main_camera2D
 			);
 
-			_app->_inputManager.setMouseCoords(
-				getCameraMousePos.x,
-				getCameraMousePos.y
-			);
-
-			mouseCoordsVec = _app->_inputManager.getMouseCoords();
+			_sceneMousePosition = getCameraMousePos;
 
 			if (_selectedEntity) {
 				Node* node = dynamic_cast<Node*>(_selectedEntity);
 				if (node) {
-					_selectedEntity->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(mouseCoordsVec).x - _app->_inputManager.getObjectRelativePos().x);
-					_selectedEntity->GetComponent<TransformComponent>().setPosition_Y(convertScreenToWorld(mouseCoordsVec).y - _app->_inputManager.getObjectRelativePos().y);
+					_selectedEntity->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(_sceneMousePosition).x - _app->_inputManager.getObjectRelativePos().x);
+					_selectedEntity->GetComponent<TransformComponent>().setPosition_Y(convertScreenToWorld(_sceneMousePosition).y - _app->_inputManager.getObjectRelativePos().y);
 				}
 			}
 
 			if (_app->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
 				// Calculate new camera position based on the mouse movement
-				glm::vec2 delta = _app->_inputManager.calculatePanningDelta(mouseCoordsVec / main_camera2D->getScale());
+				glm::vec2 delta = _app->_inputManager.calculatePanningDelta(_sceneMousePosition / main_camera2D->getScale());
 				/*_app->_camera.move(delta);*/
 				main_camera2D->setPosition_X(_app->_inputManager.getStartDragPos().x - delta.x);
 				main_camera2D->setPosition_Y(_app->_inputManager.getStartDragPos().y - delta.y);
@@ -395,7 +387,7 @@ void Graph::checkInput() {
 		}
 		case SDL_MOUSEBUTTONDOWN:
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) { // this is for selection and moving around nodes
-				std::cout << "clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
+				std::cout << "clicked at: " << _sceneMousePosition.x << " - " << _sceneMousePosition.y << std::endl;
 				if (_selectedEntity == nullptr) {
 					selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec), SDL_BUTTON_LEFT);
 					std::cout << "convertedScreenToWorld: " << convertScreenToWorld(mouseCoordsVec).x << " - " << convertScreenToWorld(mouseCoordsVec).y << std::endl;
@@ -412,6 +404,7 @@ void Graph::checkInput() {
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
 				std::cout << "right-clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
 				selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec) , SDL_BUTTON_RIGHT);
+				_savedMainViewportMousePosition = _app->_inputManager.getMouseCoords();
 			}
 		case SDL_MOUSEBUTTONUP:
 			if (!_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
@@ -442,7 +435,7 @@ void Graph::updateUI() {
 	ImGui::Columns(3, "mycolumns");
 	ImGui::BeginChild("Tab 1");
 
-	_editorImgui.BackGroundUIElement(_renderDebug, _app->_inputManager.getMouseCoords(), manager, _selectedEntity, _backgroundColor, CELL_SIZE);
+	_editorImgui.BackGroundUIElement(_renderDebug, _sceneMousePosition, _app->_inputManager.getMouseCoords(), manager, _selectedEntity, _backgroundColor, CELL_SIZE);
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 350.0f);
 	_editorImgui.FPSCounter(getApp()->getFPSLimiter());
 	
@@ -479,7 +472,7 @@ void Graph::updateUI() {
 	_editorImgui.SceneTabs();
 	
 	//glm::vec2 worldToVieport
-	_editorImgui.ShowStatisticsAbout(_app->_inputManager.getMouseCoords(), _displayedEntity);
+	_editorImgui.ShowStatisticsAbout(_savedMainViewportMousePosition, _displayedEntity);
 
 	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
 }

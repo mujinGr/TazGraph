@@ -59,29 +59,30 @@ public:
 			_main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 		}
 
-		/*SDL_FRect dimensions = { _position.x, _position.y, width, height };
 		SDL_FRect cameraDimensions = _main_camera2D->getCameraRect();
-		*/
-		// todo do this for component when needed
-		//if (entity->getParentEntity() != nullptr) {
-		//	_position.x = entity->getParentEntity()->GetComponent<TransformComponent>().getPosition().x;
-		//	_position.y = entity->getParentEntity()->GetComponent<TransformComponent>().getPosition().y;
-
-		//	// here i can have specific positioning based on display layout of entity
-		//	// todo: create a UILayout Class for the entities that have inside them other entities that also has a enum 
-		//	// todo: for the layout mode
-		//	_position.x += entity->getParentEntity()->GetComponent<TransformComponent>().getSizeCenter().x 
-		//		- getSizeCenter().x ;
-		//	_position.y += entity->getParentEntity()->GetComponent<TransformComponent>().getSizeCenter().y 
-		//		- getSizeCenter().y ;
-		//}
-
+		
 		bodyDims.x += _velocity.x * speed * deltaTime;
-		float distanceY = _velocity.y * speed * deltaTime;
-		if(distanceY < 1)
-			bodyDims.y += _velocity.y * speed;
-		else
-			bodyDims.y += _velocity.y * speed * deltaTime;
+		bodyDims.y += _velocity.y * speed * deltaTime;
+		// todo do this for component when needed
+		if (!entity->children.empty()) { // this will not be executed for links since they dont have transformComponent
+
+			if (entity->children["leftPort"]) {
+				entity->children["leftPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x);
+				entity->children["leftPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y + bodyDims.h / 2.0f);
+			}
+			if (entity->children["topPort"]) {
+				entity->children["topPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x + bodyDims.w / 2.0f);
+				entity->children["topPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y );
+			}
+			if (entity->children["rightPort"]) {
+				entity->children["rightPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x + bodyDims.w);
+				entity->children["rightPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y + bodyDims.h / 2.0f);
+			}
+			if (entity->children["bottomPort"]) {
+				entity->children["bottomPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x + bodyDims.w / 2.0f);
+				entity->children["bottomPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y + bodyDims.h);
+			}
+		}
 	}
 
 	glm::vec2 getCenterTransform()

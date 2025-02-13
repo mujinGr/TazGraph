@@ -71,9 +71,12 @@ private:
 	ComponentArray componentArray;//create 2 arrays, this is for the fast access
 	ComponentBitSet componentBitSet;
 	GroupBitSet groupBitSet;
+
 protected:
 	Manager& manager;
 public:
+	std::unordered_map<std::string,Entity*> children;
+
 	void setId(unsigned int m_id) { id = m_id; }
 	unsigned int getId() { return id; }
 
@@ -179,6 +182,16 @@ public:
 	virtual Entity* getToNode() const {
 		return nullptr;
 	}
+
+	virtual Entity* getFromPort() {
+		return nullptr;
+	}
+
+	virtual Entity* getToPort() {
+		return nullptr;
+	}
+
+	virtual void updateLinkPorts() {}
 
 	virtual Entity* getParentEntity() {
 		return nullptr;

@@ -43,6 +43,8 @@ void AppInterface::run() {
 		int i = 0;
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS)
 		{
+			checkInput();
+
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
 			update(deltaTime); //handleEvents first thing in update
 			totalDeltaTime -= deltaTime;
@@ -147,6 +149,19 @@ bool AppInterface::init() {
 bool AppInterface::initSystems() {
 	_window.create("Taz Graph", 800, 640, 1.0f, TazGraphEngine::VISIBLE);
 	return true;
+}
+
+void AppInterface::checkInput() {
+	if (_currentScene) {
+		switch (_currentScene->getState()) {
+		case SceneState::RUNNING:
+			_currentScene->checkInput();
+			break;
+		default:
+			break;
+		}
+		_inputManager.update();
+	}
 }
 
 void AppInterface::update(float deltaTime) {

@@ -27,8 +27,8 @@ public:
 	void draw(LineRenderer& batch, TazGraphEngine::Window& window) override {
 		//float tempScreenScale = window.getScale();
 
-		glm::vec2 fromNodeCenter = entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform();
-		glm::vec2 toNodeCenter = entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform();
+		glm::vec2 fromNodeCenter = entity->getFromPort()->GetComponent<TransformComponent>().getPosition();
+		glm::vec2 toNodeCenter = entity->getToPort()->GetComponent<TransformComponent>().getPosition();
 
 		batch.drawLine(fromNodeCenter, toNodeCenter, src_color, dest_color, 0.0f);
 	}
