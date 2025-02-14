@@ -25,8 +25,9 @@ private:
 
 	// Note: Switch this to true to enable dockspace
 	bool _dockingEnabled = true;
-
 public:
+	bool isMouseInSecondColumn = false;
+
 	EditorIMGUI();
 
 	~EditorIMGUI();

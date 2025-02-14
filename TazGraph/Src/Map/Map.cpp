@@ -169,6 +169,8 @@ void Map::AddDefaultNode(Entity &node, glm::vec2 mPosition)
 	node.addComponent<Rectangle_w_Color>();
 	node.GetComponent<Rectangle_w_Color>().color = Color(0, 40, 224, 255);
 
+	node.GetComponent<TransformComponent>().update(0.0f); // update children positions
+
 	node.addGroup(Manager::groupNodes_0);
 }
 

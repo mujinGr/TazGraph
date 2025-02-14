@@ -403,7 +403,8 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 			}
 
 			
-			if (ImGui::TreeNode("Entities")) {
+			std::string treeNodeLabel = "Entities##" + manager.getGroupName(group);
+			if (ImGui::TreeNode(treeNodeLabel.c_str())) {
 
 				for (auto& entity : groupVec) {
 

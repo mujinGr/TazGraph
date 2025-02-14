@@ -71,7 +71,7 @@ public:
 
 	void destroy() {
 		Entity::destroy();
-		manager.updateActiveEntities();
+		manager.updateActiveEntities(); // cant have it at destroy in baseclass
 	}
 } Empty;
 
@@ -87,21 +87,25 @@ public:
 	NodeEntity(Manager& mManager) : Entity(mManager) {
 
 		auto& leftPort = mManager.addEntityNoId<Empty>();
-		leftPort.addComponent<TransformComponent>();
+		leftPort.addComponent<TransformComponent>().bodyDims.w = 0;
+		leftPort.GetComponent<TransformComponent>().bodyDims.h = 0;
 		children["leftPort"] = &leftPort;
 
 		auto& rightPort = mManager.addEntityNoId<Empty>();
-		rightPort.addComponent<TransformComponent>();
+		rightPort.addComponent<TransformComponent>().bodyDims.w = 0;
+		rightPort.GetComponent<TransformComponent>().bodyDims.h = 0;
 		children["rightPort"] = &rightPort;
 
 		// Initialize top port
 		auto& topPort = mManager.addEntityNoId<Empty>();
-		topPort.addComponent<TransformComponent>();
+		topPort.addComponent<TransformComponent>().bodyDims.w = 0;
+		topPort.GetComponent<TransformComponent>().bodyDims.h = 0;
 		children["topPort"] = &topPort;
 
 		// Initialize bottom port
 		auto& bottomPort = mManager.addEntityNoId<Empty>();
-		bottomPort.addComponent<TransformComponent>();
+		bottomPort.addComponent<TransformComponent>().bodyDims.w = 0;
+		bottomPort.GetComponent<TransformComponent>().bodyDims.h = 0;
 		children["bottomPort"] = &bottomPort;
 	}
 	virtual ~NodeEntity() {
@@ -288,24 +292,26 @@ public:
 	{
 		Entity::update(deltaTime);
 		
+		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
+		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
+
+		fromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
+		toPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());
+
+
 		if (children["ArrowHead"]) {
 			children["ArrowHead"]->update(deltaTime);
 			
 
 			// set position of arrowHead
-			TransformComponent* toTR = &to->GetComponent<TransformComponent>();
-			TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
-
-			fromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
-			toPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());
-
+			
 			TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
 			TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
 
 			glm::vec2 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
 
 			glm::vec2 unitDirection = glm::normalize(direction);
-			float offset = toTR->bodyDims.w + 5.0f;
+			float offset = 10.0f;
 
 			glm::vec2 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
 
@@ -389,11 +395,11 @@ public:
 	}
 
 	Entity* getFromPort() override {
-		return children[fromPort];
+		return from->children[fromPort];
 	}
 
 	Entity* getToPort()  override{
-		return children[toPort];
+		return to->children[toPort];
 	}
 
 

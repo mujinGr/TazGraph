@@ -318,7 +318,7 @@ void Graph::checkInput() {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
-
+	
 	SDL_Event evnt;
 	while (SDL_PollEvent(&evnt)) {
 		ImGui_ImplSDL2_ProcessEvent(&evnt);
@@ -329,6 +329,9 @@ void Graph::checkInput() {
 		switch (evnt.type)
 		{
 		case SDL_MOUSEWHEEL:
+			if (!_editorImgui.isMouseInSecondColumn) {
+				return;
+			}
 			if (evnt.wheel.y > 0)
 			{
 				// Scrolling up
@@ -386,6 +389,9 @@ void Graph::checkInput() {
 			}
 		}
 		case SDL_MOUSEBUTTONDOWN:
+			if (!_editorImgui.isMouseInSecondColumn) {
+				return;
+			}
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) { // this is for selection and moving around nodes
 				std::cout << "clicked at: " << _sceneMousePosition.x << " - " << _sceneMousePosition.y << std::endl;
 				if (_selectedEntity == nullptr) {
@@ -443,6 +449,13 @@ void Graph::updateUI() {
 
 	ImGui::NextColumn();
 	
+	ImVec2 columnStartPos = ImGui::GetCursorScreenPos();
+	ImVec2 columnSize = ImVec2(ImGui::GetColumnWidth(), ImGui::GetContentRegionAvail().y);
+
+	ImVec2 mousePos = ImGui::GetMousePos();
+	_editorImgui.isMouseInSecondColumn = (mousePos.x >= columnStartPos.x && mousePos.x <= (columnStartPos.x + columnSize.x) &&
+		mousePos.y >= columnStartPos.y && mousePos.y <= (columnStartPos.y + columnSize.y));
+
 	_editorImgui.SceneViewport(_framebuffer._framebufferTexture, _windowPos, _windowSize);
 
 	ImGui::NextColumn();
