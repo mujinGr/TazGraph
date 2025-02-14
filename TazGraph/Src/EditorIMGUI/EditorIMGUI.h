@@ -38,6 +38,8 @@ public:
 	bool isGoingBack();
 	void SetGoingBack(bool goingBack);
 
+	void updateFileNamesInAssets();
+
 	bool* getDockspaceRef();
 	void MenuBar();
 

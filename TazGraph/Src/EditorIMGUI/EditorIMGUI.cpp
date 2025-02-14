@@ -1,7 +1,7 @@
 #include "EditorIMGUI.h"
 
 EditorIMGUI::EditorIMGUI() {
-
+	ReloadAccessibleFiles();
 }
 
 EditorIMGUI::~EditorIMGUI() {
@@ -29,6 +29,23 @@ bool EditorIMGUI::isGoingBack()
 
 void EditorIMGUI::SetGoingBack(bool goingBack) {
 	_goingBack = goingBack;
+}
+
+void EditorIMGUI::updateFileNamesInAssets() {
+	_fileNames.clear();
+	const std::string path = "assets/Maps"; // Directory path
+	for (const auto& entry : fs::directory_iterator(path)) {
+		if (entry.is_regular_file()) {
+			_fileNames.push_back(entry.path().filename().string()); // Add file name to vector
+		}
+	}
+}
+
+void EditorIMGUI::ReloadAccessibleFiles() {
+	if (!_filesLoaded) {
+		updateFileNamesInAssets();
+		_filesLoaded = true; // Set to true so we don't reload unnecessarily
+	}
 }
 
 bool* EditorIMGUI::getDockspaceRef()
@@ -198,18 +215,7 @@ void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
 
 }
 
-void EditorIMGUI::ReloadAccessibleFiles() {
-	if (!_filesLoaded) {
-		_fileNames.clear();
-		const std::string path = "assets/Maps"; // Directory path
-		for (const auto& entry : fs::directory_iterator(path)) {
-			if (entry.is_regular_file()) {
-				_fileNames.push_back(entry.path().filename().string()); // Add file name to vector
-			}
-		}
-		_filesLoaded = true; // Set to true so we don't reload unnecessarily
-	}
-}
+
 
 void EditorIMGUI::SavingUI(Map* map) {
 
@@ -447,22 +453,31 @@ void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImV
 }
 
 std::string EditorIMGUI::SceneTabs() {
-	ImGui::Begin("Scene Tabs");
+	float childHeight = 30.0f;
 	
-	std::vector<std::string> scenes = { "test_links.txt", "test_medium" };
+	ImGui::BeginChild("Scene Tabs", ImVec2(0, childHeight), true, ImGuiWindowFlags_NoScrollbar);
+	
+	static std::vector<bool> closeTab(_fileNames.size(), false);
 
 	if (ImGui::BeginTabBar("SceneTabs")) {
-		for (int i = 0; i < scenes.size(); i++) {
-			// Check if the tab is selected
-			bool isSelected = ( i == 1);
-			if (ImGui::BeginTabItem(scenes[i].c_str(), nullptr, isSelected ? ImGuiTabItemFlags_SetSelected : 0)) {
+		for (int i = 0; i < _fileNames.size(); i++) {
+			if (closeTab[i]) continue;
+
+			if (ImGui::BeginTabItem(_fileNames[i].c_str(), nullptr, ImGuiTabItemFlags_None)) {
 				ImGui::EndTabItem();
 			}
 		}
 		ImGui::EndTabBar();
 	}
-	ImGui::End();
-	return scenes[0];
+
+	for (int i = _fileNames.size() - 1; i >= 0; i--) {
+		if (closeTab[i]) {
+			closeTab.erase(closeTab.begin() + i);
+		}
+	}
+
+	ImGui::EndChild();
+	return !_fileNames.empty() ? _fileNames.front() : "nullptr";
 }
 
 void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity)

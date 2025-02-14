@@ -449,6 +449,8 @@ void Graph::updateUI() {
 
 	ImGui::NextColumn();
 	
+	_editorImgui.SceneTabs();
+
 	ImVec2 columnStartPos = ImGui::GetCursorScreenPos();
 	ImVec2 columnSize = ImVec2(ImGui::GetColumnWidth(), ImGui::GetContentRegionAvail().y);
 
@@ -482,7 +484,6 @@ void Graph::updateUI() {
 		_editorImgui.SetGoingBack(false);
 	}
 
-	_editorImgui.SceneTabs();
 	
 	//glm::vec2 worldToVieport
 	_editorImgui.ShowStatisticsAbout(_savedMainViewportMousePosition, _displayedEntity);
