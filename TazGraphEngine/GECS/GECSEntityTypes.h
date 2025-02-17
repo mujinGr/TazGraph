@@ -20,9 +20,9 @@ public:
 
 	void update(float deltaTime)
 	{
-		Entity::update(deltaTime);
-
 		cellUpdate();
+
+		Entity::update(deltaTime);
 	}
 
 	void cellUpdate() override {
@@ -81,6 +81,7 @@ private:
 	std::vector<Entity*> inLinks;
 	std::vector<Entity*> outLinks;
 
+	std::vector<std::string> messageLog;
 public:
 	Cell* ownerCell = nullptr;
 
@@ -114,34 +115,37 @@ public:
 
 	void update(float deltaTime)
 	{
-		Entity::update(deltaTime);
-
 		cellUpdate();
+
+		Entity::update(deltaTime);
 	}
 
 	void cellUpdate() override{
 		if (this->ownerCell) {
-			Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
-			if (newCell != this->ownerCell) {
-				// Need to shift the entity
-				removeEntity();
-				manager.grid->addNode(this, newCell);
+			if (!SDL_FRectEquals(&this->GetComponent<TransformComponent>().last_bodyDims, &this->GetComponent<TransformComponent>().bodyDims))
+			{
+				Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
+				if (newCell != this->ownerCell) {
+					// Need to shift the entity
+					removeEntity();
+					manager.grid->addNode(this, newCell);
 
-				// not important for precision, it is fine to do it only when the cell changes
-				// now updateCells of all the in and out links
+					// not important for precision, it is fine to do it only when the cell changes
+					// now updateCells of all the in and out links
+					for (auto& link : inLinks) {
+						link->cellUpdate();
+					}
+					for (auto& link : outLinks) {
+						link->cellUpdate();
+					}
+
+				}
 				for (auto& link : inLinks) {
-					link->cellUpdate();
+					link->updateLinkPorts();
 				}
 				for (auto& link : outLinks) {
-					link->cellUpdate();
+					link->updateLinkPorts();
 				}
-				
-			}
-			for (auto& link : inLinks) {
-				link->updateLinkPorts();
-			}
-			for (auto& link : outLinks) {
-				link->updateLinkPorts();
 			}
 		}
 	}
@@ -182,17 +186,36 @@ public:
 		outLinks.push_back(link);
 	}
 
-	const std::vector<Entity*>& getInLinks() const {
+	const std::vector<Entity*>& getInLinks() const override {
 		return inLinks;
 	}
 
-	const std::vector<Entity*>& getOutLinks() const {
+	const std::vector<Entity*>& getOutLinks() const override {
 		return outLinks;
+	}
+
+	void addMessage(std::string mMessage) override{
+		messageLog.push_back(mMessage);
 	}
 
 	void imgui_print() override {
 		glm::vec2 position = this->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
 		ImGui::Text("Position: (%.2f, %.2f)", position.x, position.y);
+
+
+		if (ImGui::BeginTable("GroupsTable", 1, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
+			ImGui::TableSetupColumn("Group Name", ImGuiTableColumnFlags_WidthStretch);
+
+			ImGui::TableHeadersRow();
+			for (auto str : messageLog) {
+				ImGui::TableNextRow();
+				ImGui::TableSetColumnIndex(0);
+				ImGui::Text("%s", str.c_str());
+			}
+		}
+		ImGui::EndTable();
+
+
 	}
 
 	void imgui_display() override {
@@ -347,35 +370,33 @@ public:
 
 		if (children["ArrowHead"]) {
 			TransformComponent* tr = &children["ArrowHead"]->GetComponent<TransformComponent>();
-			if (SDL_FRectEquals(&tr->bodyDims, &tr->last_bodyDims)) {
-				children["ArrowHead"]->update(0.0f);
+			
+			children["ArrowHead"]->update(0.0f);
 
-				// set position of arrowHead
+			// set position of arrowHead
 
-				TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
-				TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
+			TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
+			TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
 
-				glm::vec2 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
+			glm::vec2 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
 
-				glm::vec2 unitDirection = glm::normalize(direction);
-				float offset = 10.0f;
+			glm::vec2 unitDirection = glm::normalize(direction);
+			float offset = 10.0f;
 
-				glm::vec2 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
+			glm::vec2 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
 
-				// Calculate the angle in radians, and convert it to degrees
-				float angleRadians = atan2(direction.y, direction.x);
-				float angleDegrees = glm::degrees(angleRadians);
+			// Calculate the angle in radians, and convert it to degrees
+			float angleRadians = atan2(direction.y, direction.x);
+			float angleDegrees = glm::degrees(angleRadians);
 
-				glm::ivec2 arrowSize(10, 20);
-				glm::vec2 farrowSize(10.0f, 20.0f);
+			glm::ivec2 arrowSize(10, 20);
+			glm::vec2 farrowSize(10.0f, 20.0f);
 
-				glm::vec2 newArrowHeadPosition = arrowHeadPos - (farrowSize / 2.0f);
-				children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_X(newArrowHeadPosition.x);
-				children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_Y(newArrowHeadPosition.y);
+			glm::vec2 newArrowHeadPosition = arrowHeadPos - (farrowSize / 2.0f);
+			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_X(newArrowHeadPosition.x);
+			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_Y(newArrowHeadPosition.y);
 
-				children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(angleDegrees + 90.0f);
-
-			}			
+			children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(angleDegrees + 90.0f);
 		}
 	}
 

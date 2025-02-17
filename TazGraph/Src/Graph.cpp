@@ -460,10 +460,10 @@ void Graph::updateUI() {
 	_editorImgui.updateIsMouseInSecondColumn();
 
 	_editorImgui.SceneViewport(_framebuffer._framebufferTexture, _windowPos, _windowSize);
-
+	_editorImgui.ShowFunctionExecutionResults();
 	ImGui::NextColumn();
 	_editorImgui.ShowAllEntities(manager, nodeRadius);
-
+	_editorImgui.entityCalculateFunctions();
 	ImGui::End();
 
 	if (_editorImgui.isSaving()) {

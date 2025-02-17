@@ -81,8 +81,8 @@ private:
 
 	// can change between different scenes/managers
 	std::map<Level, std::pair<float, int>> gridLevels = {
-		{Level::Basic,  {0.5f, 1}},
-		{Level::Outer1, {0.1f, 2} },
+		{Level::Basic,  {0.02f, 1}},
+		{Level::Outer1, {0.01f, 2} },
 		{Level::Outer2, {0.0f, 4}}
 	};
 

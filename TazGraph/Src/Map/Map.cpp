@@ -181,8 +181,11 @@ void Map::AddDefaultNode(Entity &node, glm::vec2 mPosition)
 void Map::AddDefaultLink(Entity& link)
 {
 	link.addComponent<Line_w_Color>();
-	link.GetComponent<Line_w_Color>().src_color = Color(255, 40, 0, 255);
-	link.GetComponent<Line_w_Color>().dest_color = Color(255, 40, 0, 255);
+
+	link.GetComponent<Line_w_Color>().setSrcColor(Color(255, 40, 0, 255));
+	link.GetComponent<Line_w_Color>().setDestColor(Color(255, 40, 0, 255));
+
+	link.addComponent<LineFlashAnimatorComponent>();
 
 	link.addGroup(Manager::groupLinks_0);
 }

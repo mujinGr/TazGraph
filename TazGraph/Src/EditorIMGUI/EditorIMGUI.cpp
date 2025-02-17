@@ -476,6 +476,15 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 	ImGui::EndChild();
 }
 
+void EditorIMGUI::entityCalculateFunctions() {
+	ImGui::BeginChild("Entity Functions");
+	
+	if (ImGui::Button("Calculate Degree Of Selected Entities")) {
+		
+	}
+
+	ImGui::EndChild();
+}
 
 void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize) {
 	ImGui::BeginChild("Viewport");
@@ -523,6 +532,14 @@ std::string EditorIMGUI::SceneTabs() {
 	return !_fileNames.empty() ? _fileNames.front() : "nullptr";
 }
 
+void EditorIMGUI::ShowFunctionExecutionResults() {
+	ImGui::BeginChild("Function Execution Results");
+	ImGui::Text("Function Execution Results");
+
+	ImGui::EndChild();
+
+}
+
 void EditorIMGUI::updateIsMouseInSecondColumn() {
 	// cant check with the checkIfMouseIsInWidget because it is a child of a window
 	ImVec2 columnStartPos = ImGui::GetCursorScreenPos();
@@ -545,16 +562,28 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 		_data.SetSelectData(std::move(_pollingFileNames));
 
 		if (ImGui::ComboAutoSelect("Select File For Polling", _data)) {
-			// Handle file selection for polling
-			//std::string selectedFile = _data.GetSelectedData();
-			//StartPolling(selectedFile); // Replace with your polling function
 		}
 		float buttonWidth = 100;
-		if (ImGui::Button("Start Polling", ImVec2(buttonWidth, 0))) {
-			
+		if (ImGui::Button("Start Polling Sending Messages", ImVec2(buttonWidth, 0))) {
+			std::string selectedFile = _data.input;
+			if (!selectedFile.empty()) {
+				StartPollingComponent(displayedEntity, selectedFile);
+			}
 		}
 	}
 
 	ImGui::End();
+
+}
+
+void EditorIMGUI::StartPollingComponent(Entity* entity, const std::string& fileName) {
+	if (!entity) return;
+
+	// Attach a polling component to the entity
+	if (!entity->hasComponent<PollingComponent>()) {
+		entity->addComponent<PollingComponent>();
+	}
+
+	entity->GetComponent<PollingComponent>().StartPolling(fileName, 10.0f);
 
 }

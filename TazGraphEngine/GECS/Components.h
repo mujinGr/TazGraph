@@ -14,5 +14,7 @@
 #include "./Animators/MovingAnimatorComponent.h"
 #include "./Animators/FlashAnimatorComponent.h"
 
+#include "./Animators/LineAnimators/LineFlashAnimatorComponent.h"
+
 
 

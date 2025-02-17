@@ -50,15 +50,15 @@ void AssetManager::CreateGroupLink(Entity& groupLink, Grid::Level m_level) {
 	if (m_level == Grid::Level::Outer1)
 	{
 		groupLink.addComponent<Line_w_Color>();
-		groupLink.GetComponent<Line_w_Color>().src_color = Color(255, 255, 0, 255);
-		groupLink.GetComponent<Line_w_Color>().dest_color = Color(255, 255, 0, 255);
+		groupLink.GetComponent<Line_w_Color>().setSrcColor(Color(255, 255, 0, 255));
+		groupLink.GetComponent<Line_w_Color>().setDestColor(Color(255, 255, 0, 255));
 
 		groupLink.addGroup(Manager::groupGroupLinks_0);
 	}
 	else if(m_level == Grid::Level::Outer2){
 		groupLink.addComponent<Line_w_Color>();
-		groupLink.GetComponent<Line_w_Color>().src_color = Color(255, 0, 0, 255);
-		groupLink.GetComponent<Line_w_Color>().dest_color = Color(0, 255, 0, 255);
+		groupLink.GetComponent<Line_w_Color>().setSrcColor(Color(255, 0, 0, 255));
+		groupLink.GetComponent<Line_w_Color>().setDestColor(Color(0, 255, 0, 255));
 
 		groupLink.addGroup(Manager::groupGroupLinks_1);
 	}

@@ -175,6 +175,12 @@ public:
 		return &manager;
 	}
 
+	virtual void addMessage(std::string mMessage) {}
+
+	virtual const std::vector<Entity*>& getInLinks() const { return {}; }
+
+	virtual const std::vector<Entity*>& getOutLinks() const { return {}; }
+
 	// instead of virtual functions you can instead do dynamic casting on derived classes to get the functions
 	virtual Entity* getFromNode() const {
 		return nullptr;

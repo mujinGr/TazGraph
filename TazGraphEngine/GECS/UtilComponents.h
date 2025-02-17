@@ -7,3 +7,4 @@
 #include "./Components/Util/RigidBodyComponent.h"
 #include "./Components/Util/KeyboardControllerComponent.h"
 #include "./Components/Util/GridComponent.h"
+#include "./Components/Util/PollingComponent.h"

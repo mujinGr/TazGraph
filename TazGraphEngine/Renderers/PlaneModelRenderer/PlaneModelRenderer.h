@@ -156,7 +156,7 @@ public:
 
 	void init();
 
-	void begin(GlyphSortType sortType = GlyphSortType::TEXTURE);
+	void begin(GlyphSortType sortType = GlyphSortType::BACK_TO_FRONT);
 	void end();
 
 	void initBatch(size_t mSize);

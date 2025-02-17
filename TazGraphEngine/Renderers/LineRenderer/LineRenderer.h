@@ -127,7 +127,7 @@ void main() {
 	~LineRenderer();
 
 	void init();
-	void begin(LineGlyphSortType sortType = LineGlyphSortType::FRONT_TO_BACK);
+	void begin(LineGlyphSortType sortType = LineGlyphSortType::BACK_TO_FRONT);
 
 	void end();
 

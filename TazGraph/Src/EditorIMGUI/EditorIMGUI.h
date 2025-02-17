@@ -54,8 +54,11 @@ public:
 	char* LoadingUI();
 	void MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onLoadSimulator, std::function<void()> onExitSimulator);
 	void ShowAllEntities(Manager& manager, float& m_nodeRadius);
+	void entityCalculateFunctions();
 	void SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize);
 	std::string SceneTabs();
+	void ShowFunctionExecutionResults();
 	void updateIsMouseInSecondColumn();
 	void ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity);
+	void StartPollingComponent(Entity* entity, const std::string& fileName);
 };
