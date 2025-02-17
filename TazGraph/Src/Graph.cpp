@@ -263,6 +263,15 @@ void Graph::update(float deltaTime) //game objects updating
 
 		
 	}
+
+	// check input manager if left mouse is clicked, if yes and the mouse is not on the widget then nullify displayedEntity
+	if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT))
+	{
+		if (!_editorImgui.isMouseOnWidget("Display Entity Statistics")) {
+			_displayedEntity = nullptr;
+		}
+	}
+
 }
 
 
@@ -398,9 +407,6 @@ void Graph::checkInput() {
 					selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec), SDL_BUTTON_LEFT);
 					std::cout << "convertedScreenToWorld: " << convertScreenToWorld(mouseCoordsVec).x << " - " << convertScreenToWorld(mouseCoordsVec).y << std::endl;
 				}
-				if (_displayedEntity) {
-					_displayedEntity = nullptr;
-				}
 			}
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
@@ -451,12 +457,7 @@ void Graph::updateUI() {
 	
 	_editorImgui.SceneTabs();
 
-	ImVec2 columnStartPos = ImGui::GetCursorScreenPos();
-	ImVec2 columnSize = ImVec2(ImGui::GetColumnWidth(), ImGui::GetContentRegionAvail().y);
-
-	ImVec2 mousePos = ImGui::GetMousePos();
-	_editorImgui.isMouseInSecondColumn = (mousePos.x >= columnStartPos.x && mousePos.x <= (columnStartPos.x + columnSize.x) &&
-		mousePos.y >= columnStartPos.y && mousePos.y <= (columnStartPos.y + columnSize.y));
+	_editorImgui.updateIsMouseInSecondColumn();
 
 	_editorImgui.SceneViewport(_framebuffer._framebufferTexture, _windowPos, _windowSize);
 

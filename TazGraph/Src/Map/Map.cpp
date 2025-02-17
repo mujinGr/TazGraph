@@ -101,7 +101,7 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 	
 	JsonParser fileParser(mapFile);
 	JsonValue rootFromFile = fileParser.parse();
-
+	int i = 0;
 	auto& nodes = rootFromFile.obj["graph"].obj["nodes"];
 	for (auto& nodeEntry : nodes.obj) {
 		int nodeId = std::stoi(nodeEntry.first);
@@ -114,6 +114,10 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 		(this->*addNodeFunction)(node, position);
 
 		manager.grid->addNode(&node, manager.grid->getGridLevel());
+		i++;
+		if (i == 20000) {
+			return;
+		}
 	}
 	auto& links = rootFromFile.obj["graph"].obj["edges"];
 	for (auto& linkEntry : links.arr) {

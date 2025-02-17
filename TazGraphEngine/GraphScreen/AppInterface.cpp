@@ -153,6 +153,8 @@ bool AppInterface::initSystems() {
 
 void AppInterface::checkInput() {
 	if (_currentScene) {
+		_inputManager.update();
+
 		switch (_currentScene->getState()) {
 		case SceneState::RUNNING:
 			_currentScene->checkInput();
@@ -160,7 +162,6 @@ void AppInterface::checkInput() {
 		default:
 			break;
 		}
-		_inputManager.update();
 	}
 }
 

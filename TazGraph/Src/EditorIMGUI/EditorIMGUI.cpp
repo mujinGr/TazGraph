@@ -41,9 +41,21 @@ void EditorIMGUI::updateFileNamesInAssets() {
 	}
 }
 
+void EditorIMGUI::updatePollingFileNamesInAssets() {
+	_pollingFileNames.clear();
+	const std::string path = "assets/Maps/Polling"; // Directory path
+	for (const auto& entry : fs::directory_iterator(path)) {
+		if (entry.is_regular_file()) {
+			_pollingFileNames.push_back(entry.path().filename().string()); // Add file name to vector
+		}
+	}
+}
+
 void EditorIMGUI::ReloadAccessibleFiles() {
 	if (!_filesLoaded) {
 		updateFileNamesInAssets();
+		updatePollingFileNamesInAssets();
+
 		_filesLoaded = true; // Set to true so we don't reload unnecessarily
 	}
 }
@@ -73,6 +85,25 @@ void EditorIMGUI::MenuBar() {
 		ImGui::EndMenuBar();
 	}
 
+}
+
+bool EditorIMGUI::isMouseOnWidget(const std::string& widgetName)
+{
+	ImGuiContext& g = *ImGui::GetCurrentContext(); // Get ImGui context
+
+	for (ImGuiWindow* window : g.Windows) {
+		if (window->Name == widgetName) {
+			ImVec2 widgetPos = window->Pos;
+			ImVec2 widgetSize = window->Size;
+
+			ImVec2 mousePos = ImGui::GetMousePos();
+			
+			return (mousePos.x >= widgetPos.x && mousePos.x <= (widgetPos.x + widgetSize.x) &&
+				mousePos.y >= widgetPos.y && mousePos.y <= (widgetPos.y + widgetSize.y));
+		}
+	}
+
+	return false;
 }
 
 void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* selectedEntity, float(& backgroundColor)[4], int cell_size) {
@@ -329,6 +360,11 @@ void EditorIMGUI::MainMenuUI(std::function<void()> onStartSimulator, std::functi
 }
 
 void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
+
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
+
+
 	ImGui::BeginChild("Tab 2");
 
 	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -418,7 +454,14 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 
 					if (ImGui::TreeNode(label.c_str())) {
 
-						entity->imgui_print();
+						// Create a unique button label
+						std::string buttonLabel = "Go to##" + std::to_string(entity->getId());
+						if (ImGui::Button(buttonLabel.c_str())) {
+							if (entity->hasComponent<TransformComponent>()) {
+								main_camera2D->setPosition_X(entity->GetComponent<TransformComponent>().getPosition().x);
+								main_camera2D->setPosition_Y(entity->GetComponent<TransformComponent>().getPosition().y);
+							}
+						}
 
 						ImGui::TreePop();
 					}
@@ -480,6 +523,16 @@ std::string EditorIMGUI::SceneTabs() {
 	return !_fileNames.empty() ? _fileNames.front() : "nullptr";
 }
 
+void EditorIMGUI::updateIsMouseInSecondColumn() {
+	// cant check with the checkIfMouseIsInWidget because it is a child of a window
+	ImVec2 columnStartPos = ImGui::GetCursorScreenPos();
+	ImVec2 columnSize = ImVec2(ImGui::GetColumnWidth(), ImGui::GetContentRegionAvail().y);
+
+	ImVec2 mousePos = ImGui::GetMousePos();
+	isMouseInSecondColumn = (mousePos.x >= columnStartPos.x && mousePos.x <= (columnStartPos.x + columnSize.x) &&
+		mousePos.y >= columnStartPos.y && mousePos.y <= (columnStartPos.y + columnSize.y));
+}
+
 void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity)
 {
 	if (!displayedEntity) return;
@@ -488,6 +541,18 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 
 	if (ImGui::Begin("Display Entity Statistics")) {
 		displayedEntity->imgui_print();
+
+		_data.SetSelectData(std::move(_pollingFileNames));
+
+		if (ImGui::ComboAutoSelect("Select File For Polling", _data)) {
+			// Handle file selection for polling
+			//std::string selectedFile = _data.GetSelectedData();
+			//StartPolling(selectedFile); // Replace with your polling function
+		}
+		float buttonWidth = 100;
+		if (ImGui::Button("Start Polling", ImVec2(buttonWidth, 0))) {
+			
+		}
 	}
 
 	ImGui::End();

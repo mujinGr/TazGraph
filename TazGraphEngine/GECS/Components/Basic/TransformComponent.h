@@ -15,6 +15,7 @@ private:
 	glm::vec2 _velocity;
 public:
 	SDL_FRect bodyDims = { 0,0,32,32 };
+	SDL_FRect last_bodyDims = { 0,0,32,32 };
 
 	float scale = 1;
 
@@ -55,6 +56,12 @@ public:
 	}
 	void update(float deltaTime) override
 	{
+
+		if (SDL_FRectEquals(&bodyDims, &last_bodyDims)) {
+			return;
+		}
+		last_bodyDims = bodyDims;
+
 		if (!_main_camera2D) {
 			_main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 		}
@@ -63,6 +70,7 @@ public:
 		
 		bodyDims.x += _velocity.x * speed * deltaTime;
 		bodyDims.y += _velocity.y * speed * deltaTime;
+		//todo dont update the children on every iteration
 		// todo do this for component when needed
 		if (!entity->children.empty()) { // this will not be executed for links since they dont have transformComponent
 

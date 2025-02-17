@@ -16,6 +16,7 @@ namespace fs = std::filesystem;
 class EditorIMGUI : public ImGuiInterface {
 private:
 	std::vector<std::string> _fileNames;
+	std::vector<std::string> _pollingFileNames;
 	ImGui::ComboAutoSelectData _data;
 	bool _filesLoaded = false;
 
@@ -40,9 +41,12 @@ public:
 
 	void updateFileNamesInAssets();
 
+	void updatePollingFileNamesInAssets();
+
 	bool* getDockspaceRef();
 	void MenuBar();
 
+	bool isMouseOnWidget(const std::string& widgetName);
 	void BackGroundUIElement(bool& renderDebug, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* selectedEntity, float(&backgroundColor)[4], int cell_size);
 	void FPSCounter(const BaseFPSLimiter& baseFPSLimiter);
 	void ReloadAccessibleFiles();
@@ -52,5 +56,6 @@ public:
 	void ShowAllEntities(Manager& manager, float& m_nodeRadius);
 	void SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize);
 	std::string SceneTabs();
+	void updateIsMouseInSecondColumn();
 	void ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity);
 };

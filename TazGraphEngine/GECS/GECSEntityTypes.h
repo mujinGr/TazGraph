@@ -135,12 +135,13 @@ public:
 				for (auto& link : outLinks) {
 					link->cellUpdate();
 				}
-				for (auto& link : inLinks) {
-					link->updateLinkPorts();
-				}
-				for (auto& link : outLinks) {
-					link->updateLinkPorts();
-				}
+				
+			}
+			for (auto& link : inLinks) {
+				link->updateLinkPorts();
+			}
+			for (auto& link : outLinks) {
+				link->updateLinkPorts();
 			}
 		}
 	}
@@ -292,43 +293,7 @@ public:
 	{
 		Entity::update(deltaTime);
 		
-		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
-		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
-
-		fromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
-		toPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());
-
-
-		if (children["ArrowHead"]) {
-			children["ArrowHead"]->update(deltaTime);
-			
-
-			// set position of arrowHead
-			
-			TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
-			TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
-
-			glm::vec2 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
-
-			glm::vec2 unitDirection = glm::normalize(direction);
-			float offset = 10.0f;
-
-			glm::vec2 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
-
-			// Calculate the angle in radians, and convert it to degrees
-			float angleRadians = atan2(direction.y, direction.x);
-			float angleDegrees = glm::degrees(angleRadians);
-
-			glm::ivec2 arrowSize(10, 20);
-			glm::vec2 farrowSize(10.0f, 20.0f);
-
-			glm::vec2 newArrowHeadPosition = arrowHeadPos - (farrowSize / 2.0f);
-			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_X(newArrowHeadPosition.x);
-			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_Y(newArrowHeadPosition.y);
-			
-			children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(angleDegrees + 90.0f);
-
-		}
+		
 	}
 
 	void cellUpdate() override {
@@ -373,12 +338,45 @@ public:
 	}
 
 	void updateLinkPorts() override{
-		glm::vec2 fromPos = glm::vec2(from->GetComponent<TransformComponent>().bodyDims.x, from->GetComponent<TransformComponent>().bodyDims.y);
-		glm::vec2 toPos = glm::vec2(to->GetComponent<TransformComponent>().bodyDims.x, to->GetComponent<TransformComponent>().bodyDims.y);
+		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
+		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
 
-		// Determine best ports to connect based on positions
-		fromPort = getBestPortForConnection(fromPos, toPos);
-		toPort = getBestPortForConnection(toPos, fromPos);
+		fromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
+		toPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());
+
+
+		if (children["ArrowHead"]) {
+			TransformComponent* tr = &children["ArrowHead"]->GetComponent<TransformComponent>();
+			if (SDL_FRectEquals(&tr->bodyDims, &tr->last_bodyDims)) {
+				children["ArrowHead"]->update(0.0f);
+
+				// set position of arrowHead
+
+				TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
+				TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
+
+				glm::vec2 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
+
+				glm::vec2 unitDirection = glm::normalize(direction);
+				float offset = 10.0f;
+
+				glm::vec2 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
+
+				// Calculate the angle in radians, and convert it to degrees
+				float angleRadians = atan2(direction.y, direction.x);
+				float angleDegrees = glm::degrees(angleRadians);
+
+				glm::ivec2 arrowSize(10, 20);
+				glm::vec2 farrowSize(10.0f, 20.0f);
+
+				glm::vec2 newArrowHeadPosition = arrowHeadPos - (farrowSize / 2.0f);
+				children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_X(newArrowHeadPosition.x);
+				children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_Y(newArrowHeadPosition.y);
+
+				children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(angleDegrees + 90.0f);
+
+			}			
+		}
 	}
 
 	std::string getBestPortForConnection(const glm::vec2& fromPos, const glm::vec2& toPos) {
