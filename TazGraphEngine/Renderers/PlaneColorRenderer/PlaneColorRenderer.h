@@ -34,8 +34,7 @@ public:
 		const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
 		float Depth, const Color& color, float angle = 0.f
 	)
-		:
-		depth(Depth) {
+		:depth(Depth) {
 
 		float centerX = (v2.x + v3.x) / 2.0f; // not varykentro, just the middle
 		float centerY = (v1.y + v2.y) / 2.0f;
@@ -43,22 +42,9 @@ public:
 		// Convert angle from degrees to radians if necessary
 		float radians = glm::radians(angle);
 
-		// Lambda to calculate rotated positions
-		auto rotatePoint = [&](float x, float y) -> glm::vec2 {
-			float s = sin(radians);
-			float c = cos(radians);
-
-			float dx = x - centerX;
-			float dy = y - centerY;
-			return glm::vec2(
-				centerX + dx * c - dy * s,
-				centerY + dx * s + dy * c
-			);
-			};
-
-		glm::vec2 rotatedV1 = rotatePoint(v1.x, v1.y);
-		glm::vec2 rotatedV2 = rotatePoint(v2.x, v2.y);
-		glm::vec2 rotatedV3 = rotatePoint(v3.x, v3.y);
+		glm::vec2 rotatedV1 = rotatePoint(v1.x, v1.y, centerX, centerY, radians);
+		glm::vec2 rotatedV2 = rotatePoint(v2.x, v2.y, centerX, centerY, radians);
+		glm::vec2 rotatedV3 = rotatePoint(v3.x, v3.y, centerX, centerY, radians);
 
 
 		topLeft.color = color;
@@ -82,14 +68,7 @@ class ColorGlyph {
 
 public:
 	// Lambda to calculate rotated positions
-	glm::vec2 rotatePoint(float x, float y, float centerX, float centerY, float radians) {
-		float dx = x - centerX;
-		float dy = y - centerY;
-		return glm::vec2(
-			centerX + dx * cos(radians) - dy * sin(radians),
-			centerY + dx * sin(radians) + dy * cos(radians)
-		);
-		};
+	
 	ColorGlyph() {};
 	ColorGlyph(const glm::vec4& destRect, float Depth, const Color& color, float angle = 0.f)
 		:

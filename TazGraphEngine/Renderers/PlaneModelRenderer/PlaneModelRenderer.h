@@ -46,22 +46,9 @@ public:
 		// Convert angle from degrees to radians if necessary
 		float radians = glm::radians(angle);
 
-		// Lambda to calculate rotated positions
-		auto rotatePoint = [&](float x, float y) -> glm::vec2 {
-			float s = sin(radians);
-			float c = cos(radians);
-
-			float dx = x - centerX;
-			float dy = y - centerY;
-			return glm::vec2(
-				centerX + dx * c - dy * s,
-				centerY + dx * s + dy * c
-			);
-			};
-
-		glm::vec2 rotatedV1 = rotatePoint(v1.x, v1.y);
-		glm::vec2 rotatedV2 = rotatePoint(v2.x, v2.y);
-		glm::vec2 rotatedV3 = rotatePoint(v3.x, v3.y);
+		glm::vec2 rotatedV1 = rotatePoint(v1.x, v1.y, centerX, centerY, radians);
+		glm::vec2 rotatedV2 = rotatePoint(v2.x, v2.y, centerX, centerY, radians);
+		glm::vec2 rotatedV3 = rotatePoint(v3.x, v3.y, centerX, centerY, radians);
 
 
 		topLeft.color = color;
@@ -99,20 +86,10 @@ public:
 		// Convert angle from degrees to radians if necessary
 		float radians = glm::radians(angle);
 
-		// Lambda to calculate rotated positions
-		auto rotatePoint = [&](float x, float y) -> glm::vec2 {
-			float dx = x - centerX;
-			float dy = y - centerY;
-			return glm::vec2(
-				centerX + dx * cos(radians) - dy * sin(radians),
-				centerY + dx * sin(radians) + dy * cos(radians)
-			);
-			};
-
-		glm::vec2 rotatedTopLeft = rotatePoint(destRect.x, destRect.y );
-		glm::vec2 rotatedBottomLeft = rotatePoint(destRect.x, destRect.y + destRect.w);
-		glm::vec2 rotatedBottomRight = rotatePoint(destRect.x + destRect.z, destRect.y + destRect.w);
-		glm::vec2 rotatedTopRight = rotatePoint(destRect.x + destRect.z, destRect.y );
+		glm::vec2 rotatedTopLeft = rotatePoint(destRect.x, destRect.y, centerX, centerY, radians);
+		glm::vec2 rotatedBottomLeft = rotatePoint(destRect.x, destRect.y + destRect.w, centerX, centerY, radians);
+		glm::vec2 rotatedBottomRight = rotatePoint(destRect.x + destRect.z, destRect.y + destRect.w, centerX, centerY, radians);
+		glm::vec2 rotatedTopRight = rotatePoint(destRect.x + destRect.z, destRect.y, centerX, centerY, radians);
 
 		topLeft.color = color;
 		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y, depth);

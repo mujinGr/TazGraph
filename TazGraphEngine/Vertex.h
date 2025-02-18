@@ -2,6 +2,16 @@
 
 #include "GL/glew.h"
 
+
+static glm::vec2 rotatePoint(float x, float y, float centerX, float centerY, float radians) {
+	float dx = x - centerX;
+	float dy = y - centerY;
+	return glm::vec2(
+		centerX + dx * cos(radians) - dy * sin(radians),
+		centerY + dx * sin(radians) + dy * cos(radians)
+	);
+};
+
 struct Position {
 	float x;
 	float y;
