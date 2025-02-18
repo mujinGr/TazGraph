@@ -169,6 +169,7 @@
     <ClCompile Include="imgui\implot_items.cpp" />
     <ClCompile Include="InputManager\InputManager.cpp" />
     <ClCompile Include="PNG_Letters.cpp" />
+    <ClCompile Include="Renderers\PlaneColorRenderer\PlaneColorRenderer.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.cpp" />
     <ClCompile Include="TextureManager\TextureManager.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="InputManager\InputManager.h" />
     <ClInclude Include="picoPNG.h" />
     <ClInclude Include="PNG_Letters.h" />
+    <ClInclude Include="Renderers\PlaneColorRenderer\PlaneColorRenderer.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
     <ClInclude Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.h" />
     <ClInclude Include="TextureManager\TextureManager.h" />

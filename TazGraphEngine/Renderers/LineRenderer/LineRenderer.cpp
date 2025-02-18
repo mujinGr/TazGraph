@@ -62,51 +62,6 @@ void LineRenderer::drawLine(const glm::vec2 srcPosition, const glm::vec2 destPos
 void LineRenderer::drawBox(const glm::vec4& destRect, const Color& color, float angle, float zIndex)
 {
 	_squareGlyphs.emplace_back(destRect, color, angle, zIndex);
-	//int i = _verts.size();
-	//_verts.resize(_verts.size() + 4); // more efficient than calling pushBack 4 times
-
-	//float centerX = destRect.x + destRect.z / 2.0f;
-	//float centerY = destRect.y + destRect.w / 2.0f;
-
-	//// Convert angle from degrees to radians if necessary
-	//float radians = glm::radians(angle);
-
-	//// Lambda to calculate rotated positions
-	//auto rotatePoint = [&](float x, float y) -> glm::vec3 {
-	//	float dx = x - centerX;
-	//	float dy = y - centerY;
-	//	return glm::vec3(
-	//		centerX + dx * cos(radians) - dy * sin(radians),
-	//		centerY + dx * sin(radians) + dy * cos(radians),
-	//		zIndex
-	//	);
-	//	};
-
-	//glm::vec2 positionOffset(destRect.x , destRect.y );
-
-	//_verts[  i  ].setPosition( rotatePoint(positionOffset.x, positionOffset.y + destRect.w));
-	//_verts[i + 1].setPosition(rotatePoint(positionOffset.x, positionOffset.y));
-	//_verts[i + 2].setPosition(rotatePoint(positionOffset.x + destRect.z, positionOffset.y));
-	//_verts[i + 3].setPosition(rotatePoint(positionOffset.x + destRect.z, positionOffset.y + destRect.w));
-
-	//for (int j = i; j < i + 4; j++) {
-	//	_verts[j].color = color;
-	//}
-
-	//_indices.reserve(_indices.size() + 8); // indices for the ibo // + the number of verts in total
-
-	//_indices.push_back(  i  );
-	//_indices.push_back(i + 1);
-
-	//_indices.push_back(i + 1);
-	//_indices.push_back(i + 2);
-
-	//_indices.push_back(i + 2);
-	//_indices.push_back(i + 3);
-
-	//_indices.push_back(i + 3);
-	//_indices.push_back(  i  );
-
 }
 
 void LineRenderer::drawCircle(const glm::vec2& center, const Color& color, float radius)

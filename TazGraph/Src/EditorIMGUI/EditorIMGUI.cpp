@@ -365,7 +365,6 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 
-	ImGui::BeginChild("Tab 2");
 
 	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 	float size = 10;
@@ -473,17 +472,14 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 		}
 	}
 
-	ImGui::EndChild();
 }
 
 void EditorIMGUI::entityCalculateFunctions() {
-	ImGui::BeginChild("Entity Functions");
 	
 	if (ImGui::Button("Calculate Degree Of Selected Entities")) {
 		
 	}
 
-	ImGui::EndChild();
 }
 
 void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize) {
@@ -533,10 +529,8 @@ std::string EditorIMGUI::SceneTabs() {
 }
 
 void EditorIMGUI::ShowFunctionExecutionResults() {
-	ImGui::BeginChild("Function Execution Results");
 	ImGui::Text("Function Execution Results");
 
-	ImGui::EndChild();
 
 }
 

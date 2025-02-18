@@ -31,8 +31,8 @@ public:
 		
 		moving_animations.emplace("Default", defaultMoveAnimation);
 
-		FlashAnimation defaultFlashAnimation = FlashAnimation(0, 0, 4, 0, "looped", { 0.2f, 1.0f, 0.2f, 1.0f }, { 255,255,255,255 });
-		FlashAnimation lineTransferFlashAnimation = FlashAnimation(0, 0, 4, 0.001, "play_n_times", { 0.01f, 0.01f, 0.02f, 0.01f }, { 255,255,255,255 }, 1);
+		FlashAnimation defaultFlashAnimation = FlashAnimation(0, 0, 3, 0, "looped", { 0.2f, 1.0f, 0.2f, 1.0f }, { 255,255,255,255 });
+		FlashAnimation lineTransferFlashAnimation = FlashAnimation(0, 0, 3, 0.01, "play_n_times", { 0.001f, 0.001f, 0.02f, 0.01f }, { 255,255,255,255 }, 1);
 
 		flash_animations.emplace("Default", defaultFlashAnimation);
 		flash_animations.emplace("LineTransfer", lineTransferFlashAnimation);

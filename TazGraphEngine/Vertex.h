@@ -11,6 +11,15 @@ struct Position {
 struct Color {
 	Color() : r(0), g(0), b(0), a(0) {}
 	Color(GLubyte R, GLubyte G, GLubyte B, GLubyte A) : r(R), g(G), b(B), a(A) {}
+	
+	glm::vec4 toVec4() const {
+		return glm::vec4(r, g, b, a) / 255.0f; // Normalize 0-255 to 0-1
+	}
+
+	static Color fromVec4(const glm::vec4& v) {
+		return Color(v.r * 255, v.g * 255, v.b * 255, v.a * 255);
+	}
+
 	GLubyte r;
 	GLubyte g;
 	GLubyte b;

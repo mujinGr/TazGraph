@@ -67,6 +67,9 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 			break;
 		}
 		switch (type) {
+		case Animation::animType::ANIMTYPE_BACK_FORTH:
+			// todo add here implementation for backforth loop
+			break;
 		case Animation::animType::ANIMTYPE_LOOPED:
 		case Animation::animType::ANIMTYPE_PLAY_N_TIMES:
 			cur_frame_index_f += speed * deltaTime;
@@ -75,7 +78,8 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 			// Check if the frame index has changed
 			if (prev_frame_index != cur_frame_index) {
 				frame_times_played = 1;
-				currentSpeedIndex = static_cast<FlashState>((static_cast<int>(currentSpeedIndex) + 1) % speeds.size());
+				if((static_cast<int>(currentSpeedIndex) + 1) % speeds.size() < 3)
+					currentSpeedIndex = static_cast<FlashState>((static_cast<int>(currentSpeedIndex) + 1) % speeds.size());
 			}
 			else {
 				frame_times_played++;

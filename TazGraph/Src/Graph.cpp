@@ -126,6 +126,8 @@ void Graph::onEntry()
 		_resourceManager.getGLSLProgram("lineColor")->linkShaders();
 
 		Graph::_LineRenderer.init();
+		Graph::_PlaneColorRenderer.init();
+
 	}
 
 	if (TTF_Init() == -1)
@@ -177,6 +179,7 @@ void Graph::onExit() {
 	Graph::_PlaneModelRenderer.dispose();
 	Graph::_hudPlaneModelRenderer.dispose();
 	Graph::_LineRenderer.dispose();
+	Graph::_PlaneColorRenderer.dispose();
 
 	_resourceManager.disposeGLSLPrograms();
 }
@@ -460,10 +463,14 @@ void Graph::updateUI() {
 	_editorImgui.updateIsMouseInSecondColumn();
 
 	_editorImgui.SceneViewport(_framebuffer._framebufferTexture, _windowPos, _windowSize);
-	_editorImgui.ShowFunctionExecutionResults();
 	ImGui::NextColumn();
+	ImGui::BeginChild("Tab 2");
+
 	_editorImgui.ShowAllEntities(manager, nodeRadius);
 	_editorImgui.entityCalculateFunctions();
+	_editorImgui.ShowFunctionExecutionResults();
+	ImGui::EndChild();
+
 	ImGui::End();
 
 	if (_editorImgui.isSaving()) {
@@ -503,8 +510,28 @@ void Graph::renderBatch(const std::vector<Entity*>& entities, LineRenderer& batc
 	}
 }
 
-void Graph::renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch) { 
-	batch.initBatch(entities.size());
+void Graph::renderBatch(const std::vector<Entity*>& entities, PlaneColorRenderer& batch, bool isTriangles) {
+	if (isTriangles) {
+		batch.initColorTriangleBatch(entities.size());
+
+	}
+	else {
+		batch.initColorQuadBatch(entities.size());
+	}
+	for (const auto& entity : entities) {
+		entity->draw(batch, *Graph::_window);
+	}
+}
+
+void Graph::renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch, bool isTriangles) { 
+	
+	if (isTriangles) {
+		batch.initTriangleBatch(entities.size());
+
+	}
+	else {
+		batch.initQuadBatch(entities.size());
+	}
 	for (const auto& entity : entities) {
 		entity->draw(batch, *Graph::_window);
 	}
@@ -618,18 +645,18 @@ void Graph::draw()
 	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
 
 
-	_PlaneModelRenderer.begin();
-	_resourceManager.setupShader(glsl_circleColor, "", *main_camera2D);
-	GLint radiusLocation = glsl_circleColor.getUniformLocation("u_radius");
-	glUniform1f(radiusLocation, nodeRadius);
-	renderBatch(manager.getVisibleGroup(Manager::groupNodes_0), _PlaneModelRenderer);
-	renderBatch(manager.getVisibleGroup(Manager::groupGroupNodes_0), _PlaneModelRenderer);
-	renderBatch(manager.getVisibleGroup(Manager::groupGroupNodes_1), _PlaneModelRenderer);
-	renderBatch(manager.getVisibleGroup(Manager::groupArrowHeads_0), _PlaneModelRenderer);
+	_PlaneColorRenderer.begin();
+	_resourceManager.setupShader(glsl_color, "", *main_camera2D);
+	//GLint radiusLocation = glsl_circleColor.getUniformLocation("u_radius");
+	//glUniform1f(radiusLocation, nodeRadius);
+	renderBatch(manager.getVisibleGroup(Manager::groupNodes_0), _PlaneColorRenderer, false);
+	renderBatch(manager.getVisibleGroup(Manager::groupGroupNodes_0), _PlaneColorRenderer, false);
+	renderBatch(manager.getVisibleGroup(Manager::groupGroupNodes_1), _PlaneColorRenderer, false);
+	renderBatch(manager.getVisibleGroup(Manager::groupArrowHeads_0), _PlaneColorRenderer, true);
 
-	renderBatch(cursors, _PlaneModelRenderer);
-	_PlaneModelRenderer.end();
-	_PlaneModelRenderer.renderBatch();
+	renderBatch(cursors, _PlaneColorRenderer, false);
+	_PlaneColorRenderer.end();
+	_PlaneColorRenderer.renderBatch();
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 	/*drawHUD(labels, "arial");
@@ -637,7 +664,7 @@ void Graph::draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-	glsl_circleColor.unuse();
+	glsl_color.unuse();
 	///////////////////////////////////////////////////////
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -652,7 +679,7 @@ void Graph::drawHUD(const std::vector<Entity*>& entities, const std::string& tex
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), textureName, *hud_camera2D);
-	renderBatch(entities, _hudPlaneModelRenderer);
+	renderBatch(entities, _hudPlaneModelRenderer, false);
 }
 
 bool Graph::onPauseGraph() {

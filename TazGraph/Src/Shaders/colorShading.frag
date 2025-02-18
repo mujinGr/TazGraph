@@ -1,7 +1,6 @@
 #version 330
 
 in vec4 fragmentColor;
-in vec2 fragmentUV;
 
 out vec4 color; //rgb value
 

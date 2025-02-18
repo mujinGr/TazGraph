@@ -67,7 +67,8 @@ public:
 
 	/////////////////////////
 	void renderBatch(const std::vector<Entity*>& entities, LineRenderer& batch);
-	void renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch);
+	void renderBatch(const std::vector<Entity*>& entities, PlaneColorRenderer& batch, bool isTriangles);
+	void renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch, bool isTriangles);
 	void drawHUD(const std::vector<Entity*>& entities, const std::string& textureName);
 
 	/////////////////////////
@@ -89,6 +90,7 @@ private:
 
 	PlaneModelRenderer _PlaneModelRenderer;
 	PlaneModelRenderer _hudPlaneModelRenderer;
+	PlaneColorRenderer _PlaneColorRenderer;
 	LineRenderer _LineRenderer;
 
 	AssetManager* _assetsManager;

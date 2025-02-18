@@ -19,6 +19,10 @@ void ResourceManager::setupShader(GLSLProgram& shaderProgram, const std::string&
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 
+void ResourceManager::setupShader(GLSLProgram& shaderProgram, ICamera& camera) {
+	setupShader(shaderProgram, "", camera);
+}
+
 void ResourceManager::addGLSLProgram(std::string programName)
 {	
 	GLSLProgram* newGLSLProgram = new GLSLProgram();

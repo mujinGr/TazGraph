@@ -53,13 +53,19 @@ public:
 	}
 
 	void setFlashFrame() {
-		if (this->flash_animation.interpolation_a < 0.5f) {
-			this->src_color = this->flash_animation.flashColor * 2 * this->flash_animation.interpolation_a
-				+ default_src_color * (1 - 2 * this->flash_animation.interpolation_a);
+		float t = this->flash_animation.interpolation_a;
+		
+		if (t < 0.33f) {
+			this->src_color = Color::fromVec4(glm::mix(default_src_color.toVec4(), this->flash_animation.flashColor.toVec4(), 3 * t));
+		}
+		else if (t < 0.66f) {
+			this->src_color = Color::fromVec4(glm::mix(this->flash_animation.flashColor.toVec4(), default_src_color.toVec4(), std::min((3 * (t - 0.33f)), 1.0f)));
+			this->dest_color = Color::fromVec4(glm::mix(default_dest_color.toVec4(), this->flash_animation.flashColor.toVec4(), 3 * (t - 0.33f)));
 		}
 		else {
-			this->dest_color = this->flash_animation.flashColor * 2 * this->flash_animation.interpolation_a
-				+ default_dest_color * (1 - 2 * (0.5f - this->flash_animation.interpolation_a));
+			this->dest_color = Color::fromVec4(glm::mix(this->flash_animation.flashColor.toVec4(), default_dest_color.toVec4(), std::min((3 * (t - 0.66f)), 1.0f)));
 		}
+		// Smooth transition using lerp (linear interpolation)
+		
 	}
 };

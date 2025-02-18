@@ -204,7 +204,7 @@ public:
 
 
 		if (ImGui::BeginTable("GroupsTable", 1, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
-			ImGui::TableSetupColumn("Group Name", ImGuiTableColumnFlags_WidthStretch);
+			ImGui::TableSetupColumn("Message Log", ImGuiTableColumnFlags_WidthStretch);
 
 			ImGui::TableHeadersRow();
 			for (auto str : messageLog) {

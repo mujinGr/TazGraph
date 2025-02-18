@@ -99,6 +99,9 @@
     <ClCompile Include="Renderers\FrameBuffer\Framebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Renderers\PlaneColorRenderer\PlaneColorRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioEngine\AudioEngine.h">
@@ -252,6 +255,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderers\PlaneColorRenderer\PlaneColorRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

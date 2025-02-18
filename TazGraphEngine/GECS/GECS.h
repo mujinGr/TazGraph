@@ -11,6 +11,7 @@
 #include <SDL2/SDL.h>
 #include "../Renderers/PlaneModelRenderer/PlaneModelRenderer.h"
 #include "../Renderers/LineRenderer/LineRenderer.h"
+#include "../Renderers/PlaneColorRenderer/PlaneColorRenderer.h"
 #include "../Camera2.5D/CameraManager.h"
 #include "../Window/Window.h"
 
@@ -57,6 +58,7 @@ public:
 	virtual void update(float deltaTime) {}
 	virtual void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) {}
 	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) {}
+	virtual void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) {}
 
 	virtual ~Component() {}
 };
@@ -119,6 +121,12 @@ public:
 		}
 	}
 	void draw(LineRenderer& batch, TazGraphEngine::Window& window)
+	{
+		for (auto& c : components) {
+			c->draw(batch, window);
+		}
+	}
+	void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window)
 	{
 		for (auto& c : components) {
 			c->draw(batch, window);

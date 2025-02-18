@@ -49,4 +49,14 @@ public:
 			0, transform->getZIndex(), color, rotation
 		);
 	}
+
+	void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {
+		float tempScreenScale = window.getScale();
+		float rotation = transform->getRotation();
+
+		batch.drawTriangle(
+			v1, v2, v3,
+			transform->getZIndex(), color, rotation
+		);
+	}
 };

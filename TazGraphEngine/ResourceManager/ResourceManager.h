@@ -16,6 +16,8 @@ public:
 	/////////////////////////
 	void setupShader(GLSLProgram& shaderProgram, const std::string& textureName, ICamera& camera);
 
+	void setupShader(GLSLProgram& shaderProgram, ICamera& camera);
+
 	void addGLSLProgram(std::string programName);
 	GLSLProgram* getGLSLProgram(std::string id);
 
