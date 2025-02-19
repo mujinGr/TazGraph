@@ -19,6 +19,8 @@ Map* Graph::map = nullptr;
 TazGraphEngine::Window* Graph::_window = nullptr;
 
 auto& cursor(manager.addEntityNoId<Node>());
+auto& world_map(manager.addEntityNoId<Node>());
+
 
 float nodeRadius = 1.0f;
 
@@ -137,6 +139,7 @@ void Graph::onEntry()
 
 	//add the textures to our texture library
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
+	TextureManager::getInstance().Add_GLTexture("worldMap", "assets/Sprites/worldMap.png");
 
 	Graph::map = new Map(1, 32);
 
@@ -145,6 +148,7 @@ void Graph::onEntry()
 	{
 		manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, CELL_SIZE);
 		_assetsManager->CreateCursor(cursor);
+		_assetsManager->CreateWorldMap(world_map);
 	}
 	
 	manager.resetEntityId();
@@ -193,6 +197,7 @@ auto& group_links(manager.getGroup(Manager::groupGroupLinks_0));
 auto& colliders(manager.getGroup(Manager::groupColliders));
 
 auto& cursors(manager.getGroup(Manager::cursorGroup));
+auto& backgroundImage(manager.getGroup(Manager::panelBackground));
 
 glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
@@ -574,7 +579,12 @@ void Graph::draw()
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	
+	_PlaneModelRenderer.begin();
+
+	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), "worldMap", *main_camera2D);
+	renderBatch(backgroundImage, _PlaneModelRenderer, false);
+	_PlaneModelRenderer.end();
+	_PlaneModelRenderer.renderBatch();
 	// Debug Rendering
 	if (_renderDebug) {
 		_LineRenderer.begin();

@@ -11,7 +11,7 @@ private:
 	Layer _layer = 0;
 	float _zIndexF = 0;
 
-	float _rotation = 45.0f;
+	float _rotation = 0.0f;
 	// todo make position as SDL_FRect
 	
 	glm::vec2 _velocity;

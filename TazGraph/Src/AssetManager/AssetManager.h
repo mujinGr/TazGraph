@@ -21,6 +21,7 @@ public:
 
 	//graphobjects
 	void CreateCursor(Entity& cursor);
+	void CreateWorldMap(Entity& worldMap);
 	void CreateGroup(Entity& groupNode, glm::vec2 centerGroup, float groupNodeSize, Grid::Level m_level);
 
 	void CreateGroupLink(Entity& groupLink, Grid::Level m_level);

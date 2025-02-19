@@ -24,6 +24,20 @@ void AssetManager::CreateCursor(Entity& cursor)
 	cursor.addGroup(Manager::cursorGroup);
 }
 
+void AssetManager::CreateWorldMap(Entity& worldMap)
+{
+	worldMap.addComponent<TransformComponent>(glm::vec2(-TextureManager::getInstance().Get_GLTexture("worldMap")->width / 2, -TextureManager::getInstance().Get_GLTexture("worldMap")->height / 2), Manager::groupBackgroundLayer,
+		glm::ivec2(
+			TextureManager::getInstance().Get_GLTexture("worldMap")->width,
+			TextureManager::getInstance().Get_GLTexture("worldMap")->height
+		),
+		1.0f);
+	worldMap.addComponent<SpriteComponent>("worldMap", false);
+	worldMap.addComponent<TransformComponent>(glm::vec2(200.0f, 320.0f), Manager::groupBackgroundLayer, glm::ivec2(4, 4), 1);
+	worldMap.addComponent<SpriteComponent>();
+	worldMap.addGroup(Manager::panelBackground);
+}
+
 void AssetManager::CreateGroup(Entity& groupNode, glm::vec2 centerGroup, float groupNodeSize, Grid::Level m_level)
 {
 	if (m_level == Grid::Level::Outer1)
