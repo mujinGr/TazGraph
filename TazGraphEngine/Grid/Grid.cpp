@@ -256,7 +256,9 @@ std::vector<Cell*> Grid::getIntersectedCameraCells(ICamera& camera, Grid::Level 
 	std::vector<Cell*> result;
 
 	for (auto& cell : getCells(m_level)) {
-		if (checkCollision(camera.getCameraRect(), cell.boundingBox)) { // Assuming each cell has a bounding box
+
+		glm::vec4 cellCenter(cell.boundingBox.x, cell.boundingBox.y, 0.0f, 1.0f);
+		if (camera.isPointInCameraView(cellCenter)) {
 			result.push_back(&cell);
 		}
 	}

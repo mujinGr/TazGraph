@@ -474,10 +474,10 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 
 }
 
-void EditorIMGUI::entityCalculateFunctions() {
+void EditorIMGUI::availableFunctions() {
 	
 	if (ImGui::Button("Calculate Degree Of Selected Entities")) {
-		
+		_customFunctions.CalculateDegree();
 	}
 
 }

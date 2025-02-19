@@ -142,6 +142,31 @@ public:
 	float getMaxScale() {
 		return _maxScale;
 	}
+
+
+	bool isPointInCameraView(const glm::vec4 point)
+	{
+		glm::mat4 vpMatrix = _cameraMatrix;
+
+		glm::vec4 clipSpacePos = vpMatrix * point;
+
+		if (clipSpacePos.w != 0.0f) {
+			clipSpacePos.x /= clipSpacePos.w;
+			clipSpacePos.y /= clipSpacePos.w;
+			clipSpacePos.z /= clipSpacePos.w;
+		}
+
+		if (clipSpacePos.x < -1.0f || clipSpacePos.x > 1.0f) return false;
+		if (clipSpacePos.y < -1.0f || clipSpacePos.y > 1.0f) return false;
+		if (clipSpacePos.z < 0.0f || clipSpacePos.z > 1.0f) return false;
+
+		return true;
+	}
+
+	bool hasChanged() {
+		return _cameraChange;
+	}
+
 private:
 	int _screenWidth, _screenHeight;
 	float _minScale = 0.1f, _maxScale = 5.0f;

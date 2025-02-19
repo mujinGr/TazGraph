@@ -29,4 +29,7 @@ public:
     virtual float getScale() const = 0;
     virtual glm::mat4 getCameraMatrix() const = 0;
     virtual void setScale(float scale) = 0;
+
+    virtual bool isPointInCameraView(const glm::vec4 point) = 0;
+    virtual bool hasChanged() = 0;
 };

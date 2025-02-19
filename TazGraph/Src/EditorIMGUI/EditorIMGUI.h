@@ -9,6 +9,7 @@
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
 #include "GECS/Components.h"
 #include "GECS/UtilComponents.h"
+#include "CustomFunctions/CustomFunctions.h"
 
 namespace fs = std::filesystem;
 
@@ -23,6 +24,8 @@ private:
 	bool _isSaving = false;
 	bool _isLoading = false;
 	bool _goingBack = false;
+
+	CustomFunctions _customFunctions;
 
 	// Note: Switch this to true to enable dockspace
 	bool _dockingEnabled = true;
@@ -54,7 +57,7 @@ public:
 	char* LoadingUI();
 	void MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onLoadSimulator, std::function<void()> onExitSimulator);
 	void ShowAllEntities(Manager& manager, float& m_nodeRadius);
-	void entityCalculateFunctions();
+	void availableFunctions();
 	void SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize);
 	std::string SceneTabs();
 	void ShowFunctionExecutionResults();

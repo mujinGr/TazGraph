@@ -467,7 +467,7 @@ void Graph::updateUI() {
 	ImGui::BeginChild("Tab 2");
 
 	_editorImgui.ShowAllEntities(manager, nodeRadius);
-	_editorImgui.entityCalculateFunctions();
+	_editorImgui.availableFunctions();
 	_editorImgui.ShowFunctionExecutionResults();
 	ImGui::EndChild();
 

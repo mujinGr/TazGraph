@@ -40,6 +40,7 @@ public:
 		: texture(texture),
 		depth(Depth) {
 
+		//todo instead of these calculations, have a global which is enough for all
 		float centerX = (v2.x + v3.x) / 2.0f; // not varykentro, just the middle
 		float centerY = (v1.y + v2.y) / 2.0f;
 
