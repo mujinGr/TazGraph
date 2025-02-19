@@ -42,6 +42,17 @@ public:
 			aimPos,  //< aim position
 			upDir); //< up direction
 
+		_cameraMatrix = glm::mat4(1.0f);
+
+		glm::vec3 scale(_scale, _scale, 1.0f);
+		_cameraMatrix = glm::scale(_cameraMatrix, scale);
+
+
+		glm::vec3 translate(-_position.x, -_position.y, 0.0f);
+		_cameraMatrix = glm::translate(_cameraMatrix, translate); //if glm ortho = -1,1,-1,1 then 1 horizontal with -400,-320 to bottom-left
+
+		_cameraMatrix = _projectionMatrix * _viewMatrix * _cameraMatrix;
+
 	}
 
 	void update() override {
@@ -94,6 +105,15 @@ public:
 		_cameraChange = true;
 	}
 
+	void setAimPos(const glm::vec2 newAimPos) {
+		aimPos = glm::vec3(newAimPos.x, newAimPos.y, 0.0f);
+		_cameraChange = true;
+	}
+
+	glm::vec3 getAimPos() {
+		return aimPos;
+	}
+
 	void setScale(float newScale) override {
 		_scale = newScale;
 		_cameraChange = true;
@@ -132,7 +152,16 @@ public:
 		_cameraChange = true;
 	}
 	void resetCameraPosition() {
+
 		_position = glm::vec2(0.0f,0.0f);
+		_scale = 1.0f;
+
+		eyePos = glm::vec3(0.f, 0.f, -770.0f);
+		aimPos = glm::vec3( 0,0,0 );
+		upDir = glm::vec3( 0,-1,0 );
+
+		init();
+
 		_cameraChange = true;
 	}
 	float getMinScale() {

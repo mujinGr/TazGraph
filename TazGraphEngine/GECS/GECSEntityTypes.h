@@ -71,7 +71,7 @@ public:
 
 	void destroy() {
 		Entity::destroy();
-		manager.updateActiveEntities(); // cant have it at destroy in baseclass
+		manager.aboutTo_updateActiveEntities(); // cant have it at destroy in baseclass
 	}
 } Empty;
 
@@ -224,7 +224,7 @@ public:
 	
 	void destroy() {
 		Entity::destroy();
-		manager.updateActiveEntities();
+		manager.aboutTo_updateActiveEntities();
 	}
 } Node;
 
@@ -447,7 +447,7 @@ public:
 			children["ArrowHead"]->destroy();
 		}
 
-		manager.updateActiveEntities();
+		manager.aboutTo_updateActiveEntities();
 	}
 
 } Link;

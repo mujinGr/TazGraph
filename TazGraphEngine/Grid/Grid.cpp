@@ -252,23 +252,35 @@ int Grid::getNumYCells() {
 	return _numYCells;
 }
 
-std::vector<Cell*> Grid::getIntersectedCameraCells(ICamera& camera, Grid::Level m_level) {
-	std::vector<Cell*> result;
+bool Grid::setIntersectedCameraCells(ICamera& camera) {
+	bool intersectedCellsChanged = false;
+	std::vector<Cell*> newInterceptedCells;
 
-	for (auto& cell : getCells(m_level)) {
-
-		glm::vec4 cellCenter(cell.boundingBox.x, cell.boundingBox.y, 0.0f, 1.0f);
+	for (auto& cell : getCells(_level)) {
+		glm::vec4 cellCenter(
+			cell.boundingBox.x + cell.boundingBox.w / 2.0f, cell.boundingBox.y + cell.boundingBox.h / 2.0f,
+			0.0f, 1.0f);
 		if (camera.isPointInCameraView(cellCenter)) {
-			result.push_back(&cell);
+			newInterceptedCells.push_back(&cell);
 		}
 	}
-	return result;
+
+	if (newInterceptedCells != _interceptedCells) {
+		_interceptedCells = std::move(newInterceptedCells);
+		intersectedCellsChanged = true;
+	}
+
+	return intersectedCellsChanged;
 }
 
-std::vector<Entity*> Grid::getRevealedNodesInCameraCells(const std::vector<Cell*>& intercepted_cells) {
+std::vector<Cell*> Grid::getIntersectedCameraCells(ICamera& camera) {
+	return _interceptedCells;
+}
+
+std::vector<Entity*> Grid::getRevealedNodesInCameraCells() {
 	std::vector<Entity*> result;
 
-	for (auto& cell : intercepted_cells) {
+	for (auto& cell : _interceptedCells) {
 		for (auto& entity : cell->nodes) {
 			if (!entity->isHidden()) {  // Check if the entity is visible
 				result.push_back(entity);
@@ -278,10 +290,10 @@ std::vector<Entity*> Grid::getRevealedNodesInCameraCells(const std::vector<Cell*
 	return result;
 }
 
-std::vector<Entity*> Grid::getNodesInCameraCells(const std::vector<Cell*>& intercepted_cells) {
+std::vector<Entity*> Grid::getNodesInCameraCells() {
 	std::vector<Entity*> result;
 
-	for (auto& cell : intercepted_cells) {
+	for (auto& cell : _interceptedCells) {
 		result.insert(result.end(), cell->nodes.begin(), cell->nodes.end());
 	}
 	return result;
@@ -314,10 +326,10 @@ float Grid::getLevelCellScale(Level level) {
 	return gridLevels[level].second;
 }
 
-std::vector<Entity*> Grid::getLinksInCameraCells(const std::vector<Cell*>& intercepted_cells) {
+std::vector<Entity*> Grid::getLinksInCameraCells() {
 	std::map<unsigned int, Entity*> uniqueEntities;
 
-	for (auto& cell : intercepted_cells) {
+	for (auto& cell : _interceptedCells) {
 		for (auto& link : cell->links) {
 			if (!link->isHidden()) {
 				unsigned int linkId = link->getId();
@@ -335,22 +347,4 @@ std::vector<Entity*> Grid::getLinksInCameraCells(const std::vector<Cell*>& inter
 		result.push_back(entry.second);
 	}
 	return result;
-}
-
-bool Grid::hasCellsChanged(const std::vector<Cell*>& intercepted_cells) {
-	if (intercepted_cells.size() != _lastInterceptedCells.size()) {
-		return true; // Different sizes mean they definitely changed
-	}
-
-	// Check if all elements are the same
-	for (size_t i = 0; i < intercepted_cells.size(); ++i) {
-		if (intercepted_cells[i] != _lastInterceptedCells[i]) {
-			return true; // Cells are not the same
-		}
-	}
-	return false; // No changes found
-}
-
-void Grid::updateLastInterceptedCells(const std::vector<Cell*>& intercepted_cells) {
-	_lastInterceptedCells = intercepted_cells;
 }

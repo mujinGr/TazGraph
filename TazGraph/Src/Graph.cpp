@@ -207,10 +207,11 @@ void Graph::update(float deltaTime) //game objects updating
 
 	glm::vec2 mouseCoordsVec = _sceneMousePosition;
 
-	main_camera2D->update();
-	hud_camera2D->update();
+	
 
 	manager.refresh(main_camera2D.get());
+	main_camera2D->update();
+	hud_camera2D->update();
 	if (_firstLoop) {
 		manager.updateFully(deltaTime);
 		_firstLoop = false;
@@ -362,6 +363,19 @@ void Graph::checkInput() {
 				}
 			}
 			break;
+		case SDL_KEYDOWN:
+			if (_app->_inputManager.isKeyDown(SDLK_w)) {
+
+			}
+			if (_app->_inputManager.isKeyDown(SDLK_s)) {
+
+			}
+			if (_app->_inputManager.isKeyDown(SDLK_a)) {
+				main_camera2D->setPosition_X(main_camera2D->getPosition().x - 1.0f);
+			}
+			if (_app->_inputManager.isKeyDown(SDLK_d)) {
+				main_camera2D->setPosition_X(main_camera2D->getPosition().x + 1.0f);
+			}
 		case SDL_MOUSEMOTION:
 		{
 			ImVec2 mainViewportSize = ImGui::GetMainViewport()->Size;
@@ -396,8 +410,9 @@ void Graph::checkInput() {
 				// Calculate new camera position based on the mouse movement
 				glm::vec2 delta = _app->_inputManager.calculatePanningDelta(_sceneMousePosition / main_camera2D->getScale());
 				/*_app->_camera.move(delta);*/
+				main_camera2D->setAimPos(_app->_inputManager.getStartDragPos() - delta);/*
 				main_camera2D->setPosition_X(_app->_inputManager.getStartDragPos().x - delta.x);
-				main_camera2D->setPosition_Y(_app->_inputManager.getStartDragPos().y - delta.y);
+				main_camera2D->setPosition_Y(_app->_inputManager.getStartDragPos().y - delta.y);*/
 			}
 		}
 		case SDL_MOUSEBUTTONDOWN:
@@ -565,7 +580,7 @@ void Graph::draw()
 		_LineRenderer.begin();
 		_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
 
-		std::vector<Cell*> intercectedCells = manager.grid->getIntersectedCameraCells(*main_camera2D, manager.grid->getGridLevel());
+		std::vector<Cell*> intercectedCells = manager.grid->getIntersectedCameraCells(*main_camera2D);
 		for (const auto& cell : intercectedCells) {
 			glm::vec4 destRect(cell->boundingBox.x, cell->boundingBox.y, cell->boundingBox.w, cell->boundingBox.h);
 			_LineRenderer.drawBox(destRect, Color(0, 255, 0, 100), 0.0f);  // Drawing each cell in red for visibility

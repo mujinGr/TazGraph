@@ -71,34 +71,38 @@ public:
 	
 	ColorGlyph() {};
 	ColorGlyph(const glm::vec4& destRect, float Depth, const Color& color, float angle = 0.f)
-		:
-		depth(Depth) {
+		{
 
-		//float centerX = destRect.x + destRect.z / 2.0f;
-		//float centerY = destRect.y + destRect.w / 2.0f;
+		float centerX = destRect.x + destRect.z / 2.0f;
+		float centerY = destRect.y + destRect.w / 2.0f;
+		float centerZ = Depth;
 
-		//// Convert angle from degrees to radians if necessary
-		//float radians = glm::radians(angle);
+		// Convert angle from degrees to radians if necessary
+		float radians = glm::radians(angle);
 
-		/*glm::vec2 rotatedTopLeft = rotatePoint(destRect.x, destRect.y, centerX, centerY, radians);
-		glm::vec2 rotatedBottomLeft = rotatePoint(destRect.x, destRect.y + destRect.w, centerX, centerY, radians);
-		glm::vec2 rotatedBottomRight = rotatePoint(destRect.x + destRect.z, destRect.y + destRect.w, centerX, centerY, radians);
-		glm::vec2 rotatedTopRight = rotatePoint(destRect.x + destRect.z, destRect.y, centerX, centerY, radians);*/
+
+		glm::vec3 atopLeft(destRect.x, destRect.y, Depth);
+		glm::vec3 abottomLeft(destRect.x, destRect.y + destRect.w, Depth);
+		glm::vec3 abottomRight(destRect.x + destRect.z, destRect.y + destRect.w, Depth);
+		glm::vec3 atopRight(destRect.x + destRect.z, destRect.y, Depth);
+
+		glm::vec3 rotatedTopLeft = rotatePoint(atopLeft.x, atopLeft.y, atopLeft.z, centerX, centerY, centerZ, angle, 0, 0);
+		glm::vec3 rotatedBottomLeft = rotatePoint(abottomLeft.x, abottomLeft.y, abottomLeft.z, centerX, centerY, centerZ, angle, 0, 0);
+		glm::vec3 rotatedBottomRight = rotatePoint(abottomRight.x, abottomRight.y, abottomRight.z, centerX, centerY, centerZ, angle, 0, 0);
+		glm::vec3 rotatedTopRight = rotatePoint(atopRight.x, atopRight.y, atopRight.z, centerX, centerY, centerZ, angle, 0, 0);
 
 		topLeft.color = color;
-		topLeft.setPosition(destRect.x, destRect.y, depth);
+		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y, rotatedTopLeft.z);
 
 		bottomLeft.color = color;
-		bottomLeft.setPosition(destRect.x, destRect.y + destRect.w, depth);
+		bottomLeft.setPosition(rotatedBottomLeft.x, rotatedBottomLeft.y, rotatedBottomLeft.z );
 
 		bottomRight.color = color;
-		bottomRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w, depth);
+		bottomRight.setPosition(rotatedBottomRight.x, rotatedBottomRight.y, rotatedBottomRight.z );
 
 		topRight.color = color;
-		topRight.setPosition(destRect.x + destRect.z, destRect.y, depth);
+		topRight.setPosition(rotatedTopRight.x, rotatedTopRight.y, rotatedTopRight.z );
 	};
-
-	float depth;
 
 	ColorVertex topLeft;
 	ColorVertex bottomLeft;

@@ -25,7 +25,7 @@ struct Cell;
 
 using ComponentID = std::size_t;
 using Group = std::size_t;
-using Layer = int;
+using Layer = std::size_t;
 
 inline ComponentID getNewComponentTypeID()
 {
@@ -145,10 +145,6 @@ public:
 	void delGroup(Group mGroup)
 	{
 		groupBitSet[mGroup] = false;
-	}
-
-	float getLayerValue(Layer layer_indx) {
-		return (float) layer_indx / 100.0f;
 	}
 
 	template <typename T> bool hasComponent() const

@@ -10,6 +10,8 @@ public:
 	SDL_Rect destRect;
 	TransformComponent* transform = nullptr;
 
+	float temp_rotation = 0.0f;
+
 	Rectangle_w_Color()
 	{
 
@@ -32,6 +34,8 @@ public:
 		destRect.y = static_cast<int>(transform->getPosition().y);
 		destRect.w = transform->bodyDims.w * transform->scale;
 		destRect.h = transform->bodyDims.h * transform->scale;
+
+		temp_rotation += 0.1f;
 	}
 
 	void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override {
@@ -44,7 +48,7 @@ public:
 
 	void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {
 		float tempScreenScale = window.getScale();
-		float rotation = transform->getRotation();
+		float rotation = temp_rotation;
 
 		glm::vec4 pos((float)destRect.x * tempScreenScale, (float)destRect.y * tempScreenScale, (float)destRect.w * tempScreenScale, (float)destRect.h * tempScreenScale);
 		batch.draw(pos, transform->getZIndex(), color, rotation);

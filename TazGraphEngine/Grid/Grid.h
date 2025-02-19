@@ -47,17 +47,15 @@ public:
 	int getNumXCells();
 	int getNumYCells();
 
-	std::vector<Cell*> getIntersectedCameraCells(ICamera& camera, Grid::Level m_level);
+	bool setIntersectedCameraCells(ICamera& camera);
 
-	std::vector<Entity*> getRevealedNodesInCameraCells(const std::vector<Cell*>& intercepted_cells);
+	std::vector<Cell*> getIntersectedCameraCells(ICamera& camera);
 
-	std::vector<Entity*> getLinksInCameraCells(const std::vector<Cell*>& intercepted_cells);
+	std::vector<Entity*> getRevealedNodesInCameraCells();
 
-	bool hasCellsChanged(const std::vector<Cell*>& intercepted_cells);
+	std::vector<Entity*> getLinksInCameraCells();
 
-	void updateLastInterceptedCells(const std::vector<Cell*>& intercepted_cells);
-
-	std::vector<Entity*> getNodesInCameraCells(const std::vector<Cell*>& intercepted_cells);
+	std::vector<Entity*> getNodesInCameraCells();
 
 	bool gridLevelChanged();
 
@@ -67,7 +65,7 @@ public:
 	float getLevelScale(Level level);
 	float getLevelCellScale(Level level);
 private:
-	std::vector<Cell*> _lastInterceptedCells;
+	std::vector<Cell*> _interceptedCells;
 	
 	std::vector<Cell> _cells;
 	std::vector<Cell> _parentCells;

@@ -1,7 +1,8 @@
 #pragma once
 
 #include "GL/glew.h"
-
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 static glm::vec2 rotatePoint(float x, float y, float centerX, float centerY, float radians) {
 	float dx = x - centerX;
@@ -11,6 +12,29 @@ static glm::vec2 rotatePoint(float x, float y, float centerX, float centerY, flo
 		centerY + dx * sin(radians) + dy * cos(radians)
 	);
 };
+
+static glm::vec3 rotatePoint(float x, float y, float z, float centerX, float centerY, float centerZ, float angleX, float angleY, float angleZ) {
+	glm::vec3 point(x, y, z);
+	glm::vec3 center(centerX, centerY, centerZ);
+
+	float radX = glm::radians(angleX);
+	float radY = glm::radians(angleY);
+	float radZ = glm::radians(angleZ);
+
+	glm::mat4 rotationX = glm::rotate(glm::mat4(1.0f), radX, glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::mat4 rotationY = glm::rotate(glm::mat4(1.0f), radY, glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 rotationZ = glm::rotate(glm::mat4(1.0f), radZ, glm::vec3(0.0f, 0.0f, 1.0f));
+	
+	glm::mat4 rotationMatrix = rotationZ * rotationY * rotationX;
+
+	glm::vec3 translatedPoint = point - center;
+
+	glm::vec4 rotatedPoint = rotationMatrix * glm::vec4(translatedPoint, 1.0f);
+
+	glm::vec3 finalPoint = glm::vec3(rotatedPoint) + center;
+
+	return finalPoint;
+}
 
 struct Position {
 	float x;

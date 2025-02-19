@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="AudioEngine\AudioEngine.cpp" />
     <ClCompile Include="Camera2.5D\OrthoCamera.h" />
+    <ClCompile Include="GECS\GECSManager.cpp" />
     <ClCompile Include="Renderers\FrameBuffer\Framebuffer.cpp" />
     <ClCompile Include="Renderers\LineRenderer\LineRenderer.cpp" />
     <ClCompile Include="GECS\GECS.cpp" />

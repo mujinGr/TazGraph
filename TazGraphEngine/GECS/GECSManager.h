@@ -48,62 +48,74 @@ public:
 	void refresh(ICamera* camera = nullptr)
 	{
 	
-		std::vector<Entity*> toBeRemoved;
 
 		if (_update_active_entities) {
 			_update_active_entities = false;
 
-			for (auto& visible_entities : { std::ref(visible_nodes), std::ref(visible_links) })
-			{
-				for (const auto& v_entity : visible_entities.get()) {
-					if (!v_entity->isActive()) {
-						v_entity->removeFromCell();
-						toBeRemoved.push_back(v_entity);
-					}
-				}
-			}
-			// if from visible entities is something deleted, then delete it from all data structures (groupedEntities + enentities)
-			// ! or instead of updating the groupedEntities when we see an inactive entity, update the groupedEntities the moment an entity goes
-			// ! inactive and wait until we about to delete more
-			for (auto& group : groupedEntities) {
-				for (Entity* entity : group) {
-					if (!entity->isActive()) {
-						entity->removeFromCell();
-						toBeRemoved.push_back(entity);
-					}
-				}
-			}
-
-
-			for (auto i(0u); i < maxGroups; i++) {
-				auto& group(visible_groupedEntities[i]);
-				group.erase(std::remove_if(std::begin(group), std::end(group),
-					[&toBeRemoved, i](Entity* mEntity) {
-						return !mEntity->isActive() || !mEntity->hasGroup(i);
-					}), group.end());
-			}
-
-			for (auto& visible_entities : { std::ref(visible_nodes), std::ref(visible_links) }) {
-				visible_entities.get().erase(std::remove_if(visible_entities.get().begin(), visible_entities.get().end(),
-					[&toBeRemoved](Entity* mEntity) {
-						return std::find(toBeRemoved.begin(), toBeRemoved.end(), mEntity) != toBeRemoved.end();
-					}),
-					visible_entities.get().end());
-			}
+			updateActiveEntities();
 		}
 		
 
-		std::vector<Cell*> intercepted_cells = grid->getIntersectedCameraCells(*camera, this->grid->getGridLevel());
+		if (camera->hasChanged()) {
+			bool interceptedCellsChanged = grid->setIntersectedCameraCells(*camera);
 
-		if (grid->hasCellsChanged(intercepted_cells) || grid->gridLevelChanged()) {
-			grid->updateLastInterceptedCells(intercepted_cells);
+			if (!interceptedCellsChanged && !grid->gridLevelChanged()) {
+				return;
+			}
+
+			updateVisibleEntities();
+		}		
+	}
+
+	void aboutTo_updateActiveEntities() {
+		_update_active_entities = true;
+	}
+
+	void updateActiveEntities() {
+		std::vector<Entity*> toBeRemoved;
+
+		for (auto& visible_entities : { std::ref(visible_nodes), std::ref(visible_links) })
+		{
+			for (const auto& v_entity : visible_entities.get()) {
+				if (!v_entity->isActive()) {
+					v_entity->removeFromCell();
+					toBeRemoved.push_back(v_entity);
+				}
+			}
 		}
-		else {
-			return;
+		// if from visible entities is something deleted, then delete it from all data structures (groupedEntities + enentities)
+		// ! or instead of updating the groupedEntities when we see an inactive entity, update the groupedEntities the moment an entity goes
+		// ! inactive and wait until we about to delete more
+		for (auto& group : groupedEntities) {
+			for (Entity* entity : group) {
+				if (!entity->isActive()) {
+					entity->removeFromCell();
+					toBeRemoved.push_back(entity);
+				}
+			}
 		}
 
-		visible_nodes = grid->getGridLevel() ? grid->getRevealedNodesInCameraCells(intercepted_cells) : grid->getNodesInCameraCells(intercepted_cells);
-		visible_links	 = grid->getLinksInCameraCells(intercepted_cells);
+
+		for (auto i(0u); i < maxGroups; i++) {
+			auto& group(visible_groupedEntities[i]);
+			group.erase(std::remove_if(std::begin(group), std::end(group),
+				[&toBeRemoved, i](Entity* mEntity) {
+					return !mEntity->isActive() || !mEntity->hasGroup(i);
+				}), group.end());
+		}
+
+		for (auto& visible_entities : { std::ref(visible_nodes), std::ref(visible_links) }) {
+			visible_entities.get().erase(std::remove_if(visible_entities.get().begin(), visible_entities.get().end(),
+				[&toBeRemoved](Entity* mEntity) {
+					return std::find(toBeRemoved.begin(), toBeRemoved.end(), mEntity) != toBeRemoved.end();
+				}),
+				visible_entities.get().end());
+		}
+	}
+
+	void updateVisibleEntities() {
+		visible_nodes = grid->getGridLevel() ? grid->getRevealedNodesInCameraCells() : grid->getNodesInCameraCells();
+		visible_links = grid->getLinksInCameraCells();
 
 		for (auto& vgroup : visible_groupedEntities) {
 			vgroup.clear();
@@ -111,7 +123,7 @@ public:
 
 		for (auto* ventity : visible_nodes) {
 			if (!ventity->isActive()) {
-				continue; 
+				continue;
 			}
 
 			for (unsigned i = 0; i < maxGroups; ++i) {
@@ -131,11 +143,6 @@ public:
 				}
 			}
 		}
-		
-	}
-
-	void updateActiveEntities() {
-		_update_active_entities = true;
 	}
 
 	void AddToGroup(Entity* mEntity, Group mGroup)
@@ -284,15 +291,19 @@ public:
 		{ cursorGroup,"cursorGroup" }
 	};
 
-	std::string getGroupName(Group mGroup) const {
-		return groupNames.at(mGroup);
-	}
+	std::string getGroupName(Group mGroup) const;
 	
-	enum layerIndexes : int
+	enum layerIndexes : std::size_t
 	{
-		actionLayer = 0,
-
-		menubackgroundLayer = 10000,
+		actionLayer,
+		menubackgroundLayer
 	};
 
+	const std::unordered_map<Layer, float> layerNames = {
+		{actionLayer , -100.0f},
+		{menubackgroundLayer, -100.0f}
+
+	};
+
+	float getLayerDepth(Layer mLayer) const;
 };

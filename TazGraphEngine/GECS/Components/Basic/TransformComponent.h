@@ -8,8 +8,10 @@ class TransformComponent : public Component //transform as in graphics, we have 
 {
 private:
 	std::shared_ptr<PerspectiveCamera> _main_camera2D;
-	float _zIndex = 0.0f;
-	float _rotation = 0.0f;
+	Layer _layer = 0;
+	float _zIndexF = 0;
+
+	float _rotation = 45.0f;
 	// todo make position as SDL_FRect
 	
 	glm::vec2 _velocity;
@@ -40,7 +42,7 @@ public:
 
 	TransformComponent(glm::vec2 position, Layer layer , glm::vec2 size, float sc) : TransformComponent(position){
 		bodyDims = { position.x, position.y, size.x,size.y };
-		_zIndex = entity->getLayerValue(layer);
+		_layer = layer;
 		scale = sc;
 	}
 
@@ -53,6 +55,7 @@ public:
 	void init() override
 	{
 		_velocity = glm::zero<glm::ivec2>();
+		_zIndexF = entity->getManager()->getLayerDepth(_layer);
 	}
 	void update(float deltaTime) override
 	{
@@ -99,11 +102,11 @@ public:
 	}
 
 	void setZIndex(float newZ) {
-		_zIndex = newZ;
+		_zIndexF = newZ;
 	}
 
 	float getZIndex() {
-		return _zIndex;
+		return _zIndexF;
 	}
 
 	void setRotation(float newRot) {

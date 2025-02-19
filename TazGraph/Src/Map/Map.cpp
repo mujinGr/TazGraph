@@ -163,10 +163,13 @@ void Map::loadPythonMap(const char* fileName) {
 
 void Map::AddDefaultNode(Entity &node, glm::vec2 mPosition)
 {
+	static int colorOffset = 0;
+	colorOffset = (colorOffset + 2) % 256; // Vary color slightly each time
+
 	//create Node function
 	node.addComponent<TransformComponent>(mPosition, Manager::actionLayer, glm::ivec2(10, 10), 1);
 	node.addComponent<Rectangle_w_Color>();
-	node.GetComponent<Rectangle_w_Color>().color = Color(0, 40, 224, 255);
+	node.GetComponent<Rectangle_w_Color>().color = Color(0, colorOffset, 224, 255);
 
 	node.GetComponent<TransformComponent>().update(0.0f); // update children positions
 
