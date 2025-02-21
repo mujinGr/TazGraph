@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 #include <SDL2/SDL.h>
 #include "ICamera.h"
 
@@ -96,12 +97,39 @@ public:
 
 	//setters
 	void setPosition_X(const float newPosition) override {
-		_position.x = newPosition;
+		eyePos.x = newPosition;
 		_cameraChange = true;
 	}
 
 	void setPosition_Y(const float newPosition) override {
-		_position.y = newPosition;
+		eyePos.y = newPosition;
+		_cameraChange = true;
+	}
+
+	void movePosition_Hor(const float step) {
+		glm::vec3 direction = glm::normalize(aimPos - eyePos);  // Get movement direction
+
+		// Calculate the right vector (perpendicular to direction and up)
+		glm::vec3 right = glm::normalize(glm::cross(direction, upDir));
+
+		// Move the camera horizontally along the right vector
+		eyePos += right * step;
+		aimPos += right * step;
+		_cameraChange = true;
+	}
+	void movePosition_Vert(const float step) {
+		glm::vec3 direction = glm::normalize(aimPos - eyePos);  // Get movement direction
+
+		// Move the camera horizontally along the right vector
+		eyePos += upDir * step;
+		aimPos += upDir * step;
+		_cameraChange = true;
+	}
+
+	void movePosition_Forward(const float step) {
+		glm::vec3 direction = glm::normalize(aimPos - eyePos);
+		eyePos += direction * step;
+		aimPos += direction * step;
 		_cameraChange = true;
 	}
 
@@ -109,6 +137,27 @@ public:
 		aimPos = glm::vec3(newAimPos.x, newAimPos.y, 0.0f);
 		_cameraChange = true;
 	}
+
+	void moveAimPos(glm::vec3 startingAimPos, const glm::vec2 distance) {
+		aimPos = startingAimPos;
+		const float sensitivity = 0.001f;
+
+		float yaw = distance.x * sensitivity;   // Horizontal rotation (around Y-axis)
+		float pitch = distance.y * sensitivity; // Vertical rotation (around X-axis)
+
+		glm::vec3 direction = glm::normalize(aimPos - eyePos);
+
+		direction = glm::rotate(direction, yaw, upDir);
+
+		glm::vec3 right = glm::normalize(glm::cross(direction, upDir));
+
+		direction = glm::rotate(direction, pitch, right);
+
+		// Update the aimPos based on the new direction
+		aimPos = eyePos + direction;
+		_cameraChange = true;
+	}
+
 
 	glm::vec3 getAimPos() {
 		return aimPos;
@@ -121,7 +170,7 @@ public:
 
 	//getters
 	glm::vec2 getPosition() const override {
-		return _position;
+		return glm::vec2(eyePos.x, eyePos.y);
 	}
 
 	float getScale() const override {

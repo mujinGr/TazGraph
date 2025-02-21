@@ -31,10 +31,10 @@ public:
 	void draw(LineRenderer& batch, TazGraphEngine::Window& window) override {
 		//float tempScreenScale = window.getScale();
 
-		glm::vec2 fromNodeCenter = entity->getFromPort()->GetComponent<TransformComponent>().getPosition();
-		glm::vec2 toNodeCenter = entity->getToPort()->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 fromNodeCenter = entity->getFromPort()->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 toNodeCenter = entity->getToPort()->GetComponent<TransformComponent>().getPosition();
 
-		batch.drawLine(fromNodeCenter, toNodeCenter, src_color, dest_color, 0.0f);
+		batch.drawLine(fromNodeCenter, toNodeCenter, src_color, dest_color);
 	}
 	
 	void setSrcColor(Color clr) {

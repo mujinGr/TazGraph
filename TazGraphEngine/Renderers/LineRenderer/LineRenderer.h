@@ -30,17 +30,15 @@ class LineGlyph {
 	
 public:
 	LineGlyph() {};
-	LineGlyph(const glm::vec2& fromPosition, const glm::vec2& toPosition, const Color& srcColor, const Color& destColor, float mdepth) :
-		depth(mdepth) {
+	LineGlyph(const glm::vec3& fromPosition, const glm::vec3& toPosition, const Color& srcColor, const Color& destColor)
+		{
 
 		fromV.color = srcColor;
-		fromV.setPosition(fromPosition.x, fromPosition.y, depth);
+		fromV.setPosition(fromPosition.x, fromPosition.y, fromPosition.z);
 
 		toV.color = destColor;
-		toV.setPosition(toPosition.x, toPosition.y, depth);
+		toV.setPosition(toPosition.x, toPosition.y, toPosition.z);
 	};
-
-	float depth;
 
 	ColorVertex fromV;
 	ColorVertex toV;
@@ -50,35 +48,39 @@ class SquareGlyph {
 
 public:
 	SquareGlyph() {};
-	SquareGlyph(const glm::vec4& destRect, const Color& color, float angle, float mdepth) :
-		depth(mdepth) {
+	SquareGlyph(const glm::vec4& destRect, const Color& color, float angle, float mdepth)
+		{
 
 		float centerX = destRect.x + destRect.z / 2.0f;
 		float centerY = destRect.y + destRect.w / 2.0f;
+		float centerZ = mdepth;
 
 		// Convert angle from degrees to radians if necessary
 		float radians = glm::radians(angle);
 
-		glm::vec2 rotatedTopLeft = rotatePoint(destRect.x, destRect.y, centerX, centerY, radians);
-		glm::vec2 rotatedBottomLeft = rotatePoint(destRect.x, destRect.y + destRect.w, centerX, centerY, radians);
-		glm::vec2 rotatedBottomRight = rotatePoint(destRect.x + destRect.z, destRect.y + destRect.w, centerX, centerY, radians);
-		glm::vec2 rotatedTopRight = rotatePoint(destRect.x + destRect.z, destRect.y, centerX, centerY, radians);
+		glm::vec3 atopLeft(destRect.x, destRect.y, mdepth);
+		glm::vec3 abottomLeft(destRect.x, destRect.y + destRect.w, mdepth);
+		glm::vec3 abottomRight(destRect.x + destRect.z, destRect.y + destRect.w, mdepth);
+		glm::vec3 atopRight(destRect.x + destRect.z, destRect.y, mdepth);
+
+		glm::vec3 rotatedTopLeft = rotatePoint(atopLeft.x, atopLeft.y, atopLeft.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 rotatedBottomLeft = rotatePoint(abottomLeft.x, abottomLeft.y, abottomLeft.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 rotatedBottomRight = rotatePoint(abottomRight.x, abottomRight.y, abottomRight.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 rotatedTopRight = rotatePoint(atopRight.x, atopRight.y, atopRight.z, centerX, centerY, centerZ, 0, 0, 0);
 
 		topLeft.color = color;
-		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y, depth);
+		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y, rotatedTopLeft.z);
 
 		bottomLeft.color = color;
-		bottomLeft.setPosition(rotatedBottomLeft.x, rotatedBottomLeft.y, depth);
+		bottomLeft.setPosition(rotatedBottomLeft.x, rotatedBottomLeft.y, rotatedBottomLeft.z);
 
 		bottomRight.color = color;
-		bottomRight.setPosition(rotatedBottomRight.x, rotatedBottomRight.y, depth);
+		bottomRight.setPosition(rotatedBottomRight.x, rotatedBottomRight.y, rotatedBottomRight.z);
 
 		topRight.color = color;
-		topRight.setPosition(rotatedTopRight.x, rotatedTopRight.y, depth);
+		topRight.setPosition(rotatedTopRight.x, rotatedTopRight.y, rotatedTopRight.z);
 
 	};
-
-	float depth;
 
 	ColorVertex topLeft;
 	ColorVertex bottomLeft;
@@ -121,7 +123,7 @@ void main() {
 
 	void end();
 
-	void drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& srcColor, const Color& destColor, float mDepth);
+	void drawLine(const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor);
 	void drawBox(const glm::vec4& destRect, const Color& color, float angle, float zIndex =0.0f);
 	void drawCircle(const glm::vec2& center, const Color& color, float radius);
 

@@ -34,7 +34,7 @@ public:
 		const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
 		float Depth, const Color& color, float angle = 0.f
 	)
-		:depth(Depth) {
+		{
 
 		float centerX = (v2.x + v3.x) / 2.0f; // not varykentro, just the middle
 		float centerY = (v1.y + v2.y) / 2.0f;
@@ -48,16 +48,14 @@ public:
 
 
 		topLeft.color = color;
-		topLeft.setPosition(rotatedV1.x, rotatedV1.y, depth);
+		topLeft.setPosition(rotatedV1.x, rotatedV1.y, Depth);
 
 		bottomLeft.color = color;
-		bottomLeft.setPosition(rotatedV2.x, rotatedV2.y, depth);
+		bottomLeft.setPosition(rotatedV2.x, rotatedV2.y, Depth);
 
 		bottomRight.color = color;
-		bottomRight.setPosition(rotatedV3.x, rotatedV3.y, depth);
+		bottomRight.setPosition(rotatedV3.x, rotatedV3.y, Depth);
 	};
-
-	float depth;
 
 	ColorVertex topLeft;
 	ColorVertex bottomLeft;

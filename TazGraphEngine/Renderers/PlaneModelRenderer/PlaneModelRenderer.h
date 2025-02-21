@@ -33,40 +33,40 @@ class TriangleGlyph {
 public:
 	TriangleGlyph() {};
 	TriangleGlyph(
-		const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
+		const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3, // v1 top one, v2 bot left and v3 bot right
 		const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
-		GLuint texture, float Depth, const Color& color, float angle = 0.f
+		GLuint texture, const Color& color, float angle = 0.f
 	)
-		: texture(texture),
-		depth(Depth) {
+		: texture(texture)
+		{
 
 		//todo instead of these calculations, have a global which is enough for all
 		float centerX = (v2.x + v3.x) / 2.0f; // not varykentro, just the middle
 		float centerY = (v1.y + v2.y) / 2.0f;
+		float centerZ = (v1.z + v2.z) / 2.0f;
 
 		// Convert angle from degrees to radians if necessary
 		float radians = glm::radians(angle);
 
-		glm::vec2 rotatedV1 = rotatePoint(v1.x, v1.y, centerX, centerY, radians);
-		glm::vec2 rotatedV2 = rotatePoint(v2.x, v2.y, centerX, centerY, radians);
-		glm::vec2 rotatedV3 = rotatePoint(v3.x, v3.y, centerX, centerY, radians);
+		glm::vec3 rotatedV1 = rotatePoint(v1.x, v1.y, v1.z, centerX, centerY, centerZ, 0,0,0);
+		glm::vec3 rotatedV2 = rotatePoint(v2.x, v2.y, v2.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 rotatedV3 = rotatePoint(v3.x, v3.y, v3.z, centerX, centerY, centerZ, 0, 0, 0);
 
 
 		topLeft.color = color;
-		topLeft.setPosition(rotatedV1.x, rotatedV1.y, depth);
+		topLeft.setPosition(rotatedV1.x, rotatedV1.y, rotatedV1.z);
 		topLeft.setUV(uv1.x, uv1.y);
 
 		bottomLeft.color = color;
-		bottomLeft.setPosition(rotatedV2.x, rotatedV2.y, depth);
+		bottomLeft.setPosition(rotatedV2.x, rotatedV2.y, rotatedV1.z);
 		bottomLeft.setUV(uv2.x, uv2.y);
 
 		bottomRight.color = color;
-		bottomRight.setPosition(rotatedV3.x, rotatedV3.y, depth);
+		bottomRight.setPosition(rotatedV3.x, rotatedV3.y, rotatedV1.z);
 		bottomRight.setUV(uv3.x, uv3.y);
 	};
 
 	GLuint texture;
-	float depth;
 
 	Vertex topLeft;
 	Vertex bottomLeft;
@@ -78,8 +78,7 @@ class Glyph {
 public:
 	Glyph() {};
 	Glyph(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float Depth, const Color& color, float angle = 0.f)
-		: texture(texture),
-		depth(Depth) {
+		: texture(texture) {
 
 		float centerX = destRect.x + destRect.z / 2.0f;
 		float centerY = destRect.y + destRect.w / 2.0f;
@@ -93,24 +92,23 @@ public:
 		glm::vec2 rotatedTopRight = rotatePoint(destRect.x + destRect.z, destRect.y, centerX, centerY, radians);
 
 		topLeft.color = color;
-		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y, depth);
+		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y, Depth);
 		topLeft.setUV(uvRect.x, uvRect.y ); // Use bottom y for top
 
 		bottomLeft.color = color;
-		bottomLeft.setPosition(rotatedBottomLeft.x, rotatedBottomLeft.y, depth);
+		bottomLeft.setPosition(rotatedBottomLeft.x, rotatedBottomLeft.y, Depth);
 		bottomLeft.setUV(uvRect.x, uvRect.y + uvRect.w); // Use top y for bottom
 
 		bottomRight.color = color;
-		bottomRight.setPosition(rotatedBottomRight.x, rotatedBottomRight.y, depth);
+		bottomRight.setPosition(rotatedBottomRight.x, rotatedBottomRight.y, Depth);
 		bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w); // Use top y for bottom
 
 		topRight.color = color;
-		topRight.setPosition(rotatedTopRight.x, rotatedTopRight.y, depth);
+		topRight.setPosition(rotatedTopRight.x, rotatedTopRight.y, Depth);
 		topRight.setUV(uvRect.x + uvRect.z, uvRect.y ); // Use bottom y for top
 	};
 
 	GLuint texture;
-	float depth;
 
 	Vertex topLeft;
 	Vertex bottomLeft;
@@ -140,7 +138,7 @@ public:
 	void initTriangleBatch(size_t mSize);
 	void initQuadBatch(size_t mSize);
 
-	void drawTriangle(const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3, const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3, GLuint texture, float depth, const Color& color, float angle);
+	void drawTriangle(const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3, const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3, GLuint texture, const Color& color, float angle);
 
 	void draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color, float angle = 0);
 

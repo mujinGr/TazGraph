@@ -53,9 +53,9 @@ void LineRenderer::initBatch(size_t msize)
 }
 // todo can be optimized, by having something like glyphs in planeModelRenederer where first you pass info in a vector and
 // todo on render pass that info in verts and indices
-void LineRenderer::drawLine(const glm::vec2 srcPosition, const glm::vec2 destPosition, const Color& srcColor, const Color& destColor, float mdepth)
+void LineRenderer::drawLine(const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor)
 {
-	_lineGlyphs.emplace_back(srcPosition, destPosition, srcColor, destColor, mdepth);
+	_lineGlyphs.emplace_back(srcPosition, destPosition, srcColor, destColor);
 }
 
 
@@ -212,8 +212,8 @@ void LineRenderer::createVertexArray() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo); //Buffer used for index drawing
 
 	glEnableVertexAttribArray(0);
-	// 0 attrib, 2 floats, type, not normalised, sizeof Vertex, pointer to the Vertex Data
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, position));
+	// 0 attrib, 3 floats, type, not normalised, sizeof Vertex, pointer to the Vertex Data
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, position));
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, color));
 
@@ -228,12 +228,12 @@ void LineRenderer::sortGlyphs() {
 		break;
 	case LineGlyphSortType::FRONT_TO_BACK:
 		std::stable_sort(_lineGlyphPointers.begin(), _lineGlyphPointers.end(), [](LineGlyph* a, LineGlyph* b) {
-			return (a->depth < b->depth);
+			return (a->fromV.position.z < b->fromV.position.z);
 			});
 		break;
 	case LineGlyphSortType::BACK_TO_FRONT:
 		std::stable_sort(_lineGlyphPointers.begin(), _lineGlyphPointers.end(), [](LineGlyph* a, LineGlyph* b) {
-			return (a->depth > b->depth);
+			return (a->fromV.position.z > b->fromV.position.z);
 			});
 		break;
 	default:

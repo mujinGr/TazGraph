@@ -170,10 +170,10 @@ void PlaneColorRenderer::sortGlyphs() {
 }
 
 bool PlaneColorRenderer::compareFrontToBack(ColorGlyph* a, ColorGlyph* b) {
-	return (a->topLeft.position.x < b->topLeft.position.x);
+	return (a->topLeft.position.z < b->topLeft.position.z);
 }
 bool PlaneColorRenderer::compareBackToFront(ColorGlyph* a, ColorGlyph* b) {
-	return (a->topLeft.position.x > b->topLeft.position.x);
+	return (a->topLeft.position.z > b->topLeft.position.z);
 }
 
 void PlaneColorRenderer::dispose()

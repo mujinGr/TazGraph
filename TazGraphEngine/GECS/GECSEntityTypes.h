@@ -269,12 +269,12 @@ public:
 		TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
 		TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
 
-		glm::vec2 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
+		glm::vec3 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
 
-		glm::vec2 unitDirection = glm::normalize(direction);
+		glm::vec3 unitDirection = glm::normalize(direction);
 		float offset = toTR->bodyDims.w + 5.0f;
 
-		glm::vec2 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
+		glm::vec3 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
 		
 		auto& temp_arrowHead = mManager.addEntity<Empty>();
 
@@ -282,8 +282,8 @@ public:
 		float angleRadians = atan2(direction.y, direction.x);
 		float angleDegrees = glm::degrees(angleRadians);
 
-		glm::ivec2 arrowSize(10, 20);
-		glm::vec2 farrowSize(10.0f, 20.0f);
+		glm::ivec3 arrowSize(10, 20, 0);
+		glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
 
 		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), Manager::actionLayer, arrowSize, 1);
 		temp_arrowHead.addComponent<Triangle_w_Color>();
@@ -378,21 +378,21 @@ public:
 			TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
 			TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
 
-			glm::vec2 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
+			glm::vec3 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
 
-			glm::vec2 unitDirection = glm::normalize(direction);
+			glm::vec3 unitDirection = glm::normalize(direction);
 			float offset = 10.0f;
 
-			glm::vec2 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
+			glm::vec3 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
 
 			// Calculate the angle in radians, and convert it to degrees
 			float angleRadians = atan2(direction.y, direction.x);
 			float angleDegrees = glm::degrees(angleRadians);
 
-			glm::ivec2 arrowSize(10, 20);
-			glm::vec2 farrowSize(10.0f, 20.0f);
+			glm::ivec3 arrowSize(10, 20, 0);
+			glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
 
-			glm::vec2 newArrowHeadPosition = arrowHeadPos - (farrowSize / 2.0f);
+			glm::vec3 newArrowHeadPosition = arrowHeadPos - (farrowSize / 2.0f);
 			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_X(newArrowHeadPosition.x);
 			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_Y(newArrowHeadPosition.y);
 

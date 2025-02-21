@@ -67,9 +67,9 @@ glm::vec2 InputManager::getMouseCoords() const {
     return _mouseCoords;
 }
 
-void InputManager::setStartDragPos(glm::vec2 position)
+void InputManager::setStartDragAimPos(glm::vec3 m_aimPos)
 {
-    _startingDragPoint = position;
+    _startingDragAimPos = m_aimPos;
 }
 
 void InputManager::setPanningPoint(glm::vec2 position)

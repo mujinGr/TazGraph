@@ -50,11 +50,11 @@ void PlaneModelRenderer::initQuadBatch(size_t mSize)
 }
 
 void PlaneModelRenderer::drawTriangle(
-	const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
+	const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3,
 	const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
-	GLuint texture, float depth, const Color& color, float angle = 0.f
+	GLuint texture, const Color& color, float angle = 0.f
 ) {
-	_triangleGlyphs.emplace_back(v1,v2,v3,uv1,uv2,uv3, texture, depth, color, angle);
+	_triangleGlyphs.emplace_back(v1,v2,v3,uv1,uv2,uv3, texture, color, angle);
 }
 // we can generalize the renderer for multiple kinds of meshes (triangle made instead of planes) by creating
 // more draw functions for those meshes (like draw function for triangle).
@@ -185,10 +185,10 @@ void PlaneModelRenderer::sortGlyphs() {
 }
 
 bool PlaneModelRenderer::compareFrontToBack(Glyph* a, Glyph* b) {
-	return (a->depth < b->depth);
+	return (a->topLeft.position.z < b->topLeft.position.z);
 }
 bool PlaneModelRenderer::compareBackToFront(Glyph* a, Glyph* b) {
-	return (a->depth > b->depth);
+	return (a->topLeft.position.z > b->topLeft.position.z);
 }
 bool PlaneModelRenderer::compareTexture(Glyph* a, Glyph* b) {
 	return (a->texture < b->texture);

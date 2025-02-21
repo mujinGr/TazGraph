@@ -28,8 +28,8 @@ public:
     glm::vec2 getMouseCoords() const;
 
     // Panning
-    void setStartDragPos(glm::vec2 position); // set the position of camera when starting dragging
-    glm::vec2 getStartDragPos() const { return _startingDragPoint;  };
+    void setStartDragAimPos(glm::vec3 m_aimPos); // set the position of camera when starting dragging
+    glm::vec3 getStartDragAimPos() const { return _startingDragAimPos;  };
 
     void setPanningPoint(glm::vec2 position);
     glm::vec2 calculatePanningDelta(glm::vec2 position);
@@ -60,7 +60,7 @@ private:
 
     glm::vec2 _panningPoint;
 
-    glm::vec2 _startingDragPoint;
+    glm::vec3 _startingDragAimPos;
 
     glm::vec2 _relativeObjectPos;
 };

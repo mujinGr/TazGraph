@@ -24,18 +24,6 @@ auto& world_map(manager.addEntityNoId<Node>());
 
 float nodeRadius = 1.0f;
 
-float rectangleVertices[] =
-{
-	// Coords    // texCoords
-	 1.0f, -1.0f,  1.0f, 0.0f,
-	-1.0f, -1.0f,  0.0f, 0.0f,
-	-1.0f,  1.0f,  0.0f, 1.0f,
-
-	 1.0f,  1.0f,  1.0f, 1.0f,
-	 1.0f, -1.0f,  1.0f, 0.0f,
-	-1.0f,  1.0f,  0.0f, 1.0f
-};
-
 Graph::Graph(TazGraphEngine::Window* window)
 {
 	_window = window;
@@ -369,17 +357,23 @@ void Graph::checkInput() {
 			}
 			break;
 		case SDL_KEYDOWN:
+			if (_app->_inputManager.isKeyDown(SDLK_e)) {
+				main_camera2D->movePosition_Forward(10.0f);
+			}
+			if (_app->_inputManager.isKeyDown(SDLK_r)) {
+				main_camera2D->movePosition_Forward(-10.0f);
+			}
 			if (_app->_inputManager.isKeyDown(SDLK_w)) {
-
+				main_camera2D->movePosition_Vert(10.0f);
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_s)) {
-
+				main_camera2D->movePosition_Vert(-10.0f);
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_a)) {
-				main_camera2D->setPosition_X(main_camera2D->getPosition().x - 1.0f);
+				main_camera2D->movePosition_Hor(-10.0f);
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_d)) {
-				main_camera2D->setPosition_X(main_camera2D->getPosition().x + 1.0f);
+				main_camera2D->movePosition_Hor(10.0f);
 			}
 		case SDL_MOUSEMOTION:
 		{
@@ -413,11 +407,8 @@ void Graph::checkInput() {
 
 			if (_app->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
 				// Calculate new camera position based on the mouse movement
-				glm::vec2 delta = _app->_inputManager.calculatePanningDelta(_sceneMousePosition / main_camera2D->getScale());
-				/*_app->_camera.move(delta);*/
-				main_camera2D->setAimPos(_app->_inputManager.getStartDragPos() - delta);/*
-				main_camera2D->setPosition_X(_app->_inputManager.getStartDragPos().x - delta.x);
-				main_camera2D->setPosition_Y(_app->_inputManager.getStartDragPos().y - delta.y);*/
+				glm::vec3 delta = glm::vec3(_app->_inputManager.calculatePanningDelta(mouseCoordsVec ),0.0f);
+				main_camera2D->moveAimPos(_app->_inputManager.getStartDragAimPos(), delta);
 			}
 		}
 		case SDL_MOUSEBUTTONDOWN:
@@ -433,8 +424,8 @@ void Graph::checkInput() {
 			}
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
-				_app->_inputManager.setPanningPoint(mouseCoordsVec / main_camera2D->getScale());
-				_app->_inputManager.setStartDragPos(main_camera2D->getPosition());
+				_app->_inputManager.setPanningPoint(mouseCoordsVec);
+				_app->_inputManager.setStartDragAimPos(main_camera2D->getAimPos());
 			}
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
 				std::cout << "right-clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
@@ -581,10 +572,11 @@ void Graph::draw()
 
 	_PlaneModelRenderer.begin();
 
-	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), "worldMap", *main_camera2D);
+	/*_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), "worldMap", *main_camera2D);
 	renderBatch(backgroundImage, _PlaneModelRenderer, false);
 	_PlaneModelRenderer.end();
-	_PlaneModelRenderer.renderBatch();
+	_PlaneModelRenderer.renderBatch();*/
+
 	// Debug Rendering
 	if (_renderDebug) {
 		_LineRenderer.begin();
@@ -611,7 +603,7 @@ void Graph::draw()
 					destRect.y = tr->getPosition().y;
 					destRect.z = tr->bodyDims.w;
 					destRect.w = tr->bodyDims.h;
-					_LineRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f, 0.0f); //todo add angle for drawbox
+					_LineRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f, tr->getZIndex()); //todo add angle for drawbox
 					//_LineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
 					//break;
 				}
@@ -639,19 +631,6 @@ void Graph::draw()
 		glsl_lineColor.unuse();
 
 	}
-	_LineRenderer.begin();
-
-	glm::vec4 destRect;
-	destRect.x = main_camera2D->getPosition().x - main_camera2D->getCameraDimensions().x / 2;
-	destRect.y = main_camera2D->getPosition().y - main_camera2D->getCameraDimensions().y / 2;
-	destRect.z = main_camera2D->getCameraDimensions().x;
-	destRect.w = main_camera2D->getCameraDimensions().y;
-
-	_LineRenderer.drawBox(destRect, Color(0, 0, 0, 255), 0.0f, 0.0f);
-	
-	_LineRenderer.end();
-	_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f * (manager.grid->getGridLevel() + 1));
-
 
 	_LineRenderer.begin();
 	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);

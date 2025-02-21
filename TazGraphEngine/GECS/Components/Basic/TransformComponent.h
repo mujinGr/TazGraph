@@ -96,7 +96,7 @@ public:
 		}
 	}
 
-	glm::vec2 getCenterTransform()
+	glm::vec3 getCenterTransform()
 	{
 		return getPosition() + getSizeCenter();
 	}
@@ -117,12 +117,12 @@ public:
 		return _rotation;
 	}
 
-	glm::vec2 getPosition() {
-		return glm::vec2(bodyDims.x, bodyDims.y);
+	glm::vec3 getPosition() {
+		return glm::vec3(bodyDims.x, bodyDims.y, _zIndexF);
 	}
 
-	glm::vec2 getSizeCenter() {
-		return glm::vec2(bodyDims.w * scale / 2, bodyDims.h * scale / 2);
+	glm::vec3 getSizeCenter() {
+		return glm::vec3(bodyDims.w * scale / 2, bodyDims.h * scale / 2, _zIndexF);
 	}
 
 	void setPosition_X(int newPosition_X) {
