@@ -10,7 +10,8 @@ struct Cell {
 	std::vector<Entity*> nodes;
 	std::vector<Entity*> links;
 
-	SDL_FRect boundingBox;
+	glm::vec3 boundingBox_origin; // Starting point (minimum corner) of the cell
+	glm::vec3 boundingBox_size;
 
 	Cell* parent = nullptr;
 	std::vector<Cell*> children;
@@ -26,7 +27,7 @@ public:
 		Outer2
 	};
 
-	Grid(int width, int height, int cellSize);
+	Grid(int width, int height, int depth, int cellSize);
 	~Grid();
 
 	void createCells(Grid::Level size);
@@ -72,10 +73,14 @@ private:
 	std::vector<Cell> _superParentCells;
 
 	int _cellSize;
+
 	int _width;
 	int _height;
+	int _depth;
+
 	int _numXCells;
 	int _numYCells;
+	int _numZCells;
 
 	// can change between different scenes/managers
 	std::map<Level, std::pair<float, int>> gridLevels = {

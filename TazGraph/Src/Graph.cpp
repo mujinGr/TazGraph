@@ -21,7 +21,10 @@ TazGraphEngine::Window* Graph::_window = nullptr;
 auto& cursor(manager.addEntityNoId<Node>());
 auto& world_map(manager.addEntityNoId<Node>());
 
+glm::vec3 pointAtZ0;
 
+// Get point on the ray at z = -100
+glm::vec3 pointAtO;
 float nodeRadius = 1.0f;
 
 Graph::Graph(TazGraphEngine::Window* window)
@@ -134,7 +137,7 @@ void Graph::onEntry()
 	//main_camera2D->worldDimensions= grid->GetLayerDimensions();
 	if (!manager.grid)
 	{
-		manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, CELL_SIZE);
+		manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
 		_assetsManager->CreateCursor(cursor);
 		_assetsManager->CreateWorldMap(world_map);
 	}
@@ -418,6 +421,24 @@ void Graph::checkInput() {
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) { // this is for selection and moving around nodes
 				std::cout << "clicked at: " << _sceneMousePosition.x << " - " << _sceneMousePosition.y << std::endl;
 				if (_selectedEntity == nullptr) {
+					/*glm::vec3 ray = castRayAt(_sceneMousePosition);
+					selectEntityFromRay(ray);*/
+					
+					glm::vec3 ray = main_camera2D->castRayAt(_sceneMousePosition);
+					glm::vec3 rayOrigin = main_camera2D->getPosition(); // Camera position
+					glm::vec3 rayDirection = main_camera2D->castRayAt(_sceneMousePosition); // Ray direction
+
+					// Get point on the ray at z = 0
+					pointAtZ0 = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, 0.0f);
+
+					// Get point on the ray at z = -100
+					pointAtO = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, rayOrigin.z);
+
+					// Output the points
+					std::cout << "Point at z = 0: (" << pointAtZ0.x << ", " << pointAtZ0.y << ", " << pointAtZ0.z << ")" << std::endl;
+					std::cout << "Point at z = -100: (" << pointAtO.x << ", " << pointAtO.y << ", " << pointAtO.z << ")" << std::endl;
+
+
 					selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec), SDL_BUTTON_LEFT);
 					std::cout << "convertedScreenToWorld: " << convertScreenToWorld(mouseCoordsVec).x << " - " << convertScreenToWorld(mouseCoordsVec).y << std::endl;
 				}
@@ -584,8 +605,10 @@ void Graph::draw()
 
 		std::vector<Cell*> intercectedCells = manager.grid->getIntersectedCameraCells(*main_camera2D);
 		for (const auto& cell : intercectedCells) {
-			glm::vec4 destRect(cell->boundingBox.x, cell->boundingBox.y, cell->boundingBox.w, cell->boundingBox.h);
-			_LineRenderer.drawBox(destRect, Color(0, 255, 0, 100), 0.0f);  // Drawing each cell in red for visibility
+			glm::vec3 cellBox_org(cell->boundingBox_origin.x, cell->boundingBox_origin.y, cell->boundingBox_origin.z);
+			glm::vec3 cellBox_size(cell->boundingBox_size.x, cell->boundingBox_size.y, cell->boundingBox_size.z);
+
+			_LineRenderer.drawBox(cellBox_org, cellBox_size, Color(0, 255, 0, 100), 0.0f);  // Drawing each cell in red for visibility
 		}
 
 		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
@@ -603,7 +626,7 @@ void Graph::draw()
 					destRect.y = tr->getPosition().y;
 					destRect.z = tr->bodyDims.w;
 					destRect.w = tr->bodyDims.h;
-					_LineRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f, tr->getZIndex()); //todo add angle for drawbox
+					_LineRenderer.drawRectangle(destRect, Color(255, 255, 255, 255), 0.0f, tr->getZIndex()); //todo add angle for drawRectangle
 					//_LineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
 					//break;
 				}
@@ -618,13 +641,13 @@ void Graph::draw()
 				destRect.y = tr->getPosition().y;
 				destRect.z = tr->bodyDims.w;
 				destRect.w = tr->bodyDims.h;
-				_LineRenderer.drawBox(destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawbox
+				_LineRenderer.drawRectangle(destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawRectangle
 
 		}
-		_LineRenderer.drawBox(glm::vec4(-ROW_CELL_SIZE / 2, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE/2, COLUMN_CELL_SIZE/2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		_LineRenderer.drawBox(glm::vec4(0, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		_LineRenderer.drawBox(glm::vec4(-ROW_CELL_SIZE / 2, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		_LineRenderer.drawBox(glm::vec4(0, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawRectangle(glm::vec4(-ROW_CELL_SIZE / 2, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE/2, COLUMN_CELL_SIZE/2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawRectangle(glm::vec4(0, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawRectangle(glm::vec4(-ROW_CELL_SIZE / 2, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawRectangle(glm::vec4(0, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
 
 		_LineRenderer.end();
 		_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f * (manager.grid->getGridLevel() + 1));
@@ -634,7 +657,10 @@ void Graph::draw()
 
 	_LineRenderer.begin();
 	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
+
 	
+	_LineRenderer.drawLine(pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
+
 	renderBatch(manager.getVisibleGroup(Manager::groupLinks_0), _LineRenderer);
 
 	renderBatch(manager.getVisibleGroup(Manager::groupGroupLinks_0), _LineRenderer);

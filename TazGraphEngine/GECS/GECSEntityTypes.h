@@ -432,7 +432,7 @@ public:
 		ImGui::Text("Bounding boxes of intercepted cells:");
 
 		for (auto cell : ownerCells) {
-			ImGui::Text("- %.2f , %.2f", cell->boundingBox.x, cell->boundingBox.y);
+			ImGui::Text("- %.2f , %.2f , %.2f", cell->boundingBox_origin.x, cell->boundingBox_origin.y, cell->boundingBox_origin.z);
 		}
 	}
 

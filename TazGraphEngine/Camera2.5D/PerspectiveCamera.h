@@ -169,8 +169,8 @@ public:
 	}
 
 	//getters
-	glm::vec2 getPosition() const override {
-		return glm::vec2(eyePos.x, eyePos.y);
+	glm::vec3 getPosition() const override {
+		return eyePos;
 	}
 
 	float getScale() const override {
@@ -243,6 +243,39 @@ public:
 
 	bool hasChanged() {
 		return _cameraChange;
+	}
+
+	// Function to cast a ray from screen coordinates into world space
+	glm::vec3 castRayAt(const glm::vec2& screenPos) {
+		// Convert screen position to normalized device coordinates (NDC)
+		float x = (2.0f * screenPos.x) / _screenWidth - 1.0f;
+		float y = 1.0f - (2.0f * screenPos.y) / _screenHeight;
+		glm::vec4 clipCoords = glm::vec4(x, y, -1.0f, 1.0f);
+
+		// Convert to eye space
+		glm::vec4 eyeCoords = glm::inverse(_projectionMatrix) * clipCoords;
+		eyeCoords = glm::vec4(eyeCoords.x, eyeCoords.y, -1.0f, 0.0f);
+
+		// Convert to world space
+		glm::vec3 worldRay = glm::vec3(glm::inverse(_viewMatrix) * eyeCoords);
+		worldRay = glm::normalize(worldRay);
+
+		return worldRay;
+	}
+	glm::vec3 getPointOnRayAtZ(const glm::vec3& rayOrigin, const glm::vec3& rayDirection, float desiredZ) {
+		// Check if the ray is parallel to the z-plane (no intersection)
+		if (rayDirection.z == 0.0f) {
+			// Ray is parallel to the plane, no intersection
+			return glm::vec3(std::numeric_limits<float>::infinity()); // Return invalid point
+		}
+
+		// Calculate t for the desired z value
+		float t = (desiredZ - rayOrigin.z) / rayDirection.z;
+
+		// Calculate the point on the ray
+		glm::vec3 pointOnRay = rayOrigin + t * rayDirection;
+
+		return pointOnRay;
 	}
 
 private:

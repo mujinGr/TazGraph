@@ -27,6 +27,9 @@ void LineRenderer::begin(LineGlyphSortType sortType)
 
 	_squareGlyphPointers.clear();
 	_squareGlyphs.clear();
+
+	_boxGlyphPointers.clear();
+	_boxGlyphs.clear();
 }
 
 void LineRenderer::end() // on end clear all indices reserved
@@ -40,7 +43,10 @@ void LineRenderer::end() // on end clear all indices reserved
 	for (int i = 0; i < _squareGlyphs.size(); i++) {
 		_squareGlyphPointers[i] = &_squareGlyphs[i];
 	}
-
+	_boxGlyphPointers.resize(_boxGlyphs.size());
+	for (int i = 0; i < _boxGlyphs.size(); i++) {
+		_boxGlyphPointers[i] = &_boxGlyphs[i];
+	}
 	sortGlyphs();
 
 	createRenderBatches();
@@ -55,13 +61,18 @@ void LineRenderer::initBatch(size_t msize)
 // todo on render pass that info in verts and indices
 void LineRenderer::drawLine(const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor)
 {
-	_lineGlyphs.emplace_back(srcPosition, destPosition, srcColor, destColor);
+	//_lineGlyphs.emplace_back(srcPosition, destPosition, srcColor, destColor);
 }
 
 
-void LineRenderer::drawBox(const glm::vec4& destRect, const Color& color, float angle, float zIndex)
+void LineRenderer::drawRectangle(const glm::vec4& destRect, const Color& color, float angle, float zIndex)
 {
-	_squareGlyphs.emplace_back(destRect, color, angle, zIndex);
+	//_squareGlyphs.emplace_back(destRect, color, angle, zIndex);
+}
+
+void LineRenderer::drawBox(const glm::vec3& origin, const glm::vec3& size, const Color& color, float angle)
+{
+	_boxGlyphs.emplace_back(origin, size, color, angle);
 }
 
 void LineRenderer::drawCircle(const glm::vec2& center, const Color& color, float radius)
@@ -106,81 +117,131 @@ void LineRenderer::createRenderBatches() {
 	std::vector<ColorVertex> vertices;
 	std::vector<GLuint> indices;
 
-	vertices.resize(_lineGlyphPointers.size() * LINE_OFFSET + _squareGlyphPointers.size() * SQUARE_OFFSET);
-	indices.resize(_lineGlyphPointers.size() * LINE_OFFSET + _squareGlyphPointers.size() * SQUARE_OFFSET * 2);
+	vertices.resize(_lineGlyphPointers.size() * LINE_OFFSET + _squareGlyphPointers.size() * SQUARE_OFFSET + _boxGlyphPointers.size() * BOX_OFFSET);
+	indices.resize(_lineGlyphPointers.size() * LINE_OFFSET + _squareGlyphPointers.size() * SQUARE_OFFSET * 2 + _boxGlyphPointers.size() * BOX_OFFSET * 4);
 
-	if (_lineGlyphPointers.empty() && _squareGlyphPointers.empty()) {
+	if (_lineGlyphPointers.empty() && _squareGlyphPointers.empty() && _boxGlyphPointers.empty()) {
 		return;
 	}
 
 	int offset = 0;
 	int cv = 0; //current vertex
 
-	if (_squareGlyphPointers.size()) {
-		_renderBatches.emplace_back(offset, 2 * SQUARE_OFFSET);
+	//if (_squareGlyphPointers.size()) {
+	//	_renderBatches.emplace_back(offset, 2 * SQUARE_OFFSET);
 
-		indices[cv * 2] = cv;
-		indices[cv * 2 + 1] = cv + 1;
-		vertices[cv++] = _squareGlyphPointers[0]->topLeft;
+	//	indices[cv * 2] = cv;
+	//	indices[cv * 2 + 1] = cv + 1;
+	//	vertices[cv++] = _squareGlyphPointers[0]->topLeft;
 
-		indices[cv * 2] = cv;
-		indices[cv * 2 + 1] = cv + 1;
-		vertices[cv++] = _squareGlyphPointers[0]->bottomLeft;
+	//	indices[cv * 2] = cv;
+	//	indices[cv * 2 + 1] = cv + 1;
+	//	vertices[cv++] = _squareGlyphPointers[0]->bottomLeft;
 
-		indices[cv * 2] = cv;
-		indices[cv * 2 + 1] = cv + 1;
-		vertices[cv++] = _squareGlyphPointers[0]->bottomRight;
+	//	indices[cv * 2] = cv;
+	//	indices[cv * 2 + 1] = cv + 1;
+	//	vertices[cv++] = _squareGlyphPointers[0]->bottomRight;
 
-		indices[cv * 2] = cv;
-		indices[cv * 2 + 1] = cv - SQUARE_OFFSET + 1;
-		vertices[cv++] = _squareGlyphPointers[0]->topRight;
+	//	indices[cv * 2] = cv;
+	//	indices[cv * 2 + 1] = cv - SQUARE_OFFSET + 1;
+	//	vertices[cv++] = _squareGlyphPointers[0]->topRight;
 
-		offset += 2 * SQUARE_OFFSET;
+	//	offset += 2 * SQUARE_OFFSET;
 
-		for (int cg = 1; cg < _squareGlyphPointers.size(); cg++) { //current Glyph
+	//	for (int cg = 1; cg < _squareGlyphPointers.size(); cg++) { //current Glyph
 
-			_renderBatches.back().numIndices += 2 * SQUARE_OFFSET;
+	//		_renderBatches.back().numIndices += 2 * SQUARE_OFFSET;
 
-			indices[cv * 2] = cv;
-			indices[cv * 2 + 1] = cv + 1;
-			vertices[cv++] = _squareGlyphPointers[cg]->topLeft;
+	//		indices[cv * 2] = cv;
+	//		indices[cv * 2 + 1] = cv + 1;
+	//		vertices[cv++] = _squareGlyphPointers[cg]->topLeft;
 
-			indices[cv * 2] = cv;
-			indices[cv * 2 + 1] = cv + 1;
-			vertices[cv++] = _squareGlyphPointers[cg]->bottomLeft;
+	//		indices[cv * 2] = cv;
+	//		indices[cv * 2 + 1] = cv + 1;
+	//		vertices[cv++] = _squareGlyphPointers[cg]->bottomLeft;
 
-			indices[cv * 2] = cv;
-			indices[cv * 2 + 1] = cv + 1;
-			vertices[cv++] = _squareGlyphPointers[cg]->bottomRight;
+	//		indices[cv * 2] = cv;
+	//		indices[cv * 2 + 1] = cv + 1;
+	//		vertices[cv++] = _squareGlyphPointers[cg]->bottomRight;
 
-			indices[cv * 2] = cv;
-			indices[cv * 2 + 1] = cv - SQUARE_OFFSET + 1;
-			vertices[cv++] = _squareGlyphPointers[cg]->topRight;
+	//		indices[cv * 2] = cv;
+	//		indices[cv * 2 + 1] = cv - SQUARE_OFFSET + 1;
+	//		vertices[cv++] = _squareGlyphPointers[cg]->topRight;
 
-			offset += 2 * SQUARE_OFFSET;
+	//		offset += 2 * SQUARE_OFFSET;
+	//	}
+	//}
+	//if (_lineGlyphPointers.size()) {
+	//	_renderBatches.emplace_back(offset, LINE_OFFSET);
+	//	indices[cv] = cv;
+	//	vertices[cv++] = _lineGlyphPointers[0]->fromV;
+	//	indices[cv] = cv;
+	//	vertices[cv++] = _lineGlyphPointers[0]->toV;
+
+	//	offset += LINE_OFFSET;
+
+	//	for (int cg = 1; cg < _lineGlyphPointers.size(); cg++) { //current Glyph
+
+	//		_renderBatches.back().numIndices += LINE_OFFSET;
+
+	//		indices[cv] = cv;
+	//		vertices[cv++] = _lineGlyphPointers[cg]->fromV;
+	//		indices[cv] = cv;
+	//		vertices[cv++] = _lineGlyphPointers[cg]->toV;
+	//		offset += LINE_OFFSET;
+	//	}
+	//}
+	//
+	if (_boxGlyphPointers.size()) {
+		_renderBatches.emplace_back(offset, 4 * BOX_OFFSET); // 12 edges * 2 indices per edge
+		int cv_save = _lineGlyphPointers.size() * LINE_OFFSET + _squareGlyphPointers.size() * SQUARE_OFFSET * 2;
+		// Define the first cube's edges
+		int edgePairs[12][2] = {
+			{0, 1}, {1, 2}, {2, 3}, {3, 0}, // Bottom face
+			{4, 5}, {5, 6}, {6, 7}, {7, 4}, // Top face
+			{0, 4}, {1, 5}, {2, 6}, {3, 7}  // Vertical edges
+		};
+
+		vertices[cv++] = _boxGlyphPointers[0]->a_topLeft;
+		vertices[cv++] = _boxGlyphPointers[0]->a_bottomLeft;
+		vertices[cv++] = _boxGlyphPointers[0]->a_bottomRight;
+		vertices[cv++] = _boxGlyphPointers[0]->a_topRight;
+		
+		vertices[cv++] = _boxGlyphPointers[0]->b_topLeft;
+		vertices[cv++] = _boxGlyphPointers[0]->b_bottomLeft;
+		vertices[cv++] = _boxGlyphPointers[0]->b_bottomRight;
+		vertices[cv++] = _boxGlyphPointers[0]->b_topRight;
+
+		for (int i = 0; i < 12; i++) {
+			indices[cv_save + 2 * i] = cv_save + edgePairs[i][0];
+			indices[cv_save + (2 * i + 1)] = cv_save + edgePairs[i][1];
+		}
+
+		offset += 4 * BOX_OFFSET;
+
+		for (int cg = 1; cg < _boxGlyphPointers.size(); cg++) {
+			_renderBatches.back().numIndices += 4 * BOX_OFFSET;
+
+			vertices[cv++] = _boxGlyphPointers[cg]->a_topLeft;
+			vertices[cv++] = _boxGlyphPointers[cg]->a_bottomLeft;
+			vertices[cv++] = _boxGlyphPointers[cg]->a_bottomRight;
+			vertices[cv++] = _boxGlyphPointers[cg]->a_topRight;
+
+			vertices[cv++] = _boxGlyphPointers[cg]->b_topLeft;
+			vertices[cv++] = _boxGlyphPointers[cg]->b_bottomLeft;
+			vertices[cv++] = _boxGlyphPointers[cg]->b_bottomRight;
+			vertices[cv++] = _boxGlyphPointers[cg]->b_topRight;
+
+			for (int i = 0; i < 12; i++) {
+				indices[cv_save + 2 * i] = cv_save + edgePairs[i][0];
+				indices[cv_save + (2 * i + 1)] = cv_save + edgePairs[i][1];
+			}
+
+			offset += 4 * BOX_OFFSET;
+
 		}
 	}
-	if (_lineGlyphPointers.size()) {
-		_renderBatches.emplace_back(offset, LINE_OFFSET);
-		indices[cv] = cv;
-		vertices[cv++] = _lineGlyphPointers[0]->fromV;
-		indices[cv] = cv;
-		vertices[cv++] = _lineGlyphPointers[0]->toV;
 
-		offset += LINE_OFFSET;
-
-		for (int cg = 1; cg < _lineGlyphPointers.size(); cg++) { //current Glyph
-
-			_renderBatches.back().numIndices += LINE_OFFSET;
-
-			indices[cv] = cv;
-			vertices[cv++] = _lineGlyphPointers[cg]->fromV;
-			indices[cv] = cv;
-			vertices[cv++] = _lineGlyphPointers[cg]->toV;
-			offset += LINE_OFFSET;
-		}
-	}
-	
 	//Bind buffer for the information for the vertexes
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	//Orphan the buffer : replace the memory block for the buffer object, 

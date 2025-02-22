@@ -9,6 +9,8 @@
 
 #define LINE_OFFSET 2
 #define SQUARE_OFFSET 4
+#define BOX_OFFSET 8
+
 
 enum class LineGlyphSortType {
 	NONE,
@@ -88,6 +90,77 @@ public:
 	ColorVertex topRight;
 };
 
+class BoxGlyph {
+
+public:
+	BoxGlyph() {};
+	BoxGlyph(const glm::vec3& origin, const glm::vec3& size, const Color& color, float angle)
+	{
+
+		float centerX = origin.x + size.x / 2.0f;
+		float centerY = origin.y + size.y / 2.0f;
+		float centerZ = origin.z + size.z / 2.0f;
+
+		// Convert angle from degrees to radians if necessary
+		float radians = glm::radians(angle);
+
+		glm::vec3 atopLeft(origin.x, origin.y, origin.z);
+		glm::vec3 abottomLeft(origin.x, origin.y + size.y, origin.z);
+		glm::vec3 abottomRight(origin.x + size.x, origin.y + size.y, origin.z);
+		glm::vec3 atopRight(origin.x + size.x, origin.y, origin.z);
+
+		glm::vec3 arotatedTopLeft = rotatePoint(atopLeft.x, atopLeft.y, atopLeft.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 arotatedBottomLeft = rotatePoint(abottomLeft.x, abottomLeft.y, abottomLeft.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 arotatedBottomRight = rotatePoint(abottomRight.x, abottomRight.y, abottomRight.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 arotatedTopRight = rotatePoint(atopRight.x, atopRight.y, atopRight.z, centerX, centerY, centerZ, 0, 0, 0);
+
+		a_topLeft.color = color;
+		a_topLeft.setPosition(arotatedTopLeft.x, arotatedTopLeft.y, arotatedTopLeft.z);
+
+		a_bottomLeft.color = color;
+		a_bottomLeft.setPosition(arotatedBottomLeft.x, arotatedBottomLeft.y, arotatedBottomLeft.z);
+
+		a_bottomRight.color = color;
+		a_bottomRight.setPosition(arotatedBottomRight.x, arotatedBottomRight.y, arotatedBottomRight.z);
+
+		a_topRight.color = color;
+		a_topRight.setPosition(arotatedTopRight.x, arotatedTopRight.y, arotatedTopRight.z);
+
+		glm::vec3 btopLeft(origin.x, origin.y, origin.z + size.z);
+		glm::vec3 bbottomLeft(origin.x, origin.y + size.y, origin.z + size.z);
+		glm::vec3 bbottomRight(origin.x + size.x, origin.y + size.y, origin.z + size.z);
+		glm::vec3 btopRight(origin.x + size.x, origin.y, origin.z + size.z);
+
+		glm::vec3 brotatedTopLeft = rotatePoint(btopLeft.x, btopLeft.y, btopLeft.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 brotatedBottomLeft = rotatePoint(bbottomLeft.x, bbottomLeft.y, bbottomLeft.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 brotatedBottomRight = rotatePoint(bbottomRight.x, bbottomRight.y, bbottomRight.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 brotatedTopRight = rotatePoint(btopRight.x, btopRight.y, btopRight.z, centerX, centerY, centerZ, 0, 0, 0);
+
+		b_topLeft.color = color;
+		b_topLeft.setPosition(brotatedTopLeft.x, brotatedTopLeft.y, brotatedTopLeft.z);
+
+		b_bottomLeft.color = color;
+		b_bottomLeft.setPosition(brotatedBottomLeft.x, brotatedBottomLeft.y, brotatedBottomLeft.z);
+
+		b_bottomRight.color = color;
+		b_bottomRight.setPosition(brotatedBottomRight.x, brotatedBottomRight.y, brotatedBottomRight.z);
+
+		b_topRight.color = color;
+		b_topRight.setPosition(brotatedTopRight.x, brotatedTopRight.y, brotatedTopRight.z);
+
+	};
+
+	ColorVertex a_topLeft;
+	ColorVertex a_bottomLeft;
+	ColorVertex a_bottomRight;
+	ColorVertex a_topRight;
+
+	ColorVertex b_topLeft;
+	ColorVertex b_bottomLeft;
+	ColorVertex b_bottomRight;
+	ColorVertex b_topRight;
+};
+
 class LineRenderer {
 public:
 	const char* VERT_SRC = R"(#version 400
@@ -124,7 +197,8 @@ void main() {
 	void end();
 
 	void drawLine(const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor);
-	void drawBox(const glm::vec4& destRect, const Color& color, float angle, float zIndex =0.0f);
+	void drawRectangle(const glm::vec4& destRect, const Color& color, float angle, float zIndex =0.0f);
+	void drawBox(const glm::vec3& origin, const glm::vec3& size, const Color& color, float angle);
 	void drawCircle(const glm::vec2& center, const Color& color, float radius);
 
 	void initBatch(size_t msize);
@@ -146,6 +220,9 @@ private:
 
 	std::vector<SquareGlyph*> _squareGlyphPointers;
 	std::vector<SquareGlyph> _squareGlyphs;
+
+	std::vector<BoxGlyph*> _boxGlyphPointers;
+	std::vector<BoxGlyph> _boxGlyphs;
 
 	std::vector<RenderLineBatch> _renderBatches;
 };

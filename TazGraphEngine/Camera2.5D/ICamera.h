@@ -23,7 +23,7 @@ public:
     virtual SDL_FRect getCameraRect() const = 0;
 
     // Additional methods to expose camera2D.worldLocation properties as needed
-    virtual glm::vec2 getPosition() const = 0;
+    virtual glm::vec3 getPosition() const = 0;
     virtual void setPosition_X(const float newPosition) = 0;
     virtual void setPosition_Y(const float newPosition) = 0;
     virtual float getScale() const = 0;

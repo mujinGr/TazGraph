@@ -4,11 +4,13 @@
 
 #include <unordered_set>
 
-Grid::Grid(int width, int height, int cellSize)
-	: _width(width), _height(height), _cellSize(cellSize)
+Grid::Grid(int width, int height, int depth, int cellSize)
+	: _width(width), _height(height), _depth(depth), _cellSize(cellSize)
 {
 	_numXCells = ceil((float)_width / _cellSize);
 	_numYCells = ceil((float)_height / _cellSize);
+	_numZCells = ceil((float)_depth / _cellSize);
+
 
 	createCells(Level::Basic);
 	createCells(Level::Outer1);
@@ -25,6 +27,8 @@ void Grid::createCells(Grid::Level m_level) {
 	
 	int numXCells = ceil((float)_numXCells / cellsGroupSize);
 	int numYCells = ceil((float)_numYCells / cellsGroupSize);
+	int numZCells = ceil((float)_numZCells / cellsGroupSize);
+
 	
 	std::vector<Cell>& currentCells =	(m_level == Level::Basic) ? _cells :
 		(m_level == Level::Outer1) ? _parentCells :
@@ -35,44 +39,61 @@ void Grid::createCells(Grid::Level m_level) {
 		(m_level == Level::Outer2) ? _parentCells :
 		emptyCells;
 
-	currentCells.resize(numYCells * numXCells);
+	currentCells.resize(numYCells * numXCells * numZCells);
 
 	float startX = -(numXCells / 2.0f); // add one in order to take floor of division
 	float endX = (numXCells) / 2.0f;
 	float startY = -(numYCells / 2.0f);
 	float endY = (numYCells ) / 2.0f;
+	float startZ = -(numZCells / 2.0f);
+	float endZ = (numZCells) / 2.0f;
 
-	for (float py = startY; py < endY; py++) {
-		for (float px = startX; px < endX; px++) {
-			int parentIndex = (py - startY) * numXCells + (px - startX); // we dont want negative numbers thats why add the -startXY
+	for (float pz = startZ; pz < endZ; pz++) {
+		for (float py = startY; py < endY; py++) {
+			for (float px = startX; px < endX; px++) {
+				int parentIndex = ((pz - startZ) * numYCells * numXCells) +
+					((py - startY) * numXCells) +
+					(px - startX); // we dont want negative numbers thats why add the -startXY
 
-			Cell& cell = currentCells[parentIndex];
+				Cell& cell = currentCells[parentIndex];
 
-			cell.boundingBox.x = px * cellsGroupSize * _cellSize;
-			cell.boundingBox.y = py * cellsGroupSize * _cellSize;
-			cell.boundingBox.w = cellsGroupSize * _cellSize;
-			cell.boundingBox.h = cellsGroupSize * _cellSize;
+				cell.boundingBox_origin.x = px * cellsGroupSize * _cellSize;
+				cell.boundingBox_origin.y = py * cellsGroupSize * _cellSize;
+				cell.boundingBox_origin.z = pz * cellsGroupSize * _cellSize;
 
-			if (px == endX - 1.0f) {
-				cell.boundingBox.w = (_width / 2.0f) - cell.boundingBox.x;
-			}
-			if (py == endY - 1.0f) {
-				cell.boundingBox.h = (_height / 2.0f) - cell.boundingBox.y;
-			}
+				cell.boundingBox_size.x = cellsGroupSize * _cellSize;
+				cell.boundingBox_size.y = cellsGroupSize * _cellSize;
+				cell.boundingBox_size.z = cellsGroupSize * _cellSize;
 
-			if (!childCells.empty())
-			{
-				int groupedCells = sqrt(childCells.size() / currentCells.size());
-				for (int cy = 0; cy < groupedCells; cy++) {
-					for (int cx = 0; cx < groupedCells; cx++) {
+				if (px == endX - 1.0f) {
+					cell.boundingBox_size.x = (_width / 2.0f) - cell.boundingBox_origin.x;
+				}
+				if (py == endY - 1.0f) {
+					cell.boundingBox_size.y = (_height / 2.0f) - cell.boundingBox_origin.y;
+				}
+				if (pz == endZ - 1.0f) { // Edge case for Z
+					cell.boundingBox_size.z = (_depth / 2.0f) - cell.boundingBox_origin.z;
+				}
 
-						int childX = (px + endY) * groupedCells + cx;
-						int childY = (py + endY) * groupedCells + cy;
-												
-						int childIndex = childY * (numXCells * groupedCells) + childX;
-						
-						if (childIndex < childCells.size()) {
-							cell.children.push_back(&childCells[childIndex]);
+				if (!childCells.empty())
+				{
+					int groupedCells = sqrt(childCells.size() / currentCells.size());
+					for (int cz = 0; cz < groupedCells; cz++) {
+						for (int cy = 0; cy < groupedCells; cy++) {
+							for (int cx = 0; cx < groupedCells; cx++) {
+
+								int childX = (px + endY) * groupedCells + cx;
+								int childY = (py + endY) * groupedCells + cy;
+								int childZ = (pz + endZ) * groupedCells + cz;
+
+								int childIndex = (childZ * numYCells * numXCells * groupedCells) +
+									(childY * numXCells * groupedCells) +
+									(childX);
+
+								if (childIndex < childCells.size()) {
+									cell.children.push_back(&childCells[childIndex]);
+								}
+							}
 						}
 					}
 				}
@@ -258,7 +279,7 @@ bool Grid::setIntersectedCameraCells(ICamera& camera) {
 
 	for (auto& cell : getCells(_level)) {
 		glm::vec4 cellCenter(
-			cell.boundingBox.x + cell.boundingBox.w / 2.0f, cell.boundingBox.y + cell.boundingBox.h / 2.0f,
+			cell.boundingBox_origin.x + cell.boundingBox_size.x / 2.0f, cell.boundingBox_origin.y + cell.boundingBox_size.y / 2.0f,
 			0.0f, 1.0f);
 		if (camera.isPointInCameraView(cellCenter)) {
 			newInterceptedCells.push_back(&cell);

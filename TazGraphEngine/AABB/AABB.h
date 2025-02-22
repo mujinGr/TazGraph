@@ -30,6 +30,37 @@ inline float pointLineDistance(glm::vec2 point, glm::vec2 lineStartPoint, glm::v
     return num / den;
 }
 
+inline bool rayIntersectsRectangle(const glm::vec3& rayOrigin, const glm::vec3& rayDirection,
+    const glm::vec3& planePoint, const glm::vec3& planeNormal,
+    float xMin, float xMax, float yMin, float yMax) {
+    // Step 1: Check if the ray intersects the plane
+    float denom = glm::dot(planeNormal, rayDirection);
+
+    // If denom == 0, the ray is parallel to the plane
+    if (std::abs(denom) < 1e-6) {
+        return false; // No intersection
+    }
+
+    // Calculate t
+    float t = glm::dot(planeNormal, planePoint - rayOrigin) / denom;
+
+    // If t < 0, the intersection is behind the ray origin
+    if (t < 0) {
+        return false;
+    }
+
+    // Calculate the intersection point
+    glm::vec3 intersectionPoint = rayOrigin + t * rayDirection;
+
+    // Step 2: Check if the intersection point lies within the rectangle bounds
+    if (intersectionPoint.x >= xMin && intersectionPoint.x <= xMax &&
+        intersectionPoint.y >= yMin && intersectionPoint.y <= yMax) {
+        return true; // Intersection point is within the rectangle
+    }
+
+    return false; // Intersection point is outside the rectangle
+}
+
 
 inline bool checkCircleLineCollision(glm::vec2 center, int circleRadius, glm::vec2 lineStartPoint, glm::vec2 lineEndPoint) {
     // Find the distance from the center of the circle to the line

@@ -78,8 +78,8 @@ public:
 	}
 
 	//getters
-	glm::vec2 getPosition() const override {
-		return _position;
+	glm::vec3 getPosition() const override {
+		return glm::vec3(_position, 0.0f);
 	}
 
 	float getScale() const override {
