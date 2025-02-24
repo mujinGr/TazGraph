@@ -47,7 +47,9 @@ public:
 };
 
 class SquareGlyph {
-
+	//todo avoid rotating every point individually, takes a lot of time
+	//todo instead rotate them from transform using a global angle(based on aimpos) that is added to all transforms
+	//todo then rotation in glyph is just taking that transform
 public:
 	SquareGlyph() {};
 	SquareGlyph(const glm::vec4& destRect, const Color& color, float angle, float mdepth)
@@ -65,10 +67,10 @@ public:
 		glm::vec3 abottomRight(destRect.x + destRect.z, destRect.y + destRect.w, mdepth);
 		glm::vec3 atopRight(destRect.x + destRect.z, destRect.y, mdepth);
 
-		glm::vec3 rotatedTopLeft = rotatePoint(atopLeft.x, atopLeft.y, atopLeft.z, centerX, centerY, centerZ, 0, 0, 0);
-		glm::vec3 rotatedBottomLeft = rotatePoint(abottomLeft.x, abottomLeft.y, abottomLeft.z, centerX, centerY, centerZ, 0, 0, 0);
-		glm::vec3 rotatedBottomRight = rotatePoint(abottomRight.x, abottomRight.y, abottomRight.z, centerX, centerY, centerZ, 0, 0, 0);
-		glm::vec3 rotatedTopRight = rotatePoint(atopRight.x, atopRight.y, atopRight.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 rotatedTopLeft = glm::vec3(atopLeft.x, atopLeft.y, atopLeft.z);
+		glm::vec3 rotatedBottomLeft = glm::vec3(abottomLeft.x, abottomLeft.y, abottomLeft.z);
+		glm::vec3 rotatedBottomRight = glm::vec3(abottomRight.x, abottomRight.y, abottomRight.z);
+		glm::vec3 rotatedTopRight = glm::vec3(atopRight.x, atopRight.y, atopRight.z);
 
 		topLeft.color = color;
 		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y, rotatedTopLeft.z);
@@ -109,44 +111,44 @@ public:
 		glm::vec3 abottomRight(origin.x + size.x, origin.y + size.y, origin.z);
 		glm::vec3 atopRight(origin.x + size.x, origin.y, origin.z);
 
-		glm::vec3 arotatedTopLeft = rotatePoint(atopLeft.x, atopLeft.y, atopLeft.z, centerX, centerY, centerZ, 0, 0, 0);
+	/*	glm::vec3 arotatedTopLeft = rotatePoint(atopLeft.x, atopLeft.y, atopLeft.z, centerX, centerY, centerZ, 0, 0, 0);
 		glm::vec3 arotatedBottomLeft = rotatePoint(abottomLeft.x, abottomLeft.y, abottomLeft.z, centerX, centerY, centerZ, 0, 0, 0);
 		glm::vec3 arotatedBottomRight = rotatePoint(abottomRight.x, abottomRight.y, abottomRight.z, centerX, centerY, centerZ, 0, 0, 0);
-		glm::vec3 arotatedTopRight = rotatePoint(atopRight.x, atopRight.y, atopRight.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 arotatedTopRight = rotatePoint(atopRight.x, atopRight.y, atopRight.z, centerX, centerY, centerZ, 0, 0, 0);*/
 
 		a_topLeft.color = color;
-		a_topLeft.setPosition(arotatedTopLeft.x, arotatedTopLeft.y, arotatedTopLeft.z);
+		a_topLeft.setPosition(atopLeft.x, atopLeft.y, atopLeft.z);
 
 		a_bottomLeft.color = color;
-		a_bottomLeft.setPosition(arotatedBottomLeft.x, arotatedBottomLeft.y, arotatedBottomLeft.z);
+		a_bottomLeft.setPosition(abottomLeft.x, abottomLeft.y, abottomLeft.z);
 
 		a_bottomRight.color = color;
-		a_bottomRight.setPosition(arotatedBottomRight.x, arotatedBottomRight.y, arotatedBottomRight.z);
+		a_bottomRight.setPosition(abottomRight.x, abottomRight.y, abottomRight.z);
 
 		a_topRight.color = color;
-		a_topRight.setPosition(arotatedTopRight.x, arotatedTopRight.y, arotatedTopRight.z);
+		a_topRight.setPosition(atopRight.x, atopRight.y, atopRight.z);
 
 		glm::vec3 btopLeft(origin.x, origin.y, origin.z + size.z);
 		glm::vec3 bbottomLeft(origin.x, origin.y + size.y, origin.z + size.z);
 		glm::vec3 bbottomRight(origin.x + size.x, origin.y + size.y, origin.z + size.z);
 		glm::vec3 btopRight(origin.x + size.x, origin.y, origin.z + size.z);
 
-		glm::vec3 brotatedTopLeft = rotatePoint(btopLeft.x, btopLeft.y, btopLeft.z, centerX, centerY, centerZ, 0, 0, 0);
+	/*	glm::vec3 brotatedTopLeft = rotatePoint(btopLeft.x, btopLeft.y, btopLeft.z, centerX, centerY, centerZ, 0, 0, 0);
 		glm::vec3 brotatedBottomLeft = rotatePoint(bbottomLeft.x, bbottomLeft.y, bbottomLeft.z, centerX, centerY, centerZ, 0, 0, 0);
 		glm::vec3 brotatedBottomRight = rotatePoint(bbottomRight.x, bbottomRight.y, bbottomRight.z, centerX, centerY, centerZ, 0, 0, 0);
-		glm::vec3 brotatedTopRight = rotatePoint(btopRight.x, btopRight.y, btopRight.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 brotatedTopRight = rotatePoint(btopRight.x, btopRight.y, btopRight.z, centerX, centerY, centerZ, 0, 0, 0);*/
 
 		b_topLeft.color = color;
-		b_topLeft.setPosition(brotatedTopLeft.x, brotatedTopLeft.y, brotatedTopLeft.z);
+		b_topLeft.setPosition(btopLeft.x, btopLeft.y, btopLeft.z);
 
 		b_bottomLeft.color = color;
-		b_bottomLeft.setPosition(brotatedBottomLeft.x, brotatedBottomLeft.y, brotatedBottomLeft.z);
+		b_bottomLeft.setPosition(bbottomLeft.x, bbottomLeft.y, bbottomLeft.z);
 
 		b_bottomRight.color = color;
-		b_bottomRight.setPosition(brotatedBottomRight.x, brotatedBottomRight.y, brotatedBottomRight.z);
+		b_bottomRight.setPosition(bbottomRight.x, bbottomRight.y, bbottomRight.z);
 
 		b_topRight.color = color;
-		b_topRight.setPosition(brotatedTopRight.x, brotatedTopRight.y, brotatedTopRight.z);
+		b_topRight.setPosition(btopRight.x, btopRight.y, btopRight.z);
 
 	};
 

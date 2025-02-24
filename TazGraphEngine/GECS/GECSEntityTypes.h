@@ -278,20 +278,21 @@ public:
 		
 		auto& temp_arrowHead = mManager.addEntity<Empty>();
 
-		// Calculate the angle in radians, and convert it to degrees
-		float angleRadians = atan2(direction.y, direction.x);
-		float angleDegrees = glm::degrees(angleRadians);
 
-		glm::ivec3 arrowSize(10, 20, 0);
 		glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
 
-		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), Manager::actionLayer, arrowSize, 1);
+		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), Manager::actionLayer, farrowSize, 1);
 		temp_arrowHead.addComponent<Triangle_w_Color>();
 		temp_arrowHead.GetComponent<Triangle_w_Color>().color = Color(0, 0, 0, 255);
 
 		temp_arrowHead.addGroup(Manager::groupArrowHeads_0);
 
-		temp_arrowHead.GetComponent<TransformComponent>().setRotation(angleDegrees + 90.0f);
+		// Calculate the angle in radians, and convert it to degrees
+		float angleRadians = atan2(direction.y, direction.x);
+		float angleDegrees = glm::degrees(angleRadians);
+
+
+		temp_arrowHead.GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleDegrees + 90.0f));
 
 		temp_arrowHead.setParentEntity(this);
 		children["ArrowHead"] = &temp_arrowHead;
@@ -396,7 +397,7 @@ public:
 			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_X(newArrowHeadPosition.x);
 			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_Y(newArrowHeadPosition.y);
 
-			children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(angleDegrees + 90.0f);
+			children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f,0.0f,angleDegrees + 90.0f));
 		}
 	}
 

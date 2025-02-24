@@ -206,6 +206,21 @@ void Graph::update(float deltaTime) //game objects updating
 	
 
 	manager.refresh(main_camera2D.get());
+
+	if (main_camera2D->hasChanged()) {
+		glm::vec3 cameraAimPos = main_camera2D->getAimPos();
+
+		glm::vec3 directionToCamera = glm::normalize(cameraAimPos - main_camera2D->eyePos);
+
+		for (auto& v_node : manager.getVisibleNodes()) {
+			TransformComponent& nodeTransform = v_node->GetComponent<TransformComponent>();
+
+			// Apply the precomputed rotation to the node
+			nodeTransform.setRotation(glm::degrees(directionToCamera));
+		}
+	}
+
+
 	main_camera2D->update();
 	hud_camera2D->update();
 	if (_firstLoop) {
@@ -608,7 +623,7 @@ void Graph::draw()
 			glm::vec3 cellBox_org(cell->boundingBox_origin.x, cell->boundingBox_origin.y, cell->boundingBox_origin.z);
 			glm::vec3 cellBox_size(cell->boundingBox_size.x, cell->boundingBox_size.y, cell->boundingBox_size.z);
 
-			_LineRenderer.drawBox(cellBox_org, cellBox_size, Color(0, 255, 0, 100), 0.0f);  // Drawing each cell in red for visibility
+			_LineRenderer.drawBox(cellBox_org, cellBox_size, Color(0, 255, 0, 20), 0.0f);  // Drawing each cell in red for visibility
 		}
 
 		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {

@@ -113,7 +113,7 @@ public:
 
 		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
 
-		batch.draw(pos, uv, gl_texture->id, transform->getZIndex(), color, transform->getRotation());
+		batch.draw(pos, uv, gl_texture->id, transform->getZIndex(), color);
 		
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);

@@ -39,18 +39,12 @@ public:
 	}
 
 	void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override {
-		float tempScreenScale = window.getScale();
-		float rotation = transform->getRotation();
-
-		glm::vec4 pos((float)destRect.x * tempScreenScale, (float)destRect.y * tempScreenScale, (float)destRect.w * tempScreenScale, (float)destRect.h * tempScreenScale);
-		batch.draw(pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, transform->getZIndex(), color, rotation);
+		glm::vec4 pos((float)destRect.x, (float)destRect.y, (float)destRect.w, (float)destRect.h);
+		batch.draw(pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, transform->getZIndex(), color); // 0 is for texture
 	}
 
 	void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {
-		float tempScreenScale = window.getScale();
-		float rotation = temp_rotation;
-
-		glm::vec4 pos((float)destRect.x * tempScreenScale, (float)destRect.y * tempScreenScale, (float)destRect.w * tempScreenScale, (float)destRect.h * tempScreenScale);
-		batch.draw(pos, transform->getZIndex(), color, rotation);
+		glm::vec4 pos((float)destRect.x, (float)destRect.y, (float)destRect.w, (float)destRect.h);
+		batch.draw(pos, transform->getZIndex(), color);
 	}
 };

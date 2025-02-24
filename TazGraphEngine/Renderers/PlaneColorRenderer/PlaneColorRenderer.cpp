@@ -51,16 +51,16 @@ void PlaneColorRenderer::initColorQuadBatch(size_t mSize)
 
 void PlaneColorRenderer::drawTriangle(
 	const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
-	float depth, const Color& color, float angle = 0.f
+	float depth, const Color& color
 ) {
-	_triangleGlyphs.emplace_back(v1, v2, v3, depth, color, angle);
+	_triangleGlyphs.emplace_back(v1, v2, v3, depth, color);
 }
 // we can generalize the renderer for multiple kinds of meshes (triangle made instead of planes) by creating
 // more draw functions for those meshes (like draw function for triangle).
 // Also instead of glyphs have triangles, so when its time to createRenderBatches we see the next mesh
 // how many triangles it has and accordingly add those multiple vertices with the combined texture
-void PlaneColorRenderer::draw(const glm::vec4& destRect, float depth, const Color& color, float angle) {
-	_glyphs.emplace_back(destRect, depth, color, angle);
+void PlaneColorRenderer::draw(const glm::vec4& destRect, float depth, const Color& color) {
+	_glyphs.emplace_back(destRect, depth, color);
 }
 
 void PlaneColorRenderer::renderBatch() {

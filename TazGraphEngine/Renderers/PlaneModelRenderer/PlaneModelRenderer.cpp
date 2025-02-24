@@ -52,16 +52,16 @@ void PlaneModelRenderer::initQuadBatch(size_t mSize)
 void PlaneModelRenderer::drawTriangle(
 	const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3,
 	const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
-	GLuint texture, const Color& color, float angle = 0.f
+	GLuint texture, const Color& color
 ) {
-	_triangleGlyphs.emplace_back(v1,v2,v3,uv1,uv2,uv3, texture, color, angle);
+	_triangleGlyphs.emplace_back(v1,v2,v3,uv1,uv2,uv3, texture, color);
 }
 // we can generalize the renderer for multiple kinds of meshes (triangle made instead of planes) by creating
 // more draw functions for those meshes (like draw function for triangle).
 // Also instead of glyphs have triangles, so when its time to createRenderBatches we see the next mesh
 // how many triangles it has and accordingly add those multiple vertices with the combined texture
-void PlaneModelRenderer::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color, float angle) {
-	_glyphs.emplace_back(destRect, uvRect, texture, depth, color, angle);
+void PlaneModelRenderer::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color) {
+	_glyphs.emplace_back(destRect, uvRect, texture, depth, color);
 }
 
 void PlaneModelRenderer::renderBatch() {

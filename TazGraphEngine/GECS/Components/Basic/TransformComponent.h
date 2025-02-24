@@ -7,12 +7,10 @@
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {
 private:
-	std::shared_ptr<PerspectiveCamera> _main_camera2D;
 	Layer _layer = 0;
 	float _zIndexF = 0;
 
-	float _rotation = 0.0f;
-	// todo make position as SDL_FRect
+	glm::vec3 _rotation = { 0.0f,0.0f,0.0f };
 	
 	glm::vec2 _velocity;
 public:
@@ -65,12 +63,6 @@ public:
 		}
 		last_bodyDims = bodyDims;
 
-		if (!_main_camera2D) {
-			_main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-		}
-
-		SDL_FRect cameraDimensions = _main_camera2D->getCameraRect();
-		
 		bodyDims.x += _velocity.x * speed * deltaTime;
 		bodyDims.y += _velocity.y * speed * deltaTime;
 		//todo dont update the children on every iteration
@@ -109,11 +101,39 @@ public:
 		return _zIndexF;
 	}
 
-	void setRotation(float newRot) {
+	void setRotation(glm::vec3 newRot) {
 		_rotation = newRot;
+
+		float radX = glm::radians(_rotation.x);
+		float radY = glm::radians(_rotation.y);
+		float radZ = glm::radians(_rotation.z);
+
+		glm::mat4 rotationX = glm::rotate(glm::mat4(1.0f), radX, glm::vec3(1.0f, 0.0f, 0.0f));
+		glm::mat4 rotationY = glm::rotate(glm::mat4(1.0f), radY, glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 rotationZ = glm::rotate(glm::mat4(1.0f), radZ, glm::vec3(0.0f, 0.0f, 1.0f));
+
+		glm::mat4 rotationMatrix = rotationZ * rotationY * rotationX;
+
+		// todo dont to rotations on every point in cpu side, the rotationMatrix and translationMatrix is enough to pass in GPU
+	/*	rotatePoint(
+			bodyDims.x, bodyDims.y, _zIndexF,
+			glm::vec3(bodyDims.x + bodyDims.w, bodyDims.y + bodyDims.h, _zIndexF),
+			rotationMatrix);
+		rotatePoint(
+			glm::vec3(bodyDims.x, bodyDims.y, _zIndexF),
+			glm::vec3(bodyDims.x + bodyDims.w, bodyDims.y + bodyDims.h, _zIndexF),
+			rotationMatrix);
+		rotatePoint(
+			glm::vec3(bodyDims.x, bodyDims.y, _zIndexF),
+			glm::vec3(bodyDims.x + bodyDims.w, bodyDims.y + bodyDims.h, _zIndexF),
+			rotationMatrix);
+		rotatePoint(
+			glm::vec3(bodyDims.x, bodyDims.y, _zIndexF),
+			glm::vec3(bodyDims.x + bodyDims.w, bodyDims.y + bodyDims.h, _zIndexF),
+			rotationMatrix);*/
 	}
 
-	float getRotation() {
+	glm::vec3 getRotation() {
 		return _rotation;
 	}
 
@@ -142,4 +162,13 @@ public:
 	void setVelocity_Y(float newVelocity_Y) {
 		_velocity.y = newVelocity_Y;
 	}
+
+	glm::vec2 rotatePoint(float x, float y, float centerX, float centerY, float radians) {
+		float dx = x - centerX;
+		float dy = y - centerY;
+		return glm::vec2(
+			centerX + dx * cos(radians) - dy * sin(radians),
+			centerY + dx * sin(radians) + dy * cos(radians)
+		);
+	};
 };

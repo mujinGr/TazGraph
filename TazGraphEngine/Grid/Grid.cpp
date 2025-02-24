@@ -118,28 +118,43 @@ std::vector<Cell*> Grid::getLinkCells(const Entity& link, Grid::Level m_level) {
 
 	float x0 = link.getFromNode()->GetComponent<TransformComponent>().getCenterTransform().x;
 	float y0 = link.getFromNode()->GetComponent<TransformComponent>().getCenterTransform().y;
+	float z0 = link.getFromNode()->GetComponent<TransformComponent>().getZIndex();
+
 	float x1 = link.getToNode()->GetComponent<TransformComponent>().getCenterTransform().x;
 	float y1 = link.getToNode()->GetComponent<TransformComponent>().getCenterTransform().y;
-	
+	float z1 = link.getToNode()->GetComponent<TransformComponent>().getZIndex();
+
 	float dx = x1 - x0;
 	float dy = y1 - y0;
+	float dz = z1 - z0;
 
-	float distance = sqrt(dx * dx + dy * dy);
+
+	float distance = sqrt(dx * dx + dy * dy + dz * dz);
 	float stepSize = 10;
 
 	int steps = static_cast<int>(distance / stepSize);
 	float xIncrement = dx / steps;
 	float yIncrement = dy / steps;
+	float zIncrement = dz / steps;
 
 	for (int i = 0; i <= steps; i++) {
-		Cell* currentCell = getCell((int)(std::floor(x0 / _cellSize)), (int)(std::floor(y0 / _cellSize)), m_level );
+		Cell* currentCell = getCell(
+			(int)(std::floor(x0 / _cellSize)),
+			(int)(std::floor(y0 / _cellSize)),
+			(int)(std::floor(z0 / _cellSize)),
+			m_level );
 		if (uniqueCells.insert(currentCell).second) { 
 			intersectedCells.push_back(currentCell);
 		}
 		x0 += xIncrement;
 		y0 += yIncrement;
+		z0 += zIncrement;
 	}
-	Cell* currentCell = getCell((int)(std::floor(x1 / _cellSize)), (int)(std::floor(y1 / _cellSize)), m_level);
+	Cell* currentCell = getCell(
+		(int)(std::floor(x1 / _cellSize)),
+		(int)(std::floor(y1 / _cellSize)),
+		(int)(std::floor(z1 / _cellSize)),
+		m_level);
 
 	if (uniqueCells.insert(currentCell).second) { 
 		intersectedCells.push_back(currentCell);
@@ -170,25 +185,33 @@ void Grid::addNode(Entity* entity, Cell* cell)
 }
 
 
-Cell* Grid::getCell(int x, int y, Grid::Level m_level)
+Cell* Grid::getCell(int x, int y, int z, Grid::Level m_level)
 {
 	int cellsGroupSize = gridLevels[m_level].second;
 
 	int numXCells = ceil((float)_numXCells / cellsGroupSize);
 	int numYCells = ceil((float)_numYCells / cellsGroupSize);
+	int numZCells = ceil((float)_numZCells / cellsGroupSize);
+
 
 	float startX	= ceil(-((numXCells) / 2)) ; // add one in order to take floor of division
 	float endX		= ceil((numXCells) / 2) - 1;
 	float startY	= ceil(-((numYCells) / 2));
 	float endY		= ceil((numYCells) / 2) - 1;
+	float startZ	= ceil(-((numZCells) / 2));
+	float endZ		= ceil((numZCells) / 2) - 1;
 
 
 	if (x < startX) x = startX;
 	if (x >= endX) x = endX;
 	if (y < startY) y = startY;
 	if (y >= endY) y = endY;
+	if (z < startZ) z = startZ;
+	if (z >= endZ) z = endZ;
 
-	size_t index = (y - startY) * numXCells + (x - startX);
+	size_t index = (z - startZ) * numXCells * numYCells +
+		(y - startY) * numXCells +
+		(x - startX);
 	return (m_level == Level::Basic) ? &_cells[index] :
 		(m_level == Level::Outer1 ? &_parentCells[index] :
 			&_superParentCells[index]);
@@ -202,38 +225,47 @@ Cell* Grid::getCell(const Entity& entity, Grid::Level m_level)
 	}
 	int cellX = (int)(std::floor((pos.x) / (_cellSize * gridLevels[m_level].second) ));
 	int cellY = (int)(std::floor((pos.y) / (_cellSize * gridLevels[m_level].second) ));
+	int cellZ = (int)(std::floor((pos.z) / (_cellSize * gridLevels[m_level].second)));
 
-	return getCell(cellX, cellY, m_level);
+	return getCell(cellX, cellY, cellZ, m_level);
 }
 
-std::vector<Cell*> Grid::getAdjacentCells(int x, int y, Grid::Level m_level) {
+std::vector<Cell*> Grid::getAdjacentCells(int x, int y, int z, Grid::Level m_level) {
 	std::vector<Cell*> adjacentCells;
 
 	int cellsGroupSize = gridLevels[m_level].second;
 
 	int numXCells = ceil((float)_numXCells / cellsGroupSize);
 	int numYCells = ceil((float)_numYCells / cellsGroupSize);
+	int numZCells = ceil((float)_numZCells / cellsGroupSize);
 
 	float startX = ceil(-((numXCells) / 2)); // add one in order to take floor of division
 	float endX = ceil((numXCells) / 2) - 1;
 	float startY = ceil(-((numYCells) / 2));
 	float endY = ceil((numYCells) / 2) - 1;
+	float startZ = ceil(-((numZCells) / 2));
+	float endZ = ceil((numZCells) / 2) - 1;
 
 	adjacentCells.reserve(9);
 
 	for (int offsetX = -1; offsetX <= 1; offsetX++) {
 		for (int offsetY = -1; offsetY <= 1; offsetY++) {
-			if (offsetX == 0 && offsetY == 0) {
-				adjacentCells.push_back(getCell(x, y, _level));
-				continue;
-			}
-			int neighborX = x + offsetX;
-			int neighborY = y + offsetY;
+			for (int offsetZ = -1; offsetZ <= 1; offsetZ++) {
 
-			// Check bounds and add the cell to the list
-			if (neighborX >= startX && neighborX < endX &&
-				neighborY >= startY && neighborY < endY) {
-				adjacentCells.push_back(getCell(neighborX, neighborY, _level));
+				if (offsetX == 0 && offsetY == 0 && offsetZ == 0) {
+					adjacentCells.push_back(getCell(x, y, z, _level));
+					continue;
+				}
+				int neighborX = x + offsetX;
+				int neighborY = y + offsetY;
+				int neighborZ = z + offsetZ;
+
+				// Check bounds and add the cell to the list
+				if (neighborX >= startX && neighborX < endX &&
+					neighborY >= startY && neighborY < endY &&
+					neighborZ >= startZ && neighborZ < endZ) {
+					adjacentCells.push_back(getCell(neighborX, neighborY, neighborZ, _level));
+				}
 			}
 		}
 	}
@@ -252,8 +284,9 @@ std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity, Grid::Level m_le
 
 	int cellX = (int)(std::floor((pos.x) / (_cellSize * gridLevels[m_level].second)));
 	int cellY = (int)(std::floor((pos.y) / (_cellSize * gridLevels[m_level].second)));
+	int cellZ = (int)(std::floor((pos.z) / (_cellSize * gridLevels[m_level].second)));
 
-	return getAdjacentCells(cellX, cellY, m_level);
+	return getAdjacentCells(cellX, cellY, cellZ, m_level);
 }
 
 std::vector<Cell>& Grid::getCells(Grid::Level m_level) {
@@ -279,8 +312,10 @@ bool Grid::setIntersectedCameraCells(ICamera& camera) {
 
 	for (auto& cell : getCells(_level)) {
 		glm::vec4 cellCenter(
-			cell.boundingBox_origin.x + cell.boundingBox_size.x / 2.0f, cell.boundingBox_origin.y + cell.boundingBox_size.y / 2.0f,
-			0.0f, 1.0f);
+			cell.boundingBox_origin.x + cell.boundingBox_size.x / 2.0f,
+			cell.boundingBox_origin.y + cell.boundingBox_size.y / 2.0f,
+			cell.boundingBox_origin.z + cell.boundingBox_size.z / 2.0f,
+			1.0f);
 		if (camera.isPointInCameraView(cellCenter)) {
 			newInterceptedCells.push_back(&cell);
 		}

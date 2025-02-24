@@ -32,19 +32,13 @@ public:
 	TriangleColorGlyph() {};
 	TriangleColorGlyph(
 		const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
-		float Depth, const Color& color, float angle = 0.f
+		float Depth, const Color& color
 	)
 		{
 
-		float centerX = (v2.x + v3.x) / 2.0f; // not varykentro, just the middle
-		float centerY = (v1.y + v2.y) / 2.0f;
-
-		// Convert angle from degrees to radians if necessary
-		float radians = glm::radians(angle);
-
-		glm::vec2 rotatedV1 = rotatePoint(v1.x, v1.y, centerX, centerY, radians);
-		glm::vec2 rotatedV2 = rotatePoint(v2.x, v2.y, centerX, centerY, radians);
-		glm::vec2 rotatedV3 = rotatePoint(v3.x, v3.y, centerX, centerY, radians);
+		glm::vec2 rotatedV1 = glm::vec2(v1.x, v1.y);
+		glm::vec2 rotatedV2 = glm::vec2(v2.x, v2.y);
+		glm::vec2 rotatedV3 = glm::vec2(v3.x, v3.y);
 
 
 		topLeft.color = color;
@@ -68,26 +62,18 @@ public:
 	// Lambda to calculate rotated positions
 	
 	ColorGlyph() {};
-	ColorGlyph(const glm::vec4& destRect, float Depth, const Color& color, float angle = 0.f)
+	ColorGlyph(const glm::vec4& destRect, float Depth, const Color& color)
 		{
-
-		float centerX = destRect.x + destRect.z / 2.0f;
-		float centerY = destRect.y + destRect.w / 2.0f;
-		float centerZ = Depth;
-
-		// Convert angle from degrees to radians if necessary
-		float radians = glm::radians(angle);
-
 
 		glm::vec3 atopLeft(destRect.x, destRect.y, Depth);
 		glm::vec3 abottomLeft(destRect.x, destRect.y + destRect.w, Depth);
 		glm::vec3 abottomRight(destRect.x + destRect.z, destRect.y + destRect.w, Depth);
 		glm::vec3 atopRight(destRect.x + destRect.z, destRect.y, Depth);
 
-		glm::vec3 rotatedTopLeft = rotatePoint(atopLeft.x, atopLeft.y, atopLeft.z, centerX, centerY, centerZ, angle, 0, 0);
-		glm::vec3 rotatedBottomLeft = rotatePoint(abottomLeft.x, abottomLeft.y, abottomLeft.z, centerX, centerY, centerZ, angle, 0, 0);
-		glm::vec3 rotatedBottomRight = rotatePoint(abottomRight.x, abottomRight.y, abottomRight.z, centerX, centerY, centerZ, angle, 0, 0);
-		glm::vec3 rotatedTopRight = rotatePoint(atopRight.x, atopRight.y, atopRight.z, centerX, centerY, centerZ, angle, 0, 0);
+		glm::vec3 rotatedTopLeft = glm::vec3(atopLeft.x, atopLeft.y, atopLeft.z);
+		glm::vec3 rotatedBottomLeft = glm::vec3(abottomLeft.x, abottomLeft.y, abottomLeft.z);
+		glm::vec3 rotatedBottomRight = glm::vec3(abottomRight.x, abottomRight.y, abottomRight.z);
+		glm::vec3 rotatedTopRight = glm::vec3(atopRight.x, atopRight.y, atopRight.z);
 
 		topLeft.color = color;
 		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y, rotatedTopLeft.z);
@@ -131,9 +117,9 @@ public:
 	void initColorQuadBatch(size_t mSize);
 
 	void drawTriangle(const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
-		float depth, const Color& color, float angle);
+		float depth, const Color& color);
 
-	void draw(const glm::vec4& destRect, float depth, const Color& color, float angle = 0);
+	void draw(const glm::vec4& destRect, float depth, const Color& color);
 
 	void renderBatch();
 

@@ -46,22 +46,20 @@ public:
 
 	void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) override {
 		float tempScreenScale = window.getScale();
-		float rotation = transform->getRotation();
 
 		batch.drawTriangle(
 			v1, v2, v3,
 			uv1, uv2, uv3,
-			0, color, rotation
+			0, color
 		);
 	}
 
 	void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {
 		float tempScreenScale = window.getScale();
-		float rotation = transform->getRotation();
 
 		batch.drawTriangle(
 			v1, v2, v3,
-			transform->getZIndex(), color, rotation
+			transform->getZIndex(), color
 		);
 	}
 };
