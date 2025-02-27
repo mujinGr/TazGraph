@@ -3,21 +3,7 @@
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-
-static void rotatePoint(float& pointX, float& pointY, float& pointZ, glm::vec3 center, glm::mat4 rotationMatrix) {
-
-	glm::vec3 point(pointX, pointY, pointZ);
-
-	glm::vec3 translatedPoint = point - center;
-
-	glm::vec4 rotatedPoint = rotationMatrix * glm::vec4(translatedPoint, 1.0f);
-
-	glm::vec3 finalPoint = glm::vec3(rotatedPoint) + center;
-
-	pointX = finalPoint.x;
-	pointY = finalPoint.y;
-	pointZ = finalPoint.z;
-}
+#include "glm/gtc/type_ptr.hpp"
 
 struct Position {
 	float x;
@@ -70,6 +56,8 @@ struct UV {
 struct ColorVertex { //instead of using the general Vertex that has also info about texture
 	// we use this where we want just color
 	Position position;
+	//todo different instanceVBO for the centers
+	//Position centerMesh;
 	Color color;
 
 	void setPosition(float x, float y, float z = -5.0f) {

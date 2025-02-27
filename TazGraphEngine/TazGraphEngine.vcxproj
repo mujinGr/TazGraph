@@ -186,6 +186,7 @@
     <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="DataManager\DataManager.h" />
     <ClInclude Include="GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h" />
+    <ClInclude Include="GECS\Components\Basic\Box_w_Color.h" />
     <ClInclude Include="GECS\Components\Basic\Line_w_Color.h" />
     <ClInclude Include="GECS\Components\Basic\Triangle_w_Color.h" />
     <ClInclude Include="GECS\Components\Util\PollingComponent.h" />

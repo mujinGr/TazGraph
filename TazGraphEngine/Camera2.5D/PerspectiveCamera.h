@@ -63,13 +63,14 @@ public:
 
 			_cameraMatrix = glm::mat4(1.0f);
 
+
+			glm::vec3 translate(-_position.x, -_position.y, 0.0f);
+			_cameraMatrix = glm::translate(_cameraMatrix, translate); //if glm ortho = -1,1,-1,1 then 1 horizontal with -400,-320 to bottom-left
+
 			glm::vec3 scale(_scale, _scale, 1.0f);
 			_cameraMatrix = glm::scale(_cameraMatrix, scale);
 
 
-			glm::vec3 translate(-_position.x, -_position.y, 0.0f);
-			_cameraMatrix = glm::translate(_cameraMatrix, translate); //if glm ortho = -1,1,-1,1 then 1 horizontal with -400,-320 to bottom-left
-			
 			_cameraMatrix = _projectionMatrix * _viewMatrix * _cameraMatrix;
 
 			//_cameraMatrix = glm::scale(_cameraMatrix, scale);
@@ -139,8 +140,8 @@ public:
 		aimPos = startingAimPos;
 		const float sensitivity = 0.001f;
 
-		float yaw = distance.x * sensitivity;   // Horizontal rotation (around Y-axis)
-		float pitch = distance.y * sensitivity; // Vertical rotation (around X-axis)
+		float yaw = distance.x * sensitivity;  
+		float pitch = distance.y * sensitivity;
 
 		glm::vec3 direction = glm::normalize(aimPos - eyePos);
 
@@ -153,6 +154,17 @@ public:
 		// Update the aimPos based on the new direction
 		aimPos = eyePos + direction;
 		_cameraChange = true;
+	}
+
+	glm::vec3 getEulerAnglesFromDirection(glm::vec3 direction) {
+		// Yaw (Rotation around Y-axis)
+		float yaw = glm::atan(direction.x, direction.z);
+		// Pitch (Rotation around X-axis)
+		float pitch = glm::asin(-direction.y);
+		// Roll is typically 0 unless you want roll adjustments
+		float roll = 0.0f;
+
+		return glm::vec3(glm::degrees(pitch), glm::degrees(yaw), glm::degrees(roll));
 	}
 
 

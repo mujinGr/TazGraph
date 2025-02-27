@@ -10,6 +10,7 @@ private:
 	Layer _layer = 0;
 	float _zIndexF = 0;
 
+	// todo remove rotation
 	glm::vec3 _rotation = { 0.0f,0.0f,0.0f };
 	
 	glm::vec2 _velocity;
@@ -101,36 +102,17 @@ public:
 		return _zIndexF;
 	}
 
-	void setRotation(glm::vec3 newRot) {
-		_rotation = newRot;
-
-		float radX = glm::radians(_rotation.x);
-		float radY = glm::radians(_rotation.y);
-		float radZ = glm::radians(_rotation.z);
+	glm::mat4 setRotation(glm::vec3 newRot) {
+		float radX = glm::radians(newRot.x);
+		float radY = glm::radians(newRot.y);
+		float radZ = glm::radians(newRot.z);
 
 		glm::mat4 rotationX = glm::rotate(glm::mat4(1.0f), radX, glm::vec3(1.0f, 0.0f, 0.0f));
 		glm::mat4 rotationY = glm::rotate(glm::mat4(1.0f), radY, glm::vec3(0.0f, 1.0f, 0.0f));
 		glm::mat4 rotationZ = glm::rotate(glm::mat4(1.0f), radZ, glm::vec3(0.0f, 0.0f, 1.0f));
 
 		glm::mat4 rotationMatrix = rotationZ * rotationY * rotationX;
-
-		// todo dont to rotations on every point in cpu side, the rotationMatrix and translationMatrix is enough to pass in GPU
-	/*	rotatePoint(
-			bodyDims.x, bodyDims.y, _zIndexF,
-			glm::vec3(bodyDims.x + bodyDims.w, bodyDims.y + bodyDims.h, _zIndexF),
-			rotationMatrix);
-		rotatePoint(
-			glm::vec3(bodyDims.x, bodyDims.y, _zIndexF),
-			glm::vec3(bodyDims.x + bodyDims.w, bodyDims.y + bodyDims.h, _zIndexF),
-			rotationMatrix);
-		rotatePoint(
-			glm::vec3(bodyDims.x, bodyDims.y, _zIndexF),
-			glm::vec3(bodyDims.x + bodyDims.w, bodyDims.y + bodyDims.h, _zIndexF),
-			rotationMatrix);
-		rotatePoint(
-			glm::vec3(bodyDims.x, bodyDims.y, _zIndexF),
-			glm::vec3(bodyDims.x + bodyDims.w, bodyDims.y + bodyDims.h, _zIndexF),
-			rotationMatrix);*/
+		return rotationMatrix;
 	}
 
 	glm::vec3 getRotation() {

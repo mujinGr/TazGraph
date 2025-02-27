@@ -300,7 +300,7 @@ public:
 	};
 
 	const std::unordered_map<Layer, float> layerNames = {
-		{actionLayer , -100.0f},
+		{actionLayer , 0.0f},
 		{menubackgroundLayer, -100.0f}
 
 	};

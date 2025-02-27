@@ -22,6 +22,9 @@ void PlaneColorRenderer::begin(ColorGlyphSortType  sortType/*GlyphSortType::TEXT
 
 	_triangleGlyphPointers.clear();
 	_triangleGlyphs.clear();
+
+	_boxGlyphPointers.clear();
+	_boxGlyphs.clear();
 }
 void PlaneColorRenderer::end() {
 	//set up all pointers for fast sorting
@@ -32,6 +35,10 @@ void PlaneColorRenderer::end() {
 	_triangleGlyphPointers.resize(_triangleGlyphs.size());
 	for (int i = 0; i < _triangleGlyphs.size(); i++) {
 		_triangleGlyphPointers[i] = &_triangleGlyphs[i];
+	}
+	_boxGlyphPointers.resize(_boxGlyphs.size());
+	for (int i = 0; i < _boxGlyphs.size(); i++) {
+		_boxGlyphPointers[i] = &_boxGlyphs[i];
 	}
 	sortGlyphs();
 
@@ -49,6 +56,11 @@ void PlaneColorRenderer::initColorQuadBatch(size_t mSize)
 	_glyphs.reserve(mSize);
 }
 
+void PlaneColorRenderer::initColorBoxBatch(size_t mSize)
+{
+	_boxGlyphs.reserve(mSize);
+}
+
 void PlaneColorRenderer::drawTriangle(
 	const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
 	float depth, const Color& color
@@ -61,6 +73,10 @@ void PlaneColorRenderer::drawTriangle(
 // how many triangles it has and accordingly add those multiple vertices with the combined texture
 void PlaneColorRenderer::draw(const glm::vec4& destRect, float depth, const Color& color) {
 	_glyphs.emplace_back(destRect, depth, color);
+}
+
+void PlaneColorRenderer::drawBox(const glm::vec4& destRect, float depth, const Color& color) {
+	_boxGlyphs.emplace_back(destRect, depth, color);
 }
 
 void PlaneColorRenderer::renderBatch() {
@@ -124,6 +140,24 @@ void PlaneColorRenderer::createRenderBatches() {
 		}
 	}
 
+	if (_boxGlyphPointers.size()) {
+		_renderBatches.emplace_back(offset, TRIANGLE_OFFSET);
+		vertices[cv++] = _triangleGlyphPointers[0]->topLeft;
+		vertices[cv++] = _triangleGlyphPointers[0]->bottomLeft;
+		vertices[cv++] = _triangleGlyphPointers[0]->bottomRight;
+		offset += TRIANGLE_OFFSET;
+
+		for (int cg = 1; cg < _triangleGlyphPointers.size(); cg++) { //current Glyph
+
+			_renderBatches.back().numVertices += TRIANGLE_OFFSET;
+
+			vertices[cv++] = _triangleGlyphPointers[cg]->topLeft;
+			vertices[cv++] = _triangleGlyphPointers[cg]->bottomLeft;
+			vertices[cv++] = _triangleGlyphPointers[cg]->bottomRight;
+			offset += TRIANGLE_OFFSET;
+		}
+	}
+
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	//orphan the buffer / like using double buffer
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(ColorVertex), nullptr, GL_DYNAMIC_DRAW);
@@ -143,13 +177,14 @@ void PlaneColorRenderer::createVertexArray() {
 
 	glEnableVertexAttribArray(0); // give positions ( point to 0 element for position)
 	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
 
 	//position attribute pointer
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, position)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
 	//color attribute pointer
 	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, color));
-	
+	//center of mesh attribute pointer
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, position));
+
 	glBindVertexArray(0);
 }
 

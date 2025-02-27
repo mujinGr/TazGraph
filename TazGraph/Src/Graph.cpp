@@ -207,20 +207,12 @@ void Graph::update(float deltaTime) //game objects updating
 
 	manager.refresh(main_camera2D.get());
 
-	if (main_camera2D->hasChanged()) {
-		glm::vec3 cameraAimPos = main_camera2D->getAimPos();
+	/*glm::vec3 cameraAimPos = main_camera2D->getAimPos();
 
-		glm::vec3 directionToCamera = glm::normalize(cameraAimPos - main_camera2D->eyePos);
+	glm::vec3 directionToCamera = glm::normalize(cameraAimPos - main_camera2D->eyePos);
 
-		for (auto& v_node : manager.getVisibleNodes()) {
-			TransformComponent& nodeTransform = v_node->GetComponent<TransformComponent>();
-
-			// Apply the precomputed rotation to the node
-			nodeTransform.setRotation(glm::degrees(directionToCamera));
-		}
-	}
-
-
+	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
+		*/
 	main_camera2D->update();
 	hud_camera2D->update();
 	if (_firstLoop) {
@@ -692,6 +684,36 @@ void Graph::draw()
 
 	_PlaneColorRenderer.begin();
 	_resourceManager.setupShader(glsl_color, "", *main_camera2D);
+	
+	auto& v_node = manager.getEntityFromId(1);
+
+
+	TransformComponent* tr = &v_node.GetComponent<TransformComponent>();
+	glm::vec3 center = glm::vec3(tr->getPosition().x + tr->getSizeCenter().x, tr->getPosition().y + tr->getSizeCenter().y, tr->getZIndex());
+
+	glm::mat4 rotationMatrix = glm::mat4(1.0f);
+	/*glm::mat4 translation_back = glm::mat4(1.0f);
+
+	translation_back = glm::translate(translation_back, -center);*/
+
+	glm::vec3 cameraAimPos = main_camera2D->getAimPos();
+
+	glm::vec3 directionToCamera = glm::normalize(cameraAimPos - main_camera2D->eyePos);
+
+	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
+
+	rotationMatrix = tr->setRotation(cameraEulerAngles);
+
+	GLint pLocation = glsl_color.getUniformLocation("inverseTranslation");
+	glUniform3f(pLocation, center.x, center.y, center.z);
+	pLocation = glsl_color.getUniformLocation("rotationMatrix");
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
+	
+	/*pLocation = glsl_color.getUniformLocation("rotationMatrix");
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
+	pLocation = glsl_color.getUniformLocation("translation");
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(translation));*/
+	
 	//GLint radiusLocation = glsl_circleColor.getUniformLocation("u_radius");
 	//glUniform1f(radiusLocation, nodeRadius);
 	renderBatch(manager.getVisibleGroup(Manager::groupNodes_0), _PlaneColorRenderer, false);
