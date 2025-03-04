@@ -54,14 +54,36 @@ public:
 
 	ComponentID id = 0u;
 
-	virtual void init(){}
+	virtual void init() {}
 	virtual void update(float deltaTime) {}
-	virtual void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) {}
+	virtual void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) {}
 	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) {}
 	virtual void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) {}
 
 	virtual ~Component() {}
 };
+
+//class NodeComponent : public Component
+//{
+//public:
+//	Node* node;
+//
+//	virtual void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) override {}
+//	virtual void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {}
+//
+//	~NodeComponent() override = default;
+//};
+//
+//class LinkComponent : public Component
+//{
+//public:
+//	Link* link;
+//
+//	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) override {}
+//
+//	~LinkComponent() override = default;
+//};
+
 
 class Entity
 {
@@ -181,9 +203,15 @@ public:
 
 	virtual void addMessage(std::string mMessage) {}
 
-	virtual const std::vector<Entity*>& getInLinks() const { return {}; }
+	virtual const std::vector<Entity*>& getInLinks() const {
+		static const std::vector<Entity*> emptyVec;
+		return emptyVec;
+	}
 
-	virtual const std::vector<Entity*>& getOutLinks() const { return {}; }
+	virtual const std::vector<Entity*>& getOutLinks() const {
+		static const std::vector<Entity*> emptyVec;
+		return emptyVec;
+	}
 
 	// instead of virtual functions you can instead do dynamic casting on derived classes to get the functions
 	virtual Entity* getFromNode() const {

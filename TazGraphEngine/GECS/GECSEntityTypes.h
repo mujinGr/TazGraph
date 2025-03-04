@@ -254,9 +254,9 @@ public:
 		fromId(mfromId),
 		toId(mtoId)
 	{
-		from = dynamic_cast<Node*>(&mManager.getEntityFromId(fromId));
+		from = dynamic_cast<Node*>(mManager.getEntityFromId(fromId));
 		from->addOutLink(this);
-		to = dynamic_cast<Node*>(&mManager.getEntityFromId(toId));
+		to = dynamic_cast<Node*>(mManager.getEntityFromId(toId));
 		to->addInLink(this);
 
 		// add arrow head

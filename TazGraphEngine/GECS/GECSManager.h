@@ -198,12 +198,13 @@ public:
 		lastEntityId = 0;
 	}
 
-	Entity& getEntityFromId(unsigned int mId) {
+	Entity* getEntityFromId(unsigned int mId) {
 		for (auto& entity : entities) {
 			if (entity->getId() == mId && entity->isActive()) {
-				return *entity;
+				return &*entity;
 			}
 		}
+		return nullptr;
 	}
 
 	void clearAllEntities() {

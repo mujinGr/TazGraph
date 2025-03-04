@@ -802,7 +802,7 @@ void Graph::draw()
 	_PlaneColorRenderer.begin();
 	_resourceManager.setupShader(glsl_color, "", *main_camera2D);
 	
-	auto& v_node = manager.getEntityFromId(1);
+	auto& v_node = *manager.getEntityFromId(1);
 
 
 	TransformComponent* tr = &v_node.GetComponent<TransformComponent>();

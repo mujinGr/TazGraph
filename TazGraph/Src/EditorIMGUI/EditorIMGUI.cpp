@@ -488,7 +488,7 @@ void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImV
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 	//ImGui::Image();
 	ImGui::Image(
-		(void*)textureId,
+		reinterpret_cast<void*>(static_cast<uintptr_t>(textureId)),
 		viewportPanelSize,
 		ImVec2(0, 1),
 		ImVec2(1, 0)

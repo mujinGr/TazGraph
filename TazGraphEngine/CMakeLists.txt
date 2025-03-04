@@ -55,6 +55,7 @@ set(Source_Files
     "Camera2.5D/OrthoCamera.h"
     "Renderers/LineRenderer/LineRenderer.cpp"
     "GECS/GECS.cpp"
+    "GECS/GECSManager.cpp"
     "GraphScreen/IScene.cpp"
     "GraphScreen/AppInterface.cpp"
     "GraphScreen/ScreenIndices.h"
