@@ -6,7 +6,7 @@ if libopengl does not exist:
 sudo apt install freeglut3-dev mesa-common-dev
 
 In build/:
-cmake ..
+cmake -DCMAKE_BUILD_TYPE=Release ..
 make
 
 in TazGraph/TazGraph/:
