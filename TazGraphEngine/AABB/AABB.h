@@ -62,6 +62,42 @@ inline bool rayIntersectsRectangle(const glm::vec3& rayOrigin, const glm::vec3& 
 }
 
 
+inline bool rayIntersectsSphere(
+    const glm::vec3& rayOrigin,
+    const glm::vec3& rayDirection,
+    const glm::vec3& sphereCenter,
+    float radius,
+    float& t
+) {
+    glm::vec3 oc = rayOrigin - sphereCenter;
+
+    float A = glm::dot(rayDirection, rayDirection);  // Always 1 since rayDirection is normalized
+    float B = 2.0f * glm::dot(oc, rayDirection);
+    float C = glm::dot(oc, oc) - radius * radius;
+
+    float discriminant = B * B - 4 * A * C;
+
+    if (discriminant < 0) {
+        return false;  // No intersection
+    }
+
+    // Compute the closest valid t value
+    float sqrtDiscriminant = sqrt(discriminant);
+    float t0 = (-B - sqrtDiscriminant) / (2.0f * A);
+    float t1 = (-B + sqrtDiscriminant) / (2.0f * A);
+
+    if (t0 >= 0) {
+        t = t0;  // Closest intersection point
+        return true;
+    }
+    else if (t1 >= 0) {
+        t = t1;  // Intersection behind the ray origin
+        return true;
+    }
+
+    return false;
+}
+
 inline bool checkCircleLineCollision(glm::vec2 center, int circleRadius, glm::vec2 lineStartPoint, glm::vec2 lineEndPoint) {
     // Find the distance from the center of the circle to the line
     float dist = pointLineDistance(center, lineStartPoint, lineEndPoint);

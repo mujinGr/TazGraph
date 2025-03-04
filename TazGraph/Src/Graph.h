@@ -87,6 +87,12 @@ public:
 private:
 	float _backgroundColor[4] = { 0.78f,0.88f,1.f, 1.0f };
 
+	std::vector<Cell*> traversedCellsFromRay(glm::vec3 rayOrigin,
+		glm::vec3 rayDirection,
+		float maxDistance);
+
+	void selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int activateMode);
+
 	void selectEntityAtPosition(glm::vec2 worldCoords, int activateMode);
 	void checkInput();
 	bool onPauseGraph();

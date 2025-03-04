@@ -79,10 +79,14 @@ void PlaneColorRenderer::drawBox(const glm::vec4& destRect, float depth, const C
 	_boxGlyphs.emplace_back(destRect, depth, color);
 }
 
-void PlaneColorRenderer::renderBatch() {
+void PlaneColorRenderer::renderBatch(GLSLProgram* glsl_program) {
 	glBindVertexArray(_vao);
 
+	GLint centerPosLocation = glGetUniformLocation(glsl_program->getProgramID(), "centerPosition");
+
 	for (int i = 0; i < _renderBatches.size(); i++) {
+		glUniform3fv(centerPosLocation, 1, glm::value_ptr(_renderBatches[i].centerPos));
+
 		glDrawArrays(GL_TRIANGLES, _renderBatches[i].offset, _renderBatches[i].numVertices);
 	}
 
@@ -90,8 +94,11 @@ void PlaneColorRenderer::renderBatch() {
 }
 
 void PlaneColorRenderer::createRenderBatches() {
+
 	std::vector<ColorVertex> vertices;
+
 	vertices.resize((_glyphPointers.size() * RECT_OFFSET) + (_triangleGlyphPointers.size() * TRIANGLE_OFFSET));
+	
 	if (_glyphPointers.empty() && _triangleGlyphPointers.empty()) {
 		return;
 	}
@@ -100,7 +107,11 @@ void PlaneColorRenderer::createRenderBatches() {
 	int cv = 0; //current vertex
 	if (_glyphPointers.size())
 	{
-		_renderBatches.emplace_back(offset, RECT_OFFSET);
+		_renderBatches.emplace_back(offset, RECT_OFFSET, glm::vec3(
+			(_glyphPointers[0]->topLeft.position.x + _glyphPointers[0]->bottomRight.position.x) / 2,
+			(_glyphPointers[0]->topLeft.position.y + _glyphPointers[0]->bottomRight.position.y) / 2,
+			(_glyphPointers[0]->topLeft.position.z + _glyphPointers[0]->bottomRight.position.z) / 2
+		));
 		vertices[cv++] = _glyphPointers[0]->topLeft;
 		vertices[cv++] = _glyphPointers[0]->bottomLeft;
 		vertices[cv++] = _glyphPointers[0]->bottomRight;
@@ -110,7 +121,11 @@ void PlaneColorRenderer::createRenderBatches() {
 		offset += RECT_OFFSET;
 
 		for (int cg = 1; cg < _glyphPointers.size(); cg++) { //current Glyph
-			_renderBatches.back().numVertices += RECT_OFFSET;
+			_renderBatches.emplace_back(offset, RECT_OFFSET, glm::vec3(
+				(_glyphPointers[cg]->topLeft.position.x + _glyphPointers[cg]->bottomRight.position.x) / 2,
+				(_glyphPointers[cg]->topLeft.position.y + _glyphPointers[cg]->bottomRight.position.y) / 2,
+				(_glyphPointers[cg]->topLeft.position.z + _glyphPointers[cg]->bottomRight.position.z) / 2
+			));
 			
 			vertices[cv++] = _glyphPointers[cg]->topLeft;
 			vertices[cv++] = _glyphPointers[cg]->bottomLeft;
@@ -123,16 +138,15 @@ void PlaneColorRenderer::createRenderBatches() {
 	}
 
 	if (_triangleGlyphPointers.size()) {
-		_renderBatches.emplace_back(offset, TRIANGLE_OFFSET);
+		_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, glm::vec3(_triangleGlyphPointers[0]->topLeft.position.x, _triangleGlyphPointers[0]->topLeft.position.y, _triangleGlyphPointers[0]->topLeft.position.z));
 		vertices[cv++] = _triangleGlyphPointers[0]->topLeft;
 		vertices[cv++] = _triangleGlyphPointers[0]->bottomLeft;
 		vertices[cv++] = _triangleGlyphPointers[0]->bottomRight;
 		offset += TRIANGLE_OFFSET;
 
 		for (int cg = 1; cg < _triangleGlyphPointers.size(); cg++) { //current Glyph
-			
-			_renderBatches.back().numVertices += TRIANGLE_OFFSET;
-			
+			_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, glm::vec3(_triangleGlyphPointers[cg]->topLeft.position.x, _triangleGlyphPointers[cg]->topLeft.position.y, _triangleGlyphPointers[cg]->topLeft.position.z));
+
 			vertices[cv++] = _triangleGlyphPointers[cg]->topLeft;
 			vertices[cv++] = _triangleGlyphPointers[cg]->bottomLeft;
 			vertices[cv++] = _triangleGlyphPointers[cg]->bottomRight;
@@ -140,22 +154,23 @@ void PlaneColorRenderer::createRenderBatches() {
 		}
 	}
 
+	// todo not complete
 	if (_boxGlyphPointers.size()) {
-		_renderBatches.emplace_back(offset, TRIANGLE_OFFSET);
-		vertices[cv++] = _triangleGlyphPointers[0]->topLeft;
-		vertices[cv++] = _triangleGlyphPointers[0]->bottomLeft;
-		vertices[cv++] = _triangleGlyphPointers[0]->bottomRight;
-		offset += TRIANGLE_OFFSET;
+		//_renderBatches.emplace_back(offset, TRIANGLE_OFFSET);
+		//vertices[cv++] = _boxGlyphPointers[0]->topLeft;
+		//vertices[cv++] = _boxGlyphPointers[0]->bottomLeft;
+		//vertices[cv++] = _boxGlyphPointers[0]->bottomRight;
+		//offset += TRIANGLE_OFFSET;
 
-		for (int cg = 1; cg < _triangleGlyphPointers.size(); cg++) { //current Glyph
+		//for (int cg = 1; cg < _boxGlyphPointers.size(); cg++) { //current Glyph
 
-			_renderBatches.back().numVertices += TRIANGLE_OFFSET;
+		//	_renderBatches.back().numVertices += TRIANGLE_OFFSET;
 
-			vertices[cv++] = _triangleGlyphPointers[cg]->topLeft;
-			vertices[cv++] = _triangleGlyphPointers[cg]->bottomLeft;
-			vertices[cv++] = _triangleGlyphPointers[cg]->bottomRight;
-			offset += TRIANGLE_OFFSET;
-		}
+		//	vertices[cv++] = _boxGlyphPointers[cg]->topLeft;
+		//	vertices[cv++] = _triangleGlyphPointers[cg]->bottomLeft;
+		//	vertices[cv++] = _triangleGlyphPointers[cg]->bottomRight;
+		//	offset += TRIANGLE_OFFSET;
+		//}
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
@@ -170,21 +185,19 @@ void PlaneColorRenderer::createRenderBatches() {
 void PlaneColorRenderer::createVertexArray() {
 
 	glGenVertexArrays(1, &_vao);
+	glGenBuffers(1, &_vbo);
+
 	glBindVertexArray(_vao);
 
-	glGenBuffers(1, &_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 
 	glEnableVertexAttribArray(0); // give positions ( point to 0 element for position)
-	glEnableVertexAttribArray(1);
-
 	//position attribute pointer
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, position)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
+	glEnableVertexAttribArray(1);
 	//color attribute pointer
 	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, color));
-	//center of mesh attribute pointer
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, position));
-
+	
 	glBindVertexArray(0);
 }
 

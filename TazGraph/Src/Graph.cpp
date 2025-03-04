@@ -282,6 +282,127 @@ void Graph::update(float deltaTime) //game objects updating
 }
 
 
+std::vector<Cell*> Graph::traversedCellsFromRay(
+	glm::vec3 rayOrigin,
+	glm::vec3 rayDirection,
+	float maxDistance
+) {
+
+	std::vector<Cell*> hitCells;
+
+	// Convert world position to grid indices
+	int x = static_cast<int>(floor(rayOrigin.x / manager.grid->getCellSize()));
+	int y = static_cast<int>(floor(rayOrigin.y / manager.grid->getCellSize()));
+	int z = static_cast<int>(floor(rayOrigin.z / manager.grid->getCellSize()));
+
+	// Direction sign (-1, 0, 1)
+	int stepX = (rayDirection.x > 0) ? 1 : (rayDirection.x < 0 ? -1 : 0);
+	int stepY = (rayDirection.y > 0) ? 1 : (rayDirection.y < 0 ? -1 : 0);
+	int stepZ = (rayDirection.z > 0) ? 1 : (rayDirection.z < 0 ? -1 : 0);
+
+	// Compute tMax: when ray crosses next grid boundary
+	float tMaxX = (stepX > 0) ? ((x + 1) * manager.grid->getCellSize() - rayOrigin.x) / rayDirection.x
+		: (x * manager.grid->getCellSize() - rayOrigin.x) / rayDirection.x;
+	float tMaxY = (stepY > 0) ? ((y + 1) * manager.grid->getCellSize() - rayOrigin.y) / rayDirection.y
+		: (y * manager.grid->getCellSize() - rayOrigin.y) / rayDirection.y;
+	float tMaxZ = (stepZ > 0) ? ((z + 1) * manager.grid->getCellSize() - rayOrigin.z) / rayDirection.z
+		: (z * manager.grid->getCellSize() - rayOrigin.z) / rayDirection.z;
+
+	// Avoid division by zero
+	if (rayDirection.x == 0) tMaxX = FLT_MAX;
+	if (rayDirection.y == 0) tMaxY = FLT_MAX;
+	if (rayDirection.z == 0) tMaxZ = FLT_MAX;
+
+	// Compute tDelta: how far we move in t for each step
+	float tDeltaX = (stepX != 0) ? fabs(manager.grid->getCellSize() / rayDirection.x) : FLT_MAX;
+	float tDeltaY = (stepY != 0) ? fabs(manager.grid->getCellSize() / rayDirection.y) : FLT_MAX;
+	float tDeltaZ = (stepZ != 0) ? fabs(manager.grid->getCellSize() / rayDirection.z) : FLT_MAX;
+
+	float t = 0; // Current distance traveled
+	while (t < maxDistance) {
+		// Check which grid cell contains a node
+		Cell* cell = manager.grid->getCell(x, y, z, manager.grid->getGridLevel());
+
+		hitCells.push_back(cell);
+
+
+		if (tMaxX < tMaxY && tMaxX < tMaxZ) {
+			x += stepX;
+			t = tMaxX;
+			tMaxX += tDeltaX;
+		}
+		else if (tMaxY < tMaxZ) {
+			y += stepY;
+			t = tMaxY;
+			tMaxY += tDeltaY;
+		}
+		else {
+			z += stepZ;
+			t = tMaxZ;
+			tMaxZ += tDeltaZ;
+		}
+	}
+
+	return hitCells;
+}
+
+void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int activateMode) {
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	std::vector<Cell*> trav_cells = traversedCellsFromRay(rayOrigin, rayDirection, 10000.0f);
+	
+	bool hasSelected = false;
+
+	for (auto& trav_cell : trav_cells) {
+		for (auto& node : trav_cell->nodes) {
+			float t;
+
+			if (rayIntersectsSphere(rayOrigin,
+				rayDirection,
+				node->GetComponent<TransformComponent>().getCenterTransform(),
+				node->GetComponent<TransformComponent>().bodyDims.w,
+				t)) {
+				std::cout << "Ray hit node: " << node->getId() << " at distance " << t << std::endl;
+				if (activateMode == SDL_BUTTON_RIGHT)
+				{
+					_displayedEntity = node;
+				}
+				else if (activateMode == SDL_BUTTON_LEFT) {
+					_selectedEntity = node;
+				}
+				hasSelected = true;
+				break;
+
+				/*if (activateMode == SDL_BUTTON_RIGHT)
+				{
+					_displayedEntity = entity;
+				}
+				else if (activateMode == SDL_BUTTON_LEFT) {
+					_selectedEntity = entity;
+				}
+				_app->_inputManager.setObjectRelativePos(glm::vec2(worldCoords - pos));
+				hasSelected = true;*/
+			}
+		}
+
+		if (hasSelected) break;
+
+		for (auto& link : trav_cell->links) {
+			float t;
+
+			/*if (rayIntersectsLineSegment(rayOrigin,
+				rayDirection,
+				node->GetComponent<TransformComponent>().getCenterTransform(),
+				node->GetComponent<TransformComponent>().bodyDims.w,
+				t)) {
+				std::cout << "Ray hit node: " << node->getId() << " at distance " << t << std::endl;
+
+				hasSelected = true;
+				break;
+			}*/
+		}
+	}
+}
 
 void Graph::selectEntityAtPosition(glm::vec2 worldCoords, int activateMode) {
 	auto cells = manager.grid->getAdjacentCells(cursor, manager.grid->getGridLevel());
@@ -341,6 +462,9 @@ void Graph::checkInput() {
 		_app->onSDLEvent(evnt);
 
 		glm::vec2 mouseCoordsVec = _sceneMousePosition; // in graph we have another variable for the worldCoords of mouse
+		
+		glm::vec3 rayOrigin = main_camera2D->getPosition(); // Camera position
+		glm::vec3 rayDirection = main_camera2D->castRayAt(mouseCoordsVec); // Ray direction
 		
 		switch (evnt.type)
 		{
@@ -410,8 +534,11 @@ void Graph::checkInput() {
 			if (_selectedEntity) {
 				Node* node = dynamic_cast<Node*>(_selectedEntity);
 				if (node) {
-					_selectedEntity->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(_sceneMousePosition).x - _app->_inputManager.getObjectRelativePos().x);
-					_selectedEntity->GetComponent<TransformComponent>().setPosition_Y(convertScreenToWorld(_sceneMousePosition).y - _app->_inputManager.getObjectRelativePos().y);
+
+					glm::vec3 pointAtEntity = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, _selectedEntity->GetComponent<TransformComponent>().getZIndex());;
+
+					_selectedEntity->GetComponent<TransformComponent>().setPosition_X(pointAtEntity.x);
+					_selectedEntity->GetComponent<TransformComponent>().setPosition_Y(pointAtEntity.y);
 				}
 			}
 
@@ -430,21 +557,8 @@ void Graph::checkInput() {
 				if (_selectedEntity == nullptr) {
 					/*glm::vec3 ray = castRayAt(_sceneMousePosition);
 					selectEntityFromRay(ray);*/
+					selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_LEFT);
 					
-					glm::vec3 ray = main_camera2D->castRayAt(_sceneMousePosition);
-					glm::vec3 rayOrigin = main_camera2D->getPosition(); // Camera position
-					glm::vec3 rayDirection = main_camera2D->castRayAt(_sceneMousePosition); // Ray direction
-
-					// Get point on the ray at z = 0
-					pointAtZ0 = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, 0.0f);
-
-					// Get point on the ray at z = -100
-					pointAtO = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, rayOrigin.z);
-
-					// Output the points
-					std::cout << "Point at z = 0: (" << pointAtZ0.x << ", " << pointAtZ0.y << ", " << pointAtZ0.z << ")" << std::endl;
-					std::cout << "Point at z = -100: (" << pointAtO.x << ", " << pointAtO.y << ", " << pointAtO.z << ")" << std::endl;
-
 
 					selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec), SDL_BUTTON_LEFT);
 					std::cout << "convertedScreenToWorld: " << convertScreenToWorld(mouseCoordsVec).x << " - " << convertScreenToWorld(mouseCoordsVec).y << std::endl;
@@ -457,6 +571,9 @@ void Graph::checkInput() {
 			}
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
 				std::cout << "right-clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
+
+				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_RIGHT);
+
 				selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec) , SDL_BUTTON_RIGHT);
 				_savedMainViewportMousePosition = _app->_inputManager.getMouseCoords();
 			}
@@ -704,9 +821,9 @@ void Graph::draw()
 
 	rotationMatrix = tr->setRotation(cameraEulerAngles);
 
-	GLint pLocation = glsl_color.getUniformLocation("inverseTranslation");
-	glUniform3f(pLocation, center.x, center.y, center.z);
-	pLocation = glsl_color.getUniformLocation("rotationMatrix");
+	//GLint pLocation = glsl_color.getUniformLocation("inverseTranslation");
+	//glUniform3f(pLocation, center.x, center.y, center.z);
+	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
 	
 	/*pLocation = glsl_color.getUniformLocation("rotationMatrix");
@@ -723,7 +840,7 @@ void Graph::draw()
 
 	renderBatch(cursors, _PlaneColorRenderer, false);
 	_PlaneColorRenderer.end();
-	_PlaneColorRenderer.renderBatch();
+	_PlaneColorRenderer.renderBatch(_resourceManager.getGLSLProgram("color"));
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 	/*drawHUD(labels, "arial");

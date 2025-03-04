@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "../../Vertex.h"
+#include "../../GLSLProgram.h"
 
 #define RECT_OFFSET 6
 #define TRIANGLE_OFFSET 3
@@ -17,12 +18,15 @@ enum class ColorGlyphSortType {
 
 class ColorRenderBatch {
 public:
-	ColorRenderBatch(GLuint Offset, GLuint NumVertices) : offset(Offset),
-		numVertices(NumVertices) {
+	ColorRenderBatch(GLuint Offset, GLuint NumVertices, glm::vec3 CenterPos) : offset(Offset),
+		numVertices(NumVertices),
+		centerPos(CenterPos)
+	{
 
 	}
 	GLuint offset;
 	GLuint numVertices;
+	glm::vec3 centerPos;
 };
 
 
@@ -152,7 +156,7 @@ public:
 
 	void drawBox(const glm::vec4& destRect, float depth, const Color& color);
 
-	void renderBatch();
+	void renderBatch(GLSLProgram* glsl_program);
 
 	void dispose();
 private:
