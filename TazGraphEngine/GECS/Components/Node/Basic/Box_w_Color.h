@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../Components.h"
+#include "../../../Components.h"
 
-class Rectangle_w_Color : public Component
+class Box_w_Color : public Component
 {
 public:
 	Color color = { 255, 255, 255, 255 };
@@ -12,13 +12,13 @@ public:
 
 	float temp_rotation = 0.0f;
 
-	Rectangle_w_Color()
+	Box_w_Color()
 	{
 
 	}
 
 
-	~Rectangle_w_Color() {
+	~Box_w_Color() {
 
 	}
 
@@ -36,11 +36,6 @@ public:
 		destRect.h = transform->bodyDims.h * transform->scale;
 
 		temp_rotation += 0.1f;
-	}
-
-	void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override {
-		glm::vec4 pos((float)destRect.x, (float)destRect.y, (float)destRect.w, (float)destRect.h);
-		batch.draw(pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, transform->getZIndex(), color); // 0 is for texture
 	}
 
 	void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {

@@ -2,9 +2,9 @@
 
 #include "./GECSEntityTypes.h"
 
-#include "./Components/Util/UILabel.h"
-#include "./Components/Util/ButtonComponent.h"
-#include "./Components/Util/RigidBodyComponent.h"
-#include "./Components/Util/KeyboardControllerComponent.h"
-#include "./Components/Util/GridComponent.h"
-#include "./Components/Util/PollingComponent.h"
+#include "./Components/Node/Util/UILabel.h"
+#include "./Components/Node/Util/ButtonComponent.h"
+#include "./Components/Node/Util/RigidBodyComponent.h"
+#include "./Components/Node/Util/KeyboardControllerComponent.h"
+#include "./Components/Node/Util/GridComponent.h"
+#include "./Components/Node/Util/PollingComponent.h"

@@ -560,7 +560,7 @@ void Graph::checkInput() {
 					selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_LEFT);
 					
 
-					selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec), SDL_BUTTON_LEFT);
+					//selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec), SDL_BUTTON_LEFT);
 					std::cout << "convertedScreenToWorld: " << convertScreenToWorld(mouseCoordsVec).x << " - " << convertScreenToWorld(mouseCoordsVec).y << std::endl;
 				}
 			}
@@ -574,7 +574,7 @@ void Graph::checkInput() {
 
 				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_RIGHT);
 
-				selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec) , SDL_BUTTON_RIGHT);
+				//selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec) , SDL_BUTTON_RIGHT);
 				_savedMainViewportMousePosition = _app->_inputManager.getMouseCoords();
 			}
 		case SDL_MOUSEBUTTONUP:

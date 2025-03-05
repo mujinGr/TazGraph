@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include <SDL2/SDL.h>
-#include "../../Components.h"
-#include "../../../TextureManager/TextureManager.h"
+#include "../../../Components.h"
+#include "../../../../TextureManager/TextureManager.h"
 
 #define COL_POS_OFFSET 8
 

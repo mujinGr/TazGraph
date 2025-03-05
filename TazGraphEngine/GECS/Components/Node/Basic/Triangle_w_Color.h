@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Components.h"
+#include "../../../Components.h"
 
 class Triangle_w_Color : public Component
 {

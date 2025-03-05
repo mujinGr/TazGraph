@@ -103,6 +103,8 @@ source_group("Source Files" FILES ${Source_Files})
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
+add_compile_options(-pedantic)
+
 # Find SDL2 Mixer library
 find_package(SDL2_mixer REQUIRED)
 #include_directories(${SDL2_MIXER_INCLUDE_DIRS})

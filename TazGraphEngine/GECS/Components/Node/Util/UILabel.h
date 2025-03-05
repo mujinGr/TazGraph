@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../PNG_Letters.h"
-#include "../../Components.h"
-#include "../../UtilComponents.h"
+#include "../../../../PNG_Letters.h"
+#include "../../../Components.h"
+#include "../../../UtilComponents.h"
 
 class Manager;
 

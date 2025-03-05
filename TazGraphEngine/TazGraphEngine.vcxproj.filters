@@ -149,25 +149,25 @@
     <ClInclude Include="Camera2.5D\PerspectiveCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Basic\ColliderComponent.h">
+    <ClInclude Include="GECS\Components\Node\Basic\ColliderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Basic\Rectangle_w_Color.h">
+    <ClInclude Include="GECS\Components\Node\Basic\Rectangle_w_Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\GECS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Basic\TransformComponent.h">
+    <ClInclude Include="GECS\Components\Node\Basic\TransformComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Basic\SpriteComponent.h">
+    <ClInclude Include="GECS\Components\Node\Basic\SpriteComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Util\RigidBodyComponent.h">
+    <ClInclude Include="GECS\Components\Node\Util\RigidBodyComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Util\GridComponent.h">
+    <ClInclude Include="GECS\Components\Node\Util\GridComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Animators\FlashAnimatorComponent.h">
@@ -176,7 +176,7 @@
     <ClInclude Include="GECS\Animators\FlashAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Util\ButtonComponent.h">
+    <ClInclude Include="GECS\Components\Node\Util\ButtonComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Animators\AnimatorManager.h">
@@ -215,10 +215,10 @@
     <ClInclude Include="ImGuiInterface\ImGuiInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Util\KeyboardControllerComponent.h">
+    <ClInclude Include="GECS\Components\Node\Util\KeyboardControllerComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Util\UILabel.h">
+    <ClInclude Include="GECS\Components\Node\Util\UILabel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleLogger.h">
@@ -242,19 +242,19 @@
     <ClInclude Include="AABB\AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Basic\Line_w_Color.h">
+    <ClInclude Include="GECS\Components\Link\Basic\Line_w_Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Renderers\FrameBuffer\Framebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Basic\Triangle_w_Color.h">
+    <ClInclude Include="GECS\Components\Node\Basic\Triangle_w_Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\UtilComponents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Util\PollingComponent.h">
+    <ClInclude Include="GECS\Components\Node\Util\PollingComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h">
@@ -263,7 +263,7 @@
     <ClInclude Include="Renderers\PlaneColorRenderer\PlaneColorRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Basic\Box_w_Color.h">
+    <ClInclude Include="GECS\Components\Node\Basic\Box_w_Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

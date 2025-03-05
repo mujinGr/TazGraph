@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Components.h"
+#include "../../../Components.h"
 
 #define GRID_EMPTY_TILE 0x0000
 #define GRID_SOLID_TILE 0x0001
