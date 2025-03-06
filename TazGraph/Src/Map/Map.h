@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include "JsonParser/JsonParser.h"
-#include "GECS/GECSEntityTypes.h"
+#include "GECS/Core/GECSEntityTypes.h"
 
 #include <algorithm>
 #include <random>

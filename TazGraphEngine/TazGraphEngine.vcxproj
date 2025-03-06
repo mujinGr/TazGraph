@@ -148,10 +148,10 @@
   <ItemGroup>
     <ClCompile Include="AudioEngine\AudioEngine.cpp" />
     <ClCompile Include="Camera2.5D\OrthoCamera.h" />
-    <ClCompile Include="GECS\GECSManager.cpp" />
+    <ClCompile Include="GECS\Core\GECSManager.cpp" />
     <ClCompile Include="Renderers\FrameBuffer\Framebuffer.cpp" />
     <ClCompile Include="Renderers\LineRenderer\LineRenderer.cpp" />
-    <ClCompile Include="GECS\GECS.cpp" />
+    <ClCompile Include="GECS\Core\GECS.cpp" />
     <ClCompile Include="GraphScreen\IScene.cpp" />
     <ClCompile Include="GraphScreen\AppInterface.cpp" />
     <ClCompile Include="GraphScreen\ScreenIndices.h" />
@@ -191,7 +191,7 @@
     <ClInclude Include="GECS\Components\Node\Basic\Triangle_w_Color.h" />
     <ClInclude Include="GECS\Components\Node\Util\PollingComponent.h" />
     <ClInclude Include="GECS\UtilComponents.h" />
-    <ClInclude Include="GECS\GECSEntityTypes.h" />
+    <ClInclude Include="GECS\Core\GECSEntityTypes.h" />
     <ClInclude Include="JsonParser\JsonParser.h" />
     <ClInclude Include="Renderers\FrameBuffer\Framebuffer.h" />
     <ClInclude Include="Renderers\LineRenderer\LineRenderer.h" />
@@ -205,8 +205,8 @@
     <ClInclude Include="GECS\Components.h" />
     <ClInclude Include="GECS\Components\Node\Util\KeyboardControllerComponent.h" />
     <ClInclude Include="GECS\Components\Node\Util\UILabel.h" />
-    <ClInclude Include="GECS\GECS.h" />
-    <ClInclude Include="GECS\GECSManager.h" />
+    <ClInclude Include="GECS\Core\GECS.h" />
+    <ClInclude Include="GECS\Core\GECSManager.h" />
     <ClInclude Include="GECS\Animators\FlashAnimation.h" />
     <ClInclude Include="GECS\Animators\FlashAnimatorComponent.h" />
     <ClInclude Include="GECS\Components\Node\Util\GridComponent.h" />

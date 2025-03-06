@@ -6,7 +6,7 @@
 #include <string>
 
 #include "../GLSLProgram.h"
-#include "../GECS/GECS.h"
+#include "../GECS/Core/GECS.h"
 
 class ResourceManager
 {

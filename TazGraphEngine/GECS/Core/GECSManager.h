@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GECS.h"
-#include "../Grid/Grid.h"
+#include "../../Grid/Grid.h"
 
 class Manager
 {

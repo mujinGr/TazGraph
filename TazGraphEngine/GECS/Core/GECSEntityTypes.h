@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GECSManager.h"
-#include "Components.h"
+#include "../Components.h"
 
 class LinkEntity;
 
@@ -75,17 +75,15 @@ public:
 	}
 } Empty;
 
-typedef class NodeEntity : public Entity {
+typedef class NodeEntity : public EmptyEntity {
 private:
-	Entity* parent_entity = nullptr;
 	std::vector<Entity*> inLinks;
 	std::vector<Entity*> outLinks;
 
 	std::vector<std::string> messageLog;
 public:
-	Cell* ownerCell = nullptr;
 
-	NodeEntity(Manager& mManager) : Entity(mManager) {
+	NodeEntity(Manager& mManager) : EmptyEntity(mManager) {
 
 		auto& leftPort = mManager.addEntityNoId<Empty>();
 		leftPort.addComponent<TransformComponent>().bodyDims.w = 0;
@@ -111,13 +109,6 @@ public:
 	}
 	virtual ~NodeEntity() {
 
-	}
-
-	void update(float deltaTime)
-	{
-		cellUpdate();
-
-		Entity::update(deltaTime);
 	}
 
 	void cellUpdate() override{
@@ -148,34 +139,6 @@ public:
 				}
 			}
 		}
-	}
-
-	void removeFromCell() override {
-		if (this->ownerCell) {
-			removeEntity();
-			this->ownerCell = nullptr;
-		}
-	}
-
-	void removeEntity() {
-		ownerCell->nodes.erase(
-			std::remove(this->ownerCell->nodes.begin(), this->ownerCell->nodes.end(),
-				this),
-			this->ownerCell->nodes.end());
-	}
-
-	void setOwnerCell(Cell* cell) override {
-		this->ownerCell = cell;
-	}
-
-	Cell* getOwnerCell() const override { return ownerCell; }
-
-	Entity* getParentEntity() override {
-		return parent_entity;
-	}
-
-	void setParentEntity(Entity* pEntity) override {
-		parent_entity = pEntity;
 	}
 
 	void addInLink(Entity* link) {
@@ -222,10 +185,6 @@ public:
 		ImGui::Text("Display Info Here Node");
 	}
 	
-	void destroy() {
-		Entity::destroy();
-		manager.aboutTo_updateActiveEntities();
-	}
 } Node;
 
 

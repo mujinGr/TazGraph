@@ -45,7 +45,7 @@
     <ClCompile Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GECS\GECS.cpp">
+    <ClCompile Include="GECS\Core\GECS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PNG_Letters.cpp">
@@ -102,7 +102,7 @@
     <ClCompile Include="Renderers\PlaneColorRenderer\PlaneColorRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GECS\GECSManager.cpp">
+    <ClCompile Include="GECS\Core\GECSManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -155,7 +155,7 @@
     <ClInclude Include="GECS\Components\Node\Basic\Rectangle_w_Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\GECS.h">
+    <ClInclude Include="GECS\Core\GECS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Components\Node\Basic\TransformComponent.h">
@@ -203,7 +203,7 @@
     <ClInclude Include="Grid\Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\GECSManager.h">
+    <ClInclude Include="GECS\Core\GECSManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Renderers\LineRenderer\LineRenderer.h">
@@ -230,7 +230,7 @@
     <ClInclude Include="GECS\Animators\MovingAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\GECSEntityTypes.h">
+    <ClInclude Include="GECS\Core\GECSEntityTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DataManager\DataManager.h">

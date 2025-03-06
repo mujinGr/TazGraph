@@ -9,11 +9,11 @@
 #include <unordered_map>
 
 #include <SDL2/SDL.h>
-#include "../Renderers/PlaneModelRenderer/PlaneModelRenderer.h"
-#include "../Renderers/LineRenderer/LineRenderer.h"
-#include "../Renderers/PlaneColorRenderer/PlaneColorRenderer.h"
-#include "../Camera2.5D/CameraManager.h"
-#include "../Window/Window.h"
+#include "../../Renderers/PlaneModelRenderer/PlaneModelRenderer.h"
+#include "../../Renderers/LineRenderer/LineRenderer.h"
+#include "../../Renderers/PlaneColorRenderer/PlaneColorRenderer.h"
+#include "../../Camera2.5D/CameraManager.h"
+#include "../../Window/Window.h"
 
 #define CULLING_OFFSET 100
 
@@ -203,6 +203,16 @@ public:
 
 	virtual void addMessage(std::string mMessage) {}
 
+	virtual void imgui_print() {}
+
+	virtual void imgui_display() {}
+
+	virtual void setParentEntity(Entity* pEntity) {}
+
+	virtual Entity* getParentEntity() {
+		return nullptr;
+	}
+
 	virtual const std::vector<Entity*>& getInLinks() const {
 		static const std::vector<Entity*> emptyVec;
 		return emptyVec;
@@ -232,14 +242,46 @@ public:
 
 	virtual void updateLinkPorts() {}
 
-	virtual Entity* getParentEntity() {
-		return nullptr;
-	}
 
-	virtual void setParentEntity(Entity* pEntity) {}
-
-	virtual void imgui_print() {}
-
-	virtual void imgui_display() {}
 };
 
+//class NodeEntity_Base : Entity {
+//	virtual void setParentEntity(Entity* pEntity) {}
+//
+//	virtual Entity* getParentEntity() {
+//		return nullptr;
+//	}
+//
+//	virtual const std::vector<Entity*>& getInLinks() const {
+//		static const std::vector<Entity*> emptyVec;
+//		return emptyVec;
+//	}
+//
+//	virtual const std::vector<Entity*>& getOutLinks() const {
+//		static const std::vector<Entity*> emptyVec;
+//		return emptyVec;
+//	}
+//
+//};
+//
+//class LinkEntity_Base : Entity {
+//	// instead of virtual functions you can instead do dynamic casting on derived classes to get the functions
+//	virtual Entity* getFromNode() const {
+//		return nullptr;
+//	}
+//
+//	virtual Entity* getToNode() const {
+//		return nullptr;
+//	}
+//
+//	virtual Entity* getFromPort() {
+//		return nullptr;
+//	}
+//
+//	virtual Entity* getToPort() {
+//		return nullptr;
+//	}
+//
+//	virtual void updateLinkPorts() {}
+//
+//};

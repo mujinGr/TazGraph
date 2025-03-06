@@ -1,10 +1,12 @@
 #pragma once
-#include "../GECS/GECS.h"
+#include "../GECS/Core/GECS.h"
 #include "../AABB/AABB.h"
 
 #include <vector>
 
 #include <cmath>
+
+//class NodeEntity : Entity;
 
 struct Cell {
 	std::vector<Entity*> nodes;

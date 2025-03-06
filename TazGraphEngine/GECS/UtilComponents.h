@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./GECSEntityTypes.h"
+#include "./Core/GECSEntityTypes.h"
 
 #include "./Components/Node/Util/UILabel.h"
 #include "./Components/Node/Util/ButtonComponent.h"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./GECS.h"
+#include "./Core/GECS.h"
 
 #include "./Components/Node/Basic/TransformComponent.h"
 #include "./Components/Node/Basic/SpriteComponent.h"
