@@ -5,13 +5,13 @@
 
 class LinkEntity;
 
-typedef class EmptyEntity : public Entity {
+typedef class EmptyEntity : public CellEntity{
 private:
 	Entity* parent_entity = nullptr;
 public:
 	Cell* ownerCell = nullptr;
 
-	EmptyEntity(Manager& mManager) : Entity(mManager) {
+	EmptyEntity(Manager& mManager) : CellEntity(mManager) {
 
 	}
 	virtual ~EmptyEntity() {
@@ -36,34 +36,6 @@ public:
 		}
 	}
 
-	void removeFromCell() override {
-		if (this->ownerCell) {
-			removeEntity();
-			this->ownerCell = nullptr;
-		}
-	}
-
-	void removeEntity() {
-		ownerCell->nodes.erase(
-			std::remove(this->ownerCell->nodes.begin(), this->ownerCell->nodes.end(),
-				this),
-			this->ownerCell->nodes.end());
-	}
-
-	void setOwnerCell(Cell* cell) override {
-		this->ownerCell = cell;
-	}
-
-	Cell* getOwnerCell() const override { return ownerCell; }
-
-	Entity* getParentEntity() override {
-		return parent_entity;
-	}
-
-	void setParentEntity(Entity* pEntity) override {
-		parent_entity = pEntity;
-	}
-
 	void imgui_print() override {
 		glm::vec2 position = this->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
 		ImGui::Text("Position: (%.2f, %.2f)", position.x, position.y);
@@ -75,7 +47,7 @@ public:
 	}
 } Empty;
 
-typedef class NodeEntity : public EmptyEntity {
+typedef class NodeEntity : public CellEntity{
 private:
 	std::vector<Entity*> inLinks;
 	std::vector<Entity*> outLinks;
@@ -83,7 +55,7 @@ private:
 	std::vector<std::string> messageLog;
 public:
 
-	NodeEntity(Manager& mManager) : EmptyEntity(mManager) {
+	NodeEntity(Manager& mManager) : CellEntity(mManager) {
 
 		auto& leftPort = mManager.addEntityNoId<Empty>();
 		leftPort.addComponent<TransformComponent>().bodyDims.w = 0;
@@ -109,6 +81,13 @@ public:
 	}
 	virtual ~NodeEntity() {
 
+	}
+
+	void update(float deltaTime)
+	{
+		cellUpdate();
+
+		Entity::update(deltaTime);
 	}
 
 	void cellUpdate() override{
@@ -188,7 +167,7 @@ public:
 } Node;
 
 
-typedef class LinkEntity : public Entity {
+typedef class LinkEntity : public GridLinkEntity {
 private:
 
 	unsigned int fromId = 0;
@@ -201,15 +180,14 @@ public:
 	std::string fromPort;
 	std::string toPort;
 
-	std::vector<Cell*> ownerCells = {};
 
 	Color color = {};
 
-	LinkEntity(Manager& mManager) : Entity(mManager) {
+	LinkEntity(Manager& mManager) : GridLinkEntity(mManager) {
 	}
 
 	LinkEntity(Manager& mManager, unsigned int mfromId, unsigned int mtoId)
-		: Entity(mManager),
+		: GridLinkEntity(mManager),
 		fromId(mfromId),
 		toId(mtoId)
 	{
@@ -260,7 +238,7 @@ public:
 	}
 
 	LinkEntity(Manager& mManager, Entity* mfrom, Entity* mto)
-		: Entity(mManager),
+		: GridLinkEntity(mManager),
 		from(dynamic_cast<Node*>(mfrom)),
 		to(dynamic_cast<Node*>(mto))
 	{
@@ -292,25 +270,6 @@ public:
 			}
 		}
 	}
-
-	void removeFromCell() override {
-		removeEntity();
-		ownerCells.clear();
-	}
-
-	void removeEntity() {
-		for (auto cell : ownerCells) {
-			cell->links.erase(std::remove(cell->links.begin(), cell->links.end(),
-				this),
-				cell->links.end());
-		}
-	}
-
-	void setOwnerCell(Cell* cell) override {
-		this->ownerCells.push_back(cell);
-	}
-
-	Cell* getOwnerCell() const override { return ownerCells[0]; }
 
 	Entity* getFromNode() const override {
 		return from;

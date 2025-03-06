@@ -17,6 +17,7 @@
 
 #define CULLING_OFFSET 100
 
+class BaseComponent;
 class Component;
 class Entity;
 class Manager;
@@ -45,13 +46,11 @@ constexpr std::size_t maxGroups = 16;
 using ComponentBitSet = std::bitset<maxComponents>;
 using GroupBitSet = std::bitset<maxGroups>;
 
-using ComponentArray = std::array<Component*, maxComponents>;
+using ComponentArray = std::array<BaseComponent*, maxComponents>;
 
-class Component
+class BaseComponent
 {
 public:
-	Entity* entity;
-
 	ComponentID id = 0u;
 
 	virtual void init() {}
@@ -60,7 +59,7 @@ public:
 	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) {}
 	virtual void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) {}
 
-	virtual ~Component() {}
+	virtual ~BaseComponent() {}
 };
 
 //class NodeComponent : public Component
@@ -116,7 +115,7 @@ public:
 		return hidden;
 	}
 
-	std::vector<std::unique_ptr<Component>> components; //create 2 arrays, this is for the concurrent access
+	std::vector<std::unique_ptr<BaseComponent>> components; //create 2 arrays, this is for the concurrent access
 	Entity(Manager& mManager) : manager(mManager) {}
 	virtual ~Entity() {}
 
@@ -129,12 +128,6 @@ public:
 	}
 
 	virtual void cellUpdate() {};
-
-	virtual void removeFromCell() {};
-
-	virtual void setOwnerCell(Cell* cell) {};
-
-	virtual Cell* getOwnerCell() const { return nullptr; };
 
 	void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) 
 	{
@@ -179,7 +172,7 @@ public:
 	{
 		T* c(new T(std::forward<TArgs>(mArgs)...));
 		c->entity = this;
-		std::unique_ptr<Component> uPtr{ c };
+		std::unique_ptr<BaseComponent> uPtr{ c };
 		components.emplace_back(std::move(uPtr));
 
 		componentArray[GetComponentTypeID<T>()] = c;
@@ -207,11 +200,7 @@ public:
 
 	virtual void imgui_display() {}
 
-	virtual void setParentEntity(Entity* pEntity) {}
-
-	virtual Entity* getParentEntity() {
-		return nullptr;
-	}
+	/////////////////////////////
 
 	virtual const std::vector<Entity*>& getInLinks() const {
 		static const std::vector<Entity*> emptyVec;
@@ -223,7 +212,7 @@ public:
 		return emptyVec;
 	}
 
-	// instead of virtual functions you can instead do dynamic casting on derived classes to get the functions
+
 	virtual Entity* getFromNode() const {
 		return nullptr;
 	}
@@ -242,10 +231,50 @@ public:
 
 	virtual void updateLinkPorts() {}
 
-
 };
 
-//class NodeEntity_Base : Entity {
+class EmptyEntity_Base : public Entity {
+private:
+	Entity* parent_entity = nullptr;
+public:
+	EmptyEntity_Base(Manager& mManager) : Entity(mManager) {}
+
+	Entity* getParentEntity() {
+		return parent_entity;
+	}
+
+	void setParentEntity(Entity* pEntity) {
+		parent_entity = pEntity;
+	}
+};
+
+class NodeEntity_Base : public EmptyEntity_Base {
+public:
+	NodeEntity_Base(Manager& mManager) : EmptyEntity_Base(mManager) {}
+
+	/*virtual const std::vector<Entity*>& getInLinks() const {
+		static const std::vector<Entity*> emptyVec;
+		return emptyVec;
+	}
+
+	virtual const std::vector<Entity*>& getOutLinks() const {
+		static const std::vector<Entity*> emptyVec;
+		return emptyVec;
+	}*/
+};
+
+
+class LinkEntity_Base : public Entity {
+public:
+	LinkEntity_Base(Manager& mManager) : Entity(mManager) {}
+};
+
+//class NodeEntity_Base : public Entity {
+//public:
+//	NodeEntity_Base(Manager& mManager) : Entity(mManager) {
+//
+//	}
+//
 //	virtual void setParentEntity(Entity* pEntity) {}
 //
 //	virtual Entity* getParentEntity() {
@@ -264,7 +293,12 @@ public:
 //
 //};
 //
-//class LinkEntity_Base : Entity {
+//class LinkEntity_Base : public Entity {
+//public:
+//	LinkEntity_Base(Manager& mManager) : Entity(mManager) {
+//
+//	}
+//
 //	// instead of virtual functions you can instead do dynamic casting on derived classes to get the functions
 //	virtual Entity* getFromNode() const {
 //		return nullptr;
@@ -285,3 +319,23 @@ public:
 //	virtual void updateLinkPorts() {}
 //
 //};
+
+//todo seperate draw calls for components
+class Component : public BaseComponent {
+public:
+	Entity* entity;
+};
+
+class NodeComponent : public BaseComponent
+{
+public:
+	Entity* entity;
+};
+
+class LinkComponent : public BaseComponent
+{
+public:
+	Entity* entity;
+};
+
+

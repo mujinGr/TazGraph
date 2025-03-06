@@ -2,11 +2,11 @@
 
 #include "./Core/GECS.h"
 
-#include "./Components/Node/Basic/TransformComponent.h"
-#include "./Components/Node/Basic/SpriteComponent.h"
-#include "./Components/Node/Basic/ColliderComponent.h"
-#include "./Components/Node/Basic/Triangle_w_Color.h"
-#include "./Components/Node/Basic/Rectangle_w_Color.h"
+#include "./Components/Empty/Basic/TransformComponent.h"
+#include "./Components/Empty/Basic/SpriteComponent.h"
+#include "./Components/Empty/Basic/ColliderComponent.h"
+#include "./Components/Empty/Basic/Triangle_w_Color.h"
+#include "./Components/Empty/Basic/Rectangle_w_Color.h"
 #include "./Components/Link/Basic/Line_w_Color.h"
 
 

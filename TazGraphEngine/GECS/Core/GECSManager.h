@@ -1,18 +1,21 @@
 #pragma once
 
-#include "GECS.h"
-#include "../../Grid/Grid.h"
+#include "./GridEntity.h"
 
 class Manager
 {
 private:
 	int lastEntityId = 0;
 	int negativeEntityId = -1;
+
+	//todo separate entities to cellEntities and LinkEntities
 	std::vector<std::unique_ptr<Entity>> entities;
 
 	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
+	
 	std::vector<Entity*> visible_nodes;
 	std::vector<Entity*> visible_links;
+
 	std::array<std::vector<Entity*>, maxGroups> visible_groupedEntities;
 
 	bool _update_active_entities = false;
@@ -272,12 +275,12 @@ public:
 		{groupBackgroundLayer, "groupBackgroundLayer" },
 		{panelBackground, "panelBackground"},
 
-		//action
+		// action
 		{ groupLinks_0,"groupLinks_0" },
 		{groupGroupLinks_0, "groupGroupLinks_0"},
 		{groupGroupLinks_1, "groupGroupLinks_1"},
 
-		{groupArrowHeads_0, "groupArrowHeads_0"},
+		{ groupArrowHeads_0, "groupArrowHeads_0"},
 
 		{ groupNodes_0,"groupNodes_0" },
 		{ groupGroupNodes_0, "groupGroupNodes_0"},

@@ -3,7 +3,7 @@
 #include "GECS/Animators/AnimatorComponent.h"
 
 
-class MainMenuBackground : public Component
+class MainMenuBackground : public NodeComponent
 {
 private:
 	TransformComponent* transform;

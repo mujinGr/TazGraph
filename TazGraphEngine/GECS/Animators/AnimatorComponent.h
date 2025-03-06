@@ -9,7 +9,7 @@
 typedef uint32_t timestamp;
 
 
-class AnimatorComponent : public Component //Animator -> Sprite -> Transform
+class AnimatorComponent : public NodeComponent //Animator -> Sprite -> Transform
 {
 public:
 
