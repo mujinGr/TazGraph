@@ -19,14 +19,20 @@
 
 class BaseComponent;
 class Component;
+
 class Entity;
+class EmptyEntity;
+class NodeEntity;
+class LinkEntity;
+
+
 class Manager;
 class Window;
 struct Cell;
 
 using ComponentID = std::size_t;
 using Group = std::size_t;
-using Layer = std::size_t;
+using layer = std::size_t;
 
 inline ComponentID getNewComponentTypeID()
 {
@@ -48,6 +54,21 @@ using GroupBitSet = std::bitset<maxGroups>;
 
 using ComponentArray = std::array<BaseComponent*, maxComponents>;
 
+namespace Layer {
+	enum layerIndexes : std::size_t
+	{
+		action,
+		menubackground
+	};
+}
+
+
+const std::unordered_map<layer, float> layerNames = {
+	{Layer::action , 0.0f},
+	{Layer::menubackground, -100.0f}
+
+};
+
 class BaseComponent
 {
 public:
@@ -61,28 +82,6 @@ public:
 
 	virtual ~BaseComponent() {}
 };
-
-//class NodeComponent : public Component
-//{
-//public:
-//	Node* node;
-//
-//	virtual void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) override {}
-//	virtual void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {}
-//
-//	~NodeComponent() override = default;
-//};
-//
-//class LinkComponent : public Component
-//{
-//public:
-//	Link* link;
-//
-//	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) override {}
-//
-//	~LinkComponent() override = default;
-//};
-
 
 class Entity
 {
@@ -200,125 +199,13 @@ public:
 
 	virtual void imgui_display() {}
 
-	/////////////////////////////
 
-	virtual const std::vector<Entity*>& getInLinks() const {
-		static const std::vector<Entity*> emptyVec;
-		return emptyVec;
-	}
-
-	virtual const std::vector<Entity*>& getOutLinks() const {
-		static const std::vector<Entity*> emptyVec;
-		return emptyVec;
-	}
-
-
-	virtual Entity* getFromNode() const {
-		return nullptr;
-	}
-
-	virtual Entity* getToNode() const {
-		return nullptr;
-	}
-
-	virtual Entity* getFromPort() {
-		return nullptr;
-	}
-
-	virtual Entity* getToPort() {
-		return nullptr;
-	}
-
-	virtual void updateLinkPorts() {}
-
-};
-
-class EmptyEntity_Base : public Entity {
-private:
-	Entity* parent_entity = nullptr;
-public:
-	EmptyEntity_Base(Manager& mManager) : Entity(mManager) {}
-
-	Entity* getParentEntity() {
-		return parent_entity;
-	}
-
-	void setParentEntity(Entity* pEntity) {
-		parent_entity = pEntity;
+	static float getLayerDepth(layer mLayer) {
+		return layerNames.at(mLayer);
 	}
 };
 
-class NodeEntity_Base : public EmptyEntity_Base {
-public:
-	NodeEntity_Base(Manager& mManager) : EmptyEntity_Base(mManager) {}
 
-	/*virtual const std::vector<Entity*>& getInLinks() const {
-		static const std::vector<Entity*> emptyVec;
-		return emptyVec;
-	}
-
-	virtual const std::vector<Entity*>& getOutLinks() const {
-		static const std::vector<Entity*> emptyVec;
-		return emptyVec;
-	}*/
-};
-
-
-class LinkEntity_Base : public Entity {
-public:
-	LinkEntity_Base(Manager& mManager) : Entity(mManager) {}
-};
-
-//class NodeEntity_Base : public Entity {
-//public:
-//	NodeEntity_Base(Manager& mManager) : Entity(mManager) {
-//
-//	}
-//
-//	virtual void setParentEntity(Entity* pEntity) {}
-//
-//	virtual Entity* getParentEntity() {
-//		return nullptr;
-//	}
-//
-//	virtual const std::vector<Entity*>& getInLinks() const {
-//		static const std::vector<Entity*> emptyVec;
-//		return emptyVec;
-//	}
-//
-//	virtual const std::vector<Entity*>& getOutLinks() const {
-//		static const std::vector<Entity*> emptyVec;
-//		return emptyVec;
-//	}
-//
-//};
-//
-//class LinkEntity_Base : public Entity {
-//public:
-//	LinkEntity_Base(Manager& mManager) : Entity(mManager) {
-//
-//	}
-//
-//	// instead of virtual functions you can instead do dynamic casting on derived classes to get the functions
-//	virtual Entity* getFromNode() const {
-//		return nullptr;
-//	}
-//
-//	virtual Entity* getToNode() const {
-//		return nullptr;
-//	}
-//
-//	virtual Entity* getFromPort() {
-//		return nullptr;
-//	}
-//
-//	virtual Entity* getToPort() {
-//		return nullptr;
-//	}
-//
-//	virtual void updateLinkPorts() {}
-//
-//};
 
 //todo seperate draw calls for components
 class Component : public BaseComponent {
@@ -329,13 +216,19 @@ public:
 class NodeComponent : public BaseComponent
 {
 public:
-	Entity* entity;
+	NodeEntity* entity;
+
+	virtual void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) override {}
+	virtual void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {}
+	
 };
 
 class LinkComponent : public BaseComponent
 {
 public:
-	Entity* entity;
+	LinkEntity* entity;
+
+	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) override {}
 };
 
 

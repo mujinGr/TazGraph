@@ -2,12 +2,10 @@
 
 #include "../../../Components.h"
 
-#include "../../../Core/GECSManager.h"
-
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {
 private:
-	Layer _layer = 0;
+	layer _layer = 0;
 	float _zIndexF = 0;
 
 	// todo remove rotation
@@ -39,13 +37,13 @@ public:
 		bodyDims.y = position.y;
 	}
 
-	TransformComponent(glm::vec2 position, Layer layer , glm::vec2 size, float sc) : TransformComponent(position){
+	TransformComponent(glm::vec2 position, layer layer , glm::vec2 size, float sc) : TransformComponent(position){
 		bodyDims = { position.x, position.y, size.x,size.y };
 		_layer = layer;
 		scale = sc;
 	}
 
-	TransformComponent(glm::vec2 position, Layer layer, glm::vec2 size, float sc, int sp) : TransformComponent(position, layer, size, sc)
+	TransformComponent(glm::vec2 position, layer layer, glm::vec2 size, float sc, int sp) : TransformComponent(position, layer, size, sc)
 	{
 		speed = sp;
 	}
@@ -54,7 +52,7 @@ public:
 	void init() override
 	{
 		_velocity = glm::zero<glm::ivec2>();
-		_zIndexF = entity->getManager()->getLayerDepth(_layer);
+		_zIndexF = Entity::getLayerDepth(_layer);
 	}
 	void update(float deltaTime) override
 	{

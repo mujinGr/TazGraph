@@ -20,8 +20,8 @@ private:
     glm::ivec2 bDimensions{0,0};
     Color bBackground{255,255,255,255};
 
-    Entity* uiLabel = nullptr;
-    Entity* buttonBackground = nullptr;
+    EmptyEntity* uiLabel = nullptr;
+    EmptyEntity* buttonBackground = nullptr;
 public:
     ButtonComponent(std::function<void()> onClick)
         : _state(ButtonState::NORMAL), _onClick(onClick) {}
@@ -39,9 +39,9 @@ public:
     void init() override {
         if (buttonLabel.length() > 0) {
             // need different shader to render text so it has to be different 
-            uiLabel = &entity->getManager()->addEntity<Node>();
+            uiLabel = &entity->getManager()->addEntity<EmptyEntity>();
             
-            uiLabel->addComponent<TransformComponent>(glm::vec2(0, 0), Manager::actionLayer, glm::ivec2(32, 32), 1);
+            uiLabel->addComponent<TransformComponent>(glm::vec2(0, 0), Layer::action, glm::ivec2(32, 32), 1);
             uiLabel->addComponent<UILabel>(uiLabel->getManager(), buttonLabel, "arial");
 
             uiLabel->setParentEntity(entity);
@@ -49,9 +49,9 @@ public:
             uiLabel->addGroup(Manager::buttonLabels);
         }
         if (bDimensions != glm::ivec2(0, 0)) {
-            buttonBackground = &entity->getManager()->addEntity<Node>();
+            buttonBackground = &entity->getManager()->addEntity<EmptyEntity>();
 
-            buttonBackground->addComponent<TransformComponent>(glm::vec2(0, 0), Manager::actionLayer, bDimensions, 1);
+            buttonBackground->addComponent<TransformComponent>(glm::vec2(0, 0), Layer::action, bDimensions, 1);
             buttonBackground->addComponent<Rectangle_w_Color>();
 
             buttonBackground->GetComponent<Rectangle_w_Color>().color = bBackground; // Grey color

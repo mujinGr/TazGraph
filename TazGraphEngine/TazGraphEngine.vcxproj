@@ -190,7 +190,8 @@
     <ClInclude Include="GECS\Components\Link\Basic\Line_w_Color.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\Triangle_w_Color.h" />
     <ClInclude Include="GECS\Components\Node\Util\PollingComponent.h" />
-    <ClInclude Include="GECS\Core\GridEntity.h" />
+    <ClInclude Include="GECS\Core\GECSEntity.h" />
+    <ClInclude Include="GECS\Core\CellEntity.h" />
     <ClInclude Include="GECS\UtilComponents.h" />
     <ClInclude Include="GECS\Core\GECSEntityTypes.h" />
     <ClInclude Include="JsonParser\JsonParser.h" />

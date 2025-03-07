@@ -266,7 +266,10 @@
     <ClInclude Include="GECS\Components\Empty\Basic\Box_w_Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Core\GridEntity.h">
+    <ClInclude Include="GECS\Core\CellEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GECS\Core\GECSEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

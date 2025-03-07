@@ -1,28 +1,22 @@
 #pragma once
-#include "../GECS/Core/GECS.h"
+#include "../GECS/Core/GECSEntity.h"
 #include "../AABB/AABB.h"
+
+#include "../GECS/Components.h"
 
 #include <vector>
 
 #include <cmath>
 
-//class NodeEntity : Entity;
-
-struct Cell {
-	std::vector<Entity*> nodes;
-	std::vector<Entity*> links;
-
-	glm::vec3 boundingBox_origin; // Starting point (minimum corner) of the cell
-	glm::vec3 boundingBox_size;
-
-	Cell* parent = nullptr;
-	std::vector<Cell*> children;
-
-};
-
 
 class Grid {
 public:
+	enum CellEntityTypes {
+		EMPTY,
+		NODE,
+		LINK
+	};
+
 	enum Level {
 		Basic,
 		Outer1,
@@ -34,17 +28,17 @@ public:
 
 	void createCells(Grid::Level size);
 
-	void addLink(Entity* link, Grid::Level m_level);
-	std::vector<Cell*> getLinkCells(const Entity& link, Grid::Level m_level);
-	void addLink(Entity* link, Cell* cell);
+	void addLink(LinkEntity* link, Grid::Level m_level);
+	std::vector<Cell*> getLinkCells(const LinkEntity& link, Grid::Level m_level);
+	void addLink(LinkEntity* link, Cell* cell);
 
-	void addNode(Entity* entity, Grid::Level m_level);
-	void addNode(Entity* entity, Cell* cell);
+	void addNode(NodeEntity* entity, Grid::Level m_level);
+	void addNode(NodeEntity* entity, Cell* cell);
 
 	Cell* getCell(int x, int y, int z, Grid::Level m_level);
 	Cell* getCell(const Entity& position, Grid::Level m_level);
 	std::vector<Cell*> getAdjacentCells(int x, int y, int z, Grid::Level m_level);
-	std::vector<Cell*> getAdjacentCells(const Entity& entity, Grid::Level m_level);
+	std::vector<Cell*> getAdjacentCells(const NodeEntity& entity, Grid::Level m_level);
 	std::vector<Cell>& getCells(Grid::Level m_level);
 	int getCellSize();
 	int getNumXCells();
@@ -54,11 +48,27 @@ public:
 
 	std::vector<Cell*> getIntersectedCameraCells(ICamera& camera);
 
-	std::vector<Entity*> getRevealedNodesInCameraCells();
 
-	std::vector<Entity*> getLinksInCameraCells();
+	template <typename T>
+	std::vector<T*> getEntitiesInCameraCells();
 
-	std::vector<Entity*> getNodesInCameraCells();
+	template <>
+	std::vector<EmptyEntity*> getEntitiesInCameraCells();
+	template <>
+	std::vector<NodeEntity*> getEntitiesInCameraCells();
+	template <>
+	std::vector<LinkEntity*> getEntitiesInCameraCells();
+
+	template <typename T>
+	std::vector<T*> getRevealedEntitiesInCameraCells();
+	
+	template <>
+	std::vector<EmptyEntity*> getRevealedEntitiesInCameraCells();
+	template <>
+	std::vector<NodeEntity*> getRevealedEntitiesInCameraCells();
+	template <>
+	std::vector<LinkEntity*> getRevealedEntitiesInCameraCells();
+
 
 	bool gridLevelChanged();
 

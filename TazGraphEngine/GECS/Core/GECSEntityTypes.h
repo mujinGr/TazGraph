@@ -5,16 +5,16 @@
 
 class LinkEntity;
 
-typedef class EmptyEntity : public CellEntity{
+class Empty : public EmptyEntity {
 private:
 	Entity* parent_entity = nullptr;
 public:
 	Cell* ownerCell = nullptr;
 
-	EmptyEntity(Manager& mManager) : CellEntity(mManager) {
+	Empty(Manager& mManager) : EmptyEntity(mManager) {
 
 	}
-	virtual ~EmptyEntity() {
+	virtual ~Empty() {
 
 	}
 
@@ -45,17 +45,17 @@ public:
 		Entity::destroy();
 		manager.aboutTo_updateActiveEntities(); // cant have it at destroy in baseclass
 	}
-} Empty;
+};
 
-typedef class NodeEntity : public CellEntity{
+class Node : public NodeEntity{
 private:
-	std::vector<Entity*> inLinks;
-	std::vector<Entity*> outLinks;
+	std::vector<LinkEntity*> inLinks;
+	std::vector<LinkEntity*> outLinks;
 
 	std::vector<std::string> messageLog;
 public:
 
-	NodeEntity(Manager& mManager) : CellEntity(mManager) {
+	Node(Manager& mManager) : NodeEntity(mManager) {
 
 		auto& leftPort = mManager.addEntityNoId<Empty>();
 		leftPort.addComponent<TransformComponent>().bodyDims.w = 0;
@@ -79,7 +79,7 @@ public:
 		bottomPort.GetComponent<TransformComponent>().bodyDims.h = 0;
 		children["bottomPort"] = &bottomPort;
 	}
-	virtual ~NodeEntity() {
+	virtual ~Node() {
 
 	}
 
@@ -120,21 +120,7 @@ public:
 		}
 	}
 
-	void addInLink(Entity* link) {
-		inLinks.push_back(link);
-	}
 
-	void addOutLink(Entity* link) {
-		outLinks.push_back(link);
-	}
-
-	const std::vector<Entity*>& getInLinks() const override {
-		return inLinks;
-	}
-
-	const std::vector<Entity*>& getOutLinks() const override {
-		return outLinks;
-	}
 
 	void addMessage(std::string mMessage) override{
 		messageLog.push_back(mMessage);
@@ -164,30 +150,19 @@ public:
 		ImGui::Text("Display Info Here Node");
 	}
 	
-} Node;
+};
 
 
-typedef class LinkEntity : public GridLinkEntity {
-private:
-
-	unsigned int fromId = 0;
-	unsigned int toId = 0;
-
-	Node* from = nullptr;
-	Node* to = nullptr;
-
+class Link : public LinkEntity {
 public:
-	std::string fromPort;
-	std::string toPort;
-
 
 	Color color = {};
 
-	LinkEntity(Manager& mManager) : GridLinkEntity(mManager) {
+	Link(Manager& mManager) : LinkEntity(mManager) {
 	}
 
-	LinkEntity(Manager& mManager, unsigned int mfromId, unsigned int mtoId)
-		: GridLinkEntity(mManager),
+	Link(Manager& mManager, unsigned int mfromId, unsigned int mtoId)
+		: LinkEntity(mManager),
 		fromId(mfromId),
 		toId(mtoId)
 	{
@@ -238,12 +213,25 @@ public:
 	}
 
 	LinkEntity(Manager& mManager, Entity* mfrom, Entity* mto)
-		: GridLinkEntity(mManager),
+		: MultiCellEntity(mManager),
 		from(dynamic_cast<Node*>(mfrom)),
 		to(dynamic_cast<Node*>(mto))
 	{
 		fromId = from->getId();
 		toId = to->getId();
+	}
+
+	std::string getBestPortForConnection(const glm::vec2& fromPos, const glm::vec2& toPos) {
+		// Simple logic to determine the port based on relative position
+		float deltaX = toPos.x - fromPos.x;
+		float deltaY = toPos.y - fromPos.y;
+
+		if (abs(deltaX) > abs(deltaY)) {  // Horizontal distance is greater
+			return deltaX > 0 ? "rightPort" : "leftPort";
+		}
+		else {  // Vertical distance is greater
+			return deltaY > 0 ? "bottomPort" : "topPort";
+		}
 	}
 
 	virtual ~LinkEntity() {
@@ -257,7 +245,7 @@ public:
 		
 	}
 
-	void cellUpdate() override {
+	void cellUpdate() {
 		// if cell(or position) of fromNode or cell(or position) of toNode is different than
 		// the saved cells in ownerCells then update it
 		if (manager.grid->getCell(*getFromNode(), manager.grid->getGridLevel()) != ownerCells.front()
@@ -271,15 +259,7 @@ public:
 		}
 	}
 
-	Entity* getFromNode() const override {
-		return from;
-	}
-
-	Entity* getToNode() const override {
-		return to;
-	}
-
-	void updateLinkPorts() override{
+	void updateLinkPorts() {
 		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
 		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
 
@@ -319,28 +299,6 @@ public:
 		}
 	}
 
-	std::string getBestPortForConnection(const glm::vec2& fromPos, const glm::vec2& toPos) {
-		// Simple logic to determine the port based on relative position
-		float deltaX = toPos.x - fromPos.x;
-		float deltaY = toPos.y - fromPos.y;
-
-		if (abs(deltaX) > abs(deltaY)) {  // Horizontal distance is greater
-			return deltaX > 0 ? "rightPort" : "leftPort";
-		}
-		else {  // Vertical distance is greater
-			return deltaY > 0 ? "bottomPort" : "topPort";
-		}
-	}
-
-	Entity* getFromPort() override {
-		return from->children[fromPort];
-	}
-
-	Entity* getToPort()  override{
-		return to->children[toPort];
-	}
-
-
 	void imgui_print() override {
 		glm::vec2 fromNodePosition = this->getFromNode()->GetComponent<TransformComponent>().getCenterTransform();
 		glm::vec2 toNodePosition = this->getToNode()->GetComponent<TransformComponent>().getCenterTransform();
@@ -369,4 +327,4 @@ public:
 		manager.aboutTo_updateActiveEntities();
 	}
 
-} Link;
+};

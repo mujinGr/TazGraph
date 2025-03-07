@@ -1,6 +1,5 @@
 #include "Grid.h"
-#include "../GECS/Components.h"
-#include "../GECS/UtilComponents.h"
+
 
 #include <unordered_set>
 
@@ -104,7 +103,7 @@ void Grid::createCells(Grid::Level m_level) {
 }
 
 // adding link to grid
-void Grid::addLink(Entity* link, Grid::Level m_level)
+void Grid::addLink(LinkEntity* link, Grid::Level m_level)
 {
 	std::vector<Cell*> cells = getLinkCells(*link, m_level);
 	for (auto& cell : cells) {
@@ -112,7 +111,7 @@ void Grid::addLink(Entity* link, Grid::Level m_level)
 	}
 }
 
-std::vector<Cell*> Grid::getLinkCells(const Entity& link, Grid::Level m_level) {
+std::vector<Cell*> Grid::getLinkCells(const LinkEntity& link, Grid::Level m_level) {
 	std::vector<Cell*> intersectedCells;
 	std::unordered_set<Cell*> uniqueCells;
 
@@ -163,21 +162,21 @@ std::vector<Cell*> Grid::getLinkCells(const Entity& link, Grid::Level m_level) {
 	return intersectedCells;
 }
 
-void Grid::addLink(Entity* link, Cell* cell)
+void Grid::addLink(LinkEntity* link, Cell* cell)
 {
 	cell->links.push_back(link);
 
-	link->setOwnerCell(cell);
+	link->setOwnerCells(cell);
 }
 
 // adding node to grid
-void Grid::addNode(Entity* entity, Grid::Level m_level)
+void Grid::addNode(NodeEntity* entity, Grid::Level m_level)
 {
 	Cell* cell = getCell(*entity, m_level);
 	addNode(entity, cell);
 }
 
-void Grid::addNode(Entity* entity, Cell* cell)
+void Grid::addNode(NodeEntity* entity, Cell* cell)
 {
 	cell->nodes.push_back(entity);
 
@@ -273,7 +272,7 @@ std::vector<Cell*> Grid::getAdjacentCells(int x, int y, int z, Grid::Level m_lev
 }
 
 // Returns a vector of pointers to all adjacent cells (including diagonally adjacent cells)
-std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity, Grid::Level m_level) {
+std::vector<Cell*> Grid::getAdjacentCells(const NodeEntity& entity, Grid::Level m_level) {
 	std::vector<Cell*> adjacentCells;
 
 	auto pos = entity.GetComponent<TransformComponent>().getPosition();
@@ -333,27 +332,6 @@ std::vector<Cell*> Grid::getIntersectedCameraCells(ICamera& camera) {
 	return _interceptedCells;
 }
 
-std::vector<Entity*> Grid::getRevealedNodesInCameraCells() {
-	std::vector<Entity*> result;
-
-	for (auto& cell : _interceptedCells) {
-		for (auto& entity : cell->nodes) {
-			if (!entity->isHidden()) {  // Check if the entity is visible
-				result.push_back(entity);
-			}
-		}
-	}
-	return result;
-}
-
-std::vector<Entity*> Grid::getNodesInCameraCells() {
-	std::vector<Entity*> result;
-
-	for (auto& cell : _interceptedCells) {
-		result.insert(result.end(), cell->nodes.begin(), cell->nodes.end());
-	}
-	return result;
-}
 
 bool Grid::gridLevelChanged() {
 	if (_level != _lastLevel) {
@@ -362,7 +340,6 @@ bool Grid::gridLevelChanged() {
 	}
 	return false;
 }
-
 
 Grid::Level Grid::getGridLevel()
 {
@@ -382,8 +359,46 @@ float Grid::getLevelCellScale(Level level) {
 	return gridLevels[level].second;
 }
 
-std::vector<Entity*> Grid::getLinksInCameraCells() {
-	std::map<unsigned int, Entity*> uniqueEntities;
+template <typename T>
+std::vector<T*> Grid::getRevealedEntitiesInCameraCells() {
+
+	return {};
+
+}
+
+template <>
+std::vector<EmptyEntity*> Grid::getRevealedEntitiesInCameraCells() {
+	std::vector<EmptyEntity*> result;
+
+	for (auto& cell : _interceptedCells) {
+		for (auto& entity : cell->emptyEntities) {
+			if (!entity->isHidden()) {  // Check if the entity is visible
+				result.push_back(entity);
+			}
+		}
+	}
+
+	return result;
+}
+
+template <>
+std::vector<NodeEntity*> Grid::getRevealedEntitiesInCameraCells() {
+	std::vector<NodeEntity*> result;
+
+	for (auto& cell : _interceptedCells) {
+		for (auto& entity : cell->nodes) {
+			if (!entity->isHidden()) {  // Check if the entity is visible
+				result.push_back(entity);
+			}
+		}
+	}
+
+	return result;
+}
+
+template <>
+std::vector<LinkEntity*> Grid::getRevealedEntitiesInCameraCells() {
+	std::map<unsigned int, LinkEntity*> uniqueEntities;
 
 	for (auto& cell : _interceptedCells) {
 		for (auto& link : cell->links) {
@@ -397,10 +412,60 @@ std::vector<Entity*> Grid::getLinksInCameraCells() {
 		}
 	}
 
-	std::vector<Entity*> result;
+	std::vector<LinkEntity*> result;
 
 	for (auto& entry : uniqueEntities) {
 		result.push_back(entry.second);
 	}
 	return result;
 }
+
+template <typename T>
+std::vector<T*> Grid::getEntitiesInCameraCells() {
+	return {};
+}
+
+template <>
+std::vector<EmptyEntity*> Grid::getEntitiesInCameraCells() {
+	std::vector<EmptyEntity*> result;
+
+	for (auto& cell : _interceptedCells) {
+		result.insert(result.end(), cell->emptyEntities.begin(), cell->emptyEntities.end());
+	}
+
+	return result;
+}
+
+template <>
+std::vector<NodeEntity*> Grid::getEntitiesInCameraCells() {
+	std::vector<NodeEntity*> result;
+
+	for (auto& cell : _interceptedCells) {
+		result.insert(result.end(), cell->nodes.begin(), cell->nodes.end());
+	}
+
+	return result;
+}
+
+template <>
+std::vector<LinkEntity*> Grid::getEntitiesInCameraCells() {
+	std::map<unsigned int, LinkEntity*> uniqueEntities;
+
+	for (auto& cell : _interceptedCells) {
+		for (auto& link : cell->links) {
+			unsigned int linkId = link->getId();
+
+			if (uniqueEntities.find(linkId) == uniqueEntities.end()) {
+				uniqueEntities[linkId] = link;
+			}
+		}
+	}
+
+	std::vector<LinkEntity*> result;
+
+	for (auto& entry : uniqueEntities) {
+		result.push_back(entry.second);
+	}
+	return result;
+}
+

@@ -1,16 +1,30 @@
 #pragma once
 
 #include "GECS.h"
-#include "../../Grid/Grid.h"
 
-class CellEntity : public EmptyEntity_Base {
+struct Cell {
+	std::vector<EmptyEntity*> emptyEntities;
+	std::vector<NodeEntity*> nodes;
+	std::vector<LinkEntity*> links;
+
+	glm::vec3 boundingBox_origin; // Starting point (minimum corner) of the cell
+	glm::vec3 boundingBox_size;
+
+	Cell* parent = nullptr;
+	std::vector<Cell*> children;
+
+};
+
+class CellEntity : public Entity {
 
 public:
-	CellEntity(Manager& mManager) : EmptyEntity_Base(mManager) {
+	Cell* ownerCell = nullptr;
+
+
+	CellEntity(Manager& mManager) : Entity(mManager) {
 
 	}
 
-	Cell* ownerCell = nullptr;
 
 	void removeFromCell() {
 		if (this->ownerCell) {
@@ -36,14 +50,16 @@ public:
 
 };
 
-class GridLinkEntity : public LinkEntity_Base {
+class MultiCellEntity : public Entity {
 public:
-	GridLinkEntity(Manager& mManager) : LinkEntity_Base(mManager) {
+	std::vector<Cell*> ownerCells = {};
+	
+	MultiCellEntity(Manager& mManager) : Entity(mManager) {
+	
 	}
 
-	std::vector<Cell*> ownerCells = {};
 
-	void removeFromCell() {
+	void removeFromCells() {
 		removeEntity();
 		ownerCells.clear();
 	}
@@ -56,7 +72,7 @@ public:
 		}
 	}
 
-	void setOwnerCell(Cell* cell) {
+	void setOwnerCells(Cell* cell) {
 		this->ownerCells.push_back(cell);
 	}
 
