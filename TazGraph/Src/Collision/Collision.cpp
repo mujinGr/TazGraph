@@ -31,7 +31,7 @@ bool Collision::checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_
 	return true;
 }
 
-void Collision::moveFromCollision(Entity& entity) {
+void Collision::moveFromCollision(EmptyEntity& entity) {
 	auto& entityTransform = entity.GetComponent<TransformComponent>();
 	auto entityCollider = entity.GetComponent<ColliderComponent>();
 

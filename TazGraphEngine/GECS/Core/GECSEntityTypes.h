@@ -6,14 +6,18 @@
 class LinkEntity;
 
 class Empty : public EmptyEntity {
-private:
-	Entity* parent_entity = nullptr;
 public:
 	Cell* ownerCell = nullptr;
 
 	Empty(Manager& mManager) : EmptyEntity(mManager) {
 
 	}
+
+	void addGroup(Group mGroup) override {
+		Entity::addGroup(mGroup);
+		manager.AddToGroup(this, mGroup);
+	}
+
 	virtual ~Empty() {
 
 	}
@@ -31,7 +35,7 @@ public:
 			if (newCell != this->ownerCell) {
 				// Need to shift the entity
 				removeEntity();
-				manager.grid->addNode(this, newCell);
+				manager.grid->addEmpty(this, newCell);
 			}
 		}
 	}
@@ -79,12 +83,42 @@ public:
 		bottomPort.GetComponent<TransformComponent>().bodyDims.h = 0;
 		children["bottomPort"] = &bottomPort;
 	}
+
+	void addGroup(Group mGroup) override {
+		Entity::addGroup(mGroup);
+		manager.AddToGroup(this, mGroup);
+	}
+
 	virtual ~Node() {
 
 	}
 
 	void update(float deltaTime)
 	{
+		//todo dont update the children on every iteration
+		// todo do this for component when needed
+		if (!children.empty()) { // this will not be executed for links since they dont have transformComponent
+			SDL_FRect bodyDims = this->GetComponent<TransformComponent>().bodyDims;
+
+
+			if (children["leftPort"]) {
+				children["leftPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x);
+				children["leftPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y + bodyDims.h / 2.0f);
+			}
+			if (children["topPort"]) {
+				children["topPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x + bodyDims.w / 2.0f);
+				children["topPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y);
+			}
+			if (children["rightPort"]) {
+				children["rightPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x + bodyDims.w);
+				children["rightPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y + bodyDims.h / 2.0f);
+			}
+			if (children["bottomPort"]) {
+				children["bottomPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x + bodyDims.w / 2.0f);
+				children["bottomPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y + bodyDims.h);
+			}
+		}
+
 		cellUpdate();
 
 		Entity::update(deltaTime);
@@ -162,9 +196,7 @@ public:
 	}
 
 	Link(Manager& mManager, unsigned int mfromId, unsigned int mtoId)
-		: LinkEntity(mManager),
-		fromId(mfromId),
-		toId(mtoId)
+		: LinkEntity(mManager, mfromId, mtoId)
 	{
 		from = dynamic_cast<Node*>(mManager.getEntityFromId(fromId));
 		from->addOutLink(this);
@@ -193,7 +225,7 @@ public:
 
 		glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
 
-		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), Manager::actionLayer, farrowSize, 1);
+		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), Layer::action, farrowSize, 1);
 		temp_arrowHead.addComponent<Triangle_w_Color>();
 		temp_arrowHead.GetComponent<Triangle_w_Color>().color = Color(0, 0, 0, 255);
 
@@ -209,13 +241,11 @@ public:
 		temp_arrowHead.setParentEntity(this);
 		children["ArrowHead"] = &temp_arrowHead;
 
-		mManager.grid->addNode(&temp_arrowHead, mManager.grid->getGridLevel());
+		mManager.grid->addEmpty(&temp_arrowHead, mManager.grid->getGridLevel());
 	}
 
-	LinkEntity(Manager& mManager, Entity* mfrom, Entity* mto)
-		: MultiCellEntity(mManager),
-		from(dynamic_cast<Node*>(mfrom)),
-		to(dynamic_cast<Node*>(mto))
+	Link(Manager& mManager, NodeEntity* mfrom, NodeEntity* mto)
+		: LinkEntity(mManager, mfrom, mto)
 	{
 		fromId = from->getId();
 		toId = to->getId();
@@ -234,7 +264,12 @@ public:
 		}
 	}
 
-	virtual ~LinkEntity() {
+	void addGroup(Group mGroup) override {
+		Entity::addGroup(mGroup);
+		manager.AddToGroup(this, mGroup);
+	}
+
+	virtual ~Link() {
 
 	}
 
@@ -251,7 +286,7 @@ public:
 		if (manager.grid->getCell(*getFromNode(), manager.grid->getGridLevel()) != ownerCells.front()
 			|| manager.grid->getCell(*getToNode(), manager.grid->getGridLevel()) != ownerCells.back())
 		{
-			removeFromCell();
+			removeFromCells();
 			std::vector<Cell*> cells = manager.grid->getLinkCells(*this, manager.grid->getGridLevel());
 			for (auto& cell : cells) {
 				manager.grid->addLink(this, cell);
@@ -259,7 +294,7 @@ public:
 		}
 	}
 
-	void updateLinkPorts() {
+	void updateLinkPorts() override {
 		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
 		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
 

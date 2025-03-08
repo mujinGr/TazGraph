@@ -155,7 +155,9 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 			ImGui::TableSetColumnIndex(0);
 			ImGui::Text("%s", manager.getGroupName(managerGroup).c_str());
 			ImGui::TableSetColumnIndex(1);
-			int groupSize = manager.getVisibleGroup(managerGroup).size();
+			int groupSize = manager.getVisibleGroup<EmptyEntity>(managerGroup).size() +
+				manager.getVisibleGroup<NodeEntity>(managerGroup).size() +
+				manager.getVisibleGroup<LinkEntity>(managerGroup).size();
 			ImGui::Text("%d", groupSize);
 
 			totalEntities += groupSize;
@@ -373,7 +375,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 		std::string s = manager.getGroupName(group);
 
 		if (ImGui::CollapsingHeader(s.c_str())) {
-			std::vector<Entity*>& groupVec = manager.getGroup(group);
+			std::vector<EmptyEntity*>& groupVec = manager.getGroup(group);
 
 			if ( group == Manager::groupNodes_0 || group == Manager::groupGroupNodes_0 || group == Manager::groupGroupNodes_1 || group == Manager::cursorGroup) {
 
@@ -388,7 +390,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 				}
 
 				if (ImGui::ColorEdit4(("Color##" + s).c_str(), (float*)&color)) {
-					std::vector<Entity*>& groupVec = manager.getGroup(group);
+					std::vector<NodeEntity*>& groupVec = manager.getGroup(group);
 					Color newColor = {
 					   (GLubyte)(color.x * 255),
 					   (GLubyte)(color.y * 255),
@@ -421,7 +423,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 				}
 
 				if (ImGui::ColorEdit4(("Color##" + s).c_str(), (float*)&color)) {
-					std::vector<Entity*>& groupVec = manager.getGroup(group);
+					std::vector<LinkEntity*>& groupVec = manager.getGroup(group);
 					Color newColor = {
 					   (GLubyte)(color.x * 255),
 					   (GLubyte)(color.y * 255),
@@ -570,7 +572,7 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 
 }
 
-void EditorIMGUI::StartPollingComponent(Entity* entity, const std::string& fileName) {
+void EditorIMGUI::StartPollingComponent(NodeEntity* entity, const std::string& fileName) {
 	if (!entity) return;
 
 	// Attach a polling component to the entity

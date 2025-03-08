@@ -10,7 +10,7 @@ class UILabel : public Component
 {
 private:
 	Manager* _manager;
-	std::vector<Entity*> letters;
+	std::vector<EmptyEntity*> letters;
 	std::string label;
 	std::string fontFamily;
 public:

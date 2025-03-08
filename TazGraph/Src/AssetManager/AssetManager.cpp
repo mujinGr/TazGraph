@@ -16,7 +16,7 @@ AssetManager::AssetManager(Manager* man, InputManager& inputManager, TazGraphEng
 AssetManager::~AssetManager()
 {}
 
-void AssetManager::CreateCursor(Entity& cursor)
+void AssetManager::CreateCursor(EmptyEntity& cursor)
 {
 	cursor.addComponent<TransformComponent>(glm::vec2(200.0f, 320.0f), Layer::action, glm::ivec2(4, 4), 1);
 	cursor.addComponent<Rectangle_w_Color>();
@@ -24,7 +24,7 @@ void AssetManager::CreateCursor(Entity& cursor)
 	cursor.addGroup(Manager::cursorGroup);
 }
 
-void AssetManager::CreateWorldMap(Entity& worldMap)
+void AssetManager::CreateWorldMap(EmptyEntity& worldMap)
 {
 	worldMap.addComponent<TransformComponent>(glm::vec2(-TextureManager::getInstance().Get_GLTexture("worldMap")->width / 2, -TextureManager::getInstance().Get_GLTexture("worldMap")->height / 2), Manager::groupBackgroundLayer,
 		glm::ivec2(
@@ -38,7 +38,7 @@ void AssetManager::CreateWorldMap(Entity& worldMap)
 	worldMap.addGroup(Manager::panelBackground);
 }
 
-void AssetManager::CreateGroup(Entity& groupNode, glm::vec2 centerGroup, float groupNodeSize, Grid::Level m_level)
+void AssetManager::CreateGroup(NodeEntity& groupNode, glm::vec2 centerGroup, float groupNodeSize, Grid::Level m_level)
 {
 	if (m_level == Grid::Level::Outer1)
 	{
@@ -60,7 +60,7 @@ void AssetManager::CreateGroup(Entity& groupNode, glm::vec2 centerGroup, float g
 	}
 }
 
-void AssetManager::CreateGroupLink(Entity& groupLink, Grid::Level m_level) {
+void AssetManager::CreateGroupLink(LinkEntity& groupLink, Grid::Level m_level) {
 	if (m_level == Grid::Level::Outer1)
 	{
 		groupLink.addComponent<Line_w_Color>();

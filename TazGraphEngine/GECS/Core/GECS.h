@@ -19,6 +19,9 @@
 
 class BaseComponent;
 class Component;
+class NodeComponent;
+class LinkComponent;
+
 
 class Entity;
 class EmptyEntity;
@@ -34,10 +37,27 @@ using ComponentID = std::size_t;
 using Group = std::size_t;
 using layer = std::size_t;
 
+
+constexpr std::size_t empty_maxComponents = 16;
+constexpr std::size_t node_maxComponents = 16;
+constexpr std::size_t link_maxComponents = 16;
+
 inline ComponentID getNewComponentTypeID()
 {
 	static ComponentID lastID = 0u;
 	return lastID++;
+}
+
+inline ComponentID getNewNodeComponentTypeID()
+{
+	static ComponentID lastID_nodeC = empty_maxComponents;
+	return lastID_nodeC++;
+}
+
+inline ComponentID getNewLinkComponentTypeID()
+{
+	static ComponentID lastID_linkC = 0u;
+	return lastID_linkC++;
 }
 
 template <typename T> inline ComponentID GetComponentTypeID() noexcept
@@ -46,13 +66,32 @@ template <typename T> inline ComponentID GetComponentTypeID() noexcept
 	return typeID;
 }
 
-constexpr std::size_t maxComponents = 32;
+template <typename T> inline ComponentID GetNodeComponentTypeID() noexcept
+{
+	static ComponentID typeID = getNewNodeComponentTypeID(); // Any NodeComponent type
+	return typeID;
+}
+
+template <typename T> inline ComponentID GetLinkComponentTypeID() noexcept
+{
+	static ComponentID typeID = getNewLinkComponentTypeID(); // typeID is unique for each function type T and only initialized once.
+	return typeID;
+}
+
+
 constexpr std::size_t maxGroups = 16;
 
-using ComponentBitSet = std::bitset<maxComponents>;
-using GroupBitSet = std::bitset<maxGroups>;
+using ComponentBitSet = std::bitset<empty_maxComponents>;
+using NodeComponentBitSet = std::bitset<node_maxComponents>;
+using LinkComponentBitSet = std::bitset<link_maxComponents>;
 
-using ComponentArray = std::array<BaseComponent*, maxComponents>;
+
+using ComponentArray = std::array<BaseComponent*, empty_maxComponents>;
+using NodeComponentArray = std::array<BaseComponent*, node_maxComponents>;
+using LinkComponentArray = std::array<BaseComponent*, link_maxComponents>;
+
+
+using GroupBitSet = std::bitset<maxGroups>;
 
 namespace Layer {
 	enum layerIndexes : std::size_t
@@ -90,14 +129,16 @@ private:
 
 	bool active = true; // false if about to delete
 	bool hidden = false; // true if not do updates
-	ComponentArray componentArray;//create 2 arrays, this is for the fast access
-	ComponentBitSet componentBitSet;
+	
 	GroupBitSet groupBitSet;
 
 protected:
 	Manager& manager;
 public:
-	std::unordered_map<std::string,Entity*> children;
+	std::unordered_map<std::string,EmptyEntity*> children;
+	std::unordered_map<std::string, NodeEntity*> nodeChildren;
+	std::unordered_map<std::string, LinkEntity*> linkChildren;
+
 
 	void setId(unsigned int m_id) { id = m_id; }
 	unsigned int getId() { return id; }
@@ -115,6 +156,7 @@ public:
 	}
 
 	std::vector<std::unique_ptr<BaseComponent>> components; //create 2 arrays, this is for the concurrent access
+	
 	Entity(Manager& mManager) : manager(mManager) {}
 	virtual ~Entity() {}
 
@@ -155,37 +197,10 @@ public:
 		return groupBitSet[mGroup];
 	}
 
-	void addGroup(Group mGroup);
+	virtual void addGroup(Group mGroup);
 	void delGroup(Group mGroup)
 	{
 		groupBitSet[mGroup] = false;
-	}
-
-	template <typename T> bool hasComponent() const
-	{
-		return this && componentBitSet[GetComponentTypeID<T>()];
-	}
-	//! have addScript function
-	template <typename T, typename... TArgs>
-	T& addComponent(TArgs&&... mArgs)
-	{
-		T* c(new T(std::forward<TArgs>(mArgs)...));
-		c->entity = this;
-		std::unique_ptr<BaseComponent> uPtr{ c };
-		components.emplace_back(std::move(uPtr));
-
-		componentArray[GetComponentTypeID<T>()] = c;
-		componentBitSet[GetComponentTypeID<T>()] = true;
-		c->id = GetComponentTypeID<T>();
-
-		c->init();
-		return *c;
-	}
-
-	template<typename T> T& GetComponent() const
-	{
-		auto ptr(componentArray[GetComponentTypeID<T>()]);
-		return *static_cast<T*>(ptr);
 	}
 
 	// for when wanting to add new entities from components
@@ -210,7 +225,7 @@ public:
 //todo seperate draw calls for components
 class Component : public BaseComponent {
 public:
-	Entity* entity;
+	EmptyEntity* entity;
 };
 
 class NodeComponent : public BaseComponent

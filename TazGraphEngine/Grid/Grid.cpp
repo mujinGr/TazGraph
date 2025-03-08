@@ -169,6 +169,18 @@ void Grid::addLink(LinkEntity* link, Cell* cell)
 	link->setOwnerCells(cell);
 }
 
+void Grid::addEmpty(EmptyEntity* entity, Grid::Level m_level)
+{
+	Cell* cell = getCell(*entity, m_level);
+	addEmpty(entity, cell);
+}
+
+void Grid::addEmpty(EmptyEntity* entity, Cell* cell)
+{
+	cell->emptyEntities.push_back(entity);
+
+	entity->setOwnerCell(cell);
+}
 // adding node to grid
 void Grid::addNode(NodeEntity* entity, Grid::Level m_level)
 {

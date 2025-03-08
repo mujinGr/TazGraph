@@ -64,27 +64,7 @@ public:
 
 		bodyDims.x += _velocity.x * speed * deltaTime;
 		bodyDims.y += _velocity.y * speed * deltaTime;
-		//todo dont update the children on every iteration
-		// todo do this for component when needed
-		if (!entity->children.empty()) { // this will not be executed for links since they dont have transformComponent
-
-			if (entity->children["leftPort"]) {
-				entity->children["leftPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x);
-				entity->children["leftPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y + bodyDims.h / 2.0f);
-			}
-			if (entity->children["topPort"]) {
-				entity->children["topPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x + bodyDims.w / 2.0f);
-				entity->children["topPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y );
-			}
-			if (entity->children["rightPort"]) {
-				entity->children["rightPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x + bodyDims.w);
-				entity->children["rightPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y + bodyDims.h / 2.0f);
-			}
-			if (entity->children["bottomPort"]) {
-				entity->children["bottomPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x + bodyDims.w / 2.0f);
-				entity->children["bottomPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y + bodyDims.h);
-			}
-		}
+		
 	}
 
 	glm::vec3 getCenterTransform()

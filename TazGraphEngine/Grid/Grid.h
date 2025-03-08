@@ -32,6 +32,9 @@ public:
 	std::vector<Cell*> getLinkCells(const LinkEntity& link, Grid::Level m_level);
 	void addLink(LinkEntity* link, Cell* cell);
 
+	void addEmpty(EmptyEntity* entity, Grid::Level m_level);
+	void addEmpty(EmptyEntity* entity, Cell* cell);
+
 	void addNode(NodeEntity* entity, Grid::Level m_level);
 	void addNode(NodeEntity* entity, Cell* cell);
 

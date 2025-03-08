@@ -21,6 +21,6 @@ public:
 	bool isCollision = false;
 
 	bool checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_Rect& recB);
-	void moveFromCollision(Entity& player);
+	void moveFromCollision(EmptyEntity& player);
 	bool moveFromOuterBounds();
 };
