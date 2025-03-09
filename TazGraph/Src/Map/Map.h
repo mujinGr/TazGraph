@@ -24,8 +24,8 @@ public:
 
 	void loadPythonMap(const char* fileName);
 
-	void AddDefaultNode(Entity& node, glm::vec2 mPosition);
-	void AddDefaultLink(Entity& node);
+	void AddDefaultNode(NodeEntity& node, glm::vec2 mPosition);
+	void AddDefaultLink(LinkEntity& node);
 
 private:
 	int mapScale;

@@ -161,7 +161,7 @@ void Map::loadPythonMap(const char* fileName) {
 	file.close();
 }
 
-void Map::AddDefaultNode(Entity &node, glm::vec2 mPosition)
+void Map::AddDefaultNode(NodeEntity &node, glm::vec2 mPosition)
 {
 	static int colorOffset = 0;
 	colorOffset = (colorOffset + 2) % 256; // Vary color slightly each time
@@ -176,7 +176,7 @@ void Map::AddDefaultNode(Entity &node, glm::vec2 mPosition)
 	node.addGroup(Manager::groupNodes_0);
 }
 
-void Map::AddDefaultLink(Entity& link)
+void Map::AddDefaultLink(LinkEntity& link)
 {
 	link.addComponent<Line_w_Color>();
 

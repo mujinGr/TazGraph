@@ -206,16 +206,18 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 	if (selectedEntity) {
 		ImGui::Text("Selected Entity Details");
 
-		if (selectedEntity->hasComponent<TransformComponent>()) {
+		if (EmptyEntity* empty = dynamic_cast<EmptyEntity*>(selectedEntity)) {
+			if (empty->hasComponent<TransformComponent>()) {
 
-			ImGui::Text("Id: %d", selectedEntity->getId());
+				ImGui::Text("Id: %d", selectedEntity->getId());
 
-			TransformComponent* tr = &selectedEntity->GetComponent<TransformComponent>();
-			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
-			ImGui::Text("Size: (%f, %f)", tr->bodyDims.w, tr->bodyDims.h);
-			glm::vec3 cellBox = manager.grid->getCell(*selectedEntity, manager.grid->getGridLevel())->boundingBox_origin;
-			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
-		}
+				TransformComponent* tr = &empty->GetComponent<TransformComponent>();
+				ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
+				ImGui::Text("Size: (%f, %f)", tr->bodyDims.w, tr->bodyDims.h);
+				glm::vec3 cellBox = manager.grid->getCell(*selectedEntity, manager.grid->getGridLevel())->boundingBox_origin;
+				ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
+			}
+		}		
 	}
 	ImGui::EndChild();
 }
@@ -563,7 +565,9 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 		if (ImGui::Button("Start Polling Sending Messages", ImVec2(buttonWidth, 0))) {
 			std::string selectedFile = _data.input;
 			if (!selectedFile.empty()) {
-				StartPollingComponent(displayedEntity, selectedFile);
+				if (NodeEntity* node = dynamic_cast<NodeEntity*>(displayedEntity)) {
+					StartPollingComponent(node, selectedFile);
+				}
 			}
 		}
 	}
@@ -572,7 +576,7 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 
 }
 
-void EditorIMGUI::StartPollingComponent(NodeEntity* entity, const std::string& fileName) {
+void EditorIMGUI::StartPollingComponent(Entity* entity, const std::string& fileName) {
 	if (!entity) return;
 
 	// Attach a polling component to the entity
