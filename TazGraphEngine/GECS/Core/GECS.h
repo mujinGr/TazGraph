@@ -119,6 +119,31 @@ public:
 	virtual ~BaseComponent() {}
 };
 
+//todo seperate draw calls for components
+class Component : public BaseComponent {
+public:
+	EmptyEntity* entity;
+};
+
+class NodeComponent : public BaseComponent
+{
+public:
+	NodeEntity* entity;
+
+	virtual void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) override {}
+	virtual void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {}
+
+};
+
+class LinkComponent : public BaseComponent
+{
+public:
+	LinkEntity* entity;
+
+	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) override {}
+};
+
+
 class Entity
 {
 private:
@@ -207,7 +232,15 @@ public:
 
 	template <typename T> bool hasComponent() const
 	{
-		return this && componentBitSet[GetComponentTypeID<T>()];
+		if constexpr (std::is_base_of_v<NodeComponent, T>) {
+			return this && componentBitSet[GetNodeComponentTypeID<T>()];
+		}
+		if constexpr (std::is_base_of_v<LinkComponent, T>) {
+			return this && componentBitSet[GetLinkComponentTypeID<T>()];
+		}
+		else {
+			return this && componentBitSet[GetComponentTypeID<T>()];
+		}
 	}
 
 	//! have addScript function
@@ -220,9 +253,14 @@ public:
 		components.emplace_back(std::move(uPtr));
 
 		if constexpr (std::is_base_of_v<NodeComponent, T>) {
-			node_componentArray[GetNodeComponentTypeID<T>()] = c;
-			node_componentBitSet[GetNodeComponentTypeID<T>()] = true;
+			nodeSpecific_componentArray[GetNodeComponentTypeID<T>()] = c;
+			componentBitSet[GetNodeComponentTypeID<T>()] = true;
 			c->id = GetNodeComponentTypeID<T>();
+		}
+		else if constexpr (std::is_base_of_v<LinkComponent, T>) {
+			componentArray[GetLinkComponentTypeID<T>()] = c;
+			componentBitSet[GetLinkComponentTypeID<T>()] = true;
+			c->id = GetLinkComponentTypeID<T>();
 		}
 		else {
 			componentArray[GetComponentTypeID<T>()] = c;
@@ -237,7 +275,11 @@ public:
 	template<typename T> T& GetComponent() const
 	{
 		if constexpr (std::is_base_of_v<NodeComponent, T>) {
-			auto ptr(node_componentArray[GetNodeComponentTypeID<T>()]);
+			auto ptr(nodeSpecific_componentArray[GetNodeComponentTypeID<T>()]);
+			return *static_cast<T*>(ptr);
+		}
+		else if constexpr (std::is_base_of_v<LinkComponent, T>) {
+			auto ptr(componentArray[GetLinkComponentTypeID<T>()]);
 			return *static_cast<T*>(ptr);
 		}
 		else {
@@ -265,28 +307,5 @@ public:
 
 
 
-//todo seperate draw calls for components
-class Component : public BaseComponent {
-public:
-	EmptyEntity* entity;
-};
-
-class NodeComponent : public BaseComponent
-{
-public:
-	NodeEntity* entity;
-
-	virtual void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) override {}
-	virtual void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {}
-	
-};
-
-class LinkComponent : public BaseComponent
-{
-public:
-	LinkEntity* entity;
-
-	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) override {}
-};
 
 
