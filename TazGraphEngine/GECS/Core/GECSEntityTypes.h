@@ -1,20 +1,24 @@
 #pragma once
 
 #include "GECSManager.h"
-#include "Components.h"
+#include "../Components.h"
 
-class LinkEntity;
 
-typedef class EmptyEntity : public Entity {
+typedef class Empty : public EmptyEntity {
 private:
 	Entity* parent_entity = nullptr;
 public:
-	Cell* ownerCell = nullptr;
 
-	EmptyEntity(Manager& mManager) : Entity(mManager) {
+	Empty(Manager& mManager) : EmptyEntity(mManager) {
 
 	}
-	virtual ~EmptyEntity() {
+
+	void addGroup(Group mGroup) override {
+		Entity::addGroup(mGroup);
+		manager.AddToGroup(this, mGroup);
+	}
+
+	virtual ~Empty() {
 
 	}
 
@@ -35,27 +39,7 @@ public:
 			}
 		}
 	}
-
-	void removeFromCell() override {
-		if (this->ownerCell) {
-			removeEntity();
-			this->ownerCell = nullptr;
-		}
-	}
-
-	void removeEntity() {
-		ownerCell->nodes.erase(
-			std::remove(this->ownerCell->nodes.begin(), this->ownerCell->nodes.end(),
-				this),
-			this->ownerCell->nodes.end());
-	}
-
-	void setOwnerCell(Cell* cell) override {
-		this->ownerCell = cell;
-	}
-
-	Cell* getOwnerCell() const override { return ownerCell; }
-
+	
 	Entity* getParentEntity() override {
 		return parent_entity;
 	}
@@ -73,9 +57,9 @@ public:
 		Entity::destroy();
 		manager.aboutTo_updateActiveEntities(); // cant have it at destroy in baseclass
 	}
-} Empty;
+};
 
-typedef class NodeEntity : public Entity {
+typedef class Node: public NodeEntity {
 private:
 	Entity* parent_entity = nullptr;
 	std::vector<Entity*> inLinks;
@@ -83,9 +67,8 @@ private:
 
 	std::vector<std::string> messageLog;
 public:
-	Cell* ownerCell = nullptr;
 
-	NodeEntity(Manager& mManager) : Entity(mManager) {
+	Node(Manager& mManager) : NodeEntity(mManager) {
 
 		auto& leftPort = mManager.addEntityNoId<Empty>();
 		leftPort.addComponent<TransformComponent>().bodyDims.w = 0;
@@ -109,7 +92,13 @@ public:
 		bottomPort.GetComponent<TransformComponent>().bodyDims.h = 0;
 		children["bottomPort"] = &bottomPort;
 	}
-	virtual ~NodeEntity() {
+
+	void addGroup(Group mGroup) override {
+		Entity::addGroup(mGroup);
+		manager.AddToGroup(this, mGroup);
+	}
+
+	virtual ~Node() {
 
 	}
 
@@ -149,27 +138,7 @@ public:
 			}
 		}
 	}
-
-	void removeFromCell() override {
-		if (this->ownerCell) {
-			removeEntity();
-			this->ownerCell = nullptr;
-		}
-	}
-
-	void removeEntity() {
-		ownerCell->nodes.erase(
-			std::remove(this->ownerCell->nodes.begin(), this->ownerCell->nodes.end(),
-				this),
-			this->ownerCell->nodes.end());
-	}
-
-	void setOwnerCell(Cell* cell) override {
-		this->ownerCell = cell;
-	}
-
-	Cell* getOwnerCell() const override { return ownerCell; }
-
+	
 	Entity* getParentEntity() override {
 		return parent_entity;
 	}
@@ -226,10 +195,10 @@ public:
 		Entity::destroy();
 		manager.aboutTo_updateActiveEntities();
 	}
-} Node;
+};
 
 
-typedef class LinkEntity : public Entity {
+typedef class Link : public LinkEntity {
 private:
 
 	unsigned int fromId = 0;
@@ -242,15 +211,13 @@ public:
 	std::string fromPort;
 	std::string toPort;
 
-	std::vector<Cell*> ownerCells = {};
-
 	Color color = {};
 
-	LinkEntity(Manager& mManager) : Entity(mManager) {
+	Link(Manager& mManager) : LinkEntity(mManager) {
 	}
 
-	LinkEntity(Manager& mManager, unsigned int mfromId, unsigned int mtoId)
-		: Entity(mManager),
+	Link(Manager& mManager, unsigned int mfromId, unsigned int mtoId)
+		: LinkEntity(mManager),
 		fromId(mfromId),
 		toId(mtoId)
 	{
@@ -281,7 +248,7 @@ public:
 
 		glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
 
-		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), Manager::actionLayer, farrowSize, 1);
+		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), Layer::action, farrowSize, 1);
 		temp_arrowHead.addComponent<Triangle_w_Color>();
 		temp_arrowHead.GetComponent<Triangle_w_Color>().color = Color(0, 0, 0, 255);
 
@@ -300,8 +267,8 @@ public:
 		mManager.grid->addNode(&temp_arrowHead, mManager.grid->getGridLevel());
 	}
 
-	LinkEntity(Manager& mManager, Entity* mfrom, Entity* mto)
-		: Entity(mManager),
+	Link(Manager& mManager, Entity* mfrom, Entity* mto)
+		: LinkEntity(mManager),
 		from(dynamic_cast<Node*>(mfrom)),
 		to(dynamic_cast<Node*>(mto))
 	{
@@ -309,7 +276,12 @@ public:
 		toId = to->getId();
 	}
 
-	virtual ~LinkEntity() {
+	void addGroup(Group mGroup) override {
+		Entity::addGroup(mGroup);
+		manager.AddLinkToGroup(this, mGroup);
+	}
+
+	virtual ~Link() {
 
 	}
 
@@ -326,32 +298,11 @@ public:
 		if (manager.grid->getCell(*getFromNode(), manager.grid->getGridLevel()) != ownerCells.front()
 			|| manager.grid->getCell(*getToNode(), manager.grid->getGridLevel()) != ownerCells.back())
 		{
-			removeFromCell();
-			std::vector<Cell*> cells = manager.grid->getLinkCells(*this, manager.grid->getGridLevel());
-			for (auto& cell : cells) {
-				manager.grid->addLink(this, cell);
-			}
+			removeFromCells();
+			
+			manager.grid->addLink(this, manager.grid->getGridLevel());
 		}
 	}
-
-	void removeFromCell() override {
-		removeEntity();
-		ownerCells.clear();
-	}
-
-	void removeEntity() {
-		for (auto cell : ownerCells) {
-			cell->links.erase(std::remove(cell->links.begin(), cell->links.end(),
-				this),
-				cell->links.end());
-		}
-	}
-
-	void setOwnerCell(Cell* cell) override {
-		this->ownerCells.push_back(cell);
-	}
-
-	Cell* getOwnerCell() const override { return ownerCells[0]; }
 
 	Entity* getFromNode() const override {
 		return from;
@@ -451,4 +402,4 @@ public:
 		manager.aboutTo_updateActiveEntities();
 	}
 
-} Link;
+};

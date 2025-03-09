@@ -9,23 +9,48 @@
 #include <unordered_map>
 
 #include <SDL2/SDL.h>
-#include "../Renderers/PlaneModelRenderer/PlaneModelRenderer.h"
-#include "../Renderers/LineRenderer/LineRenderer.h"
-#include "../Renderers/PlaneColorRenderer/PlaneColorRenderer.h"
-#include "../Camera2.5D/CameraManager.h"
-#include "../Window/Window.h"
+#include "../../Renderers/PlaneModelRenderer/PlaneModelRenderer.h"
+#include "../../Renderers/LineRenderer/LineRenderer.h"
+#include "../../Renderers/PlaneColorRenderer/PlaneColorRenderer.h"
+#include "../../Camera2.5D/CameraManager.h"
+#include "../../Window/Window.h"
 
 #define CULLING_OFFSET 100
 
 class Component;
+
 class Entity;
+class EmptyEntity;
+class NodeEntity;
+class LinkEntity;
+
 class Manager;
 class Window;
 struct Cell;
 
 using ComponentID = std::size_t;
 using Group = std::size_t;
-using Layer = std::size_t;
+
+using layer = std::size_t;
+
+namespace Layer {
+	enum layerIndexes : std::size_t
+	{
+		action,
+		menubackground
+	};
+}
+
+const std::unordered_map<layer, float> layerNames = {
+		{Layer::action, 0.0f},
+		{Layer::menubackground, -100.0f}
+
+};
+
+inline float getLayerDepth(layer mLayer) {
+	return layerNames.at(mLayer);
+}
+
 
 inline ComponentID getNewComponentTypeID()
 {
@@ -130,10 +155,6 @@ public:
 
 	virtual void cellUpdate() {};
 
-	virtual void removeFromCell() {};
-
-	virtual void setOwnerCell(Cell* cell) {};
-
 	virtual Cell* getOwnerCell() const { return nullptr; };
 
 	void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) 
@@ -163,7 +184,7 @@ public:
 		return groupBitSet[mGroup];
 	}
 
-	void addGroup(Group mGroup);
+	virtual void addGroup(Group mGroup);
 	void delGroup(Group mGroup)
 	{
 		groupBitSet[mGroup] = false;

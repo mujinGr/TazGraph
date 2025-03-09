@@ -373,7 +373,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 		std::string s = manager.getGroupName(group);
 
 		if (ImGui::CollapsingHeader(s.c_str())) {
-			std::vector<Entity*>& groupVec = manager.getGroup(group);
+			std::vector<NodeEntity*>& groupVec = manager.getGroup(group);
 
 			if ( group == Manager::groupNodes_0 || group == Manager::groupGroupNodes_0 || group == Manager::groupGroupNodes_1 || group == Manager::cursorGroup) {
 
@@ -388,7 +388,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 				}
 
 				if (ImGui::ColorEdit4(("Color##" + s).c_str(), (float*)&color)) {
-					std::vector<Entity*>& groupVec = manager.getGroup(group);
+					std::vector<NodeEntity*>& groupVec = manager.getGroup(group);
 					Color newColor = {
 					   (GLubyte)(color.x * 255),
 					   (GLubyte)(color.y * 255),
@@ -421,7 +421,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 				}
 
 				if (ImGui::ColorEdit4(("Color##" + s).c_str(), (float*)&color)) {
-					std::vector<Entity*>& groupVec = manager.getGroup(group);
+					std::vector<LinkEntity*>& groupVec = manager.getLinkGroup(group);
 					Color newColor = {
 					   (GLubyte)(color.x * 255),
 					   (GLubyte)(color.y * 255),

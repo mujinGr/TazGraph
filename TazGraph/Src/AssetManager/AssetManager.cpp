@@ -18,7 +18,7 @@ AssetManager::~AssetManager()
 
 void AssetManager::CreateCursor(Entity& cursor)
 {
-	cursor.addComponent<TransformComponent>(glm::vec2(200.0f, 320.0f), Manager::actionLayer, glm::ivec2(4, 4), 1);
+	cursor.addComponent<TransformComponent>(glm::vec2(200.0f, 320.0f), Layer::action, glm::ivec2(4, 4), 1);
 	cursor.addComponent<Rectangle_w_Color>();
 	cursor.addComponent<Rectangle_w_Color>().color = Color(0, 0, 0, 255);
 	cursor.addGroup(Manager::cursorGroup);
@@ -43,7 +43,7 @@ void AssetManager::CreateGroup(Entity& groupNode, glm::vec2 centerGroup, float g
 	if (m_level == Grid::Level::Outer1)
 	{
 		groupNode.addComponent<TransformComponent>(glm::vec2(centerGroup.x - groupNodeSize / 2,
-			centerGroup.y - groupNodeSize / 2), Manager::actionLayer, glm::ivec2(groupNodeSize, groupNodeSize), 1);
+			centerGroup.y - groupNodeSize / 2), Layer::action, glm::ivec2(groupNodeSize, groupNodeSize), 1);
 		groupNode.addComponent<Rectangle_w_Color>();
 		groupNode.GetComponent<Rectangle_w_Color>().color = Color(0, 155, 155, 255);
 
@@ -51,7 +51,7 @@ void AssetManager::CreateGroup(Entity& groupNode, glm::vec2 centerGroup, float g
 	}
 	else if (m_level == Grid::Level::Outer2) {
 		groupNode.addComponent<TransformComponent>(glm::vec2(centerGroup.x - groupNodeSize / 2,
-			centerGroup.y - groupNodeSize / 2), Manager::actionLayer, glm::ivec2(groupNodeSize, groupNodeSize), 1);
+			centerGroup.y - groupNodeSize / 2), Layer::action, glm::ivec2(groupNodeSize, groupNodeSize), 1);
 		groupNode.addComponent<Rectangle_w_Color>();
 		groupNode.GetComponent<Rectangle_w_Color>().color = Color(155, 155, 155, 255);
 

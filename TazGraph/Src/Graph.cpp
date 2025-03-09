@@ -182,8 +182,8 @@ void Graph::onExit() {
 auto& nodes(manager.getGroup(Manager::groupNodes_0));
 auto& group_nodes(manager.getGroup(Manager::groupGroupNodes_0));
 
-auto& links(manager.getGroup(Manager::groupLinks_0));
-auto& group_links(manager.getGroup(Manager::groupGroupLinks_0));
+auto& links(manager.getLinkGroup(Manager::groupLinks_0));
+auto& group_links(manager.getLinkGroup(Manager::groupGroupLinks_0));
 
 auto& colliders(manager.getGroup(Manager::groupColliders));
 
@@ -659,14 +659,14 @@ void Graph::EndRender() {
 	_editorImgui.EndRender();
 }
 
-void Graph::renderBatch(const std::vector<Entity*>& entities, LineRenderer& batch) {
+void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
 	batch.initBatch(entities.size());
 	for (const auto& entity : entities) {
 		entity->draw(batch, *Graph::_window);
 	}
 }
 
-void Graph::renderBatch(const std::vector<Entity*>& entities, PlaneColorRenderer& batch, bool isTriangles) {
+void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch, bool isTriangles) {
 	if (isTriangles) {
 		batch.initColorTriangleBatch(entities.size());
 
@@ -679,7 +679,7 @@ void Graph::renderBatch(const std::vector<Entity*>& entities, PlaneColorRenderer
 	}
 }
 
-void Graph::renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch, bool isTriangles) { 
+void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch, bool isTriangles) { 
 	
 	if (isTriangles) {
 		batch.initTriangleBatch(entities.size());
@@ -738,7 +738,7 @@ void Graph::draw()
 		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
 			if (group == Manager::groupLinks_0) continue;
 
-			std::vector<Entity*>& groupVec = manager.getVisibleGroup(group);
+			std::vector<NodeEntity*>& groupVec = manager.getVisibleGroup(group);
 			for (auto& entity : groupVec) {
 
 				if (entity->hasComponent<TransformComponent>())
@@ -785,11 +785,11 @@ void Graph::draw()
 	
 	_LineRenderer.drawLine(pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
 
-	renderBatch(manager.getVisibleGroup(Manager::groupLinks_0), _LineRenderer);
+	renderBatch(manager.getVisibleLinkGroup(Manager::groupLinks_0), _LineRenderer);
 
-	renderBatch(manager.getVisibleGroup(Manager::groupGroupLinks_0), _LineRenderer);
+	renderBatch(manager.getVisibleLinkGroup(Manager::groupGroupLinks_0), _LineRenderer);
 
-	renderBatch(manager.getVisibleGroup(Manager::groupGroupLinks_1), _LineRenderer);
+	renderBatch(manager.getVisibleLinkGroup(Manager::groupGroupLinks_1), _LineRenderer);
 
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
@@ -859,7 +859,7 @@ void Graph::draw()
 }
 
 
-void Graph::drawHUD(const std::vector<Entity*>& entities, const std::string& textureName) {
+void Graph::drawHUD(const std::vector<NodeEntity*>& entities, const std::string& textureName) {
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), textureName, *hud_camera2D);

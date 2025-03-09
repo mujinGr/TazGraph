@@ -19,11 +19,10 @@
 #include "Window/Window.h"
 #include "TextureManager/TextureManager.h"
 
-#include "GECS/GECSManager.h"
+#include "GECS/Core/GECSManager.h"
 
 #include "GraphScreen/ScreenIndices.h"
 
-#include "Grid/Grid.h"
 #include "EditorIMGUI/EditorIMGUI.h"
 
 class Map;
@@ -69,10 +68,10 @@ public:
 
 
 	/////////////////////////
-	void renderBatch(const std::vector<Entity*>& entities, LineRenderer& batch);
-	void renderBatch(const std::vector<Entity*>& entities, PlaneColorRenderer& batch, bool isTriangles);
-	void renderBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch, bool isTriangles);
-	void drawHUD(const std::vector<Entity*>& entities, const std::string& textureName);
+	void renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch);
+	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch, bool isTriangles);
+	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch, bool isTriangles);
+	void drawHUD(const std::vector<NodeEntity*>& entities, const std::string& textureName);
 
 	/////////////////////////
 

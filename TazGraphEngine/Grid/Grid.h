@@ -1,22 +1,13 @@
 #pragma once
-#include "../GECS/GECS.h"
+#include "../GECS/Core/GECSEntity.h"
+#include "../GECS/Components.h"
+
 #include "../AABB/AABB.h"
 
 #include <vector>
 
 #include <cmath>
 
-struct Cell {
-	std::vector<Entity*> nodes;
-	std::vector<Entity*> links;
-
-	glm::vec3 boundingBox_origin; // Starting point (minimum corner) of the cell
-	glm::vec3 boundingBox_size;
-
-	Cell* parent = nullptr;
-	std::vector<Cell*> children;
-
-};
 
 
 class Grid {
@@ -32,12 +23,15 @@ public:
 
 	void createCells(Grid::Level size);
 
-	void addLink(Entity* link, Grid::Level m_level);
-	std::vector<Cell*> getLinkCells(const Entity& link, Grid::Level m_level);
-	void addLink(Entity* link, Cell* cell);
+	void addLink(LinkEntity* link, Grid::Level m_level);
+	std::vector<Cell*> getLinkCells(const LinkEntity& link, Grid::Level m_level);
+	void addLink(LinkEntity* link, std::vector<Cell*> cell);
 
-	void addNode(Entity* entity, Grid::Level m_level);
-	void addNode(Entity* entity, Cell* cell);
+	void addNode(EmptyEntity* entity, Grid::Level m_level);
+
+	void addNode(NodeEntity* entity, Grid::Level m_level);
+	void addNode(EmptyEntity* entity, Cell* cell);
+	void addNode(NodeEntity* entity, Cell* cell);
 
 	Cell* getCell(int x, int y, int z, Grid::Level m_level);
 	Cell* getCell(const Entity& position, Grid::Level m_level);
@@ -52,11 +46,16 @@ public:
 
 	std::vector<Cell*> getIntersectedCameraCells(ICamera& camera);
 
-	std::vector<Entity*> getRevealedNodesInCameraCells();
+	std::vector<NodeEntity*> getRevealedNodesInCameraCells();
 
-	std::vector<Entity*> getLinksInCameraCells();
+	template <typename T>
+	std::vector<T*> getEntitiesInCameraCells();
 
-	std::vector<Entity*> getNodesInCameraCells();
+	template <>
+	std::vector<NodeEntity*> getEntitiesInCameraCells();
+
+	std::vector<LinkEntity*> getLinksInCameraCells();
+
 
 	bool gridLevelChanged();
 

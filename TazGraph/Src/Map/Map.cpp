@@ -167,7 +167,7 @@ void Map::AddDefaultNode(Entity &node, glm::vec2 mPosition)
 	colorOffset = (colorOffset + 2) % 256; // Vary color slightly each time
 
 	//create Node function
-	node.addComponent<TransformComponent>(mPosition, Manager::actionLayer, glm::ivec2(10, 10), 1);
+	node.addComponent<TransformComponent>(mPosition, Layer::action, glm::ivec2(10, 10), 1);
 	node.addComponent<Rectangle_w_Color>();
 	node.GetComponent<Rectangle_w_Color>().color = Color(0, colorOffset, 224, 255);
 

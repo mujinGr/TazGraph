@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GECS.h"
-#include "../Grid/Grid.h"
+#include "../../Grid/Grid.h"
 
 class Manager
 {
@@ -10,10 +10,17 @@ private:
 	int negativeEntityId = -1;
 	std::vector<std::unique_ptr<Entity>> entities;
 
-	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
-	std::vector<Entity*> visible_nodes;
-	std::vector<Entity*> visible_links;
-	std::array<std::vector<Entity*>, maxGroups> visible_groupedEntities;
+	std::array<std::vector<EmptyEntity*>, maxGroups> groupedEmptyEntities;
+	std::array<std::vector<NodeEntity*>, maxGroups> groupedNodeEntities;
+	std::array<std::vector<LinkEntity*>, maxGroups> groupedLinkEntities;
+
+	std::vector<NodeEntity*> visible_emptyEntities;
+	std::vector<NodeEntity*> visible_nodes;
+	std::vector<LinkEntity*> visible_links;
+	
+	std::array<std::vector<EmptyEntity*>, maxGroups> visible_groupedEmptyEntities;
+	std::array<std::vector<NodeEntity*>, maxGroups> visible_groupedNodeEntities;
+	std::array<std::vector<LinkEntity*>, maxGroups> visible_groupedLinkEntities;
 
 	bool _update_active_entities = false;
 public:
@@ -72,52 +79,91 @@ public:
 	}
 
 	void updateActiveEntities() {
-		std::vector<Entity*> toBeRemoved;
+		std::vector<NodeEntity*> toBeRemoved;
+		std::vector<LinkEntity*> links_toBeRemoved;
 
-		for (auto& visible_entities : { std::ref(visible_nodes), std::ref(visible_links) })
+		for (auto& v_entity : visible_emptyEntities)
 		{
-			for (const auto& v_entity : visible_entities.get()) {
-				if (!v_entity->isActive()) {
-					v_entity->removeFromCell();
-					toBeRemoved.push_back(v_entity);
-				}
+			if (!v_entity->isActive()) {
+				v_entity->removeFromCell();
+				toBeRemoved.push_back(v_entity);
+			}
+		}
+
+		for (auto& v_entity : visible_nodes)
+		{
+			if (!v_entity->isActive()) {
+				v_entity->removeFromCell();
+				toBeRemoved.push_back(v_entity);
+			}
+		}
+
+		for (auto& v_entity : visible_links)
+		{
+			if (!v_entity->isActive()) {
+				v_entity->removeFromCells();
+				links_toBeRemoved.push_back(v_entity);
 			}
 		}
 		// if from visible entities is something deleted, then delete it from all data structures (groupedEntities + enentities)
 		// ! or instead of updating the groupedEntities when we see an inactive entity, update the groupedEntities the moment an entity goes
 		// ! inactive and wait until we about to delete more
-		for (auto& group : groupedEntities) {
-			for (Entity* entity : group) {
+		for (auto& group : groupedNodeEntities) {
+			for (NodeEntity* entity : group) {
 				if (!entity->isActive()) {
 					entity->removeFromCell();
 					toBeRemoved.push_back(entity);
 				}
 			}
 		}
+		for (auto& group : groupedLinkEntities) {
+			for (LinkEntity* entity : group) {
+				if (!entity->isActive()) {
+					entity->removeFromCells();
+					links_toBeRemoved.push_back(entity);
+				}
+			}
+		}
 
 
 		for (auto i(0u); i < maxGroups; i++) {
-			auto& group(visible_groupedEntities[i]);
+			auto& group(visible_groupedNodeEntities[i]);
 			group.erase(std::remove_if(std::begin(group), std::end(group),
 				[&toBeRemoved, i](Entity* mEntity) {
 					return !mEntity->isActive() || !mEntity->hasGroup(i);
 				}), group.end());
 		}
 
-		for (auto& visible_entities : { std::ref(visible_nodes), std::ref(visible_links) }) {
-			visible_entities.get().erase(std::remove_if(visible_entities.get().begin(), visible_entities.get().end(),
-				[&toBeRemoved](Entity* mEntity) {
-					return std::find(toBeRemoved.begin(), toBeRemoved.end(), mEntity) != toBeRemoved.end();
-				}),
-				visible_entities.get().end());
+		for (auto i(0u); i < maxGroups; i++) {
+			auto& group(visible_groupedLinkEntities[i]);
+			group.erase(std::remove_if(std::begin(group), std::end(group),
+				[&links_toBeRemoved, i](Entity* mEntity) {
+					return !mEntity->isActive() || !mEntity->hasGroup(i);
+				}), group.end());
 		}
+
+		visible_nodes.erase(std::remove_if(visible_nodes.begin(), visible_nodes.end(),
+			[&toBeRemoved](Entity* mEntity) {
+				return std::find(toBeRemoved.begin(), toBeRemoved.end(), mEntity) != toBeRemoved.end();
+			}),
+			visible_nodes.end());
+		
+		visible_links.erase(std::remove_if(visible_links.begin(), visible_links.end(),
+			[&links_toBeRemoved](Entity* mEntity) {
+				return std::find(links_toBeRemoved.begin(), links_toBeRemoved.end(), mEntity) != links_toBeRemoved.end();
+			}),
+			visible_links.end());
+	
 	}
 
 	void updateVisibleEntities() {
-		visible_nodes = grid->getGridLevel() ? grid->getRevealedNodesInCameraCells() : grid->getNodesInCameraCells();
+		visible_nodes = grid->getGridLevel() ? grid->getRevealedNodesInCameraCells() : grid->getEntitiesInCameraCells<NodeEntity>();
 		visible_links = grid->getLinksInCameraCells();
 
-		for (auto& vgroup : visible_groupedEntities) {
+		for (auto& vgroup : visible_groupedNodeEntities) {
+			vgroup.clear();
+		}
+		for (auto& vgroup : visible_groupedLinkEntities) {
 			vgroup.clear();
 		}
 
@@ -128,7 +174,7 @@ public:
 
 			for (unsigned i = 0; i < maxGroups; ++i) {
 				if (ventity->hasGroup(i)) {
-					visible_groupedEntities[i].push_back(ventity);
+					visible_groupedNodeEntities[i].push_back(ventity);
 				}
 			}
 		}
@@ -139,37 +185,57 @@ public:
 
 			for (unsigned i = 0; i < maxGroups; ++i) {
 				if (vlink->hasGroup(i)) {
-					visible_groupedEntities[i].push_back(vlink);
+					visible_groupedLinkEntities[i].push_back(vlink);
 				}
 			}
 		}
 	}
 
-	void AddToGroup(Entity* mEntity, Group mGroup)
+	void AddToGroup(EmptyEntity* mEntity, Group mGroup)
 	{
-		groupedEntities[mGroup].emplace_back(mEntity);
+		groupedEmptyEntities[mGroup].emplace_back(mEntity);
+	}
+
+	void AddToGroup(NodeEntity* mEntity, Group mGroup)
+	{
+		groupedNodeEntities[mGroup].emplace_back(mEntity);
+	}
+
+	void AddLinkToGroup(LinkEntity* mEntity, Group mGroup)
+	{
+		groupedLinkEntities[mGroup].emplace_back(mEntity);
 	}
 
 	const std::vector<std::unique_ptr<Entity>>& getEntities() const {
 		return entities;
 	}
 
-	std::vector<Entity*> getVisibleNodes() {
+	std::vector<NodeEntity*> getVisibleNodes() {
 		return visible_nodes;
 	}
 
-	std::vector<Entity*> getVisibleLinks() {
+	std::vector<LinkEntity*> getVisibleLinks() {
 		return visible_links;
 	}
 
-	std::vector<Entity*>& getGroup(Group mGroup)
+	std::vector<NodeEntity*>& getGroup(Group mGroup)
 	{
-		return groupedEntities[mGroup];
+		return groupedNodeEntities[mGroup];
 	}
 
-	std::vector<Entity*>& getVisibleGroup(Group mGroup)
+	std::vector<NodeEntity*>& getVisibleGroup(Group mGroup)
 	{
-		return visible_groupedEntities[mGroup];
+		return visible_groupedNodeEntities[mGroup];
+	}
+	// todo make it template
+	std::vector<LinkEntity*>& getLinkGroup(Group mGroup)
+	{
+		return groupedLinkEntities[mGroup];
+	}
+
+	std::vector<LinkEntity*>& getVisibleLinkGroup(Group mGroup)
+	{
+		return visible_groupedLinkEntities[mGroup];
 	}
 
 	template <typename T, typename... TArgs>
@@ -208,7 +274,10 @@ public:
 	}
 
 	void clearAllEntities() {
-		for (auto& group : groupedEntities) {
+		for (auto& group : groupedNodeEntities) {
+			group.clear();
+		}
+		for (auto& group : groupedLinkEntities) {
 			group.clear();
 		}
 		entities.clear();
@@ -217,11 +286,19 @@ public:
 	void removeAllEntites() {
 		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::cursorGroup; group++) {
 			removeAllEntitiesFromGroup(group);
+			removeAllEntitiesFromLinkGroup(group);
 		}
 	}
 
 	void removeAllEntitiesFromGroup(Group mGroup) {
-		auto& entitiesInGroup = groupedEntities[mGroup];
+		auto& entitiesInGroup = groupedNodeEntities[mGroup];
+
+		for (Entity* entity : entitiesInGroup) {
+			entity->destroy();
+		}
+	}
+	void removeAllEntitiesFromLinkGroup(Group mGroup) {
+		auto& entitiesInGroup = groupedLinkEntities[mGroup];
 
 		for (Entity* entity : entitiesInGroup) {
 			entity->destroy();
@@ -293,18 +370,5 @@ public:
 	};
 
 	std::string getGroupName(Group mGroup) const;
-	
-	enum layerIndexes : std::size_t
-	{
-		actionLayer,
-		menubackgroundLayer
-	};
 
-	const std::unordered_map<Layer, float> layerNames = {
-		{actionLayer , 0.0f},
-		{menubackgroundLayer, -100.0f}
-
-	};
-
-	float getLayerDepth(Layer mLayer) const;
 };

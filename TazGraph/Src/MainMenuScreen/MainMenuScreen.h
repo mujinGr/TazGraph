@@ -18,7 +18,7 @@
 #include "Window/Window.h"
 #include "TextureManager/TextureManager.h"
 
-#include "GECS/GECSManager.h"
+#include "GECS/Core/GECSManager.h"
 
 #include "GraphScreen/ScreenIndices.h"
 
@@ -52,7 +52,7 @@ public:
     virtual void EndRender() override;
 
 
-    void renderBatch(const std::vector<Entity*>& entities);
+    void renderBatch(const std::vector<NodeEntity*>& entities);
 
 private:
     float _backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };

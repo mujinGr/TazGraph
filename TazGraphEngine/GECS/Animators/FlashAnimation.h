@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Animation.h"
-#include "../GECSManager.h"
 
 struct FlashAnimation : public Animation //todo moving animation can be moving sprite with of without transform
 {

@@ -41,7 +41,7 @@ public:
             // need different shader to render text so it has to be different 
             uiLabel = &entity->getManager()->addEntity<Node>();
             
-            uiLabel->addComponent<TransformComponent>(glm::vec2(0, 0), Manager::actionLayer, glm::ivec2(32, 32), 1);
+            uiLabel->addComponent<TransformComponent>(glm::vec2(0, 0), Layer::action, glm::ivec2(32, 32), 1);
             uiLabel->addComponent<UILabel>(uiLabel->getManager(), buttonLabel, "arial");
 
             uiLabel->setParentEntity(entity);
@@ -51,7 +51,7 @@ public:
         if (bDimensions != glm::ivec2(0, 0)) {
             buttonBackground = &entity->getManager()->addEntity<Node>();
 
-            buttonBackground->addComponent<TransformComponent>(glm::vec2(0, 0), Manager::actionLayer, bDimensions, 1);
+            buttonBackground->addComponent<TransformComponent>(glm::vec2(0, 0), Layer::action, bDimensions, 1);
             buttonBackground->addComponent<Rectangle_w_Color>();
 
             buttonBackground->GetComponent<Rectangle_w_Color>().color = bBackground; // Grey color

@@ -1,6 +1,4 @@
-#include "Grid.h"
-#include "../GECS/Components.h"
-#include "../GECS/UtilComponents.h"
+#include "./Grid.h"
 
 #include <unordered_set>
 
@@ -104,15 +102,14 @@ void Grid::createCells(Grid::Level m_level) {
 }
 
 // adding link to grid
-void Grid::addLink(Entity* link, Grid::Level m_level)
+void Grid::addLink(LinkEntity* link, Grid::Level m_level)
 {
 	std::vector<Cell*> cells = getLinkCells(*link, m_level);
-	for (auto& cell : cells) {
-		addLink(link, cell);
-	}
+	
+	addLink(link, cells);
 }
 
-std::vector<Cell*> Grid::getLinkCells(const Entity& link, Grid::Level m_level) {
+std::vector<Cell*> Grid::getLinkCells(const LinkEntity& link, Grid::Level m_level) {
 	std::vector<Cell*> intersectedCells;
 	std::unordered_set<Cell*> uniqueCells;
 
@@ -163,21 +160,36 @@ std::vector<Cell*> Grid::getLinkCells(const Entity& link, Grid::Level m_level) {
 	return intersectedCells;
 }
 
-void Grid::addLink(Entity* link, Cell* cell)
+void Grid::addLink(LinkEntity* link, std::vector<Cell*> cells)
 {
-	cell->links.push_back(link);
+	for (auto& cell : cells) {
+		cell->links.push_back(link);
+	}
 
-	link->setOwnerCell(cell);
+	link->setOwnerCells(cells);
 }
 
 // adding node to grid
-void Grid::addNode(Entity* entity, Grid::Level m_level)
+void Grid::addNode(EmptyEntity* entity, Grid::Level m_level)
 {
 	Cell* cell = getCell(*entity, m_level);
 	addNode(entity, cell);
 }
 
-void Grid::addNode(Entity* entity, Cell* cell)
+void Grid::addNode(NodeEntity* entity, Grid::Level m_level)
+{
+	Cell* cell = getCell(*entity, m_level);
+	addNode(entity, cell);
+}
+
+void Grid::addNode(EmptyEntity* entity, Cell* cell)
+{
+	cell->emptyEntities.push_back(entity);
+
+	entity->setOwnerCell(cell);
+}
+
+void Grid::addNode(NodeEntity* entity, Cell* cell)
 {
 	cell->nodes.push_back(entity);
 
@@ -333,8 +345,8 @@ std::vector<Cell*> Grid::getIntersectedCameraCells(ICamera& camera) {
 	return _interceptedCells;
 }
 
-std::vector<Entity*> Grid::getRevealedNodesInCameraCells() {
-	std::vector<Entity*> result;
+std::vector<NodeEntity*> Grid::getRevealedNodesInCameraCells() {
+	std::vector<NodeEntity*> result;
 
 	for (auto& cell : _interceptedCells) {
 		for (auto& entity : cell->nodes) {
@@ -346,12 +358,20 @@ std::vector<Entity*> Grid::getRevealedNodesInCameraCells() {
 	return result;
 }
 
-std::vector<Entity*> Grid::getNodesInCameraCells() {
-	std::vector<Entity*> result;
+
+template <typename T>
+std::vector<T*> Grid::getEntitiesInCameraCells() {
+	return {};
+}
+
+template <>
+std::vector<NodeEntity*> Grid::getEntitiesInCameraCells() {
+	std::vector<NodeEntity*> result;
 
 	for (auto& cell : _interceptedCells) {
 		result.insert(result.end(), cell->nodes.begin(), cell->nodes.end());
 	}
+
 	return result;
 }
 
@@ -382,8 +402,8 @@ float Grid::getLevelCellScale(Level level) {
 	return gridLevels[level].second;
 }
 
-std::vector<Entity*> Grid::getLinksInCameraCells() {
-	std::map<unsigned int, Entity*> uniqueEntities;
+std::vector<LinkEntity*> Grid::getLinksInCameraCells() {
+	std::map<unsigned int, LinkEntity*> uniqueEntities;
 
 	for (auto& cell : _interceptedCells) {
 		for (auto& link : cell->links) {
@@ -397,7 +417,7 @@ std::vector<Entity*> Grid::getLinksInCameraCells() {
 		}
 	}
 
-	std::vector<Entity*> result;
+	std::vector<LinkEntity*> result;
 
 	for (auto& entry : uniqueEntities) {
 		result.push_back(entry.second);

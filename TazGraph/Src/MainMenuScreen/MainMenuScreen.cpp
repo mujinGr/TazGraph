@@ -134,7 +134,7 @@ void MainMenuScreen::update(float deltaTime)
 	hud_camera2D->update();
 }
 
-void MainMenuScreen::renderBatch(const std::vector<Entity*>& entities) {
+void MainMenuScreen::renderBatch(const std::vector<NodeEntity*>& entities) {
 	_PlaneModelRenderer.begin();
 	for (const auto& entity : entities) {
 		entity->draw(_PlaneModelRenderer, *Graph::_window);

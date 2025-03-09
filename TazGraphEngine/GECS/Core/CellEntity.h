@@ -1,0 +1,51 @@
+#pragma once
+
+#include "GECS.h"
+
+struct Cell {
+	std::vector<EmptyEntity*> emptyEntities;
+	std::vector<NodeEntity*> nodes;
+	std::vector<LinkEntity*> links;
+
+	glm::vec3 boundingBox_origin; // Starting point (minimum corner) of the cell
+	glm::vec3 boundingBox_size;
+
+	Cell* parent = nullptr;
+	std::vector<Cell*> children;
+
+};
+
+
+class CellEntity : public Entity {
+public:
+	Cell* ownerCell = nullptr;
+
+
+	CellEntity(Manager& mManager) : Entity(mManager) {
+
+	}
+
+	void setOwnerCell(Cell* cell) {
+		this->ownerCell = cell;
+	}
+
+
+	Cell* getOwnerCell() const { return ownerCell; }
+
+};
+
+class MultiCellEntity : public Entity {
+public:
+	std::vector<Cell*> ownerCells = {};
+
+	MultiCellEntity(Manager& mManager) : Entity(mManager) {
+
+	}
+
+	void setOwnerCells(std::vector<Cell*> cells) {
+		this->ownerCells = cells;
+	}
+
+	Cell* getOwnerCells() const { return ownerCells[0]; }
+
+};

@@ -2,7 +2,7 @@
 
 #include <string>
 #include "TextureManager/TextureManager.h"
-#include "GECS/GECSManager.h"
+#include "GECS/Core/GECSManager.h"
 #include <SDL2/SDL_ttf.h>
 #include "../Graph.h"
 
