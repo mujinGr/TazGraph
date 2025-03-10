@@ -10,7 +10,7 @@
 typedef uint32_t timestamp;
 
 
-class LineFlashAnimatorComponent : public Component //Animator -> Sprite -> Transform 
+class LineFlashAnimatorComponent : public LinkComponent //Animator -> Sprite -> Transform 
 {					//! also we use MovingAnimator instead of simple Animator so that entities use less memory and we use it to entities that have triggers that change their animation
 public:
 

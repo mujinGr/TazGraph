@@ -17,7 +17,6 @@
 
 #define CULLING_OFFSET 100
 
-template <typename T>
 class BaseComponent;
 class Entity;
 class EmptyEntity;
@@ -70,9 +69,8 @@ constexpr std::size_t maxGroups = 16;
 using ComponentBitSet = std::bitset<maxComponents>;
 using GroupBitSet = std::bitset<maxGroups>;
 
-using ComponentArray = std::array<BaseComponent<EmptyEntity>*, maxComponents>;
+using ComponentArray = std::array<BaseComponent*, maxComponents>;
 
-template <typename T>
 class BaseComponent
 {
 public:
@@ -89,11 +87,12 @@ public:
 	virtual ~BaseComponent() {}
 };
 
-using Component = BaseComponent<EmptyEntity>;
+class Component : public BaseComponent {
+};
 
-using NodeComponent = BaseComponent<EmptyEntity>;
+class NodeComponent : public BaseComponent {};
 
-using LinkComponent = BaseComponent<EmptyEntity>;
+class LinkComponent : public BaseComponent {};
 
 
 class Entity
@@ -127,7 +126,7 @@ public:
 		return hidden;
 	}
 
-	std::vector<std::unique_ptr<Component>> components; //create 2 arrays, this is for the concurrent access
+	std::vector<std::unique_ptr<BaseComponent>> components; //create 2 arrays, this is for the concurrent access
 	Entity(Manager& mManager) : manager(mManager) {}
 	virtual ~Entity() {}
 
@@ -185,11 +184,23 @@ public:
 	T& addComponent(TArgs&&... mArgs)
 	{
 		T* c(new T(std::forward<TArgs>(mArgs)...));
-		std::unique_ptr<Component> uPtr{ c };
-		components.emplace_back(std::move(uPtr));
+		if constexpr (std::is_base_of_v<LinkComponent, T>) {
+			std::unique_ptr<LinkComponent> uPtr{ c };
+			components.emplace_back(std::move(uPtr));
 
-		//setComponentEntity(c);
-		c->entity = this;
+		}
+		else if constexpr (std::is_base_of_v<NodeComponent, T>) {
+			std::unique_ptr<NodeComponent> uPtr{ c };
+			components.emplace_back(std::move(uPtr));
+
+		}
+		else {
+			std::unique_ptr<Component> uPtr{ c };
+			components.emplace_back(std::move(uPtr));
+
+		}
+		
+		setComponentEntity(c);
 		componentArray[GetComponentTypeID<T>()] = c;
 		componentBitSet[GetComponentTypeID<T>()] = true;
 		
@@ -199,15 +210,15 @@ public:
 		return *c;
 	}
 
-	//virtual void setComponentEntity(Component* c) {
+	virtual void setComponentEntity(Component* c) {
 
-	//}
-	//virtual void setComponentEntity(NodeComponent* c) {
+	}
+	virtual void setComponentEntity(NodeComponent* c) {
 
-	//}
-	//virtual void setComponentEntity(LinkComponent* c) {
+	}
+	virtual void setComponentEntity(LinkComponent* c) {
 
-	//}
+	}
 
 	template<typename T> T& GetComponent() const
 	{

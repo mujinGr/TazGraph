@@ -11,8 +11,10 @@ public:
 
 	EmptyEntity(Manager& mManager) : CellEntity(mManager) {}
 
-	void setComponentEntity(Component* c)  {
+	void setComponentEntity(Component* c) override {
 		std::cout << "adding component empty" << std::endl;
+
+		c->entity = this;
 	}
 
 	Entity* getParentEntity() override {
@@ -49,8 +51,10 @@ public:
 	NodeEntity(Manager& mManager) : EmptyEntity(mManager) {
 
 	}
-	void setComponentEntity(NodeComponent* c)  {
+	void setComponentEntity(NodeComponent* c) override {
 		std::cout << "adding component node" << std::endl;
+
+		c->entity = this;
 
 	}
 
@@ -98,8 +102,10 @@ public:
 		: MultiCellEntity(mManager), fromId(mfromId), toId(mtoId) {
 	}
 
-	void setComponentEntity(LinkComponent* c) {
+	void setComponentEntity(LinkComponent* c) override {
 		std::cout << "adding component link" << std::endl;
+
+		c->entity = this;
 
 	}
 
