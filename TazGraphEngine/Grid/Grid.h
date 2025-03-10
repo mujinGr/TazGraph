@@ -27,10 +27,10 @@ public:
 	std::vector<Cell*> getLinkCells(const LinkEntity& link, Grid::Level m_level);
 	void addLink(LinkEntity* link, std::vector<Cell*> cell);
 
-	void addNode(EmptyEntity* entity, Grid::Level m_level);
+	void addEmpty(EmptyEntity* entity, Grid::Level m_level);
 
 	void addNode(NodeEntity* entity, Grid::Level m_level);
-	void addNode(EmptyEntity* entity, Cell* cell);
+	void addEmpty(EmptyEntity* entity, Cell* cell);
 	void addNode(NodeEntity* entity, Cell* cell);
 
 	Cell* getCell(int x, int y, int z, Grid::Level m_level);
@@ -46,11 +46,14 @@ public:
 
 	std::vector<Cell*> getIntersectedCameraCells(ICamera& camera);
 
-	std::vector<NodeEntity*> getRevealedNodesInCameraCells();
+	template <typename T>
+	std::vector<T*> getRevealedEntitiesInCameraCells();
 
 	template <typename T>
 	std::vector<T*> getEntitiesInCameraCells();
 
+	template <>
+	std::vector<EmptyEntity*> getEntitiesInCameraCells();
 	template <>
 	std::vector<NodeEntity*> getEntitiesInCameraCells();
 

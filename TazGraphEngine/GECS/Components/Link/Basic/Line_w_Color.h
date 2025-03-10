@@ -2,7 +2,7 @@
 
 #include "../../../Components.h"
 
-class Line_w_Color : public Component
+class Line_w_Color : public LinkComponent
 {
 public:
 	Color default_src_color = { 255, 255, 255, 255 };

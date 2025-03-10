@@ -138,7 +138,7 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 	}
 
 	auto group_links = (m_level == Grid::Level::Outer1) ?
-		manager->getGroup(Manager::groupLinks_0) : manager->getGroup(Manager::groupGroupLinks_0);
+		manager->getGroup<LinkEntity>(Manager::groupLinks_0) : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_0);
 	for (const auto& link : group_links) {
 		// get the links of the inside nodes
 		if (link->isHidden()) {
@@ -152,18 +152,18 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 void AssetManager::ungroupLayout(Grid::Level m_level) {
 	// first destroy the group nodes
 	if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
-		for (auto& groupNode : manager->getGroup(Manager::groupGroupNodes_0)) {
+		for (auto& groupNode : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
 			groupNode->destroy();
 		}
-		for (auto& link : manager->getGroup(Manager::groupGroupLinks_0)) {
+		for (auto& link : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
 			link->destroy();
 		}
 	}
 	else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
-		for (auto& groupNode : manager->getGroup(Manager::groupGroupNodes_1)) {
+		for (auto& groupNode : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
 			groupNode->destroy();
 		}
-		for (auto& link : manager->getGroup(Manager::groupGroupLinks_1)) {
+		for (auto& link : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
 			link->destroy();
 		}
 	}
@@ -172,7 +172,7 @@ void AssetManager::ungroupLayout(Grid::Level m_level) {
 	Manager::groupLabels link_label = (m_level == Grid::Level::Outer1) ? Manager::groupLinks_0 : Manager::groupGroupLinks_0;
 
 	// reveal all the hidden nodes
-	for (auto& entity : manager->getGroup(label)) {
+	for (auto& entity : manager->getGroup<NodeEntity>(label)) {
 		if (entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
 			// ! update the nodes' position based on the parent position
 			TransformComponent* parent_tr = &entity->getParentEntity()->GetComponent<TransformComponent>();
@@ -186,7 +186,7 @@ void AssetManager::ungroupLayout(Grid::Level m_level) {
 			
 		}
 	}
-	for (auto& link : manager->getGroup(link_label)) {
+	for (auto& link : manager->getGroup<LinkEntity>(link_label)) {
 		link->reveal();
 	}
 }

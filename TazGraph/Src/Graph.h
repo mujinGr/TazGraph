@@ -69,7 +69,9 @@ public:
 
 	/////////////////////////
 	void renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch);
+	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRenderer& batch, bool isTriangles);
 	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch, bool isTriangles);
+	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch, bool isTriangles);
 	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch, bool isTriangles);
 	void drawHUD(const std::vector<NodeEntity*>& entities, const std::string& textureName);
 

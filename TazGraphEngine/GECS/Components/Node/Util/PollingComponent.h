@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../Components.h"
 
-class PollingComponent : public Component {
+class PollingComponent : public NodeComponent {
 public:
     void StartPolling(const std::string& file, float delayInSeconds) {
         pollingFile = file;

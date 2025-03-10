@@ -11,7 +11,7 @@
 
 Manager main_menu_manager; // need manager as global so that the entities can be global
 
-auto& Mainmenubackground(main_menu_manager.addEntity<Node>());
+auto& Mainmenubackground(main_menu_manager.addEntity<Empty>());
 
 MainMenuScreen::MainMenuScreen(TazGraphEngine::Window* window)
 	: _window(window)
@@ -108,11 +108,11 @@ void MainMenuScreen::onEntry()
 
 		Mainmenubackground.addComponent<MainMenuBackground>();
 		Mainmenubackground.addGroup(Manager::groupBackgroundLayer);
-		main_menu_manager.grid->addNode(&Mainmenubackground, main_menu_manager.grid->getGridLevel());
+		main_menu_manager.grid->addEmpty(&Mainmenubackground, main_menu_manager.grid->getGridLevel());
 	}
 }
 
-auto& mainmenubackground(main_menu_manager.getGroup(Manager::groupBackgroundLayer));
+auto& mainmenubackground(main_menu_manager.getGroup<EmptyEntity>(Manager::groupBackgroundLayer));
 
 
 void MainMenuScreen::onExit()
@@ -134,7 +134,7 @@ void MainMenuScreen::update(float deltaTime)
 	hud_camera2D->update();
 }
 
-void MainMenuScreen::renderBatch(const std::vector<NodeEntity*>& entities) {
+void MainMenuScreen::renderBatch(const std::vector<EmptyEntity*>& entities) {
 	_PlaneModelRenderer.begin();
 	for (const auto& entity : entities) {
 		entity->draw(_PlaneModelRenderer, *Graph::_window);

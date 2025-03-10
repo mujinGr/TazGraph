@@ -17,8 +17,8 @@
 
 #define CULLING_OFFSET 100
 
-class Component;
-
+template <typename T>
+class BaseComponent;
 class Entity;
 class EmptyEntity;
 class NodeEntity;
@@ -70,9 +70,10 @@ constexpr std::size_t maxGroups = 16;
 using ComponentBitSet = std::bitset<maxComponents>;
 using GroupBitSet = std::bitset<maxGroups>;
 
-using ComponentArray = std::array<Component*, maxComponents>;
+using ComponentArray = std::array<BaseComponent<EmptyEntity>*, maxComponents>;
 
-class Component
+template <typename T>
+class BaseComponent
 {
 public:
 	Entity* entity;
@@ -85,29 +86,14 @@ public:
 	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) {}
 	virtual void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) {}
 
-	virtual ~Component() {}
+	virtual ~BaseComponent() {}
 };
 
-//class NodeComponent : public Component
-//{
-//public:
-//	Node* node;
-//
-//	virtual void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) override {}
-//	virtual void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {}
-//
-//	~NodeComponent() override = default;
-//};
-//
-//class LinkComponent : public Component
-//{
-//public:
-//	Link* link;
-//
-//	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) override {}
-//
-//	~LinkComponent() override = default;
-//};
+using Component = BaseComponent<EmptyEntity>;
+
+using NodeComponent = BaseComponent<EmptyEntity>;
+
+using LinkComponent = BaseComponent<EmptyEntity>;
 
 
 class Entity
@@ -199,17 +185,29 @@ public:
 	T& addComponent(TArgs&&... mArgs)
 	{
 		T* c(new T(std::forward<TArgs>(mArgs)...));
-		c->entity = this;
 		std::unique_ptr<Component> uPtr{ c };
 		components.emplace_back(std::move(uPtr));
 
+		//setComponentEntity(c);
+		c->entity = this;
 		componentArray[GetComponentTypeID<T>()] = c;
 		componentBitSet[GetComponentTypeID<T>()] = true;
+		
 		c->id = GetComponentTypeID<T>();
 
 		c->init();
 		return *c;
 	}
+
+	//virtual void setComponentEntity(Component* c) {
+
+	//}
+	//virtual void setComponentEntity(NodeComponent* c) {
+
+	//}
+	//virtual void setComponentEntity(LinkComponent* c) {
+
+	//}
 
 	template<typename T> T& GetComponent() const
 	{

@@ -52,7 +52,7 @@ public:
     virtual void EndRender() override;
 
 
-    void renderBatch(const std::vector<NodeEntity*>& entities);
+    void renderBatch(const std::vector<EmptyEntity*>& entities);
 
 private:
     float _backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };

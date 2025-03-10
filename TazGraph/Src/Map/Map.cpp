@@ -5,8 +5,8 @@
 #include <iostream>
 
 extern Manager manager;
-extern std::vector<Entity*>& nodes;
-extern std::vector<Entity*>& links;
+extern std::vector<NodeEntity*>& nodes;
+extern std::vector<LinkEntity*>& links;
 
 
 Map::Map(int ms, int ns) : mapScale(ms), nodeSize(ns) //probably initiallization

@@ -5,8 +5,7 @@
 
 
 typedef class Empty : public EmptyEntity {
-private:
-	Entity* parent_entity = nullptr;
+
 public:
 
 	Empty(Manager& mManager) : EmptyEntity(mManager) {
@@ -35,18 +34,12 @@ public:
 			if (newCell != this->ownerCell) {
 				// Need to shift the entity
 				removeEntity();
-				manager.grid->addNode(this, newCell);
+				manager.grid->addEmpty(this, newCell);
 			}
 		}
 	}
 	
-	Entity* getParentEntity() override {
-		return parent_entity;
-	}
-
-	void setParentEntity(Entity* pEntity) override {
-		parent_entity = pEntity;
-	}
+	
 
 	void imgui_print() override {
 		glm::vec2 position = this->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
@@ -61,9 +54,7 @@ public:
 
 typedef class Node: public NodeEntity {
 private:
-	Entity* parent_entity = nullptr;
-	std::vector<Entity*> inLinks;
-	std::vector<Entity*> outLinks;
+	
 
 	std::vector<std::string> messageLog;
 public:
@@ -138,30 +129,6 @@ public:
 			}
 		}
 	}
-	
-	Entity* getParentEntity() override {
-		return parent_entity;
-	}
-
-	void setParentEntity(Entity* pEntity) override {
-		parent_entity = pEntity;
-	}
-
-	void addInLink(Entity* link) {
-		inLinks.push_back(link);
-	}
-
-	void addOutLink(Entity* link) {
-		outLinks.push_back(link);
-	}
-
-	const std::vector<Entity*>& getInLinks() const override {
-		return inLinks;
-	}
-
-	const std::vector<Entity*>& getOutLinks() const override {
-		return outLinks;
-	}
 
 	void addMessage(std::string mMessage) override{
 		messageLog.push_back(mMessage);
@@ -201,15 +168,11 @@ public:
 typedef class Link : public LinkEntity {
 private:
 
-	unsigned int fromId = 0;
-	unsigned int toId = 0;
-
-	Node* from = nullptr;
-	Node* to = nullptr;
+	NodeEntity* from = nullptr;
+	NodeEntity* to = nullptr;
 
 public:
-	std::string fromPort;
-	std::string toPort;
+
 
 	Color color = {};
 
@@ -217,13 +180,11 @@ public:
 	}
 
 	Link(Manager& mManager, unsigned int mfromId, unsigned int mtoId)
-		: LinkEntity(mManager),
-		fromId(mfromId),
-		toId(mtoId)
+		: LinkEntity(mManager, mfromId, mtoId)
 	{
-		from = dynamic_cast<Node*>(mManager.getEntityFromId(fromId));
+		from = dynamic_cast<NodeEntity*>(mManager.getEntityFromId(fromId));
 		from->addOutLink(this);
-		to = dynamic_cast<Node*>(mManager.getEntityFromId(toId));
+		to = dynamic_cast<NodeEntity*>(mManager.getEntityFromId(toId));
 		to->addInLink(this);
 
 		// add arrow head
@@ -264,13 +225,13 @@ public:
 		temp_arrowHead.setParentEntity(this);
 		children["ArrowHead"] = &temp_arrowHead;
 
-		mManager.grid->addNode(&temp_arrowHead, mManager.grid->getGridLevel());
+		mManager.grid->addEmpty(&temp_arrowHead, mManager.grid->getGridLevel());
 	}
 
 	Link(Manager& mManager, Entity* mfrom, Entity* mto)
 		: LinkEntity(mManager),
-		from(dynamic_cast<Node*>(mfrom)),
-		to(dynamic_cast<Node*>(mto))
+		from(dynamic_cast<NodeEntity*>(mfrom)),
+		to(dynamic_cast<NodeEntity*>(mto))
 	{
 		fromId = from->getId();
 		toId = to->getId();

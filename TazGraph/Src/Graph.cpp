@@ -179,16 +179,14 @@ void Graph::onExit() {
 	_resourceManager.disposeGLSLPrograms();
 }
 
-auto& nodes(manager.getGroup(Manager::groupNodes_0));
-auto& group_nodes(manager.getGroup(Manager::groupGroupNodes_0));
+auto& nodes(manager.getGroup<NodeEntity>(Manager::groupNodes_0));
+auto& group_nodes(manager.getGroup<NodeEntity>(Manager::groupGroupNodes_0));
 
-auto& links(manager.getLinkGroup(Manager::groupLinks_0));
-auto& group_links(manager.getLinkGroup(Manager::groupGroupLinks_0));
+auto& links(manager.getGroup<LinkEntity>(Manager::groupLinks_0));
+auto& group_links(manager.getGroup<LinkEntity>(Manager::groupGroupLinks_0));
 
-auto& colliders(manager.getGroup(Manager::groupColliders));
-
-auto& cursors(manager.getGroup(Manager::cursorGroup));
-auto& backgroundImage(manager.getGroup(Manager::panelBackground));
+auto& cursors(manager.getGroup<EmptyEntity>(Manager::cursorGroup));
+auto& backgroundImage(manager.getGroup<EmptyEntity>(Manager::panelBackground));
 
 glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
@@ -679,8 +677,34 @@ void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRend
 	}
 }
 
+void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRenderer& batch, bool isTriangles) {
+	if (isTriangles) {
+		batch.initColorTriangleBatch(entities.size());
+
+	}
+	else {
+		batch.initColorQuadBatch(entities.size());
+	}
+	for (const auto& entity : entities) {
+		entity->draw(batch, *Graph::_window);
+	}
+}
+
 void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch, bool isTriangles) { 
 	
+	if (isTriangles) {
+		batch.initTriangleBatch(entities.size());
+
+	}
+	else {
+		batch.initQuadBatch(entities.size());
+	}
+	for (const auto& entity : entities) {
+		entity->draw(batch, *Graph::_window);
+	}
+}
+void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch, bool isTriangles) {
+
 	if (isTriangles) {
 		batch.initTriangleBatch(entities.size());
 
@@ -738,7 +762,7 @@ void Graph::draw()
 		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
 			if (group == Manager::groupLinks_0) continue;
 
-			std::vector<NodeEntity*>& groupVec = manager.getVisibleGroup(group);
+			std::vector<NodeEntity*>& groupVec = manager.getVisibleGroup<NodeEntity>(group);
 			for (auto& entity : groupVec) {
 
 				if (entity->hasComponent<TransformComponent>())
@@ -785,11 +809,11 @@ void Graph::draw()
 	
 	_LineRenderer.drawLine(pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
 
-	renderBatch(manager.getVisibleLinkGroup(Manager::groupLinks_0), _LineRenderer);
+	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
 
-	renderBatch(manager.getVisibleLinkGroup(Manager::groupGroupLinks_0), _LineRenderer);
+	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0), _LineRenderer);
 
-	renderBatch(manager.getVisibleLinkGroup(Manager::groupGroupLinks_1), _LineRenderer);
+	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1), _LineRenderer);
 
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
@@ -833,10 +857,10 @@ void Graph::draw()
 	
 	//GLint radiusLocation = glsl_circleColor.getUniformLocation("u_radius");
 	//glUniform1f(radiusLocation, nodeRadius);
-	renderBatch(manager.getVisibleGroup(Manager::groupNodes_0), _PlaneColorRenderer, false);
-	renderBatch(manager.getVisibleGroup(Manager::groupGroupNodes_0), _PlaneColorRenderer, false);
-	renderBatch(manager.getVisibleGroup(Manager::groupGroupNodes_1), _PlaneColorRenderer, false);
-	renderBatch(manager.getVisibleGroup(Manager::groupArrowHeads_0), _PlaneColorRenderer, true);
+	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer, false);
+	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer, false);
+	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer, false);
+	renderBatch(manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer, true);
 
 	renderBatch(cursors, _PlaneColorRenderer, false);
 	_PlaneColorRenderer.end();

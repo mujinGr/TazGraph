@@ -155,7 +155,7 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 			ImGui::TableSetColumnIndex(0);
 			ImGui::Text("%s", manager.getGroupName(managerGroup).c_str());
 			ImGui::TableSetColumnIndex(1);
-			int groupSize = manager.getVisibleGroup(managerGroup).size();
+			int groupSize = manager.getVisibleGroup<EmptyEntity>(managerGroup).size() + manager.getVisibleGroup<NodeEntity>(managerGroup).size() + manager.getVisibleGroup<LinkEntity>(managerGroup).size();
 			ImGui::Text("%d", groupSize);
 
 			totalEntities += groupSize;
@@ -183,15 +183,21 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 
 		ImGui::TableNextRow();
 		ImGui::TableSetColumnIndex(0);
+		ImGui::Text("visible empty entities");
+		ImGui::TableSetColumnIndex(1);
+		ImGui::Text("%zu", manager.getVisible<EmptyEntity>().size());
+
+		ImGui::TableNextRow();
+		ImGui::TableSetColumnIndex(0);
 		ImGui::Text("visible nodes");
 		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("%zu", manager.getVisibleNodes().size());
+		ImGui::Text("%zu", manager.getVisible<NodeEntity>().size());
 
 		ImGui::TableNextRow();
 		ImGui::TableSetColumnIndex(0);
 		ImGui::Text("visible links");
 		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("%zu", manager.getVisibleLinks().size());
+		ImGui::Text("%zu", manager.getVisible<LinkEntity>().size());
 		
 		ImGui::EndTable();
 	}
@@ -373,7 +379,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 		std::string s = manager.getGroupName(group);
 
 		if (ImGui::CollapsingHeader(s.c_str())) {
-			std::vector<NodeEntity*>& groupVec = manager.getGroup(group);
+			std::vector<NodeEntity*>& groupVec = manager.getGroup<NodeEntity>(group);
 
 			if ( group == Manager::groupNodes_0 || group == Manager::groupGroupNodes_0 || group == Manager::groupGroupNodes_1 || group == Manager::cursorGroup) {
 
@@ -388,7 +394,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 				}
 
 				if (ImGui::ColorEdit4(("Color##" + s).c_str(), (float*)&color)) {
-					std::vector<NodeEntity*>& groupVec = manager.getGroup(group);
+					std::vector<NodeEntity*>& groupVec = manager.getGroup<NodeEntity>(group);
 					Color newColor = {
 					   (GLubyte)(color.x * 255),
 					   (GLubyte)(color.y * 255),
@@ -421,7 +427,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 				}
 
 				if (ImGui::ColorEdit4(("Color##" + s).c_str(), (float*)&color)) {
-					std::vector<LinkEntity*>& groupVec = manager.getLinkGroup(group);
+					std::vector<LinkEntity*>& groupVec = manager.getGroup<LinkEntity>(group);
 					Color newColor = {
 					   (GLubyte)(color.x * 255),
 					   (GLubyte)(color.y * 255),

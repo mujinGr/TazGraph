@@ -13,6 +13,23 @@ struct Cell {
 	Cell* parent = nullptr;
 	std::vector<Cell*> children;
 
+	template <typename T>
+	std::vector<T*>& getEntityList();
+
+	template <>
+	std::vector<NodeEntity*>& getEntityList<NodeEntity>() {
+		return nodes;
+	}
+
+	template <>
+	std::vector<EmptyEntity*>& getEntityList<EmptyEntity>() {
+		return emptyEntities;
+	}
+
+	template <>
+	std::vector<LinkEntity*>& getEntityList<LinkEntity>() {
+		return links;
+	}
 };
 
 

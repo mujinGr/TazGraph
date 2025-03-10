@@ -170,10 +170,10 @@ void Grid::addLink(LinkEntity* link, std::vector<Cell*> cells)
 }
 
 // adding node to grid
-void Grid::addNode(EmptyEntity* entity, Grid::Level m_level)
+void Grid::addEmpty(EmptyEntity* entity, Grid::Level m_level)
 {
 	Cell* cell = getCell(*entity, m_level);
-	addNode(entity, cell);
+	addEmpty(entity, cell);
 }
 
 void Grid::addNode(NodeEntity* entity, Grid::Level m_level)
@@ -182,7 +182,7 @@ void Grid::addNode(NodeEntity* entity, Grid::Level m_level)
 	addNode(entity, cell);
 }
 
-void Grid::addNode(EmptyEntity* entity, Cell* cell)
+void Grid::addEmpty(EmptyEntity* entity, Cell* cell)
 {
 	cell->emptyEntities.push_back(entity);
 
@@ -345,7 +345,27 @@ std::vector<Cell*> Grid::getIntersectedCameraCells(ICamera& camera) {
 	return _interceptedCells;
 }
 
-std::vector<NodeEntity*> Grid::getRevealedNodesInCameraCells() {
+template <typename T>
+std::vector<T*> Grid::getRevealedEntitiesInCameraCells() {
+	return {};
+}
+
+template <>
+std::vector<EmptyEntity*> Grid::getRevealedEntitiesInCameraCells() {
+	std::vector<EmptyEntity*> result;
+
+	for (auto& cell : _interceptedCells) {
+		for (auto& entity : cell->emptyEntities) {
+			if (!entity->isHidden()) {  // Check if the entity is visible
+				result.push_back(entity);
+			}
+		}
+	}
+	return result;
+}
+
+template <>
+std::vector<NodeEntity*> Grid::getRevealedEntitiesInCameraCells() {
 	std::vector<NodeEntity*> result;
 
 	for (auto& cell : _interceptedCells) {
@@ -354,6 +374,30 @@ std::vector<NodeEntity*> Grid::getRevealedNodesInCameraCells() {
 				result.push_back(entity);
 			}
 		}
+	}
+	return result;
+}
+
+template <>
+std::vector<LinkEntity*> Grid::getRevealedEntitiesInCameraCells() {
+	std::map<unsigned int, LinkEntity*> uniqueEntities;
+
+	for (auto& cell : _interceptedCells) {
+		for (auto& link : cell->links) {
+			if (!link->isHidden()) {
+				unsigned int linkId = link->getId();
+
+				if (uniqueEntities.find(linkId) == uniqueEntities.end()) {
+					uniqueEntities[linkId] = link;
+				}
+			}
+		}
+	}
+
+	std::vector<LinkEntity*> result;
+
+	for (auto& entry : uniqueEntities) {
+		result.push_back(entry.second);
 	}
 	return result;
 }
@@ -370,6 +414,17 @@ std::vector<NodeEntity*> Grid::getEntitiesInCameraCells() {
 
 	for (auto& cell : _interceptedCells) {
 		result.insert(result.end(), cell->nodes.begin(), cell->nodes.end());
+	}
+
+	return result;
+}
+
+template <>
+std::vector<EmptyEntity*> Grid::getEntitiesInCameraCells() {
+	std::vector<EmptyEntity*> result;
+
+	for (auto& cell : _interceptedCells) {
+		result.insert(result.end(), cell->emptyEntities.begin(), cell->emptyEntities.end());
 	}
 
 	return result;
@@ -407,12 +462,10 @@ std::vector<LinkEntity*> Grid::getLinksInCameraCells() {
 
 	for (auto& cell : _interceptedCells) {
 		for (auto& link : cell->links) {
-			if (!link->isHidden()) {
-				unsigned int linkId = link->getId();
+			unsigned int linkId = link->getId();
 
-				if (uniqueEntities.find(linkId) == uniqueEntities.end()) {
-					uniqueEntities[linkId] = link;
-				}
+			if (uniqueEntities.find(linkId) == uniqueEntities.end()) {
+				uniqueEntities[linkId] = link;
 			}
 		}
 	}
