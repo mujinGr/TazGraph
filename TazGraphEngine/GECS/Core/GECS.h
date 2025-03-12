@@ -74,7 +74,6 @@ using ComponentArray = std::array<BaseComponent*, maxComponents>;
 class BaseComponent
 {
 public:
-	Entity* entity;
 
 	ComponentID id = 0u;
 
@@ -88,11 +87,19 @@ public:
 };
 
 class Component : public BaseComponent {
+public:
+	Entity* entity;
 };
 
-class NodeComponent : public BaseComponent {};
+class NodeComponent : public BaseComponent {
+public:
+	NodeEntity* entity;
+};
 
-class LinkComponent : public BaseComponent {};
+class LinkComponent : public BaseComponent {
+public:
+	LinkEntity* entity;
+};
 
 
 class Entity
@@ -233,34 +240,6 @@ public:
 
 	virtual void addMessage(std::string mMessage) {}
 
-	virtual const std::vector<Entity*>& getInLinks() const {
-		static const std::vector<Entity*> emptyVec;
-		return emptyVec;
-	}
-
-	virtual const std::vector<Entity*>& getOutLinks() const {
-		static const std::vector<Entity*> emptyVec;
-		return emptyVec;
-	}
-
-	// instead of virtual functions you can instead do dynamic casting on derived classes to get the functions
-	virtual Entity* getFromNode() const {
-		return nullptr;
-	}
-
-	virtual Entity* getToNode() const {
-		return nullptr;
-	}
-
-	virtual Entity* getFromPort() {
-		return nullptr;
-	}
-
-	virtual Entity* getToPort() {
-		return nullptr;
-	}
-
-	virtual void updateLinkPorts() {}
 
 	virtual Entity* getParentEntity() {
 		return nullptr;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./Core/GECS.h"
+#include "./Core/GECSEntity.h"
 
 #include "./Components/Empty/Basic/TransformComponent.h"
 #include "./Components/Empty/Basic/SpriteComponent.h"

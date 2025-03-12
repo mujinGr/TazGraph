@@ -44,8 +44,8 @@ public:
 
 class NodeEntity : public EmptyEntity {
 protected:
-	std::vector<Entity*> inLinks;
-	std::vector<Entity*> outLinks;
+	std::vector<LinkEntity*> inLinks;
+	std::vector<LinkEntity*> outLinks;
 public:
 
 	NodeEntity(Manager& mManager) : EmptyEntity(mManager) {
@@ -65,19 +65,19 @@ public:
 			this->ownerCell->nodes.end());
 	}
 
-	void addInLink(Entity* link) {
+	void addInLink(LinkEntity* link) {
 		inLinks.push_back(link);
 	}
 
-	void addOutLink(Entity* link) {
+	void addOutLink(LinkEntity* link) {
 		outLinks.push_back(link);
 	}
 
-	const std::vector<Entity*>& getInLinks() const {
+	const std::vector<LinkEntity*>& getInLinks() const {
 		return inLinks;
 	}
 
-	const std::vector<Entity*>& getOutLinks() const {
+	const std::vector<LinkEntity*>& getOutLinks() const {
 		return outLinks;
 	}
 
@@ -89,7 +89,8 @@ protected:
 	unsigned int fromId = 0;
 	unsigned int toId = 0;
 
-
+	NodeEntity* from = nullptr;
+	NodeEntity* to = nullptr;
 
 public:
 	std::string fromPort;
@@ -100,6 +101,10 @@ public:
 
 	LinkEntity(Manager& mManager, unsigned int mfromId, unsigned int mtoId)
 		: MultiCellEntity(mManager), fromId(mfromId), toId(mtoId) {
+	}
+
+	LinkEntity(Manager& mManager, NodeEntity* mfrom, NodeEntity* mto)
+		: MultiCellEntity(mManager), from(mfrom), to(mto) {
 	}
 
 	void setComponentEntity(LinkComponent* c) override {
@@ -122,6 +127,21 @@ public:
 		}
 	}
 
+	NodeEntity* getFromNode() const {
+		return from;
+	}
 
+	NodeEntity* getToNode() const {
+		return to;
+	}
 
+	Entity* getFromPort() {
+		return from->children[fromPort];
+	}
+
+	Entity* getToPort() {
+		return to->children[toPort];
+	}
+
+	virtual void updateLinkPorts() {}
 };

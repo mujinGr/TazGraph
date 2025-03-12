@@ -168,8 +168,7 @@ public:
 typedef class Link : public LinkEntity {
 private:
 
-	NodeEntity* from = nullptr;
-	NodeEntity* to = nullptr;
+	
 
 public:
 
@@ -229,9 +228,18 @@ public:
 	}
 
 	Link(Manager& mManager, Entity* mfrom, Entity* mto)
-		: LinkEntity(mManager),
-		from(dynamic_cast<NodeEntity*>(mfrom)),
-		to(dynamic_cast<NodeEntity*>(mto))
+		: LinkEntity(mManager,
+			dynamic_cast<NodeEntity*>(mfrom), // it is node but cant see it due to getParentEntity
+			dynamic_cast<NodeEntity*>(mto))
+	{
+		fromId = from->getId();
+		toId = to->getId();
+	}
+
+	Link(Manager& mManager, NodeEntity* mfrom, NodeEntity* mto)
+		: LinkEntity(mManager,
+			mfrom,
+			mto)
 	{
 		fromId = from->getId();
 		toId = to->getId();
@@ -265,13 +273,7 @@ public:
 		}
 	}
 
-	Entity* getFromNode() const override {
-		return from;
-	}
-
-	Entity* getToNode() const override {
-		return to;
-	}
+	
 
 	void updateLinkPorts() override{
 		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
@@ -326,13 +328,7 @@ public:
 		}
 	}
 
-	Entity* getFromPort() override {
-		return from->children[fromPort];
-	}
-
-	Entity* getToPort()  override{
-		return to->children[toPort];
-	}
+	
 
 
 	void imgui_print() override {
