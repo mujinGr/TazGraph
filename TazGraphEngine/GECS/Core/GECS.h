@@ -57,9 +57,22 @@ inline ComponentID getNewComponentTypeID()
 	return lastID++;
 }
 
+inline ComponentID getNewLinkComponentTypeID()
+{
+	static ComponentID lastID_linkC = 0u;
+	return lastID_linkC++;
+}
+
+
 template <typename T> inline ComponentID GetComponentTypeID() noexcept
 {
 	static ComponentID typeID = getNewComponentTypeID(); // typeID is unique for each function type T and only initialized once.
+	return typeID;
+}
+
+template <typename T> inline ComponentID GetLinkComponentTypeID() noexcept
+{
+	static ComponentID typeID = getNewLinkComponentTypeID(); // typeID is unique for each function type T and only initialized once.
 	return typeID;
 }
 
@@ -134,6 +147,7 @@ public:
 	}
 
 	std::vector<std::unique_ptr<BaseComponent>> components; //create 2 arrays, this is for the concurrent access
+	
 	Entity(Manager& mManager) : manager(mManager) {}
 	virtual ~Entity() {}
 
@@ -184,6 +198,9 @@ public:
 
 	template <typename T> bool hasComponent() const
 	{
+		if constexpr (std::is_base_of_v<LinkComponent, T>) {
+			return this && componentBitSet[GetLinkComponentTypeID<T>()];
+		}
 		return this && componentBitSet[GetComponentTypeID<T>()];
 	}
 	//! have addScript function
@@ -195,6 +212,14 @@ public:
 			std::unique_ptr<LinkComponent> uPtr{ c };
 			components.emplace_back(std::move(uPtr));
 
+			setComponentEntity(c);
+			componentArray[GetLinkComponentTypeID<T>()] = c;
+			componentBitSet[GetLinkComponentTypeID<T>()] = true;
+
+			c->id = GetLinkComponentTypeID<T>();
+
+			c->init();
+			return *c;
 		}
 		else if constexpr (std::is_base_of_v<NodeComponent, T>) {
 			std::unique_ptr<NodeComponent> uPtr{ c };
@@ -229,6 +254,11 @@ public:
 
 	template<typename T> T& GetComponent() const
 	{
+		if constexpr (std::is_base_of_v<LinkComponent, T>) {
+			auto ptr(componentArray[GetLinkComponentTypeID<T>()]);
+			return *static_cast<T*>(ptr);
+		}
+
 		auto ptr(componentArray[GetComponentTypeID<T>()]);
 		return *static_cast<T*>(ptr);
 	}
