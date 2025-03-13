@@ -232,6 +232,7 @@
     <ClInclude Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.h" />
     <ClInclude Include="TextureManager\TextureManager.h" />
     <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h" />
+    <ClInclude Include="Threader\Threader.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Window\Window.h" />
   </ItemGroup>

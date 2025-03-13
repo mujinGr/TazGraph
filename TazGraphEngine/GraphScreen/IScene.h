@@ -3,6 +3,8 @@
 #include "../Renderers/LineRenderer/LineRenderer.h"
 #include "../DataManager/DataManager.h"
 
+#include "../Threader/Threader.h"
+
 #define SCENE_INDEX_NO_SCENE -1
 
 class AppInterface;

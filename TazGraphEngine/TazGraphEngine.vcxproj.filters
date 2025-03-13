@@ -272,5 +272,8 @@
     <ClInclude Include="GECS\Core\GECSEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Threader\Threader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -25,6 +25,9 @@
 
 #include "EditorIMGUI/EditorIMGUI.h"
 
+#include <chrono>
+#include <thread>
+
 class Map;
 class AssetManager;
 class SceneManager;
@@ -133,6 +136,8 @@ private:
 
 	glm::vec2 _sceneMousePosition = {0.f,0.f};
 	glm::vec2 _savedMainViewportMousePosition = { 0.f,0.f };
+
+	Threader threadPool = Threader(10);
 };
 
 

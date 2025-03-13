@@ -177,6 +177,10 @@ void Graph::onExit() {
 	Graph::_PlaneColorRenderer.dispose();
 
 	_resourceManager.disposeGLSLPrograms();
+
+	for (Thread& thread : threadPool.threads) {
+		thread.stop();
+	}
 }
 
 auto& nodes(manager.getGroup<NodeEntity>(Manager::groupNodes_0));
