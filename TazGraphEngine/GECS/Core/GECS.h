@@ -14,6 +14,7 @@
 #include "../../Renderers/PlaneColorRenderer/PlaneColorRenderer.h"
 #include "../../Camera2.5D/CameraManager.h"
 #include "../../Window/Window.h"
+#include <optional>
 
 #define CULLING_OFFSET 100
 
@@ -57,6 +58,12 @@ inline ComponentID getNewComponentTypeID()
 	return lastID++;
 }
 
+inline ComponentID getNewNodeComponentTypeID()
+{
+	static ComponentID lastID_nodeC = 0u;
+	return lastID_nodeC++;
+}
+
 inline ComponentID getNewLinkComponentTypeID()
 {
 	static ComponentID lastID_linkC = 0u;
@@ -70,13 +77,19 @@ template <typename T> inline ComponentID GetComponentTypeID() noexcept
 	return typeID;
 }
 
+template <typename T> inline ComponentID GetNodeComponentTypeID() noexcept
+{
+	static ComponentID typeID = getNewNodeComponentTypeID(); // typeID is unique for each function type T and only initialized once.
+	return typeID;
+}
+
 template <typename T> inline ComponentID GetLinkComponentTypeID() noexcept
 {
 	static ComponentID typeID = getNewLinkComponentTypeID(); // typeID is unique for each function type T and only initialized once.
 	return typeID;
 }
 
-constexpr std::size_t maxComponents = 32;
+constexpr std::size_t maxComponents = 16;
 constexpr std::size_t maxGroups = 16;
 
 using ComponentBitSet = std::bitset<maxComponents>;
@@ -123,10 +136,14 @@ private:
 	bool active = true; // false if about to delete
 	bool hidden = false; // true if not do updates
 	ComponentArray componentArray;//create 2 arrays, this is for the fast access
+
 	ComponentBitSet componentBitSet;
 	GroupBitSet groupBitSet;
 
 protected:
+	std::optional<ComponentArray> nodeComponentArray;
+	std::optional<ComponentBitSet> nodeComponentBitSet;
+
 	Manager& manager;
 public:
 	std::unordered_map<std::string,Entity*> children;
@@ -201,6 +218,9 @@ public:
 		if constexpr (std::is_base_of_v<LinkComponent, T>) {
 			return this && componentBitSet[GetLinkComponentTypeID<T>()];
 		}
+		else if constexpr (std::is_base_of_v<NodeComponent, T>) {
+			return this && nodeComponentBitSet.has_value() && (*nodeComponentBitSet)[GetNodeComponentTypeID<T>()];
+		}
 		return this && componentBitSet[GetComponentTypeID<T>()];
 	}
 	//! have addScript function
@@ -225,21 +245,30 @@ public:
 			std::unique_ptr<NodeComponent> uPtr{ c };
 			components.emplace_back(std::move(uPtr));
 
+			setComponentEntity(c);
+			(*nodeComponentArray)[GetNodeComponentTypeID<T>()] = c;
+			(*nodeComponentBitSet)[GetNodeComponentTypeID<T>()] = true;
+
+			c->id = GetNodeComponentTypeID<T>();
+
+			c->init();
+			return *c;
 		}
 		else {
 			std::unique_ptr<Component> uPtr{ c };
 			components.emplace_back(std::move(uPtr));
+			
+			setComponentEntity(c);
+			componentArray[GetComponentTypeID<T>()] = c;
+			componentBitSet[GetComponentTypeID<T>()] = true;
 
+			c->id = GetComponentTypeID<T>();
+
+			c->init();
+			return *c;
 		}
 		
-		setComponentEntity(c);
-		componentArray[GetComponentTypeID<T>()] = c;
-		componentBitSet[GetComponentTypeID<T>()] = true;
 		
-		c->id = GetComponentTypeID<T>();
-
-		c->init();
-		return *c;
 	}
 
 	virtual void setComponentEntity(Component* c) {
@@ -258,9 +287,14 @@ public:
 			auto ptr(componentArray[GetLinkComponentTypeID<T>()]);
 			return *static_cast<T*>(ptr);
 		}
-
-		auto ptr(componentArray[GetComponentTypeID<T>()]);
-		return *static_cast<T*>(ptr);
+		else if constexpr (std::is_base_of_v<NodeComponent, T>) {
+			auto ptr((*nodeComponentArray)[GetNodeComponentTypeID<T>()]);
+			return *static_cast<T*>(ptr);
+		}
+		else {
+			auto ptr(componentArray[GetComponentTypeID<T>()]);
+			return *static_cast<T*>(ptr);
+		}
 	}
 
 	// for when wanting to add new entities from components

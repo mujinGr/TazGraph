@@ -49,7 +49,8 @@ protected:
 public:
 
 	NodeEntity(Manager& mManager) : EmptyEntity(mManager) {
-
+		nodeComponentArray.emplace();
+		nodeComponentBitSet.emplace();
 	}
 	void setComponentEntity(NodeComponent* c) override {
 		std::cout << "adding component node" << std::endl;
