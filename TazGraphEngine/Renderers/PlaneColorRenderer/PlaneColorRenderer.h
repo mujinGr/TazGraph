@@ -149,10 +149,10 @@ public:
 	void initColorQuadBatch(size_t mSize);
 	void initColorBoxBatch(size_t mSize);
 
-	void drawTriangle(const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
+	void drawTriangle(size_t v_index, const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
 		float depth, const Color& color);
 
-	void draw(const glm::vec4& destRect, float depth, const Color& color);
+	void draw(size_t v_index, const glm::vec4& destRect, float depth, const Color& color);
 
 	void drawBox(const glm::vec4& destRect, float depth, const Color& color);
 

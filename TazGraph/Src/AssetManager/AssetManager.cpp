@@ -16,14 +16,6 @@ AssetManager::AssetManager(Manager* man, InputManager& inputManager, TazGraphEng
 AssetManager::~AssetManager()
 {}
 
-void AssetManager::CreateCursor(Entity& cursor)
-{
-	cursor.addComponent<TransformComponent>(glm::vec2(200.0f, 320.0f), Layer::action, glm::ivec2(4, 4), 1);
-	cursor.addComponent<Rectangle_w_Color>();
-	cursor.addComponent<Rectangle_w_Color>().color = Color(0, 0, 0, 255);
-	cursor.addGroup(Manager::cursorGroup);
-}
-
 void AssetManager::CreateWorldMap(Entity& worldMap)
 {
 	worldMap.addComponent<TransformComponent>(glm::vec2(-TextureManager::getInstance().Get_GLTexture("worldMap")->width / 2, -TextureManager::getInstance().Get_GLTexture("worldMap")->height / 2), Manager::groupBackgroundLayer,
@@ -102,7 +94,7 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 		glm::vec2 centroid(0);
 		for (const auto& childCell : cell.children) {
 			for (auto& entity : childCell->nodes) {
-				if (!entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
+				if (!entity->isHidden()) {
 					glm::vec2 node_position = entity->GetComponent<TransformComponent>().getCenterTransform();
 					centroid += node_position;
 
@@ -119,7 +111,7 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 		for (const auto& childCell : cell.children)
 		{
 			for (auto& entity : childCell->nodes) {
-				if (entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
+				if (entity->isHidden()) {
 					glm::vec2 relativePosition = entity->GetComponent<TransformComponent>().getPosition() - node.GetComponent<TransformComponent>().getCenterTransform();
 					entity->GetComponent<TransformComponent>().setPosition_X(relativePosition.x);
 					entity->GetComponent<TransformComponent>().setPosition_Y(relativePosition.y);
@@ -173,7 +165,7 @@ void AssetManager::ungroupLayout(Grid::Level m_level) {
 
 	// reveal all the hidden nodes
 	for (auto& entity : manager->getGroup<NodeEntity>(label)) {
-		if (entity->isHidden() && !entity->hasGroup(Manager::cursorGroup)) {
+		if (entity->isHidden()) {
 			// ! update the nodes' position based on the parent position
 			TransformComponent* parent_tr = &entity->getParentEntity()->GetComponent<TransformComponent>();
 

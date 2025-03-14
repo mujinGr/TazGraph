@@ -18,7 +18,6 @@ Manager manager;
 Map* Graph::map = nullptr;
 TazGraphEngine::Window* Graph::_window = nullptr;
 
-auto& cursor(manager.addEntityNoId<Node>());
 auto& world_map(manager.addEntityNoId<Node>());
 
 glm::vec3 pointAtZ0;
@@ -138,7 +137,6 @@ void Graph::onEntry()
 	if (!manager.grid)
 	{
 		manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
-		_assetsManager->CreateCursor(cursor);
 		_assetsManager->CreateWorldMap(world_map);
 	}
 	
@@ -189,7 +187,6 @@ auto& group_nodes(manager.getGroup<NodeEntity>(Manager::groupGroupNodes_0));
 auto& links(manager.getGroup<LinkEntity>(Manager::groupLinks_0));
 auto& group_links(manager.getGroup<LinkEntity>(Manager::groupGroupLinks_0));
 
-auto& cursors(manager.getGroup<EmptyEntity>(Manager::cursorGroup));
 auto& backgroundImage(manager.getGroup<EmptyEntity>(Manager::panelBackground));
 
 glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
@@ -227,12 +224,6 @@ void Graph::update(float deltaTime) //game objects updating
 		manager.update(deltaTime);
 	}
 
-	for (auto& cursor : cursors) {
-		TransformComponent* tr = &cursor->GetComponent<TransformComponent>();
-		tr->setPosition_X(convertScreenToWorld(mouseCoordsVec).x - tr->getSizeCenter().x);
-		tr->setPosition_Y(convertScreenToWorld(mouseCoordsVec).y - tr->getSizeCenter().y);
-		cursor->update(deltaTime);
-	}
 	// make camera not being able to move out of bounds
 	//collision.moveFromOuterBounds();
 
@@ -406,53 +397,6 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	}
 }
 
-void Graph::selectEntityAtPosition(glm::vec2 worldCoords, int activateMode) {
-	auto cells = manager.grid->getAdjacentCells(cursor, manager.grid->getGridLevel());
-	bool hasSelected = false;
-	for (auto cell : cells) {
-		for (auto& entity : cell->nodes) {
-			if (entity->hasGroup(Manager::cursorGroup)) {
-				continue;
-			}
-			TransformComponent* tr = &entity->GetComponent<TransformComponent>();
-			glm::vec2 pos = glm::vec2(tr->getPosition().x, tr->getPosition().y);
-			// Check if the mouse click is within the entity's bounding box
-			if (checkCollision(SDL_FRect{worldCoords.x,worldCoords.y, 0,0 }, tr->bodyDims)) {
-				if (activateMode == SDL_BUTTON_RIGHT)
-				{
-					_displayedEntity = entity;
-				}
-				else if(activateMode == SDL_BUTTON_LEFT) {
-					_selectedEntity = entity;
-				}
-				_app->_inputManager.setObjectRelativePos(glm::vec2(worldCoords - pos));
-				hasSelected = true;
-				break;
-			}
-		}
-
-		if (hasSelected) break;
-		
-		for (auto& entity : cell->links) {
-
-			if (checkCircleLineCollision(worldCoords, 2,
-				entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(),
-				entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform())
-				) {
-				if (activateMode == SDL_BUTTON_RIGHT)
-				{
-					_displayedEntity = entity;
-				}
-				else if (activateMode == SDL_BUTTON_LEFT) {
-					_selectedEntity = entity;
-				}
-				break;
-			}
-
-		}
-	}
-}
-
 void Graph::checkInput() {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -562,7 +506,6 @@ void Graph::checkInput() {
 					selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_LEFT);
 					
 
-					//selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec), SDL_BUTTON_LEFT);
 					std::cout << "convertedScreenToWorld: " << convertScreenToWorld(mouseCoordsVec).x << " - " << convertScreenToWorld(mouseCoordsVec).y << std::endl;
 				}
 			}
@@ -576,7 +519,6 @@ void Graph::checkInput() {
 
 				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_RIGHT);
 
-				//selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec) , SDL_BUTTON_RIGHT);
 				_savedMainViewportMousePosition = _app->_inputManager.getMouseCoords();
 			}
 		case SDL_MOUSEBUTTONUP:
@@ -661,61 +603,86 @@ void Graph::EndRender() {
 	_editorImgui.EndRender();
 }
 
-void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
-	batch.initBatch(entities.size());
+void Graph::renderBatch(size_t startIndex, const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
+	/*for (const auto& entity : entities) {
+		entity->draw(batch, *Graph::_window);
+	}*/
+	threadPool.parallel(entities.size(), [&](int start, int end) {
+		for (int i = start; i < end; i++) {
+			if (entities[i]->hasComponent<Line_w_Color>()) {
+				entities[i]->GetComponent<Line_w_Color>().draw(i + startIndex, batch, *Graph::_window);
+			}
+		}
+		});
+	//for (int i = 0; i < entities.size(); i++) {
+	//	if (entities[i]->hasComponent<Line_w_Color>()) {
+	//		entities[i]->GetComponent<Line_w_Color>().draw(i + startIndex, batch, *Graph::_window);
+	//	}
+	//	//entities[i]->draw(i, batch, *Graph::_window);
+	//}
+}
+
+void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch) {
+	/*for (const auto& entity : entities) {
+		entity->draw(batch, *Graph::_window);
+	}*/
+
+	//for (int i = 0; i < entities.size(); i++) {
+	//	if (entities[i]->hasComponent<Rectangle_w_Color>()) {
+	//		entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
+	//	}
+	//	if (entities[i]->hasComponent<Triangle_w_Color>()) {
+
+	//	}
+	//	//entities[i]->draw(i, batch, *Graph::_window);
+	//}
+
+	threadPool.parallel(entities.size(), [&](int start, int end) {
+		for (int i = start; i < end; i++) {
+			if (entities[i]->hasComponent<Rectangle_w_Color>()) {
+
+				entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
+			}
+		}
+	});
+}
+
+void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRenderer& batch) {
+	// before calling this make sure that reserved the right amount of memory
+	//for (int i = 0; i < entities.size(); i++) {
+	//	if (entities[i]->hasComponent<Rectangle_w_Color>()) {
+	//		entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
+	//	}
+	//	if (entities[i]->hasComponent<Triangle_w_Color>()) {
+	//		entities[i]->GetComponent<Triangle_w_Color>().draw(i, batch, *Graph::_window);
+	//	}
+	//	//entities[i]->draw(i, batch, *Graph::_window);
+	//}
+
+	/*for (const auto& entity : entities) {
+		entity->draw(batch, *Graph::_window);
+	}*/
+
+	threadPool.parallel(entities.size(), [&](int start, int end) {
+		for (int i = start; i < end; i++) {
+			if (entities[i]->hasComponent<Rectangle_w_Color>()) {
+				entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
+			}
+			if (entities[i]->hasComponent<Triangle_w_Color>()) {
+				entities[i]->GetComponent<Triangle_w_Color>().draw(i, batch, *Graph::_window);
+			}
+		}
+		});
+}
+
+void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch) { 
+	// before calling this make sure that reserved the right amount of memory
 	for (const auto& entity : entities) {
 		entity->draw(batch, *Graph::_window);
 	}
 }
-
-void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch, bool isTriangles) {
-	if (isTriangles) {
-		batch.initColorTriangleBatch(entities.size());
-
-	}
-	else {
-		batch.initColorQuadBatch(entities.size());
-	}
-	for (const auto& entity : entities) {
-		entity->draw(batch, *Graph::_window);
-	}
-}
-
-void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRenderer& batch, bool isTriangles) {
-	if (isTriangles) {
-		batch.initColorTriangleBatch(entities.size());
-
-	}
-	else {
-		batch.initColorQuadBatch(entities.size());
-	}
-	for (const auto& entity : entities) {
-		entity->draw(batch, *Graph::_window);
-	}
-}
-
-void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch, bool isTriangles) { 
-	
-	if (isTriangles) {
-		batch.initTriangleBatch(entities.size());
-
-	}
-	else {
-		batch.initQuadBatch(entities.size());
-	}
-	for (const auto& entity : entities) {
-		entity->draw(batch, *Graph::_window);
-	}
-}
-void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch, bool isTriangles) {
-
-	if (isTriangles) {
-		batch.initTriangleBatch(entities.size());
-
-	}
-	else {
-		batch.initQuadBatch(entities.size());
-	}
+void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch) {
+	// before calling this make sure that reserved the right amount of memory
 	for (const auto& entity : entities) {
 		entity->draw(batch, *Graph::_window);
 	}
@@ -809,15 +776,18 @@ void Graph::draw()
 
 	_LineRenderer.begin();
 	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
-
+	_LineRenderer.initBatch(
+		manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0).size() +
+		manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0).size() +
+		manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size() +
+		1
+	);
 	
-	_LineRenderer.drawLine(pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
+	_LineRenderer.drawLine(0, pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
 
-	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
-
-	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0), _LineRenderer);
-
-	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1), _LineRenderer);
+	renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
+	renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0), _LineRenderer);
+	renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1), _LineRenderer);
 
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
@@ -861,12 +831,23 @@ void Graph::draw()
 	
 	//GLint radiusLocation = glsl_circleColor.getUniformLocation("u_radius");
 	//glUniform1f(radiusLocation, nodeRadius);
-	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer, false);
-	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer, false);
-	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer, false);
-	renderBatch(manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer, true);
+	_PlaneColorRenderer.initColorQuadBatch(
+		manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
+		manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
+		manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size()
+		);
+	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
+	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
+	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
+	
 
-	renderBatch(cursors, _PlaneColorRenderer, false);
+
+	_PlaneColorRenderer.initColorTriangleBatch(
+		manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
+	);
+
+	renderBatch(manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
+
 	_PlaneColorRenderer.end();
 	_PlaneColorRenderer.renderBatch(_resourceManager.getGLSLProgram("color"));
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -891,7 +872,7 @@ void Graph::drawHUD(const std::vector<NodeEntity*>& entities, const std::string&
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), textureName, *hud_camera2D);
-	renderBatch(entities, _hudPlaneModelRenderer, false);
+	renderBatch(entities, _hudPlaneModelRenderer);
 }
 
 bool Graph::onPauseGraph() {

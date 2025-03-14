@@ -181,7 +181,7 @@ void Map::AddDefaultLink(Entity& link)
 	link.addComponent<Line_w_Color>();
 
 	link.GetComponent<Line_w_Color>().setSrcColor(Color(255, 40, 0, 255));
-	link.GetComponent<Line_w_Color>().setDestColor(Color(255, 40, 0, 255));
+	link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
 
 	link.addComponent<LineFlashAnimatorComponent>();
 

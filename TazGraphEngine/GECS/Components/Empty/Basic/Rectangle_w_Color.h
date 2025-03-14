@@ -43,8 +43,8 @@ public:
 		batch.draw(pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, transform->getZIndex(), color); // 0 is for texture
 	}
 
-	void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {
+	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {
 		glm::vec4 pos((float)destRect.x, (float)destRect.y, (float)destRect.w, (float)destRect.h);
-		batch.draw(pos, transform->getZIndex(), color);
+		batch.draw(v_index, pos, transform->getZIndex(), color);
 	}
 };

@@ -3,9 +3,12 @@
 #include "GECS.h"
 #include "../../Grid/Grid.h"
 
+#include "../../Threader/Threader.h"
+
 class Manager
 {
 private:
+	//Threader& _threader;
 	int lastEntityId = 0;
 	int negativeEntityId = -1;
 	std::vector<std::unique_ptr<Entity>> entities;
@@ -217,7 +220,7 @@ public:
 	}
 
 	void removeAllEntites() {
-		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::cursorGroup; group++) {
+		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
 			removeAllEntitiesFromGroup(group);
 			removeAllEntitiesFromLinkGroup(group);
 		}
@@ -275,7 +278,6 @@ public:
 		
 		//fore
 		buttonLabels,
-		cursorGroup
 	};
 
 	const std::unordered_map<Group, std::string> groupNames = {
@@ -297,9 +299,6 @@ public:
 
 		//fore
 		{ buttonLabels,"buttonLabels" },
-
-		//globals, dont remove
-		{ cursorGroup,"cursorGroup" }
 	};
 
 	std::string getGroupName(Group mGroup) const;

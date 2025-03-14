@@ -54,10 +54,11 @@ public:
 		);
 	}
 
-	void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {
+	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {
 		float tempScreenScale = window.getScale();
 
 		batch.drawTriangle(
+			v_index,
 			v1, v2, v3,
 			transform->getZIndex(), color
 		);

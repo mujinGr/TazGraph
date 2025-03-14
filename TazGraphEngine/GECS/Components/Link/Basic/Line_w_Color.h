@@ -28,13 +28,13 @@ public:
 	void update(float deltaTime) override {
 	}
 
-	void draw(LineRenderer& batch, TazGraphEngine::Window& window) override {
+	void draw(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
 		//float tempScreenScale = window.getScale();
 
-		glm::vec3 fromNodeCenter = entity->getFromPort()->GetComponent<TransformComponent>().getPosition();
-		glm::vec3 toNodeCenter = entity->getToPort()->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 fromNodeCenter = entity->getFromNode()->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 toNodeCenter = entity->getToNode()->GetComponent<TransformComponent>().getPosition();
 
-		batch.drawLine(fromNodeCenter, toNodeCenter, src_color, dest_color);
+		batch.drawLine(v_index, fromNodeCenter, toNodeCenter, src_color, dest_color);
 	}
 	
 	void setSrcColor(Color clr) {

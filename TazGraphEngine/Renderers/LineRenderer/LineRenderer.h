@@ -198,7 +198,7 @@ void main() {
 
 	void end();
 
-	void drawLine(const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor);
+	void drawLine(size_t v_index, const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor);
 	void drawRectangle(const glm::vec4& destRect, const Color& color, float angle, float zIndex =0.0f);
 	void drawBox(const glm::vec3& origin, const glm::vec3& size, const Color& color, float angle);
 	void drawCircle(const glm::vec2& center, const Color& color, float radius);

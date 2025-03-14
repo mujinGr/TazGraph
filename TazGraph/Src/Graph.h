@@ -71,11 +71,11 @@ public:
 
 
 	/////////////////////////
-	void renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch);
-	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRenderer& batch, bool isTriangles);
-	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch, bool isTriangles);
-	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch, bool isTriangles);
-	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch, bool isTriangles);
+	void renderBatch(size_t startIndex, const std::vector<LinkEntity*>& entities, LineRenderer& batch);
+	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRenderer& batch);
+	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch);
+	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch);
+	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch);
 	void drawHUD(const std::vector<NodeEntity*>& entities, const std::string& textureName);
 
 	/////////////////////////
@@ -97,7 +97,6 @@ private:
 
 	void selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int activateMode);
 
-	void selectEntityAtPosition(glm::vec2 worldCoords, int activateMode);
 	void checkInput();
 	bool onPauseGraph();
 

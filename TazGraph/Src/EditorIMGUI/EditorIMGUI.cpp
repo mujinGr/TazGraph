@@ -150,7 +150,7 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		ImGui::TableHeadersRow();
 
 		int totalEntities = 0;
-		for (std::size_t managerGroup = Manager::groupBackgroundLayer; managerGroup != Manager::cursorGroup + 1; ++managerGroup) {
+		for (std::size_t managerGroup = Manager::groupBackgroundLayer; managerGroup != Manager::buttonLabels + 1; ++managerGroup) {
 			ImGui::TableNextRow();
 			ImGui::TableSetColumnIndex(0);
 			ImGui::Text("%s", manager.getGroupName(managerGroup).c_str());
@@ -375,13 +375,13 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 	float size = 10;
 
-	for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::cursorGroup + 1; group++) {
+	for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels + 1; group++) {
 		std::string s = manager.getGroupName(group);
 
 		if (ImGui::CollapsingHeader(s.c_str())) {
 			std::vector<NodeEntity*>& groupVec = manager.getGroup<NodeEntity>(group);
 
-			if ( group == Manager::groupNodes_0 || group == Manager::groupGroupNodes_0 || group == Manager::groupGroupNodes_1 || group == Manager::cursorGroup) {
+			if ( group == Manager::groupNodes_0 || group == Manager::groupGroupNodes_0 || group == Manager::groupGroupNodes_1) {
 
 				for (auto& entity : groupVec) { // loops 1 time
 					Color initialColor = entity->GetComponent<Rectangle_w_Color>().color;
