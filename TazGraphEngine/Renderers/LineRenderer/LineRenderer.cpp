@@ -138,19 +138,19 @@ void LineRenderer::createRenderBatches() {
 
 		indices.push_back(++cv);
 		indices.push_back(cv + 1);
-		vertices.push_back(_squareGlyphPointers[0]->topLeft);
+		vertices.emplace_back(_squareGlyphPointers[0]->topLeft);
 
 		indices.push_back(++cv);
 		indices.push_back(cv + 1);
-		vertices.push_back(_squareGlyphPointers[0]->bottomLeft);
+		vertices.emplace_back(_squareGlyphPointers[0]->bottomLeft);
 
 		indices.push_back(++cv);
 		indices.push_back(cv + 1);
-		vertices.push_back(_squareGlyphPointers[0]->bottomRight);
+		vertices.emplace_back(_squareGlyphPointers[0]->bottomRight);
 
 		indices.push_back(++cv);
 		indices.push_back(cv - SQUARE_OFFSET + 1);
-		vertices.push_back(_squareGlyphPointers[0]->topRight);
+		vertices.emplace_back(_squareGlyphPointers[0]->topRight);
 
 		offset += 2 * SQUARE_OFFSET;
 
@@ -160,19 +160,19 @@ void LineRenderer::createRenderBatches() {
 
 			indices.push_back(++cv);
 			indices.push_back(cv + 1);
-			vertices.push_back(_squareGlyphPointers[cg]->topLeft);
+			vertices.emplace_back(_squareGlyphPointers[cg]->topLeft);
 
 			indices.push_back(++cv);
 			indices.push_back(cv + 1);
-			vertices.push_back(_squareGlyphPointers[cg]->bottomLeft);
+			vertices.emplace_back(_squareGlyphPointers[cg]->bottomLeft);
 
 			indices.push_back(++cv);
 			indices.push_back(cv + 1);
-			vertices.push_back(_squareGlyphPointers[cg]->bottomRight);
+			vertices.emplace_back(_squareGlyphPointers[cg]->bottomRight);
 
 			indices.push_back(++cv);
 			indices.push_back(cv - SQUARE_OFFSET + 1);
-			vertices.push_back(_squareGlyphPointers[cg]->topRight);
+			vertices.emplace_back(_squareGlyphPointers[cg]->topRight);
 
 			offset += 2 * SQUARE_OFFSET;
 		}
@@ -180,9 +180,9 @@ void LineRenderer::createRenderBatches() {
 	if (_lineGlyphPointers.size()) {
 		_renderBatches.emplace_back(offset, LINE_OFFSET);
 		indices.push_back(++cv);
-		vertices.push_back( _lineGlyphPointers[0]->fromV);
+		vertices.emplace_back( _lineGlyphPointers[0]->fromV);
 		indices.push_back(++cv);
-		vertices.push_back( _lineGlyphPointers[0]->toV);
+		vertices.emplace_back( _lineGlyphPointers[0]->toV);
 
 		offset += LINE_OFFSET;
 
@@ -191,9 +191,9 @@ void LineRenderer::createRenderBatches() {
 			_renderBatches.back().numIndices += LINE_OFFSET;
 
 			indices.push_back(++cv);
-			vertices.push_back( _lineGlyphPointers[cg]->fromV);
+			vertices.emplace_back( _lineGlyphPointers[cg]->fromV);
 			indices.push_back(++cv);
-			vertices.push_back( _lineGlyphPointers[cg]->toV);
+			vertices.emplace_back( _lineGlyphPointers[cg]->toV);
 			offset += LINE_OFFSET;
 		}
 	}
@@ -207,15 +207,15 @@ void LineRenderer::createRenderBatches() {
 			{0, 4}, {1, 5}, {2, 6}, {3, 7}  // Vertical edges
 		};
 
-		vertices.push_back( _boxGlyphPointers[0]->a_topLeft);
-		vertices.push_back( _boxGlyphPointers[0]->a_bottomLeft);
-		vertices.push_back( _boxGlyphPointers[0]->a_bottomRight);
-		vertices.push_back( _boxGlyphPointers[0]->a_topRight);
+		vertices.emplace_back( _boxGlyphPointers[0]->a_topLeft);
+		vertices.emplace_back( _boxGlyphPointers[0]->a_bottomLeft);
+		vertices.emplace_back( _boxGlyphPointers[0]->a_bottomRight);
+		vertices.emplace_back( _boxGlyphPointers[0]->a_topRight);
 		
-		vertices.push_back( _boxGlyphPointers[0]->b_topLeft);
-		vertices.push_back( _boxGlyphPointers[0]->b_bottomLeft);
-		vertices.push_back( _boxGlyphPointers[0]->b_bottomRight);
-		vertices.push_back( _boxGlyphPointers[0]->b_topRight);
+		vertices.emplace_back( _boxGlyphPointers[0]->b_topLeft);
+		vertices.emplace_back( _boxGlyphPointers[0]->b_bottomLeft);
+		vertices.emplace_back( _boxGlyphPointers[0]->b_bottomRight);
+		vertices.emplace_back( _boxGlyphPointers[0]->b_topRight);
 
 		for (int i = 0; i < 12; i++) {
 			indices.push_back(cv_save + edgePairs[i][0]);
@@ -228,15 +228,15 @@ void LineRenderer::createRenderBatches() {
 			cv_save = vertices.size();
 			_renderBatches.back().numIndices += 3 * BOX_OFFSET;
 
-			vertices.push_back( _boxGlyphPointers[cg]->a_topLeft);
-			vertices.push_back( _boxGlyphPointers[cg]->a_bottomLeft);
-			vertices.push_back( _boxGlyphPointers[cg]->a_bottomRight);
-			vertices.push_back( _boxGlyphPointers[cg]->a_topRight);
+			vertices.emplace_back( _boxGlyphPointers[cg]->a_topLeft);
+			vertices.emplace_back( _boxGlyphPointers[cg]->a_bottomLeft);
+			vertices.emplace_back( _boxGlyphPointers[cg]->a_bottomRight);
+			vertices.emplace_back( _boxGlyphPointers[cg]->a_topRight);
 
-			vertices.push_back( _boxGlyphPointers[cg]->b_topLeft);
-			vertices.push_back( _boxGlyphPointers[cg]->b_bottomLeft);
-			vertices.push_back( _boxGlyphPointers[cg]->b_bottomRight);
-			vertices.push_back( _boxGlyphPointers[cg]->b_topRight);
+			vertices.emplace_back( _boxGlyphPointers[cg]->b_topLeft);
+			vertices.emplace_back( _boxGlyphPointers[cg]->b_bottomLeft);
+			vertices.emplace_back( _boxGlyphPointers[cg]->b_bottomRight);
+			vertices.emplace_back( _boxGlyphPointers[cg]->b_topRight);
 
 			for (int i = 0; i < 12; i++) {
 				indices.push_back(cv_save + edgePairs[i][0]);

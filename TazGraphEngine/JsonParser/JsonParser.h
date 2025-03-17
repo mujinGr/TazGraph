@@ -17,9 +17,9 @@ struct JsonValue {
     JsonType type;
     std::map<std::string, JsonValue> obj;
     std::vector<JsonValue> arr;
-    std::string str;
-    double num;
-    bool boolean;
+    std::string str = "";
+    double num = -1;
+    bool boolean = false;
 };
 
 class JsonParser {

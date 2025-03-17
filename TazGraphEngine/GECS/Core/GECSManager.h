@@ -8,7 +8,7 @@
 class Manager
 {
 private:
-	//Threader& _threader;
+	Threader* _threader;
 	int lastEntityId = 0;
 	int negativeEntityId = -1;
 	std::vector<std::unique_ptr<Entity>> entities;
@@ -29,24 +29,51 @@ private:
 public:
 	std::unique_ptr<Grid> grid;
 
+	void setThreader(Threader& mthreader) {
+		_threader = &mthreader;
+	}
+
 	void update(float deltaTime = 1.0f)
 	{
-		for (auto& e : visible_emptyEntities) {
-			if (!e || !e->isActive()) continue;
+		if (_threader) {
+			_threader->parallel(visible_emptyEntities.size() + visible_nodes.size() + visible_links.size(),
+				[&](int start, int end) {
+					for (int i = start; i < end; i++) {
+						Entity* entity = nullptr;
+						if (i < visible_emptyEntities.size()) {
+							entity = visible_emptyEntities[i];
+						}
+						else if (i < visible_emptyEntities.size() + visible_nodes.size()) {
+							entity = visible_nodes[i - visible_emptyEntities.size()];
+						}
+						else {
+							entity = visible_links[i - visible_emptyEntities.size() - visible_nodes.size()];
+						}
+						if (entity && entity->isActive()) {
+							entity->update(deltaTime);
+						}
+					}
+				});
 
-			e->update(deltaTime);
 		}
+		else {
+			for (auto& e : visible_emptyEntities) {
+				if (!e || !e->isActive()) continue;
 
-		for (auto& e : visible_nodes) {
-			if (!e || !e->isActive()) continue;
-			
-			e->update(deltaTime);
-		}
+				e->update(deltaTime);
+			}
 
-		for (auto& e : visible_links) {
-			if (!e || !e->isActive()) continue;
+			for (auto& e : visible_nodes) {
+				if (!e || !e->isActive()) continue;
 
-			e->update(deltaTime);
+				e->update(deltaTime);
+			}
+
+			for (auto& e : visible_links) {
+				if (!e || !e->isActive()) continue;
+
+				e->update(deltaTime);
+			}
 		}
 	}
 

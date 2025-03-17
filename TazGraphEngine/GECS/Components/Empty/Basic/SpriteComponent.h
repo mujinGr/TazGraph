@@ -16,7 +16,7 @@
 class SpriteComponent : public Component //sprite -> transform
 {
 private:
-	const GLTexture *gl_texture;
+	const GLTexture *gl_texture = nullptr;
 	GLuint _vboID = 0; //32 bits
 	bool _isMainMenu = false;
 
@@ -25,7 +25,7 @@ public:
 	Color color = { 255, 255, 255, 255 };
 
 	TransformComponent* transform = nullptr;
-	SDL_Rect srcRect, destRect;
+	SDL_Rect srcRect = {0,0,0,0}, destRect = { 0,0,0,0 };
 
 	Animation animation;
 	MovingAnimation moving_animation;

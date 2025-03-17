@@ -90,6 +90,7 @@ void AppInterface::onSDLEvent(SDL_Event& evnt) {
 		break;
 	case SDL_KEYUP:
 		_inputManager.releaseKey(evnt.key.keysym.sym);
+		break;
 	case SDL_MOUSEMOTION:
 		//std::cout << event.motion.x << " " << event.motion.y << std::endl;
 		_inputManager.setMouseCoords(evnt.motion.x / _window.getScale(), evnt.motion.y / _window.getScale());

@@ -7,7 +7,7 @@ class Rectangle_w_Color : public Component
 public:
 	Color color = { 255, 255, 255, 255 };
 
-	SDL_Rect destRect;
+	SDL_Rect destRect = {0,0,0,0};
 	TransformComponent* transform = nullptr;
 
 	float temp_rotation = 0.0f;

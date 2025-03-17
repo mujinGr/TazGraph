@@ -14,7 +14,7 @@ class LineFlashAnimatorComponent : public LinkComponent //Animator -> Sprite -> 
 {					//! also we use MovingAnimator instead of simple Animator so that entities use less memory and we use it to entities that have triggers that change their animation
 public:
 
-	Line_w_Color* line;
+	Line_w_Color* line = nullptr;
 	const char* animationName = NULL;
 	timestamp resumeTime = 0;
 

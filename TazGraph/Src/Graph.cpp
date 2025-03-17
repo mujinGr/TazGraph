@@ -137,6 +137,8 @@ void Graph::onEntry()
 	if (!manager.grid)
 	{
 		manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
+		manager.setThreader(threadPool);
+		_PlaneColorRenderer.setThreader(threadPool);
 		_assetsManager->CreateWorldMap(world_map);
 	}
 	
@@ -622,6 +624,47 @@ void Graph::renderBatch(size_t startIndex, const std::vector<LinkEntity*>& entit
 	//}
 }
 
+void Graph::renderAllBatches(
+	std::vector<NodeEntity*>& nodes,
+	std::vector<EmptyEntity*>& emptyEntities,
+	std::vector<LinkEntity*>& links,
+	PlaneColorRenderer& batch,
+	LineRenderer& line_batch
+)
+{
+	int totalEntities = nodes.size() + emptyEntities.size() + links.size();
+
+	threadPool.parallel(totalEntities, [&](int start, int end) {
+		for (int i = start; i < end; i++) {
+			if (i < nodes.size()) {
+				auto& entity = nodes[i];
+				if (entity->hasComponent<Rectangle_w_Color>()) {
+					entity->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
+				}
+			}
+			else if (i < nodes.size() + emptyEntities.size()) {
+				// Process EmptyEntities
+				int emptyIdx = i - nodes.size();
+				auto& entity = emptyEntities[emptyIdx];
+				if (entity->hasComponent<Rectangle_w_Color>()) {
+					entity->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
+				}
+				if (entity->hasComponent<Triangle_w_Color>()) {
+					entity->GetComponent<Triangle_w_Color>().draw(i, batch, *Graph::_window);
+				}
+			}
+			else {
+				// Process Links
+				int linkIdx = i - (nodes.size() + emptyEntities.size());
+				auto& entity = links[linkIdx];
+				if (entity->hasComponent<Line_w_Color>()) {
+					entity->GetComponent<Line_w_Color>().draw(linkIdx + 1, line_batch, *Graph::_window);
+				}
+			}
+		}
+		});
+}
+
 void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch) {
 	/*for (const auto& entity : entities) {
 		entity->draw(batch, *Graph::_window);
@@ -710,7 +753,7 @@ void Graph::draw()
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	_PlaneModelRenderer.begin();
+	//_PlaneModelRenderer.begin();
 
 	/*_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), "worldMap", *main_camera2D);
 	renderBatch(backgroundImage, _PlaneModelRenderer, false);
@@ -775,20 +818,36 @@ void Graph::draw()
 	}
 
 	_LineRenderer.begin();
-	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
+	_PlaneColorRenderer.begin();
+
 	_LineRenderer.initBatch(
 		manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0).size() +
 		manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0).size() +
 		manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size() +
 		1
 	);
-	
+	_PlaneColorRenderer.initColorQuadBatch(
+		manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
+		manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
+		manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size()
+	);
+	_PlaneColorRenderer.initColorTriangleBatch(
+		manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
+	);
+
 	_LineRenderer.drawLine(0, pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
-
-	renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
-	renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0), _LineRenderer);
-	renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1), _LineRenderer);
-
+	
+	renderAllBatches(
+		manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0),
+		manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0),
+		manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0),
+		_PlaneColorRenderer,
+		_LineRenderer
+	);
+	//renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
+	//renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0), _LineRenderer);
+	//renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1), _LineRenderer);
+	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
 
@@ -797,11 +856,9 @@ void Graph::draw()
 	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
 
 
-	_PlaneColorRenderer.begin();
 	_resourceManager.setupShader(glsl_color, "", *main_camera2D);
 	
 	auto& v_node = *manager.getEntityFromId(1);
-
 
 	TransformComponent* tr = &v_node.GetComponent<TransformComponent>();
 	glm::vec3 center = glm::vec3(tr->getPosition().x + tr->getSizeCenter().x, tr->getPosition().y + tr->getSizeCenter().y, tr->getZIndex());
@@ -831,22 +888,15 @@ void Graph::draw()
 	
 	//GLint radiusLocation = glsl_circleColor.getUniformLocation("u_radius");
 	//glUniform1f(radiusLocation, nodeRadius);
-	_PlaneColorRenderer.initColorQuadBatch(
-		manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
-		manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
-		manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size()
-		);
-	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
-	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
-	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
+	
+	
+	//renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
+	//renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
 	
 
 
-	_PlaneColorRenderer.initColorTriangleBatch(
-		manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
-	);
 
-	renderBatch(manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
+	//renderBatch(manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
 
 	_PlaneColorRenderer.end();
 	_PlaneColorRenderer.renderBatch(_resourceManager.getGLSLProgram("color"));

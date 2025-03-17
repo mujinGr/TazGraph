@@ -7,6 +7,8 @@
 #include "../../Vertex.h"
 #include "../../GLSLProgram.h"
 
+#include "../../Threader/Threader.h"
+
 #define RECT_OFFSET 6
 #define TRIANGLE_OFFSET 3
 
@@ -18,6 +20,7 @@ enum class ColorGlyphSortType {
 
 class ColorRenderBatch {
 public:
+	ColorRenderBatch() {}
 	ColorRenderBatch(GLuint Offset, GLuint NumVertices, glm::vec3 CenterPos) : offset(Offset),
 		numVertices(NumVertices),
 		centerPos(CenterPos)
@@ -136,9 +139,13 @@ public:
 //		 `--> renderBatch() 
 
 class PlaneColorRenderer {
+private:
+	Threader* _threader;
 public:
 	PlaneColorRenderer();
 	~PlaneColorRenderer();
+
+	void setThreader(Threader& mthreader);
 
 	void init();
 
