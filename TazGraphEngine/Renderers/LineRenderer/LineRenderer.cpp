@@ -17,62 +17,83 @@ void LineRenderer::init()
 	createVertexArray();
 }
 
-void LineRenderer::begin(LineGlyphSortType sortType)
+void LineRenderer::begin()
 {
-	_sortType = sortType;
 	_renderBatches.clear();
 
-	_lineGlyphPointers.clear();
 	_lineGlyphs.clear();
 
-	_squareGlyphPointers.clear();
 	_squareGlyphs.clear();
 
-	_boxGlyphPointers.clear();
 	_boxGlyphs.clear();
 }
 
 void LineRenderer::end() // on end clear all indices reserved
 {
-	//set up all pointers for fast sorting
-	_lineGlyphPointers.resize(_lineGlyphs.size());
-	for (int i = 0; i < _lineGlyphs.size(); i++) {
-		_lineGlyphPointers[i] = &_lineGlyphs[i];
-	}
-	_squareGlyphPointers.resize(_squareGlyphs.size());
-	for (int i = 0; i < _squareGlyphs.size(); i++) {
-		_squareGlyphPointers[i] = &_squareGlyphs[i];
-	}
-	_boxGlyphPointers.resize(_boxGlyphs.size());
-	for (int i = 0; i < _boxGlyphs.size(); i++) {
-		_boxGlyphPointers[i] = &_boxGlyphs[i];
-	}
-	sortGlyphs();
-
 	createRenderBatches();
 }
 
 
-void LineRenderer::initBatch(size_t msize)
+void LineRenderer::initBatchLines(size_t msize)
 {
 	_lineGlyphs.resize(msize);
 }
+
+void LineRenderer::initBatchSquares(size_t msize)
+{
+	_squareGlyphs.resize(msize);
+}
+
+void LineRenderer::initBatchBoxes(size_t msize)
+{
+	_boxGlyphs.resize(msize);
+}
+
+void LineRenderer::initBatchSize()
+{
+	if (!_squareGlyphs.empty()) _renderBatches.push_back(RenderLineBatch(0, _squareGlyphs.size() * SQUARE_OFFSET * 2));
+	if (!_lineGlyphs.empty()) _renderBatches.push_back(RenderLineBatch(_squareGlyphs.size() * SQUARE_OFFSET, _lineGlyphs.size() * LINE_OFFSET));
+	if (!_boxGlyphs.empty()) _renderBatches.push_back(RenderLineBatch(
+		_lineGlyphs.size() * LINE_OFFSET + _squareGlyphs.size() * SQUARE_OFFSET,
+		_boxGlyphs.size() * BOX_OFFSET * 4
+	));
+
+	_vertices.resize(
+		_lineGlyphs.size() * LINE_OFFSET +
+		_squareGlyphs.size() * SQUARE_OFFSET +
+		_boxGlyphs.size() * BOX_OFFSET);
+	_indices.resize(
+		_lineGlyphs.size() * LINE_OFFSET +
+		_squareGlyphs.size() * SQUARE_OFFSET * 2 +
+		_boxGlyphs.size() * BOX_OFFSET * 4);
+}
+
 // todo can be optimized, by having something like glyphs in planeModelRenederer where first you pass info in a vector and
 // todo on render pass that info in verts and indices
 void LineRenderer::drawLine(size_t v_index, const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor)
 {
-	_lineGlyphs[v_index] = LineGlyph(srcPosition, destPosition, srcColor, destColor);
+	LineGlyph lineGlyph = LineGlyph(srcPosition, destPosition, srcColor, destColor);
+
+	int i_cg = _squareGlyphs.size() * 2 * SQUARE_OFFSET + v_index * LINE_OFFSET;
+	int verts_index = _squareGlyphs.size() * SQUARE_OFFSET + v_index * LINE_OFFSET;
+
+	int cv = i_cg;
+	
+	_indices[i_cg++] = cv;
+	_vertices[verts_index++] = lineGlyph.fromV;
+	_indices[i_cg++] = ++cv;
+	_vertices[verts_index] = lineGlyph.toV;
+
 }
 
-
-void LineRenderer::drawRectangle(const glm::vec4& destRect, const Color& color, float angle, float zIndex)
+void LineRenderer::drawRectangle(size_t v_index, const glm::vec4& destRect, const Color& color, float angle, float zIndex)
 {
-	_squareGlyphs.emplace_back(destRect, color, angle, zIndex);
+	_squareGlyphs[v_index] = SquareGlyph(destRect, color, angle, zIndex);
 }
 
-void LineRenderer::drawBox(const glm::vec3& origin, const glm::vec3& size, const Color& color, float angle)
+void LineRenderer::drawBox(size_t v_index, const glm::vec3& origin, const glm::vec3& size, const Color& color, float angle)
 {
-	_boxGlyphs.emplace_back(origin, size, color, angle);
+	_boxGlyphs[v_index] = BoxGlyph(origin, size, color, angle);
 }
 
 void LineRenderer::drawCircle(const glm::vec2& center, const Color& color, float radius)
@@ -114,133 +135,106 @@ void LineRenderer::renderBatch(float lineWidth )
 
 
 void LineRenderer::createRenderBatches() {
-	std::vector<ColorVertex> vertices;
-	std::vector<GLuint> indices;
 
-	vertices.reserve(
-		_lineGlyphPointers.size() * LINE_OFFSET +
-		_squareGlyphPointers.size() * SQUARE_OFFSET +
-		_boxGlyphPointers.size() * BOX_OFFSET);
-	indices.reserve(
-		_lineGlyphPointers.size() * LINE_OFFSET +
-		_squareGlyphPointers.size() * SQUARE_OFFSET * 2 +
-		_boxGlyphPointers.size() * BOX_OFFSET * 4);
-
-	if (_lineGlyphPointers.empty() && _squareGlyphPointers.empty() && _boxGlyphPointers.empty()) {
+	
+	if (_lineGlyphs.empty() && _squareGlyphs.empty() && _boxGlyphs.empty()) {
 		return;
 	}
 
 	int offset = 0;
 	int cv = -1; //current vertex
 
-	if (_squareGlyphPointers.size()) {
-		_renderBatches.emplace_back(offset, 2 * SQUARE_OFFSET);
+	int batchIndex = 0;
+	if (_squareGlyphs.size()) {
+		int i_cg = 0;
+		int v_index = 0;
 
-		indices.push_back(++cv);
-		indices.push_back(cv + 1);
-		vertices.emplace_back(_squareGlyphPointers[0]->topLeft);
+		_indices[i_cg++] = ++cv;
+		_indices[i_cg++] = cv + 1;
+		_vertices[v_index++] = _squareGlyphs[0].topLeft;
 
-		indices.push_back(++cv);
-		indices.push_back(cv + 1);
-		vertices.emplace_back(_squareGlyphPointers[0]->bottomLeft);
+		_indices[i_cg++] = ++cv;
+		_indices[i_cg++] = cv + 1;
+		_vertices[v_index++] = _squareGlyphs[0].bottomLeft;
+		
+		_indices[i_cg++] = ++cv;
+		_indices[i_cg++] = cv + 1;
+		_vertices[v_index++] = _squareGlyphs[0].bottomRight;
 
-		indices.push_back(++cv);
-		indices.push_back(cv + 1);
-		vertices.emplace_back(_squareGlyphPointers[0]->bottomRight);
-
-		indices.push_back(++cv);
-		indices.push_back(cv - SQUARE_OFFSET + 1);
-		vertices.emplace_back(_squareGlyphPointers[0]->topRight);
+		_indices[i_cg++] = ++cv;
+		_indices[i_cg++] = cv - SQUARE_OFFSET + 1;
+		_vertices[v_index++] = _squareGlyphs[0].topRight;
 
 		offset += 2 * SQUARE_OFFSET;
 
-		for (int cg = 1; cg < _squareGlyphPointers.size(); cg++) { //current Glyph
+		for (int cg = 1; cg < _squareGlyphs.size(); cg++) { //current Glyph
+			_indices[i_cg++] = ++cv;
+			_indices[i_cg++] = cv + 1;
+			_vertices[v_index++] = _squareGlyphs[cg].topLeft;
 
-			_renderBatches.back().numIndices += 2 * SQUARE_OFFSET;
+			_indices[i_cg++] = ++cv;
+			_indices[i_cg++] = cv + 1;
+			_vertices[v_index++] = _squareGlyphs[cg].bottomLeft;
 
-			indices.push_back(++cv);
-			indices.push_back(cv + 1);
-			vertices.emplace_back(_squareGlyphPointers[cg]->topLeft);
+			_indices[i_cg++] = ++cv;
+			_indices[i_cg++] = cv + 1;
+			_vertices[v_index++] = _squareGlyphs[cg].bottomRight;
 
-			indices.push_back(++cv);
-			indices.push_back(cv + 1);
-			vertices.emplace_back(_squareGlyphPointers[cg]->bottomLeft);
-
-			indices.push_back(++cv);
-			indices.push_back(cv + 1);
-			vertices.emplace_back(_squareGlyphPointers[cg]->bottomRight);
-
-			indices.push_back(++cv);
-			indices.push_back(cv - SQUARE_OFFSET + 1);
-			vertices.emplace_back(_squareGlyphPointers[cg]->topRight);
+			_indices[i_cg++] = ++cv;
+			_indices[i_cg++] = cv - SQUARE_OFFSET + 1;
+			_vertices[v_index++] = _squareGlyphs[cg].topRight;
 
 			offset += 2 * SQUARE_OFFSET;
 		}
 	}
-	if (_lineGlyphPointers.size()) {
-		_renderBatches.emplace_back(offset, LINE_OFFSET);
-		indices.push_back(++cv);
-		vertices.emplace_back( _lineGlyphPointers[0]->fromV);
-		indices.push_back(++cv);
-		vertices.emplace_back( _lineGlyphPointers[0]->toV);
-
-		offset += LINE_OFFSET;
-
-		for (int cg = 1; cg < _lineGlyphPointers.size(); cg++) { //current Glyph
-
-			_renderBatches.back().numIndices += LINE_OFFSET;
-
-			indices.push_back(++cv);
-			vertices.emplace_back( _lineGlyphPointers[cg]->fromV);
-			indices.push_back(++cv);
-			vertices.emplace_back( _lineGlyphPointers[cg]->toV);
-			offset += LINE_OFFSET;
-		}
-	}
 	
-	if (_boxGlyphPointers.size()) {
-		_renderBatches.emplace_back(offset, 3 * BOX_OFFSET); // 12 edges * 2 indices per edge
-		int cv_save = vertices.size();
+	if (_boxGlyphs.size()) {
+		int i_cg = _squareGlyphs.size() * 2 * SQUARE_OFFSET + _lineGlyphs.size() * LINE_OFFSET;
+
+		int v_index = _squareGlyphs.size() * SQUARE_OFFSET + _lineGlyphs.size() * LINE_OFFSET;
+
+		int cv_save = v_index;
 		int edgePairs[12][2] = {
 			{0, 1}, {1, 2}, {2, 3}, {3, 0}, // Bottom face
 			{4, 5}, {5, 6}, {6, 7}, {7, 4}, // Top face
 			{0, 4}, {1, 5}, {2, 6}, {3, 7}  // Vertical edges
 		};
 
-		vertices.emplace_back( _boxGlyphPointers[0]->a_topLeft);
-		vertices.emplace_back( _boxGlyphPointers[0]->a_bottomLeft);
-		vertices.emplace_back( _boxGlyphPointers[0]->a_bottomRight);
-		vertices.emplace_back( _boxGlyphPointers[0]->a_topRight);
+		_vertices[v_index++] = _boxGlyphs[0].a_topLeft;
+		_vertices[v_index++] = _boxGlyphs[0].a_bottomLeft;
+		_vertices[v_index++] = _boxGlyphs[0].a_bottomRight;
+		_vertices[v_index++] = _boxGlyphs[0].a_topRight;
 		
-		vertices.emplace_back( _boxGlyphPointers[0]->b_topLeft);
-		vertices.emplace_back( _boxGlyphPointers[0]->b_bottomLeft);
-		vertices.emplace_back( _boxGlyphPointers[0]->b_bottomRight);
-		vertices.emplace_back( _boxGlyphPointers[0]->b_topRight);
+		_vertices[v_index++] = _boxGlyphs[0].b_topLeft;
+		_vertices[v_index++] = _boxGlyphs[0].b_bottomLeft;
+		_vertices[v_index++] = _boxGlyphs[0].b_bottomRight;
+		_vertices[v_index++] = _boxGlyphs[0].b_topRight;
 
 		for (int i = 0; i < 12; i++) {
-			indices.push_back(cv_save + edgePairs[i][0]);
-			indices.push_back(cv_save + edgePairs[i][1]);
+			_indices[i_cg++] = cv_save + edgePairs[i][0];
+			_indices[i_cg++] = cv_save + edgePairs[i][1];
 		}
 
 		offset += 3 * BOX_OFFSET;
 
-		for (int cg = 1; cg < _boxGlyphPointers.size(); cg++) {
-			cv_save = vertices.size();
-			_renderBatches.back().numIndices += 3 * BOX_OFFSET;
+		for (int cg = 1; cg < _boxGlyphs.size(); cg++) {
 
-			vertices.emplace_back( _boxGlyphPointers[cg]->a_topLeft);
-			vertices.emplace_back( _boxGlyphPointers[cg]->a_bottomLeft);
-			vertices.emplace_back( _boxGlyphPointers[cg]->a_bottomRight);
-			vertices.emplace_back( _boxGlyphPointers[cg]->a_topRight);
+			i_cg = cg * 3 * BOX_OFFSET;
 
-			vertices.emplace_back( _boxGlyphPointers[cg]->b_topLeft);
-			vertices.emplace_back( _boxGlyphPointers[cg]->b_bottomLeft);
-			vertices.emplace_back( _boxGlyphPointers[cg]->b_bottomRight);
-			vertices.emplace_back( _boxGlyphPointers[cg]->b_topRight);
+			cv_save = v_index;
+			_vertices[v_index++] = _boxGlyphs[cg].a_topLeft;
+			_vertices[v_index++] = _boxGlyphs[cg].a_bottomLeft;
+			_vertices[v_index++] = _boxGlyphs[cg].a_bottomRight;
+			_vertices[v_index++] = _boxGlyphs[cg].a_topRight;
+
+			_vertices[v_index++] = _boxGlyphs[cg].b_topLeft;
+			_vertices[v_index++] = _boxGlyphs[cg].b_bottomLeft;
+			_vertices[v_index++] = _boxGlyphs[cg].b_bottomRight;
+			_vertices[v_index++] = _boxGlyphs[cg].b_topRight;
 
 			for (int i = 0; i < 12; i++) {
-				indices.push_back(cv_save + edgePairs[i][0]);
-				indices.push_back(cv_save + edgePairs[i][1]);
+				_indices[i_cg++]		= cv_save + edgePairs[i][0];
+				_indices[i_cg++]	= cv_save + edgePairs[i][1];
 			}
 
 			offset += 3 * BOX_OFFSET;
@@ -252,18 +246,18 @@ void LineRenderer::createRenderBatches() {
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	//Orphan the buffer : replace the memory block for the buffer object, 
 	//dont wait the gpu for operations on the old data
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(ColorVertex), nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(ColorVertex), nullptr, GL_DYNAMIC_DRAW);
 	//Upload the data
-	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(ColorVertex), vertices.data());
+	glBufferSubData(GL_ARRAY_BUFFER, 0, _vertices.size() * sizeof(ColorVertex), _vertices.data());
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	//Bind buffer for the indices
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
 	//Orphan the buffer : replace the memory block for the buffer object, 
 	//dont wait the gpu for operations on the old data
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(GLuint), nullptr, GL_DYNAMIC_DRAW);
 	//Upload the data
-	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size() * sizeof(GLuint), indices.data());
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, _indices.size() * sizeof(GLuint), _indices.data());
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
@@ -286,26 +280,6 @@ void LineRenderer::createVertexArray() {
 
 	glBindVertexArray(0); //! the buffers are bound withing the context of vao so when that is
 	//! unbinded all the other vbos are also unbinded
-}
-
-void LineRenderer::sortGlyphs() {
-	switch (_sortType)
-	{
-	case LineGlyphSortType::NONE:
-		break;
-	case LineGlyphSortType::FRONT_TO_BACK:
-		std::stable_sort(_lineGlyphPointers.begin(), _lineGlyphPointers.end(), [](LineGlyph* a, LineGlyph* b) {
-			return (a->fromV.position.z < b->fromV.position.z);
-			});
-		break;
-	case LineGlyphSortType::BACK_TO_FRONT:
-		std::stable_sort(_lineGlyphPointers.begin(), _lineGlyphPointers.end(), [](LineGlyph* a, LineGlyph* b) {
-			return (a->fromV.position.z > b->fromV.position.z);
-			});
-		break;
-	default:
-		break;
-	}
 }
 
 void LineRenderer::dispose()

@@ -12,14 +12,11 @@
 #define BOX_OFFSET 8
 
 
-enum class LineGlyphSortType {
-	NONE,
-	FRONT_TO_BACK,
-	BACK_TO_FRONT
-};
-
 class RenderLineBatch {
 public:
+	RenderLineBatch() {
+
+	}
 	RenderLineBatch(GLuint Offset, GLuint NumIndices) : offset(Offset),
 		numIndices(NumIndices){
 
@@ -194,16 +191,22 @@ void main() {
 	~LineRenderer();
 
 	void init();
-	void begin(LineGlyphSortType sortType = LineGlyphSortType::BACK_TO_FRONT);
+	void begin();
 
 	void end();
 
+	void initBatchLines(size_t msize);
+
+	void initBatchSquares(size_t msize);
+
+	void initBatchBoxes(size_t msize);
+
 	void drawLine(size_t v_index, const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor);
-	void drawRectangle(const glm::vec4& destRect, const Color& color, float angle, float zIndex =0.0f);
-	void drawBox(const glm::vec3& origin, const glm::vec3& size, const Color& color, float angle);
+	void drawRectangle(size_t v_index, const glm::vec4& destRect, const Color& color, float angle, float zIndex =0.0f);
+	void drawBox(size_t v_index, const glm::vec3& origin, const glm::vec3& size, const Color& color, float angle);
 	void drawCircle(const glm::vec2& center, const Color& color, float radius);
 
-	void initBatch(size_t msize);
+	void initBatchSize();
 	void renderBatch(float lineWidth);
 	
 	void dispose();
@@ -211,19 +214,16 @@ void main() {
 private:
 	void createRenderBatches();
 	void createVertexArray();
-	void sortGlyphs();
 
 	GLuint _vbo = 0, _vao = 0, _ibo = 0; //! ibo is what is going to store the integers for each 
 
-	LineGlyphSortType _sortType;
+	std::vector<ColorVertex> _vertices;
+	std::vector<GLuint> _indices;
 
-	std::vector<LineGlyph*> _lineGlyphPointers;
 	std::vector<LineGlyph>	_lineGlyphs;
 
-	std::vector<SquareGlyph*> _squareGlyphPointers;
 	std::vector<SquareGlyph> _squareGlyphs;
 
-	std::vector<BoxGlyph*> _boxGlyphPointers;
 	std::vector<BoxGlyph> _boxGlyphs;
 
 	std::vector<RenderLineBatch> _renderBatches;

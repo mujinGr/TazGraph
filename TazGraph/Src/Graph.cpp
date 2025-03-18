@@ -766,17 +766,38 @@ void Graph::draw()
 		_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
 
 		std::vector<Cell*> intercectedCells = manager.grid->getIntersectedCameraCells(*main_camera2D);
+		
+		_LineRenderer.initBatchBoxes(
+			intercectedCells.size()
+		);
+		
+		_LineRenderer.initBatchSquares(
+			manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
+			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
+			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size() +
+			4 + (_selectedEntity ? 1 : 0)
+		);
+
+		_LineRenderer.initBatchSize();
+
+		size_t box_v_index = 0;
+
 		for (const auto& cell : intercectedCells) {
 			glm::vec3 cellBox_org(cell->boundingBox_origin.x, cell->boundingBox_origin.y, cell->boundingBox_origin.z);
 			glm::vec3 cellBox_size(cell->boundingBox_size.x, cell->boundingBox_size.y, cell->boundingBox_size.z);
 
-			_LineRenderer.drawBox(cellBox_org, cellBox_size, Color(0, 255, 0, 20), 0.0f);  // Drawing each cell in red for visibility
+			_LineRenderer.drawBox(box_v_index++, cellBox_org, cellBox_size, Color(0, 255, 0, 20), 0.0f);  // Drawing each cell in red for visibility
 		}
 
-		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
-			if (group == Manager::groupLinks_0) continue;
-
-			std::vector<NodeEntity*>& groupVec = manager.getVisibleGroup<NodeEntity>(group);
+		size_t v_index = 0;
+		for (auto& group : {
+			manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0),
+			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0),
+			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1) 
+			}) {
+			
+			std::vector<NodeEntity*> groupVec = group;
+			
 			for (auto& entity : groupVec) {
 
 				if (entity->hasComponent<TransformComponent>())
@@ -788,7 +809,7 @@ void Graph::draw()
 					destRect.y = tr->getPosition().y;
 					destRect.z = tr->bodyDims.w;
 					destRect.w = tr->bodyDims.h;
-					_LineRenderer.drawRectangle(destRect, Color(255, 255, 255, 255), 0.0f, tr->getZIndex()); //todo add angle for drawRectangle
+					_LineRenderer.drawRectangle(v_index++, destRect, Color(255, 255, 255, 255), 0.0f, tr->getZIndex()); //todo add angle for drawRectangle
 					//_LineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
 					//break;
 				}
@@ -803,13 +824,13 @@ void Graph::draw()
 				destRect.y = tr->getPosition().y;
 				destRect.z = tr->bodyDims.w;
 				destRect.w = tr->bodyDims.h;
-				_LineRenderer.drawRectangle(destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawRectangle
+				_LineRenderer.drawRectangle(v_index++, destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawRectangle
 
 		}
-		_LineRenderer.drawRectangle(glm::vec4(-ROW_CELL_SIZE / 2, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE/2, COLUMN_CELL_SIZE/2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		_LineRenderer.drawRectangle(glm::vec4(0, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		_LineRenderer.drawRectangle(glm::vec4(-ROW_CELL_SIZE / 2, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		_LineRenderer.drawRectangle(glm::vec4(0, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawRectangle(v_index++,glm::vec4(-ROW_CELL_SIZE / 2, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawRectangle(v_index++, glm::vec4(0, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawRectangle(v_index++, glm::vec4(-ROW_CELL_SIZE / 2, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawRectangle(v_index++, glm::vec4(0, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
 
 		_LineRenderer.end();
 		_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f * (manager.grid->getGridLevel() + 1));
@@ -820,12 +841,13 @@ void Graph::draw()
 	_LineRenderer.begin();
 	_PlaneColorRenderer.begin();
 
-	_LineRenderer.initBatch(
+	_LineRenderer.initBatchLines(
 		manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0).size() +
 		manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0).size() +
 		manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size() +
 		1
 	);
+	
 	_PlaneColorRenderer.initColorQuadBatch(
 		manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
 		manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
@@ -834,6 +856,9 @@ void Graph::draw()
 	_PlaneColorRenderer.initColorTriangleBatch(
 		manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
 	);
+
+	_PlaneColorRenderer.initBatchSize();
+	_LineRenderer.initBatchSize();
 
 	_LineRenderer.drawLine(0, pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
 	

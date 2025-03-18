@@ -12,12 +12,6 @@
 #define RECT_OFFSET 6
 #define TRIANGLE_OFFSET 3
 
-enum class ColorGlyphSortType {
-	NONE,
-	FRONT_TO_BACK,
-	BACK_TO_FRONT
-};
-
 class ColorRenderBatch {
 public:
 	ColorRenderBatch() {}
@@ -149,11 +143,12 @@ public:
 
 	void init();
 
-	void begin(ColorGlyphSortType  sortType = ColorGlyphSortType::BACK_TO_FRONT);
+	void begin();
 	void end();
 
 	void initColorTriangleBatch(size_t mSize);
 	void initColorQuadBatch(size_t mSize);
+	void initBatchSize();
 	void initColorBoxBatch(size_t mSize);
 
 	void drawTriangle(size_t v_index, const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
@@ -173,13 +168,13 @@ private:
 	GLuint _vbo;
 	GLuint _vao;
 
-	ColorGlyphSortType  _sortType;
+	std::vector<ColorVertex> _vertices; //actual glyphs
 
-	std::vector<ColorGlyph> _glyphs; //actual glyphs
+	size_t _glyphs_size; //actual glyphs
 
-	std::vector<TriangleColorGlyph> _triangleGlyphs; //actual glyphs
+	size_t _triangleGlyphs_size; //actual glyphs
 
-	std::vector<ColorGlyph> _boxGlyphs;
+	size_t _boxGlyphs_size;
 
 	std::vector<ColorRenderBatch> _renderBatches;
 };

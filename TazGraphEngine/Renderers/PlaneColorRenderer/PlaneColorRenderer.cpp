@@ -18,17 +18,17 @@ void PlaneColorRenderer::init() {
 	createVertexArray();
 }
 
-void PlaneColorRenderer::begin(ColorGlyphSortType  sortType/*GlyphSortType::TEXTURE*/) {
-	_sortType = sortType;
+void PlaneColorRenderer::begin() {
 	_renderBatches.clear();
 
-	_glyphs.clear();
+	_glyphs_size = 0;
 
-	_triangleGlyphs.clear();
+	_triangleGlyphs_size = 0;
 
-	_boxGlyphs.clear();
+	_boxGlyphs_size = 0;
 }
 void PlaneColorRenderer::end() {
+
 	//set up all pointers for fast sorting
 	createRenderBatches();
 }
@@ -36,17 +36,27 @@ void PlaneColorRenderer::end() {
 
 void PlaneColorRenderer::initColorTriangleBatch(size_t mSize)
 {
-	_triangleGlyphs.resize(mSize);
+	_triangleGlyphs_size = mSize;
 }
 
 void PlaneColorRenderer::initColorQuadBatch(size_t mSize)
 {
-	_glyphs.resize(mSize);
+	_glyphs_size = mSize;
 }
+
+
+void PlaneColorRenderer::initBatchSize()
+{
+	size_t totalGlyphs = _glyphs_size + _triangleGlyphs_size;
+
+	_renderBatches.resize(totalGlyphs);
+	_vertices.resize((_glyphs_size * RECT_OFFSET) + (_triangleGlyphs_size * TRIANGLE_OFFSET));
+}
+
 
 void PlaneColorRenderer::initColorBoxBatch(size_t mSize)
 {
-	_boxGlyphs.reserve(mSize);
+	_boxGlyphs_size = mSize;
 }
 
 void PlaneColorRenderer::drawTriangle(
@@ -54,7 +64,23 @@ void PlaneColorRenderer::drawTriangle(
 	const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
 	float depth, const Color& color
 ) {
-	_triangleGlyphs[v_index] = TriangleColorGlyph(v1, v2, v3, depth, color);
+	TriangleColorGlyph triangleGlyph = TriangleColorGlyph(v1, v2, v3, depth, color);
+
+	int offset = v_index * TRIANGLE_OFFSET + _glyphs_size * RECT_OFFSET;
+
+	v_index = v_index + _glyphs_size;
+
+	_renderBatches[v_index] = ColorRenderBatch(
+		offset,
+		TRIANGLE_OFFSET,
+		glm::vec3(
+			triangleGlyph.topLeft.position.x,
+			triangleGlyph.topLeft.position.y,
+			triangleGlyph.topLeft.position.z
+		));
+	_vertices[offset++] = triangleGlyph.topLeft;
+	_vertices[offset++] = triangleGlyph.bottomLeft;
+	_vertices[offset++] = triangleGlyph.bottomRight;
 }
 // we can generalize the renderer for multiple kinds of meshes (triangle made instead of planes) by creating
 // more draw functions for those meshes (like draw function for triangle).
@@ -62,11 +88,26 @@ void PlaneColorRenderer::drawTriangle(
 // how many triangles it has and accordingly add those multiple vertices with the combined texture
 //! draws are needed to convert the pos and size to vertices
 void PlaneColorRenderer::draw(size_t v_index, const glm::vec4& destRect, float depth, const Color& color) {
-	_glyphs[v_index] = ColorGlyph(destRect, depth, color);
+	ColorGlyph glyph = ColorGlyph(destRect, depth, color);
+
+	int offset = v_index * RECT_OFFSET;
+
+	_renderBatches[v_index] = ColorRenderBatch(offset, RECT_OFFSET, glm::vec3(
+		(glyph.topLeft.position.x + glyph.bottomRight.position.x) / 2,
+		(glyph.topLeft.position.y + glyph.bottomRight.position.y) / 2,
+		(glyph.topLeft.position.z + glyph.bottomRight.position.z) / 2
+	));
+	
+	_vertices[offset++] = glyph.topLeft;
+	_vertices[offset++] = glyph.bottomLeft;
+	_vertices[offset++] = glyph.bottomRight;
+	_vertices[offset++] = glyph.bottomRight;
+	_vertices[offset++] = glyph.topRight;
+	_vertices[offset++] = glyph.topLeft;
 }
 
 void PlaneColorRenderer::drawBox(const glm::vec4& destRect, float depth, const Color& color) {
-	_boxGlyphs.emplace_back(destRect, depth, color);
+	//_boxGlyphs.emplace_back(destRect, depth, color);
 }
 
 void PlaneColorRenderer::renderBatch(GLSLProgram* glsl_program) {
@@ -85,126 +126,10 @@ void PlaneColorRenderer::renderBatch(GLSLProgram* glsl_program) {
 
 void PlaneColorRenderer::createRenderBatches() {
 
-	std::vector<ColorVertex> vertices;
-
-	vertices.resize((_glyphs.size() * RECT_OFFSET) + (_triangleGlyphs.size() * TRIANGLE_OFFSET));
-	
-	size_t totalGlyphs = _glyphs.size() + _triangleGlyphs.size();
-
-	_renderBatches.resize(totalGlyphs);
-
-	if (totalGlyphs == 0) {
+	//current vertex
+	if ((_glyphs_size + _triangleGlyphs_size) == 0) {
 		return;
 	}
-
-	int offset = 0;
-	int cv = 0;
-
-
-
-	//current vertex
-
-	/*_threader->parallel(totalGlyphs, [&](int start, int end) {
-		int offset = 0;
-		int cv = 0;
-
-		for (int i = start; i < end; i++) {
-			int cv = 0, offset = 0;
-
-			if (i < _glyphPointers.size()) {
-
-				auto& glyph = _glyphPointers[i];
-
-				offset = i * RECT_OFFSET;
-				cv = offset;
-
-				_renderBatches[i] = ColorRenderBatch(offset, RECT_OFFSET, glm::vec3(
-					(glyph->topLeft.position.x + glyph->bottomRight.position.x) / 2,
-					(glyph->topLeft.position.y + glyph->bottomRight.position.y) / 2,
-					(glyph->topLeft.position.z + glyph->bottomRight.position.z) / 2
-				));
-
-				vertices[cv++] = glyph->topLeft;
-				vertices[cv++] = glyph->bottomLeft;
-				vertices[cv++] = glyph->bottomRight;
-				vertices[cv++] = glyph->bottomRight;
-				vertices[cv++] = glyph->topRight;
-				vertices[cv++] = glyph->topLeft;
-
-			}
-			else {
-				int triangleIdx = i - _glyphPointers.size();
-
-				auto& glyph = _triangleGlyphPointers[triangleIdx];
-				
-				offset = (_glyphPointers.size() * RECT_OFFSET) + (triangleIdx * TRIANGLE_OFFSET);
-				cv = offset;
-
-				_renderBatches[i] = ColorRenderBatch(
-					offset, TRIANGLE_OFFSET,
-					glm::vec3(glyph->topLeft.position.x, glyph->topLeft.position.y, glyph->topLeft.position.z));
-
-				vertices[cv++] = glyph->topLeft;
-				vertices[cv++] = glyph->bottomLeft;
-				vertices[cv++] = glyph->bottomRight;
-			}
-
-		}
-	});*/
-
-	if (_glyphs.size())
-	{
-		_renderBatches[0] = ColorRenderBatch(offset, RECT_OFFSET, glm::vec3(
-			(_glyphs[0].topLeft.position.x + _glyphs[0].bottomRight.position.x) / 2,
-			(_glyphs[0].topLeft.position.y + _glyphs[0].bottomRight.position.y) / 2,
-			(_glyphs[0].topLeft.position.z + _glyphs[0].bottomRight.position.z) / 2
-		));
-		vertices[cv++] = _glyphs[0].topLeft;
-		vertices[cv++] = _glyphs[0].bottomLeft;
-		vertices[cv++] = _glyphs[0].bottomRight;
-		vertices[cv++] = _glyphs[0].bottomRight;
-		vertices[cv++] = _glyphs[0].topRight;
-		vertices[cv++] = _glyphs[0].topLeft;
-		offset += RECT_OFFSET;
-
-		for (int cg = 1; cg < _glyphs.size(); cg++) { //current Glyph
-			_renderBatches[cg] = ColorRenderBatch(offset, RECT_OFFSET, glm::vec3(
-				(_glyphs[cg].topLeft.position.x + _glyphs[cg].bottomRight.position.x) / 2,
-				(_glyphs[cg].topLeft.position.y + _glyphs[cg].bottomRight.position.y) / 2,
-				(_glyphs[cg].topLeft.position.z + _glyphs[cg].bottomRight.position.z) / 2
-			));
-			
-			vertices[cv++] = _glyphs[cg].topLeft;
-			vertices[cv++] = _glyphs[cg].bottomLeft;
-			vertices[cv++] = _glyphs[cg].bottomRight;
-			vertices[cv++] = _glyphs[cg].bottomRight;
-			vertices[cv++] = _glyphs[cg].topRight;
-			vertices[cv++] = _glyphs[cg].topLeft;
-			offset += RECT_OFFSET;
-		}
-	}
-
-	if (_triangleGlyphs.size()) {
-		_renderBatches[_glyphs.size()] = ColorRenderBatch(offset, TRIANGLE_OFFSET, glm::vec3(_triangleGlyphs[0].topLeft.position.x, _triangleGlyphs[0].topLeft.position.y, _triangleGlyphs[0].topLeft.position.z));
-		vertices[cv++] = _triangleGlyphs[0].topLeft;
-		vertices[cv++] = _triangleGlyphs[0].bottomLeft;
-		vertices[cv++] = _triangleGlyphs[0].bottomRight;
-		offset += TRIANGLE_OFFSET;
-
-		for (int cg = 1; cg < _triangleGlyphs.size(); cg++) { //current Glyph
-			_renderBatches[_glyphs.size() + cg] =
-				ColorRenderBatch(
-					offset, 
-					TRIANGLE_OFFSET, 
-					glm::vec3(_triangleGlyphs[cg].topLeft.position.x, _triangleGlyphs[cg].topLeft.position.y, _triangleGlyphs[cg].topLeft.position.z));
-
-			vertices[cv++] = _triangleGlyphs[cg].topLeft;
-			vertices[cv++] = _triangleGlyphs[cg].bottomLeft;
-			vertices[cv++] = _triangleGlyphs[cg].bottomRight;
-			offset += TRIANGLE_OFFSET;
-		}
-	}
-
 	// todo not complete
 	/*if (_boxGlyphPointers.size()) {
 	
@@ -212,9 +137,9 @@ void PlaneColorRenderer::createRenderBatches() {
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	//orphan the buffer / like using double buffer
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(ColorVertex), nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(ColorVertex), nullptr, GL_DYNAMIC_DRAW);
 	//upload the data
-	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(ColorVertex), vertices.data());
+	glBufferSubData(GL_ARRAY_BUFFER, 0, _vertices.size() * sizeof(ColorVertex), _vertices.data());
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
