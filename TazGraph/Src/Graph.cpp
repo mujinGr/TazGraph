@@ -605,24 +605,6 @@ void Graph::EndRender() {
 	_editorImgui.EndRender();
 }
 
-void Graph::renderBatch(size_t startIndex, const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
-	/*for (const auto& entity : entities) {
-		entity->draw(batch, *Graph::_window);
-	}*/
-	threadPool.parallel(entities.size(), [&](int start, int end) {
-		for (int i = start; i < end; i++) {
-			if (entities[i]->hasComponent<Line_w_Color>()) {
-				entities[i]->GetComponent<Line_w_Color>().draw(i + startIndex, batch, *Graph::_window);
-			}
-		}
-		});
-	//for (int i = 0; i < entities.size(); i++) {
-	//	if (entities[i]->hasComponent<Line_w_Color>()) {
-	//		entities[i]->GetComponent<Line_w_Color>().draw(i + startIndex, batch, *Graph::_window);
-	//	}
-	//	//entities[i]->draw(i, batch, *Graph::_window);
-	//}
-}
 
 void Graph::renderAllBatches(
 	std::vector<NodeEntity*>& nodes,
@@ -665,6 +647,25 @@ void Graph::renderAllBatches(
 		});
 }
 
+void Graph::renderBatch(size_t startIndex, const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
+	/*for (const auto& entity : entities) {
+		entity->draw(batch, *Graph::_window);
+	}*/
+	threadPool.parallel(entities.size(), [&](int start, int end) {
+		for (int i = start; i < end; i++) {
+			if (entities[i]->hasComponent<Line_w_Color>()) {
+				entities[i]->GetComponent<Line_w_Color>().draw(i + startIndex, batch, *Graph::_window);
+			}
+		}
+		});
+	//for (int i = 0; i < entities.size(); i++) {
+	//	if (entities[i]->hasComponent<Line_w_Color>()) {
+	//		entities[i]->GetComponent<Line_w_Color>().draw(i + startIndex, batch, *Graph::_window);
+	//	}
+	//	//entities[i]->draw(i, batch, *Graph::_window);
+	//}
+}
+
 void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch) {
 	/*for (const auto& entity : entities) {
 		entity->draw(batch, *Graph::_window);
@@ -673,9 +674,6 @@ void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRend
 	//for (int i = 0; i < entities.size(); i++) {
 	//	if (entities[i]->hasComponent<Rectangle_w_Color>()) {
 	//		entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
-	//	}
-	//	if (entities[i]->hasComponent<Triangle_w_Color>()) {
-
 	//	}
 	//	//entities[i]->draw(i, batch, *Graph::_window);
 	//}
@@ -862,14 +860,15 @@ void Graph::draw()
 
 	_LineRenderer.drawLine(0, pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
 	
-	renderAllBatches(
+	/*renderAllBatches(
 		manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0),
 		manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0),
 		manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0),
 		_PlaneColorRenderer,
 		_LineRenderer
-	);
-	//renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
+	);*/
+	renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
+
 	//renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0), _LineRenderer);
 	//renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1), _LineRenderer);
 	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
@@ -915,7 +914,7 @@ void Graph::draw()
 	//glUniform1f(radiusLocation, nodeRadius);
 	
 	
-	//renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
+	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
 	//renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
 	
 

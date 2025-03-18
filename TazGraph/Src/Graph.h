@@ -142,7 +142,7 @@ private:
 	glm::vec2 _sceneMousePosition = {0.f,0.f};
 	glm::vec2 _savedMainViewportMousePosition = { 0.f,0.f };
 
-	Threader threadPool = Threader(10);
+	Threader threadPool = Threader(4);
 };
 
 
