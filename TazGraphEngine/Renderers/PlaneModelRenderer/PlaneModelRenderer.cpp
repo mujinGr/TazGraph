@@ -17,31 +17,19 @@ void PlaneModelRenderer::begin(GlyphSortType sortType/*GlyphSortType::TEXTURE*/)
 	_sortType = sortType;
 	_renderBatches.clear();
 
-	_glyphPointers.clear();
 	_glyphs.clear();
 
-	_triangleGlyphPointers.clear();
-	_triangleGlyphs.clear();
+	_triangles.clear();
 }
 void PlaneModelRenderer::end() {
 	//set up all pointers for fast sorting
-	_glyphPointers.resize(_glyphs.size());
-	for (int i = 0; i < _glyphs.size(); i++) {
-		_glyphPointers[i] = &_glyphs[i];
-	}
-	_triangleGlyphPointers.resize(_triangleGlyphs.size());
-	for (int i = 0; i < _triangleGlyphs.size(); i++) {
-		_triangleGlyphPointers[i] = &_triangleGlyphs[i];
-	}
-	sortGlyphs();
-
 	createRenderBatches();
 }
 
 
 void PlaneModelRenderer::initTriangleBatch(size_t mSize)
 {
-	_triangleGlyphs.reserve(mSize);
+	_triangles.reserve(mSize);
 }
 
 void PlaneModelRenderer::initQuadBatch(size_t mSize)
@@ -54,7 +42,7 @@ void PlaneModelRenderer::drawTriangle(
 	const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
 	GLuint texture, const Color& color
 ) {
-	_triangleGlyphs.emplace_back(v1,v2,v3,uv1,uv2,uv3, texture, color);
+	_triangles.emplace_back(v1,v2,v3,uv1,uv2,uv3, texture, color);
 }
 // we can generalize the renderer for multiple kinds of meshes (triangle made instead of planes) by creating
 // more draw functions for those meshes (like draw function for triangle).
@@ -78,58 +66,58 @@ void PlaneModelRenderer::renderBatch() {
 
 void PlaneModelRenderer::createRenderBatches() {
 	std::vector<Vertex> vertices;
-	vertices.resize((_glyphPointers.size() * RECT_OFFSET) + (_triangleGlyphPointers.size() * TRIANGLE_OFFSET));
-	if (_glyphPointers.empty() && _triangleGlyphPointers.empty()) {
+	vertices.resize((_glyphs.size() * RECT_OFFSET) + (_triangles.size() * TRIANGLE_OFFSET));
+	if (_glyphs.empty() && _triangles.empty()) {
 		return;
 	}
 
 	int offset = 0;
 	int cv = 0; //current vertex
-	if (_glyphPointers.size())
+	if (_glyphs.size())
 	{
-		_renderBatches.emplace_back(offset, RECT_OFFSET, _glyphPointers[0]->texture);
-		vertices[cv++] = _glyphPointers[0]->topLeft;
-		vertices[cv++] = _glyphPointers[0]->bottomLeft;
-		vertices[cv++] = _glyphPointers[0]->bottomRight;
-		vertices[cv++] = _glyphPointers[0]->bottomRight;
-		vertices[cv++] = _glyphPointers[0]->topRight;
-		vertices[cv++] = _glyphPointers[0]->topLeft;
+		_renderBatches.emplace_back(offset, RECT_OFFSET, _glyphs[0].texture);
+		vertices[cv++] = _glyphs[0].topLeft;
+		vertices[cv++] = _glyphs[0].bottomLeft;
+		vertices[cv++] = _glyphs[0].bottomRight;
+		vertices[cv++] = _glyphs[0].bottomRight;
+		vertices[cv++] = _glyphs[0].topRight;
+		vertices[cv++] = _glyphs[0].topLeft;
 		offset += RECT_OFFSET;
 
-		for (int cg = 1; cg < _glyphPointers.size(); cg++) { //current Glyph
-			if (_glyphPointers[cg]->texture != _glyphPointers[cg - 1]->texture) {
-				_renderBatches.emplace_back(offset, RECT_OFFSET, _glyphPointers[0]->texture);
+		for (int cg = 1; cg < _glyphs.size(); cg++) { //current Glyph
+			if (_glyphs[cg].texture != _glyphs[cg - 1].texture) {
+				_renderBatches.emplace_back(offset, RECT_OFFSET, _glyphs[0].texture);
 			}
 			else {
 				_renderBatches.back().numVertices += RECT_OFFSET;
 			}
-			vertices[cv++] = _glyphPointers[cg]->topLeft;
-			vertices[cv++] = _glyphPointers[cg]->bottomLeft;
-			vertices[cv++] = _glyphPointers[cg]->bottomRight;
-			vertices[cv++] = _glyphPointers[cg]->bottomRight;
-			vertices[cv++] = _glyphPointers[cg]->topRight;
-			vertices[cv++] = _glyphPointers[cg]->topLeft;
+			vertices[cv++] = _glyphs[cg].topLeft;
+			vertices[cv++] = _glyphs[cg].bottomLeft;
+			vertices[cv++] = _glyphs[cg].bottomRight;
+			vertices[cv++] = _glyphs[cg].bottomRight;
+			vertices[cv++] = _glyphs[cg].topRight;
+			vertices[cv++] = _glyphs[cg].topLeft;
 			offset += RECT_OFFSET;
 		}
 	}
 
-	if (_triangleGlyphPointers.size()) {
-		_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, _triangleGlyphPointers[0]->texture);
-		vertices[cv++] = _triangleGlyphPointers[0]->topLeft;
-		vertices[cv++] = _triangleGlyphPointers[0]->bottomLeft;
-		vertices[cv++] = _triangleGlyphPointers[0]->bottomRight;
+	if (_triangles.size()) {
+		_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, _triangles[0].texture);
+		vertices[cv++] = _triangles[0].topLeft;
+		vertices[cv++] = _triangles[0].bottomLeft;
+		vertices[cv++] = _triangles[0].bottomRight;
 		offset += TRIANGLE_OFFSET;
 
-		for (int cg = 1; cg < _triangleGlyphPointers.size(); cg++) { //current Glyph
-			if (_triangleGlyphPointers[cg]->texture != _triangleGlyphPointers[cg - 1]->texture) {
-				_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, _triangleGlyphPointers[0]->texture);
+		for (int cg = 1; cg < _triangles.size(); cg++) { //current Glyph
+			if (_triangles[cg].texture != _triangles[cg - 1].texture) {
+				_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, _triangles[0].texture);
 			}
 			else {
 				_renderBatches.back().numVertices += TRIANGLE_OFFSET;
 			}
-			vertices[cv++] = _triangleGlyphPointers[cg]->topLeft;
-			vertices[cv++] = _triangleGlyphPointers[cg]->bottomLeft;
-			vertices[cv++] = _triangleGlyphPointers[cg]->bottomRight;
+			vertices[cv++] = _triangles[cg].topLeft;
+			vertices[cv++] = _triangles[cg].bottomLeft;
+			vertices[cv++] = _triangles[cg].bottomRight;
 			offset += TRIANGLE_OFFSET;
 		}
 	}
@@ -163,35 +151,6 @@ void PlaneModelRenderer::createVertexArray() {
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
 
 	glBindVertexArray(0);
-}
-
-void PlaneModelRenderer::sortGlyphs() {
-	switch (_sortType)
-	{
-	case GlyphSortType::NONE:
-		break;
-	case GlyphSortType::FRONT_TO_BACK:
-		std::stable_sort(_glyphPointers.begin(), _glyphPointers.end(), compareFrontToBack);
-		break;
-	case GlyphSortType::BACK_TO_FRONT:
-		std::stable_sort(_glyphPointers.begin(), _glyphPointers.end(), compareBackToFront);
-		break;
-	case GlyphSortType::TEXTURE:
-		std::stable_sort(_glyphPointers.begin(), _glyphPointers.end(), compareTexture);
-		break;
-	default:
-		break;
-	}
-}
-
-bool PlaneModelRenderer::compareFrontToBack(Glyph* a, Glyph* b) {
-	return (a->topLeft.position.z < b->topLeft.position.z);
-}
-bool PlaneModelRenderer::compareBackToFront(Glyph* a, Glyph* b) {
-	return (a->topLeft.position.z > b->topLeft.position.z);
-}
-bool PlaneModelRenderer::compareTexture(Glyph* a, Glyph* b) {
-	return (a->texture < b->texture);
 }
 
 void PlaneModelRenderer::dispose()

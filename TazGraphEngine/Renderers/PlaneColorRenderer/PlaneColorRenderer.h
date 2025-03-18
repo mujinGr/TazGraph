@@ -169,23 +169,16 @@ public:
 private:
 	void createRenderBatches();
 	void createVertexArray();
-	void sortGlyphs();
-
-	static bool compareFrontToBack(ColorGlyph* a, ColorGlyph* b);
-	static bool compareBackToFront(ColorGlyph* a, ColorGlyph* b);
 
 	GLuint _vbo;
 	GLuint _vao;
 
 	ColorGlyphSortType  _sortType;
 
-	std::vector<ColorGlyph*> _glyphPointers; //this is for sorting
 	std::vector<ColorGlyph> _glyphs; //actual glyphs
 
-	std::vector<TriangleColorGlyph*> _triangleGlyphPointers; //this is for sorting
 	std::vector<TriangleColorGlyph> _triangleGlyphs; //actual glyphs
 
-	std::vector<ColorGlyph*> _boxGlyphPointers;
 	std::vector<ColorGlyph> _boxGlyphs;
 
 	std::vector<ColorRenderBatch> _renderBatches;

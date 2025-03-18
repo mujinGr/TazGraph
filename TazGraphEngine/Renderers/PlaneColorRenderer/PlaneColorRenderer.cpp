@@ -22,31 +22,14 @@ void PlaneColorRenderer::begin(ColorGlyphSortType  sortType/*GlyphSortType::TEXT
 	_sortType = sortType;
 	_renderBatches.clear();
 
-	_glyphPointers.clear();
 	_glyphs.clear();
 
-	_triangleGlyphPointers.clear();
 	_triangleGlyphs.clear();
 
-	_boxGlyphPointers.clear();
 	_boxGlyphs.clear();
 }
 void PlaneColorRenderer::end() {
 	//set up all pointers for fast sorting
-	_glyphPointers.resize(_glyphs.size());
-	for (int i = 0; i < _glyphs.size(); i++) {
-		_glyphPointers[i] = &_glyphs[i];
-	}
-	_triangleGlyphPointers.resize(_triangleGlyphs.size());
-	for (int i = 0; i < _triangleGlyphs.size(); i++) {
-		_triangleGlyphPointers[i] = &_triangleGlyphs[i];
-	}
-	_boxGlyphPointers.resize(_boxGlyphs.size());
-	for (int i = 0; i < _boxGlyphs.size(); i++) {
-		_boxGlyphPointers[i] = &_boxGlyphs[i];
-	}
-	sortGlyphs();
-
 	createRenderBatches();
 }
 
@@ -104,9 +87,9 @@ void PlaneColorRenderer::createRenderBatches() {
 
 	std::vector<ColorVertex> vertices;
 
-	vertices.resize((_glyphPointers.size() * RECT_OFFSET) + (_triangleGlyphPointers.size() * TRIANGLE_OFFSET));
+	vertices.resize((_glyphs.size() * RECT_OFFSET) + (_triangleGlyphs.size() * TRIANGLE_OFFSET));
 	
-	size_t totalGlyphs = _glyphPointers.size() + _triangleGlyphPointers.size();
+	size_t totalGlyphs = _glyphs.size() + _triangleGlyphs.size();
 
 	_renderBatches.resize(totalGlyphs);
 
@@ -169,55 +152,55 @@ void PlaneColorRenderer::createRenderBatches() {
 		}
 	});*/
 
-	if (_glyphPointers.size())
+	if (_glyphs.size())
 	{
 		_renderBatches[0] = ColorRenderBatch(offset, RECT_OFFSET, glm::vec3(
-			(_glyphPointers[0]->topLeft.position.x + _glyphPointers[0]->bottomRight.position.x) / 2,
-			(_glyphPointers[0]->topLeft.position.y + _glyphPointers[0]->bottomRight.position.y) / 2,
-			(_glyphPointers[0]->topLeft.position.z + _glyphPointers[0]->bottomRight.position.z) / 2
+			(_glyphs[0].topLeft.position.x + _glyphs[0].bottomRight.position.x) / 2,
+			(_glyphs[0].topLeft.position.y + _glyphs[0].bottomRight.position.y) / 2,
+			(_glyphs[0].topLeft.position.z + _glyphs[0].bottomRight.position.z) / 2
 		));
-		vertices[cv++] = _glyphPointers[0]->topLeft;
-		vertices[cv++] = _glyphPointers[0]->bottomLeft;
-		vertices[cv++] = _glyphPointers[0]->bottomRight;
-		vertices[cv++] = _glyphPointers[0]->bottomRight;
-		vertices[cv++] = _glyphPointers[0]->topRight;
-		vertices[cv++] = _glyphPointers[0]->topLeft;
+		vertices[cv++] = _glyphs[0].topLeft;
+		vertices[cv++] = _glyphs[0].bottomLeft;
+		vertices[cv++] = _glyphs[0].bottomRight;
+		vertices[cv++] = _glyphs[0].bottomRight;
+		vertices[cv++] = _glyphs[0].topRight;
+		vertices[cv++] = _glyphs[0].topLeft;
 		offset += RECT_OFFSET;
 
-		for (int cg = 1; cg < _glyphPointers.size(); cg++) { //current Glyph
+		for (int cg = 1; cg < _glyphs.size(); cg++) { //current Glyph
 			_renderBatches[cg] = ColorRenderBatch(offset, RECT_OFFSET, glm::vec3(
-				(_glyphPointers[cg]->topLeft.position.x + _glyphPointers[cg]->bottomRight.position.x) / 2,
-				(_glyphPointers[cg]->topLeft.position.y + _glyphPointers[cg]->bottomRight.position.y) / 2,
-				(_glyphPointers[cg]->topLeft.position.z + _glyphPointers[cg]->bottomRight.position.z) / 2
+				(_glyphs[cg].topLeft.position.x + _glyphs[cg].bottomRight.position.x) / 2,
+				(_glyphs[cg].topLeft.position.y + _glyphs[cg].bottomRight.position.y) / 2,
+				(_glyphs[cg].topLeft.position.z + _glyphs[cg].bottomRight.position.z) / 2
 			));
 			
-			vertices[cv++] = _glyphPointers[cg]->topLeft;
-			vertices[cv++] = _glyphPointers[cg]->bottomLeft;
-			vertices[cv++] = _glyphPointers[cg]->bottomRight;
-			vertices[cv++] = _glyphPointers[cg]->bottomRight;
-			vertices[cv++] = _glyphPointers[cg]->topRight;
-			vertices[cv++] = _glyphPointers[cg]->topLeft;
+			vertices[cv++] = _glyphs[cg].topLeft;
+			vertices[cv++] = _glyphs[cg].bottomLeft;
+			vertices[cv++] = _glyphs[cg].bottomRight;
+			vertices[cv++] = _glyphs[cg].bottomRight;
+			vertices[cv++] = _glyphs[cg].topRight;
+			vertices[cv++] = _glyphs[cg].topLeft;
 			offset += RECT_OFFSET;
 		}
 	}
 
-	if (_triangleGlyphPointers.size()) {
-		_renderBatches[_glyphPointers.size()] = ColorRenderBatch(offset, TRIANGLE_OFFSET, glm::vec3(_triangleGlyphPointers[0]->topLeft.position.x, _triangleGlyphPointers[0]->topLeft.position.y, _triangleGlyphPointers[0]->topLeft.position.z));
-		vertices[cv++] = _triangleGlyphPointers[0]->topLeft;
-		vertices[cv++] = _triangleGlyphPointers[0]->bottomLeft;
-		vertices[cv++] = _triangleGlyphPointers[0]->bottomRight;
+	if (_triangleGlyphs.size()) {
+		_renderBatches[_glyphs.size()] = ColorRenderBatch(offset, TRIANGLE_OFFSET, glm::vec3(_triangleGlyphs[0].topLeft.position.x, _triangleGlyphs[0].topLeft.position.y, _triangleGlyphs[0].topLeft.position.z));
+		vertices[cv++] = _triangleGlyphs[0].topLeft;
+		vertices[cv++] = _triangleGlyphs[0].bottomLeft;
+		vertices[cv++] = _triangleGlyphs[0].bottomRight;
 		offset += TRIANGLE_OFFSET;
 
-		for (int cg = 1; cg < _triangleGlyphPointers.size(); cg++) { //current Glyph
-			_renderBatches[_glyphPointers.size() + cg] =
+		for (int cg = 1; cg < _triangleGlyphs.size(); cg++) { //current Glyph
+			_renderBatches[_glyphs.size() + cg] =
 				ColorRenderBatch(
 					offset, 
 					TRIANGLE_OFFSET, 
-					glm::vec3(_triangleGlyphPointers[cg]->topLeft.position.x, _triangleGlyphPointers[cg]->topLeft.position.y, _triangleGlyphPointers[cg]->topLeft.position.z));
+					glm::vec3(_triangleGlyphs[cg].topLeft.position.x, _triangleGlyphs[cg].topLeft.position.y, _triangleGlyphs[cg].topLeft.position.z));
 
-			vertices[cv++] = _triangleGlyphPointers[cg]->topLeft;
-			vertices[cv++] = _triangleGlyphPointers[cg]->bottomLeft;
-			vertices[cv++] = _triangleGlyphPointers[cg]->bottomRight;
+			vertices[cv++] = _triangleGlyphs[cg].topLeft;
+			vertices[cv++] = _triangleGlyphs[cg].bottomLeft;
+			vertices[cv++] = _triangleGlyphs[cg].bottomRight;
 			offset += TRIANGLE_OFFSET;
 		}
 	}
@@ -253,29 +236,6 @@ void PlaneColorRenderer::createVertexArray() {
 	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, color));
 	
 	glBindVertexArray(0);
-}
-
-void PlaneColorRenderer::sortGlyphs() {
-	switch (_sortType)
-	{
-	case ColorGlyphSortType::NONE:
-		break;
-	case ColorGlyphSortType::FRONT_TO_BACK:
-		std::stable_sort(_glyphPointers.begin(), _glyphPointers.end(), compareFrontToBack);
-		break;
-	case ColorGlyphSortType::BACK_TO_FRONT:
-		std::stable_sort(_glyphPointers.begin(), _glyphPointers.end(), compareBackToFront);
-		break;
-	default:
-		break;
-	}
-}
-
-bool PlaneColorRenderer::compareFrontToBack(ColorGlyph* a, ColorGlyph* b) {
-	return (a->topLeft.position.z < b->topLeft.position.z);
-}
-bool PlaneColorRenderer::compareBackToFront(ColorGlyph* a, ColorGlyph* b) {
-	return (a->topLeft.position.z > b->topLeft.position.z);
 }
 
 void PlaneColorRenderer::dispose()
