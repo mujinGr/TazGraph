@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
 
 #include <SDL2/SDL.h>
