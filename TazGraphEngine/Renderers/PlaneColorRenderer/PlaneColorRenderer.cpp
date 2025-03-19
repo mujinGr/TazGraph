@@ -9,11 +9,6 @@ PlaneColorRenderer::~PlaneColorRenderer() {
 
 }
 
-void PlaneColorRenderer::setThreader(Threader& mthreader)
-{
-	_threader = &mthreader;
-}
-
 void PlaneColorRenderer::init() {
 	createVertexArray();
 }

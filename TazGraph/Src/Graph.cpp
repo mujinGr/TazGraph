@@ -138,7 +138,6 @@ void Graph::onEntry()
 	{
 		manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
 		manager.setThreader(threadPool);
-		_PlaneColorRenderer.setThreader(threadPool);
 		_assetsManager->CreateWorldMap(world_map);
 	}
 	
@@ -616,35 +615,35 @@ void Graph::renderAllBatches(
 {
 	int totalEntities = nodes.size() + emptyEntities.size() + links.size();
 
-	threadPool.parallel(totalEntities, [&](int start, int end) {
-		for (int i = start; i < end; i++) {
-			if (i < nodes.size()) {
-				auto& entity = nodes[i];
-				if (entity->hasComponent<Rectangle_w_Color>()) {
-					entity->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
-				}
-			}
-			else if (i < nodes.size() + emptyEntities.size()) {
-				// Process EmptyEntities
-				int emptyIdx = i - nodes.size();
-				auto& entity = emptyEntities[emptyIdx];
-				if (entity->hasComponent<Rectangle_w_Color>()) {
-					entity->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
-				}
-				if (entity->hasComponent<Triangle_w_Color>()) {
-					entity->GetComponent<Triangle_w_Color>().draw(i, batch, *Graph::_window);
-				}
-			}
-			else {
-				// Process Links
-				int linkIdx = i - (nodes.size() + emptyEntities.size());
-				auto& entity = links[linkIdx];
-				if (entity->hasComponent<Line_w_Color>()) {
-					entity->GetComponent<Line_w_Color>().draw(linkIdx + 1, line_batch, *Graph::_window);
-				}
-			}
-		}
-		});
+	//threadPool.parallel(totalEntities, [&](int start, int end) {
+	//	for (int i = start; i < end; i++) {
+	//		if (i < nodes.size()) {
+	//			auto& entity = nodes[i];
+	//			if (entity->hasComponent<Rectangle_w_Color>()) {
+	//				entity->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
+	//			}
+	//		}
+	//		else if (i < nodes.size() + emptyEntities.size()) {
+	//			// Process EmptyEntities
+	//			int emptyIdx = i - nodes.size();
+	//			auto& entity = emptyEntities[emptyIdx];
+	//			if (entity->hasComponent<Rectangle_w_Color>()) {
+	//				entity->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
+	//			}
+	//			if (entity->hasComponent<Triangle_w_Color>()) {
+	//				entity->GetComponent<Triangle_w_Color>().draw(i, batch, *Graph::_window);
+	//			}
+	//		}
+	//		else {
+	//			// Process Links
+	//			int linkIdx = i - (nodes.size() + emptyEntities.size());
+	//			auto& entity = links[linkIdx];
+	//			if (entity->hasComponent<Line_w_Color>()) {
+	//				entity->GetComponent<Line_w_Color>().draw(linkIdx + 1, line_batch, *Graph::_window);
+	//			}
+	//		}
+	//	}
+	//	});
 }
 
 void Graph::renderBatch(size_t startIndex, const std::vector<LinkEntity*>& entities, LineRenderer& batch) {

@@ -7,8 +7,6 @@
 #include "../../Vertex.h"
 #include "../../GLSLProgram.h"
 
-#include "../../Threader/Threader.h"
-
 #define RECT_OFFSET 6
 #define TRIANGLE_OFFSET 3
 
@@ -133,13 +131,9 @@ public:
 //		 `--> renderBatch() 
 
 class PlaneColorRenderer {
-private:
-	Threader* _threader;
 public:
 	PlaneColorRenderer();
 	~PlaneColorRenderer();
-
-	void setThreader(Threader& mthreader);
 
 	void init();
 

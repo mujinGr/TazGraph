@@ -8,21 +8,29 @@
 #include <atomic>
 
 struct TaskQueue {
-    std::queue<std::function<void()>> tasks;
+    std::deque<std::function<void()>> tasks;
     std::mutex                        mutex_;
+    std::condition_variable taskCondition;
     std::atomic<int>                  remaining_tasks = 0;
 
     void addTask(std::function<void()>&& callback) {
-        std::lock_guard<std::mutex> lock_guard{ mutex_ };
-        tasks.push(std::move(callback));
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            tasks.emplace_back(std::move(callback));
+        }
         remaining_tasks++;
+        taskCondition.notify_one();
     }
 
-    void getTask(std::function<void()>& task) {
-        std::lock_guard<std::mutex> lock_guard{ mutex_ };
-        if (tasks.empty()) return;
+    bool getTask(std::function<void()>& task) {
+        std::unique_lock<std::mutex> lock(mutex_);
+        taskCondition.wait(lock, [this] { return !tasks.empty(); });
+
+        if (tasks.empty()) return false;  // Shouldn't happen, but just in case
+
         task = std::move(tasks.front());
-        tasks.pop();
+        tasks.pop_front();
+        return true;
     }
 
     void waitUntilDone() const {
@@ -54,18 +62,17 @@ struct Thread {
 
     void run() {
         while (running) {
-            t_queue->getTask(task);
-            if (task == nullptr) std::this_thread::yield();
-            else {
+            std::function<void()> task;
+            if (t_queue->getTask(task)) {
                 task();
                 t_queue->completeTask();
-                task = nullptr;
             }
         }
     }
 
     void stop() {
         running = false;
+        t_queue->taskCondition.notify_all();
         cur_thread.join();
     }
 };

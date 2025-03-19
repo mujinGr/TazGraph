@@ -116,7 +116,6 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 	}
 	auto& links = rootFromFile.obj["graph"].obj["edges"];
 	for (auto& linkEntry : links.arr) {
-		break;
 		auto& linkInfo = linkEntry;
 		unsigned int fromID = linkInfo.obj["source"].num;
 		unsigned int toID	= linkInfo.obj["target"].num;
