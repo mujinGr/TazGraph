@@ -13,7 +13,7 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 
 	int indexX = 0; // initial position
 	int indexY = 0;
-	int total_frames = 0;
+	size_t total_frames = 0;
 	float speed = 1.0f;
 	animType type = animType::ANIMTYPE_NONE;
 	int reps = 0;
@@ -32,7 +32,7 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 		
 	}
 
-	Animation(int ix, int iy , int f, float s, const std::string _type, int _reps = 0) // Animation frames look the next number of frames from the index
+	Animation(int ix, int iy , size_t f, float s, const std::string _type, int _reps = 0) // Animation frames look the next number of frames from the index
 	{
 		indexX = ix;
 		indexY = iy;
@@ -46,7 +46,7 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 		reps = _reps;
 	}
 
-	Animation(int ix, int iy, int f, float s, const animType _type, int _reps = 0) // Animation frames look the next number of frames from the index
+	Animation(int ix, int iy, size_t f, float s, const animType _type, int _reps = 0) // Animation frames look the next number of frames from the index
 	{
 		indexX = ix;
 		indexY = iy;

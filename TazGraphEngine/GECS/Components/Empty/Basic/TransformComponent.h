@@ -11,7 +11,7 @@ private:
 	// todo remove rotation
 	glm::vec3 _rotation = { 0.0f,0.0f,0.0f };
 	
-	glm::vec2 _velocity;
+	glm::vec2 _velocity = glm::vec2(0.0f);
 public:
 	SDL_FRect bodyDims = { 0,0,32,32 };
 	SDL_FRect last_bodyDims = { 0,0,32,32 };
@@ -125,10 +125,10 @@ public:
 		return glm::vec3(bodyDims.w * scale / 2, bodyDims.h * scale / 2, _zIndexF);
 	}
 
-	void setPosition_X(int newPosition_X) {
+	void setPosition_X(float newPosition_X) {
 		bodyDims.x = newPosition_X;
 	}
-	void setPosition_Y(int newPosition_Y) {
+	void setPosition_Y(float newPosition_Y) {
 		bodyDims.y = newPosition_Y;
 	}
 

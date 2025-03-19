@@ -19,9 +19,9 @@ public:
 	{
 
 	}
-	GLuint offset;
-	GLuint numVertices;
-	glm::vec3 centerPos;
+	GLuint offset = 0;
+	GLuint numVertices = 0;
+	glm::vec3 centerPos = glm::vec3(0);
 };
 
 

@@ -25,7 +25,7 @@ public:
 	Color color = { 255, 255, 255, 255 };
 
 	TransformComponent* transform = nullptr;
-	SDL_Rect srcRect = {0,0,0,0}, destRect = { 0,0,0,0 };
+	SDL_FRect srcRect = {0,0,0,0}, destRect = { 0,0,0,0 };
 
 	Animation animation;
 	MovingAnimation moving_animation;
@@ -98,18 +98,18 @@ public:
 			return;
 		}
 		float tempScreenScale = window.getScale();
-		glm::vec4 pos((float)destRect.x* tempScreenScale, (float)destRect.y * tempScreenScale,
-			(float)destRect.w * tempScreenScale, (float)destRect.h * tempScreenScale);
+		glm::vec4 pos(destRect.x* tempScreenScale, destRect.y * tempScreenScale,
+			destRect.w * tempScreenScale, destRect.h * tempScreenScale);
 
 		float srcUVposX = spriteFlip == SDL_FLIP_HORIZONTAL ?
-			(float)(srcRect.x + srcRect.w) / (float)gl_texture->width :
-			(float)srcRect.x / (float)gl_texture->width;
-		float srcUVposY = ((float)srcRect.y) / (float)gl_texture->height;
+			(srcRect.x + srcRect.w) / gl_texture->width :
+			srcRect.x / gl_texture->width;
+		float srcUVposY = (srcRect.y) / gl_texture->height;
 
 		float srcUVw = spriteFlip == SDL_FLIP_HORIZONTAL ?
-			-(float)srcRect.w / (float)gl_texture->width :
-			(float)srcRect.w / (float)gl_texture->width;
-		float srcUVh = (float)srcRect.h / (float)gl_texture->height;
+			-srcRect.w / gl_texture->width :
+			srcRect.w / gl_texture->width;
+		float srcUVh = srcRect.h / gl_texture->height;
 
 		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
 
@@ -146,14 +146,14 @@ public:
 
 	void setMoveFrame() {
 
-		this->destRect.x = (static_cast<int>(this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.positions[0].x * moving_animation.cur_frame_index);
-		this->destRect.y = (static_cast<int>(this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.positions[0].y * moving_animation.cur_frame_index);
+		this->destRect.x = ((this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.positions[0].x * moving_animation.cur_frame_index);
+		this->destRect.y = ((this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.positions[0].y * moving_animation.cur_frame_index);
 	}
 
 	void setSpecificMoveFrame() {
 
-		this->destRect.x = (static_cast<int>(this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.positions[moving_animation.cur_frame_index].x);
-		this->destRect.y = (static_cast<int>(this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.positions[moving_animation.cur_frame_index].y);
+		this->destRect.x = ((this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.positions[moving_animation.cur_frame_index].x);
+		this->destRect.y = ((this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.positions[moving_animation.cur_frame_index].y);
 	}
 
 	void setFlashFrame() {

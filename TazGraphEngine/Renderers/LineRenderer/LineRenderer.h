@@ -21,8 +21,8 @@ public:
 		numIndices(NumIndices){
 
 	}
-	GLuint offset;
-	GLuint numIndices;
+	GLuint offset = 0;
+	GLuint numIndices = 0;
 };
 
 class LineGlyph {

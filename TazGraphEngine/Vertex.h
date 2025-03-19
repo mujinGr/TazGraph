@@ -20,7 +20,12 @@ struct Color {
 	}
 
 	static Color fromVec4(const glm::vec4& v) {
-		return Color(v.r * 255, v.g * 255, v.b * 255, v.a * 255);
+		return Color(
+			static_cast<GLubyte>(v.r * 255.0f),
+			static_cast<GLubyte>(v.g * 255.0f),
+			static_cast<GLubyte>(v.b * 255.0f),
+			static_cast<GLubyte>(v.a * 255.0f)
+		);
 	}
 
 	GLubyte r;

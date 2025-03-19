@@ -47,7 +47,7 @@ public:
 		dest_color = clr;
 	}
 
-	void SetFlashAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, const std::vector<float>& flashTimes, Color flashC, int reps = 0)
+	void SetFlashAnimation(int idX, int idY, size_t fr, float sp, const Animation::animType type, const std::vector<float>& flashTimes, Color flashC, int reps = 0)
 	{
 		flash_animation = FlashAnimation(idX, idY, fr, sp, type, flashTimes, flashC, reps);
 	}

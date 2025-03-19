@@ -114,17 +114,17 @@ public:
 
 class Component : public BaseComponent {
 public:
-	Entity* entity;
+	Entity* entity = nullptr;
 };
 
 class NodeComponent : public BaseComponent {
 public:
-	NodeEntity* entity;
+	NodeEntity* entity = nullptr;
 };
 
 class LinkComponent : public BaseComponent {
 public:
-	LinkEntity* entity;
+	LinkEntity* entity = nullptr;
 };
 
 

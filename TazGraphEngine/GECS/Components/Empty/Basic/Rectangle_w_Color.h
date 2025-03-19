@@ -7,7 +7,7 @@ class Rectangle_w_Color : public Component
 public:
 	Color color = { 255, 255, 255, 255 };
 
-	SDL_Rect destRect = {0,0,0,0};
+	SDL_FRect destRect = {0,0,0,0};
 	TransformComponent* transform = nullptr;
 
 	float temp_rotation = 0.0f;
@@ -30,8 +30,8 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
-		destRect.y = static_cast<int>(transform->getPosition().y);
+		destRect.x = (transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
+		destRect.y = (transform->getPosition().y);
 		destRect.w = transform->bodyDims.w * transform->scale;
 		destRect.h = transform->bodyDims.h * transform->scale;
 

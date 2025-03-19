@@ -48,7 +48,7 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 		unsigned short prev_frame_index = cur_frame_index;
 
 		speed = speeds[currentSpeedIndex];
-		interpolation_a = currentSpeedIndex == FlashState::FLASH_OUT ? 0 : 1;
+		interpolation_a = currentSpeedIndex == FlashState::FLASH_OUT ? 0.0f : 1.0f;
 		switch (currentSpeedIndex) {
 		case FlashState::FLASH_OUT:
 			interpolation_a = 0;

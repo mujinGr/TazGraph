@@ -7,8 +7,8 @@ class Triangle_w_Color : public Component
 public:
 	Color color = { 255, 255, 255, 255 };
 
-	glm::vec3 v1, v2, v3;
-	glm::vec2 uv1, uv2, uv3;
+	glm::vec3 v1 = glm::vec3(0), v2 = glm::vec3(0), v3 = glm::vec3(0);
+	glm::vec2 uv1 = glm::vec2(0), uv2 = glm::vec2(0), uv3 = glm::vec2(0);
 
 	TransformComponent* transform = nullptr;
 

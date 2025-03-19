@@ -9,10 +9,10 @@
 class ColliderComponent : public Component //collider -> transform
 {
 public:
-	SDL_Rect collider{ 0,0,0,0 };
+	SDL_FRect collider{ 0,0,0,0 };
 	std::string tag = "";
 
-	SDL_Rect srcR{ 0,0,0,0 }, destR{0,0,0,0};
+	SDL_FRect srcR{ 0,0,0,0 }, destR{0,0,0,0};
 
 	TransformComponent* transform = nullptr;
 
@@ -29,7 +29,7 @@ public:
 		collider.h = collider.w = size;
 	}
 
-	ColliderComponent(std::string t, SDL_Rect colliderRect)
+	ColliderComponent(std::string t, SDL_FRect colliderRect)
 	{
 		tag = t;
 		collider = colliderRect;
@@ -57,8 +57,8 @@ public:
 	{
 		if (tag != "terrain") // for all npcs
 		{
-			collider.x = static_cast<int>(transform->getPosition().x) + (2 * (transform->scale) * COL_POS_OFFSET);
-			collider.y = static_cast<int>(transform->getPosition().y) + (2 * (transform->scale) * COL_POS_OFFSET);
+			collider.x = (transform->getPosition().x) + (2 * (transform->scale) * COL_POS_OFFSET);
+			collider.y = (transform->getPosition().y) + (2 * (transform->scale) * COL_POS_OFFSET);
 			collider.w = (transform->bodyDims.w * transform->scale) - (4 * (transform->scale) * COL_POS_OFFSET);
 			collider.h = (transform->bodyDims.h * transform->scale) - (2 * (transform->scale) * COL_POS_OFFSET);
 		}
@@ -68,15 +68,15 @@ public:
 	}
 
 	void updateCollider(glm::vec2 gridpos) {
-		collider.x = static_cast<int>(transform->getPosition().x) + transform->scale + gridpos.x;
-		collider.y = static_cast<int>(transform->getPosition().y) + transform->scale + gridpos.y;
+		collider.x = (transform->getPosition().x) + transform->scale + gridpos.x;
+		collider.y = (transform->getPosition().y) + transform->scale + gridpos.y;
 	}
 
 	void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override
 	{
 	}
 
-	SDL_Rect getRect()
+	SDL_FRect getRect()
 	{
 		return collider;
 	}
