@@ -139,66 +139,50 @@ public:
 
 	template <typename T>
 	std::vector<T*> getVisible() {
-		return {};
-	}
-
-	template <>
-	std::vector<EmptyEntity*> getVisible() {
-		return visible_emptyEntities;
-	}
-	template <>
-	std::vector<NodeEntity*> getVisible() {
-		return visible_nodes;
-	}
-	template <>
-	std::vector<LinkEntity*> getVisible() {
-		return visible_links;
+		if constexpr (std::is_same_v<T, EmptyEntity>) {
+			return visible_emptyEntities;
+		}
+		else if constexpr (std::is_same_v<T, NodeEntity>) {
+			return visible_nodes;
+		}
+		else if constexpr (std::is_same_v<T, LinkEntity>) {
+			return visible_links;
+		}
+		else {
+			static_assert(sizeof(T) == 0, "Unsupported entity type.");
+		}
 	}
 
 	template <typename T>
 	std::vector<T*>& getVisibleGroup(Group mGroup) {
-		return {};
+		if constexpr (std::is_same_v<T, EmptyEntity>) {
+			return visible_groupedEmptyEntities[mGroup];
+		}
+		else if constexpr (std::is_same_v<T, NodeEntity>) {
+			return visible_groupedNodeEntities[mGroup];
+		}
+		else if constexpr (std::is_same_v<T, LinkEntity>) {
+			return visible_groupedLinkEntities[mGroup];
+		}
+		else {
+			static_assert(sizeof(T) == 0, "Unsupported entity type.");
+		}
 	}
 
 	template <typename T>
 	std::vector<T*>& getGroup(Group mGroup) {
-		return {};
-	}
-
-	template <>
-	std::vector<EmptyEntity*>& getVisibleGroup(Group mGroup)
-	{
-		return visible_groupedEmptyEntities[mGroup];
-	}
-	
-	template <>
-	std::vector<EmptyEntity*>& getGroup(Group mGroup)
-	{
-		return groupedEmptyEntities[mGroup];
-	}
-
-	template <>
-	std::vector<NodeEntity*>& getGroup(Group mGroup)
-	{
-		return groupedNodeEntities[mGroup];
-	}
-
-	template <>
-	std::vector<NodeEntity*>& getVisibleGroup(Group mGroup)
-	{
-		return visible_groupedNodeEntities[mGroup];
-	}
-	
-	template <>
-	std::vector<LinkEntity*>& getGroup(Group mGroup)
-	{
-		return groupedLinkEntities[mGroup];
-	}
-
-	template <>
-	std::vector<LinkEntity*>& getVisibleGroup(Group mGroup)
-	{
-		return visible_groupedLinkEntities[mGroup];
+		if constexpr (std::is_same_v<T, EmptyEntity>) {
+			return groupedEmptyEntities[mGroup];
+		}
+		else if constexpr (std::is_same_v<T, NodeEntity>) {
+			return groupedNodeEntities[mGroup];
+		}
+		else if constexpr (std::is_same_v<T, LinkEntity>) {
+			return groupedLinkEntities[mGroup];
+		}
+		else {
+			static_assert(sizeof(T) == 0, "Unsupported entity type.");
+		}
 	}
 
 	template <typename T, typename... TArgs>

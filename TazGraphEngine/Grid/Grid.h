@@ -47,15 +47,71 @@ public:
 	std::vector<Cell*> getIntersectedCameraCells(ICamera& camera);
 
 	template <typename T>
-	std::vector<T*> getRevealedEntitiesInCameraCells();
+	std::vector<T*> getRevealedEntitiesInCameraCells() {
+		std::vector<T*> result;
+
+		if constexpr (std::is_same_v<T, NodeEntity>) {
+			for (auto& cell : _interceptedCells) {
+				for (auto& entity : cell->nodes) {
+					if (!entity->isHidden()) {  // Check if the entity is visible
+						result.push_back(entity);
+					}
+				}
+			}
+		}
+		else if constexpr (std::is_same_v<T, EmptyEntity>) {
+			for (auto& cell : _interceptedCells) {
+				for (auto& entity : cell->emptyEntities) {
+					if (!entity->isHidden()) {  // Check if the entity is visible
+						result.push_back(entity);
+					}
+				}
+			}
+		}
+		else if constexpr (std::is_same_v<T, LinkEntity>) {
+			std::map<unsigned int, LinkEntity*> uniqueEntities;
+
+			for (auto& cell : _interceptedCells) {
+				for (auto& link : cell->links) {
+					if (!link->isHidden()) {
+						unsigned int linkId = link->getId();
+
+						if (uniqueEntities.find(linkId) == uniqueEntities.end()) {
+							uniqueEntities[linkId] = link;
+						}
+					}
+				}
+			}
+			for (auto& entry : uniqueEntities) {
+				result.push_back(entry.second);
+			}
+		}
+		else {
+			static_assert(sizeof(T) == 0, "Unsupported entity type.");
+		}
+		return result;
+
+	}
 
 	template <typename T>
-	std::vector<T*> getEntitiesInCameraCells();
+	std::vector<T*> getEntitiesInCameraCells() {
+		std::vector<T*> result;
 
-	template <>
-	std::vector<EmptyEntity*> getEntitiesInCameraCells();
-	template <>
-	std::vector<NodeEntity*> getEntitiesInCameraCells();
+		if constexpr (std::is_same_v<T, NodeEntity>) {
+			for (auto& cell : _interceptedCells) {
+				result.insert(result.end(), cell->nodes.begin(), cell->nodes.end());
+			}
+		}
+		else if constexpr (std::is_same_v<T, EmptyEntity>) {
+			for (auto& cell : _interceptedCells) {
+				result.insert(result.end(), cell->emptyEntities.begin(), cell->emptyEntities.end());
+			}
+		}
+		else {
+			static_assert(sizeof(T) == 0, "Unsupported entity type.");
+		}
+		return result;
+	}
 
 	std::vector<LinkEntity*> getLinksInCameraCells();
 

@@ -14,21 +14,19 @@ struct Cell {
 	std::vector<Cell*> children;
 
 	template <typename T>
-	std::vector<T*>& getEntityList();
-
-	template <>
-	std::vector<NodeEntity*>& getEntityList<NodeEntity>() {
-		return nodes;
-	}
-
-	template <>
-	std::vector<EmptyEntity*>& getEntityList<EmptyEntity>() {
-		return emptyEntities;
-	}
-
-	template <>
-	std::vector<LinkEntity*>& getEntityList<LinkEntity>() {
-		return links;
+	std::vector<T*>& getEntityList() {
+		if constexpr (std::is_same_v<T, NodeEntity>) {
+			return nodes;
+		}
+		else if constexpr (std::is_same_v<T, EmptyEntity>) {
+			return emptyEntities;
+		}
+		else if constexpr (std::is_same_v<T, LinkEntity>) {
+			return links;
+		}
+		else {
+			static_assert(sizeof(T) == 0, "Unsupported entity type.");
+		}
 	}
 };
 

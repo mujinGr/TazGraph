@@ -6,6 +6,7 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
+#include <condition_variable>
 
 struct TaskQueue {
     std::deque<std::function<void()>> tasks;
