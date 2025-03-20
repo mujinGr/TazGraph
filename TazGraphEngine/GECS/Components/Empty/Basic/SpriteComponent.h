@@ -91,7 +91,7 @@ public:
 		destRect.y = static_cast<int>(transform->getPosition().y);
 	}
 
-	void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override
+	void draw(size_t v_index, PlaneModelRenderer&  batch, TazGraphEngine::Window& window)
 	{
 		if (gl_texture == NULL)
 		{
@@ -113,7 +113,7 @@ public:
 
 		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
 
-		batch.draw(pos, uv, gl_texture->id, transform->getZIndex(), color);
+		batch.draw(v_index, pos, uv, gl_texture->id, transform->getZIndex(), color);
 		
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);

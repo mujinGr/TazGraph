@@ -135,12 +135,10 @@ void MainMenuScreen::update(float deltaTime)
 }
 
 void MainMenuScreen::renderBatch(const std::vector<EmptyEntity*>& entities) {
-	_PlaneModelRenderer.begin();
 	for (const auto& entity : entities) {
-		entity->draw(_PlaneModelRenderer, *Graph::_window);
+		entity->GetComponent<SpriteComponent>().draw(0, _PlaneModelRenderer, *Graph::_window);
 	}
-	_PlaneModelRenderer.end();
-	_PlaneModelRenderer.renderBatch();
+
 }
 
 void MainMenuScreen::draw()
@@ -154,7 +152,16 @@ void MainMenuScreen::draw()
 	//////////////////////////////////////
 
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), "graphnetwork", *main_camera2D);
+
+	_PlaneModelRenderer.begin();
+
+	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture("graphnetwork");
+	_PlaneModelRenderer.initTextureQuadBatch(texture->id, mainmenubackground.size());
+
 	renderBatch(mainmenubackground);
+
+	_PlaneModelRenderer.end();
+	_PlaneModelRenderer.renderBatch();
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//drawHUD();

@@ -2,9 +2,6 @@
 
 
 void ResourceManager::setupShader_Texture(GLSLProgram& shaderProgram, const std::string& textureName) {
-	glActiveTexture(GL_TEXTURE0);
-	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
-	glBindTexture(GL_TEXTURE_2D, texture->id);
 	GLint textureLocation = shaderProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);
 }

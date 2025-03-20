@@ -122,15 +122,16 @@ public:
 	void begin(GlyphSortType sortType = GlyphSortType::BACK_TO_FRONT);
 	void end();
 
-	void initTriangleBatch(size_t mSize);
-	void initQuadBatch(size_t mSize);
+	void initTextureTriangleBatch(GLuint texture, size_t mSize);
+	void initTextureQuadBatch(GLuint texture, size_t mSize);
 
 	void drawTriangle(
+		size_t v_index,
 		const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3,
 		const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
 		GLuint texture, const Color& color);
 
-	void draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color);
+	void draw(size_t v_index, const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color);
 
 	void renderBatch();
 
@@ -144,9 +145,11 @@ private:
 
 	GlyphSortType _sortType;
 
-	std::vector<Glyph> _glyphs; //actual glyphs
+	std::vector<Vertex> _vertices;
 
-	std::vector<TriangleGlyph> _triangles; //actual glyphs
+	size_t _glyphs_size; //actual glyphs
+
+	size_t _triangles_size; //actual glyphs
 
 	std::vector<RenderBatch> _renderBatches;
 };

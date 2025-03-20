@@ -17,9 +17,11 @@ void PlaneModelRenderer::begin(GlyphSortType sortType/*GlyphSortType::TEXTURE*/)
 	_sortType = sortType;
 	_renderBatches.clear();
 
-	_glyphs.clear();
+	_glyphs_size = 0;
 
-	_triangles.clear();
+	_triangles_size = 0;
+
+	_vertices.clear();
 }
 void PlaneModelRenderer::end() {
 	//set up all pointers for fast sorting
@@ -27,29 +29,69 @@ void PlaneModelRenderer::end() {
 }
 
 
-void PlaneModelRenderer::initTriangleBatch(size_t mSize)
+void PlaneModelRenderer::initTextureTriangleBatch(GLuint texture, size_t mSize)
 {
-	_triangles.reserve(mSize);
+	_triangles_size = mSize;
+
+	_vertices.resize(_vertices.size() + mSize * TRIANGLE_OFFSET);
+
 }
 
-void PlaneModelRenderer::initQuadBatch(size_t mSize)
+void PlaneModelRenderer::initTextureQuadBatch(GLuint texture, size_t mSize)
 {
-	_glyphs.reserve(mSize);
+	_glyphs_size = mSize;
+
+	_vertices.resize(_vertices.size() + mSize * RECT_OFFSET);
 }
 
 void PlaneModelRenderer::drawTriangle(
+	size_t v_index,
 	const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3,
 	const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
 	GLuint texture, const Color& color
 ) {
-	_triangles.emplace_back(v1,v2,v3,uv1,uv2,uv3, texture, color);
+	TriangleGlyph triangleGlyph = TriangleGlyph(v1, v2, v3, uv1, uv2, uv3, texture, color);
+
+	int offset = v_index * TRIANGLE_OFFSET + _glyphs_size * RECT_OFFSET;
+
+	if (triangleGlyph.texture != _renderBatches.back().texture) {
+		_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, triangleGlyph.texture);
+	}
+	else {
+		_renderBatches.back().numVertices += TRIANGLE_OFFSET;
+	}
+
+	_vertices[offset++] = triangleGlyph.topLeft;
+	_vertices[offset++] = triangleGlyph.bottomLeft;
+	_vertices[offset++] = triangleGlyph.bottomRight;
 }
 // we can generalize the renderer for multiple kinds of meshes (triangle made instead of planes) by creating
 // more draw functions for those meshes (like draw function for triangle).
 // Also instead of glyphs have triangles, so when its time to createRenderBatches we see the next mesh
 // how many triangles it has and accordingly add those multiple vertices with the combined texture
-void PlaneModelRenderer::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color) {
-	_glyphs.emplace_back(destRect, uvRect, texture, depth, color);
+void PlaneModelRenderer::draw(
+	size_t v_index,
+	const glm::vec4& destRect, const glm::vec4& uvRect,
+	GLuint texture, float depth, const Color& color) {
+
+	Glyph glyph = Glyph(destRect, uvRect, texture, depth, color);
+
+	int offset = v_index * RECT_OFFSET;
+
+	if (_renderBatches.empty() || glyph.texture != _renderBatches.back().texture) {
+		_renderBatches.emplace_back(offset, RECT_OFFSET, glyph.texture);
+	}
+	else {
+		_renderBatches.back().numVertices += RECT_OFFSET;
+	}
+
+	_vertices[offset++] = glyph.topLeft;
+	_vertices[offset++] = glyph.bottomLeft;
+	_vertices[offset++] = glyph.bottomRight;
+	_vertices[offset++] = glyph.bottomRight;
+	_vertices[offset++] = glyph.topRight;
+	_vertices[offset++] = glyph.topLeft;
+
 }
 
 void PlaneModelRenderer::renderBatch() {
@@ -65,68 +107,16 @@ void PlaneModelRenderer::renderBatch() {
 }
 
 void PlaneModelRenderer::createRenderBatches() {
-	std::vector<Vertex> vertices;
-	vertices.resize((_glyphs.size() * RECT_OFFSET) + (_triangles.size() * TRIANGLE_OFFSET));
-	if (_glyphs.empty() && _triangles.empty()) {
+
+	if (_glyphs_size == 0 && _triangles_size == 0) {
 		return;
-	}
-
-	int offset = 0;
-	int cv = 0; //current vertex
-	if (_glyphs.size())
-	{
-		_renderBatches.emplace_back(offset, RECT_OFFSET, _glyphs[0].texture);
-		vertices[cv++] = _glyphs[0].topLeft;
-		vertices[cv++] = _glyphs[0].bottomLeft;
-		vertices[cv++] = _glyphs[0].bottomRight;
-		vertices[cv++] = _glyphs[0].bottomRight;
-		vertices[cv++] = _glyphs[0].topRight;
-		vertices[cv++] = _glyphs[0].topLeft;
-		offset += RECT_OFFSET;
-
-		for (int cg = 1; cg < _glyphs.size(); cg++) { //current Glyph
-			if (_glyphs[cg].texture != _glyphs[cg - 1].texture) {
-				_renderBatches.emplace_back(offset, RECT_OFFSET, _glyphs[0].texture);
-			}
-			else {
-				_renderBatches.back().numVertices += RECT_OFFSET;
-			}
-			vertices[cv++] = _glyphs[cg].topLeft;
-			vertices[cv++] = _glyphs[cg].bottomLeft;
-			vertices[cv++] = _glyphs[cg].bottomRight;
-			vertices[cv++] = _glyphs[cg].bottomRight;
-			vertices[cv++] = _glyphs[cg].topRight;
-			vertices[cv++] = _glyphs[cg].topLeft;
-			offset += RECT_OFFSET;
-		}
-	}
-
-	if (_triangles.size()) {
-		_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, _triangles[0].texture);
-		vertices[cv++] = _triangles[0].topLeft;
-		vertices[cv++] = _triangles[0].bottomLeft;
-		vertices[cv++] = _triangles[0].bottomRight;
-		offset += TRIANGLE_OFFSET;
-
-		for (int cg = 1; cg < _triangles.size(); cg++) { //current Glyph
-			if (_triangles[cg].texture != _triangles[cg - 1].texture) {
-				_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, _triangles[0].texture);
-			}
-			else {
-				_renderBatches.back().numVertices += TRIANGLE_OFFSET;
-			}
-			vertices[cv++] = _triangles[cg].topLeft;
-			vertices[cv++] = _triangles[cg].bottomLeft;
-			vertices[cv++] = _triangles[cg].bottomRight;
-			offset += TRIANGLE_OFFSET;
-		}
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	//orphan the buffer / like using double buffer
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
 	//upload the data
-	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(Vertex), vertices.data());
+	glBufferSubData(GL_ARRAY_BUFFER, 0, _vertices.size() * sizeof(Vertex), _vertices.data());
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

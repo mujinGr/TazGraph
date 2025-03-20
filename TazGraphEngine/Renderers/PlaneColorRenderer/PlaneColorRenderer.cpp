@@ -21,6 +21,8 @@ void PlaneColorRenderer::begin() {
 	_triangleGlyphs_size = 0;
 
 	_boxGlyphs_size = 0;
+
+	_vertices.clear();
 }
 void PlaneColorRenderer::end() {
 
