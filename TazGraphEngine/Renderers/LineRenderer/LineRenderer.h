@@ -64,22 +64,17 @@ public:
 		glm::vec3 abottomRight(destRect.x + destRect.z, destRect.y + destRect.w, mdepth);
 		glm::vec3 atopRight(destRect.x + destRect.z, destRect.y, mdepth);
 
-		glm::vec3 rotatedTopLeft = glm::vec3(atopLeft.x, atopLeft.y, atopLeft.z);
-		glm::vec3 rotatedBottomLeft = glm::vec3(abottomLeft.x, abottomLeft.y, abottomLeft.z);
-		glm::vec3 rotatedBottomRight = glm::vec3(abottomRight.x, abottomRight.y, abottomRight.z);
-		glm::vec3 rotatedTopRight = glm::vec3(atopRight.x, atopRight.y, atopRight.z);
-
 		topLeft.color = color;
-		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y, rotatedTopLeft.z);
+		topLeft.setPosition(atopLeft.x, atopLeft.y, atopLeft.z);
 
 		bottomLeft.color = color;
-		bottomLeft.setPosition(rotatedBottomLeft.x, rotatedBottomLeft.y, rotatedBottomLeft.z);
+		bottomLeft.setPosition(abottomLeft.x, abottomLeft.y, abottomLeft.z);
 
 		bottomRight.color = color;
-		bottomRight.setPosition(rotatedBottomRight.x, rotatedBottomRight.y, rotatedBottomRight.z);
+		bottomRight.setPosition(abottomRight.x, abottomRight.y, abottomRight.z);
 
 		topRight.color = color;
-		topRight.setPosition(rotatedTopRight.x, rotatedTopRight.y, rotatedTopRight.z);
+		topRight.setPosition(atopRight.x, atopRight.y, atopRight.z);
 
 	};
 
@@ -211,6 +206,12 @@ void main() {
 	
 	void dispose();
 
+	int box_edgePairs[12][2] = {
+			{0, 1}, {1, 2}, {2, 3}, {3, 0}, // Bottom face
+			{4, 5}, {5, 6}, {6, 7}, {7, 4}, // Top face
+			{0, 4}, {1, 5}, {2, 6}, {3, 7}  // Vertical edges
+	};
+
 private:
 	void createRenderBatches();
 	void createVertexArray();
@@ -220,11 +221,9 @@ private:
 	std::vector<ColorVertex> _vertices;
 	std::vector<GLuint> _indices;
 
-	std::vector<LineGlyph>	_lineGlyphs;
-
-	std::vector<SquareGlyph> _squareGlyphs;
-
-	std::vector<BoxGlyph> _boxGlyphs;
+	size_t _lineGlyphs_size		= 0;
+	size_t _squareGlyphs_size	= 0;
+	size_t _boxGlyphs_size		= 0;
 
 	std::vector<RenderLineBatch> _renderBatches;
 };

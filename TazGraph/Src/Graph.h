@@ -72,12 +72,6 @@ public:
 
 	/////////////////////////
 	void renderBatch(size_t startIndex, const std::vector<LinkEntity*>& entities, LineRenderer& batch);
-	void renderAllBatches(
-		std::vector<NodeEntity*>& nodes,
-		std::vector<EmptyEntity*>& emptyEntities,
-		std::vector<LinkEntity*>& links,
-		PlaneColorRenderer& batch, 
-		LineRenderer& line_batch);
 	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRenderer& batch);
 	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch);
 	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch);
@@ -142,7 +136,7 @@ private:
 	glm::vec2 _sceneMousePosition = {0.f,0.f};
 	glm::vec2 _savedMainViewportMousePosition = { 0.f,0.f };
 
-	Threader threadPool = Threader(4);
+	//Threader threadPool = Threader(4);
 };
 
 
