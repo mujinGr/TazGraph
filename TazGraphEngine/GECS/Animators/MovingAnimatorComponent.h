@@ -47,8 +47,8 @@ public:
 			resetAnimation();
 		}
 
-		sprite->destRect.x = static_cast<int>(sprite->transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
-		sprite->destRect.y = static_cast<int>(sprite->transform->getPosition().y);
+		sprite->destRect.x = sprite->transform->getPosition().x; //make player move with the camera, being stable in centre, except on edges
+		sprite->destRect.y = sprite->transform->getPosition().y;
 
 		sprite->destRect.w = sprite->transform->bodyDims.w * sprite->transform->scale;
 		sprite->destRect.h = sprite->transform->bodyDims.h * sprite->transform->scale;

@@ -11,6 +11,10 @@
 #define SQUARE_OFFSET 4
 #define BOX_OFFSET 8
 
+constexpr int INDICES_LINE_OFFSET = LINE_OFFSET;
+constexpr int INDICES_SQUARE_OFFSET = 2 * SQUARE_OFFSET;
+constexpr int INDICES_BOX_OFFSET = 3 * BOX_OFFSET;
+
 
 class RenderLineBatch {
 public:
@@ -162,6 +166,8 @@ public:
 in vec3 vertexPosition; //vec3 is array of 3 floats
 in vec4 vertexColor;
 
+uniform mat4 rotationMatrix;
+
 out vec4 fragmentColor;
 
 uniform mat4 projection;
@@ -224,6 +230,14 @@ private:
 	size_t _lineGlyphs_size		= 0;
 	size_t _squareGlyphs_size	= 0;
 	size_t _boxGlyphs_size		= 0;
+
+	int _rectangles_verticesOffset = 0;
+	int _lines_verticesOffset = 0;
+	int _boxes_verticesOffset= 0;
+
+	int _rectangles_indicesOffset = 0;
+	int _lines_indicesOffset = 0;
+	int _boxes_indicesOffset = 0;
 
 	std::vector<RenderLineBatch> _renderBatches;
 };

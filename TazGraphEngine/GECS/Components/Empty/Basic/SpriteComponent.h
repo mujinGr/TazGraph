@@ -76,8 +76,8 @@ public:
 		srcRect.w = transform->bodyDims.w;
 		srcRect.h = transform->bodyDims.h;
 
-		destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
-		destRect.y = static_cast<int>(transform->getPosition().y);
+		destRect.x = transform->getPosition().x; //make player move with the camera, being stable in centre, except on edges
+		destRect.y = transform->getPosition().y;
 
 		destRect.w = transform->bodyDims.w * transform->scale;
 		destRect.h = transform->bodyDims.h * transform->scale;
@@ -87,8 +87,8 @@ public:
 
 	void update(float deltaTime) override
 	{
-		destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
-		destRect.y = static_cast<int>(transform->getPosition().y);
+		destRect.x = transform->getPosition().x; //make player move with the camera, being stable in centre, except on edges
+		destRect.y = transform->getPosition().y;
 	}
 
 	void draw(size_t v_index, PlaneModelRenderer&  batch, TazGraphEngine::Window& window)
@@ -124,17 +124,17 @@ public:
 		/*glBindTexture(GL_TEXTURE_2D, 0);*/
 	}
 
-	void SetAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, int reps = 0)
+	void SetAnimation(int idX, int idY, size_t fr, float sp, const Animation::animType type, int reps = 0)
 	{
 		animation = Animation(idX, idY, fr, sp, type, reps);
 	}
 
-	void SetMovingAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, const std::vector<glm::vec2>& _positions, const std::vector<int>& _zIndices, const std::vector<int>& _rotations, int reps = 0)
+	void SetMovingAnimation(int idX, int idY, size_t fr, float sp, const Animation::animType type, const std::vector<glm::vec2>& _positions, const std::vector<int>& _zIndices, const std::vector<int>& _rotations, int reps = 0)
 	{
 		moving_animation = MovingAnimation(idX, idY, fr, sp, type, _positions, _zIndices, _rotations, reps); // dx,dy needs to be vector, if yes then dont need int dx dy
 	}
 
-	void SetFlashAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, const std::vector<float>& flashTimes, Color flashC, int reps = 0)
+	void SetFlashAnimation(int idX, int idY, size_t fr, float sp, const Animation::animType type, const std::vector<float>& flashTimes, Color flashC, int reps = 0)
 	{
 		flash_animation = FlashAnimation(idX, idY, fr, sp, type, flashTimes, flashC, reps);
 	}

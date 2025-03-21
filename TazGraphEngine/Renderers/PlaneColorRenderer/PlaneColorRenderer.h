@@ -164,11 +164,12 @@ private:
 
 	std::vector<ColorVertex> _vertices; //actual glyphs
 
-	size_t _glyphs_size; //actual glyphs
+	size_t _glyphs_size = 0; //actual glyphs
+	size_t _triangleGlyphs_size = 0; //actual glyphs
+	size_t _boxGlyphs_size = 0;
 
-	size_t _triangleGlyphs_size; //actual glyphs
-
-	size_t _boxGlyphs_size;
+	int _triangles_verticesOffset = 0;
+	int _rectangles_verticesOffset = 0;
 
 	std::vector<ColorRenderBatch> _renderBatches;
 };

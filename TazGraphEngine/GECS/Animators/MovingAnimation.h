@@ -66,7 +66,7 @@ public:
 	}
 
 	MovingAnimation(
-		int ix, int iy, int f, float s, const animType _type, const std::vector<glm::vec2>& _positions, const std::vector<int>& _zIndices, const std::vector<int>& _rotations, int _reps = 0)  // Animation frames look the next number of frames from the index
+		int ix, int iy, size_t f, float s, const animType _type, const std::vector<glm::vec2>& _positions, const std::vector<int>& _zIndices, const std::vector<int>& _rotations, int _reps = 0)  // Animation frames look the next number of frames from the index
 	{
 		positions.clear();
 		zIndices.clear();

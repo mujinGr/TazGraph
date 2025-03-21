@@ -506,6 +506,12 @@ void Graph::checkInput() {
 					selectEntityFromRay(ray);*/
 					selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_LEFT);
 					
+					// Get point on the ray at z = 0
+					pointAtZ0 = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, 0.0f);
+
+					// Get point on the ray at z = -100
+					pointAtO = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, rayOrigin.z);
+
 
 					std::cout << "convertedScreenToWorld: " << convertScreenToWorld(mouseCoordsVec).x << " - " << convertScreenToWorld(mouseCoordsVec).y << std::endl;
 				}
@@ -611,6 +617,7 @@ void Graph::renderBatch(size_t startIndex, const std::vector<LinkEntity*>& entit
 			}
 		}
 
+		//! activate threads near the end, where we have completed everything else
 	//threadPool.parallel(entities.size(), [&](int start, int end) {
 	//	for (int i = start; i < end; i++) {
 	//		if (entities[i]->hasComponent<Line_w_Color>()) {

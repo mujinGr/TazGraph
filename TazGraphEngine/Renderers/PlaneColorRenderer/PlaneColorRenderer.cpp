@@ -1,7 +1,8 @@
 #include "PlaneColorRenderer.h"
 #include <algorithm>
 
-PlaneColorRenderer::PlaneColorRenderer() : _vbo(0), _vao(0) {
+PlaneColorRenderer::PlaneColorRenderer() : _vbo(0), _vao(0),
+_glyphs_size(0), _triangleGlyphs_size(0), _boxGlyphs_size(0){
 
 }
 
@@ -17,10 +18,11 @@ void PlaneColorRenderer::begin() {
 	_renderBatches.clear();
 
 	_glyphs_size = 0;
-
 	_triangleGlyphs_size = 0;
-
 	_boxGlyphs_size = 0;
+
+	_triangles_verticesOffset = 0;
+	_rectangles_verticesOffset = 0;
 
 	_vertices.clear();
 }
@@ -46,6 +48,9 @@ void PlaneColorRenderer::initBatchSize()
 {
 	size_t totalGlyphs = _glyphs_size + _triangleGlyphs_size;
 
+	_rectangles_verticesOffset = 0;
+	_triangles_verticesOffset = _glyphs_size * RECT_OFFSET;
+
 	_renderBatches.resize(totalGlyphs);
 	_vertices.resize((_glyphs_size * RECT_OFFSET) + (_triangleGlyphs_size * TRIANGLE_OFFSET));
 }
@@ -63,7 +68,7 @@ void PlaneColorRenderer::drawTriangle(
 ) {
 	TriangleColorGlyph triangleGlyph = TriangleColorGlyph(v1, v2, v3, depth, color);
 
-	int offset = v_index * TRIANGLE_OFFSET + _glyphs_size * RECT_OFFSET;
+	int offset =  _triangles_verticesOffset + v_index * TRIANGLE_OFFSET;
 
 	v_index = v_index + _glyphs_size;
 
@@ -87,7 +92,7 @@ void PlaneColorRenderer::drawTriangle(
 void PlaneColorRenderer::draw(size_t v_index, const glm::vec4& destRect, float depth, const Color& color) {
 	ColorGlyph glyph = ColorGlyph(destRect, depth, color);
 
-	int offset = v_index * RECT_OFFSET;
+	int offset = _rectangles_verticesOffset + v_index * RECT_OFFSET;
 
 	_renderBatches[v_index] = ColorRenderBatch(offset, RECT_OFFSET, glm::vec3(
 		(glyph.topLeft.position.x + glyph.bottomRight.position.x) / 2,

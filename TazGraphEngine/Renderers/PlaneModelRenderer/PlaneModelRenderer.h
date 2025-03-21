@@ -10,13 +10,6 @@
 #define RECT_OFFSET 6
 #define TRIANGLE_OFFSET 3
 
-enum class GlyphSortType {
-	NONE,
-	FRONT_TO_BACK,
-	BACK_TO_FRONT,
-	TEXTURE
-};
-
 class RenderBatch {
 public:
 	RenderBatch(GLuint Offset, GLuint NumVertices, GLuint Texture) : offset(Offset),
@@ -58,7 +51,7 @@ public:
 		bottomRight.setUV(uv3.x, uv3.y);
 	};
 
-	GLuint texture;
+	GLuint texture = 0;
 
 	Vertex topLeft;
 	Vertex bottomLeft;
@@ -119,11 +112,13 @@ public:
 
 	void init();
 
-	void begin(GlyphSortType sortType = GlyphSortType::BACK_TO_FRONT);
+	void begin();
 	void end();
 
-	void initTextureTriangleBatch(GLuint texture, size_t mSize);
-	void initTextureQuadBatch(GLuint texture, size_t mSize);
+	void initTextureTriangleBatch(size_t mSize);
+	void initTextureQuadBatch(size_t mSize);
+
+	void initBatchSize();
 
 	void drawTriangle(
 		size_t v_index,
@@ -143,13 +138,13 @@ private:
 	GLuint _vbo;
 	GLuint _vao;
 
-	GlyphSortType _sortType;
-
 	std::vector<Vertex> _vertices;
 
-	size_t _glyphs_size; //actual glyphs
+	size_t _glyphs_size = 0; //actual glyphs
+	size_t _triangles_size = 0; //actual glyphs
 
-	size_t _triangles_size; //actual glyphs
+	int _triangles_verticesOffset = 0;
+	int _rectangles_verticesOffset = 0;
 
 	std::vector<RenderBatch> _renderBatches;
 };

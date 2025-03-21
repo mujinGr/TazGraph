@@ -1,7 +1,10 @@
 #include "PlaneModelRenderer.h"
 #include <algorithm>
 
-PlaneModelRenderer::PlaneModelRenderer() : _vbo(0), _vao(0) {
+PlaneModelRenderer::PlaneModelRenderer() : _vbo(0), _vao(0),
+_glyphs_size(0), _triangles_size(0),
+_triangles_verticesOffset(0), _rectangles_verticesOffset(0)
+{
 
 }
 
@@ -13,13 +16,15 @@ void PlaneModelRenderer::init() {
 	createVertexArray();
 }
 
-void PlaneModelRenderer::begin(GlyphSortType sortType/*GlyphSortType::TEXTURE*/) {
-	_sortType = sortType;
+void PlaneModelRenderer::begin() {
 	_renderBatches.clear();
 
 	_glyphs_size = 0;
-
 	_triangles_size = 0;
+
+	_triangles_verticesOffset = 0;
+	_rectangles_verticesOffset = 0;
+
 
 	_vertices.clear();
 }
@@ -29,19 +34,22 @@ void PlaneModelRenderer::end() {
 }
 
 
-void PlaneModelRenderer::initTextureTriangleBatch(GLuint texture, size_t mSize)
+void PlaneModelRenderer::initTextureTriangleBatch(size_t mSize)
 {
 	_triangles_size = mSize;
-
-	_vertices.resize(_vertices.size() + mSize * TRIANGLE_OFFSET);
-
 }
 
-void PlaneModelRenderer::initTextureQuadBatch(GLuint texture, size_t mSize)
+void PlaneModelRenderer::initTextureQuadBatch(size_t mSize)
 {
 	_glyphs_size = mSize;
+}
 
-	_vertices.resize(_vertices.size() + mSize * RECT_OFFSET);
+void PlaneModelRenderer::initBatchSize()
+{
+	_rectangles_verticesOffset = 0;
+	_triangles_verticesOffset = _glyphs_size * RECT_OFFSET;
+
+	_vertices.resize((_glyphs_size * RECT_OFFSET) + (_triangles_size * TRIANGLE_OFFSET));
 }
 
 void PlaneModelRenderer::drawTriangle(
@@ -52,9 +60,9 @@ void PlaneModelRenderer::drawTriangle(
 ) {
 	TriangleGlyph triangleGlyph = TriangleGlyph(v1, v2, v3, uv1, uv2, uv3, texture, color);
 
-	int offset = v_index * TRIANGLE_OFFSET + _glyphs_size * RECT_OFFSET;
+	int offset = _triangles_verticesOffset + v_index * TRIANGLE_OFFSET;
 
-	if (triangleGlyph.texture != _renderBatches.back().texture) {
+	if (_renderBatches.empty() || triangleGlyph.texture != _renderBatches.back().texture) {
 		_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, triangleGlyph.texture);
 	}
 	else {

@@ -4,7 +4,7 @@
 #include "../Components.h"
 
 
-typedef class Empty : public EmptyEntity {
+class Empty : public EmptyEntity {
 
 public:
 
@@ -52,7 +52,7 @@ public:
 	}
 };
 
-typedef class Node: public NodeEntity {
+class Node: public NodeEntity {
 private:
 	
 
@@ -165,7 +165,7 @@ public:
 };
 
 
-typedef class Link : public LinkEntity {
+class Link : public LinkEntity {
 private:
 
 	

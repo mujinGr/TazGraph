@@ -155,8 +155,10 @@ void MainMenuScreen::draw()
 
 	_PlaneModelRenderer.begin();
 
-	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture("graphnetwork");
-	_PlaneModelRenderer.initTextureQuadBatch(texture->id, mainmenubackground.size());
+	_PlaneModelRenderer.initTextureQuadBatch(mainmenubackground.size());
+
+	_PlaneModelRenderer.initBatchSize();
+
 
 	renderBatch(mainmenubackground);
 

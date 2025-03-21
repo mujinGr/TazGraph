@@ -64,9 +64,17 @@ void LineRenderer::initBatchSize()
 		_squareGlyphs_size * SQUARE_OFFSET +
 		_boxGlyphs_size * BOX_OFFSET);
 	_indices.resize(
-		_lineGlyphs_size * LINE_OFFSET +
-		_squareGlyphs_size * SQUARE_OFFSET * 2 +
-		_boxGlyphs_size * BOX_OFFSET * 3);
+		_lineGlyphs_size * INDICES_LINE_OFFSET +
+		_squareGlyphs_size * INDICES_SQUARE_OFFSET +
+		_boxGlyphs_size * INDICES_BOX_OFFSET);
+
+	_rectangles_verticesOffset = 0;
+	_lines_verticesOffset = _squareGlyphs_size * SQUARE_OFFSET;
+	_boxes_verticesOffset = _squareGlyphs_size * SQUARE_OFFSET + _lineGlyphs_size * LINE_OFFSET;
+
+	_rectangles_indicesOffset = 0;
+	_lines_indicesOffset = _squareGlyphs_size * INDICES_SQUARE_OFFSET;
+	_boxes_indicesOffset = _squareGlyphs_size * INDICES_SQUARE_OFFSET + _lineGlyphs_size * INDICES_LINE_OFFSET;
 }
 
 // todo can be optimized, by having something like glyphs in planeModelRenederer where first you pass info in a vector and
@@ -75,8 +83,8 @@ void LineRenderer::drawLine(size_t v_index, const glm::vec3 srcPosition, const g
 {
 	LineGlyph lineGlyph = LineGlyph(srcPosition, destPosition, srcColor, destColor);
 
-	int i_cg = _squareGlyphs_size * 2 * SQUARE_OFFSET + v_index * LINE_OFFSET;
-	int verts_index = _squareGlyphs_size * SQUARE_OFFSET + v_index * LINE_OFFSET;
+	int i_cg = _lines_indicesOffset + v_index * INDICES_LINE_OFFSET;
+	int verts_index = _lines_verticesOffset + v_index * LINE_OFFSET;
 
 	int cv = i_cg;
 	
@@ -91,7 +99,7 @@ void LineRenderer::drawRectangle(size_t v_index, const glm::vec4& destRect, cons
 {
 	SquareGlyph squareGlyph = SquareGlyph(destRect, color, angle, zIndex);
 	
-	int i_cg = v_index * 2 * SQUARE_OFFSET;
+	int i_cg = v_index * INDICES_SQUARE_OFFSET;
 	int verts_index = v_index * SQUARE_OFFSET;
 
 	int cv = verts_index;
@@ -117,8 +125,8 @@ void LineRenderer::drawBox(size_t v_index, const glm::vec3& origin, const glm::v
 {
 	BoxGlyph boxGlyph = BoxGlyph(origin, size, color, angle);
 
-	int i_cg = _squareGlyphs_size * 2 * SQUARE_OFFSET + _lineGlyphs_size * LINE_OFFSET + v_index * 3 * BOX_OFFSET;
-	int verts_index = _squareGlyphs_size * SQUARE_OFFSET + _lineGlyphs_size * LINE_OFFSET + v_index * BOX_OFFSET;
+	int i_cg = _boxes_indicesOffset + v_index * INDICES_BOX_OFFSET;
+	int verts_index = _boxes_verticesOffset+ v_index * BOX_OFFSET;
 
 	int cv = verts_index;
 
