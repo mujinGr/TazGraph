@@ -5,10 +5,37 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
+static glm::mat4 getRotationMatrix(glm::vec3 newRot) {
+	float radX = glm::radians(newRot.x);
+	float radY = glm::radians(newRot.y);
+	float radZ = glm::radians(newRot.z);
+
+	glm::mat4 rotationX = glm::rotate(glm::mat4(1.0f), radX, glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::mat4 rotationY = glm::rotate(glm::mat4(1.0f), radY, glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 rotationZ = glm::rotate(glm::mat4(1.0f), radZ, glm::vec3(0.0f, 0.0f, 1.0f));
+
+	glm::mat4 rotationMatrix = rotationZ * rotationY * rotationX;
+	return rotationMatrix;
+}
+
+static glm::vec2 rotatePoint(float x, float y, float centerX, float centerY, float radians) {
+	float dx = x - centerX;
+	float dy = y - centerY;
+	return glm::vec2(
+		centerX + dx * cos(radians) - dy * sin(radians),
+		centerY + dx * sin(radians) + dy * cos(radians)
+	);
+};
+/*	glm::vec3 arotatedTopLeft = rotatePoint(atopLeft.x, atopLeft.y, atopLeft.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 arotatedBottomLeft = rotatePoint(abottomLeft.x, abottomLeft.y, abottomLeft.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 arotatedBottomRight = rotatePoint(abottomRight.x, abottomRight.y, abottomRight.z, centerX, centerY, centerZ, 0, 0, 0);
+		glm::vec3 arotatedTopRight = rotatePoint(atopRight.x, atopRight.y, atopRight.z, centerX, centerY, centerZ, 0, 0, 0);*/
+
+
 struct Position {
-	float x;
-	float y;
-	float z;
+	float x = 0;
+	float y = 0;
+	float z = 0;
 };
 
 struct Color {

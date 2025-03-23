@@ -124,11 +124,11 @@ private:
 
 	Framebuffer _framebuffer;
 
-	unsigned int _rectVAO, _rectVBO;
+	unsigned int _rectVAO = 0, _rectVBO = 0;
 
-	unsigned int _FBO;
-	unsigned int _framebufferTexture;
-	unsigned int _RBO;
+	unsigned int _FBO = 0;
+	unsigned int _framebufferTexture = 0;
+	unsigned int _RBO = 0;
 
 	ImVec2 _windowPos;
 	ImVec2 _windowSize;

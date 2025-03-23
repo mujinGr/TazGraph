@@ -25,6 +25,14 @@ void LineRenderer::begin()
 	_squareGlyphs_size = 0;
 	_boxGlyphs_size = 0;
 
+	_lines_verticesOffset = 0;
+	_rectangles_verticesOffset = 0;
+	_boxes_verticesOffset = 0;
+
+	_lines_indicesOffset = 0;
+	_rectangles_indicesOffset = 0;
+	_boxes_indicesOffset = 0;
+
 	_vertices.clear();
 	_indices.clear();
 }
@@ -52,12 +60,13 @@ void LineRenderer::initBatchBoxes(size_t msize)
 
 void LineRenderer::initBatchSize()
 {
-	if (_squareGlyphs_size != 0) _renderBatches.push_back(RenderLineBatch(0, _squareGlyphs_size * SQUARE_OFFSET * 2));
-	if (_lineGlyphs_size != 0) _renderBatches.push_back(RenderLineBatch(_squareGlyphs_size * SQUARE_OFFSET, _lineGlyphs_size * LINE_OFFSET));
+	if (_lineGlyphs_size!= 0) _renderBatches.push_back(RenderLineBatch(0, _lineGlyphs_size * INDICES_LINE_OFFSET));
+	if (_squareGlyphs_size != 0) _renderBatches.push_back(RenderLineBatch(_lineGlyphs_size * INDICES_LINE_OFFSET, _squareGlyphs_size * INDICES_SQUARE_OFFSET));
 	if (_boxGlyphs_size != 0) _renderBatches.push_back(RenderLineBatch(
-		_lineGlyphs_size * LINE_OFFSET + _squareGlyphs_size * SQUARE_OFFSET,
-		_boxGlyphs_size * BOX_OFFSET * 3
+		_lineGlyphs_size * INDICES_LINE_OFFSET + _squareGlyphs_size * INDICES_SQUARE_OFFSET,
+		_boxGlyphs_size * INDICES_BOX_OFFSET
 	));
+	
 
 	_vertices.resize(
 		_lineGlyphs_size * LINE_OFFSET +
@@ -68,13 +77,13 @@ void LineRenderer::initBatchSize()
 		_squareGlyphs_size * INDICES_SQUARE_OFFSET +
 		_boxGlyphs_size * INDICES_BOX_OFFSET);
 
-	_rectangles_verticesOffset = 0;
-	_lines_verticesOffset = _squareGlyphs_size * SQUARE_OFFSET;
-	_boxes_verticesOffset = _squareGlyphs_size * SQUARE_OFFSET + _lineGlyphs_size * LINE_OFFSET;
+	_lines_verticesOffset = 0;
+	_rectangles_verticesOffset = _lineGlyphs_size * LINE_OFFSET;
+	_boxes_verticesOffset = _lineGlyphs_size * LINE_OFFSET + _squareGlyphs_size * SQUARE_OFFSET;
 
-	_rectangles_indicesOffset = 0;
-	_lines_indicesOffset = _squareGlyphs_size * INDICES_SQUARE_OFFSET;
-	_boxes_indicesOffset = _squareGlyphs_size * INDICES_SQUARE_OFFSET + _lineGlyphs_size * INDICES_LINE_OFFSET;
+	_lines_indicesOffset = 0;
+	_rectangles_indicesOffset = _lineGlyphs_size * INDICES_LINE_OFFSET;
+	_boxes_indicesOffset = _lineGlyphs_size * INDICES_LINE_OFFSET + _squareGlyphs_size * INDICES_SQUARE_OFFSET;
 }
 
 // todo can be optimized, by having something like glyphs in planeModelRenederer where first you pass info in a vector and
@@ -99,8 +108,8 @@ void LineRenderer::drawRectangle(size_t v_index, const glm::vec4& destRect, cons
 {
 	SquareGlyph squareGlyph = SquareGlyph(destRect, color, angle, zIndex);
 	
-	int i_cg = v_index * INDICES_SQUARE_OFFSET;
-	int verts_index = v_index * SQUARE_OFFSET;
+	int i_cg = _rectangles_indicesOffset + v_index * INDICES_SQUARE_OFFSET;
+	int verts_index = _rectangles_verticesOffset + v_index * SQUARE_OFFSET;
 
 	int cv = verts_index;
 
@@ -126,7 +135,7 @@ void LineRenderer::drawBox(size_t v_index, const glm::vec3& origin, const glm::v
 	BoxGlyph boxGlyph = BoxGlyph(origin, size, color, angle);
 
 	int i_cg = _boxes_indicesOffset + v_index * INDICES_BOX_OFFSET;
-	int verts_index = _boxes_verticesOffset+ v_index * BOX_OFFSET;
+	int verts_index = _boxes_verticesOffset + v_index * BOX_OFFSET;
 
 	int cv = verts_index;
 
@@ -178,7 +187,7 @@ void LineRenderer::renderBatch(float lineWidth )
 	glBindVertexArray(_vao);
 
 	for (int i = 0; i < _renderBatches.size(); i++) {
-		glDrawElements(GL_LINES, _renderBatches[i].numIndices, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_LINES, _renderBatches[i].numIndices, GL_UNSIGNED_INT, (void*)(_renderBatches[i].offset * sizeof(GLuint)));
 	}
 	glBindVertexArray(0);
 }

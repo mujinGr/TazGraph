@@ -18,7 +18,7 @@ Manager manager;
 Map* Graph::map = nullptr;
 TazGraphEngine::Window* Graph::_window = nullptr;
 
-auto& world_map(manager.addEntityNoId<Node>());
+auto& world_map(manager.addEntityNoId<Empty>());
 
 glm::vec3 pointAtZ0;
 
@@ -704,6 +704,14 @@ void Graph::draw()
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+
+	glm::mat4 rotationMatrix = glm::mat4(1.0f);
+	glm::vec3 cameraAimPos = main_camera2D->getAimPos();
+	glm::vec3 directionToCamera = glm::normalize(cameraAimPos - main_camera2D->eyePos);
+	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
+
+	rotationMatrix = getRotationMatrix(cameraEulerAngles);
+
 	//_PlaneModelRenderer.begin();
 
 	/*_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), "worldMap", *main_camera2D);
@@ -718,18 +726,26 @@ void Graph::draw()
 
 		std::vector<Cell*> intercectedCells = manager.grid->getIntersectedCameraCells(*main_camera2D);
 		
-		_LineRenderer.initBatchBoxes(
-			intercectedCells.size()
-		);
+		_LineRenderer.initBatchSquares(1);
 		
-		_LineRenderer.initBatchSquares(
+		_LineRenderer.initBatchBoxes(
+			//intercectedCells.size() +
 			manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
 			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
 			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size() +
-			4 + (_selectedEntity ? 1 : 0)
+			(_selectedEntity ? 1 : 0)
 		);
+		
 
 		_LineRenderer.initBatchSize();
+
+		size_t v_index = 0;
+
+		_LineRenderer.drawRectangle(v_index++, glm::vec4(-ROW_CELL_SIZE / 2, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		//_LineRenderer.drawRectangle(v_index++, glm::vec4(0, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		//_LineRenderer.drawRectangle(v_index++, glm::vec4(-ROW_CELL_SIZE / 2, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		//_LineRenderer.drawRectangle(v_index++, glm::vec4(0, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+
 
 		size_t box_v_index = 0;
 
@@ -737,10 +753,9 @@ void Graph::draw()
 			glm::vec3 cellBox_org(cell->boundingBox_origin.x, cell->boundingBox_origin.y, cell->boundingBox_origin.z);
 			glm::vec3 cellBox_size(cell->boundingBox_size.x, cell->boundingBox_size.y, cell->boundingBox_size.z);
 
-			_LineRenderer.drawBox(box_v_index++, cellBox_org, cellBox_size, Color(0, 255, 0, 20), 0.0f);  // Drawing each cell in red for visibility
+			//_LineRenderer.drawBox(box_v_index++, cellBox_org, cellBox_size, Color(0, 255, 0, 20), 0.0f);  // Drawing each cell in red for visibility
 		}
 
-		size_t v_index = 0;
 		for (auto& group : {
 			manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0),
 			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0),
@@ -760,7 +775,12 @@ void Graph::draw()
 					destRect.y = tr->getPosition().y;
 					destRect.z = tr->bodyDims.w;
 					destRect.w = tr->bodyDims.h;
-					_LineRenderer.drawRectangle(v_index++, destRect, Color(255, 255, 255, 255), 0.0f, tr->getZIndex()); //todo add angle for drawRectangle
+
+					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getZIndex());
+					glm::vec3 nodeBox_size(destRect.z, destRect.w, destRect.w);
+
+					_LineRenderer.drawBox(box_v_index++, nodeBox_org, nodeBox_size, Color(255, 255, 255, 255), 0.0f);  // Drawing each cell in red for visibility
+
 					//_LineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
 					//break;
 				}
@@ -775,14 +795,14 @@ void Graph::draw()
 				destRect.y = tr->getPosition().y;
 				destRect.z = tr->bodyDims.w;
 				destRect.w = tr->bodyDims.h;
-				_LineRenderer.drawRectangle(v_index++, destRect, Color(255, 255, 0, 255), 0.0f, 0.0f); //todo add angle for drawRectangle
+
+				glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getZIndex());
+				glm::vec3 nodeBox_size(destRect.z, destRect.w, destRect.w);
+
+				_LineRenderer.drawBox(box_v_index++, nodeBox_org, nodeBox_size, Color(255, 255, 0, 255), 0.0f); //todo add angle for drawRectangle
 
 		}
-		_LineRenderer.drawRectangle(v_index++,glm::vec4(-ROW_CELL_SIZE / 2, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		_LineRenderer.drawRectangle(v_index++, glm::vec4(0, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		_LineRenderer.drawRectangle(v_index++, glm::vec4(-ROW_CELL_SIZE / 2, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		_LineRenderer.drawRectangle(v_index++, glm::vec4(0, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-
+		
 		_LineRenderer.end();
 		_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f * (manager.grid->getGridLevel() + 1));
 		glsl_lineColor.unuse();
@@ -828,39 +848,12 @@ void Graph::draw()
 
 	_resourceManager.setupShader(glsl_color, "", *main_camera2D);
 	
-	auto& v_node = *manager.getEntityFromId(1);
+	
 
-	TransformComponent* tr = &v_node.GetComponent<TransformComponent>();
-	glm::vec3 center = glm::vec3(tr->getPosition().x + tr->getSizeCenter().x, tr->getPosition().y + tr->getSizeCenter().y, tr->getZIndex());
-
-	glm::mat4 rotationMatrix = glm::mat4(1.0f);
-	/*glm::mat4 translation_back = glm::mat4(1.0f);
-
-	translation_back = glm::translate(translation_back, -center);*/
-
-	glm::vec3 cameraAimPos = main_camera2D->getAimPos();
-
-	glm::vec3 directionToCamera = glm::normalize(cameraAimPos - main_camera2D->eyePos);
-
-	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
-
-	rotationMatrix = tr->setRotation(cameraEulerAngles);
-
-	//GLint pLocation = glsl_color.getUniformLocation("inverseTranslation");
-	//glUniform3f(pLocation, center.x, center.y, center.z);
 	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
 	
-	/*pLocation = glsl_color.getUniformLocation("rotationMatrix");
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
-	pLocation = glsl_color.getUniformLocation("translation");
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(translation));*/
-	
-	//GLint radiusLocation = glsl_circleColor.getUniformLocation("u_radius");
-	//glUniform1f(radiusLocation, nodeRadius);
-	
-	
-	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
+	//renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
 	//renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
 	
 
