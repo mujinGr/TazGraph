@@ -210,7 +210,8 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 	if (selectedEntity) {
 		ImGui::Text("Selected Entity Details");
 
-		if (selectedEntity->hasComponent<TransformComponent>()) {
+		Node* node = dynamic_cast<Node*>(selectedEntity);
+		if (node) {
 
 			ImGui::Text("Id: %d", selectedEntity->getId());
 
@@ -220,6 +221,12 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 			glm::vec3 cellBox = manager.grid->getCell(*selectedEntity, manager.grid->getGridLevel())->boundingBox_origin;
 			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
 		}
+		Link* link = dynamic_cast<Link*>(selectedEntity);
+		if (link) {
+			ImGui::Text("Id: %d", selectedEntity->getId());
+
+		}
+
 	}
 	ImGui::EndChild();
 }

@@ -349,14 +349,14 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 	for (auto& trav_cell : trav_cells) {
 		for (auto& node : trav_cell->nodes) {
-			float t;
+			glm::vec3 t;
 
 			if (rayIntersectsSphere(rayOrigin,
 				rayDirection,
 				node->GetComponent<TransformComponent>().getCenterTransform(),
 				node->GetComponent<TransformComponent>().bodyDims.w,
 				t)) {
-				std::cout << "Ray hit node: " << node->getId() << " at distance " << t << std::endl;
+				std::cout << "Ray hit node: " << node->getId() << " at distance " << t.x << t.y << t.z << std::endl;
 				if (activateMode == SDL_BUTTON_RIGHT)
 				{
 					_displayedEntity = node;
@@ -364,36 +364,36 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				else if (activateMode == SDL_BUTTON_LEFT) {
 					_selectedEntity = node;
 				}
+				t = node->GetComponent<TransformComponent>().getCenterTransform() - t;
+				_app->_inputManager.setObjectRelativePos(t);
 				hasSelected = true;
 				break;
-
-				/*if (activateMode == SDL_BUTTON_RIGHT)
-				{
-					_displayedEntity = entity;
-				}
-				else if (activateMode == SDL_BUTTON_LEFT) {
-					_selectedEntity = entity;
-				}
-				_app->_inputManager.setObjectRelativePos(glm::vec2(worldCoords - pos));
-				hasSelected = true;*/
 			}
 		}
 
 		if (hasSelected) break;
 
 		for (auto& link : trav_cell->links) {
-			float t;
+			glm::vec3 t;
 
-			/*if (rayIntersectsLineSegment(rayOrigin,
+			if (rayIntersectsLineSegment(rayOrigin,
 				rayDirection,
-				node->GetComponent<TransformComponent>().getCenterTransform(),
-				node->GetComponent<TransformComponent>().bodyDims.w,
+				link->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(),
+				link->getToNode()->GetComponent<TransformComponent>().getCenterTransform(),
 				t)) {
-				std::cout << "Ray hit node: " << node->getId() << " at distance " << t << std::endl;
+				std::cout << "Ray hit link: " << link->getId() << " at distance " << t.x << t.y << t.z << std::endl;
+
+				if (activateMode == SDL_BUTTON_RIGHT)
+				{
+					_displayedEntity = link;
+				}
+				else if (activateMode == SDL_BUTTON_LEFT) {
+					_selectedEntity = link;
+				}
 
 				hasSelected = true;
 				break;
-			}*/
+			}
 		}
 	}
 }
@@ -422,19 +422,12 @@ void Graph::checkInput() {
 			if (evnt.wheel.y > 0)
 			{
 				// Scrolling up
-				if (main_camera2D->getScale() < main_camera2D->getMaxScale()) {
-					main_camera2D->setScale(main_camera2D->getScale() + SCALE_SPEED);
-				}
+				main_camera2D->movePosition_Forward(20.0f);
 			}
 			else if (evnt.wheel.y < 0)
 			{
 				// Scrolling down
-				if (main_camera2D->getScale() > main_camera2D->getMinScale()) {
-					main_camera2D->setScale(main_camera2D->getScale() - SCALE_SPEED);
-				}
-				else {
-					main_camera2D->setScale(main_camera2D->getMinScale());
-				}
+				main_camera2D->movePosition_Forward(-20.0f);
 			}
 			break;
 		case SDL_KEYDOWN:
@@ -483,6 +476,9 @@ void Graph::checkInput() {
 				if (node) {
 
 					glm::vec3 pointAtEntity = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, _selectedEntity->GetComponent<TransformComponent>().getZIndex());;
+
+					pointAtEntity.x += _app->_inputManager.getObjectRelativePos().x - node->GetComponent<TransformComponent>().bodyDims.w / 2;
+					pointAtEntity.y += _app->_inputManager.getObjectRelativePos().y - node->GetComponent<TransformComponent>().bodyDims.h / 2;
 
 					_selectedEntity->GetComponent<TransformComponent>().setPosition_X(pointAtEntity.x);
 					_selectedEntity->GetComponent<TransformComponent>().setPosition_Y(pointAtEntity.y);
@@ -726,10 +722,10 @@ void Graph::draw()
 
 		std::vector<Cell*> intercectedCells = manager.grid->getIntersectedCameraCells(*main_camera2D);
 		
-		_LineRenderer.initBatchSquares(1);
+		_LineRenderer.initBatchSquares(4);
 		
 		_LineRenderer.initBatchBoxes(
-			//intercectedCells.size() +
+			intercectedCells.size() +
 			manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
 			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
 			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size() +
@@ -742,9 +738,9 @@ void Graph::draw()
 		size_t v_index = 0;
 
 		_LineRenderer.drawRectangle(v_index++, glm::vec4(-ROW_CELL_SIZE / 2, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		//_LineRenderer.drawRectangle(v_index++, glm::vec4(0, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		//_LineRenderer.drawRectangle(v_index++, glm::vec4(-ROW_CELL_SIZE / 2, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		//_LineRenderer.drawRectangle(v_index++, glm::vec4(0, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawRectangle(v_index++, glm::vec4(0, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawRectangle(v_index++, glm::vec4(-ROW_CELL_SIZE / 2, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawRectangle(v_index++, glm::vec4(0, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
 
 
 		size_t box_v_index = 0;
@@ -753,7 +749,7 @@ void Graph::draw()
 			glm::vec3 cellBox_org(cell->boundingBox_origin.x, cell->boundingBox_origin.y, cell->boundingBox_origin.z);
 			glm::vec3 cellBox_size(cell->boundingBox_size.x, cell->boundingBox_size.y, cell->boundingBox_size.z);
 
-			//_LineRenderer.drawBox(box_v_index++, cellBox_org, cellBox_size, Color(0, 255, 0, 20), 0.0f);  // Drawing each cell in red for visibility
+			_LineRenderer.drawBox(box_v_index++, cellBox_org, cellBox_size, Color(0, 255, 0, 20), 0.0f);  // Drawing each cell in red for visibility
 		}
 
 		for (auto& group : {
@@ -776,8 +772,8 @@ void Graph::draw()
 					destRect.z = tr->bodyDims.w;
 					destRect.w = tr->bodyDims.h;
 
-					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getZIndex());
-					glm::vec3 nodeBox_size(destRect.z, destRect.w, destRect.w);
+					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getZIndex() - 5);
+					glm::vec3 nodeBox_size(destRect.z, destRect.w, 10);
 
 					_LineRenderer.drawBox(box_v_index++, nodeBox_org, nodeBox_size, Color(255, 255, 255, 255), 0.0f);  // Drawing each cell in red for visibility
 
@@ -796,8 +792,8 @@ void Graph::draw()
 				destRect.z = tr->bodyDims.w;
 				destRect.w = tr->bodyDims.h;
 
-				glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getZIndex());
-				glm::vec3 nodeBox_size(destRect.z, destRect.w, destRect.w);
+				glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getZIndex() - 5);
+				glm::vec3 nodeBox_size(destRect.z, destRect.w, 10);
 
 				_LineRenderer.drawBox(box_v_index++, nodeBox_org, nodeBox_size, Color(255, 255, 0, 255), 0.0f); //todo add angle for drawRectangle
 
@@ -853,7 +849,7 @@ void Graph::draw()
 	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
 	
-	//renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
+	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
 	//renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
 	
 

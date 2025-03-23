@@ -67,7 +67,7 @@ inline bool rayIntersectsSphere(
     const glm::vec3& rayDirection,
     const glm::vec3& sphereCenter,
     float radius,
-    float& t
+    glm::vec3& t
 ) {
     glm::vec3 oc = rayOrigin - sphereCenter;
 
@@ -87,14 +87,35 @@ inline bool rayIntersectsSphere(
     float t1 = (-B + sqrtDiscriminant) / (2.0f * A);
 
     if (t0 >= 0) {
-        t = t0;  // Closest intersection point
+        t = rayOrigin + t0 * rayDirection;  // Closest intersection point
         return true;
     }
     else if (t1 >= 0) {
-        t = t1;  // Intersection behind the ray origin
+        t = rayOrigin + t1 * rayDirection;  // Intersection behind the ray origin
         return true;
     }
 
+    return false;
+}
+
+
+inline bool rayIntersectsLineSegment(
+    const glm::vec3& rayOrigin,
+    const glm::vec3& rayDirection,
+    const glm::vec3& segmentStart,
+    const glm::vec3& segmentEnd,
+    glm::vec3& intersectionPoint
+) {
+    for (float t = 0.0f; t < 1000.0f; t += 5.0f) {  // Limit ray to reasonable range
+        glm::vec3 samplePoint = rayOrigin + t * rayDirection;
+
+        glm::vec3 lineDir = glm::normalize(segmentEnd - segmentStart);
+        glm::vec3 t_temp(0.0f);
+
+        if (rayIntersectsSphere(segmentStart, lineDir, samplePoint, 7.5f, t_temp)) {
+            return true;
+        }
+    }
     return false;
 }
 
