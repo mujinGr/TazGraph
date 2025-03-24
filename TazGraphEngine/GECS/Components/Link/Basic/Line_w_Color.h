@@ -31,8 +31,8 @@ public:
 	void draw(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
 		//float tempScreenScale = window.getScale();
 
-		glm::vec3 fromNodeCenter = entity->getFromNode()->GetComponent<TransformComponent>().getPosition();
-		glm::vec3 toNodeCenter = entity->getToNode()->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 fromNodeCenter = entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform();
+		glm::vec3 toNodeCenter = entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform();
 
 		batch.drawLine(v_index, fromNodeCenter, toNodeCenter, src_color, dest_color);
 	}

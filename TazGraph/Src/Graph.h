@@ -111,6 +111,7 @@ private:
 
 	Entity* _selectedEntity = nullptr;
 	Entity* _displayedEntity = nullptr;
+	Entity* _onHoverEntity = nullptr;
 	
 	int _nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 	int _prevSceneIndex = SCENE_INDEX_MAIN_MENU;

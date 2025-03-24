@@ -16,6 +16,8 @@ public:
 	SDL_FRect bodyDims = { 0,0,32,32 };
 	SDL_FRect last_bodyDims = { 0,0,32,32 };
 
+	glm::vec3 bodyCenter = { 0.0f,0.0f,0.0f };
+
 	float scale = 1;
 
 	int speed = 1;
@@ -35,12 +37,14 @@ public:
 	{
 		bodyDims.x = position.x;
 		bodyDims.y = position.y;
+		bodyCenter = getPosition() + getSizeCenter();
 	}
 
 	TransformComponent(glm::vec2 position, layer layer , glm::vec2 size, float sc) : TransformComponent(position){
 		bodyDims = { position.x, position.y, size.x,size.y };
 		_layer = layer;
 		scale = sc;
+		bodyCenter = getPosition() + getSizeCenter();
 	}
 
 	TransformComponent(glm::vec2 position, layer layer, glm::vec2 size, float sc, int sp) : TransformComponent(position, layer, size, sc)
@@ -60,6 +64,11 @@ public:
 		if (SDL_FRectEquals(&bodyDims, &last_bodyDims)) {
 			return;
 		}
+
+		if (!SDL_FRectEquals(&last_bodyDims, &bodyDims) ) {
+			bodyCenter = getPosition() + getSizeCenter();
+		}
+
 		last_bodyDims = bodyDims;
 
 		bodyDims.x += _velocity.x * speed * deltaTime;
@@ -85,11 +94,14 @@ public:
 				entity->children["bottomPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y + bodyDims.h);
 			}
 		}
+
+		
+
 	}
 
 	glm::vec3 getCenterTransform()
 	{
-		return getPosition() + getSizeCenter();
+		return bodyCenter;
 	}
 
 	void setZIndex(float newZ) {

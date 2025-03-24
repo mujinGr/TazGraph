@@ -106,7 +106,7 @@ bool EditorIMGUI::isMouseOnWidget(const std::string& widgetName)
 	return false;
 }
 
-void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* selectedEntity, float(& backgroundColor)[4], int cell_size) {
+void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* onHoverEntity, float(& backgroundColor)[4], int cell_size) {
 	ImGui::BeginChild("Background UI");
 	ImGui::Text("This is a Background UI element.");
 	ImGui::ColorEdit4("Background Color", backgroundColor);
@@ -207,23 +207,23 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 	ImGui::Text("MainViewport Coords: {x: %f, y: %f}", mouseCoords2.x, mouseCoords2.y);
 
 
-	if (selectedEntity) {
+	if (onHoverEntity) {
 		ImGui::Text("Selected Entity Details");
 
-		Node* node = dynamic_cast<Node*>(selectedEntity);
+		Node* node = dynamic_cast<Node*>(onHoverEntity);
 		if (node) {
 
-			ImGui::Text("Id: %d", selectedEntity->getId());
+			ImGui::Text("Id: %d", onHoverEntity->getId());
 
-			TransformComponent* tr = &selectedEntity->GetComponent<TransformComponent>();
+			TransformComponent* tr = &onHoverEntity->GetComponent<TransformComponent>();
 			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
 			ImGui::Text("Size: (%f, %f)", tr->bodyDims.w, tr->bodyDims.h);
-			glm::vec3 cellBox = manager.grid->getCell(*selectedEntity, manager.grid->getGridLevel())->boundingBox_origin;
+			glm::vec3 cellBox = manager.grid->getCell(*onHoverEntity, manager.grid->getGridLevel())->boundingBox_origin;
 			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
 		}
-		Link* link = dynamic_cast<Link*>(selectedEntity);
+		Link* link = dynamic_cast<Link*>(onHoverEntity);
 		if (link) {
-			ImGui::Text("Id: %d", selectedEntity->getId());
+			ImGui::Text("Id: %d", onHoverEntity->getId());
 
 		}
 

@@ -10,6 +10,7 @@
 #include "AssetManager/AssetManager.h"
 #include <sstream>
 #include "GraphScreen/AppInterface.h"
+#include <unordered_set>
 
 #undef main
 
@@ -364,6 +365,10 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				else if (activateMode == SDL_BUTTON_LEFT) {
 					_selectedEntity = node;
 				}
+				else if(!_selectedEntity) {
+					_onHoverEntity = node;
+				}
+
 				t = node->GetComponent<TransformComponent>().getCenterTransform() - t;
 				_app->_inputManager.setObjectRelativePos(t);
 				hasSelected = true;
@@ -389,6 +394,9 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				}
 				else if (activateMode == SDL_BUTTON_LEFT) {
 					_selectedEntity = link;
+				}
+				else if (!_selectedEntity) {
+					_onHoverEntity = link;
 				}
 
 				hasSelected = true;
@@ -470,6 +478,58 @@ void Graph::checkInput() {
 			);
 
 			_sceneMousePosition = getCameraMousePos;
+
+			bool wasHoveringEntity = _onHoverEntity ? true : false;
+
+			_onHoverEntity = nullptr;
+
+			selectEntityFromRay(rayOrigin, rayDirection, 0);
+
+			std::unordered_set<Entity*> connectedEntities;
+
+			if (wasHoveringEntity && !_onHoverEntity) {
+				for (NodeEntity* node_entity : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+					int alpha = 255;
+					node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+				}
+				for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
+					int alpha = 255;
+					link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
+					link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+				}
+			}
+
+			if (_onHoverEntity) {
+				// todo here reduce the alpha of all nodes and links except the ones that are connected to the the node or the nodes connecting to the link
+				Node* hoveredNode = dynamic_cast<Node*>(_onHoverEntity);
+				Link* hoveredLink = dynamic_cast<Link*>(_onHoverEntity);
+				if (hoveredNode) {
+					connectedEntities.insert(hoveredNode);
+					for (LinkEntity* link : hoveredNode->getInLinks()) {
+						connectedEntities.insert(link);
+						connectedEntities.insert(link->getFromNode());
+					}
+					for (LinkEntity* link : hoveredNode->getOutLinks()) {
+						connectedEntities.insert(link);
+						connectedEntities.insert(link->getToNode());
+					}
+				}
+				else if (hoveredLink) {
+					connectedEntities.insert(hoveredLink);
+					connectedEntities.insert(hoveredLink->getFromNode());
+					connectedEntities.insert(hoveredLink->getToNode());
+				}
+
+				for (NodeEntity* node_entity : manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
+					int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
+					node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+				}
+				for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
+					int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
+					link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
+					link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+				}
+			}
 
 			if (_selectedEntity) {
 				Node* node = dynamic_cast<Node*>(_selectedEntity);
@@ -553,7 +613,7 @@ void Graph::updateUI() {
 	ImGui::Columns(3, "mycolumns");
 	ImGui::BeginChild("Tab 1");
 
-	_editorImgui.BackGroundUIElement(_renderDebug, _sceneMousePosition, _app->_inputManager.getMouseCoords(), manager, _selectedEntity, _backgroundColor, CELL_SIZE);
+	_editorImgui.BackGroundUIElement(_renderDebug, _sceneMousePosition, _app->_inputManager.getMouseCoords(), manager, _onHoverEntity, _backgroundColor, CELL_SIZE);
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 350.0f);
 	_editorImgui.FPSCounter(getApp()->getFPSLimiter());
 	
@@ -728,8 +788,7 @@ void Graph::draw()
 			intercectedCells.size() +
 			manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
 			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
-			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size() +
-			(_selectedEntity ? 1 : 0)
+			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size() 
 		);
 		
 
@@ -783,21 +842,7 @@ void Graph::draw()
 
 			}
 		}
-		if (_selectedEntity && _selectedEntity->hasComponent<TransformComponent>()) {
-				TransformComponent* tr = &_selectedEntity->GetComponent<TransformComponent>();
-
-				glm::vec4 destRect;
-				destRect.x = tr->getPosition().x;
-				destRect.y = tr->getPosition().y;
-				destRect.z = tr->bodyDims.w;
-				destRect.w = tr->bodyDims.h;
-
-				glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getZIndex() - 5);
-				glm::vec3 nodeBox_size(destRect.z, destRect.w, 10);
-
-				_LineRenderer.drawBox(box_v_index++, nodeBox_org, nodeBox_size, Color(255, 255, 0, 255), 0.0f); //todo add angle for drawRectangle
-
-		}
+		
 		
 		_LineRenderer.end();
 		_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f * (manager.grid->getGridLevel() + 1));
@@ -814,6 +859,9 @@ void Graph::draw()
 		manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size() +
 		1
 	);
+	_LineRenderer.initBatchBoxes(
+		(_selectedEntity ? 1 : 0)
+	);
 	
 	_PlaneColorRenderer.initColorQuadBatch(
 		manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
@@ -826,6 +874,22 @@ void Graph::draw()
 
 	_PlaneColorRenderer.initBatchSize();
 	_LineRenderer.initBatchSize();
+
+	if (_selectedEntity && _selectedEntity->hasComponent<TransformComponent>()) {
+		TransformComponent* tr = &_selectedEntity->GetComponent<TransformComponent>();
+
+		glm::vec4 destRect;
+		destRect.x = tr->getPosition().x;
+		destRect.y = tr->getPosition().y;
+		destRect.z = tr->bodyDims.w;
+		destRect.w = tr->bodyDims.h;
+
+		glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getZIndex() - 5);
+		glm::vec3 nodeBox_size(destRect.z, destRect.w, 10);
+
+		_LineRenderer.drawBox(0, nodeBox_org, nodeBox_size, Color(255, 255, 0, 255), 0.0f); //todo add angle for drawRectangle
+
+	}
 
 	_LineRenderer.drawLine(0, pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
 	

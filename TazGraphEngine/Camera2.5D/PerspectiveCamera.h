@@ -243,9 +243,10 @@ public:
 			clipSpacePos.z /= clipSpacePos.w;
 		}
 
-		if (clipSpacePos.x < -1.0f || clipSpacePos.x > 1.0f) return false;
-		if (clipSpacePos.y < -1.0f || clipSpacePos.y > 1.0f) return false;
-		if (clipSpacePos.z < 0.0f || clipSpacePos.z > 1.0f) return false;
+		// 0.2f is the margin
+		if (clipSpacePos.x < -1.2f || clipSpacePos.x > 1.2f) return false;
+		if (clipSpacePos.y < -1.2f || clipSpacePos.y > 1.2f) return false;
+		if (clipSpacePos.z < -0.2f || clipSpacePos.z > 1.2f) return false;
 
 		return true;
 	}
