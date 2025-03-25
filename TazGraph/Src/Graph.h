@@ -42,6 +42,9 @@ constexpr int COLUMN_CELL_SIZE	= AXIS_CELLS * CELL_SIZE;
 constexpr int DEPTH_CELL_SIZE	= DEPTH_AXIS_CELLS * CELL_SIZE;
 
 
+#define ON_HOVER 0
+#define CTRLD_LEFT_CLICK -1
+
 class Graph : public IScene {
 
 public:
@@ -109,7 +112,7 @@ private:
 
 	ResourceManager _resourceManager;
 
-	Entity* _selectedEntity = nullptr;
+	std::vector<std::pair<Entity*, glm::vec3>> _selectedEntities;
 	Entity* _displayedEntity = nullptr;
 	Entity* _onHoverEntity = nullptr;
 	
