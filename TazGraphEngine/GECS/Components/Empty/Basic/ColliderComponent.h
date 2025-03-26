@@ -80,4 +80,8 @@ public:
 	{
 		return collider;
 	}
+
+	std::string GetComponentName() override {
+		return "ColliderComponent";
+	}
 };

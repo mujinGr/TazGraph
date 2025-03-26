@@ -140,6 +140,7 @@ void Graph::onEntry()
 		manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
 		//manager.setThreader(threadPool);
 		_assetsManager->CreateWorldMap(world_map);
+		manager.setComponentNames();
 	}
 	
 	manager.resetEntityId();
@@ -269,7 +270,7 @@ void Graph::update(float deltaTime) //game objects updating
 	// check input manager if left mouse is clicked, if yes and the mouse is not on the widget then nullify displayedEntity
 	if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT))
 	{
-		if (!_editorImgui.isMouseOnWidget("Display Entity Statistics")) {
+		if (!_editorImgui.isMouseOnWidget("Node Display") && !_editorImgui.isMouseOnWidget("Link Display")) {
 			_displayedEntity = nullptr;
 		}
 	}
@@ -757,7 +758,7 @@ void Graph::updateUI() {
 
 	
 	//glm::vec2 worldToVieport
-	_editorImgui.ShowStatisticsAbout(_savedMainViewportMousePosition, _displayedEntity);
+	_editorImgui.ShowStatisticsAbout(_savedMainViewportMousePosition, _displayedEntity, manager);
 
 	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
 }
@@ -1021,8 +1022,6 @@ void Graph::draw()
 				}
 			}
 		}
-		
-
 	}
 
 	_LineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));

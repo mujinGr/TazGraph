@@ -64,4 +64,7 @@ public:
 			transform->getZIndex(), color
 		);
 	}
+	std::string GetComponentName() override {
+		return "Triangle_w_Color";
+	}
 };

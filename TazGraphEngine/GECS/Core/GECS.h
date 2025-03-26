@@ -109,6 +109,12 @@ public:
 	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) {}
 	virtual void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) {}
 
+	virtual std::string GetComponentName() { return ""; };
+
+	virtual void showGUI() {
+		ImGui::Text("MyComponent Properties:");
+	};
+
 	virtual ~BaseComponent() {}
 };
 
@@ -271,6 +277,56 @@ public:
 		
 	}
 
+	template <typename T>
+	void removeComponent()
+	{
+		if constexpr (std::is_base_of_v<LinkComponent, T>)
+		{
+			size_t id = GetLinkComponentTypeID<T>();
+			auto it = std::remove_if(components.begin(), components.end(),
+				[id](const std::unique_ptr<BaseComponent>& comp) {
+					return typeid(*comp).hash_code() == typeid(T).hash_code();
+				});
+
+			if (it != components.end())
+			{
+				components.erase(it, components.end());
+				componentArray[id] = nullptr;
+				componentBitSet[id] = false;
+			}
+		}
+		else if constexpr (std::is_base_of_v<NodeComponent, T>)
+		{
+			size_t id = GetNodeComponentTypeID<T>();
+			auto it = std::remove_if(components.begin(), components.end(),
+				[id](const std::unique_ptr<BaseComponent>& comp) {
+					return typeid(*comp).hash_code() == typeid(T).hash_code();
+				});
+
+			if (it != components.end())
+			{
+				components.erase(it, components.end());
+				(*nodeComponentArray)[id] = nullptr;
+				(*nodeComponentBitSet)[id] = false;
+			}
+		}
+		else
+		{
+			size_t id = GetComponentTypeID<T>();
+			auto it = std::remove_if(components.begin(), components.end(),
+				[id](const std::unique_ptr<BaseComponent>& comp) {
+					return typeid(*comp).hash_code() == typeid(T).hash_code();
+				});
+
+			if (it != components.end())
+			{
+				components.erase(it, components.end());
+				componentArray[id] = nullptr;
+				componentBitSet[id] = false;
+			}
+		}
+	}
+
 	virtual void setComponentEntity(Component* c) {
 
 	}
@@ -296,6 +352,18 @@ public:
 			return *static_cast<T*>(ptr);
 		}
 	}
+
+	bool hasComponentByName(const std::string& componentName) {
+		for (auto& component : components) {
+			if (component &&
+				component->GetComponentName() == componentName) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	
 
 	// for when wanting to add new entities from components
 	Manager* getManager() {

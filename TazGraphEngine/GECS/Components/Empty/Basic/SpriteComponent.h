@@ -170,4 +170,8 @@ public:
 	{
 		gl_texture = NULL;
 	}
+
+	std::string GetComponentName() override {
+		return "SpriteComponent";
+	}
 };

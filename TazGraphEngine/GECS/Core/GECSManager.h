@@ -4,6 +4,11 @@
 #include "../../Grid/Grid.h"
 
 #include "../../Threader/Threader.h"
+#include <regex>
+#include <filesystem>
+
+namespace fs = std::filesystem;
+
 
 class Manager
 {
@@ -27,6 +32,9 @@ private:
 
 	bool _update_active_entities = false;
 public:
+
+	std::unordered_map<std::string, std::vector<std::string>> componentNames;
+
 	std::unique_ptr<Grid> grid;
 
 	/*void setThreader(Threader& mthreader) {
@@ -314,4 +322,7 @@ public:
 
 	std::string getGroupName(Group mGroup) const;
 
+	void scanComponentNames(const std::string& folderPath);
+
+	void setComponentNames();
 };

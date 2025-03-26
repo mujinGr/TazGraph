@@ -1,4 +1,5 @@
 #include "EditorIMGUI.h"
+#include "GECS/Core/GECSUtil.h"
 
 EditorIMGUI::EditorIMGUI() {
 	ReloadAccessibleFiles();
@@ -557,24 +558,92 @@ void EditorIMGUI::updateIsMouseInSecondColumn() {
 		mousePos.y >= columnStartPos.y && mousePos.y <= (columnStartPos.y + columnSize.y));
 }
 
-void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity)
+void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager)
 {
 	if (!displayedEntity) return;
 
+
+	std::string windowTitle = "Entity";
+	Node* node = dynamic_cast<Node*>(displayedEntity);
+	Link* link = dynamic_cast<Link*>(displayedEntity);
+
+	if (node) {
+		windowTitle = "Node Display";
+	}
+	else if (link) {
+		windowTitle = "Link Display";
+	}
+
+
 	ImGui::SetNextWindowPos(ImVec2(mousePos.x, mousePos.y), ImGuiCond_Always, ImVec2(0, 0));
 
-	if (ImGui::Begin("Display Entity Statistics")) {
+	if (ImGui::Begin(windowTitle.c_str())) {
 		displayedEntity->imgui_print();
 
-		_data.SetSelectData(std::move(_pollingFileNames));
+		if (node) {
+			_data.SetSelectData(std::move(_pollingFileNames));
 
-		if (ImGui::ComboAutoSelect("Select File For Polling", _data)) {
+			if (ImGui::ComboAutoSelect("Select File For Polling", _data)) {
+			}
+			float buttonWidth = 100;
+			if (ImGui::Button("Start Polling Sending Messages", ImVec2(buttonWidth, 0))) {
+				std::string selectedFile = _data.input;
+				if (!selectedFile.empty()) {
+					StartPollingComponent(displayedEntity, selectedFile);
+				}
+			}
 		}
-		float buttonWidth = 100;
-		if (ImGui::Button("Start Polling Sending Messages", ImVec2(buttonWidth, 0))) {
-			std::string selectedFile = _data.input;
-			if (!selectedFile.empty()) {
-				StartPollingComponent(displayedEntity, selectedFile);
+		ImGui::Separator();
+
+		if (node)
+		{
+			for (auto& c : manager.componentNames["Component"]) {
+				// Checkbox to add/remove component
+				bool hasComponent = displayedEntity->hasComponentByName(c);
+
+				if (ImGui::Checkbox(c.c_str(), &hasComponent)) {
+					if (hasComponent) {
+						AddComponentByName(c, displayedEntity);
+					}
+					else {
+						RemoveComponentByName(c, displayedEntity);
+					}
+				}
+
+				if (hasComponent) {
+					if (ImGui::TreeNode("Properties")) {
+						getComponentByName(c, displayedEntity)->showGUI();
+						ImGui::TreePop();
+					}
+				}
+			}
+			for (auto& c : manager.componentNames["NodeComponent"]) {
+				// Checkbox to add/remove component
+				bool hasComponent = displayedEntity->hasComponentByName(c);
+
+				if (ImGui::Checkbox(c.c_str(), &hasComponent)) {
+					if (hasComponent) {
+						AddComponentByName(c, displayedEntity);
+					}
+					else {
+						RemoveComponentByName(c, displayedEntity);
+					}
+				}
+			}
+		}
+		if (link) {
+			for (auto& c : manager.componentNames["LinkComponent"]) {
+				// Checkbox to add/remove component
+				bool hasComponent = displayedEntity->hasComponentByName(c);
+
+				if (ImGui::Checkbox(c.c_str(), &hasComponent)) {
+					if (hasComponent) {
+						AddComponentByName(c, displayedEntity);
+					}
+					else {
+						RemoveComponentByName(c, displayedEntity);
+					}
+				}
 			}
 		}
 	}

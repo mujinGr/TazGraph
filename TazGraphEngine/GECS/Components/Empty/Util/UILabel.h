@@ -80,5 +80,9 @@ public:
 
 		}
 	}
+
+	std::string GetComponentName() override {
+		return "UILabel";
+	}
 };
 

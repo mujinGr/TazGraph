@@ -38,8 +38,12 @@ public:
 		temp_rotation += 0.1f;
 	}
 
-	void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) override {
+	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window ) {
 		glm::vec4 pos((float)destRect.x, (float)destRect.y, (float)destRect.w, (float)destRect.h);
-		batch.draw(pos, transform->getZIndex(), color);
+		batch.draw(v_index, pos, transform->getZIndex(), color);
+	}
+
+	std::string GetComponentName() override {
+		return "Box_w_Color";
 	}
 };

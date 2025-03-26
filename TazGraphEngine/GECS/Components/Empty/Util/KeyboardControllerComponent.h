@@ -78,4 +78,8 @@ public: //TODO: maybe have variables as private
 			transform->setVelocity_Y(0);
 		}
 	}
+
+	std::string GetComponentName() override {
+		return "KeyboardControllerComponent";
+	}
 };

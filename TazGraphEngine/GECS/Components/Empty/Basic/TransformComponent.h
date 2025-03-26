@@ -142,5 +142,7 @@ public:
 		_velocity.y = newVelocity_Y;
 	}
 
-
+	std::string GetComponentName() override {
+		return "TransformComponent";
+	}
 };

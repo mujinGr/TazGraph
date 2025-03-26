@@ -19,6 +19,10 @@ public:
         }
     }
 
+    std::string GetComponentName() override {
+        return "PollingComponent";
+    }
+
 private:
     void SendMessageToOtherNodes(const std::string& file) {
         std::cout << "Polling complete. Sending message from file: " << file << std::endl;

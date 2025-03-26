@@ -62,6 +62,6 @@ public:
 	std::string SceneTabs();
 	void ShowFunctionExecutionResults();
 	void updateIsMouseInSecondColumn();
-	void ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity);
+	void ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager);
 	void StartPollingComponent(Entity* entity, const std::string& fileName);
 };

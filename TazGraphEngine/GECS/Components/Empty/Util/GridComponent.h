@@ -90,4 +90,8 @@ public:
 			gridindex++;
 		}
 	}
+
+	std::string GetComponentName() override {
+		return "GridComponent";
+	}
 };

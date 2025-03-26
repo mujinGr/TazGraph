@@ -81,4 +81,8 @@ public:
     }
 
     // Other methods for setting textures, handling mouse events, etc.
+
+    std::string GetComponentName() override {
+        return "ButtonComponent";
+    }
 };

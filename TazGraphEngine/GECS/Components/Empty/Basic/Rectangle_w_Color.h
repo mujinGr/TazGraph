@@ -47,4 +47,8 @@ public:
 		glm::vec4 pos((float)destRect.x, (float)destRect.y, (float)destRect.w, (float)destRect.h);
 		batch.draw(v_index, pos, transform->getZIndex(), color);
 	}
+
+	std::string GetComponentName() override {
+		return "Rectangle_w_Color";
+	}
 };

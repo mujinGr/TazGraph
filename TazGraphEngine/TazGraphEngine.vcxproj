@@ -194,6 +194,7 @@
     <ClInclude Include="GECS\Components\Node\Util\PollingComponent.h" />
     <ClInclude Include="GECS\Core\CellEntity.h" />
     <ClInclude Include="GECS\Core\GECSEntity.h" />
+    <ClInclude Include="GECS\Core\GECSUtil.h" />
     <ClInclude Include="GECS\UtilComponents.h" />
     <ClInclude Include="GECS\Core\GECSEntityTypes.h" />
     <ClInclude Include="JsonParser\JsonParser.h" />

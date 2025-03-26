@@ -68,4 +68,8 @@ public:
 		// Smooth transition using lerp (linear interpolation)
 		
 	}
+
+	std::string GetComponentName() override {
+		return "Line_w_Color";
+	}
 };

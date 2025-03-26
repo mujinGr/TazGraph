@@ -155,3 +155,49 @@ std::string Manager::getGroupName(Group mGroup) const {
 	return groupNames.at(mGroup);
 }
 
+void Manager::scanComponentNames(const std::string& folderPath) {
+	std::regex classRegex(R"class(\s*class\s+([A-Za-z0-9_]+)\s*:\s*public\s+([A-Za-z0-9_]+))class");
+
+	for (const auto& entry : fs::recursive_directory_iterator(folderPath)) {
+		if (entry.path().extension() == ".h" || entry.path().extension() == ".hpp") {
+			std::ifstream file(entry.path());
+			std::string line;
+			while (std::getline(file, line)) {
+				std::smatch match;
+				if (std::regex_search(line, match, classRegex)) {
+					std::string className = match[1].str();
+					std::string baseClass = match[2].str();
+
+					if (baseClass == "Component") {
+						componentNames["Component"].push_back(className);
+					}
+					else if (baseClass == "NodeComponent") {
+						componentNames["NodeComponent"].push_back(className);
+					}
+					else if (baseClass == "LinkComponent") {
+						componentNames["LinkComponent"].push_back(className);
+					}
+				}
+			}
+		}
+	}
+}
+
+void Manager::setComponentNames()
+{
+
+	std::cout << "Current Working Directory: " << fs::current_path() << std::endl;
+
+	const std::string folderPath = fs::current_path().string() + "/../TazGraphEngine/GECS";
+	if (!fs::exists(folderPath)) {
+		std::cerr << "Error: Folder does not exist at " << folderPath << std::endl;
+	}
+	const std::string folderPath2 = fs::current_path().string() + "/Src/GECS";
+	if (!fs::exists(folderPath)) {
+		std::cerr << "Error: Folder does not exist at " << folderPath2 << std::endl;
+	}
+	scanComponentNames(folderPath);
+	scanComponentNames(folderPath2);
+
+}
+
