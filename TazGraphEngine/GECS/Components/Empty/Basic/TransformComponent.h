@@ -4,25 +4,20 @@
 
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {
-private:
-	layer _layer = 0;
-	float _zIndexF = 0;
-
-	// todo remove rotation
-	glm::vec3 _rotation = { 0.0f,0.0f,0.0f };
-	
-	glm::vec2 _velocity = glm::vec2(0.0f);
 public:
-	SDL_FRect bodyDims = { 0,0,32,32 };
-	SDL_FRect last_bodyDims = { 0,0,32,32 };
+	glm::ivec3 velocity = glm::ivec3(0);
+	glm::vec3 rotation = { 0.0f,0.0f,0.0f };
+	glm::vec3 position = glm::vec3(0);
+	glm::vec3 size = glm::vec3(0);
+
+	glm::vec3 last_position = glm::vec3(0);
+	glm::vec3 last_size = glm::vec3(0);
 
 	glm::vec3 bodyCenter = { 0.0f,0.0f,0.0f };
 
 	float scale = 1;
 
 	int speed = 1;
-
-	bool activatedMovement = false;
 
 	TransformComponent()
 	{
@@ -33,21 +28,33 @@ public:
 		scale = sc;
 	}
 
-	TransformComponent(glm::vec2 position)
+	TransformComponent(glm::vec2 m_position)
 	{
-		bodyDims.x = position.x;
-		bodyDims.y = position.y;
-		bodyCenter = getPosition() + getSizeCenter();
+		position.x = m_position.x;
+		position.y = m_position.y;
+		bodyCenter = position + (size / 2.0f);
 	}
 
-	TransformComponent(glm::vec2 position, layer layer , glm::vec2 size, float sc) : TransformComponent(position){
-		bodyDims = { position.x, position.y, size.x,size.y };
-		_layer = layer;
+	TransformComponent(glm::vec2 m_position, layer layer, glm::vec2 m_size, float sc) : TransformComponent(m_position) {
+		position = { m_position.x, m_position.y, getLayerDepth(layer) };
+		size = { m_size.x, m_size.y, 0.0f };
 		scale = sc;
-		bodyCenter = getPosition() + getSizeCenter();
+		bodyCenter = position + (size / 2.0f);
 	}
 
-	TransformComponent(glm::vec2 position, layer layer, glm::vec2 size, float sc, int sp) : TransformComponent(position, layer, size, sc)
+	TransformComponent(glm::vec2 m_position, layer layer, glm::vec2 size, float sc, int sp) : TransformComponent(m_position, layer, size, sc)
+	{
+		speed = sp;
+	}
+
+	TransformComponent(glm::vec2 m_position, layer layer , glm::vec3 m_size, float sc) : TransformComponent(m_position){
+		position = { m_position.x, m_position.y, getLayerDepth(layer) };
+		size = m_size;
+		scale = sc;
+		bodyCenter = position + (size / 2.0f);
+	}
+
+	TransformComponent(glm::vec2 m_position, layer layer, glm::vec3 size, float sc, int sp) : TransformComponent(m_position, layer, size, sc)
 	{
 		speed = sp;
 	}
@@ -55,43 +62,42 @@ public:
 
 	void init() override
 	{
-		_velocity = glm::zero<glm::ivec2>();
-		_zIndexF = getLayerDepth(_layer);
 	}
 	void update(float deltaTime) override
 	{
 
-		if (SDL_FRectEquals(&bodyDims, &last_bodyDims)) {
+		if (position == last_position && size == last_size) {
 			return;
 		}
 
-		if (!SDL_FRectEquals(&last_bodyDims, &bodyDims) ) {
-			bodyCenter = getPosition() + getSizeCenter();
+		if (position != last_position || size != last_size ) {
+			bodyCenter = position + (size / 2.0f);
 		}
 
-		last_bodyDims = bodyDims;
+		last_position = position;
+		last_size = size;
 
-		bodyDims.x += _velocity.x * speed * deltaTime;
-		bodyDims.y += _velocity.y * speed * deltaTime;
+		position.x += velocity.x * speed * deltaTime;
+		position.y += velocity.y * speed * deltaTime;
 		//todo dont update the children on every iteration
 		// todo do this for component when needed
 		if (!entity->children.empty()) { // this will not be executed for links since they dont have transformComponent
 
 			if (entity->children["leftPort"]) {
-				entity->children["leftPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x);
-				entity->children["leftPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y + bodyDims.h / 2.0f);
+				entity->children["leftPort"]->GetComponent<TransformComponent>().setPosition_X(position.x);
+				entity->children["leftPort"]->GetComponent<TransformComponent>().setPosition_Y(position.y + size.y / 2.0f);
 			}
 			if (entity->children["topPort"]) {
-				entity->children["topPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x + bodyDims.w / 2.0f);
-				entity->children["topPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y );
+				entity->children["topPort"]->GetComponent<TransformComponent>().setPosition_X(position.x + size.x / 2.0f);
+				entity->children["topPort"]->GetComponent<TransformComponent>().setPosition_Y(position.y );
 			}
 			if (entity->children["rightPort"]) {
-				entity->children["rightPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x + bodyDims.w);
-				entity->children["rightPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y + bodyDims.h / 2.0f);
+				entity->children["rightPort"]->GetComponent<TransformComponent>().setPosition_X(position.x + size.x);
+				entity->children["rightPort"]->GetComponent<TransformComponent>().setPosition_Y(position.y + size.y / 2.0f);
 			}
 			if (entity->children["bottomPort"]) {
-				entity->children["bottomPort"]->GetComponent<TransformComponent>().setPosition_X(bodyDims.x + bodyDims.w / 2.0f);
-				entity->children["bottomPort"]->GetComponent<TransformComponent>().setPosition_Y(bodyDims.y + bodyDims.h);
+				entity->children["bottomPort"]->GetComponent<TransformComponent>().setPosition_X(position.x + size.x / 2.0f);
+				entity->children["bottomPort"]->GetComponent<TransformComponent>().setPosition_Y(position.y + size.y);
 			}
 		}
 
@@ -104,45 +110,56 @@ public:
 		return bodyCenter;
 	}
 
-	void setZIndex(float newZ) {
-		_zIndexF = newZ;
-	}
-
-	float getZIndex() {
-		return _zIndexF;
-	}
-
-	glm::vec3 getRotation() {
-		return _rotation;
+	glm::vec3 getSizeCenter() {
+		return glm::vec3(size.x * scale / 2, size.y * scale / 2, size.z * scale / 2);
 	}
 
 	glm::vec3 getPosition() {
-		return glm::vec3(bodyDims.x, bodyDims.y, _zIndexF);
-	}
-
-	glm::vec3 getSizeCenter() {
-		return glm::vec3(bodyDims.w * scale / 2, bodyDims.h * scale / 2, _zIndexF);
+		return position;
 	}
 
 	void setPosition_X(float newPosition_X) {
-		bodyDims.x = newPosition_X;
+		position.x = newPosition_X;
 	}
 	void setPosition_Y(float newPosition_Y) {
-		bodyDims.y = newPosition_Y;
+		position.y = newPosition_Y;
 	}
 
-	glm::ivec2 getVelocity() {
-		return _velocity;
+	glm::ivec3 getVelocity() {
+		return velocity;
 	}
 
 	void setVelocity_X(float newVelocity_X) {
-		_velocity.x = newVelocity_X;
+		velocity.x = newVelocity_X;
 	}
 	void setVelocity_Y(float newVelocity_Y) {
-		_velocity.y = newVelocity_Y;
+		velocity.y = newVelocity_Y;
 	}
 
 	std::string GetComponentName() override {
 		return "TransformComponent";
 	}
+
+	void showGUI() override {
+		ImGui::Separator();
+
+		// Position Controls
+		ImGui::Text("Position:");
+		ImGui::SliderFloat3("##position", &position.x, -1000.0f, 1000.0f);
+
+		// Size Controls
+		ImGui::Text("Size:");
+		ImGui::SliderFloat3("##size", &size.x, 1.0f, 100.0f);
+
+		// Rotation Controls
+		ImGui::Text("Rotation:");
+		ImGui::SliderFloat3("##rotation", glm::value_ptr(rotation), -180.0f, 180.0f);
+
+		ImGui::Text("Scale:");
+		ImGui::SliderFloat("##scale", &scale, 0.1f, 10.0f);
+
+		// Speed Control
+		ImGui::Text("Speed:");
+		ImGui::InputInt("##speed", &speed);
+	};
 };

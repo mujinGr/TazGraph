@@ -115,11 +115,11 @@ std::vector<Cell*> Grid::getLinkCells(const LinkEntity& link, Grid::Level m_leve
 
 	float x0 = link.getFromNode()->GetComponent<TransformComponent>().getCenterTransform().x;
 	float y0 = link.getFromNode()->GetComponent<TransformComponent>().getCenterTransform().y;
-	float z0 = link.getFromNode()->GetComponent<TransformComponent>().getZIndex();
+	float z0 = link.getFromNode()->GetComponent<TransformComponent>().getPosition().z;
 
 	float x1 = link.getToNode()->GetComponent<TransformComponent>().getCenterTransform().x;
 	float y1 = link.getToNode()->GetComponent<TransformComponent>().getCenterTransform().y;
-	float z1 = link.getToNode()->GetComponent<TransformComponent>().getZIndex();
+	float z1 = link.getToNode()->GetComponent<TransformComponent>().getPosition().z;
 
 	float dx = x1 - x0;
 	float dy = y1 - y0;

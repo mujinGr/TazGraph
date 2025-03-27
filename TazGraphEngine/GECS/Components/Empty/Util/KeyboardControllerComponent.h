@@ -19,7 +19,7 @@ constexpr float walkingSpeed = 3.5f, runningSpeed = 8.5f, jumpingSpeed = 3.0f;
 class KeyboardControllerComponent : public Component //! moving animation
 {
 public: //TODO: maybe have variables as private
-	InputManager& _inputManager;
+	InputManager* _inputManager;
 
 	TransformComponent* transform = nullptr;
 	AnimatorComponent* animator = nullptr;
@@ -28,8 +28,14 @@ public: //TODO: maybe have variables as private
 
 	SDL_KeyCode walkUpKey, walkLeftKey, walkRightKey, walkDownKey;
 
+
+	KeyboardControllerComponent()
+	{
+
+	}
+
 	KeyboardControllerComponent(
-		InputManager& inputManager,
+		InputManager* inputManager,
 		SDL_KeyCode walkUpKey,
 		SDL_KeyCode walkLeftKey,
 		SDL_KeyCode walkRightKey,
@@ -59,22 +65,22 @@ public: //TODO: maybe have variables as private
 	void update(float deltaTime) override
 	{
 
-		if (_inputManager.isKeyDown(walkLeftKey)) {
+		if (_inputManager->isKeyDown(walkLeftKey)) {
 			transform->setVelocity_X(-runningSpeed);
 		}
-		if (_inputManager.isKeyDown(walkRightKey)) {
+		if (_inputManager->isKeyDown(walkRightKey)) {
 			transform->setVelocity_X(runningSpeed);
 		}
-		if (!_inputManager.isKeyDown(walkRightKey) && !_inputManager.isKeyDown(walkLeftKey)) {
+		if (!_inputManager->isKeyDown(walkRightKey) && !_inputManager->isKeyDown(walkLeftKey)) {
 			transform->setVelocity_X(0);
 		}
-		if (_inputManager.isKeyDown(walkUpKey)) {
+		if (_inputManager->isKeyDown(walkUpKey)) {
 			transform->setVelocity_Y(-runningSpeed);
 		}
-		if (_inputManager.isKeyDown(walkDownKey)) {
+		if (_inputManager->isKeyDown(walkDownKey)) {
 			transform->setVelocity_Y(runningSpeed);
 		}
-		if (!_inputManager.isKeyDown(walkUpKey) && !_inputManager.isKeyDown(walkDownKey)) {
+		if (!_inputManager->isKeyDown(walkUpKey) && !_inputManager->isKeyDown(walkDownKey)) {
 			transform->setVelocity_Y(0);
 		}
 	}

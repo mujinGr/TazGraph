@@ -47,7 +47,7 @@ public:
 		auto flippedBitset = ~bitset;
 
 		if (flippedBitset.none()) {
-			entity->addComponent<ColliderComponent>("terrain", (position.x), (position.y), GRID_ELEMENT_WIDTH * GRID_COLUMNS);
+			entity->addComponent<ColliderComponent>((position.x), (position.y), GRID_ELEMENT_WIDTH * GRID_COLUMNS);
 		}
 		else {
 			glm::ivec2 gridPos;
@@ -58,7 +58,7 @@ public:
 					gridPos.x = (gridindex % GRID_COLUMNS) * GRID_ELEMENT_WIDTH;
 					gridPos.y = (int)(gridindex / GRID_ROWS) * GRID_ELEMENT_HEIGHT;
 
-					entity->addComponent<ColliderComponent>("terrain", (position.x + gridPos.x), (position.y + gridPos.y), GRID_ELEMENT_WIDTH);
+					entity->addComponent<ColliderComponent>((position.x + gridPos.x), (position.y + gridPos.y), GRID_ELEMENT_WIDTH);
 
 				}
 			}
@@ -69,26 +69,6 @@ public:
 	void update(float deltaTime) override
 	{
 		
-	}
-
-	void updateCollidersGrid() {
-		int gridindex = 0;
-
-		for (auto& ccomp : entity->components) { // get all the ColliderComponents
-
-			ColliderComponent* colliderComponentPtr = dynamic_cast<ColliderComponent*>(ccomp.get());
-
-			if (!colliderComponentPtr) {
-				continue;
-			}
-			glm::vec2 gridPos;
-			gridPos.x = (gridindex % GRID_COLUMNS) * GRID_ELEMENT_WIDTH;
-			gridPos.y = (int)(gridindex / GRID_ROWS) * GRID_ELEMENT_HEIGHT;
-
-			colliderComponentPtr->updateCollider(gridPos);
-
-			gridindex++;
-		}
 	}
 
 	std::string GetComponentName() override {

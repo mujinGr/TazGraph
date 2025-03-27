@@ -17,16 +17,21 @@ private:
     std::function<void()> _onClick; // Callback function for click action
 
     std::string buttonLabel = "";
-    glm::ivec2 bDimensions{0,0};
+    glm::vec2 bDimensions{0,0};
     Color bBackground{255,255,255,255};
 
     Entity* uiLabel = nullptr;
     Entity* buttonBackground = nullptr;
 public:
+    ButtonComponent()
+        : _state(ButtonState::NORMAL),
+        _onClick([]() {}) // Default empty function
+    {
+    }
     ButtonComponent(std::function<void()> onClick)
         : _state(ButtonState::NORMAL), _onClick(onClick) {}
 
-    ButtonComponent(std::function<void()> onClick, std::string button_label, glm::ivec2 b_dimensions, Color b_background)
+    ButtonComponent(std::function<void()> onClick, std::string button_label, glm::vec2 b_dimensions, Color b_background)
         : _state(ButtonState::NORMAL),
         _onClick(onClick),
         buttonLabel(button_label),
@@ -48,7 +53,7 @@ public:
 
             uiLabel->addGroup(Manager::buttonLabels);
         }
-        if (bDimensions != glm::ivec2(0, 0)) {
+        if (bDimensions != glm::vec2(0.0f, 0.0f)) {
             buttonBackground = &entity->getManager()->addEntity<Node>();
 
             buttonBackground->addComponent<TransformComponent>(glm::vec2(0, 0), Layer::action, bDimensions, 1);

@@ -38,7 +38,7 @@ void Map::saveMapAsText(const char* fileName) {
 			TransformComponent& tc = entity->GetComponent<TransformComponent>();
 			file << entity->getId() << "\t"; // id is the index in the vector of entities
 			file <<  tc.getPosition().x << " " << tc.getPosition().y << "\t";
-			file << tc.bodyDims.w << "x" << tc.bodyDims.h << "\n";
+			file << tc.size.x << "x" << tc.size.y << "\n";
 		}
 	}
 
@@ -167,7 +167,7 @@ void Map::AddDefaultNode(Entity &node, glm::vec2 mPosition)
 	colorOffset = (colorOffset + 2) % 256; // Vary color slightly each time
 
 	//create Node function
-	node.addComponent<TransformComponent>(mPosition, Layer::action, glm::ivec2(10, 10), 1);
+	node.addComponent<TransformComponent>(mPosition, Layer::action, glm::vec3(10.0f), 1);
 	node.addComponent<Rectangle_w_Color>();
 	node.GetComponent<Rectangle_w_Color>().color = Color(0, colorOffset, 224, 255);
 

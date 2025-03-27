@@ -73,14 +73,14 @@ public:
 		transform = &entity->GetComponent<TransformComponent>();
 		
 		srcRect.x = srcRect.y = 0;
-		srcRect.w = transform->bodyDims.w;
-		srcRect.h = transform->bodyDims.h;
+		srcRect.w = transform->size.x;
+		srcRect.h = transform->size.y;
 
 		destRect.x = transform->getPosition().x; //make player move with the camera, being stable in centre, except on edges
 		destRect.y = transform->getPosition().y;
 
-		destRect.w = transform->bodyDims.w * transform->scale;
-		destRect.h = transform->bodyDims.h * transform->scale;
+		destRect.w = transform->size.x * transform->scale;
+		destRect.h = transform->size.y * transform->scale;
 
 
 	}
@@ -113,7 +113,7 @@ public:
 
 		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
 
-		batch.draw(v_index, pos, uv, gl_texture->id, transform->getZIndex(), color);
+		batch.draw(v_index, pos, uv, gl_texture->id, transform->getPosition().z, color);
 		
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
@@ -140,8 +140,8 @@ public:
 	}
 
 	void setCurrFrame() {
-		this->srcRect.x = (this->animation.indexX * this->transform->bodyDims.w) /* init */ + ( this->srcRect.w * animation.cur_frame_index/* curframe from total frams */);
-		this->srcRect.y = this->animation.indexY * this->transform->bodyDims.h;
+		this->srcRect.x = (this->animation.indexX * this->transform->size.x) /* init */ + ( this->srcRect.w * animation.cur_frame_index/* curframe from total frams */);
+		this->srcRect.y = this->animation.indexY * this->transform->size.y;
 	}
 
 	void setMoveFrame() {

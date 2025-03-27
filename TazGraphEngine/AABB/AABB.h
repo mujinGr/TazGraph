@@ -1,4 +1,5 @@
 #pragma once
+#include <glm/glm.hpp>
 #include <SDL2/SDL_rect.h>
 #include <type_traits>
 
@@ -98,6 +99,44 @@ inline bool rayIntersectsSphere(
     return false;
 }
 
+inline bool sphereIntersectsBox(
+    const glm::vec3& sphereCenter, float sphereRadius,
+    const glm::vec3& boxMin, const glm::vec3& boxMax,
+    glm::vec3& intersectionPoint)
+{
+    glm::vec3 closestPoint = glm::clamp(sphereCenter, boxMin, boxMax);
+
+    intersectionPoint = closestPoint;
+
+    glm::vec3 diff = closestPoint - sphereCenter;
+    float distanceSquared = glm::dot(diff, diff);
+
+    return distanceSquared <= (sphereRadius * sphereRadius);
+}
+
+inline bool rayIntersectsBox(
+    const glm::vec3& rayOrigin,
+    const glm::vec3& rayDirection,
+    const glm::vec3& boxMin, const glm::vec3& boxMax,
+    glm::vec3& intersectionPoint
+) {
+    
+    float sphereRad = 7.5f;
+    for (float t = 0.0f; t < 2000.0f; t += 5.0f) {  
+        glm::vec3 samplePoint = rayOrigin + t * rayDirection;
+
+        if (sphereIntersectsBox(
+            samplePoint, sphereRad,
+            boxMin, boxMax,
+            intersectionPoint
+        )) {
+            return true;
+        }
+    }
+    return false;
+
+}
+
 
 inline bool rayIntersectsLineSegment(
     const glm::vec3& rayOrigin,
@@ -106,7 +145,9 @@ inline bool rayIntersectsLineSegment(
     const glm::vec3& segmentEnd,
     glm::vec3& intersectionPoint
 ) {
-    for (float t = 0.0f; t < 1000.0f; t += 5.0f) {  // Limit ray to reasonable range
+    float sphereRad = 0.5;
+    for (float t = 0.0f; t < 2000.0f; t += 5.0f) { 
+        sphereRad += 10.0f / 2000.0f;
         glm::vec3 samplePoint = rayOrigin + t * rayDirection;
 
         glm::vec3 lineDir = glm::normalize(segmentEnd - segmentStart);
@@ -120,24 +161,18 @@ inline bool rayIntersectsLineSegment(
 }
 
 inline bool checkCircleLineCollision(glm::vec2 center, int circleRadius, glm::vec2 lineStartPoint, glm::vec2 lineEndPoint) {
-    // Find the distance from the center of the circle to the line
     float dist = pointLineDistance(center, lineStartPoint, lineEndPoint);
 
-    // Check if the distance is less than or equal to the radius of the circle
     if (dist <= circleRadius) {
-        // Further check if the circle's center projection is within the line segment
         float dx = lineEndPoint.x - lineStartPoint.x;
         float dy = lineEndPoint.y - lineStartPoint.y;
         float t = ((center.x - lineStartPoint.x) * dx + (center.y - lineStartPoint.y) * dy) / (dx * dx + dy * dy);
 
-        // Clamp t to the range [0, 1]
         t = std::max(0.0f, std::min(1.0f, t));
 
-        // Find the closest point on the line to the circle center
         float closestX = lineStartPoint.x + t * dx;
         float closestY = lineStartPoint.y + t * dy;
 
-        // Check if this closest point is within the circle
         float distanceToCircle = std::sqrt((closestX - center.x) * (closestX - center.x) +
             (closestY - center.y) * (closestY - center.y));
         return distanceToCircle <= circleRadius;

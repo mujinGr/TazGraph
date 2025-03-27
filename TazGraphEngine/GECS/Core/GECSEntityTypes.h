@@ -62,25 +62,25 @@ public:
 	Node(Manager& mManager) : NodeEntity(mManager) {
 
 		//auto& leftPort = mManager.addEntityNoId<Empty>();
-		//leftPort.addComponent<TransformComponent>().bodyDims.w = 0;
-		//leftPort.GetComponent<TransformComponent>().bodyDims.h = 0;
+		//leftPort.addComponent<TransformComponent>().size.x = 0;
+		//leftPort.GetComponent<TransformComponent>().size.y = 0;
 		//children["leftPort"] = &leftPort;
 
 		//auto& rightPort = mManager.addEntityNoId<Empty>();
-		//rightPort.addComponent<TransformComponent>().bodyDims.w = 0;
-		//rightPort.GetComponent<TransformComponent>().bodyDims.h = 0;
+		//rightPort.addComponent<TransformComponent>().size.x = 0;
+		//rightPort.GetComponent<TransformComponent>().size.y = 0;
 		//children["rightPort"] = &rightPort;
 
 		//// Initialize top port
 		//auto& topPort = mManager.addEntityNoId<Empty>();
-		//topPort.addComponent<TransformComponent>().bodyDims.w = 0;
-		//topPort.GetComponent<TransformComponent>().bodyDims.h = 0;
+		//topPort.addComponent<TransformComponent>().size.x = 0;
+		//topPort.GetComponent<TransformComponent>().size.y = 0;
 		//children["topPort"] = &topPort;
 
 		//// Initialize bottom port
 		//auto& bottomPort = mManager.addEntityNoId<Empty>();
-		//bottomPort.addComponent<TransformComponent>().bodyDims.w = 0;
-		//bottomPort.GetComponent<TransformComponent>().bodyDims.h = 0;
+		//bottomPort.addComponent<TransformComponent>().size.x = 0;
+		//bottomPort.GetComponent<TransformComponent>().size.y = 0;
 		//children["bottomPort"] = &bottomPort;
 	}
 
@@ -102,7 +102,7 @@ public:
 
 	void cellUpdate() override{
 		if (this->ownerCell) {
-			if (!SDL_FRectEquals(&this->GetComponent<TransformComponent>().last_bodyDims, &this->GetComponent<TransformComponent>().bodyDims))
+			if (this->GetComponent<TransformComponent>().last_position != this->GetComponent<TransformComponent>().position)
 			{
 				Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
 				if (newCell != this->ownerCell) {
@@ -199,7 +199,7 @@ public:
 		//glm::vec3 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
 
 		//glm::vec3 unitDirection = glm::normalize(direction);
-		//float offset = toTR->bodyDims.w + 5.0f;
+		//float offset = toTR->size.x + 5.0f;
 
 		//glm::vec3 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
 		//

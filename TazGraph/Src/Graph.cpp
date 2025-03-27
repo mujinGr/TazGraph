@@ -285,6 +285,7 @@ std::vector<Cell*> Graph::traversedCellsFromRay(
 ) {
 
 	std::vector<Cell*> hitCells;
+	std::unordered_set<Cell*> visitedCells;
 
 	// Convert world position to grid indices
 	int x = static_cast<int>(floor(rayOrigin.x / manager.grid->getCellSize()));
@@ -316,11 +317,20 @@ std::vector<Cell*> Graph::traversedCellsFromRay(
 
 	float t = 0; // Current distance traveled
 	while (t < maxDistance) {
-		// Check which grid cell contains a node
 		Cell* cell = manager.grid->getCell(x, y, z, manager.grid->getGridLevel());
 
-		hitCells.push_back(cell);
+		if (cell && visitedCells.find(cell) == visitedCells.end()) {
+			hitCells.push_back(cell);
+			visitedCells.insert(cell);
 
+			std::vector<Cell*> adjacentCells = manager.grid->getAdjacentCells(x, y, z, manager.grid->getGridLevel());
+			for (Cell* adjCell : adjacentCells) {
+				if (adjCell && visitedCells.find(adjCell) == visitedCells.end()) {
+					hitCells.push_back(adjCell);
+					visitedCells.insert(adjCell);
+				}
+			}
+		}
 
 		if (tMaxX < tMaxY && tMaxX < tMaxZ) {
 			x += stepX;
@@ -352,11 +362,11 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	for (auto& trav_cell : trav_cells) {
 		for (auto& node : trav_cell->nodes) {
 			glm::vec3 t;
-
-			if (rayIntersectsSphere(rayOrigin,
+			TransformComponent* tempBod = &node->GetComponent<TransformComponent>();
+			if (rayIntersectsBox(rayOrigin,
 				rayDirection,
-				node->GetComponent<TransformComponent>().getCenterTransform(),
-				node->GetComponent<TransformComponent>().bodyDims.w,
+				glm::vec3(tempBod->position.x, tempBod->position.y, node->GetComponent<TransformComponent>().getPosition().z),
+				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, node->GetComponent<TransformComponent>().getPosition().z + tempBod->size.z),
 				t)) {
 				std::cout << "Ray hit node: " << node->getId() << " at distance " << t.x << t.y << t.z << std::endl;
 				if (activateMode == SDL_BUTTON_RIGHT)
@@ -712,6 +722,20 @@ void Graph::updateUI() {
 	_editorImgui.MenuBar();
 
 	ImGui::Columns(3, "mycolumns");
+
+	static bool initializedUIColumns = false; // Flag to ensure widths are set only once
+	if (!initializedUIColumns) {
+		float totalWidth = ImGui::GetContentRegionAvail().x;
+		ImGuiIO& io = ImGui::GetIO();
+		ImVec2 whole_content_size = io.DisplaySize;
+
+		ImGui::SetColumnWidth(0, whole_content_size.x * 0.2f);
+		ImGui::SetColumnWidth(1, whole_content_size.x * 0.6f);
+		ImGui::SetColumnWidth(2, whole_content_size.x * 0.2f);
+
+		initializedUIColumns = true; // Prevents reapplying widths
+	}
+
 	ImGui::BeginChild("Tab 1");
 
 	_editorImgui.BackGroundUIElement(_renderDebug, _sceneMousePosition, _app->_inputManager.getMouseCoords(), manager, _onHoverEntity, _backgroundColor, CELL_SIZE);
@@ -767,10 +791,10 @@ void Graph::EndRender() {
 	_editorImgui.EndRender();
 }
 
-void Graph::renderBatch(size_t startIndex, const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
+void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities[i]->hasComponent<Line_w_Color>()) {
-				entities[i]->GetComponent<Line_w_Color>().draw(i + startIndex, batch, *Graph::_window);
+				entities[i]->GetComponent<Line_w_Color>().draw(i, batch, *Graph::_window);
 			}
 		}
 
@@ -929,11 +953,11 @@ void Graph::draw()
 					glm::vec4 destRect;
 					destRect.x = tr->getPosition().x;
 					destRect.y = tr->getPosition().y;
-					destRect.z = tr->bodyDims.w;
-					destRect.w = tr->bodyDims.h;
+					destRect.z = tr->size.x;
+					destRect.w = tr->size.y;
 
-					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getZIndex() - 5);
-					glm::vec3 nodeBox_size(destRect.z, destRect.w, 10);
+					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getPosition().z);
+					glm::vec3 nodeBox_size(destRect.z, destRect.w, tr->size.z);
 
 					_LineRenderer.drawBox(box_v_index++, nodeBox_org, nodeBox_size, Color(255, 255, 255, 255), 0.0f);  // Drawing each cell in red for visibility
 
@@ -954,25 +978,10 @@ void Graph::draw()
 	_LineRenderer.begin();
 	_PlaneColorRenderer.begin();
 
-	size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
-		[](const std::pair<Entity*, glm::vec3>& entry) {
-			return dynamic_cast<NodeEntity*>(entry.first) != nullptr;
-		});
-
-	size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
-		[](const std::pair<Entity*, glm::vec3>& entry) {
-			return dynamic_cast<LinkEntity*>(entry.first) != nullptr;
-		});
-
 	_LineRenderer.initBatchLines(
 		manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0).size() +
 		manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0).size() +
-		manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size() +
-		linkCount +
-		1
-	);
-	_LineRenderer.initBatchBoxes(
-		nodeCount
+		manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size()
 	);
 	
 	_PlaneColorRenderer.initColorQuadBatch(
@@ -987,9 +996,68 @@ void Graph::draw()
 	_PlaneColorRenderer.initBatchSize();
 	_LineRenderer.initBatchSize();
 
-	size_t lineIndex = 0;
 
-	if (!_selectedEntities.empty() ) {
+	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
+
+	//renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0), _LineRenderer);
+	//renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1), _LineRenderer);
+	
+
+	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
+
+
+	
+	
+	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
+	//renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
+	
+
+	renderBatch(manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
+
+
+
+
+	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
+	_LineRenderer.end();
+	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
+	glsl_lineColor.unuse();
+	
+	
+	_resourceManager.setupShader(glsl_color, "", *main_camera2D);
+	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
+	_PlaneColorRenderer.end();
+	_PlaneColorRenderer.renderBatch(_resourceManager.getGLSLProgram("color"));
+	glsl_color.unuse();
+
+
+	_LineRenderer.begin();
+
+	size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
+		[](const std::pair<Entity*, glm::vec3>& entry) {
+			return dynamic_cast<NodeEntity*>(entry.first) != nullptr;
+		});
+
+	size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
+		[](const std::pair<Entity*, glm::vec3>& entry) {
+			return dynamic_cast<LinkEntity*>(entry.first) != nullptr;
+		});
+
+	_LineRenderer.initBatchLines(
+		linkCount +
+		1
+	);
+	_LineRenderer.initBatchBoxes(
+		nodeCount
+	);
+	
+	_LineRenderer.initBatchSize();
+
+	size_t lineIndex = 0;
+	size_t boxIndex = 0;
+
+
+	if (!_selectedEntities.empty()) {
 
 		for (int i = 0; i < _selectedEntities.size(); i++) {
 			Node* node = dynamic_cast<Node*>(_selectedEntities[i].first);
@@ -1001,23 +1069,23 @@ void Graph::draw()
 					glm::vec4 destRect;
 					destRect.x = tr->getPosition().x;
 					destRect.y = tr->getPosition().y;
-					destRect.z = tr->bodyDims.w;
-					destRect.w = tr->bodyDims.h;
+					destRect.z = tr->size.x;
+					destRect.w = tr->size.y;
 
-					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getZIndex() - 5);
-					glm::vec3 nodeBox_size(destRect.z, destRect.w, 10);
+					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getPosition().z);
+					glm::vec3 nodeBox_size(destRect.z, destRect.w, tr->size.z);
 
-					_LineRenderer.drawBox(i, nodeBox_org, nodeBox_size, Color(255, 255, 0, 255), 0.0f); //todo add angle for drawRectangle
+					_LineRenderer.drawBox(boxIndex++, nodeBox_org, nodeBox_size, Color(255, 255, 0, 100), 0.0f); //todo add angle for drawRectangle
 				}
 			}
-			else if(link){
+			else if (link) {
 				if (_selectedEntities[i].first->hasComponent<Line_w_Color>()) {
 					Line_w_Color* lWc = &_selectedEntities[i].first->GetComponent<Line_w_Color>();
 
 					glm::vec3 startP = lWc->entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform();
 					glm::vec3 endP = lWc->entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform();
 
-					_LineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, Color(255, 255, 0, 255), Color(255, 255, 0, 255));
+					_LineRenderer.drawLine(lineIndex++, startP, endP, Color(255, 255, 0, 100), Color(255, 255, 0, 100));
 
 				}
 			}
@@ -1025,35 +1093,12 @@ void Graph::draw()
 	}
 
 	_LineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
-	
-	renderBatch(lineIndex, manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
 
-	//renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0), _LineRenderer);
-	//renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1), _LineRenderer);
 	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
-
 	glsl_lineColor.unuse();
 
-	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
-
-
-	_resourceManager.setupShader(glsl_color, "", *main_camera2D);
-	
-	
-
-	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
-	
-	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
-	//renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
-	
-
-	renderBatch(manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
-
-	_PlaneColorRenderer.end();
-	_PlaneColorRenderer.renderBatch(_resourceManager.getGLSLProgram("color"));
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 	/*drawHUD(labels, "arial");
@@ -1061,7 +1106,6 @@ void Graph::draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-	glsl_color.unuse();
 	///////////////////////////////////////////////////////
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

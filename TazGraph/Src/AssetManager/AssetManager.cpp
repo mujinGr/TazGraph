@@ -30,12 +30,12 @@ void AssetManager::CreateWorldMap(Entity& worldMap)
 	worldMap.addGroup(Manager::panelBackground);
 }
 
-void AssetManager::CreateGroup(Entity& groupNode, glm::vec2 centerGroup, float groupNodeSize, Grid::Level m_level)
+void AssetManager::CreateGroup(Entity& groupNode, glm::vec3 centerGroup, float groupNodeSize, Grid::Level m_level)
 {
 	if (m_level == Grid::Level::Outer1)
 	{
-		groupNode.addComponent<TransformComponent>(glm::vec2(centerGroup.x - groupNodeSize / 2,
-			centerGroup.y - groupNodeSize / 2), Layer::action, glm::ivec2(groupNodeSize, groupNodeSize), 1);
+		groupNode.addComponent<TransformComponent>(glm::vec3(centerGroup.x - groupNodeSize / 2,
+			centerGroup.y - groupNodeSize / 2, centerGroup.z - groupNodeSize / 2), Layer::action, glm::ivec2(groupNodeSize, groupNodeSize), 1);
 		groupNode.addComponent<Rectangle_w_Color>();
 		groupNode.GetComponent<Rectangle_w_Color>().color = Color(0, 155, 155, 255);
 
@@ -91,11 +91,11 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 
 		auto& node = manager->addEntity<Node>();
 
-		glm::vec2 centroid(0);
+		glm::vec3 centroid(0);
 		for (const auto& childCell : cell.children) {
 			for (auto& entity : childCell->nodes) {
 				if (!entity->isHidden()) {
-					glm::vec2 node_position = entity->GetComponent<TransformComponent>().getCenterTransform();
+					glm::vec3 node_position = entity->GetComponent<TransformComponent>().getCenterTransform();
 					centroid += node_position;
 
 					entity->setParentEntity(&node);

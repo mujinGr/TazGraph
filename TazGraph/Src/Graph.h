@@ -74,7 +74,7 @@ public:
 
 
 	/////////////////////////
-	void renderBatch(size_t startIndex, const std::vector<LinkEntity*>& entities, LineRenderer& batch);
+	void renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch);
 	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRenderer& batch);
 	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch);
 	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch);

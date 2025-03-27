@@ -50,7 +50,7 @@ public: // it is like it has init that creates Animator Component since it inher
 		// Calculate the new Y position
 		float newY = amplitude * sin(frequency * elapsedTime);
 
-		transform->setZIndex(newY);
+		transform->position.z = newY;
 	}
 
 	std::string GetComponentName() override {

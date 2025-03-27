@@ -218,7 +218,7 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 
 			TransformComponent* tr = &onHoverEntity->GetComponent<TransformComponent>();
 			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
-			ImGui::Text("Size: (%f, %f)", tr->bodyDims.w, tr->bodyDims.h);
+			ImGui::Text("Size: (%f, %f)", tr->size.x, tr->size.y);
 			glm::vec3 cellBox = manager.grid->getCell(*onHoverEntity, manager.grid->getGridLevel())->boundingBox_origin;
 			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
 		}
@@ -396,7 +396,7 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 					color = ImVec4(initialColor.r / 255.0f, initialColor.g / 255.0f, initialColor.b / 255.0f, initialColor.a / 255.0f);
 
 					TransformComponent* tr = &entity->GetComponent<TransformComponent>();
-					float initialSize[2] = { tr->bodyDims.w, tr->bodyDims.h };
+					float initialSize[2] = { tr->size.x, tr->size.y };
 					size = initialSize[0];
 					break;
 				}
@@ -417,8 +417,8 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 
 				if (ImGui::SliderFloat("Node Size", &size, 0, 100)) {
 					for (auto& entity : groupVec) {
-							entity->GetComponent<TransformComponent>().bodyDims.w = size;
-							entity->GetComponent<TransformComponent>().bodyDims.h = size;
+							entity->GetComponent<TransformComponent>().size.x = size;
+							entity->GetComponent<TransformComponent>().size.y = size;
 					}
 				}
 

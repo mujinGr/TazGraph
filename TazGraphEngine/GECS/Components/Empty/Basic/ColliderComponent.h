@@ -10,28 +10,25 @@ class ColliderComponent : public Component //collider -> transform
 {
 public:
 	SDL_FRect collider{ 0,0,0,0 };
-	std::string tag = "";
 
 	SDL_FRect srcR{ 0,0,0,0 }, destR{0,0,0,0};
 
 	TransformComponent* transform = nullptr;
 
-	ColliderComponent(std::string t)
+	ColliderComponent()
 	{
-		tag = t;
 	}
 
-	ColliderComponent(std::string t, int xpos, int ypos, int size)
+	// todo instead have offset
+	ColliderComponent(int xpos, int ypos, int size)
 	{
-		tag = t;
 		collider.x = xpos;
 		collider.y = ypos;
 		collider.h = collider.w = size;
 	}
 
-	ColliderComponent(std::string t, SDL_FRect colliderRect)
+	ColliderComponent(SDL_FRect colliderRect)
 	{
-		tag = t;
 		collider = colliderRect;
 	}
 
@@ -43,9 +40,6 @@ public:
 		}
 		transform = &entity->GetComponent<TransformComponent>();
 
-		if (tag == "terrain")
-		{
-		}
 		srcR = { 0, 0, 8, 8 };
 		destR = { collider.x, collider.y , collider.w , collider.h };
 
@@ -55,21 +49,13 @@ public:
 
 	void update(float deltaTime) override
 	{
-		if (tag != "terrain") // for all npcs
-		{
-			collider.x = (transform->getPosition().x) + (2 * (transform->scale) * COL_POS_OFFSET);
-			collider.y = (transform->getPosition().y) + (2 * (transform->scale) * COL_POS_OFFSET);
-			collider.w = (transform->bodyDims.w * transform->scale) - (4 * (transform->scale) * COL_POS_OFFSET);
-			collider.h = (transform->bodyDims.h * transform->scale) - (2 * (transform->scale) * COL_POS_OFFSET);
-		}
+		collider.x = (transform->getPosition().x);
+		collider.y = (transform->getPosition().y);
+		collider.w = transform->size.x * transform->scale;
+		collider.h = transform->size.y * transform->scale;
 
 		//destR.x = collider.x - main_camera2D->worldLocation.x;
 		//destR.y = collider.y - main_camera2D->worldLocation.y;
-	}
-
-	void updateCollider(glm::vec2 gridpos) {
-		collider.x = (transform->getPosition().x) + transform->scale + gridpos.x;
-		collider.y = (transform->getPosition().y) + transform->scale + gridpos.y;
 	}
 
 	void draw(PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override
