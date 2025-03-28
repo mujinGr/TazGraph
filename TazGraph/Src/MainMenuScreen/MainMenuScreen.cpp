@@ -151,7 +151,7 @@ void MainMenuScreen::draw()
 	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
 	//////////////////////////////////////
 
-	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), "graphnetwork", *main_camera2D);
+	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), *main_camera2D);
 
 	_PlaneModelRenderer.begin();
 

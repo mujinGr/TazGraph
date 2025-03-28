@@ -611,7 +611,7 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 				}
 
 				if (hasComponent) {
-					if (ImGui::TreeNode("Properties")) {
+					if (ImGui::TreeNode((c + " Properties").c_str())) {
 						getComponentByName(c, displayedEntity)->showGUI();
 						ImGui::TreePop();
 					}
@@ -629,6 +629,13 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 						RemoveComponentByName(c, displayedEntity);
 					}
 				}
+
+				if (hasComponent) {
+					if (ImGui::TreeNode((c + " Properties").c_str())) {
+						getComponentByName(c, displayedEntity)->showGUI();
+						ImGui::TreePop();
+					}
+				}
 			}
 		}
 		if (link) {
@@ -642,6 +649,13 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 					}
 					else {
 						RemoveComponentByName(c, displayedEntity);
+					}
+				}
+
+				if (hasComponent) {
+					if (ImGui::TreeNode((c + " Properties").c_str())) {
+						getComponentByName(c, displayedEntity)->showGUI();
+						ImGui::TreePop();
 					}
 				}
 			}

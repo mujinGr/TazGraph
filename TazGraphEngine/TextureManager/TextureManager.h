@@ -16,6 +16,8 @@ public:
 	//texture management
 	void Add_GLTexture(std::string id, const char* path);
 	const GLTexture* Get_GLTexture(std::string id);
+	std::vector<std::string> Get_GLTextureNames() const;
+
 private:
 	std::map<std::string, const GLTexture*> gl_textures;
 };

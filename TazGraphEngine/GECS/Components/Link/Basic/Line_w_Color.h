@@ -72,4 +72,33 @@ public:
 	std::string GetComponentName() override {
 		return "Line_w_Color";
 	}
+
+	void showGUI() override {
+		ImGui::Separator();
+
+		ImVec4 a_color = ImVec4(src_color.r / 255.0f, src_color.g / 255.0f, src_color.b / 255.0f, src_color.a / 255.0f);
+		if (ImGui::ColorPicker4("Color Line Src", (float*)&a_color)) {
+			Color newColor = {
+					   (GLubyte)(a_color.x * 255),
+					   (GLubyte)(a_color.y * 255),
+					   (GLubyte)(a_color.z * 255),
+					   (GLubyte)(a_color.w * 255)
+			};
+
+			setSrcColor(newColor);
+		}
+
+
+		ImVec4 b_color = ImVec4(dest_color.r / 255.0f, dest_color.g / 255.0f, dest_color.b / 255.0f, dest_color.a / 255.0f);
+		if (ImGui::ColorPicker4("Color Line Dest", (float*)&b_color)) {
+			Color newColor = {
+					   (GLubyte)(b_color.x * 255),
+					   (GLubyte)(b_color.y * 255),
+					   (GLubyte)(b_color.z * 255),
+					   (GLubyte)(b_color.w * 255)
+			};
+
+			setDestColor(newColor);
+		}
+	}
 };

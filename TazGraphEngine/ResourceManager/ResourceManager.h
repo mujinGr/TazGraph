@@ -11,10 +11,7 @@
 class ResourceManager
 {
 public:
-	void setupShader_Texture(GLSLProgram& shaderProgram, const std::string& textureName);
-
 	/////////////////////////
-	void setupShader(GLSLProgram& shaderProgram, const std::string& textureName, ICamera& camera);
 
 	void setupShader(GLSLProgram& shaderProgram, ICamera& camera);
 

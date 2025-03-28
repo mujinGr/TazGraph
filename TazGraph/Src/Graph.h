@@ -79,7 +79,7 @@ public:
 	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch);
 	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch);
 	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch);
-	void drawHUD(const std::vector<NodeEntity*>& entities, const std::string& textureName);
+	void drawHUD(const std::vector<NodeEntity*>& entities);
 
 	/////////////////////////
 

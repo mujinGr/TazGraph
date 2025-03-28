@@ -294,6 +294,8 @@ public:
 		groupGroupNodes_0,
 		groupGroupNodes_1,
 		groupColliders,
+
+		groupRenderSprites,
 		
 		//fore
 		buttonLabels,
@@ -315,6 +317,8 @@ public:
 		{ groupGroupNodes_1, "groupGroupNodes_1"},
 
 		{ groupColliders,"groupColliders" },
+		{ groupRenderSprites,"groupRenderSprites" },
+
 
 		//fore
 		{ buttonLabels,"buttonLabels" },

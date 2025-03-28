@@ -357,7 +357,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 					if (it == _selectedEntities.end()) { // Node not found
 						_selectedEntities.clear();
-						_selectedEntities.emplace_back(node, node->GetComponent<TransformComponent>().getCenterTransform() - t);
+						_selectedEntities.emplace_back(node, node->GetComponent<TransformComponent>().getPosition() - t);
 					}
 					else {
 						std::vector<std::pair<Entity*, glm::vec3>> updatedSelection;
@@ -366,7 +366,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 						for (const auto& [entity, _] : _selectedEntities) {
 							Node* nodeEntity = dynamic_cast<Node*>(entity);
 							if (nodeEntity) {
-								glm::vec3 relativePos = nodeEntity->GetComponent<TransformComponent>().getCenterTransform() - t;
+								glm::vec3 relativePos = nodeEntity->GetComponent<TransformComponent>().getPosition() - t;
 								updatedSelection.emplace_back(entity, relativePos);
 							}
 							else {
@@ -887,7 +887,7 @@ void Graph::draw()
 	// Debug Rendering
 	if (_renderDebug) {
 		_LineRenderer.begin();
-		_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
+		_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
 		std::vector<Cell*> intercectedCells = manager.grid->getIntersectedCameraCells(*main_camera2D);
 		
@@ -961,6 +961,7 @@ void Graph::draw()
 
 	_LineRenderer.begin();
 	_PlaneColorRenderer.begin();
+	_PlaneModelRenderer.begin();
 
 	_LineRenderer.initBatchLines(
 		manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0).size() +
@@ -977,9 +978,14 @@ void Graph::draw()
 		manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
 	);
 
+	_PlaneModelRenderer.initTextureQuadBatch(
+		manager.getVisibleGroup<NodeEntity>(Manager::groupRenderSprites).size()
+	);
+
+
 	_PlaneColorRenderer.initBatchSize();
 	_LineRenderer.initBatchSize();
-
+	_PlaneModelRenderer.initBatchSize();
 
 	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
 
@@ -1000,19 +1006,28 @@ void Graph::draw()
 
 
 
+	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
 
-	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
+
+
+	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
 	glsl_lineColor.unuse();
 	
 	
-	_resourceManager.setupShader(glsl_color, "", *main_camera2D);
+	_resourceManager.setupShader(glsl_color, *main_camera2D);
 	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
 	_PlaneColorRenderer.end();
 	_PlaneColorRenderer.renderBatch(_resourceManager.getGLSLProgram("color"));
 	glsl_color.unuse();
+
+
+	_resourceManager.setupShader(glsl_texture, *main_camera2D);
+	_PlaneModelRenderer.end();
+	_PlaneModelRenderer.renderBatch();
+	glsl_texture.unuse();
 
 
 	_LineRenderer.begin();
@@ -1078,7 +1093,7 @@ void Graph::draw()
 
 	_LineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
 
-	_resourceManager.setupShader(glsl_lineColor, "", *main_camera2D);
+	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
 	glsl_lineColor.unuse();
@@ -1100,10 +1115,10 @@ void Graph::draw()
 }
 
 
-void Graph::drawHUD(const std::vector<NodeEntity*>& entities, const std::string& textureName) {
+void Graph::drawHUD(const std::vector<NodeEntity*>& entities) {
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
-	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), textureName, *hud_camera2D);
+	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), *hud_camera2D);
 	renderBatch(entities, _hudPlaneModelRenderer);
 }
 

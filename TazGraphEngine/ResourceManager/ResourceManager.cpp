@@ -1,23 +1,12 @@
 #include "ResourceManager.h"
 
 
-void ResourceManager::setupShader_Texture(GLSLProgram& shaderProgram, const std::string& textureName) {
-	GLint textureLocation = shaderProgram.getUniformLocation("texture_sampler");
-	glUniform1i(textureLocation, 0);
-}
-
-void ResourceManager::setupShader(GLSLProgram& shaderProgram, const std::string& textureName, ICamera& camera) {
+void ResourceManager::setupShader(GLSLProgram& shaderProgram, ICamera& camera) {
 	shaderProgram.use();
-	if (!textureName.empty()) {
-		setupShader_Texture(shaderProgram, textureName);
-	}
+	
 	GLint pLocation = shaderProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = camera.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-}
-
-void ResourceManager::setupShader(GLSLProgram& shaderProgram, ICamera& camera) {
-	setupShader(shaderProgram, "", camera);
 }
 
 void ResourceManager::addGLSLProgram(std::string programName)

@@ -92,3 +92,12 @@ const GLTexture* TextureManager::Get_GLTexture(std::string id)
 {
 	return gl_textures[id];
 }
+
+std::vector<std::string> TextureManager::Get_GLTextureNames() const
+{
+	std::vector<std::string> textureNames;
+	for (const auto& pair : gl_textures) {
+		textureNames.push_back(pair.first);
+	}
+	return textureNames;
+}

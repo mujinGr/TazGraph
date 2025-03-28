@@ -174,4 +174,25 @@ public:
 	std::string GetComponentName() override {
 		return "SpriteComponent";
 	}
+
+	void showGUI() override {
+		ImGui::Separator();
+
+		// Get the list of texture names
+		std::vector<std::string> textureNames = TextureManager::getInstance().Get_GLTextureNames();
+
+		static int currentItem = 0;
+		if (!textureNames.empty()) {
+			std::vector<const char*> items;
+			for (const std::string& name : textureNames)
+				items.push_back(name.c_str());
+
+			if (ImGui::Combo("Textures", &currentItem, items.data(), (int)items.size())) {
+				const GLTexture* selectedTexture = TextureManager::getInstance().Get_GLTexture(textureNames[currentItem]);
+				if (selectedTexture) {
+					gl_texture = selectedTexture;
+				}
+			}
+		}
+	};
 };
