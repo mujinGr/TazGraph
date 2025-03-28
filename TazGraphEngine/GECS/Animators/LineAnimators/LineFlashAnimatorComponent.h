@@ -54,7 +54,7 @@ public:
 		line->setFlashFrame();
 	}
 
-	void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) override
+	void draw(size_t e_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window) override
 	{
 		//sprite->draw(batch);
 	}

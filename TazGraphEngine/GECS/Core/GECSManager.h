@@ -98,24 +98,22 @@ public:
 
 	void refresh(ICamera* camera = nullptr)
 	{
-	
+
+		if (camera->hasChanged()) {
+			bool interceptedCellsChanged = grid->setIntersectedCameraCells(*camera);
+
+			if (interceptedCellsChanged || grid->gridLevelChanged()) {
+				aboutTo_updateActiveEntities();
+			}
+		}
 
 		if (_update_active_entities) {
 			_update_active_entities = false;
 
 			updateActiveEntities();
-		}
-		
-
-		if (camera->hasChanged()) {
-			bool interceptedCellsChanged = grid->setIntersectedCameraCells(*camera);
-
-			if (!interceptedCellsChanged && !grid->gridLevelChanged()) {
-				return;
-			}
-
 			updateVisibleEntities();
-		}		
+		}
+				
 	}
 
 	void aboutTo_updateActiveEntities() {

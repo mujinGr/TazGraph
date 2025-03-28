@@ -21,6 +21,7 @@ private:
 	bool _isMainMenu = false;
 
 public:
+	std::string texture_name = "";
 	Color default_color = { 255, 255, 255, 255 };
 	Color color = { 255, 255, 255, 255 };
 
@@ -61,7 +62,10 @@ public:
 
 	void setTex(std::string id) //this function is used to change texture of a sprite
 	{
+		texture_name = id;
 		gl_texture = TextureManager::getInstance().Get_GLTexture(id);
+		srcRect.w = gl_texture->width;
+		srcRect.h = gl_texture->height;
 	}
 
 	void init() override
@@ -89,6 +93,9 @@ public:
 	{
 		destRect.x = transform->getPosition().x; //make player move with the camera, being stable in centre, except on edges
 		destRect.y = transform->getPosition().y;
+
+		destRect.w = transform->size.x * transform->scale;
+		destRect.h = transform->size.y * transform->scale;
 	}
 
 	void draw(size_t v_index, PlaneModelRenderer&  batch, TazGraphEngine::Window& window)
@@ -113,7 +120,7 @@ public:
 
 		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
 
-		batch.draw(v_index, pos, uv, gl_texture->id, transform->getPosition().z, color);
+		batch.draw(v_index, pos, uv, gl_texture->id, transform->getPosition().z + transform->size.z / 2.0f, color);
 		
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
@@ -188,9 +195,8 @@ public:
 				items.push_back(name.c_str());
 
 			if (ImGui::Combo("Textures", &currentItem, items.data(), (int)items.size())) {
-				const GLTexture* selectedTexture = TextureManager::getInstance().Get_GLTexture(textureNames[currentItem]);
-				if (selectedTexture) {
-					gl_texture = selectedTexture;
+				if (!textureNames[currentItem].empty()) {
+					setTex(textureNames[currentItem]);
 				}
 			}
 		}

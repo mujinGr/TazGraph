@@ -105,9 +105,9 @@ public:
 
 	virtual void init() {}
 	virtual void update(float deltaTime) {}
-	virtual void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) {}
-	virtual void draw(LineRenderer& batch, TazGraphEngine::Window& window) {}
-	virtual void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window) {}
+	virtual void draw(size_t e_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window) {}
+	virtual void draw(size_t e_index, LineRenderer& batch, TazGraphEngine::Window& window) {}
+	virtual void draw(size_t e_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {}
 
 	virtual std::string GetComponentName() { return ""; };
 
@@ -186,22 +186,22 @@ public:
 
 	virtual Cell* getOwnerCell() const { return nullptr; };
 
-	void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) 
+	void draw(size_t e_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window)
 	{
 		for (auto& c : components) { 
-			c->draw(batch, window); 
+			c->draw(e_index, batch, window);
 		}
 	}
-	void draw(LineRenderer& batch, TazGraphEngine::Window& window)
+	void draw(size_t e_index, LineRenderer& batch, TazGraphEngine::Window& window)
 	{
 		for (auto& c : components) {
-			c->draw(batch, window);
+			c->draw(e_index, batch, window);
 		}
 	}
-	void draw(PlaneColorRenderer& batch, TazGraphEngine::Window& window)
+	void draw(size_t e_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window)
 	{
 		for (auto& c : components) {
-			c->draw(batch, window);
+			c->draw(e_index, batch, window);
 		}
 	}
 	bool isActive() { return active; }
@@ -214,10 +214,7 @@ public:
 	}
 
 	virtual void addGroup(Group mGroup);
-	void delGroup(Group mGroup)
-	{
-		groupBitSet[mGroup] = false;
-	}
+	void removeGroup(Group mGroup);
 
 	template <typename T> bool hasComponent() const
 	{

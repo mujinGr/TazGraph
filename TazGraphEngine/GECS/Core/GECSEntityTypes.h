@@ -49,6 +49,7 @@ public:
 	void destroy() {
 		Entity::destroy();
 		manager.aboutTo_updateActiveEntities(); // cant have it at destroy in baseclass
+		// may need to also update Visible Entities
 	}
 };
 

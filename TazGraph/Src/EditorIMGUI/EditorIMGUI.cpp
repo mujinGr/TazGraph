@@ -93,7 +93,7 @@ bool EditorIMGUI::isMouseOnWidget(const std::string& widgetName)
 	ImGuiContext& g = *ImGui::GetCurrentContext(); // Get ImGui context
 
 	for (ImGuiWindow* window : g.Windows) {
-		if (window->Name == widgetName) {
+		if (window->Name == widgetName && !(window->Hidden || (window->Active == false))) {
 			ImVec2 widgetPos = window->Pos;
 			ImVec2 widgetSize = window->Size;
 
@@ -560,6 +560,9 @@ void EditorIMGUI::updateIsMouseInSecondColumn() {
 
 void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager)
 {
+
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
 	if (!displayedEntity) return;
 
 
@@ -612,8 +615,21 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 
 				if (hasComponent) {
 					if (ImGui::TreeNode((c + " Properties").c_str())) {
-						getComponentByName(c, displayedEntity)->showGUI();
-						ImGui::TreePop();
+						
+						if (c == "SpriteComponent") {
+							std::string tempStr = displayedEntity->GetComponent<SpriteComponent>().texture_name;
+							getComponentByName(c, displayedEntity)->showGUI();
+							ImGui::TreePop();
+
+							if (tempStr != displayedEntity->GetComponent<SpriteComponent>().texture_name) {
+								displayedEntity->getManager()->refresh(main_camera2D.get());
+							}
+
+						}
+						else {
+							getComponentByName(c, displayedEntity)->showGUI();
+							ImGui::TreePop();
+						}
 					}
 				}
 			}
@@ -658,6 +674,76 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 						ImGui::TreePop();
 					}
 				}
+			}
+		}
+	}
+
+	ImGui::End();
+
+}
+
+void EditorIMGUI::ShowSceneControl(glm::vec2 mousePos, Manager& manager)
+{
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	std::string windowTitle = "Scene Manager";
+
+	static int sceneMan_nodeID1 = -1, sceneMan_nodeID2 = -1;
+	static std::string errorMessage = "";
+
+	ImGui::SetNextWindowPos(ImVec2(mousePos.x, mousePos.y), ImGuiCond_Always, ImVec2(0, 0));
+
+	if (ImGui::Begin(windowTitle.c_str())) {
+		if (ImGui::Button("Create Empty Entity")) {
+			auto& empty(manager.addEntityNoId<Empty>());
+
+			//empty.addGroup(Manager::groupNodes_0);
+			// todo here we also have choose shape option
+		}
+
+		if (ImGui::Button("Create Node Entity")) {
+			auto& node(manager.addEntityNoId<Node>());
+
+			glm::vec2 position(0, 0);
+
+			node.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+			node.addComponent<Rectangle_w_Color>();
+			node.GetComponent<Rectangle_w_Color>().color = Color(150, 150, 150, 255);
+
+			node.GetComponent<TransformComponent>().update(0.0f); // update children positions
+
+
+			manager.grid->addNode(&node, manager.grid->getGridLevel());
+			node.addGroup(Manager::groupNodes_0);
+			manager.refresh(main_camera2D.get());
+		}
+
+		ImGui::Separator();
+		ImGui::Text("Create Link Entity");
+		ImGui::InputInt("Node ID 1", &sceneMan_nodeID1);
+		ImGui::InputInt("Node ID 2", &sceneMan_nodeID2);
+
+		if (ImGui::Button("Create Link Entity")) {
+			// Check if both nodes exist before creating the link
+			if (manager.getEntityFromId(sceneMan_nodeID1) && manager.getEntityFromId(sceneMan_nodeID2)) {
+				auto& link(manager.addEntityNoId<Link>(sceneMan_nodeID1, sceneMan_nodeID2));
+
+				
+				link.addComponent<Line_w_Color>();
+
+				link.GetComponent<Line_w_Color>().setSrcColor(Color(255, 40, 0, 255));
+				link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
+
+				link.addComponent<LineFlashAnimatorComponent>();
+
+
+				link.addGroup(Manager::groupLinks_0);
+				manager.grid->addLink(&link, manager.grid->getGridLevel());
+				manager.refresh(main_camera2D.get());
+				errorMessage = ""; // Clear error if successful
+			}
+			else {
+				errorMessage = "Error: One or both node IDs do not exist!";
 			}
 		}
 	}

@@ -270,8 +270,9 @@ void Graph::update(float deltaTime) //game objects updating
 	// check input manager if left mouse is clicked, if yes and the mouse is not on the widget then nullify displayedEntity
 	if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT))
 	{
-		if (!_editorImgui.isMouseOnWidget("Node Display") && !_editorImgui.isMouseOnWidget("Link Display")) {
+		if (!_editorImgui.isMouseOnWidget("Node Display") && !_editorImgui.isMouseOnWidget("Link Display") && !_editorImgui.isMouseOnWidget("Scene Manager")) {
 			_displayedEntity = nullptr;
+			_sceneManagerActive = false;
 		}
 	}
 
@@ -563,13 +564,17 @@ void Graph::checkInput() {
 
 			if (wasHoveringEntity && !_onHoverEntity) {
 				for (NodeEntity* node_entity : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
-					int alpha = 255;
-					node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+					if (node_entity->hasComponent<Rectangle_w_Color>()) {
+						int alpha = 255;
+						node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+					}
 				}
 				for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
-					int alpha = 255;
-					link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-					link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+					if (link_entity->hasComponent<Line_w_Color>()) {
+						int alpha = 255;
+						link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
+						link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+					}
 				}
 			}
 
@@ -595,13 +600,17 @@ void Graph::checkInput() {
 				}
 
 				for (NodeEntity* node_entity : manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
-					int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
-					node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+					if (node_entity->hasComponent<Rectangle_w_Color>()) {
+						int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
+						node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+					}
 				}
 				for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
-					int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
-					link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-					link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+					if (link_entity->hasComponent<Line_w_Color>()) {
+						int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
+						link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
+						link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+					}
 				}
 			}
 
@@ -676,6 +685,10 @@ void Graph::checkInput() {
 				std::cout << "right-clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
 
 				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_RIGHT);
+
+				if (!_displayedEntity && _editorImgui.isMouseInSecondColumn) {
+					_sceneManagerActive = true;
+				}
 
 				_savedMainViewportMousePosition = _app->_inputManager.getMouseCoords();
 			}
@@ -768,6 +781,12 @@ void Graph::updateUI() {
 	//glm::vec2 worldToVieport
 	_editorImgui.ShowStatisticsAbout(_savedMainViewportMousePosition, _displayedEntity, manager);
 
+	if (_sceneManagerActive) {
+		_editorImgui.ShowSceneControl(_savedMainViewportMousePosition, manager);
+	}
+	// this is going to be shown when right click on scene and no displayEntity shows
+
+
 	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
 }
 
@@ -836,14 +855,23 @@ void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRen
 
 void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch) { 
 	// before calling this make sure that reserved the right amount of memory
-	for (const auto& entity : entities) {
-		entity->draw(batch, *Graph::_window);
+	//for (const auto& entity : entities) {
+	//	entity->draw(batch, *Graph::_window);
+	//}
+
+	for (int i = 0; i < entities.size(); i++) {
+		entities[i]->draw(i, batch, *Graph::_window);
 	}
+
 }
 void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch) {
 	// before calling this make sure that reserved the right amount of memory
-	for (const auto& entity : entities) {
+	/*for (const auto& entity : entities) {
 		entity->draw(batch, *Graph::_window);
+	}*/
+
+	for (int i = 0; i < entities.size(); i++) {
+		entities[i]->draw(i, batch, *Graph::_window);
 	}
 }
 
@@ -1005,6 +1033,7 @@ void Graph::draw()
 	renderBatch(manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
 
 
+	renderBatch(manager.getVisibleGroup<EmptyEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
 
 	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
 

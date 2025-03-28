@@ -114,6 +114,7 @@ private:
 
 	std::vector<std::pair<Entity*, glm::vec3>> _selectedEntities;
 	Entity* _displayedEntity = nullptr;
+	bool _sceneManagerActive = false;
 	Entity* _onHoverEntity = nullptr;
 	
 	int _nextSceneIndex = SCENE_INDEX_GRAPHPLAY;

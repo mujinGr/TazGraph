@@ -6,7 +6,7 @@
 // Map of component names to functions for adding components
 static const std::unordered_map<std::string, std::function<void(Entity*)>> addComponentMap = {
     //{"TransformComponent", [](Entity* entity) { entity->addComponent<TransformComponent>(); }},
-    {"SpriteComponent", [](Entity* entity) { entity->addComponent<SpriteComponent>(); }},
+    {"SpriteComponent", [](Entity* entity) {entity->addGroup(Manager::groupRenderSprites);entity->addComponent<SpriteComponent>(); }},
     {"ColliderComponent", [](Entity* entity) { entity->addComponent<ColliderComponent>(); }},
     {"Triangle_w_Color", [](Entity* entity) { entity->addComponent<Triangle_w_Color>(); }},
     {"Rectangle_w_Color", [](Entity* entity) { entity->addComponent<Rectangle_w_Color>(); }},
@@ -26,7 +26,7 @@ static const std::unordered_map<std::string, std::function<void(Entity*)>> addCo
 // Map of component names to functions for removing components
 static const std::unordered_map<std::string, std::function<void(Entity*)>> removeComponentMap = {
     //{"TransformComponent", [](Entity* entity) { entity->removeComponent<TransformComponent>(); }},
-    {"SpriteComponent", [](Entity* entity) { entity->removeComponent<SpriteComponent>(); }},
+    {"SpriteComponent", [](Entity* entity) { entity->removeGroup(Manager::groupRenderSprites); entity->removeComponent<SpriteComponent>(); }},
     {"ColliderComponent", [](Entity* entity) { entity->removeComponent<ColliderComponent>(); }},
     {"Triangle_w_Color", [](Entity* entity) { entity->removeComponent<Triangle_w_Color>(); }},
     {"Rectangle_w_Color", [](Entity* entity) { entity->removeComponent<Rectangle_w_Color>(); }},
@@ -70,6 +70,8 @@ void AddComponentByName(const std::string& componentName, Entity* entity) {
     if (it != addComponentMap.end()) {
         it->second(entity);
     }
+
+    entity->getManager()->aboutTo_updateActiveEntities();
 }
 
 // Function to remove a component by name
@@ -78,6 +80,8 @@ void RemoveComponentByName(const std::string& componentName, Entity* entity) {
     if (it != removeComponentMap.end()) {
         it->second(entity);
     }
+
+    entity->getManager()->aboutTo_updateActiveEntities();
 }
 
 // Function to get a component by name

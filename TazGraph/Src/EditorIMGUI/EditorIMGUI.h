@@ -63,5 +63,6 @@ public:
 	void ShowFunctionExecutionResults();
 	void updateIsMouseInSecondColumn();
 	void ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager);
+	void ShowSceneControl(glm::vec2 mousePos, Manager& manager);
 	void StartPollingComponent(Entity* entity, const std::string& fileName);
 };

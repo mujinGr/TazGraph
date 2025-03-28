@@ -55,10 +55,10 @@ public:
 		}
 	}
 
-	void draw(PlaneModelRenderer& batch, TazGraphEngine::Window& window) override {
+	void draw(size_t e_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window) override {
 		//draw each letter
 		for (auto& l : letters) {
-			l->draw(batch, window);
+			l->draw(e_index, batch, window);
 		}
 	}
 

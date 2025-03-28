@@ -4,3 +4,8 @@ void Entity::addGroup(Group mGroup)
 {
 	groupBitSet[mGroup] = true;
 }
+
+void Entity::removeGroup(Group mGroup)
+{
+	groupBitSet[mGroup] = false;
+}
