@@ -5,7 +5,7 @@
 
 // Map of component names to functions for adding components
 static const std::unordered_map<std::string, std::function<void(Entity*)>> addComponentMap = {
-    {"TransformComponent", [](Entity* entity) { entity->addComponent<TransformComponent>(); }},
+    //{"TransformComponent", [](Entity* entity) { entity->addComponent<TransformComponent>(); }},
     {"SpriteComponent", [](Entity* entity) { entity->addComponent<SpriteComponent>(); }},
     {"ColliderComponent", [](Entity* entity) { entity->addComponent<ColliderComponent>(); }},
     {"Triangle_w_Color", [](Entity* entity) { entity->addComponent<Triangle_w_Color>(); }},
@@ -25,7 +25,7 @@ static const std::unordered_map<std::string, std::function<void(Entity*)>> addCo
 
 // Map of component names to functions for removing components
 static const std::unordered_map<std::string, std::function<void(Entity*)>> removeComponentMap = {
-    {"TransformComponent", [](Entity* entity) { entity->removeComponent<TransformComponent>(); }},
+    //{"TransformComponent", [](Entity* entity) { entity->removeComponent<TransformComponent>(); }},
     {"SpriteComponent", [](Entity* entity) { entity->removeComponent<SpriteComponent>(); }},
     {"ColliderComponent", [](Entity* entity) { entity->removeComponent<ColliderComponent>(); }},
     {"Triangle_w_Color", [](Entity* entity) { entity->removeComponent<Triangle_w_Color>(); }},

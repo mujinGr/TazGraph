@@ -41,6 +41,7 @@ public:
 	int getCellSize();
 	int getNumXCells();
 	int getNumYCells();
+	int getNumZCells();
 
 	bool setIntersectedCameraCells(ICamera& camera);
 

@@ -201,17 +201,17 @@ Cell* Grid::getCell(int x, int y, int z, Grid::Level m_level)
 {
 	int cellsGroupSize = gridLevels[m_level].second;
 
-	int numXCells = ceil((float)_numXCells / cellsGroupSize);
-	int numYCells = ceil((float)_numYCells / cellsGroupSize);
-	int numZCells = ceil((float)_numZCells / cellsGroupSize);
+	float numXCells = ceil((float)_numXCells / cellsGroupSize);
+	float numYCells = ceil((float)_numYCells / cellsGroupSize);
+	float numZCells = ceil((float)_numZCells / cellsGroupSize);
 
 
-	float startX	= ceil(-((numXCells) / 2)) ; // add one in order to take floor of division
-	float endX		= ceil((numXCells) / 2) - 1;
-	float startY	= ceil(-((numYCells) / 2));
-	float endY		= ceil((numYCells) / 2) - 1;
-	float startZ	= ceil(-((numZCells) / 2));
-	float endZ		= ceil((numZCells) / 2) - 1;
+	float startX	= ceil(-((numXCells) / 2.0f)) ; // add one in order to take floor of division
+	float endX		= ceil((numXCells) / 2.0f) - 1;
+	float startY	= ceil(-((numYCells) / 2.0f));
+	float endY		= ceil((numYCells) / 2.0f) - 1;
+	float startZ	= ceil(-((numZCells) / 2.0f));
+	float endZ		= ceil((numZCells) / 2.0f) - 1;
 
 
 	if (x < startX) x = startX;
@@ -247,16 +247,16 @@ std::vector<Cell*> Grid::getAdjacentCells(int x, int y, int z, Grid::Level m_lev
 
 	int cellsGroupSize = gridLevels[m_level].second;
 
-	int numXCells = ceil((float)_numXCells / cellsGroupSize);
-	int numYCells = ceil((float)_numYCells / cellsGroupSize);
-	int numZCells = ceil((float)_numZCells / cellsGroupSize);
+	float numXCells = ceil((float)_numXCells / cellsGroupSize);
+	float numYCells = ceil((float)_numYCells / cellsGroupSize);
+	float numZCells = ceil((float)_numZCells / cellsGroupSize);
 
-	float startX = ceil(-((numXCells) / 2)); // add one in order to take floor of division
-	float endX = ceil((numXCells) / 2) - 1;
-	float startY = ceil(-((numYCells) / 2));
-	float endY = ceil((numYCells) / 2) - 1;
-	float startZ = ceil(-((numZCells) / 2));
-	float endZ = ceil((numZCells) / 2) - 1;
+	float startX = ceil(-((numXCells) / 2.0f)); // add one in order to take floor of division
+	float endX = ceil((numXCells) / 2.0f) - 1;
+	float startY = ceil(-((numYCells) / 2.0f));
+	float endY = ceil((numYCells) / 2.0f) - 1;
+	float startZ = ceil(-((numZCells) / 2.0f));
+	float endZ = ceil((numZCells) / 2.0f) - 1;
 
 	adjacentCells.reserve(9);
 
@@ -273,9 +273,9 @@ std::vector<Cell*> Grid::getAdjacentCells(int x, int y, int z, Grid::Level m_lev
 				int neighborZ = z + offsetZ;
 
 				// Check bounds and add the cell to the list
-				if (neighborX >= startX && neighborX < endX &&
-					neighborY >= startY && neighborY < endY &&
-					neighborZ >= startZ && neighborZ < endZ) {
+				if (neighborX >= startX && neighborX <= endX &&
+					neighborY >= startY && neighborY <= endY &&
+					neighborZ >= startZ && neighborZ <= endZ) {
 					adjacentCells.push_back(getCell(neighborX, neighborY, neighborZ, _level));
 				}
 			}
@@ -316,6 +316,10 @@ int Grid::getNumXCells() {
 }
 int Grid::getNumYCells() {
 	return _numYCells;
+}
+
+int Grid::getNumZCells(){
+	return _numZCells;
 }
 
 bool Grid::setIntersectedCameraCells(ICamera& camera) {

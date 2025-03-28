@@ -287,66 +287,42 @@ std::vector<Cell*> Graph::traversedCellsFromRay(
 	std::vector<Cell*> hitCells;
 	std::unordered_set<Cell*> visitedCells;
 
-	// Convert world position to grid indices
-	int x = static_cast<int>(floor(rayOrigin.x / manager.grid->getCellSize()));
-	int y = static_cast<int>(floor(rayOrigin.y / manager.grid->getCellSize()));
-	int z = static_cast<int>(floor(rayOrigin.z / manager.grid->getCellSize()));
+	float stepSize = manager.grid->getCellSize() * 0.5f; // Step size for ray traversal
+	glm::vec3 step = glm::normalize(rayDirection) * stepSize; // Step vector
+	glm::vec3 currentPos = rayOrigin;
 
-	// Direction sign (-1, 0, 1)
-	int stepX = (rayDirection.x > 0) ? 1 : (rayDirection.x < 0 ? -1 : 0);
-	int stepY = (rayDirection.y > 0) ? 1 : (rayDirection.y < 0 ? -1 : 0);
-	int stepZ = (rayDirection.z > 0) ? 1 : (rayDirection.z < 0 ? -1 : 0);
+	float traveledDistance = 0.0f;
 
-	// Compute tMax: when ray crosses next grid boundary
-	float tMaxX = (stepX > 0) ? ((x + 1) * manager.grid->getCellSize() - rayOrigin.x) / rayDirection.x
-		: (x * manager.grid->getCellSize() - rayOrigin.x) / rayDirection.x;
-	float tMaxY = (stepY > 0) ? ((y + 1) * manager.grid->getCellSize() - rayOrigin.y) / rayDirection.y
-		: (y * manager.grid->getCellSize() - rayOrigin.y) / rayDirection.y;
-	float tMaxZ = (stepZ > 0) ? ((z + 1) * manager.grid->getCellSize() - rayOrigin.z) / rayDirection.z
-		: (z * manager.grid->getCellSize() - rayOrigin.z) / rayDirection.z;
+	while (traveledDistance < maxDistance) {
+		int x = static_cast<int>(floor(currentPos.x / manager.grid->getCellSize()));
+		int y = static_cast<int>(floor(currentPos.y / manager.grid->getCellSize()));
+		int z = static_cast<int>(floor(currentPos.z / manager.grid->getCellSize()));
 
-	// Avoid division by zero
-	if (rayDirection.x == 0) tMaxX = FLT_MAX;
-	if (rayDirection.y == 0) tMaxY = FLT_MAX;
-	if (rayDirection.z == 0) tMaxZ = FLT_MAX;
+		// Check if the cell is within the grid bounds
+		if (
+			x < ceil(manager.grid->getNumXCells() / 2.0f) && x >= ceil(-manager.grid->getNumXCells() / 2.0f) &&
+			y < ceil(manager.grid->getNumYCells() / 2.0f) && y >= ceil(-manager.grid->getNumYCells() / 2.0f) &&
+			z < ceil(manager.grid->getNumZCells() / 2.0f) && z >= ceil(-manager.grid->getNumZCells() / 2.0f)
+			) {
+			Cell* cell = manager.grid->getCell(x, y, z, manager.grid->getGridLevel());
 
-	// Compute tDelta: how far we move in t for each step
-	float tDeltaX = (stepX != 0) ? fabs(manager.grid->getCellSize() / rayDirection.x) : FLT_MAX;
-	float tDeltaY = (stepY != 0) ? fabs(manager.grid->getCellSize() / rayDirection.y) : FLT_MAX;
-	float tDeltaZ = (stepZ != 0) ? fabs(manager.grid->getCellSize() / rayDirection.z) : FLT_MAX;
+			if (cell && visitedCells.find(cell) == visitedCells.end()) {
+				hitCells.push_back(cell);
+				visitedCells.insert(cell);
 
-	float t = 0; // Current distance traveled
-	while (t < maxDistance) {
-		Cell* cell = manager.grid->getCell(x, y, z, manager.grid->getGridLevel());
-
-		if (cell && visitedCells.find(cell) == visitedCells.end()) {
-			hitCells.push_back(cell);
-			visitedCells.insert(cell);
-
-			std::vector<Cell*> adjacentCells = manager.grid->getAdjacentCells(x, y, z, manager.grid->getGridLevel());
-			for (Cell* adjCell : adjacentCells) {
-				if (adjCell && visitedCells.find(adjCell) == visitedCells.end()) {
-					hitCells.push_back(adjCell);
-					visitedCells.insert(adjCell);
+				// Add adjacent cells
+				for (Cell* adjCell : manager.grid->getAdjacentCells(x, y, z, manager.grid->getGridLevel())) {
+					if (adjCell && visitedCells.find(adjCell) == visitedCells.end()) {
+						hitCells.push_back(adjCell);
+						visitedCells.insert(adjCell);
+					}
 				}
 			}
 		}
 
-		if (tMaxX < tMaxY && tMaxX < tMaxZ) {
-			x += stepX;
-			t = tMaxX;
-			tMaxX += tDeltaX;
-		}
-		else if (tMaxY < tMaxZ) {
-			y += stepY;
-			t = tMaxY;
-			tMaxY += tDeltaY;
-		}
-		else {
-			z += stepZ;
-			t = tMaxZ;
-			tMaxZ += tDeltaZ;
-		}
+		// Move along the ray
+		currentPos += step;
+		traveledDistance += stepSize;
 	}
 
 	return hitCells;
@@ -401,17 +377,17 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 						_selectedEntities = std::move(updatedSelection);
 					}
 				}
-				else if(activateMode == ON_HOVER && _selectedEntities.empty()) {
+				else if (activateMode == ON_HOVER && _selectedEntities.empty()) {
 					_onHoverEntity = node;
 				}
 				else if (activateMode == CTRLD_LEFT_CLICK) {
-					
+
 					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
 						[node](const std::pair<Entity*, glm::vec3>& entry) {
 							return entry.first == node;
 						});
 
-					
+
 					//! update selectedEntities relative positions to center
 					std::vector<std::pair<Entity*, glm::vec3>> updatedSelection;
 					updatedSelection.reserve(_selectedEntities.size());
@@ -439,8 +415,12 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				break;
 			}
 		}
-		
-		if (hasSelected) break;
+
+		if (hasSelected) return;
+	}
+	
+
+	for (auto& trav_cell : trav_cells) {
 
 		for (auto& link : trav_cell->links) {
 			glm::vec3 t;
@@ -487,10 +467,11 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			}
 		}
 
-		if (hasSelected) break;
+		if (hasSelected) return;
 
 		
 	}
+
 	if (!hasSelected && activateMode == SDL_BUTTON_LEFT) {
 		_selectedEntities.clear();
 	}
@@ -514,7 +495,7 @@ void Graph::checkInput() {
 		switch (evnt.type)
 		{
 		case SDL_MOUSEWHEEL:
-			if (!_editorImgui.isMouseInSecondColumn) {
+			if (!_editorImgui.isMouseInSecondColumn || _displayedEntity) {
 				return;
 			}
 			if (evnt.wheel.y > 0)
@@ -529,6 +510,9 @@ void Graph::checkInput() {
 			}
 			break;
 		case SDL_KEYDOWN:
+			if (_displayedEntity) {
+				return;
+			}
 			if (_app->_inputManager.isKeyDown(SDLK_e)) {
 				main_camera2D->movePosition_Forward(10.0f);
 			}
