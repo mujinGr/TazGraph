@@ -111,9 +111,13 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 	ImGui::BeginChild("Background UI");
 	ImGui::Text("This is a Background UI element.");
 	ImGui::ColorEdit4("Background Color", backgroundColor);
+	
+	ImVec4 activeColor = ImVec4(0.2f, 0.7f, 0.2f, 1.0f);
+	ImVec4 defaultColor = ImVec4(0.0f, 0.5f, 1.0f, 1.0f);
+	
 	// Change color based on the debug mode state
 	if (renderDebug) {
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.7f, 0.2f, 1.0f));  // Green for ON
+		ImGui::PushStyleColor(ImGuiCol_Button, activeColor);  // Green for ON
 	}
 	else {
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.7f, 0.2f, 0.2f, 1.0f));  // Red for OFF
@@ -125,6 +129,38 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 	}
 
 	ImGui::PopStyleColor(1);
+	
+	ImGui::Separator();
+
+	if (ImGui::Button(arrowheadsEnabled ? "Disable Arrowheads" : "Enable Arrowheads")) {
+		arrowheadsEnabled = !arrowheadsEnabled;
+		//manager.setArrowheadsEnabled(arrowheadsEnabled); // Call function to apply change
+	}
+	
+	ImGui::Text("Select Grouping Layout:");
+	ImGui::PushStyleColor(ImGuiCol_Button, activeLayout == 0 ? activeColor : defaultColor);
+	if (ImGui::Button("Default Layout", ImVec2(120, 30))) {
+		activeLayout = 0;
+		//manager.setGroupingLayout(GroupingLayout::Grid);
+	}
+	ImGui::PopStyleColor();
+
+	ImGui::SameLine();
+	ImGui::PushStyleColor(ImGuiCol_Button, activeLayout == 1 ? activeColor : defaultColor);
+	if (ImGui::Button("Group Layout 1", ImVec2(120, 30))) {
+		activeLayout = 1;
+		//manager.setGroupingLayout(GroupingLayout::Circular);
+	}
+	ImGui::PopStyleColor();
+
+	ImGui::SameLine();
+	ImGui::PushStyleColor(ImGuiCol_Button, activeLayout == 2 ? activeColor : defaultColor);
+	if (ImGui::Button("Group Layout 2", ImVec2(120, 30))) {
+		activeLayout = 2;
+		//manager.setGroupingLayout(GroupingLayout::ForceDirected);
+	}
+	ImGui::PopStyleColor();
+
 	ImGui::Text("Camera Position");
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
@@ -229,12 +265,13 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		}
 
 	}
+
 	ImGui::EndChild();
 }
 
 void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
 
-	ImGui::BeginChild("Performance");
+	ImGui::Begin("Performance");
 	ImGui::Text("FPS: %f", baseFPSLimiter.fps);
 	if (ImPlot::BeginPlot("FPS Plot")) {
 #if defined(_WIN32) || defined(_WIN64)
@@ -256,7 +293,7 @@ void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
 
 		ImPlot::EndPlot();
 	}
-	ImGui::EndChild();
+	ImGui::End();
 
 }
 
@@ -491,7 +528,11 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 void EditorIMGUI::availableFunctions() {
 	
 	if (ImGui::Button("Calculate Degree Of Selected Entities")) {
-		_customFunctions.CalculateDegree();
+		_customFunctions.activatedScriptShown = 1;
+	}
+
+	if (ImGui::Button("Show Script Results")) {
+		_customFunctions.isScriptResultsOpen = !_customFunctions.isScriptResultsOpen;
 	}
 
 }
@@ -512,6 +553,11 @@ void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImV
 	storedWindowSize = viewportPanelSize;
 
 	ImGui::EndChild();
+}
+
+void EditorIMGUI::scriptResultsVisualization(Manager& manager, std::vector<std::pair<Entity*, glm::vec3>>& m_selectedEntities) {
+
+	_customFunctions.renderUI(manager, m_selectedEntities);
 }
 
 std::string EditorIMGUI::SceneTabs() {

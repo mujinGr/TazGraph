@@ -242,7 +242,9 @@ void Graph::update(float deltaTime) //game objects updating
 
 	}*/
 
-	if (main_camera2D->getScale() < manager.grid->getLevelScale(manager.grid->getGridLevel())) {
+	if (_editorImgui.last_activeLayout != _editorImgui.activeLayout && _editorImgui.activeLayout == 1) {
+		_editorImgui.last_activeLayout = _editorImgui.activeLayout;
+
 		manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() + 1));
 		
 		if (manager.grid->getGridLevel() == Grid::Level::Outer1) {
@@ -252,8 +254,8 @@ void Graph::update(float deltaTime) //game objects updating
 			_assetsManager->createGroupLayout(Grid::Level::Outer2);
 		}		
 	}
-	else if(manager.grid->getGridLevel() && main_camera2D->getScale() > manager.grid->getLevelScale(static_cast<Grid::Level>(manager.grid->getGridLevel() - 1))){
-
+	else if(_editorImgui.last_activeLayout != _editorImgui.activeLayout && _editorImgui.activeLayout == 0){
+		_editorImgui.last_activeLayout = _editorImgui.activeLayout;
 
 		if (manager.grid->getGridLevel() == Grid::Level::Outer1) {
 			_assetsManager->ungroupLayout(Grid::Level::Outer1);
@@ -733,11 +735,10 @@ void Graph::updateUI() {
 		initializedUIColumns = true; // Prevents reapplying widths
 	}
 
+	_editorImgui.FPSCounter(getApp()->getFPSLimiter());
 	ImGui::BeginChild("Tab 1");
 
 	_editorImgui.BackGroundUIElement(_renderDebug, _sceneMousePosition, _app->_inputManager.getMouseCoords(), manager, _onHoverEntity, _backgroundColor, CELL_SIZE);
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 350.0f);
-	_editorImgui.FPSCounter(getApp()->getFPSLimiter());
 	
 	ImGui::EndChild();
 
@@ -748,6 +749,9 @@ void Graph::updateUI() {
 	_editorImgui.updateIsMouseInSecondColumn();
 
 	_editorImgui.SceneViewport(_framebuffer._framebufferTexture, _windowPos, _windowSize);
+
+	_editorImgui.scriptResultsVisualization(manager, _selectedEntities);
+
 	ImGui::NextColumn();
 	ImGui::BeginChild("Tab 2");
 

@@ -122,8 +122,7 @@ public:
 	Level getGridLevel();
 	void setGridLevel(Level newLevel);
 
-	float getLevelScale(Level level);
-	float getLevelCellScale(Level level);
+	int getLevelCellScale(Level level);
 private:
 	std::vector<Cell*> _interceptedCells;
 	
@@ -142,10 +141,10 @@ private:
 	int _numZCells;
 
 	// can change between different scenes/managers
-	std::map<Level, std::pair<float, int>> gridLevels = {
-		{Level::Basic,  {0.02f, 1}},
-		{Level::Outer1, {0.01f, 2} },
-		{Level::Outer2, {0.0f, 4}}
+	std::map<Level, int> gridLevels = {
+		{Level::Basic,  1},
+		{Level::Outer1, 2},
+		{Level::Outer2, 4}
 	};
 
 	Level _level = Level::Basic;

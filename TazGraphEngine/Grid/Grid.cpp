@@ -21,7 +21,7 @@ Grid::~Grid()
 }
 
 void Grid::createCells(Grid::Level m_level) {
-	int cellsGroupSize = gridLevels[m_level].second;
+	int cellsGroupSize = gridLevels[m_level];
 	
 	int numXCells = ceil((float)_numXCells / cellsGroupSize);
 	int numYCells = ceil((float)_numYCells / cellsGroupSize);
@@ -199,7 +199,7 @@ void Grid::addNode(NodeEntity* entity, Cell* cell)
 
 Cell* Grid::getCell(int x, int y, int z, Grid::Level m_level)
 {
-	int cellsGroupSize = gridLevels[m_level].second;
+	int cellsGroupSize = gridLevels[m_level];
 
 	float numXCells = ceil((float)_numXCells / cellsGroupSize);
 	float numYCells = ceil((float)_numYCells / cellsGroupSize);
@@ -233,11 +233,11 @@ Cell* Grid::getCell(const Entity& entity, Grid::Level m_level)
 {
 	auto pos = entity.GetComponent<TransformComponent>().getCenterTransform();
 	if (m_level == Grid::Level::Outer2) {
-		pos -= (_cellSize * gridLevels[m_level].second) / 2;
+		pos -= (_cellSize * gridLevels[m_level]) / 2;
 	}
-	int cellX = (int)(std::floor((pos.x) / (_cellSize * gridLevels[m_level].second) ));
-	int cellY = (int)(std::floor((pos.y) / (_cellSize * gridLevels[m_level].second) ));
-	int cellZ = (int)(std::floor((pos.z) / (_cellSize * gridLevels[m_level].second)));
+	int cellX = (int)(std::floor((pos.x) / (_cellSize * gridLevels[m_level]) ));
+	int cellY = (int)(std::floor((pos.y) / (_cellSize * gridLevels[m_level]) ));
+	int cellZ = (int)(std::floor((pos.z) / (_cellSize * gridLevels[m_level])));
 
 	return getCell(cellX, cellY, cellZ, m_level);
 }
@@ -245,7 +245,7 @@ Cell* Grid::getCell(const Entity& entity, Grid::Level m_level)
 std::vector<Cell*> Grid::getAdjacentCells(int x, int y, int z, Grid::Level m_level) {
 	std::vector<Cell*> adjacentCells;
 
-	int cellsGroupSize = gridLevels[m_level].second;
+	int cellsGroupSize = gridLevels[m_level];
 
 	float numXCells = ceil((float)_numXCells / cellsGroupSize);
 	float numYCells = ceil((float)_numYCells / cellsGroupSize);
@@ -291,12 +291,12 @@ std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity, Grid::Level m_le
 	auto pos = entity.GetComponent<TransformComponent>().getPosition();
 
 	if (m_level == Grid::Level::Outer2) {
-		pos -= (_cellSize * gridLevels[m_level].second) / 2;
+		pos -= (_cellSize * gridLevels[m_level]) / 2;
 	}
 
-	int cellX = (int)(std::floor((pos.x) / (_cellSize * gridLevels[m_level].second)));
-	int cellY = (int)(std::floor((pos.y) / (_cellSize * gridLevels[m_level].second)));
-	int cellZ = (int)(std::floor((pos.z) / (_cellSize * gridLevels[m_level].second)));
+	int cellX = (int)(std::floor((pos.x) / (_cellSize * gridLevels[m_level])));
+	int cellY = (int)(std::floor((pos.y) / (_cellSize * gridLevels[m_level])));
+	int cellZ = (int)(std::floor((pos.z) / (_cellSize * gridLevels[m_level])));
 
 	return getAdjacentCells(cellX, cellY, cellZ, m_level);
 }
@@ -368,12 +368,8 @@ void Grid::setGridLevel(Level newLevel)
 	_level = newLevel;
 }
 
-float Grid::getLevelScale(Level level) {
-	return gridLevels[level].first;
-}
-
-float Grid::getLevelCellScale(Level level) {
-	return gridLevels[level].second;
+int Grid::getLevelCellScale(Level level) {
+	return gridLevels[level];
 }
 
 std::vector<LinkEntity*> Grid::getLinksInCameraCells() {

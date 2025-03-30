@@ -7,8 +7,7 @@
 #include <filesystem>
 #include "ImGuiInterface/ImGuiInterface.h"
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
-#include "GECS/Components.h"
-#include "GECS/UtilComponents.h"
+
 #include "CustomFunctions/CustomFunctions.h"
 
 namespace fs = std::filesystem;
@@ -31,6 +30,11 @@ private:
 	bool _dockingEnabled = true;
 public:
 	bool isMouseInSecondColumn = false;
+
+	bool arrowheadsEnabled = false;
+	
+	int last_activeLayout = 0;
+	int activeLayout = 0;
 
 	EditorIMGUI();
 
@@ -59,6 +63,7 @@ public:
 	void ShowAllEntities(Manager& manager, float& m_nodeRadius);
 	void availableFunctions();
 	void SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize);
+	void scriptResultsVisualization(Manager& manager, std::vector<std::pair<Entity*, glm::vec3>>& m_selectedEntities);
 	std::string SceneTabs();
 	void ShowFunctionExecutionResults();
 	void updateIsMouseInSecondColumn();
