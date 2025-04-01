@@ -62,27 +62,7 @@ public:
 
 	Node(Manager& mManager) : NodeEntity(mManager) {
 
-		//auto& leftPort = mManager.addEntityNoId<Empty>();
-		//leftPort.addComponent<TransformComponent>().size.x = 0;
-		//leftPort.GetComponent<TransformComponent>().size.y = 0;
-		//children["leftPort"] = &leftPort;
-
-		//auto& rightPort = mManager.addEntityNoId<Empty>();
-		//rightPort.addComponent<TransformComponent>().size.x = 0;
-		//rightPort.GetComponent<TransformComponent>().size.y = 0;
-		//children["rightPort"] = &rightPort;
-
-		//// Initialize top port
-		//auto& topPort = mManager.addEntityNoId<Empty>();
-		//topPort.addComponent<TransformComponent>().size.x = 0;
-		//topPort.GetComponent<TransformComponent>().size.y = 0;
-		//children["topPort"] = &topPort;
-
-		//// Initialize bottom port
-		//auto& bottomPort = mManager.addEntityNoId<Empty>();
-		//bottomPort.addComponent<TransformComponent>().size.x = 0;
-		//bottomPort.GetComponent<TransformComponent>().size.y = 0;
-		//children["bottomPort"] = &bottomPort;
+		
 	}
 
 	void addGroup(Group mGroup) override {
@@ -122,10 +102,10 @@ public:
 
 				}
 				for (auto& link : inLinks) {
-					link->updateLinkPorts();
+					link->updateLinkToPorts();
 				}
 				for (auto& link : outLinks) {
-					link->updateLinkPorts();
+					link->updateLinkToPorts();
 				}
 			}
 		}
@@ -162,6 +142,39 @@ public:
 	void destroy() {
 		Entity::destroy();
 		manager.aboutTo_updateActiveEntities();
+	}
+
+	void addPorts() {
+		auto& leftPort = getManager()->addEntityNoId<Empty>();
+		leftPort.addComponent<TransformComponent>().size.x = 0;
+		leftPort.GetComponent<TransformComponent>().size.y = 0;
+		children["leftPort"] = &leftPort;
+
+		auto& rightPort = getManager()->addEntityNoId<Empty>();
+		rightPort.addComponent<TransformComponent>().size.x = 0;
+		rightPort.GetComponent<TransformComponent>().size.y = 0;
+		children["rightPort"] = &rightPort;
+
+		// Initialize top port
+		auto& topPort = getManager()->addEntityNoId<Empty>();
+		topPort.addComponent<TransformComponent>().size.x = 0;
+		topPort.GetComponent<TransformComponent>().size.y = 0;
+		children["topPort"] = &topPort;
+
+		// Initialize bottom port
+		auto& bottomPort = getManager()->addEntityNoId<Empty>();
+		bottomPort.addComponent<TransformComponent>().size.x = 0;
+		bottomPort.GetComponent<TransformComponent>().size.y = 0;
+		children["bottomPort"] = &bottomPort;
+	}
+
+	void removePorts() {
+		for (auto portName : { "leftPort", "rightPort", "topPort", "bottomPort" }) {
+			if (children[portName]) {
+				children[portName]->removeEntity();
+				children.erase(portName);
+			}
+		}
 	}
 };
 
@@ -276,44 +289,44 @@ public:
 
 	
 
-	void updateLinkPorts() override{
+	void updateLinkToPorts() override{
 		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
 		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
 
-		/*fromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
-		toPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());*/
+		fromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
+		toPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());
 
 
-		//if (children["ArrowHead"]) {
-		//	TransformComponent* tr = &children["ArrowHead"]->GetComponent<TransformComponent>();
-		//	
-		//	children["ArrowHead"]->update(0.0f);
+		if (children["ArrowHead"]) {
+			TransformComponent* tr = &children["ArrowHead"]->GetComponent<TransformComponent>();
+			
+			children["ArrowHead"]->update(0.0f);
 
-		//	// set position of arrowHead
+			// set position of arrowHead
 
-		//	TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
-		//	TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
+			TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
+			TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
 
-		//	glm::vec3 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
+			glm::vec3 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
 
-		//	glm::vec3 unitDirection = glm::normalize(direction);
-		//	float offset = 10.0f;
+			glm::vec3 unitDirection = glm::normalize(direction);
+			float offset = 10.0f;
 
-		//	glm::vec3 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
+			glm::vec3 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
 
-		//	// Calculate the angle in radians, and convert it to degrees
-		//	float angleRadians = atan2(direction.y, direction.x);
-		//	float angleDegrees = glm::degrees(angleRadians);
+			// Calculate the angle in radians, and convert it to degrees
+			float angleRadians = atan2(direction.y, direction.x);
+			float angleDegrees = glm::degrees(angleRadians);
 
-		//	glm::ivec3 arrowSize(10, 20, 0);
-		//	glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
+			glm::ivec3 arrowSize(10, 20, 0);
+			glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
 
-		//	glm::vec3 newArrowHeadPosition = arrowHeadPos - (farrowSize / 2.0f);
-		//	children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_X(newArrowHeadPosition.x);
-		//	children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_Y(newArrowHeadPosition.y);
+			glm::vec3 newArrowHeadPosition = arrowHeadPos - (farrowSize / 2.0f);
+			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_X(newArrowHeadPosition.x);
+			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_Y(newArrowHeadPosition.y);
 
-		//	children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f,0.0f,angleDegrees + 90.0f));
-		//}
+			//children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f,0.0f,angleDegrees + 90.0f));
+		}
 	}
 
 	std::string getBestPortForConnection(const glm::vec2& fromPos, const glm::vec2& toPos) {

@@ -227,35 +227,42 @@ void Graph::update(float deltaTime) //game objects updating
 		manager.update(deltaTime);
 	}
 
-	// make camera not being able to move out of bounds
-	//collision.moveFromOuterBounds();
+	if (_editorImgui.last_arrowheadsEnabled != _editorImgui.arrowheadsEnabled) {
+		_editorImgui.last_arrowheadsEnabled = _editorImgui.arrowheadsEnabled;
 
+		if (_editorImgui.arrowheadsEnabled) {
 
-	/*if (main_camera2D->getScale() < gridLevels[manager.grid->getGridLevel() + 1] ) {
-		manager.grid->setGridLevel(static_cast<GridLevel>(manager.grid->getGridLevel() + 1));
+			//todo add to all nodes ports
+			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+				node->addPorts();
+			}
 
-
+			//todo change each links from and to entities (empty entitites - ports)
+			for (auto& link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
+				link->updateLinkToPorts();
+			}
+		}
+		if (!_editorImgui.arrowheadsEnabled) {
+			//todo change each links from and to entities (from ports, to center of nodes)
+			//todo remove all ports
+		}
 	}
-	else if (main_camera2D->getScale() > gridLevels[manager.grid->getGridLevel() - 1] ) {
-		manager.grid->setGridLevel(static_cast<GridLevel>(manager.grid->getGridLevel() - 1));
 
-
-	}*/
-
-	if (_editorImgui.last_activeLayout != _editorImgui.activeLayout && _editorImgui.activeLayout == 1) {
-		_editorImgui.last_activeLayout = _editorImgui.activeLayout;
+	while (_editorImgui.last_activeLayout < _editorImgui.activeLayout) {
+		_editorImgui.last_activeLayout += 1;
 
 		manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() + 1));
-		
+
 		if (manager.grid->getGridLevel() == Grid::Level::Outer1) {
 			_assetsManager->createGroupLayout(Grid::Level::Outer1);
 		}
 		else if (manager.grid->getGridLevel() == Grid::Level::Outer2) {
 			_assetsManager->createGroupLayout(Grid::Level::Outer2);
-		}		
+		}
 	}
-	else if(_editorImgui.last_activeLayout != _editorImgui.activeLayout && _editorImgui.activeLayout == 0){
-		_editorImgui.last_activeLayout = _editorImgui.activeLayout;
+
+	while (_editorImgui.last_activeLayout > _editorImgui.activeLayout) {
+		_editorImgui.last_activeLayout -= 1;
 
 		if (manager.grid->getGridLevel() == Grid::Level::Outer1) {
 			_assetsManager->ungroupLayout(Grid::Level::Outer1);
@@ -266,7 +273,7 @@ void Graph::update(float deltaTime) //game objects updating
 
 		manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() - 1));
 
-		
+
 	}
 
 	// check input manager if left mouse is clicked, if yes and the mouse is not on the widget then nullify displayedEntity
@@ -799,9 +806,18 @@ void Graph::EndRender() {
 }
 
 void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
-		for (int i = 0; i < entities.size(); i++) {
-			if (entities[i]->hasComponent<Line_w_Color>()) {
-				entities[i]->GetComponent<Line_w_Color>().draw(i, batch, *Graph::_window);
+		if (_editorImgui.arrowheadsEnabled) {
+			for (int i = 0; i < entities.size(); i++) {
+				if (entities[i]->hasComponent<Line_w_Color>()) {
+					entities[i]->GetComponent<Line_w_Color>().drawWithPorts(i, batch, *Graph::_window);
+				}
+			}
+		}
+		else {
+			for (int i = 0; i < entities.size(); i++) {
+				if (entities[i]->hasComponent<Line_w_Color>()) {
+					entities[i]->GetComponent<Line_w_Color>().draw(i, batch, *Graph::_window);
+				}
 			}
 		}
 
@@ -1021,8 +1037,8 @@ void Graph::draw()
 
 	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
 
-	//renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0), _LineRenderer);
-	//renderBatch(1, manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1), _LineRenderer);
+	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0), _LineRenderer); // todo add offset render based on previous line rendering
+	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1), _LineRenderer);
 	
 
 	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
@@ -1031,7 +1047,8 @@ void Graph::draw()
 	
 	
 	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
-	//renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
+	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
+	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
 	
 
 	renderBatch(manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);

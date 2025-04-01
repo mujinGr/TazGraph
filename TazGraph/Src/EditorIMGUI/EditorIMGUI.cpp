@@ -141,7 +141,6 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 	ImGui::PushStyleColor(ImGuiCol_Button, activeLayout == 0 ? activeColor : defaultColor);
 	if (ImGui::Button("Default Layout", ImVec2(120, 30))) {
 		activeLayout = 0;
-		//manager.setGroupingLayout(GroupingLayout::Grid);
 	}
 	ImGui::PopStyleColor();
 
@@ -149,7 +148,6 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 	ImGui::PushStyleColor(ImGuiCol_Button, activeLayout == 1 ? activeColor : defaultColor);
 	if (ImGui::Button("Group Layout 1", ImVec2(120, 30))) {
 		activeLayout = 1;
-		//manager.setGroupingLayout(GroupingLayout::Circular);
 	}
 	ImGui::PopStyleColor();
 
@@ -157,7 +155,6 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 	ImGui::PushStyleColor(ImGuiCol_Button, activeLayout == 2 ? activeColor : defaultColor);
 	if (ImGui::Button("Group Layout 2", ImVec2(120, 30))) {
 		activeLayout = 2;
-		//manager.setGroupingLayout(GroupingLayout::ForceDirected);
 	}
 	ImGui::PopStyleColor();
 
@@ -526,7 +523,8 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 }
 
 void EditorIMGUI::availableFunctions() {
-	
+	ImGui::Separator();
+
 	if (ImGui::Button("Calculate Degree Of Selected Entities")) {
 		_customFunctions.activatedScriptShown = 1;
 	}

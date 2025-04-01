@@ -134,7 +134,7 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 	for (const auto& link : group_links) {
 		// get the links of the inside nodes
 		if (link->isHidden()) {
-			auto& groups_link = manager->addEntity<Link>(link->getFromNode()->getParentEntity(), link->getToNode()->getParentEntity());
+			auto& groups_link = manager->addEntity<Link>(link->getFromNode()->getId(), link->getToNode()->getId());
 			CreateGroupLink(groups_link, m_level);
 			manager->grid->addLink(&groups_link, m_level);
 		}

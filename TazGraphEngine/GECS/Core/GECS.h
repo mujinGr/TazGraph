@@ -379,5 +379,7 @@ public:
 	virtual void imgui_print() {}
 
 	virtual void imgui_display() {}
+
+	virtual void removeEntity() {}
 };
 

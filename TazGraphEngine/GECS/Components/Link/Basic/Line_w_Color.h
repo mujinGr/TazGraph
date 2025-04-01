@@ -37,6 +37,15 @@ public:
 		batch.drawLine(v_index, fromNodeCenter, toNodeCenter, src_color, dest_color);
 	}
 	
+	void drawWithPorts(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
+		//float tempScreenScale = window.getScale();
+
+		glm::vec3 fromPortCenter = entity->getFromNode()->children[entity->fromPort]->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 toPortCenter = entity->getToNode()->children[entity->toPort]->GetComponent<TransformComponent>().getPosition();
+
+		batch.drawLine(v_index, fromPortCenter, toPortCenter, src_color, dest_color);
+	}
+
 	void setSrcColor(Color clr) {
 		default_src_color = clr;
 		src_color = clr;

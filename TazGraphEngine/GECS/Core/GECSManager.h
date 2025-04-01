@@ -99,10 +99,10 @@ public:
 	void refresh(ICamera* camera = nullptr)
 	{
 
-		if (camera->hasChanged()) {
+		if (camera->hasChanged() || grid->gridLevelChanged()) {
 			bool interceptedCellsChanged = grid->setIntersectedCameraCells(*camera);
 
-			if (interceptedCellsChanged || grid->gridLevelChanged()) {
+			if (interceptedCellsChanged) {
 				aboutTo_updateActiveEntities();
 			}
 		}

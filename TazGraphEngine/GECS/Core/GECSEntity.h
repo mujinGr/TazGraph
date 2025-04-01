@@ -32,7 +32,7 @@ public:
 		}
 	}
 
-	void removeEntity() {
+	void removeEntity() override{
 		ownerCell->emptyEntities.erase(
 			std::remove(this->ownerCell->emptyEntities.begin(), this->ownerCell->emptyEntities.end(),
 				this),
@@ -59,7 +59,7 @@ public:
 
 	}
 
-	void removeEntity() {
+	void removeEntity() override {
 		ownerCell->nodes.erase(
 			std::remove(this->ownerCell->nodes.begin(), this->ownerCell->nodes.end(),
 				this),
@@ -81,6 +81,10 @@ public:
 	const std::vector<LinkEntity*>& getOutLinks() const {
 		return outLinks;
 	}
+
+	virtual void addPorts() {}
+
+	virtual void removePorts() {}
 
 };
 
@@ -120,7 +124,7 @@ public:
 		ownerCells.clear();
 	}
 
-	void removeEntity() {
+	void removeEntity() override {
 		for (auto cell : ownerCells) {
 			cell->links.erase(std::remove(cell->links.begin(), cell->links.end(),
 				this),
@@ -144,5 +148,5 @@ public:
 		return to->children[toPort];
 	}
 
-	virtual void updateLinkPorts() {}
+	virtual void updateLinkToPorts() {}
 };

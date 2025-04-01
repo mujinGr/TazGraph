@@ -32,6 +32,8 @@ public:
 	bool isMouseInSecondColumn = false;
 
 	bool arrowheadsEnabled = false;
+	bool last_arrowheadsEnabled = false;
+
 	
 	int last_activeLayout = 0;
 	int activeLayout = 0;

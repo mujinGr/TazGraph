@@ -84,8 +84,8 @@ void Grid::createCells(Grid::Level m_level) {
 								int childY = (py + endY) * groupedCells + cy;
 								int childZ = (pz + endZ) * groupedCells + cz;
 
-								int childIndex = (childZ * numYCells * numXCells * groupedCells) +
-									(childY * numXCells * groupedCells) +
+								int childIndex = (childZ * _numYCells * _numXCells) +
+									(childY * _numXCells) +
 									(childX);
 
 								if (childIndex < childCells.size()) {
