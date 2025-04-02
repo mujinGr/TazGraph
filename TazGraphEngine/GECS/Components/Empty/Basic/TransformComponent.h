@@ -65,12 +65,25 @@ public:
 	}
 	void update(float deltaTime) override
 	{
+		if (entity->getParentEntity() && dynamic_cast<NodeEntity*>(entity->getParentEntity())) {
+			Entity* parent = entity->getParentEntity();
+			TransformComponent* parentTR = &parent->GetComponent<TransformComponent>();
+			if (
+				parentTR->position == parentTR->last_position 
+				&& parentTR->size == parentTR->last_size
+				) {
+				return;
+			}
+
+ 			bodyCenter = parentTR->getPosition() + position;
+
+		}
 
 		if (position == last_position && size == last_size) {
 			return;
 		}
 
-		if (position != last_position || size != last_size ) {
+		if (!entity->getParentEntity()) {
 			bodyCenter = position + (size / 2.0f);
 		}
 
@@ -80,28 +93,7 @@ public:
 		position.x += velocity.x * speed * deltaTime;
 		position.y += velocity.y * speed * deltaTime;
 		//todo dont update the children on every iteration
-		// todo do this for component when needed
-		if (!entity->children.empty()) { // this will not be executed for links since they dont have transformComponent
-
-			if (entity->children["leftPort"]) {
-				entity->children["leftPort"]->GetComponent<TransformComponent>().setPosition_X(position.x);
-				entity->children["leftPort"]->GetComponent<TransformComponent>().setPosition_Y(position.y + size.y / 2.0f);
-			}
-			if (entity->children["topPort"]) {
-				entity->children["topPort"]->GetComponent<TransformComponent>().setPosition_X(position.x + size.x / 2.0f);
-				entity->children["topPort"]->GetComponent<TransformComponent>().setPosition_Y(position.y );
-			}
-			if (entity->children["rightPort"]) {
-				entity->children["rightPort"]->GetComponent<TransformComponent>().setPosition_X(position.x + size.x);
-				entity->children["rightPort"]->GetComponent<TransformComponent>().setPosition_Y(position.y + size.y / 2.0f);
-			}
-			if (entity->children["bottomPort"]) {
-				entity->children["bottomPort"]->GetComponent<TransformComponent>().setPosition_X(position.x + size.x / 2.0f);
-				entity->children["bottomPort"]->GetComponent<TransformComponent>().setPosition_Y(position.y + size.y);
-			}
-		}
-
-		
+		// todo do this for component when needed		
 
 	}
 

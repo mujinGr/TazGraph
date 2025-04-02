@@ -240,11 +240,21 @@ void Graph::update(float deltaTime) //game objects updating
 			//todo change each links from and to entities (empty entitites - ports)
 			for (auto& link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
 				link->updateLinkToPorts();
+				link->addArrowHead();
 			}
+
+			manager.aboutTo_updateActiveEntities();
 		}
 		if (!_editorImgui.arrowheadsEnabled) {
 			//todo change each links from and to entities (from ports, to center of nodes)
+			for (auto& link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
+				link->updateLinkToNodes();
+				link->removeArrowHead();
+			}
 			//todo remove all ports
+			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+				node->removePorts();
+			}
 		}
 	}
 
@@ -1043,9 +1053,6 @@ void Graph::draw()
 
 	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
 
-
-	
-	
 	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
 	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
 	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);

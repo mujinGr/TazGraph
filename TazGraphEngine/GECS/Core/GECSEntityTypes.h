@@ -78,6 +78,12 @@ public:
 	{
 		cellUpdate();
 
+		for (auto portName : { "leftPort", "rightPort", "topPort", "bottomPort" }) {
+			if (children[portName]) {
+				children[portName]->update(deltaTime);
+			}
+		}
+
 		Entity::update(deltaTime);
 	}
 
@@ -99,7 +105,6 @@ public:
 					for (auto& link : outLinks) {
 						link->cellUpdate();
 					}
-
 				}
 				for (auto& link : inLinks) {
 					link->updateLinkToPorts();
@@ -145,33 +150,43 @@ public:
 	}
 
 	void addPorts() {
+		TransformComponent* tr = &GetComponent<TransformComponent>();
+
 		auto& leftPort = getManager()->addEntityNoId<Empty>();
-		leftPort.addComponent<TransformComponent>().size.x = 0;
-		leftPort.GetComponent<TransformComponent>().size.y = 0;
+		glm::vec3 m_position = glm::vec3(0.0f, tr->size.y / 2.0f, 0.0f);
+		leftPort.addComponent<TransformComponent>(m_position, Layer::action, glm::vec2(0), 1.0f);
 		children["leftPort"] = &leftPort;
+		children["leftPort"]->setParentEntity(this);
+		children["leftPort"]->GetComponent<TransformComponent>().bodyCenter = tr->getPosition() + m_position;
 
 		auto& rightPort = getManager()->addEntityNoId<Empty>();
-		rightPort.addComponent<TransformComponent>().size.x = 0;
-		rightPort.GetComponent<TransformComponent>().size.y = 0;
+		m_position = glm::vec3(tr->size.x , tr->size.y / 2.0f, 0.0f);
+		rightPort.addComponent<TransformComponent>(m_position, Layer::action, glm::vec2(0), 1.0f);
 		children["rightPort"] = &rightPort;
+		children["rightPort"]->setParentEntity(this);
+		children["rightPort"]->GetComponent<TransformComponent>().bodyCenter = tr->getPosition() + m_position;
 
 		// Initialize top port
 		auto& topPort = getManager()->addEntityNoId<Empty>();
-		topPort.addComponent<TransformComponent>().size.x = 0;
-		topPort.GetComponent<TransformComponent>().size.y = 0;
+		m_position = glm::vec3(tr->size.x / 2.0f, 0.0f, 0.0f);
+		topPort.addComponent<TransformComponent>(m_position, Layer::action, glm::vec2(0), 1.0f);
 		children["topPort"] = &topPort;
+		children["topPort"]->setParentEntity(this);
+		children["topPort"]->GetComponent<TransformComponent>().bodyCenter = tr->getPosition() + m_position;
 
 		// Initialize bottom port
 		auto& bottomPort = getManager()->addEntityNoId<Empty>();
-		bottomPort.addComponent<TransformComponent>().size.x = 0;
-		bottomPort.GetComponent<TransformComponent>().size.y = 0;
+		m_position = glm::vec3(tr->size.x / 2.0f, tr->size.y, 0.0f);
+		bottomPort.addComponent<TransformComponent>(m_position, Layer::action, glm::vec2(0), 1.0f);
 		children["bottomPort"] = &bottomPort;
+		children["bottomPort"]->setParentEntity(this);
+		children["bottomPort"]->GetComponent<TransformComponent>().bodyCenter = tr->getPosition() + m_position;
+
 	}
 
 	void removePorts() {
 		for (auto portName : { "leftPort", "rightPort", "topPort", "bottomPort" }) {
 			if (children[portName]) {
-				children[portName]->removeEntity();
 				children.erase(portName);
 			}
 		}
@@ -199,46 +214,6 @@ public:
 		from->addOutLink(this);
 		to = dynamic_cast<NodeEntity*>(mManager.getEntityFromId(toId));
 		to->addInLink(this);
-
-		// add arrow head
-		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
-		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
-
-		/*fromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
-		toPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());*/
-
-		//TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
-		//TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
-
-		//glm::vec3 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
-
-		//glm::vec3 unitDirection = glm::normalize(direction);
-		//float offset = toTR->size.x + 5.0f;
-
-		//glm::vec3 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
-		//
-		//auto& temp_arrowHead = mManager.addEntity<Empty>();
-
-
-		//glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
-
-		//temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), Layer::action, farrowSize, 1);
-		//temp_arrowHead.addComponent<Triangle_w_Color>();
-		//temp_arrowHead.GetComponent<Triangle_w_Color>().color = Color(0, 0, 0, 255);
-
-		//temp_arrowHead.addGroup(Manager::groupArrowHeads_0);
-
-		//// Calculate the angle in radians, and convert it to degrees
-		//float angleRadians = atan2(direction.y, direction.x);
-		//float angleDegrees = glm::degrees(angleRadians);
-
-
-		//temp_arrowHead.GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleDegrees + 90.0f));
-
-		//temp_arrowHead.setParentEntity(this);
-		//children["ArrowHead"] = &temp_arrowHead;
-
-		//mManager.grid->addEmpty(&temp_arrowHead, mManager.grid->getGridLevel());
 	}
 
 	Link(Manager& mManager, Entity* mfrom, Entity* mto)
@@ -329,7 +304,54 @@ public:
 		}
 	}
 
-	std::string getBestPortForConnection(const glm::vec2& fromPos, const glm::vec2& toPos) {
+	void addArrowHead() override {
+		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
+		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
+
+		fromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
+		toPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());
+
+		TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
+		TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
+
+		glm::vec3 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
+
+		glm::vec3 unitDirection = glm::normalize(direction);
+		float offset = toTR->size.x + 5.0f;
+
+		glm::vec3 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
+		
+		auto& temp_arrowHead = getManager()->addEntityNoId<Empty>();
+
+		glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
+
+		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), Layer::action, farrowSize, 1);
+		temp_arrowHead.addComponent<Triangle_w_Color>();
+		temp_arrowHead.GetComponent<Triangle_w_Color>().color = Color(0, 0, 0, 255);
+
+		temp_arrowHead.addGroup(Manager::groupArrowHeads_0);
+
+		temp_arrowHead.setParentEntity(this);
+
+		manager.grid->addEmpty(&temp_arrowHead, manager.grid->getGridLevel());
+
+		children["ArrowHead"] = &temp_arrowHead;
+	}
+
+	void removeArrowHead() override {
+		std::string portName = "ArrowHead";
+		if (children[portName]) {
+			children[portName]->removeEntity();
+			children.erase(portName);
+		}
+	}
+
+	void updateLinkToNodes() override {
+		fromPort = "";
+		toPort = "";
+	}
+
+	std::string getBestPortForConnection(const glm::vec3& fromPos, const glm::vec3& toPos) {
 		// Simple logic to determine the port based on relative position
 		float deltaX = toPos.x - fromPos.x;
 		float deltaY = toPos.y - fromPos.y;

@@ -152,7 +152,7 @@ protected:
 
 	Manager& manager;
 public:
-	std::unordered_map<std::string,Entity*> children;
+	std::unordered_map<std::string,EmptyEntity*> children;
 
 	void setId(unsigned int m_id) { id = m_id; }
 	unsigned int getId() { return id; }

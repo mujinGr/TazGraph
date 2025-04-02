@@ -140,13 +140,19 @@ public:
 		return to;
 	}
 
-	Entity* getFromPort() {
+	EmptyEntity* getFromPort() {
 		return from->children[fromPort];
 	}
 
-	Entity* getToPort() {
+	EmptyEntity* getToPort() {
 		return to->children[toPort];
 	}
 
 	virtual void updateLinkToPorts() {}
+
+	virtual void updateLinkToNodes() {}
+
+	virtual void addArrowHead() {}
+
+	virtual void removeArrowHead() {}
 };

@@ -40,8 +40,8 @@ public:
 	void drawWithPorts(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
 		//float tempScreenScale = window.getScale();
 
-		glm::vec3 fromPortCenter = entity->getFromNode()->children[entity->fromPort]->GetComponent<TransformComponent>().getPosition();
-		glm::vec3 toPortCenter = entity->getToNode()->children[entity->toPort]->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 fromPortCenter = entity->getFromNode()->children[entity->fromPort]->GetComponent<TransformComponent>().getCenterTransform();
+		glm::vec3 toPortCenter = entity->getToNode()->children[entity->toPort]->GetComponent<TransformComponent>().getCenterTransform();
 
 		batch.drawLine(v_index, fromPortCenter, toPortCenter, src_color, dest_color);
 	}
