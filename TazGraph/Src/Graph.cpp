@@ -131,6 +131,7 @@ void Graph::onEntry()
 	//add the textures to our texture library
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 	TextureManager::getInstance().Add_GLTexture("worldMap", "assets/Sprites/worldMap.png");
+	TextureManager::getInstance().Add_GLTexture("play-button", "assets/Sprites/images-removebg-preview.png");
 
 	Graph::map = new Map(1, 32);
 

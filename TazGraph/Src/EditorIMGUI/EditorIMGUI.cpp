@@ -573,6 +573,10 @@ std::string EditorIMGUI::SceneTabs() {
 				ImGui::EndTabItem();
 			}
 		}
+		ImGui::SameLine(ImGui::GetContentRegionAvail().x - 16);
+		if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(TextureManager::getInstance().Get_GLTexture("play-button")->id)), ImVec2(16, 16))) {
+		}
+
 		ImGui::EndTabBar();
 	}
 
