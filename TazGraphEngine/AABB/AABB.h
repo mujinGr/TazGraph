@@ -72,7 +72,7 @@ inline bool rayIntersectsSphere(
 ) {
     glm::vec3 oc = rayOrigin - sphereCenter;
 
-    float A = glm::dot(rayDirection, rayDirection);  // Always 1 since rayDirection is normalized
+    float A = glm::dot(rayDirection, rayDirection);
     float B = 2.0f * glm::dot(oc, rayDirection);
     float C = glm::dot(oc, oc) - radius * radius;
 
@@ -118,11 +118,16 @@ inline bool rayIntersectsBox(
     const glm::vec3& rayOrigin,
     const glm::vec3& rayDirection,
     const glm::vec3& boxMin, const glm::vec3& boxMax,
-    glm::vec3& intersectionPoint
+    glm::vec3& intersectionPoint,
+    float m_maxT
 ) {
     
-    float sphereRad = 7.5f;
-    for (float t = 0.0f; t < 2000.0f; t += 5.0f) {  
+    float sphereRad = glm::distance(boxMin, boxMax)/ 2.0f;
+
+    
+
+
+    for (float t = 0.0f; t < m_maxT; t += sphereRad) {
         glm::vec3 samplePoint = rayOrigin + t * rayDirection;
 
         if (sphereIntersectsBox(
@@ -143,18 +148,23 @@ inline bool rayIntersectsLineSegment(
     const glm::vec3& rayDirection,
     const glm::vec3& segmentStart,
     const glm::vec3& segmentEnd,
-    glm::vec3& intersectionPoint
+    glm::vec3& intersectionPoint,
+    float m_minT,
+    float m_maxT,
+    float m_sphereRad
 ) {
-    float sphereRad = 0.5;
-    for (float t = 0.0f; t < 2000.0f; t += 5.0f) { 
-        sphereRad += 10.0f / 2000.0f;
+    for (float t = m_minT; t < m_maxT; t += m_sphereRad) {
+        m_sphereRad += 0.005;
         glm::vec3 samplePoint = rayOrigin + t * rayDirection;
 
-        glm::vec3 lineDir = glm::normalize(segmentEnd - segmentStart);
+        glm::vec3 lineLength = segmentEnd - segmentStart;
+
+        glm::vec3 lineDir = glm::normalize(lineLength);
         glm::vec3 t_temp(0.0f);
 
-        if (rayIntersectsSphere(segmentStart, lineDir, samplePoint, 7.5f, t_temp)) {
-            return true;
+        if (rayIntersectsSphere(segmentStart, lineDir, samplePoint, m_sphereRad, t_temp)) {
+            if(glm::distance(segmentStart, t_temp) < glm::distance(segmentEnd, segmentStart))
+                return true;
         }
     }
     return false;

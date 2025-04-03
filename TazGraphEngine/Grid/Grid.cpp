@@ -23,11 +23,21 @@ Grid::~Grid()
 void Grid::createCells(Grid::Level m_level) {
 	int cellsGroupSize = gridLevels[m_level];
 	
-	int numXCells = ceil((float)_numXCells / cellsGroupSize);
-	int numYCells = ceil((float)_numYCells / cellsGroupSize);
-	int numZCells = ceil((float)_numZCells / cellsGroupSize);
+	// push Grid Data
+	GridLevelData data;
+	data.numXCells = ceil((float)_numXCells / cellsGroupSize);
+	data.numYCells = ceil((float)_numYCells / cellsGroupSize);
+	data.numZCells = ceil((float)_numZCells / cellsGroupSize);
 
-	
+	data.startX =	ceil(-(data.numXCells / 2.0f)); // add one in order to take floor of division
+	data.endX	=	ceil((data.numXCells) / 2.0f) - 1;
+	data.startY =	ceil(-(data.numYCells / 2.0f));
+	data.endY	=	ceil((data.numYCells) / 2.0f) - 1;
+	data.startZ =	ceil(-(data.numZCells / 2.0f));
+	data.endZ	=	ceil((data.numZCells) / 2.0f) - 1;
+
+	gridLevelsData[m_level] = data;
+
 	std::vector<Cell>& currentCells =	(m_level == Level::Basic) ? _cells :
 		(m_level == Level::Outer1) ? _parentCells :
 		_superParentCells;
@@ -37,21 +47,15 @@ void Grid::createCells(Grid::Level m_level) {
 		(m_level == Level::Outer2) ? _parentCells :
 		emptyCells;
 
-	currentCells.resize(numYCells * numXCells * numZCells);
+	currentCells.resize(gridLevelsData[m_level].numYCells * gridLevelsData[m_level].numXCells * gridLevelsData[m_level].numZCells);
 
-	float startX = -(numXCells / 2.0f); // add one in order to take floor of division
-	float endX = (numXCells) / 2.0f;
-	float startY = -(numYCells / 2.0f);
-	float endY = (numYCells ) / 2.0f;
-	float startZ = -(numZCells / 2.0f);
-	float endZ = (numZCells) / 2.0f;
 
-	for (float pz = startZ; pz < endZ; pz++) {
-		for (float py = startY; py < endY; py++) {
-			for (float px = startX; px < endX; px++) {
-				int parentIndex = ((pz - startZ) * numYCells * numXCells) +
-					((py - startY) * numXCells) +
-					(px - startX); // we dont want negative numbers thats why add the -startXY
+	for (float pz = gridLevelsData[m_level].startZ; pz < gridLevelsData[m_level].endZ; pz++) {
+		for (float py = gridLevelsData[m_level].startY; py < gridLevelsData[m_level].endY; py++) {
+			for (float px = gridLevelsData[m_level].startX; px < gridLevelsData[m_level].endX; px++) {
+				int parentIndex = ((pz - gridLevelsData[m_level].startZ) * gridLevelsData[m_level].numYCells * gridLevelsData[m_level].numXCells) +
+					((py - gridLevelsData[m_level].startY) * gridLevelsData[m_level].numXCells) +
+					(px - gridLevelsData[m_level].startX); // we dont want negative numbers thats why add the -startXY
 
 				Cell& cell = currentCells[parentIndex];
 
@@ -63,13 +67,17 @@ void Grid::createCells(Grid::Level m_level) {
 				cell.boundingBox_size.y = cellsGroupSize * _cellSize;
 				cell.boundingBox_size.z = cellsGroupSize * _cellSize;
 
-				if (px == endX - 1.0f) {
+				cell.boundingBox_center.x = cell.boundingBox_origin.x + cell.boundingBox_size.x / 2.0f;
+				cell.boundingBox_center.y = cell.boundingBox_origin.y + cell.boundingBox_size.y / 2.0f;
+				cell.boundingBox_center.z = cell.boundingBox_origin.z + cell.boundingBox_size.z / 2.0f;
+
+				if (px == gridLevelsData[m_level].endX - 1.0f) {
 					cell.boundingBox_size.x = (_width / 2.0f) - cell.boundingBox_origin.x;
 				}
-				if (py == endY - 1.0f) {
+				if (py == gridLevelsData[m_level].endY - 1.0f) {
 					cell.boundingBox_size.y = (_height / 2.0f) - cell.boundingBox_origin.y;
 				}
-				if (pz == endZ - 1.0f) { // Edge case for Z
+				if (pz == gridLevelsData[m_level].endZ - 1.0f) { // Edge case for Z
 					cell.boundingBox_size.z = (_depth / 2.0f) - cell.boundingBox_origin.z;
 				}
 
@@ -80,9 +88,9 @@ void Grid::createCells(Grid::Level m_level) {
 						for (int cy = 0; cy < groupedCells; cy++) {
 							for (int cx = 0; cx < groupedCells; cx++) {
 
-								int childX = (px + endY) * groupedCells + cx;
-								int childY = (py + endY) * groupedCells + cy;
-								int childZ = (pz + endZ) * groupedCells + cz;
+								int childX = (px + gridLevelsData[m_level].endY) * groupedCells + cx;
+								int childY = (py + gridLevelsData[m_level].endY) * groupedCells + cy;
+								int childZ = (pz + gridLevelsData[m_level].endZ) * groupedCells + cz;
 
 								int childIndex = (childZ * _numYCells * _numXCells) +
 									(childY * _numXCells) +
@@ -199,31 +207,16 @@ void Grid::addNode(NodeEntity* entity, Cell* cell)
 
 Cell* Grid::getCell(int x, int y, int z, Grid::Level m_level)
 {
-	int cellsGroupSize = gridLevels[m_level];
+	if (x < gridLevelsData[m_level].startX) x = gridLevelsData[m_level].startX;
+	if (x >= gridLevelsData[m_level].endX) x = gridLevelsData[m_level].endX;
+	if (y < gridLevelsData[m_level].startY) y = gridLevelsData[m_level].startY;
+	if (y >= gridLevelsData[m_level].endY) y = gridLevelsData[m_level].endY;
+	if (z < gridLevelsData[m_level].startZ) z = gridLevelsData[m_level].startZ;
+	if (z >= gridLevelsData[m_level].endZ) z = gridLevelsData[m_level].endZ;
 
-	float numXCells = ceil((float)_numXCells / cellsGroupSize);
-	float numYCells = ceil((float)_numYCells / cellsGroupSize);
-	float numZCells = ceil((float)_numZCells / cellsGroupSize);
-
-
-	float startX	= ceil(-((numXCells) / 2.0f)) ; // add one in order to take floor of division
-	float endX		= ceil((numXCells) / 2.0f) - 1;
-	float startY	= ceil(-((numYCells) / 2.0f));
-	float endY		= ceil((numYCells) / 2.0f) - 1;
-	float startZ	= ceil(-((numZCells) / 2.0f));
-	float endZ		= ceil((numZCells) / 2.0f) - 1;
-
-
-	if (x < startX) x = startX;
-	if (x >= endX) x = endX;
-	if (y < startY) y = startY;
-	if (y >= endY) y = endY;
-	if (z < startZ) z = startZ;
-	if (z >= endZ) z = endZ;
-
-	size_t index = (z - startZ) * numXCells * numYCells +
-		(y - startY) * numXCells +
-		(x - startX);
+	size_t index = (z - gridLevelsData[m_level].startZ) * gridLevelsData[m_level].numXCells * gridLevelsData[m_level].numYCells +
+		(y - gridLevelsData[m_level].startY) * gridLevelsData[m_level].numXCells +
+		(x - gridLevelsData[m_level].startX);
 	return (m_level == Level::Basic) ? &_cells[index] :
 		(m_level == Level::Outer1 ? &_parentCells[index] :
 			&_superParentCells[index]);
@@ -245,19 +238,6 @@ Cell* Grid::getCell(const Entity& entity, Grid::Level m_level)
 std::vector<Cell*> Grid::getAdjacentCells(int x, int y, int z, Grid::Level m_level) {
 	std::vector<Cell*> adjacentCells;
 
-	int cellsGroupSize = gridLevels[m_level];
-
-	float numXCells = ceil((float)_numXCells / cellsGroupSize);
-	float numYCells = ceil((float)_numYCells / cellsGroupSize);
-	float numZCells = ceil((float)_numZCells / cellsGroupSize);
-
-	float startX = ceil(-((numXCells) / 2.0f)); // add one in order to take floor of division
-	float endX = ceil((numXCells) / 2.0f) - 1;
-	float startY = ceil(-((numYCells) / 2.0f));
-	float endY = ceil((numYCells) / 2.0f) - 1;
-	float startZ = ceil(-((numZCells) / 2.0f));
-	float endZ = ceil((numZCells) / 2.0f) - 1;
-
 	adjacentCells.reserve(9);
 
 	for (int offsetX = -1; offsetX <= 1; offsetX++) {
@@ -273,9 +253,9 @@ std::vector<Cell*> Grid::getAdjacentCells(int x, int y, int z, Grid::Level m_lev
 				int neighborZ = z + offsetZ;
 
 				// Check bounds and add the cell to the list
-				if (neighborX >= startX && neighborX <= endX &&
-					neighborY >= startY && neighborY <= endY &&
-					neighborZ >= startZ && neighborZ <= endZ) {
+				if (neighborX >= gridLevelsData[m_level].startX && neighborX <= gridLevelsData[m_level].endX &&
+					neighborY >= gridLevelsData[m_level].startY && neighborY <= gridLevelsData[m_level].endY &&
+					neighborZ >= gridLevelsData[m_level].startZ && neighborZ <= gridLevelsData[m_level].endZ) {
 					adjacentCells.push_back(getCell(neighborX, neighborY, neighborZ, _level));
 				}
 			}
@@ -328,9 +308,7 @@ bool Grid::setIntersectedCameraCells(ICamera& camera) {
 
 	for (auto& cell : getCells(_level)) {
 		glm::vec4 cellCenter(
-			cell.boundingBox_origin.x + cell.boundingBox_size.x / 2.0f,
-			cell.boundingBox_origin.y + cell.boundingBox_size.y / 2.0f,
-			cell.boundingBox_origin.z + cell.boundingBox_size.z / 2.0f,
+			cell.boundingBox_center,
 			1.0f);
 		if (camera.isPointInCameraView(cellCenter)) {
 			newInterceptedCells.push_back(&cell);

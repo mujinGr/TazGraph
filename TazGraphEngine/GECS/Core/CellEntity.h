@@ -9,6 +9,7 @@ struct Cell {
 
 	glm::vec3 boundingBox_origin; // Starting point (minimum corner) of the cell
 	glm::vec3 boundingBox_size;
+	glm::vec3 boundingBox_center;
 
 	Cell* parent = nullptr;
 	std::vector<Cell*> children;

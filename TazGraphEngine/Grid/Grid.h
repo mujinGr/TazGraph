@@ -8,7 +8,10 @@
 
 #include <cmath>
 
-
+struct GridLevelData {
+	float numXCells, numYCells, numZCells;
+	float startX, endX, startY, endY, startZ, endZ;
+};
 
 class Grid {
 public:
@@ -141,6 +144,8 @@ private:
 	int _numZCells;
 
 	// can change between different scenes/managers
+	std::map<Level, GridLevelData> gridLevelsData;
+	
 	std::map<Level, int> gridLevels = {
 		{Level::Basic,  1},
 		{Level::Outer1, 2},

@@ -355,6 +355,14 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	
 	bool hasSelected = false;
 
+	glm::vec3 pointAtMaxDepth = main_camera2D->getPointOnRayAtZ(
+		rayOrigin,
+		rayDirection,
+		manager.grid->getNumZCells() * manager.grid->getCellSize() / 2.0f);
+
+	float maxT = glm::distance(rayOrigin, pointAtMaxDepth);
+	if (maxT > 10000.0f) maxT = 10000.0f;
+
 	for (auto& trav_cell : trav_cells) {
 		for (auto& node : trav_cell->nodes) {
 			glm::vec3 t;
@@ -363,7 +371,8 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				rayDirection,
 				glm::vec3(tempBod->position.x, tempBod->position.y, node->GetComponent<TransformComponent>().getPosition().z),
 				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, node->GetComponent<TransformComponent>().getPosition().z + tempBod->size.z),
-				t)) {
+				t,
+				maxT)) {
 				std::cout << "Ray hit node: " << node->getId() << " at distance " << t.x << t.y << t.z << std::endl;
 				if (activateMode == SDL_BUTTON_RIGHT)
 				{
@@ -439,7 +448,19 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 		if (hasSelected) return;
 	}
 	
+	glm::vec3 pointAtMinDepth = main_camera2D->getPointOnRayAtZ(
+		rayOrigin,
+		rayDirection,
+		-manager.grid->getNumZCells() * manager.grid->getCellSize() / 2.0f);
 
+	float minT = glm::distance(rayOrigin, pointAtMinDepth);
+	if (minT < 0.0f) minT = 0.0f;
+
+	float sphereRad = 5.0f;
+	for (float t = 0.0f; t < minT; t += sphereRad) {
+		sphereRad += 0.005;
+	}
+	
 	for (auto& trav_cell : trav_cells) {
 
 		for (auto& link : trav_cell->links) {
@@ -449,7 +470,11 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				rayDirection,
 				link->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(),
 				link->getToNode()->GetComponent<TransformComponent>().getCenterTransform(),
-				t)) {
+				t,
+				minT,
+				maxT,
+				sphereRad)
+				) {
 				std::cout << "Ray hit link: " << link->getId() << " at distance " << t.x << t.y << t.z << std::endl;
 
 				if (activateMode == SDL_BUTTON_RIGHT)
