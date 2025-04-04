@@ -50,10 +50,11 @@ void Grid::createCells(Grid::Level m_level) {
 	currentCells.resize(gridLevelsData[m_level].numYCells * gridLevelsData[m_level].numXCells * gridLevelsData[m_level].numZCells);
 
 
-	for (float pz = gridLevelsData[m_level].startZ; pz < gridLevelsData[m_level].endZ; pz++) {
-		for (float py = gridLevelsData[m_level].startY; py < gridLevelsData[m_level].endY; py++) {
-			for (float px = gridLevelsData[m_level].startX; px < gridLevelsData[m_level].endX; px++) {
-				int parentIndex = ((pz - gridLevelsData[m_level].startZ) * gridLevelsData[m_level].numYCells * gridLevelsData[m_level].numXCells) +
+	for (int pz = gridLevelsData[m_level].startZ; pz <= gridLevelsData[m_level].endZ; pz++) {
+		for (int py = gridLevelsData[m_level].startY; py <= gridLevelsData[m_level].endY; py++) {
+			for (int px = gridLevelsData[m_level].startX; px <= gridLevelsData[m_level].endX; px++) {
+				int parentIndex = 
+					((pz - gridLevelsData[m_level].startZ) * gridLevelsData[m_level].numYCells * gridLevelsData[m_level].numXCells) +
 					((py - gridLevelsData[m_level].startY) * gridLevelsData[m_level].numXCells) +
 					(px - gridLevelsData[m_level].startX); // we dont want negative numbers thats why add the -startXY
 

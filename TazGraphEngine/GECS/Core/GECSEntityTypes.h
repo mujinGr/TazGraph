@@ -78,13 +78,15 @@ public:
 	{
 		cellUpdate();
 
+		Entity::update(deltaTime);
+	}
+
+	void updatePorts(float deltaTime) override {
 		for (auto portName : { "leftPort", "rightPort", "topPort", "bottomPort" }) {
 			if (children[portName]) {
 				children[portName]->update(deltaTime);
 			}
 		}
-
-		Entity::update(deltaTime);
 	}
 
 	void cellUpdate() override{

@@ -206,8 +206,9 @@ void Graph::update(float deltaTime) //game objects updating
 
 	glm::vec2 mouseCoordsVec = _sceneMousePosition;
 
+	main_camera2D->update();
+	hud_camera2D->update();
 	
-
 	manager.refresh(main_camera2D.get());
 
 	/*glm::vec3 cameraAimPos = main_camera2D->getAimPos();
@@ -216,8 +217,6 @@ void Graph::update(float deltaTime) //game objects updating
 
 	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
 		*/
-	main_camera2D->update();
-	hud_camera2D->update();
 	if (_firstLoop) {
 		manager.updateFully(deltaTime);
 		_firstLoop = false;
@@ -228,10 +227,10 @@ void Graph::update(float deltaTime) //game objects updating
 		manager.update(deltaTime);
 	}
 
-	if (_editorImgui.last_arrowheadsEnabled != _editorImgui.arrowheadsEnabled) {
-		_editorImgui.last_arrowheadsEnabled = _editorImgui.arrowheadsEnabled;
+	if (manager.last_arrowheadsEnabled != manager.arrowheadsEnabled) {
+		manager.last_arrowheadsEnabled = manager.arrowheadsEnabled;
 
-		if (_editorImgui.arrowheadsEnabled) {
+		if (manager.arrowheadsEnabled) {
 
 			//todo add to all nodes ports
 			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
@@ -243,10 +242,8 @@ void Graph::update(float deltaTime) //game objects updating
 				link->updateLinkToPorts();
 				link->addArrowHead();
 			}
-
-			manager.aboutTo_updateActiveEntities();
 		}
-		if (!_editorImgui.arrowheadsEnabled) {
+		if (!manager.arrowheadsEnabled) {
 			//todo change each links from and to entities (from ports, to center of nodes)
 			for (auto& link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
 				link->updateLinkToNodes();
@@ -257,6 +254,8 @@ void Graph::update(float deltaTime) //game objects updating
 				node->removePorts();
 			}
 		}
+		manager.aboutTo_updateActiveEntities();
+
 	}
 
 	while (_editorImgui.last_activeLayout < _editorImgui.activeLayout) {
@@ -842,7 +841,7 @@ void Graph::EndRender() {
 }
 
 void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
-		if (_editorImgui.arrowheadsEnabled) {
+		if (manager.arrowheadsEnabled) {
 			for (int i = 0; i < entities.size(); i++) {
 				if (entities[i]->hasComponent<Line_w_Color>()) {
 					entities[i]->GetComponent<Line_w_Color>().drawWithPorts(i, batch, *Graph::_window);

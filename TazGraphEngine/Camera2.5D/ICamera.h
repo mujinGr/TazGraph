@@ -34,4 +34,5 @@ public:
 
     virtual bool isPointInCameraView(const glm::vec4 point) = 0;
     virtual bool hasChanged() = 0;
+    virtual void refreshCamera() = 0;
 };

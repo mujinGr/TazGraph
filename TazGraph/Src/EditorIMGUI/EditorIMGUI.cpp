@@ -132,8 +132,8 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 	
 	ImGui::Separator();
 
-	if (ImGui::Button(arrowheadsEnabled ? "Disable Arrowheads" : "Enable Arrowheads")) {
-		arrowheadsEnabled = !arrowheadsEnabled;
+	if (ImGui::Button(manager.arrowheadsEnabled ? "Disable Arrowheads" : "Enable Arrowheads")) {
+		manager.arrowheadsEnabled = !manager.arrowheadsEnabled;
 		//manager.setArrowheadsEnabled(arrowheadsEnabled); // Call function to apply change
 	}
 	
@@ -507,6 +507,8 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 							if (entity->hasComponent<TransformComponent>()) {
 								main_camera2D->setPosition_X(entity->GetComponent<TransformComponent>().getPosition().x);
 								main_camera2D->setPosition_Y(entity->GetComponent<TransformComponent>().getPosition().y);
+
+								main_camera2D->setAimPos(glm::vec3(main_camera2D->eyePos.x, main_camera2D->eyePos.y, main_camera2D->eyePos.z + 1.0f));
 							}
 						}
 

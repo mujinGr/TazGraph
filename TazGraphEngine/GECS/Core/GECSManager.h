@@ -32,6 +32,8 @@ private:
 
 	bool _update_active_entities = false;
 public:
+	bool arrowheadsEnabled = false;
+	bool last_arrowheadsEnabled = false;
 
 	std::unordered_map<std::string, std::vector<std::string>> componentNames;
 
@@ -71,11 +73,24 @@ public:
 				e->update(deltaTime);
 			}
 
-			for (auto& e : visible_nodes) {
-				if (!e || !e->isActive()) continue;
+			if (arrowheadsEnabled) {
+				for (auto& e : visible_nodes) {
+					if (!e || !e->isActive()) continue;
+					
+					e->updatePorts(deltaTime);
 
-				e->update(deltaTime);
+					e->update(deltaTime);
+
+				}
 			}
+			else {
+				for (auto& e : visible_nodes) {
+					if (!e || !e->isActive()) continue;
+
+					e->update(deltaTime);
+				}
+			}
+			
 
 			for (auto& e : visible_links) {
 				if (!e || !e->isActive()) continue;
@@ -105,6 +120,7 @@ public:
 			if (interceptedCellsChanged) {
 				aboutTo_updateActiveEntities();
 			}
+			camera->refreshCamera();
 		}
 
 		if (_update_active_entities) {

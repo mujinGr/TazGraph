@@ -55,27 +55,23 @@ public:
 
 	void update() override {
 
-		if (_cameraChange) {
-			_viewMatrix = glm::lookAt(eyePos, //< eye position
-				aimPos,  //< aim position
-				upDir); //< up direction
+		_viewMatrix = glm::lookAt(eyePos, //< eye position
+			aimPos,  //< aim position
+			upDir); //< up direction
 
 
-			_cameraMatrix = glm::mat4(1.0f);
+		_cameraMatrix = glm::mat4(1.0f);
 
 
-			glm::vec3 translate(-_position.x, -_position.y, 0.0f);
-			_cameraMatrix = glm::translate(_cameraMatrix, translate); //if glm ortho = -1,1,-1,1 then 1 horizontal with -400,-320 to bottom-left
+		glm::vec3 translate(-_position.x, -_position.y, 0.0f);
+		_cameraMatrix = glm::translate(_cameraMatrix, translate); //if glm ortho = -1,1,-1,1 then 1 horizontal with -400,-320 to bottom-left
 
-			glm::vec3 scale(_scale, _scale, 1.0f);
-			_cameraMatrix = glm::scale(_cameraMatrix, scale);
+		glm::vec3 scale(_scale, _scale, 1.0f);
+		_cameraMatrix = glm::scale(_cameraMatrix, scale);
 
 
-			_cameraMatrix = _projectionMatrix * _viewMatrix * _cameraMatrix;
+		_cameraMatrix = _projectionMatrix * _viewMatrix * _cameraMatrix;
 
-			//_cameraMatrix = glm::scale(_cameraMatrix, scale);
-			_cameraChange = false;
-		}
 	}
 
 	glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) const override {
@@ -131,8 +127,8 @@ public:
 		_cameraChange = true;
 	}
 
-	void setAimPos(const glm::vec2 newAimPos) {
-		aimPos = glm::vec3(newAimPos.x, newAimPos.y, 0.0f);
+	void setAimPos(const glm::vec3 newAimPos) {
+		aimPos = newAimPos;
 		_cameraChange = true;
 	}
 
@@ -251,8 +247,12 @@ public:
 		return true;
 	}
 
-	bool hasChanged() {
+	bool hasChanged() override {
 		return _cameraChange;
+	}
+
+	void refreshCamera() override {
+		_cameraChange = false;
 	}
 
 	// Function to cast a ray from screen coordinates into world space

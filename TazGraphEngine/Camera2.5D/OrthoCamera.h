@@ -128,8 +128,12 @@ public:
 		return true;
 	}
 
-	bool hasChanged() {
+	bool hasChanged() override {
 		return _cameraChange;
+	}
+
+	void refreshCamera() override {
+		_cameraChange = false;
 	}
 
 private:

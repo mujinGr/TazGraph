@@ -86,6 +86,8 @@ public:
 
 	virtual void removePorts() {}
 
+	virtual void updatePorts(float deltaTime) {}
+
 };
 
 
