@@ -73,8 +73,6 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 		auto& node(manager.addEntity<Node>());
 		(this->*addNodeFunction)(node, glm::vec2(x, y));
 
-		node.setId(id);
-
 		manager.grid->addNode(&node, manager.grid->getGridLevel());
 	}
 
@@ -87,7 +85,6 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 		linkLine >> id >> fromNodeId >> toNodeId;
 
 		auto& link(manager.addEntity<Link>(fromNodeId, toNodeId));
-		link.setId(id);
 		(this->*addLinkFunction)(link);
 
 		manager.grid->addLink(&link, manager.grid->getGridLevel());

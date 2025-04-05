@@ -72,13 +72,13 @@ void Grid::createCells(Grid::Level m_level) {
 				cell.boundingBox_center.y = cell.boundingBox_origin.y + cell.boundingBox_size.y / 2.0f;
 				cell.boundingBox_center.z = cell.boundingBox_origin.z + cell.boundingBox_size.z / 2.0f;
 
-				if (px == gridLevelsData[m_level].endX - 1.0f) {
+				if (px == gridLevelsData[m_level].endX) {
 					cell.boundingBox_size.x = (_width / 2.0f) - cell.boundingBox_origin.x;
 				}
-				if (py == gridLevelsData[m_level].endY - 1.0f) {
+				if (py == gridLevelsData[m_level].endY) {
 					cell.boundingBox_size.y = (_height / 2.0f) - cell.boundingBox_origin.y;
 				}
-				if (pz == gridLevelsData[m_level].endZ - 1.0f) { // Edge case for Z
+				if (pz == gridLevelsData[m_level].endZ) { // Edge case for Z
 					cell.boundingBox_size.z = (_depth / 2.0f) - cell.boundingBox_origin.z;
 				}
 
@@ -89,9 +89,9 @@ void Grid::createCells(Grid::Level m_level) {
 						for (int cy = 0; cy < groupedCells; cy++) {
 							for (int cx = 0; cx < groupedCells; cx++) {
 
-								int childX = (px + gridLevelsData[m_level].endY) * groupedCells + cx;
-								int childY = (py + gridLevelsData[m_level].endY) * groupedCells + cy;
-								int childZ = (pz + gridLevelsData[m_level].endZ) * groupedCells + cz;
+								int childX = (px - gridLevelsData[m_level].startX) * groupedCells + cx;
+								int childY = (py - gridLevelsData[m_level].startY) * groupedCells + cy;
+								int childZ = (pz - gridLevelsData[m_level].startZ) * groupedCells + cz;
 
 								int childIndex = (childZ * _numYCells * _numXCells) +
 									(childY * _numXCells) +
@@ -345,6 +345,10 @@ Grid::Level Grid::getGridLevel()
 void Grid::setGridLevel(Level newLevel)
 {
 	_level = newLevel;
+}
+
+int Grid::getLevelCellScale() {
+	return gridLevels[_level];
 }
 
 int Grid::getLevelCellScale(Level level) {

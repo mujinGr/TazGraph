@@ -125,6 +125,8 @@ public:
 	Level getGridLevel();
 	void setGridLevel(Level newLevel);
 
+	int getLevelCellScale();
+
 	int getLevelCellScale(Level level);
 private:
 	std::vector<Cell*> _interceptedCells;

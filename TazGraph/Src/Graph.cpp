@@ -236,6 +236,12 @@ void Graph::update(float deltaTime) //game objects updating
 			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
 				node->addPorts();
 			}
+			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
+				node->addPorts();
+			}
+			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
+				node->addPorts();
+			}
 
 			//todo change each links from and to entities (empty entitites - ports)
 			for (auto& link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
@@ -251,6 +257,12 @@ void Graph::update(float deltaTime) //game objects updating
 			}
 			//todo remove all ports
 			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+				node->removePorts();
+			}
+			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
+				node->removePorts();
+			}
+			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
 				node->removePorts();
 			}
 		}
@@ -314,9 +326,9 @@ std::vector<Cell*> Graph::traversedCellsFromRay(
 	float traveledDistance = 0.0f;
 
 	while (traveledDistance < maxDistance) {
-		int x = static_cast<int>(floor(currentPos.x / manager.grid->getCellSize()));
-		int y = static_cast<int>(floor(currentPos.y / manager.grid->getCellSize()));
-		int z = static_cast<int>(floor(currentPos.z / manager.grid->getCellSize()));
+		int x = static_cast<int>(floor(currentPos.x / (manager.grid->getCellSize() * manager.grid->getLevelCellScale())));
+		int y = static_cast<int>(floor(currentPos.y / (manager.grid->getCellSize() * manager.grid->getLevelCellScale())));
+		int z = static_cast<int>(floor(currentPos.z / (manager.grid->getCellSize() * manager.grid->getLevelCellScale())));
 
 		// Check if the cell is within the grid bounds
 		if (
@@ -607,17 +619,49 @@ void Graph::checkInput() {
 			std::unordered_set<Entity*> connectedEntities;
 
 			if (wasHoveringEntity && !_onHoverEntity) {
-				for (NodeEntity* node_entity : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
-					if (node_entity->hasComponent<Rectangle_w_Color>()) {
-						int alpha = 255;
-						node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+				if (manager.grid->getGridLevel() == Grid::Level::Basic) {
+					for (NodeEntity* node_entity : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+						if (node_entity->hasComponent<Rectangle_w_Color>()) {
+							int alpha = 255;
+							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+						}
+					}
+					for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
+						if (link_entity->hasComponent<Line_w_Color>()) {
+							int alpha = 255;
+							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
+							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+						}
 					}
 				}
-				for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
-					if (link_entity->hasComponent<Line_w_Color>()) {
-						int alpha = 255;
-						link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-						link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+				else if (manager.grid->getGridLevel() == Grid::Level::Outer1) {
+					for (NodeEntity* node_entity : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
+						if (node_entity->hasComponent<Rectangle_w_Color>()) {
+							int alpha = 255;
+							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+						}
+					}
+					for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
+						if (link_entity->hasComponent<Line_w_Color>()) {
+							int alpha = 255;
+							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
+							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+						}
+					}
+				}
+				else if (manager.grid->getGridLevel() == Grid::Level::Outer2) {
+					for (NodeEntity* node_entity : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
+						if (node_entity->hasComponent<Rectangle_w_Color>()) {
+							int alpha = 255;
+							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+						}
+					}
+					for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
+						if (link_entity->hasComponent<Line_w_Color>()) {
+							int alpha = 255;
+							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
+							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+						}
 					}
 				}
 			}
@@ -642,18 +686,52 @@ void Graph::checkInput() {
 					connectedEntities.insert(hoveredLink->getFromNode());
 					connectedEntities.insert(hoveredLink->getToNode());
 				}
+				if (manager.grid->getGridLevel() == Grid::Level::Basic) {
 
-				for (NodeEntity* node_entity : manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
-					if (node_entity->hasComponent<Rectangle_w_Color>()) {
-						int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
-						node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+					for (NodeEntity* node_entity : manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
+						if (node_entity->hasComponent<Rectangle_w_Color>()) {
+							int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
+							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+						}
+					}
+					for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
+						if (link_entity->hasComponent<Line_w_Color>()) {
+							int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
+							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
+							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+						}
 					}
 				}
-				for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
-					if (link_entity->hasComponent<Line_w_Color>()) {
-						int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
-						link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-						link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+				else if (manager.grid->getGridLevel() == Grid::Level::Outer1) {
+
+					for (NodeEntity* node_entity : manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
+						if (node_entity->hasComponent<Rectangle_w_Color>()) {
+							int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
+							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+						}
+					}
+					for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
+						if (link_entity->hasComponent<Line_w_Color>()) {
+							int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
+							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
+							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+						}
+					}
+				}
+				else if (manager.grid->getGridLevel() == Grid::Level::Outer2) {
+
+					for (NodeEntity* node_entity : manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
+						if (node_entity->hasComponent<Rectangle_w_Color>()) {
+							int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
+							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+						}
+					}
+					for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
+						if (link_entity->hasComponent<Line_w_Color>()) {
+							int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
+							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
+							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+						}
 					}
 				}
 			}

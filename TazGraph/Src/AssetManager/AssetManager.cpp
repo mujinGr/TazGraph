@@ -5,6 +5,7 @@
 #include "../Collision/Collision.h"
 
 #include <random>
+#include <unordered_set>
 
 
 AssetManager::AssetManager(Manager* man, InputManager& inputManager, TazGraphEngine::Window& window)
@@ -75,7 +76,6 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 
 	for (const auto& cell : manager->grid->getCells(m_level)) {
 		int totalNodes = 0;
-
 		for (const auto& childCell : cell.children)
 		{
 			for (const auto& node : childCell->nodes) {
@@ -129,14 +129,39 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 
 	}
 
-	auto group_links = (m_level == Grid::Level::Outer1) ?
+	auto child_links = (m_level == Grid::Level::Outer1) ?
 		manager->getGroup<LinkEntity>(Manager::groupLinks_0) : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_0);
-	for (const auto& link : group_links) {
-		// get the links of the inside nodes
-		if (link->isHidden()) {
-			auto& groups_link = manager->addEntity<Link>(link->getFromNode()->getId(), link->getToNode()->getId());
-			CreateGroupLink(groups_link, m_level);
-			manager->grid->addLink(&groups_link, m_level);
+	
+	std::unordered_set<std::pair<int, int>, PairHash> existingLinks;
+
+	for (const auto& c_link : child_links) {
+		if (c_link->isHidden()) {
+			// Get the parent group nodes of the source and target
+			auto* fromNode = c_link->getFromNode();
+			auto* toNode = c_link->getToNode();
+			auto* fromParent = fromNode->getParentEntity();
+			auto* toParent = toNode->getParentEntity();
+
+			// Skip if:
+			// - Either parent is missing (not grouped).
+			// - Source and target are in the same group (no self-links).
+			if (!fromParent || !toParent || fromParent == toParent) {
+				continue;
+			}
+
+			// Create a unique key for the link (sorted to avoid duplicates like A-B vs B-A)
+			int parentFromId = fromParent->getId();
+			int parentToId = toParent->getId();
+			auto linkKey = (parentFromId < parentToId) ?
+				std::make_pair(parentFromId, parentToId) :
+				std::make_pair(parentToId, parentFromId);
+
+			// Add the link if it doesn't already exist
+			if (existingLinks.insert(linkKey).second) {
+				auto& group_link = manager->addEntity<Link>(parentFromId, parentToId);
+				CreateGroupLink(group_link, m_level);  // Customize appearance if needed
+				manager->grid->addLink(&group_link, m_level);
+			}
 		}
 	}
 }

@@ -162,5 +162,5 @@ Total number of nodes: 161
 161	3808 1248	10x10
 
 Total number of links: 2
-162	1	2
-163	2	3
+162	0	1
+163	1	2
