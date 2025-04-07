@@ -28,7 +28,7 @@ void AppInterface::run() {
 
 	float prevTicks = SDL_GetTicks();
 
-	_limiter.setMaxFPS(200.0f);
+	_limiter.setMaxFPS(60.0f);
 
 	_isRunning = true;
 	while (_isRunning) {

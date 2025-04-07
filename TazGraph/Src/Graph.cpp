@@ -14,12 +14,8 @@
 
 #undef main
 
-Manager manager;
-
-Map* Graph::map = nullptr;
 TazGraphEngine::Window* Graph::_window = nullptr;
 
-auto& world_map(manager.addEntityNoId<Empty>());
 
 glm::vec3 pointAtZ0;
 
@@ -28,7 +24,7 @@ glm::vec3 pointAtO;
 float nodeRadius = 1.0f;
 
 Graph::Graph(TazGraphEngine::Window* window)
-{
+{ 
 	_window = window;
 	_sceneIndex = SCENE_INDEX_GRAPHPLAY;
 }
@@ -55,13 +51,18 @@ void Graph::destroy() {
 
 void Graph::onEntry()
 {
+	std::string mapName = DataManager::getInstance().mapToLoad;
+
+	setManager(mapName);
+
+	auto& world_map(manager->addEntityNoId<Empty>());
+
 	/////////////////////////////////////////////
 	_resourceManager.addGLSLProgram("color");
 	_resourceManager.addGLSLProgram("circleColor");
 	_resourceManager.addGLSLProgram("texture");
 	_resourceManager.addGLSLProgram("framebuffer");
 
-	_assetsManager = new AssetManager(&manager, _app->_inputManager, _app->_window);
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -133,18 +134,11 @@ void Graph::onEntry()
 	TextureManager::getInstance().Add_GLTexture("worldMap", "assets/Sprites/worldMap.png");
 	TextureManager::getInstance().Add_GLTexture("play-button", "assets/Sprites/images-removebg-preview.png");
 
-	Graph::map = new Map(1, 32);
-
-	//main_camera2D->worldDimensions= grid->GetLayerDimensions();
-	if (!manager.grid)
-	{
-		manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
-		//manager.setThreader(threadPool);
-		_assetsManager->CreateWorldMap(world_map);
-		manager.setComponentNames();
-	}
 	
-	manager.resetEntityId();
+
+	_assetsManager->CreateWorldMap(world_map);
+	
+	manager->resetEntityId();
 
 	if (!DataManager::getInstance().mapToLoad.empty()) {
 		if (strstr(DataManager::getInstance().mapToLoad.c_str(), ".py") != nullptr) {
@@ -153,6 +147,7 @@ void Graph::onEntry()
 		else {
 			map->loadTextMap(DataManager::getInstance().mapToLoad.c_str());
 		}
+		DataManager::getInstance().mapToLoad = "";
 	}
 
 
@@ -185,13 +180,6 @@ void Graph::onExit() {
 	//}
 }
 
-auto& nodes(manager.getGroup<NodeEntity>(Manager::groupNodes_0));
-auto& group_nodes(manager.getGroup<NodeEntity>(Manager::groupGroupNodes_0));
-
-auto& links(manager.getGroup<LinkEntity>(Manager::groupLinks_0));
-auto& group_links(manager.getGroup<LinkEntity>(Manager::groupGroupLinks_0));
-
-auto& backgroundImage(manager.getGroup<EmptyEntity>(Manager::panelBackground));
 
 glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
@@ -209,7 +197,10 @@ void Graph::update(float deltaTime) //game objects updating
 	main_camera2D->update();
 	hud_camera2D->update();
 	
-	manager.refresh(main_camera2D.get());
+	if (!manager) {
+		return;
+	}
+	manager->refresh(main_camera2D.get());
 
 	/*glm::vec3 cameraAimPos = main_camera2D->getAimPos();
 
@@ -218,67 +209,67 @@ void Graph::update(float deltaTime) //game objects updating
 	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
 		*/
 	if (_firstLoop) {
-		manager.updateFully(deltaTime);
+		manager->updateFully(deltaTime);
 		_firstLoop = false;
 	}
 	else {
 		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-		manager.update(deltaTime);
+		manager->update(deltaTime);
 	}
 
-	if (manager.last_arrowheadsEnabled != manager.arrowheadsEnabled) {
-		manager.last_arrowheadsEnabled = manager.arrowheadsEnabled;
+	if (manager->last_arrowheadsEnabled != manager->arrowheadsEnabled) {
+		manager->last_arrowheadsEnabled = manager->arrowheadsEnabled;
 
-		if (manager.arrowheadsEnabled) {
+		if (manager->arrowheadsEnabled) {
 
 			//todo add to all nodes ports
-			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+			for (auto& node : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
 				node->addPorts();
 			}
-			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
+			for (auto& node : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
 				node->addPorts();
 			}
-			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
+			for (auto& node : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
 				node->addPorts();
 			}
 
 			//todo change each links from and to entities (empty entitites - ports)
-			for (auto& link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
+			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupLinks_0)) {
 				link->updateLinkToPorts();
 				link->addArrowHead();
 			}
 		}
-		if (!manager.arrowheadsEnabled) {
+		if (!manager->arrowheadsEnabled) {
 			//todo change each links from and to entities (from ports, to center of nodes)
-			for (auto& link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
+			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupLinks_0)) {
 				link->updateLinkToNodes();
 				link->removeArrowHead();
 			}
 			//todo remove all ports
-			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+			for (auto& node : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
 				node->removePorts();
 			}
-			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
+			for (auto& node : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
 				node->removePorts();
 			}
-			for (auto& node : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
+			for (auto& node : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
 				node->removePorts();
 			}
 		}
-		manager.aboutTo_updateActiveEntities();
+		manager->aboutTo_updateActiveEntities();
 
 	}
 
 	while (_editorImgui.last_activeLayout < _editorImgui.activeLayout) {
 		_editorImgui.last_activeLayout += 1;
 
-		manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() + 1));
+		manager->grid->setGridLevel(static_cast<Grid::Level>(manager->grid->getGridLevel() + 1));
 
-		if (manager.grid->getGridLevel() == Grid::Level::Outer1) {
+		if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
 			_assetsManager->createGroupLayout(Grid::Level::Outer1);
 		}
-		else if (manager.grid->getGridLevel() == Grid::Level::Outer2) {
+		else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
 			_assetsManager->createGroupLayout(Grid::Level::Outer2);
 		}
 	}
@@ -286,14 +277,14 @@ void Graph::update(float deltaTime) //game objects updating
 	while (_editorImgui.last_activeLayout > _editorImgui.activeLayout) {
 		_editorImgui.last_activeLayout -= 1;
 
-		if (manager.grid->getGridLevel() == Grid::Level::Outer1) {
+		if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
 			_assetsManager->ungroupLayout(Grid::Level::Outer1);
 		}
-		else if (manager.grid->getGridLevel() == Grid::Level::Outer2) {
+		else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
 			_assetsManager->ungroupLayout(Grid::Level::Outer2);
 		}
 
-		manager.grid->setGridLevel(static_cast<Grid::Level>(manager.grid->getGridLevel() - 1));
+		manager->grid->setGridLevel(static_cast<Grid::Level>(manager->grid->getGridLevel() - 1));
 
 
 	}
@@ -319,31 +310,31 @@ std::vector<Cell*> Graph::traversedCellsFromRay(
 	std::vector<Cell*> hitCells;
 	std::unordered_set<Cell*> visitedCells;
 
-	float stepSize = manager.grid->getCellSize() * 0.5f; // Step size for ray traversal
+	float stepSize = manager->grid->getCellSize() * 0.5f; // Step size for ray traversal
 	glm::vec3 step = glm::normalize(rayDirection) * stepSize; // Step vector
 	glm::vec3 currentPos = rayOrigin;
 
 	float traveledDistance = 0.0f;
 
 	while (traveledDistance < maxDistance) {
-		int x = static_cast<int>(floor(currentPos.x / (manager.grid->getCellSize() * manager.grid->getLevelCellScale())));
-		int y = static_cast<int>(floor(currentPos.y / (manager.grid->getCellSize() * manager.grid->getLevelCellScale())));
-		int z = static_cast<int>(floor(currentPos.z / (manager.grid->getCellSize() * manager.grid->getLevelCellScale())));
+		int x = static_cast<int>(floor(currentPos.x / (manager->grid->getCellSize() * manager->grid->getLevelCellScale())));
+		int y = static_cast<int>(floor(currentPos.y / (manager->grid->getCellSize() * manager->grid->getLevelCellScale())));
+		int z = static_cast<int>(floor(currentPos.z / (manager->grid->getCellSize() * manager->grid->getLevelCellScale())));
 
 		// Check if the cell is within the grid bounds
 		if (
-			x < ceil(manager.grid->getNumXCells() / 2.0f) && x >= ceil(-manager.grid->getNumXCells() / 2.0f) &&
-			y < ceil(manager.grid->getNumYCells() / 2.0f) && y >= ceil(-manager.grid->getNumYCells() / 2.0f) &&
-			z < ceil(manager.grid->getNumZCells() / 2.0f) && z >= ceil(-manager.grid->getNumZCells() / 2.0f)
+			x < ceil(manager->grid->getNumXCells() / 2.0f) && x >= ceil(-manager->grid->getNumXCells() / 2.0f) &&
+			y < ceil(manager->grid->getNumYCells() / 2.0f) && y >= ceil(-manager->grid->getNumYCells() / 2.0f) &&
+			z < ceil(manager->grid->getNumZCells() / 2.0f) && z >= ceil(-manager->grid->getNumZCells() / 2.0f)
 			) {
-			Cell* cell = manager.grid->getCell(x, y, z, manager.grid->getGridLevel());
+			Cell* cell = manager->grid->getCell(x, y, z, manager->grid->getGridLevel());
 
 			if (cell && visitedCells.find(cell) == visitedCells.end()) {
 				hitCells.push_back(cell);
 				visitedCells.insert(cell);
 
 				// Add adjacent cells
-				for (Cell* adjCell : manager.grid->getAdjacentCells(x, y, z, manager.grid->getGridLevel())) {
+				for (Cell* adjCell : manager->grid->getAdjacentCells(x, y, z, manager->grid->getGridLevel())) {
 					if (adjCell && visitedCells.find(adjCell) == visitedCells.end()) {
 						hitCells.push_back(adjCell);
 						visitedCells.insert(adjCell);
@@ -370,7 +361,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	glm::vec3 pointAtMaxDepth = main_camera2D->getPointOnRayAtZ(
 		rayOrigin,
 		rayDirection,
-		manager.grid->getNumZCells() * manager.grid->getCellSize() / 2.0f);
+		manager->grid->getNumZCells() * manager->grid->getCellSize() / 2.0f);
 
 	float maxT = glm::distance(rayOrigin, pointAtMaxDepth);
 	if (maxT > 10000.0f) maxT = 10000.0f;
@@ -463,7 +454,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	glm::vec3 pointAtMinDepth = main_camera2D->getPointOnRayAtZ(
 		rayOrigin,
 		rayDirection,
-		-manager.grid->getNumZCells() * manager.grid->getCellSize() / 2.0f);
+		-manager->grid->getNumZCells() * manager->grid->getCellSize() / 2.0f);
 
 	float minT = glm::distance(rayOrigin, pointAtMinDepth);
 	if (minT < 0.0f) minT = 0.0f;
@@ -534,10 +525,37 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	}
 }
 
+void Graph::setManager(std::string m_managerName)
+{
+	IScene::setManager(m_managerName);
+
+	if (!manager->grid)
+	{
+		manager->grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
+		manager->setComponentNames();
+	}
+
+	if (!_assetsManager) {
+		_assetsManager = new AssetManager(manager, _app->_inputManager, _app->_window);
+	}
+	_assetsManager->manager = manager;
+
+	if (!map) {
+		Graph::map = new Map(*manager, 1, 32);
+	}
+	map->manager = manager;
+
+	manager->aboutTo_updateActiveEntities();
+
+}
+
 void Graph::checkInput() {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
+	if (!manager) {
+		return;
+	}
 	
 	SDL_Event evnt;
 	while (SDL_PollEvent(&evnt)) {
@@ -619,14 +637,14 @@ void Graph::checkInput() {
 			std::unordered_set<Entity*> connectedEntities;
 
 			if (wasHoveringEntity && !_onHoverEntity) {
-				if (manager.grid->getGridLevel() == Grid::Level::Basic) {
-					for (NodeEntity* node_entity : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+				if (manager->grid->getGridLevel() == Grid::Level::Basic) {
+					for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
 						if (node_entity->hasComponent<Rectangle_w_Color>()) {
 							int alpha = 255;
 							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
 						}
 					}
-					for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
+					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
 						if (link_entity->hasComponent<Line_w_Color>()) {
 							int alpha = 255;
 							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
@@ -634,14 +652,14 @@ void Graph::checkInput() {
 						}
 					}
 				}
-				else if (manager.grid->getGridLevel() == Grid::Level::Outer1) {
-					for (NodeEntity* node_entity : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
+				else if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
+					for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
 						if (node_entity->hasComponent<Rectangle_w_Color>()) {
 							int alpha = 255;
 							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
 						}
 					}
-					for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
+					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
 						if (link_entity->hasComponent<Line_w_Color>()) {
 							int alpha = 255;
 							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
@@ -649,14 +667,14 @@ void Graph::checkInput() {
 						}
 					}
 				}
-				else if (manager.grid->getGridLevel() == Grid::Level::Outer2) {
-					for (NodeEntity* node_entity : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
+				else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
+					for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
 						if (node_entity->hasComponent<Rectangle_w_Color>()) {
 							int alpha = 255;
 							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
 						}
 					}
-					for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
+					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
 						if (link_entity->hasComponent<Line_w_Color>()) {
 							int alpha = 255;
 							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
@@ -686,15 +704,15 @@ void Graph::checkInput() {
 					connectedEntities.insert(hoveredLink->getFromNode());
 					connectedEntities.insert(hoveredLink->getToNode());
 				}
-				if (manager.grid->getGridLevel() == Grid::Level::Basic) {
+				if (manager->grid->getGridLevel() == Grid::Level::Basic) {
 
-					for (NodeEntity* node_entity : manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
+					for (NodeEntity* node_entity : manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
 						if (node_entity->hasComponent<Rectangle_w_Color>()) {
 							int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
 							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
 						}
 					}
-					for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
+					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
 						if (link_entity->hasComponent<Line_w_Color>()) {
 							int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
 							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
@@ -702,15 +720,15 @@ void Graph::checkInput() {
 						}
 					}
 				}
-				else if (manager.grid->getGridLevel() == Grid::Level::Outer1) {
+				else if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
 
-					for (NodeEntity* node_entity : manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
+					for (NodeEntity* node_entity : manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
 						if (node_entity->hasComponent<Rectangle_w_Color>()) {
 							int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
 							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
 						}
 					}
-					for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
+					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
 						if (link_entity->hasComponent<Line_w_Color>()) {
 							int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
 							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
@@ -718,15 +736,15 @@ void Graph::checkInput() {
 						}
 					}
 				}
-				else if (manager.grid->getGridLevel() == Grid::Level::Outer2) {
+				else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
 
-					for (NodeEntity* node_entity : manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
+					for (NodeEntity* node_entity : manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
 						if (node_entity->hasComponent<Rectangle_w_Color>()) {
 							int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
 							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
 						}
 					}
-					for (LinkEntity* link_entity : manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
+					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
 						if (link_entity->hasComponent<Line_w_Color>()) {
 							int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
 							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
@@ -858,24 +876,36 @@ void Graph::updateUI() {
 	_editorImgui.FPSCounter(getApp()->getFPSLimiter());
 	ImGui::BeginChild("Tab 1");
 
-	_editorImgui.BackGroundUIElement(_renderDebug, _sceneMousePosition, _app->_inputManager.getMouseCoords(), manager, _onHoverEntity, _backgroundColor, CELL_SIZE);
+	_editorImgui.BackGroundUIElement(_renderDebug, _sceneMousePosition, _app->_inputManager.getMouseCoords(), *manager, _onHoverEntity, _backgroundColor, CELL_SIZE);
 	
 	ImGui::EndChild();
 
 	ImGui::NextColumn();
 	
-	_editorImgui.SceneTabs();
+	std::vector<std::string> openTabs;
+	for (const auto& [name, _] : managers) {
+		openTabs.push_back(name);
+	}
+
+	std::string activeManagerKey = managerName;
+
+	std::string selectedTab = _editorImgui.SceneTabs(openTabs, activeManagerKey);
+
+	if (selectedTab != managerName) {
+		manager = managers[selectedTab];
+		managerName = selectedTab;
+	}
 
 	_editorImgui.updateIsMouseInSecondColumn();
 
 	_editorImgui.SceneViewport(_framebuffer._framebufferTexture, _windowPos, _windowSize);
 
-	_editorImgui.scriptResultsVisualization(manager, _selectedEntities);
+	_editorImgui.scriptResultsVisualization(*manager, _selectedEntities);
 
 	ImGui::NextColumn();
 	ImGui::BeginChild("Tab 2");
 
-	_editorImgui.ShowAllEntities(manager, nodeRadius);
+	_editorImgui.ShowAllEntities(*manager, nodeRadius);
 	_editorImgui.availableFunctions();
 	_editorImgui.ShowFunctionExecutionResults();
 	ImGui::EndChild();
@@ -888,6 +918,12 @@ void Graph::updateUI() {
 	if (_editorImgui.isLoading()) {
 		char* loadMapPath = _editorImgui.LoadingUI();
 		if (!_editorImgui.isLoading()) {
+
+			setManager(std::string(loadMapPath));
+
+			auto& world_map(manager->addEntityNoId<Empty>());
+			_assetsManager->CreateWorldMap(world_map);
+
 			if (strstr(loadMapPath, ".py") != nullptr) {
 				map->loadPythonMap(loadMapPath); // Assuming loadPythonMap is a method for loading Python maps
 			}
@@ -903,10 +939,13 @@ void Graph::updateUI() {
 
 	
 	//glm::vec2 worldToVieport
-	_editorImgui.ShowStatisticsAbout(_savedMainViewportMousePosition, _displayedEntity, manager);
+	if (manager) {
+		_editorImgui.ShowStatisticsAbout(_savedMainViewportMousePosition, _displayedEntity, *manager);
+	}
 
-	if (_sceneManagerActive) {
-		_editorImgui.ShowSceneControl(_savedMainViewportMousePosition, manager);
+
+	if (manager && _sceneManagerActive) {
+		_editorImgui.ShowSceneControl(_savedMainViewportMousePosition, *manager);
 	}
 	// this is going to be shown when right click on scene and no displayEntity shows
 
@@ -919,7 +958,7 @@ void Graph::EndRender() {
 }
 
 void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
-		if (manager.arrowheadsEnabled) {
+		if (manager->arrowheadsEnabled) {
 			for (int i = 0; i < entities.size(); i++) {
 				if (entities[i]->hasComponent<Line_w_Color>()) {
 					entities[i]->GetComponent<Line_w_Color>().drawWithPorts(i, batch, *Graph::_window);
@@ -1050,15 +1089,15 @@ void Graph::draw()
 		_LineRenderer.begin();
 		_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
-		std::vector<Cell*> intercectedCells = manager.grid->getIntersectedCameraCells(*main_camera2D);
+		std::vector<Cell*> intercectedCells = manager->grid->getIntersectedCameraCells(*main_camera2D);
 		
 		_LineRenderer.initBatchSquares(4);
 		
 		_LineRenderer.initBatchBoxes(
 			intercectedCells.size() +
-			manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
-			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
-			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size() 
+			manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
+			manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
+			manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size() 
 		);
 		
 
@@ -1082,9 +1121,9 @@ void Graph::draw()
 		}
 
 		for (auto& group : {
-			manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0),
-			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0),
-			manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1) 
+			manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0),
+			manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0),
+			manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1) 
 			}) {
 			
 			std::vector<NodeEntity*> groupVec = group;
@@ -1115,7 +1154,7 @@ void Graph::draw()
 		
 		
 		_LineRenderer.end();
-		_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f * (manager.grid->getGridLevel() + 1));
+		_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f * (manager->grid->getGridLevel() + 1));
 		glsl_lineColor.unuse();
 
 	}
@@ -1125,22 +1164,22 @@ void Graph::draw()
 	_PlaneModelRenderer.begin();
 
 	_LineRenderer.initBatchLines(
-		manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0).size() +
-		manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0).size() +
-		manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size()
+		manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0).size() +
+		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0).size() +
+		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size()
 	);
 	
 	_PlaneColorRenderer.initColorQuadBatch(
-		manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
-		manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
-		manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size()
+		manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
+		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
+		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size()
 	);
 	_PlaneColorRenderer.initColorTriangleBatch(
-		manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
+		manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
 	);
 
 	_PlaneModelRenderer.initTextureQuadBatch(
-		manager.getVisibleGroup<NodeEntity>(Manager::groupRenderSprites).size()
+		manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites).size()
 	);
 
 
@@ -1148,25 +1187,25 @@ void Graph::draw()
 	_LineRenderer.initBatchSize();
 	_PlaneModelRenderer.initBatchSize();
 
-	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
+	renderBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
 
-	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0), _LineRenderer); // todo add offset render based on previous line rendering
-	renderBatch(manager.getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1), _LineRenderer);
+	renderBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0), _LineRenderer); // todo add offset render based on previous line rendering
+	renderBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1), _LineRenderer);
 	
 
 	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
 
-	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
-	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
-	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
+	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
+	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
+	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
 	
 
-	renderBatch(manager.getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
+	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
 
 
-	renderBatch(manager.getVisibleGroup<EmptyEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
+	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
 
-	renderBatch(manager.getVisibleGroup<NodeEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
+	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
 
 
 

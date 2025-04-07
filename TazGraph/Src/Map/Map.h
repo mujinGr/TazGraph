@@ -14,7 +14,7 @@ class Map
 {
 public:
 
-	Map(int ms, int ns);
+	Map(Manager& m_manager, int ms, int ns);
 	~Map();
 
 	void saveMapAsText(const char* fileName);
@@ -27,6 +27,7 @@ public:
 	void AddDefaultNode(Entity& node, glm::vec2 mPosition);
 	void AddDefaultLink(Entity& node);
 
+	Manager* manager;
 private:
 	int mapScale;
 	int nodeSize;

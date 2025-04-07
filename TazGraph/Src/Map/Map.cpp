@@ -4,12 +4,8 @@
 #include "../GECS/ScriptComponents.h"
 #include <iostream>
 
-extern Manager manager;
-extern std::vector<NodeEntity*>& nodes;
-extern std::vector<LinkEntity*>& links;
 
-
-Map::Map(int ms, int ns) : mapScale(ms), nodeSize(ns) //probably initiallization
+Map::Map(Manager& m_manager, int ms, int ns) : manager(&m_manager), mapScale(ms), nodeSize(ns) //probably initiallization
 {
 	scaledSize = ms * ns;
 }
@@ -21,6 +17,10 @@ Map::~Map()
 
 
 void Map::saveMapAsText(const char* fileName) {
+
+	auto& nodes(manager->getGroup<NodeEntity>(Manager::groupNodes_0));
+	auto& links(manager->getGroup<LinkEntity>(Manager::groupLinks_0));
+
 
 	std::string text = "assets/Maps/" + std::string(fileName);
 	std::ofstream file(text);
@@ -70,10 +70,10 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 		nodeLine >> x >> y;
 		nodeLine >> width >> separator >> height;
 
-		auto& node(manager.addEntity<Node>());
+		auto& node(manager->addEntity<Node>());
 		(this->*addNodeFunction)(node, glm::vec2(x, y));
 
-		manager.grid->addNode(&node, manager.grid->getGridLevel());
+		manager->grid->addNode(&node, manager->grid->getGridLevel());
 	}
 
 	std::getline(mapFile, line);
@@ -84,10 +84,10 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 
 		linkLine >> id >> fromNodeId >> toNodeId;
 
-		auto& link(manager.addEntity<Link>(fromNodeId, toNodeId));
+		auto& link(manager->addEntity<Link>(fromNodeId, toNodeId));
 		(this->*addLinkFunction)(link);
 
-		manager.grid->addLink(&link, manager.grid->getGridLevel());
+		manager->grid->addLink(&link, manager->grid->getGridLevel());
 	}
 }
 
@@ -105,11 +105,11 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 		float x = nodeInfo.obj["metadata"].obj["x"].num / 10.0f;
 		float y = nodeInfo.obj["metadata"].obj["y"].num / 10.0f;
 
-		auto& node = manager.addEntity<Node>();
+		auto& node = manager->addEntity<Node>();
 		glm::vec2 position(x, y);
 		(this->*addNodeFunction)(node, position);
 
-		manager.grid->addNode(&node, manager.grid->getGridLevel());
+		manager->grid->addNode(&node, manager->grid->getGridLevel());
 	}
 	auto& links = rootFromFile.obj["graph"].obj["edges"];
 	for (auto& linkEntry : links.arr) {
@@ -117,10 +117,10 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 		unsigned int fromID = linkInfo.obj["source"].num;
 		unsigned int toID	= linkInfo.obj["target"].num;
 
-		auto& link = manager.addEntity<Link>(fromID, toID);
+		auto& link = manager->addEntity<Link>(fromID, toID);
 		(this->*addLinkFunction)(link);
 
-		manager.grid->addLink(&link, manager.grid->getGridLevel());
+		manager->grid->addLink(&link, manager->grid->getGridLevel());
 	}
 	std::cout << "Parsed JSON from file successfully!" << std::endl;
 }
@@ -134,8 +134,6 @@ void Map::loadTextMap(const char* fileName) {
 		std::cerr << "Failed to open file for writing: " << text << std::endl;
 		return;
 	}
-	
-	manager.removeAllEntites();
 	
 	ProcessFile(file, &Map::AddDefaultNode, &Map::AddDefaultLink);
 
@@ -151,7 +149,7 @@ void Map::loadPythonMap(const char* fileName) {
 		return;
 	}
 
-	manager.removeAllEntites();
+	manager->removeAllEntites();
 
 	ProcessPythonFile(file, &Map::AddDefaultNode, &Map::AddDefaultLink);
 

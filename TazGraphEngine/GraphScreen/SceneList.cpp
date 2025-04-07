@@ -34,6 +34,13 @@ void SceneList::addScene(IScene* newScene) {
 	newScene->setParentApp(_app);
 }
 
+void SceneList::addScene(std::string managerName, IScene* newScene) {
+	addScene(newScene);
+	// add manager to scene with name: managerName
+	newScene->managers[managerName] = new Manager();
+	newScene->manager = newScene->managers[managerName];
+}
+
 void SceneList::destroy() {
 	for (size_t i = 0; i < _scenes.size(); i++) {
 		_scenes[i]->destroy();

@@ -19,7 +19,6 @@
 #include "Window/Window.h"
 #include "TextureManager/TextureManager.h"
 
-#include "GECS/Core/GECSManager.h"
 
 #include "GraphScreen/ScreenIndices.h"
 
@@ -83,13 +82,11 @@ public:
 
 	/////////////////////////
 
-	
-
-	static Map* map;
-
+	Map* map;
 	//std::unique_ptr<Grid> grid;
 
 	static TazGraphEngine::Window* _window;
+
 
 private:
 	float _backgroundColor[4] = { 0.78f,0.88f,1.f, 1.0f };
@@ -99,6 +96,8 @@ private:
 		float maxDistance);
 
 	void selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int activateMode);
+
+	void setManager(std::string m_managerName);
 
 	void checkInput();
 	bool onPauseGraph();

@@ -114,7 +114,7 @@ public:
 	void refresh(ICamera* camera = nullptr)
 	{
 
-		if (camera->hasChanged() || grid->gridLevelChanged()) {
+		if (grid && (camera->hasChanged() || grid->gridLevelChanged())) {
 			bool interceptedCellsChanged = grid->setIntersectedCameraCells(*camera);
 
 			if (interceptedCellsChanged) {

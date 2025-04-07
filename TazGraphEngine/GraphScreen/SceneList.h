@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 
 class AppInterface;
 class IScene;
@@ -14,6 +15,7 @@ public:
 
 	void setScene(int nextScene);
 	void addScene(IScene* newScene);
+	void addScene(std::string managerName, IScene* newScene);
 
 	void destroy();
 

@@ -5,6 +5,8 @@
 
 #include "../Threader/Threader.h"
 
+#include "../GECS/Core/GECSManager.h"
+
 #define SCENE_INDEX_NO_SCENE -1
 
 class AppInterface;
@@ -60,11 +62,28 @@ public:
 	void setParentApp(AppInterface* app) { _app = app; }
 
 	AppInterface* getApp() const { return _app; }
+
+	void setManager(std::string m_managerName) {
+		if (!m_managerName.empty()) {
+			auto it = managers.find(m_managerName);
+			if (it == managers.end()) {
+				managers[m_managerName] = new Manager();
+			}
+			manager = managers[m_managerName];
+			managerName = m_managerName;
+		}
+	};
+
 protected:
 	SceneState _currentState = SceneState::NONE;
 	AppInterface* _app = nullptr;
 	int _sceneIndex = -1;
 
+	std::unordered_map<std::string, Manager*> managers = {
+	};
+
+	Manager* manager;
+	std::string managerName = "";
 
 	bool _renderDebug = false;
 };

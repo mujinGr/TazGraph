@@ -9,9 +9,7 @@
 #include "../AssetManager/AssetManager.h"
 #include "GraphScreen/AppInterface.h"
 
-Manager main_menu_manager; // need manager as global so that the entities can be global
 
-auto& Mainmenubackground(main_menu_manager.addEntity<Empty>());
 
 MainMenuScreen::MainMenuScreen(TazGraphEngine::Window* window)
 	: _window(window)
@@ -46,10 +44,12 @@ void MainMenuScreen::destroy()
 
 void MainMenuScreen::onEntry()
 {
+	auto& Mainmenubackground(manager->addEntity<Empty>());
+
 	_resourceManager.addGLSLProgram("texture");
 	_resourceManager.addGLSLProgram("color");
 
-	_assetsManager = new AssetManager(&manager, _app->_inputManager, _app->_window);
+	_assetsManager = new AssetManager(manager, _app->_inputManager, _app->_window);
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
@@ -102,17 +102,16 @@ void MainMenuScreen::onEntry()
 	TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/block_networkMiserable.png");
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 
-	if (!main_menu_manager.grid)
+	if (!manager->grid)
 	{
-		main_menu_manager.grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
+		manager->grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
 
 		Mainmenubackground.addComponent<MainMenuBackground>();
 		Mainmenubackground.addGroup(Manager::groupBackgroundLayer);
-		main_menu_manager.grid->addEmpty(&Mainmenubackground, main_menu_manager.grid->getGridLevel());
+		manager->grid->addEmpty(&Mainmenubackground, manager->grid->getGridLevel());
 	}
 }
 
-auto& mainmenubackground(main_menu_manager.getGroup<EmptyEntity>(Manager::groupBackgroundLayer));
 
 
 void MainMenuScreen::onExit()
@@ -120,15 +119,13 @@ void MainMenuScreen::onExit()
 	
 }
 
-
-
 void MainMenuScreen::update(float deltaTime)
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
 
-	main_menu_manager.update(deltaTime);
-	main_menu_manager.refresh(main_camera2D.get());
+	manager->update(deltaTime);
+	manager->refresh(main_camera2D.get());
 
 	main_camera2D->update();
 	hud_camera2D->update();
@@ -143,6 +140,8 @@ void MainMenuScreen::renderBatch(const std::vector<EmptyEntity*>& entities) {
 
 void MainMenuScreen::draw()
 {
+	auto& mainmenubackground(manager->getGroup<EmptyEntity>(Manager::groupBackgroundLayer));
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
 

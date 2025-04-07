@@ -18,8 +18,6 @@
 #include "Window/Window.h"
 #include "TextureManager/TextureManager.h"
 
-#include "GECS/Core/GECSManager.h"
-
 #include "GraphScreen/ScreenIndices.h"
 
 #include "../EditorIMGUI/EditorIMGUI.h"

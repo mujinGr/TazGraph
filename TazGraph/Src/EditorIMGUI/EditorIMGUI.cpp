@@ -560,19 +560,24 @@ void EditorIMGUI::scriptResultsVisualization(Manager& manager, std::vector<std::
 	_customFunctions.renderUI(manager, m_selectedEntities);
 }
 
-std::string EditorIMGUI::SceneTabs() {
+std::string EditorIMGUI::SceneTabs(const std::vector<std::string>& graphNames, std::string& currentActive) {
 	float childHeight = 30.0f;
 	
 	ImGui::BeginChild("Scene Tabs", ImVec2(0, childHeight), true, ImGuiWindowFlags_NoScrollbar);
 	
-	static std::vector<bool> closeTab(_fileNames.size(), false);
 
 	if (ImGui::BeginTabBar("SceneTabs")) {
-		for (int i = 0; i < _fileNames.size(); i++) {
-			if (closeTab[i]) continue;
+		for (size_t i = 0; i < graphNames.size(); ++i) {
+			const std::string& name = graphNames[i];
 
-			if (ImGui::BeginTabItem(_fileNames[i].c_str(), nullptr, ImGuiTabItemFlags_None)) {
+			bool open = true;
+
+			if (ImGui::BeginTabItem(name.c_str(), &open, ImGuiTabItemFlags_None)) {
+				currentActive = name;
 				ImGui::EndTabItem();
+			}
+			if (!open) {
+				// handle tab close if needed (e.g. mark for deletion)
 			}
 		}
 		ImGui::SameLine(ImGui::GetContentRegionAvail().x - 16);
@@ -582,14 +587,8 @@ std::string EditorIMGUI::SceneTabs() {
 		ImGui::EndTabBar();
 	}
 
-	for (int i = _fileNames.size() - 1; i >= 0; i--) {
-		if (closeTab[i]) {
-			closeTab.erase(closeTab.begin() + i);
-		}
-	}
-
 	ImGui::EndChild();
-	return !_fileNames.empty() ? _fileNames.front() : "nullptr";
+	return currentActive;
 }
 
 void EditorIMGUI::ShowFunctionExecutionResults() {

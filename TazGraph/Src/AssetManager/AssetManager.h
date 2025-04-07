@@ -36,8 +36,8 @@ public:
 
 	void ungroupLayout(Grid::Level m_level);
 
-private:
 	Manager* manager;
+private:
 	InputManager& _inputManager;
 	TazGraphEngine::Window& _window;
 };

@@ -18,7 +18,7 @@ void App::addScenes() {
     _graphplayScreen = std::make_unique<Graph>(&_window);
     //m_editorScreen = std::make_unique<EditorScreen>(&_window);
 
-    _sceneList->addScene(_mainMenuScreen.get());
+    _sceneList->addScene("main_menu", _mainMenuScreen.get());
     _sceneList->addScene(_graphplayScreen.get());
     //m_screenList->addScreen(_editorScreen.get());
 

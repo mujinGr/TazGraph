@@ -64,7 +64,7 @@ public:
 	void availableFunctions();
 	void SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize);
 	void scriptResultsVisualization(Manager& manager, std::vector<std::pair<Entity*, glm::vec3>>& m_selectedEntities);
-	std::string SceneTabs();
+	std::string SceneTabs(const std::vector<std::string>& graphNames, std::string& currentActive);
 	void ShowFunctionExecutionResults();
 	void updateIsMouseInSecondColumn();
 	void ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager);
