@@ -292,7 +292,10 @@ void Graph::update(float deltaTime) //game objects updating
 	// check input manager if left mouse is clicked, if yes and the mouse is not on the widget then nullify displayedEntity
 	if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT))
 	{
-		if (!_editorImgui.isMouseOnWidget("Node Display") && !_editorImgui.isMouseOnWidget("Link Display") && !_editorImgui.isMouseOnWidget("Scene Manager")) {
+		if (!_editorImgui.isMouseOnWidget("Node Display") &&
+			!_editorImgui.isMouseOnWidget("Link Display") &&
+			!_editorImgui.isMouseOnWidget("Empty Display") &&
+			!_editorImgui.isMouseOnWidget("Scene Manager")) {
 			_displayedEntity = nullptr;
 			_sceneManagerActive = false;
 		}
@@ -588,6 +591,15 @@ void Graph::checkInput() {
 			}
 			break;
 		case SDL_KEYDOWN:
+			if (_app->_inputManager.isKeyDown(SDLK_ESCAPE)) {
+				if (_displayedEntity || _sceneManagerActive) {
+					_displayedEntity = nullptr;
+					_sceneManagerActive = false;
+				}
+				else {
+					_app->exitSimulator();
+				}
+			}
 			if (_displayedEntity) {
 				return;
 			}
@@ -609,6 +621,7 @@ void Graph::checkInput() {
 			if (_app->_inputManager.isKeyDown(SDLK_d)) {
 				main_camera2D->movePosition_Hor(10.0f);
 			}
+		
 		case SDL_MOUSEMOTION:
 		{
 			ImVec2 mainViewportSize = ImGui::GetMainViewport()->Size;
@@ -842,8 +855,9 @@ void Graph::checkInput() {
 		}
 		
 		if (_app->_inputManager.isKeyPressed(SDLK_p)) {
-			onPauseGraph();
+			//onPauseGraph();
 		}
+	
 
 		
 
@@ -940,7 +954,7 @@ void Graph::updateUI() {
 	
 	//glm::vec2 worldToVieport
 	if (manager) {
-		_editorImgui.ShowStatisticsAbout(_savedMainViewportMousePosition, _displayedEntity, *manager);
+		_editorImgui.ShowEntityComponents(_savedMainViewportMousePosition, _displayedEntity, *manager);
 	}
 
 

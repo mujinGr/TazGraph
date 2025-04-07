@@ -607,7 +607,7 @@ void EditorIMGUI::updateIsMouseInSecondColumn() {
 		mousePos.y >= columnStartPos.y && mousePos.y <= (columnStartPos.y + columnSize.y));
 }
 
-void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager)
+void EditorIMGUI::ShowEntityComponents(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager)
 {
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
@@ -618,6 +618,8 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 	std::string windowTitle = "Entity";
 	Node* node = dynamic_cast<Node*>(displayedEntity);
 	Link* link = dynamic_cast<Link*>(displayedEntity);
+	Empty* empty = dynamic_cast<Empty*>(displayedEntity);
+
 
 	if (node) {
 		windowTitle = "Node Display";
@@ -625,9 +627,16 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 	else if (link) {
 		windowTitle = "Link Display";
 	}
+	else if (empty) {
+		windowTitle = "Empty Display";
+	}
 
+	int currentId = displayedEntity->getId();
 
-	ImGui::SetNextWindowPos(ImVec2(mousePos.x, mousePos.y), ImGuiCond_Always, ImVec2(0, 0));
+	if (currentId != _lastEntityDisplayed) {
+		ImGui::SetNextWindowPos(ImVec2(mousePos.x, mousePos.y), ImGuiCond_Always);
+		_lastEntityDisplayed = currentId;
+	}
 
 	if (ImGui::Begin(windowTitle.c_str())) {
 		displayedEntity->imgui_print();
@@ -703,7 +712,9 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 				}
 			}
 		}
-		if (link) {
+
+
+		else if (link) {
 			for (auto& c : manager.componentNames["LinkComponent"]) {
 				// Checkbox to add/remove component
 				bool hasComponent = displayedEntity->hasComponentByName(c);
@@ -721,6 +732,43 @@ void EditorIMGUI::ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntit
 					if (ImGui::TreeNode((c + " Properties").c_str())) {
 						getComponentByName(c, displayedEntity)->showGUI();
 						ImGui::TreePop();
+					}
+				}
+			}
+		}
+
+
+		else if (empty) {
+			for (auto& c : manager.componentNames["Component"]) {
+				// Checkbox to add/remove component
+				bool hasComponent = displayedEntity->hasComponentByName(c);
+
+				if (ImGui::Checkbox(c.c_str(), &hasComponent)) {
+					if (hasComponent) {
+						AddComponentByName(c, displayedEntity);
+					}
+					else {
+						RemoveComponentByName(c, displayedEntity);
+					}
+				}
+
+				if (hasComponent) {
+					if (ImGui::TreeNode((c + " Properties").c_str())) {
+
+						if (c == "SpriteComponent") {
+							std::string tempStr = displayedEntity->GetComponent<SpriteComponent>().texture_name;
+							getComponentByName(c, displayedEntity)->showGUI();
+							ImGui::TreePop();
+
+							if (tempStr != displayedEntity->GetComponent<SpriteComponent>().texture_name) {
+								displayedEntity->getManager()->refresh(main_camera2D.get());
+							}
+
+						}
+						else {
+							getComponentByName(c, displayedEntity)->showGUI();
+							ImGui::TreePop();
+						}
 					}
 				}
 			}

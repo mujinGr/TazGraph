@@ -116,9 +116,7 @@ void AppInterface::onSDLEvent(SDL_Event& evnt) {
 	default:
 		break;
 	}
-	if (_inputManager.isKeyDown(SDLK_ESCAPE)) {
-		exitSimulator();
-	}
+	
 }
 
 bool AppInterface::init() {

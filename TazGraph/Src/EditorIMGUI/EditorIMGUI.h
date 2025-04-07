@@ -28,6 +28,7 @@ private:
 
 	// Note: Switch this to true to enable dockspace
 	bool _dockingEnabled = true;
+	int _lastEntityDisplayed = 0;
 public:
 	bool isMouseInSecondColumn = false;
 
@@ -67,7 +68,7 @@ public:
 	std::string SceneTabs(const std::vector<std::string>& graphNames, std::string& currentActive);
 	void ShowFunctionExecutionResults();
 	void updateIsMouseInSecondColumn();
-	void ShowStatisticsAbout(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager);
+	void ShowEntityComponents(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager);
 	void ShowSceneControl(glm::vec2 mousePos, Manager& manager);
 	void StartPollingComponent(Entity* entity, const std::string& fileName);
 };
