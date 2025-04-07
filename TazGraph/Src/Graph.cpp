@@ -527,6 +527,8 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 void Graph::setManager(std::string m_managerName)
 {
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
 	IScene::setManager(m_managerName);
 
 	if (!manager->grid)
@@ -545,6 +547,7 @@ void Graph::setManager(std::string m_managerName)
 	}
 	map->manager = manager;
 
+	main_camera2D->makeCameraDirty();
 	manager->aboutTo_updateActiveEntities();
 
 }
@@ -890,12 +893,9 @@ void Graph::updateUI() {
 	std::string activeManagerKey = managerName;
 
 	std::string selectedTab = _editorImgui.SceneTabs(openTabs, activeManagerKey);
-
 	if (selectedTab != managerName) {
-		manager = managers[selectedTab];
-		managerName = selectedTab;
+		setManager(selectedTab);
 	}
-
 	_editorImgui.updateIsMouseInSecondColumn();
 
 	_editorImgui.SceneViewport(_framebuffer._framebufferTexture, _windowPos, _windowSize);

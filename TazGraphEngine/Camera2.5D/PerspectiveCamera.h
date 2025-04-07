@@ -251,6 +251,10 @@ public:
 		return _cameraChange;
 	}
 
+	void makeCameraDirty() override {
+		_cameraChange = true;
+	}
+
 	void refreshCamera() override {
 		_cameraChange = false;
 	}

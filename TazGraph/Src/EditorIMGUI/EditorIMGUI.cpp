@@ -566,7 +566,7 @@ std::string EditorIMGUI::SceneTabs(const std::vector<std::string>& graphNames, s
 	ImGui::BeginChild("Scene Tabs", ImVec2(0, childHeight), true, ImGuiWindowFlags_NoScrollbar);
 	
 
-	if (ImGui::BeginTabBar("SceneTabs")) {
+	if (ImGui::BeginTabBar("SceneTabs", ImGuiTabBarFlags_AutoSelectNewTabs)) {
 		for (size_t i = 0; i < graphNames.size(); ++i) {
 			const std::string& name = graphNames[i];
 

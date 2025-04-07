@@ -33,6 +33,7 @@ public:
     virtual void setScale(float scale) = 0;
 
     virtual bool isPointInCameraView(const glm::vec4 point) = 0;
+    virtual void makeCameraDirty() = 0;
     virtual bool hasChanged() = 0;
     virtual void refreshCamera() = 0;
 };
