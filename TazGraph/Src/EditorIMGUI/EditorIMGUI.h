@@ -16,11 +16,15 @@ namespace fs = std::filesystem;
 class EditorIMGUI : public ImGuiInterface {
 private:
 	std::vector<std::string> _fileNames;
+	char  _newFileName[126] = "";
+	int _newNodesCount = 0;
+	int _newLinksCount = 0;
 	std::vector<std::string> _pollingFileNames;
 	ImGui::ComboAutoSelectData _data;
 	bool _filesLoaded = false;
 
 	bool _isSaving = false;
+	bool _isStartingNew = false;
 	bool _isLoading = false;
 	bool _goingBack = false;
 
@@ -42,6 +46,8 @@ public:
 	~EditorIMGUI();
 
 	bool isSaving();
+	void setNewMap(bool startingNew);
+	bool isStartingNew();
 	bool isLoading();
 	void setLoading(bool loading);
 	bool isGoingBack();
@@ -59,6 +65,7 @@ public:
 	void FPSCounter(const BaseFPSLimiter& baseFPSLimiter);
 	void ReloadAccessibleFiles();
 	void SavingUI(Map* map);
+	void NewMapUI();
 	char* LoadingUI();
 	void MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onLoadSimulator, std::function<void()> onExitSimulator);
 	void ShowAllEntities(Manager& manager, float& m_nodeRadius);

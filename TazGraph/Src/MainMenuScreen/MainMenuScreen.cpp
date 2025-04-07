@@ -208,7 +208,7 @@ void MainMenuScreen::updateUI() {
 
 	if (_editorImgui.isLoading()) {
 		char* loadMapPath = _editorImgui.LoadingUI();
-		if (!_editorImgui.isLoading()) {
+		if (!_editorImgui.isLoading() && !std::string(loadMapPath).empty()) {
 			DataManager::getInstance().mapToLoad = loadMapPath;
 			_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 			_currentState = SceneState::CHANGE_NEXT;

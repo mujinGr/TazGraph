@@ -530,6 +530,15 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 void Graph::setManager(std::string m_managerName)
 {
+	if (m_managerName.empty()) {
+		_editorImgui.setNewMap(true);
+		int counter = 1;
+		while (managers.find("Unnamed_" + std::to_string(counter) + ".txt") != managers.end()) {
+			counter++;
+		}
+		m_managerName = "Unnamed_" + std::to_string(counter) + ".txt";
+	}
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 	IScene::setManager(m_managerName);
@@ -928,6 +937,9 @@ void Graph::updateUI() {
 
 	if (_editorImgui.isSaving()) {
 		_editorImgui.SavingUI(map);
+	}
+	if (_editorImgui.isStartingNew()) {
+		_editorImgui.NewMapUI();
 	}
 	if (_editorImgui.isLoading()) {
 		char* loadMapPath = _editorImgui.LoadingUI();
