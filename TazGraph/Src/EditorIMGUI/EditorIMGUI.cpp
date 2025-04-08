@@ -649,7 +649,7 @@ std::string EditorIMGUI::SceneTabs(const std::vector<std::string>& graphNames, s
 	{
 		ImGui::Text("Interpolation");
 		ImGui::SameLine();
-		ImGui::SliderFloat("##interp", &interpolation, 0.0f, 10.0f, "%.2f");
+		ImGui::SliderFloat("##interp", &interpolation, 0.0f, 1.0f, "%.2f");
 
 		// Optional: Add tooltip
 		if (ImGui::IsItemHovered()) {

@@ -19,7 +19,7 @@ public:
 
 	SpriteComponent* sprite = nullptr;
 	std::string textureid;
-	const char* animationName = NULL;
+	std::string animationName = "";
 	timestamp resumeTime = 0;
 
 	//std::map<const char*, Animation> animations; //Animator Manager
@@ -68,7 +68,7 @@ public:
 		//sprite->draw(batch);
 	}
 
-	void Play(const char* animName, int reps = 0)
+	void Play(std::string animName, int reps = 0)
 	{
 		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = animName;
@@ -88,7 +88,7 @@ public:
 		);
 	}
 
-	const char* getPlayName()
+	std::string getPlayName()
 	{
 		return animationName;
 	}

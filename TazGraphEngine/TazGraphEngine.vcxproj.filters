@@ -278,5 +278,8 @@
     <ClInclude Include="GECS\Core\GECSUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GECS\Animators\RectangleAnimators\RectangleFlashAnimatorComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

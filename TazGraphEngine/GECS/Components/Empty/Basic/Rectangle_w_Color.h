@@ -5,10 +5,14 @@
 class Rectangle_w_Color : public Component
 {
 public:
+	Color default_color = { 255, 255, 255, 255 };
+
 	Color color = { 255, 255, 255, 255 };
 
 	SDL_FRect destRect = {0,0,0,0};
 	TransformComponent* transform = nullptr;
+
+	FlashAnimation flash_animation;
 
 	float temp_rotation = 0.0f;
 
@@ -47,6 +51,28 @@ public:
 		glm::vec4 pos((float)destRect.x, (float)destRect.y, (float)destRect.w, (float)destRect.h);
 		batch.draw(v_index, pos, transform->getPosition().z + transform->size.z / 2.0f, color);
 	}
+
+	void setColor(Color clr) {
+		default_color = clr;
+		color = clr;
+	}
+
+	void SetFlashAnimation(int idX, int idY, size_t fr, float sp, const Animation::animType type, const std::vector<float>& flashTimes, Color flashC, int reps = 0)
+	{
+		flash_animation = FlashAnimation(idX, idY, fr, sp, type, flashTimes, flashC, reps);
+	}
+
+	void setFlashFrame() {
+		float t = this->flash_animation.interpolation_a;
+		if (t < 0.5f) {
+			this->color = Color::fromVec4(glm::mix(default_color.toVec4(), this->flash_animation.flashColor.toVec4(), 2 * t));
+		}
+		else {
+			this->color = Color::fromVec4(glm::mix(this->flash_animation.flashColor.toVec4(), default_color.toVec4(), std::min(2 * (t - 0.5f), 1.0f)));
+		}
+
+	}
+
 
 	std::string GetComponentName() override {
 		return "Rectangle_w_Color";

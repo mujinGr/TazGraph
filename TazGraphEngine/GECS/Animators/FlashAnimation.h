@@ -15,7 +15,7 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 	std::map<FlashState, float> speeds;
 
 	FlashState currentSpeedIndex = FlashState::FLASH_OUT;
-	Color flashColor;
+	Color flashColor = Color(255,255,255,255);
 
 	FlashAnimation() : Animation()
 	{
@@ -68,6 +68,38 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 		switch (type) {
 		case Animation::animType::ANIMTYPE_BACK_FORTH:
 			// todo add here implementation for backforth loop
+			if (flow_direction == 1) {
+				cur_frame_index_f += speed * deltaTime;
+
+				if (cur_frame_index_f > total_frames) {
+					cur_frame_index_f -= speed;
+					flow_direction = -1;
+				}
+				cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
+			}
+			else if (flow_direction == -1) {
+				if (cur_frame_index > 0) {
+					cur_frame_index_f -= speed * deltaTime;
+					cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
+				}
+				else {
+					times_played++;
+					flow_direction = 1;
+					resetFrameIndex();
+					if (reps && times_played >= reps) {
+						finished = true;
+					}
+				}
+			}
+			// Check if the frame index has changed
+			if (prev_frame_index != cur_frame_index) {
+				frame_times_played = 1;
+				if ((static_cast<int>(currentSpeedIndex) + 1) % speeds.size() < speeds.size())
+					currentSpeedIndex = static_cast<FlashState>((static_cast<int>(currentSpeedIndex) + 1) % speeds.size());
+			}
+			else {
+				frame_times_played++;
+			}
 			break;
 		case Animation::animType::ANIMTYPE_LOOPED:
 		case Animation::animType::ANIMTYPE_PLAY_N_TIMES:

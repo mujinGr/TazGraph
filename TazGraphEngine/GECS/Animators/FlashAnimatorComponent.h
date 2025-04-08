@@ -55,7 +55,7 @@ public:
 		//sprite->draw(batch);
 	}
 
-	void Play(const char* animName, int reps = 0)
+	void Play(std::string animName, int reps = 0)
 	{
 		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = animName;
@@ -80,7 +80,7 @@ public:
 			animManager.flash_animations[animationName].flashColor);
 	}
 
-	const char* getPlayName()
+	std::string getPlayName()
 	{
 		return animationName;
 	}

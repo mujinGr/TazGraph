@@ -15,6 +15,8 @@
 #include "./Animators/FlashAnimatorComponent.h"
 
 #include "./Animators/LineAnimators/LineFlashAnimatorComponent.h"
+#include "./Animators/RectangleAnimators/RectangleFlashAnimatorComponent.h"
+
 
 
 

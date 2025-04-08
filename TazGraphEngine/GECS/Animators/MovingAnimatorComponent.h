@@ -90,7 +90,7 @@ public:
 			animManager.moving_animations[animationName].positions, animManager.moving_animations[animationName].zIndices, animManager.moving_animations[animationName].rotations);
 	}
 
-	const char* getPlayName()
+	std::string getPlayName()
 	{
 		return animationName;
 	}

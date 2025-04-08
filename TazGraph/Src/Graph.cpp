@@ -163,6 +163,12 @@ void Graph::onEntry()
 
 	_framebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
 
+	std::string rectInterpolation_str = "RectInterpolation";
+	for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
+		node_entity->GetComponent<RectangleFlashAnimatorComponent>().Play(rectInterpolation_str);
+	}
+
+
 	//ImGuiIO& io = ImGui::GetIO();
 	//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
@@ -292,12 +298,29 @@ void Graph::update(float deltaTime) //game objects updating
 
 	if (_editorImgui.interpolation_running) {
 		_editorImgui.interpolation += _editorImgui.interpolation_speed * deltaTime / _app->getFPSLimiter().fps;
-		if (_editorImgui.interpolation >= 10.0f) {
+		if (_editorImgui.interpolation >= 1.0f) {
 			_editorImgui.interpolation = 0.0f;
 		}
 	}
 
 	//for all nodes and for all links, get interpolation and accordingly modify the animators?
+	if (_editorImgui.interpolation_running) {
+		
+		for (NodeEntity* node_entity : manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
+			if (node_entity->hasComponent<Rectangle_w_Color>()) {
+				node_entity->GetComponent<Rectangle_w_Color>().flash_animation.interpolation_a = _editorImgui.interpolation;
+				node_entity->GetComponent<Rectangle_w_Color>().setFlashFrame();
+			}
+		}
+
+		for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
+			if (link_entity->hasComponent<Line_w_Color>()) {
+				link_entity->GetComponent<Line_w_Color>().flash_animation.interpolation_a = _editorImgui.interpolation;
+				link_entity->GetComponent<Line_w_Color>().setFlashFrame();
+			}
+		}
+		
+	}
 
 	// check input manager if left mouse is clicked, if yes and the mouse is not on the widget then nullify displayedEntity
 	if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT))

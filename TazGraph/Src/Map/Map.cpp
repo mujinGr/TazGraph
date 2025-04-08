@@ -164,7 +164,10 @@ void Map::AddDefaultNode(Entity &node, glm::vec2 mPosition)
 	//create Node function
 	node.addComponent<TransformComponent>(mPosition, Layer::action, glm::vec3(10.0f), 1);
 	node.addComponent<Rectangle_w_Color>();
-	node.GetComponent<Rectangle_w_Color>().color = Color(0, colorOffset, 224, 255);
+	node.GetComponent<Rectangle_w_Color>().setColor(Color(0, colorOffset, 224, 255));
+
+	node.addComponent<RectangleFlashAnimatorComponent>();
+
 
 	node.addGroup(Manager::groupNodes_0);
 }
