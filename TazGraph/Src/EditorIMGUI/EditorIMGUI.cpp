@@ -362,8 +362,19 @@ void EditorIMGUI::NewMapUI() {
 	float buttonWidth = 100; // Define the button width you want
 	ImGui::SetCursorPosX((windowWidth - buttonWidth) * 0.5f); // Center the button
 
-	ImGui::InputInt("Number of Nodes", &_newNodesCount);
-	ImGui::InputInt("Number of Links", &_newLinksCount);
+	ImGui::InputInt("Number of Nodes", &newNodesCount);
+	ImGui::InputInt("Number of Links", &newLinksCount);
+
+	if (newNodesCount < 0) {
+		newNodesCount = 0;
+	}
+	if (newLinksCount < 0) {
+		newLinksCount = 0;
+	}
+
+	if (newNodesCount != 0 && newLinksCount > newNodesCount - 1) {
+		newLinksCount = newNodesCount - 1;
+	}
 
 
 	if (ImGui::Button("Start", ImVec2(buttonWidth, 0))) {
@@ -408,6 +419,7 @@ char* EditorIMGUI::LoadingUI() {
 	}
 
 	if (!open) {
+		std::memset(_data.input, 0, sizeof(_data.input));
 		_isLoading = false;
 	}
 
@@ -627,19 +639,39 @@ std::string EditorIMGUI::SceneTabs(const std::vector<std::string>& graphNames, s
 		}
 		ImGui::SameLine(ImGui::GetContentRegionAvail().x - 16);
 		if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(TextureManager::getInstance().Get_GLTexture("play-button")->id)), ImVec2(16, 16))) {
+			interpolation_running = !interpolation_running;
 		}
 
 		ImGui::EndTabBar();
 	}
+	ImGui::EndChild();
+	ImGui::BeginChild("Interpolation Slider", ImVec2(0, 40), true);
+	{
+		ImGui::Text("Interpolation");
+		ImGui::SameLine();
+		ImGui::SliderFloat("##interp", &interpolation, 0.0f, 10.0f, "%.2f");
+
+		// Optional: Add tooltip
+		if (ImGui::IsItemHovered()) {
+			ImGui::BeginTooltip();
+			ImGui::Text("Control interpolation");
+			ImGui::EndTooltip();
+		}
+		ImGui::SameLine();
+		ImGui::Text("Speed");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(100.0f);
+		ImGui::SliderFloat("##interp_speed", &interpolation_speed, 0.01f, 1.0f, "%.2f");
+	}
 
 	ImGui::EndChild();
+
+
 	return currentActive;
 }
 
 void EditorIMGUI::ShowFunctionExecutionResults() {
 	ImGui::Text("Function Execution Results");
-
-
 }
 
 void EditorIMGUI::updateIsMouseInSecondColumn() {

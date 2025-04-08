@@ -289,6 +289,16 @@ void Graph::update(float deltaTime) //game objects updating
 
 	}
 
+
+	if (_editorImgui.interpolation_running) {
+		_editorImgui.interpolation += _editorImgui.interpolation_speed * deltaTime / _app->getFPSLimiter().fps;
+		if (_editorImgui.interpolation >= 10.0f) {
+			_editorImgui.interpolation = 0.0f;
+		}
+	}
+
+	//for all nodes and for all links, get interpolation and accordingly modify the animators?
+
 	// check input manager if left mouse is clicked, if yes and the mouse is not on the widget then nullify displayedEntity
 	if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT))
 	{
@@ -940,6 +950,44 @@ void Graph::updateUI() {
 	}
 	if (_editorImgui.isStartingNew()) {
 		_editorImgui.NewMapUI();
+
+		if (!_editorImgui.isStartingNew()) {
+			std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+			float spacing = 120.0f; // Space between nodes
+
+			float totalWidth = (_editorImgui.newNodesCount - 1) * spacing;
+			float startX = -totalWidth * 0.5f;
+			float y = 0.0f;
+
+			for (int i = 0; i < _editorImgui.newNodesCount; ++i) {
+				auto& node = manager->addEntity<Node>();
+				glm::vec2 position = glm::vec2(startX + i * spacing, y);
+				node.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+				node.addComponent<Rectangle_w_Color>();
+				node.GetComponent<Rectangle_w_Color>().color = Color(0, 0, 224, 255);
+
+				node.addGroup(Manager::groupNodes_0);
+
+				manager->grid->addNode(&node, manager->grid->getGridLevel());
+			}
+			for (int i = 0; i < _editorImgui.newLinksCount; ++i) {
+				auto& link = manager->addEntity<Link>( 0 , i + 1);
+				link.addComponent<Line_w_Color>();
+
+				link.GetComponent<Line_w_Color>().setSrcColor(Color(255, 40, 0, 255));
+				link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
+
+				link.addComponent<LineFlashAnimatorComponent>();
+
+				link.addGroup(Manager::groupLinks_0);
+
+				manager->grid->addLink(&link, manager->grid->getGridLevel());
+			}
+
+			main_camera2D->makeCameraDirty();
+			manager->aboutTo_updateActiveEntities();
+		}
 	}
 	if (_editorImgui.isLoading()) {
 		char* loadMapPath = _editorImgui.LoadingUI();

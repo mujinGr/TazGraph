@@ -17,8 +17,6 @@ class EditorIMGUI : public ImGuiInterface {
 private:
 	std::vector<std::string> _fileNames;
 	char  _newFileName[126] = "";
-	int _newNodesCount = 0;
-	int _newLinksCount = 0;
 	std::vector<std::string> _pollingFileNames;
 	ImGui::ComboAutoSelectData _data;
 	bool _filesLoaded = false;
@@ -34,6 +32,14 @@ private:
 	bool _dockingEnabled = true;
 	int _lastEntityDisplayed = 0;
 public:
+	int newNodesCount = 0;
+	int newLinksCount = 0;
+
+	float interpolation = 0.0f;
+	float interpolation_speed = 0.01f;
+	bool interpolation_running = false;
+
+
 	bool isMouseInSecondColumn = false;
 
 
