@@ -168,6 +168,49 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 	}
 	ImGui::PopStyleColor();
 
+	ImGui::Separator();
+
+	if (ImGui::Button("Circular Layout", ImVec2(120, 30))) {
+		
+		auto& nodes = manager.getGroup<NodeEntity>(Manager::groupNodes_0);
+		if (nodes.empty()) return;
+
+		NodeEntity* centerNode = nullptr;
+		int maxOutlinks = -1;
+
+		for (NodeEntity* node : nodes) {
+			int outLinks = node->getOutLinks().size();
+			if (outLinks > maxOutlinks) {
+				maxOutlinks = outLinks;
+				centerNode = node;
+			}
+		}
+
+		if (!centerNode) return;
+
+		glm::vec2 centerPos = glm::vec2(0.0f, 0.0f);
+		centerNode->GetComponent<TransformComponent>().setPosition_X(centerPos.x);
+		centerNode->GetComponent<TransformComponent>().setPosition_Y(centerPos.y);
+
+
+		float radius = 200.0f; // distance from center
+		size_t index = 0;
+		size_t total = nodes.size() - 1;
+
+		for (NodeEntity* node : nodes) {
+			if (node == centerNode) continue;
+
+			float angle = (2 * M_PI * index) / total;
+			glm::vec2 pos = centerPos + glm::vec2(cos(angle), sin(angle)) * radius;
+
+			node->GetComponent<TransformComponent>().setPosition_X(pos.x);
+			node->GetComponent<TransformComponent>().setPosition_Y(pos.y);
+
+
+			++index;
+		}
+	}
+
 	ImGui::Text("Camera Position");
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));

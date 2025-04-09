@@ -17,6 +17,7 @@ set(Header_Files
     "GECS/Animators/FlashAnimation.h"
     "GECS/Animators/FlashAnimatorComponent.h"
     "GECS/Animators/LineAnimators/LineFlashAnimatorComponent.h"
+    "GECS/Animators/RectangleAnimators/RectangleFlashAnimatorComponent.h"
     "GECS/Components/Empty/Util/ButtonComponent.h"
     "GECS/Components/Empty/Basic/ColliderComponent.h"
     "GECS/Components.h"

@@ -1055,53 +1055,50 @@ void Graph::EndRender() {
 }
 
 void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
+		//! activate threads near the end, where we have completed everything else
 		if (manager->arrowheadsEnabled) {
-			for (int i = 0; i < entities.size(); i++) {
-				if (entities[i]->hasComponent<Line_w_Color>()) {
-					entities[i]->GetComponent<Line_w_Color>().drawWithPorts(i, batch, *Graph::_window);
+			threadPool.parallel(entities.size(), [&](int start, int end) {
+				for (int i = start; i < end; i++) {
+					if (entities[i]->hasComponent<Line_w_Color>()) {
+						entities[i]->GetComponent<Line_w_Color>().drawWithPorts(i, batch, *Graph::_window);
+					}
 				}
-			}
+			});
 		}
 		else {
-			for (int i = 0; i < entities.size(); i++) {
-				if (entities[i]->hasComponent<Line_w_Color>()) {
-					entities[i]->GetComponent<Line_w_Color>().draw(i, batch, *Graph::_window);
+			threadPool.parallel(entities.size(), [&](int start, int end) {
+				for (int i = start; i < end; i++) {
+					if (entities[i]->hasComponent<Line_w_Color>()) {
+						entities[i]->GetComponent<Line_w_Color>().draw(i, batch, *Graph::_window);
+					}
 				}
-			}
+			});
 		}
-
-		//! activate threads near the end, where we have completed everything else
-	//threadPool.parallel(entities.size(), [&](int start, int end) {
-	//	for (int i = start; i < end; i++) {
-	//		if (entities[i]->hasComponent<Line_w_Color>()) {
-	//			entities[i]->GetComponent<Line_w_Color>().draw(i + startIndex, batch, *Graph::_window);
-	//		}
-	//	}
-	//	});
+	
 }
 
 void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch) {
 
-	//threadPool.parallel(entities.size(), [&](int start, int end) {
-	//	for (int i = start; i < end; i++) {
-	//		if (entities[i]->hasComponent<Rectangle_w_Color>()) {
-
-	//			entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
-	//		}
-	//	}
-	//});
-
-		for (int i = 0; i < entities.size(); i++) {
+	threadPool.parallel(entities.size(), [&](int start, int end) {
+		for (int i = start; i < end; i++) {
 			if (entities[i]->hasComponent<Rectangle_w_Color>()) {
 
 				entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
 			}
 		}
+	});
+
+		/*for (int i = 0; i < entities.size(); i++) {
+			if (entities[i]->hasComponent<Rectangle_w_Color>()) {
+
+				entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
+			}
+		}*/
 }
 
 void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRenderer& batch) {
 
-	/*threadPool.parallel(entities.size(), [&](int start, int end) {
+	threadPool.parallel(entities.size(), [&](int start, int end) {
 		for (int i = start; i < end; i++) {
 			if (entities[i]->hasComponent<Rectangle_w_Color>()) {
 				entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
@@ -1110,16 +1107,16 @@ void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRen
 				entities[i]->GetComponent<Triangle_w_Color>().draw(i, batch, *Graph::_window);
 			}
 		}
-		});*/
+		});
 
-		for (int i = 0; i < entities.size(); i++) {
-			if (entities[i]->hasComponent<Rectangle_w_Color>()) {
-				entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
-			}
-			if (entities[i]->hasComponent<Triangle_w_Color>()) {
-				entities[i]->GetComponent<Triangle_w_Color>().draw(i, batch, *Graph::_window);
-			}
-		}
+		//for (int i = 0; i < entities.size(); i++) {
+		//	if (entities[i]->hasComponent<Rectangle_w_Color>()) {
+		//		entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
+		//	}
+		//	if (entities[i]->hasComponent<Triangle_w_Color>()) {
+		//		entities[i]->GetComponent<Triangle_w_Color>().draw(i, batch, *Graph::_window);
+		//	}
+		//}
 }
 
 void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch) { 
