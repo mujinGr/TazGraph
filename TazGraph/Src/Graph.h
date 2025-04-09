@@ -82,7 +82,7 @@ public:
 
 	/////////////////////////
 
-	Map* map;
+	Map* map = nullptr;
 	//std::unique_ptr<Grid> grid;
 
 	static TazGraphEngine::Window* _window;
@@ -107,7 +107,7 @@ private:
 	PlaneColorRenderer _PlaneColorRenderer;
 	LineRenderer _LineRenderer;
 
-	AssetManager* _assetsManager;
+	AssetManager* _assetsManager = nullptr;
 
 	ResourceManager _resourceManager;
 
