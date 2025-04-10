@@ -128,6 +128,10 @@ public:
 		velocity.y = newVelocity_Y;
 	}
 
+	void setRotation(glm::vec3 rotation) {
+
+	}
+
 	std::string GetComponentName() override {
 		return "TransformComponent";
 	}
