@@ -64,12 +64,8 @@ public:
 
 	void setFlashFrame() {
 		float t = this->flash_animation.interpolation_a;
-		if (t < 0.5f) {
-			this->color = Color::fromVec4(glm::mix(default_color.toVec4(), this->flash_animation.flashColor.toVec4(), 2 * t));
-		}
-		else {
-			this->color = Color::fromVec4(glm::mix(this->flash_animation.flashColor.toVec4(), default_color.toVec4(), std::min(2 * (t - 0.5f), 1.0f)));
-		}
+		this->color = Color::fromVec4(glm::mix(default_color.toVec4(), this->flash_animation.flashColor.toVec4(), t));
+		
 
 	}
 

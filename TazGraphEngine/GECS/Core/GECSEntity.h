@@ -12,8 +12,6 @@ public:
 	EmptyEntity(Manager& mManager) : CellEntity(mManager) {}
 
 	void setComponentEntity(Component* c) override {
-		std::cout << "adding component empty" << std::endl;
-
 		c->entity = this;
 	}
 
@@ -53,8 +51,6 @@ public:
 		nodeComponentBitSet.emplace();
 	}
 	void setComponentEntity(NodeComponent* c) override {
-		std::cout << "adding component node" << std::endl;
-
 		c->entity = this;
 
 	}
@@ -115,10 +111,7 @@ public:
 	}
 
 	void setComponentEntity(LinkComponent* c) override {
-		std::cout << "adding component link" << std::endl;
-
 		c->entity = this;
-
 	}
 
 	void removeFromCells() {

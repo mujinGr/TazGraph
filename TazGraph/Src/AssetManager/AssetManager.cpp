@@ -106,6 +106,11 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 		
 		centroid /= totalNodes;
 		CreateGroup(node, centroid, groupNodeSize, m_level);
+
+		if (manager->arrowheadsEnabled) {
+			node.addPorts();
+		}
+
 		manager->grid->addNode(&node, m_level);
 
 		for (const auto& childCell : cell.children)

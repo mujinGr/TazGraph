@@ -2,6 +2,10 @@
 
 #include "Animation.h"
 
+#define NUM_LOOP_STATES 3
+#define NUM_BACK_FORTH_STATES 4
+
+
 struct FlashAnimation : public Animation //todo moving animation can be moving sprite with of without transform
 {
 	enum class FlashState {
@@ -48,7 +52,6 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 		unsigned short prev_frame_index = cur_frame_index;
 
 		speed = speeds[currentSpeedIndex];
-		interpolation_a = currentSpeedIndex == FlashState::FLASH_OUT ? 0.0f : 1.0f;
 		switch (currentSpeedIndex) {
 		case FlashState::FLASH_OUT:
 			interpolation_a = 0;
@@ -57,44 +60,31 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 			// Using simple subtraction to find the fractional part
 			interpolation_a = cur_frame_index_f - (int)cur_frame_index_f;
 			break;
-		case FlashState::EASE_OUT:
-			// Using simple subtraction and inversion for the fractional part
-			interpolation_a = 1.0f - (cur_frame_index_f - (int)cur_frame_index_f);
-			break;
 		case FlashState::FLASH_IN:
 			interpolation_a = 1;
+			break;
+		case FlashState::EASE_OUT:
+			// Using simple subtraction and inversion for the fractional part
+			interpolation_a = 1 - (cur_frame_index_f - (int)cur_frame_index_f);
 			break;
 		}
 		switch (type) {
 		case Animation::animType::ANIMTYPE_BACK_FORTH:
-			// todo add here implementation for backforth loop
-			if (flow_direction == 1) {
-				cur_frame_index_f += speed * deltaTime;
-
-				if (cur_frame_index_f > total_frames) {
-					cur_frame_index_f -= speed;
-					flow_direction = -1;
-				}
-				cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
-			}
-			else if (flow_direction == -1) {
-				if (cur_frame_index > 0) {
-					cur_frame_index_f -= speed * deltaTime;
-					cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
-				}
-				else {
-					times_played++;
-					flow_direction = 1;
-					resetFrameIndex();
-					if (reps && times_played >= reps) {
-						finished = true;
-					}
+			
+			cur_frame_index_f += speed * deltaTime;
+			cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
+				
+			if (cur_frame_index >= NUM_BACK_FORTH_STATES) {
+				times_played++;
+				resetFrameIndex();
+				if (reps && times_played >= reps) {
+					finished = true;
 				}
 			}
 			// Check if the frame index has changed
 			if (prev_frame_index != cur_frame_index) {
 				frame_times_played = 1;
-				if ((static_cast<int>(currentSpeedIndex) + 1) % speeds.size() < speeds.size())
+				if ((static_cast<int>(currentSpeedIndex) + 1) % NUM_BACK_FORTH_STATES < NUM_BACK_FORTH_STATES)
 					currentSpeedIndex = static_cast<FlashState>((static_cast<int>(currentSpeedIndex) + 1) % speeds.size());
 			}
 			else {
@@ -109,14 +99,14 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 			// Check if the frame index has changed
 			if (prev_frame_index != cur_frame_index) {
 				frame_times_played = 1;
-				if((static_cast<int>(currentSpeedIndex) + 1) % speeds.size() < 3)
-					currentSpeedIndex = static_cast<FlashState>((static_cast<int>(currentSpeedIndex) + 1) % speeds.size());
+				if(	static_cast<int>(currentSpeedIndex) % NUM_LOOP_STATES < NUM_LOOP_STATES)
+					currentSpeedIndex = static_cast<FlashState>(static_cast<int>(currentSpeedIndex) % NUM_LOOP_STATES);
 			}
 			else {
 				frame_times_played++;
 			}
 
-			if (cur_frame_index > total_frames - 1) //essentially when we see that now we reach a frame out of total frames we reset it
+			if (cur_frame_index >= NUM_LOOP_STATES) //essentially when we see that now we reach a frame out of total frames we reset it
 			{
 				resetFrameIndex();
 				times_played++;

@@ -13,6 +13,7 @@ struct TaskQueue {
     std::mutex                        mutex_;
     std::condition_variable taskCondition;
     std::atomic<int>                  remaining_tasks = 0;
+    bool shuttingDown = false;
 
     void addTask(std::function<void()>&& callback) {
         {
@@ -25,9 +26,9 @@ struct TaskQueue {
 
     bool getTask(std::function<void()>& task) {
         std::unique_lock<std::mutex> lock(mutex_);
-        taskCondition.wait(lock, [this] { return !tasks.empty(); });
+        taskCondition.wait(lock, [this] { return !tasks.empty() || shuttingDown; });
 
-        if (tasks.empty()) return false;  // Shouldn't happen, but just in case
+        if (shuttingDown || tasks.empty()) return false;  // Shouldn't happen, but just in case
 
         task = std::move(tasks.front());
         tasks.pop_front();
@@ -73,8 +74,11 @@ struct Thread {
 
     void stop() {
         running = false;
+        t_queue->shuttingDown = true;
         t_queue->taskCondition.notify_all();
-        cur_thread.join();
+        if (cur_thread.joinable()) {
+            cur_thread.join();
+        }
     }
 };
 

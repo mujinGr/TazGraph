@@ -209,6 +209,11 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 
 			++index;
 		}
+
+		manager.aboutTo_updateActiveEntities();
+		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+		main_camera2D->makeCameraDirty();
+
 	}
 
 	ImGui::Text("Camera Position");

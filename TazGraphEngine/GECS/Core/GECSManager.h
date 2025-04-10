@@ -13,7 +13,7 @@ namespace fs = std::filesystem;
 class Manager
 {
 private:
-	//Threader* _threader;
+	Threader* _threader;
 	int lastEntityId = 0;
 	int negativeEntityId = -1;
 	std::vector<std::unique_ptr<Entity>> entities;
@@ -39,34 +39,48 @@ public:
 
 	std::unique_ptr<Grid> grid;
 
-	/*void setThreader(Threader& mthreader) {
+	Manager() {}
+
+	~Manager() { _threader = nullptr;  }
+
+	void setThreader(Threader& mthreader) {
 		_threader = &mthreader;
-	}*/
+	}
 
 	void update(float deltaTime = 1.0f)
 	{
-		/*if (_threader) {
-			_threader->parallel(visible_emptyEntities.size() + visible_nodes.size() + visible_links.size(),
-				[&](int start, int end) {
-					for (int i = start; i < end; i++) {
-						Entity* entity = nullptr;
-						if (i < visible_emptyEntities.size()) {
-							entity = visible_emptyEntities[i];
-						}
-						else if (i < visible_emptyEntities.size() + visible_nodes.size()) {
-							entity = visible_nodes[i - visible_emptyEntities.size()];
-						}
-						else {
-							entity = visible_links[i - visible_emptyEntities.size() - visible_nodes.size()];
-						}
-						if (entity && entity->isActive()) {
-							entity->update(deltaTime);
-						}
+		//! THREADER CHECK
+		
+		if (_threader && !_threader->t_queue.shuttingDown) {
+			_threader->parallel(visible_emptyEntities.size(), [&](int start, int end) {
+				for (int i = start; i < end; i++) {
+					if (visible_emptyEntities[i] && visible_emptyEntities[i]->isActive()) {
+						visible_emptyEntities[i]->update(deltaTime);
 					}
+				}
+				});
+			_threader->parallel(visible_nodes.size(), [&](int start, int end) {
+				for (int i = start; i < end; i++) {
+					if (visible_nodes[i] && visible_nodes[i]->isActive()) {
+						visible_nodes[i]->update(deltaTime);
+					}
+				}
+
 				});
 
-		}*/
-		//else {
+			_threader->parallel(visible_links.size(), [&](int start, int end) {
+
+				for (int i = start; i < end; i++) {
+					if (visible_links[i] && visible_links[i]->isActive()) {
+						visible_links[i]->update(deltaTime);
+					}
+				}
+				});
+				
+		}
+
+		//! FOR MAIN MENU
+		else {
 			for (auto& e : visible_emptyEntities) {
 				if (!e || !e->isActive()) continue;
 
@@ -97,7 +111,7 @@ public:
 
 				e->update(deltaTime);
 			}
-		//}
+		}
 	}
 
 	// update fully will update all nodes and links in the world

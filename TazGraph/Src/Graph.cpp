@@ -181,9 +181,9 @@ void Graph::onExit() {
 
 	_resourceManager.disposeGLSLPrograms();
 
-	//for (Thread& thread : threadPool.threads) {
-	//	thread.stop();
-	//}
+	for (Thread& thread : threadPool.threads) {
+		thread.stop();
+	}
 }
 
 
@@ -575,6 +575,7 @@ void Graph::setManager(std::string m_managerName)
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 	IScene::setManager(m_managerName);
+	manager->setThreader(threadPool);
 
 	if (!manager->grid)
 	{
@@ -1059,18 +1060,17 @@ void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& 
 		if (manager->arrowheadsEnabled) {
 			threadPool.parallel(entities.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					if (entities[i]->hasComponent<Line_w_Color>()) {
-						entities[i]->GetComponent<Line_w_Color>().drawWithPorts(i, batch, *Graph::_window);
-					}
+					assert(entities[i]->hasComponent<Line_w_Color>());
+					
+					entities[i]->GetComponent<Line_w_Color>().drawWithPorts(i, batch, *Graph::_window);
 				}
 			});
 		}
 		else {
 			threadPool.parallel(entities.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					if (entities[i]->hasComponent<Line_w_Color>()) {
-						entities[i]->GetComponent<Line_w_Color>().draw(i, batch, *Graph::_window);
-					}
+					assert(entities[i]->hasComponent<Line_w_Color>());
+					entities[i]->GetComponent<Line_w_Color>().draw(i, batch, *Graph::_window);
 				}
 			});
 		}
@@ -1081,10 +1081,8 @@ void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRend
 
 	threadPool.parallel(entities.size(), [&](int start, int end) {
 		for (int i = start; i < end; i++) {
-			if (entities[i]->hasComponent<Rectangle_w_Color>()) {
-
-				entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
-			}
+			assert(entities[i]->hasComponent<Rectangle_w_Color>());
+			entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
 		}
 	});
 
