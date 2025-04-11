@@ -120,7 +120,7 @@ public:
 
 		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
 
-		batch.draw(v_index, pos, uv, gl_texture->id, transform->getPosition().z + transform->size.z / 2.0f, color);
+		batch.draw(v_index, pos, uv, gl_texture->id, transform->bodyCenter, color);
 		
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);

@@ -27,19 +27,19 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		v1.x = transform->getPosition().x + (transform->size.x / 2.0f); //make player move with the camera, being stable in centre, except on edges
-		v1.y = transform->getPosition().y;
-		v1.z = transform->getPosition().z;
+		v1.x = 0.0f; //make player move with the camera, being stable in centre, except on edges
+		v1.y = -transform->size.y / 2.0f;
+		v1.z = 0;
 
 		
-		v2.x = transform->getPosition().x; //make player move with the camera, being stable in centre, except on edges
-		v2.y = transform->getPosition().y + transform->size.y;
-		v2.z = transform->getPosition().z;
+		v2.x = -transform->size.x / 2.0f; //make player move with the camera, being stable in centre, except on edges
+		v2.y = transform->size.y / 2.0f;
+		v2.z = 0;
 
 
-		v3.x = transform->getPosition().x + transform->size.x; //make player move with the camera, being stable in centre, except on edges
-		v3.y = transform->getPosition().y + transform->size.y;
-		v3.z = transform->getPosition().z;
+		v3.x = transform->size.x / 2.0f; //make player move with the camera, being stable in centre, except on edges
+		v3.y = transform->size.y / 2.0f;
+		v3.z = 0;
 
 		//transform->setRotation(transform->getRotation() + 0.1f);
 	}
@@ -61,7 +61,8 @@ public:
 		batch.drawTriangle(
 			v_index,
 			v1, v2, v3,
-			transform->getPosition().z, color
+			transform->bodyCenter, 
+			transform->rotation, color
 		);
 	}
 	std::string GetComponentName() override {

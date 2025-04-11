@@ -1226,14 +1226,8 @@ void Graph::draw()
 				{
 					TransformComponent* tr = &entity->GetComponent<TransformComponent>();
 
-					glm::vec4 destRect;
-					destRect.x = tr->getPosition().x;
-					destRect.y = tr->getPosition().y;
-					destRect.z = tr->size.x;
-					destRect.w = tr->size.y;
-
-					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getPosition().z);
-					glm::vec3 nodeBox_size(destRect.z, destRect.w, tr->size.z);
+					glm::vec3 nodeBox_org(tr->getPosition().x, tr->getPosition().y, tr->getPosition().z);
+					glm::vec3 nodeBox_size(tr->size.x, tr->size.y, tr->size.z);
 
 					_LineRenderer.drawBox(box_v_index++, nodeBox_org, nodeBox_size, Color(255, 255, 255, 255), 0.0f);  // Drawing each cell in red for visibility
 

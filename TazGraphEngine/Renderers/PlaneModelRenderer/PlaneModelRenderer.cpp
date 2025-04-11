@@ -80,9 +80,9 @@ void PlaneModelRenderer::drawTriangle(
 void PlaneModelRenderer::draw(
 	size_t v_index,
 	const glm::vec4& destRect, const glm::vec4& uvRect,
-	GLuint texture, float depth, const Color& color) {
+	GLuint texture, const glm::vec3& bodyCenter, const Color& color) {
 
-	Glyph glyph = Glyph(destRect, uvRect, texture, depth, color);
+	Glyph glyph = Glyph(destRect, uvRect, texture, bodyCenter.z, color);
 
 	int offset = v_index * RECT_OFFSET;
 

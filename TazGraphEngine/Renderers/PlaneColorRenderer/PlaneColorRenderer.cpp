@@ -64,9 +64,10 @@ void PlaneColorRenderer::initColorBoxBatch(size_t mSize)
 void PlaneColorRenderer::drawTriangle(
 	size_t v_index,
 	const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
-	float depth, const Color& color
+	const glm::vec3& bodyCenter, const glm::vec3& cpuRotation, 
+	const Color& color
 ) {
-	TriangleColorGlyph triangleGlyph = TriangleColorGlyph(v1, v2, v3, depth, color);
+	TriangleColorGlyph triangleGlyph = TriangleColorGlyph(v1, v2, v3, cpuRotation, color);
 
 	int offset =  _triangles_verticesOffset + v_index * TRIANGLE_OFFSET;
 
@@ -75,11 +76,7 @@ void PlaneColorRenderer::drawTriangle(
 	_renderBatches[v_index] = ColorRenderBatch(
 		offset,
 		TRIANGLE_OFFSET,
-		glm::vec3(
-			triangleGlyph.topLeft.position.x,
-			triangleGlyph.topLeft.position.y,
-			triangleGlyph.topLeft.position.z
-		));
+		bodyCenter);
 	_vertices[offset++] = triangleGlyph.topLeft;
 	_vertices[offset++] = triangleGlyph.bottomLeft;
 	_vertices[offset++] = triangleGlyph.bottomRight;
@@ -89,16 +86,12 @@ void PlaneColorRenderer::drawTriangle(
 // Also instead of glyphs have triangles, so when its time to createRenderBatches we see the next mesh
 // how many triangles it has and accordingly add those multiple vertices with the combined texture
 //! draws are needed to convert the pos and size to vertices
-void PlaneColorRenderer::draw(size_t v_index, const glm::vec4& destRect, float depth, const Color& color) {
-	ColorGlyph glyph = ColorGlyph(destRect, depth, color);
+void PlaneColorRenderer::draw(size_t v_index, const glm::vec2& rectSize, const glm::vec3& bodyCenter, const Color& color) {
+	ColorGlyph glyph = ColorGlyph(rectSize, color);
 
 	int offset = _rectangles_verticesOffset + v_index * RECT_OFFSET;
 
-	_renderBatches[v_index] = ColorRenderBatch(offset, RECT_OFFSET, glm::vec3(
-		(glyph.topLeft.position.x + glyph.bottomRight.position.x) / 2,
-		(glyph.topLeft.position.y + glyph.bottomRight.position.y) / 2,
-		(glyph.topLeft.position.z + glyph.bottomRight.position.z) / 2
-	));
+	_renderBatches[v_index] = ColorRenderBatch(offset, RECT_OFFSET, bodyCenter);
 	
 	_vertices[offset++] = glyph.topLeft;
 	_vertices[offset++] = glyph.bottomLeft;

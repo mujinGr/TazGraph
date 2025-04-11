@@ -127,7 +127,7 @@ public:
 		const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
 		GLuint texture, const Color& color);
 
-	void draw(size_t v_index, const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color);
+	void draw(size_t v_index, const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, const glm::vec3& bodyCenter, const Color& color);
 
 	void renderBatch();
 

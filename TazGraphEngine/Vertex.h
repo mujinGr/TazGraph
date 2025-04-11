@@ -26,17 +26,16 @@ static glm::vec2 rotatePoint(float x, float y, float centerX, float centerY, flo
 		centerY + dx * sin(radians) + dy * cos(radians)
 	);
 };
+static glm::vec2 rotatePoint(float x, float y, float radians) {
+	return rotatePoint(x,y, 0.0f, 0.0f, radians);
+};
 /*	glm::vec3 arotatedTopLeft = rotatePoint(atopLeft.x, atopLeft.y, atopLeft.z, centerX, centerY, centerZ, 0, 0, 0);
 		glm::vec3 arotatedBottomLeft = rotatePoint(abottomLeft.x, abottomLeft.y, abottomLeft.z, centerX, centerY, centerZ, 0, 0, 0);
 		glm::vec3 arotatedBottomRight = rotatePoint(abottomRight.x, abottomRight.y, abottomRight.z, centerX, centerY, centerZ, 0, 0, 0);
 		glm::vec3 arotatedTopRight = rotatePoint(atopRight.x, atopRight.y, atopRight.z, centerX, centerY, centerZ, 0, 0, 0);*/
 
 
-struct Position {
-	float x = 0;
-	float y = 0;
-	float z = 0;
-};
+using Position = glm::vec3;
 
 struct Color {
 	Color() : r(0), g(0), b(0), a(0) {}

@@ -155,34 +155,34 @@ public:
 		TransformComponent* tr = &GetComponent<TransformComponent>();
 
 		auto& leftPort = getManager()->addEntityNoId<Empty>();
-		glm::vec3 m_position = glm::vec3(0.0f, tr->size.y / 2.0f, 0.0f);
+		glm::vec3 m_position = glm::vec3(-tr->size.x / 2, 0.0f, 0.0f);
 		leftPort.addComponent<TransformComponent>(m_position, Layer::action, glm::vec2(0), 1.0f);
 		children["leftPort"] = &leftPort;
 		children["leftPort"]->setParentEntity(this);
-		children["leftPort"]->GetComponent<TransformComponent>().bodyCenter = tr->getPosition() + m_position;
+		children["leftPort"]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
 
 		auto& rightPort = getManager()->addEntityNoId<Empty>();
-		m_position = glm::vec3(tr->size.x , tr->size.y / 2.0f, 0.0f);
+		m_position = glm::vec3(tr->size.x / 2 , 0.0f, 0.0f);
 		rightPort.addComponent<TransformComponent>(m_position, Layer::action, glm::vec2(0), 1.0f);
 		children["rightPort"] = &rightPort;
 		children["rightPort"]->setParentEntity(this);
-		children["rightPort"]->GetComponent<TransformComponent>().bodyCenter = tr->getPosition() + m_position;
+		children["rightPort"]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
 
 		// Initialize top port
 		auto& topPort = getManager()->addEntityNoId<Empty>();
-		m_position = glm::vec3(tr->size.x / 2.0f, 0.0f, 0.0f);
+		m_position = glm::vec3(0.0f, -tr->size.y / 2.0f, 0.0f);
 		topPort.addComponent<TransformComponent>(m_position, Layer::action, glm::vec2(0), 1.0f);
 		children["topPort"] = &topPort;
 		children["topPort"]->setParentEntity(this);
-		children["topPort"]->GetComponent<TransformComponent>().bodyCenter = tr->getPosition() + m_position;
+		children["topPort"]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
 
 		// Initialize bottom port
 		auto& bottomPort = getManager()->addEntityNoId<Empty>();
-		m_position = glm::vec3(tr->size.x / 2.0f, tr->size.y, 0.0f);
+		m_position = glm::vec3(0.0f, tr->size.y / 2.0f, 0.0f);
 		bottomPort.addComponent<TransformComponent>(m_position, Layer::action, glm::vec2(0), 1.0f);
 		children["bottomPort"] = &bottomPort;
 		children["bottomPort"]->setParentEntity(this);
-		children["bottomPort"]->GetComponent<TransformComponent>().bodyCenter = tr->getPosition() + m_position;
+		children["bottomPort"]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
 
 	}
 
@@ -302,7 +302,7 @@ public:
 			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_X(newArrowHeadPosition.x);
 			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_Y(newArrowHeadPosition.y);
 
-			children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f,0.0f,angleDegrees + 90.0f));
+			children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f,0.0f, angleRadians + glm::half_pi<float>()));
 		}
 	}
 

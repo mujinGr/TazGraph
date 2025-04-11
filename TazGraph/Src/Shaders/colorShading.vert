@@ -2,7 +2,6 @@
 
 layout (location = 0) in vec3 vertexPosition; //vec2 is array of 2 floats
 layout (location = 1) in vec4 vertexColor;
-//layout (location = 2) in vec3 centerPosition;
 
 out vec4 fragmentColor;
 
@@ -15,9 +14,6 @@ uniform vec3 centerPosition;
 
 
 ///// FUNCTIONS /////
-
-
-
 mat4 BuildTranslation(vec3 delta)
 {
     return mat4(
@@ -30,14 +26,10 @@ mat4 BuildTranslation(vec3 delta)
 
 
 /////   MAIN  /////
-
-
 void main() {
-    mat4 translationINV = BuildTranslation(-centerPosition);
     mat4 translationOG  = BuildTranslation(centerPosition);
 
-    //gl_Position = projection * translation * rotationMatrix * inverseTranslation * vec4(vertexPosition.xyz, 1.0);
-    gl_Position = projection * translationOG * rotationMatrix * translationINV      * vec4(vertexPosition.xyz, 1.0);
+    gl_Position = projection * translationOG * rotationMatrix * vec4(vertexPosition.xyz, 1.0);
 
     fragmentColor = vertexColor;
 }

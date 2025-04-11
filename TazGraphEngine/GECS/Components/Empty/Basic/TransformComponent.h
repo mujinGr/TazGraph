@@ -75,16 +75,15 @@ public:
 				return;
 			}
 
- 			bodyCenter = parentTR->getPosition() + position;
+ 			bodyCenter = parentTR->getCenterTransform() + position;
 
+		}
+		else {
+			bodyCenter = position + (size / 2.0f);
 		}
 
 		if (position == last_position && size == last_size) {
 			return;
-		}
-
-		if (!entity->getParentEntity()) {
-			bodyCenter = position + (size / 2.0f);
 		}
 
 		last_position = position;
@@ -128,8 +127,8 @@ public:
 		velocity.y = newVelocity_Y;
 	}
 
-	void setRotation(glm::vec3 rotation) {
-
+	void setRotation(glm::vec3 m_rotation) {
+		rotation = m_rotation;
 	}
 
 	std::string GetComponentName() override {

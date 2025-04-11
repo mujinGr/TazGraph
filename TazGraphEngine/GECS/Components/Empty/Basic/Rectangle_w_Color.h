@@ -44,12 +44,12 @@ public:
 
 	void draw(size_t v_index, PlaneModelRenderer&  batch, TazGraphEngine::Window& window) {
 		glm::vec4 pos((float)destRect.x, (float)destRect.y, (float)destRect.w, (float)destRect.h);
-		batch.draw(v_index, pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, transform->getPosition().z + transform->size.z / 2.0f, color); // 0 is for texture
+		batch.draw(v_index, pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, transform->bodyCenter, color); // 0 is for texture
 	}
 
 	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {
-		glm::vec4 pos((float)destRect.x, (float)destRect.y, (float)destRect.w, (float)destRect.h);
-		batch.draw(v_index, pos, transform->getPosition().z + transform->size.z / 2.0f, color);
+		glm::vec2 size((float)destRect.w, (float)destRect.h);
+		batch.draw(v_index, size, transform->bodyCenter, color);
 	}
 
 	void setColor(Color clr) {
