@@ -49,6 +49,7 @@ public:
 
 		batch.drawTriangle(
 			v_index,
+			transform->getPosition(),
 			v1, v2, v3,
 			uv1, uv2, uv3,
 			0, color

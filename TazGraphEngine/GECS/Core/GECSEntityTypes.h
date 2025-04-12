@@ -325,11 +325,17 @@ public:
 		
 		auto& temp_arrowHead = getManager()->addEntityNoId<Empty>();
 
+		// Calculate the angle in radians, and convert it to degrees
+		float angleRadians = atan2(direction.y, direction.x);
+		float angleDegrees = glm::degrees(angleRadians);
+
 		glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
 
 		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), Layer::action, farrowSize, 1);
 		temp_arrowHead.addComponent<Triangle_w_Color>();
 		temp_arrowHead.GetComponent<Triangle_w_Color>().color = Color(0, 0, 0, 255);
+
+		temp_arrowHead.GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleRadians + glm::half_pi<float>()));
 
 		temp_arrowHead.addGroup(Manager::groupArrowHeads_0);
 

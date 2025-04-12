@@ -42,7 +42,7 @@ public:
 		//if string changes then for all the labels that have been created,
 		//find the ones that are for that string and delete them?
 
-		int previousCharX = 0;
+		float previousCharX = 0;
 
 		for (auto& l : letters) {
 			l->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x + previousCharX) ;

@@ -1305,13 +1305,13 @@ void Graph::draw()
 	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
 	_PlaneColorRenderer.end();
-	_PlaneColorRenderer.renderBatch(_resourceManager.getGLSLProgram("color"));
+	_PlaneColorRenderer.renderBatch(&glsl_color);
 	glsl_color.unuse();
 
 
 	_resourceManager.setupShader(glsl_texture, *main_camera2D);
 	_PlaneModelRenderer.end();
-	_PlaneModelRenderer.renderBatch();
+	_PlaneModelRenderer.renderBatch(_resourceManager.getGLSLProgram("texture"));
 	glsl_texture.unuse();
 
 

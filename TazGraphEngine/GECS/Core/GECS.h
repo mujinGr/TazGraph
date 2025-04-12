@@ -137,11 +137,11 @@ public:
 class Entity
 {
 private:
-	unsigned int id;
+	unsigned int id = 0;
 
 	bool active = true; // false if about to delete
 	bool hidden = false; // true if not do updates
-	ComponentArray componentArray;//create 2 arrays, this is for the fast access
+	ComponentArray componentArray = {};//create 2 arrays, this is for the fast access
 
 	ComponentBitSet componentBitSet;
 	GroupBitSet groupBitSet;

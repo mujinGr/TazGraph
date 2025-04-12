@@ -6,18 +6,22 @@
 #include <vector>
 
 #include "../../Vertex.h"
+#include "../../GLSLProgram.h"
 
 #define RECT_OFFSET 6
 #define TRIANGLE_OFFSET 3
 
 class RenderBatch {
 public:
-	RenderBatch(GLuint Offset, GLuint NumVertices, GLuint Texture) : offset(Offset),
-		numVertices(NumVertices), texture(Texture) {
+	RenderBatch(GLuint Offset, GLuint NumVertices, glm::vec3 CenterPos, GLuint Texture) : offset(Offset),
+		numVertices(NumVertices),
+		centerPos(CenterPos),
+		texture(Texture) {
 
 	}
 	GLuint offset;
 	GLuint numVertices;
+	glm::vec3 centerPos = glm::vec3(0);
 	GLuint texture;
 };
 
@@ -27,29 +31,32 @@ class TriangleGlyph {
 public:
 	TriangleGlyph() {};
 	TriangleGlyph(
-		const glm::vec3& m_v1, const glm::vec3& m_v2, const glm::vec3& m_v3, // v1 top one, v2 bot left and v3 bot right
+		const glm::vec2& m_v1, const glm::vec2& m_v2, const glm::vec2& m_v3, // v1 top one, v2 bot left and v3 bot right
 		const glm::vec2& m_uv1, const glm::vec2& m_uv2, const glm::vec2& m_uv3,
 		GLuint texture, const Color& color
 	)
 		: texture(texture)
 		{
+
+
+		glm::vec3 positions[3] = {
+	   {m_v1, 0.0f},
+	   {m_v2, 0.0f},
+	   {m_v3, 0.0f}
+		};
 		//todo rotation is going to be done on gpu side, so we need to pass different renderBatches 
 		//todo that going to load the uniform
-		glm::vec3 v1 = glm::vec3(m_v1.x, m_v1.y, m_v1.z);
-		glm::vec3 v2 = glm::vec3(m_v2.x, m_v2.y, m_v2.z);
-		glm::vec3 v3 = glm::vec3(m_v3.x, m_v3.y, m_v3.z);
-
 		topLeft.color = color;
-		topLeft.setPosition(v1.x, v1.y, v1.z);
-		topLeft.setUV(m_uv1.x, m_uv1.y);
+		topLeft.setPosition(positions[0]);
+		topLeft.setUV(m_uv1);
 
 		bottomLeft.color = color;
-		bottomLeft.setPosition(v2.x, v2.y, v2.z);
-		bottomLeft.setUV(m_uv2.x, m_uv2.y);
+		bottomLeft.setPosition(positions[1]);
+		bottomLeft.setUV(m_uv2);
 
 		bottomRight.color = color;
-		bottomRight.setPosition(v3.x, v3.y, v3.z);
-		bottomRight.setUV(m_uv3.x, m_uv3.y);
+		bottomRight.setPosition(positions[2]);
+		bottomRight.setUV(m_uv3);
 	};
 
 	GLuint texture = 0;
@@ -63,30 +70,39 @@ class Glyph {
 
 public:
 	Glyph() {};
-	Glyph(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float Depth, const Color& color)
+	Glyph(const glm::vec2& rectSize, const glm::vec4& uvRect, GLuint texture, float Depth, const Color& color)
 		: texture(texture) {
 
+		float halfW = rectSize.x / 2.0f;
+		float halfH = rectSize.y / 2.0f;
 
-		glm::vec3 t_topLeft = glm::vec3(destRect.x, destRect.y, Depth);
-		glm::vec3 t_bottomLeft = glm::vec3(destRect.x, destRect.y + destRect.w, Depth);
-		glm::vec3 t_bottomRight = glm::vec3(destRect.x + destRect.z, destRect.y + destRect.w, Depth);
-		glm::vec3 t_topRight = glm::vec3(destRect.x + destRect.z, destRect.y, Depth);
+		Position positions[4] = {
+	   {-halfW, -halfH, 0.0f},  // topLeft
+	   {-halfW,  halfH, 0.0f},  // bottomLeft
+	   { halfW,  halfH, 0.0f},  // bottomRight
+	   { halfW, -halfH, 0.0f}   // topRight
+		};
 
+		glm::vec2 uv_topLeft = glm::vec2(uvRect.x, uvRect.y);
+		glm::vec2 uv_bottomLeft = glm::vec2(uvRect.x, uvRect.y + uvRect.w);
+		glm::vec2 uv_bottomRight = glm::vec2(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
+		glm::vec2 uv_topRight = glm::vec2(uvRect.x + uvRect.z, uvRect.y);
+			
 		topLeft.color = color;
-		topLeft.setPosition(t_topLeft.x, t_topLeft.y, t_topLeft.z);
-		topLeft.setUV(uvRect.x, uvRect.y ); // Use bottom y for top
+		topLeft.setPosition(positions[0]);
+		topLeft.setUV(uv_topLeft); // Use bottom y for top
 
 		bottomLeft.color = color;
-		bottomLeft.setPosition(t_bottomLeft.x, t_bottomLeft.y, t_bottomLeft.z);
-		bottomLeft.setUV(uvRect.x, uvRect.y + uvRect.w); // Use top y for bottom
+		bottomLeft.setPosition(positions[1]);
+		bottomLeft.setUV(uv_bottomLeft); // Use top y for bottom
 
 		bottomRight.color = color;
-		bottomRight.setPosition(t_bottomRight.x, t_bottomRight.y, t_bottomRight.z);
-		bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w); // Use top y for bottom
+		bottomRight.setPosition(positions[2]);
+		bottomRight.setUV(uv_bottomRight); // Use top y for bottom
 
 		topRight.color = color;
-		topRight.setPosition(t_topRight.x, t_topRight.y, t_topRight.z);
-		topRight.setUV(uvRect.x + uvRect.z, uvRect.y ); // Use bottom y for top
+		topRight.setPosition(positions[3]);
+		topRight.setUV(uv_topRight); // Use bottom y for top
 	};
 
 	GLuint texture = 0;
@@ -123,13 +139,14 @@ public:
 
 	void drawTriangle(
 		size_t v_index,
+		const glm::vec3& triangleOffset,
 		const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3,
 		const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
 		GLuint texture, const Color& color);
 
-	void draw(size_t v_index, const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, const glm::vec3& bodyCenter, const Color& color);
+	void draw(size_t v_index, const glm::vec3& rectOffset, const glm::vec2& rectSize, const glm::vec4& uvRect, GLuint texture, const glm::vec3& bodyCenter, const Color& color);
 
-	void renderBatch();
+	void renderBatch(GLSLProgram* glsl_program);
 
 	void dispose();
 private:

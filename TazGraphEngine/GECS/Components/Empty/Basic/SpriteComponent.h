@@ -64,8 +64,8 @@ public:
 	{
 		texture_name = id;
 		gl_texture = TextureManager::getInstance().Get_GLTexture(id);
-		srcRect.w = gl_texture->width;
-		srcRect.h = gl_texture->height;
+		srcRect.w = (float)gl_texture->width;
+		srcRect.h = (float)gl_texture->height;
 	}
 
 	void init() override
@@ -105,8 +105,9 @@ public:
 			return;
 		}
 		float tempScreenScale = window.getScale();
-		glm::vec4 pos(destRect.x* tempScreenScale, destRect.y * tempScreenScale,
-			destRect.w * tempScreenScale, destRect.h * tempScreenScale);
+		glm::vec3 pos(destRect.x * tempScreenScale, destRect.y * tempScreenScale, transform->getPosition().z);
+
+		glm::vec2 size(destRect.w * tempScreenScale, destRect.h * tempScreenScale);
 
 		float srcUVposX = spriteFlip == SDL_FLIP_HORIZONTAL ?
 			(srcRect.x + srcRect.w) / gl_texture->width :
@@ -120,7 +121,7 @@ public:
 
 		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
 
-		batch.draw(v_index, pos, uv, gl_texture->id, transform->bodyCenter, color);
+		batch.draw(v_index, pos, size, uv, gl_texture->id, transform->bodyCenter, color);
 		
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);

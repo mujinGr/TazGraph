@@ -92,8 +92,8 @@ void LineRenderer::drawLine(size_t v_index, const glm::vec3 srcPosition, const g
 {
 	LineGlyph lineGlyph = LineGlyph(srcPosition, destPosition, srcColor, destColor);
 
-	int i_cg = _lines_indicesOffset + v_index * INDICES_LINE_OFFSET;
-	int verts_index = _lines_verticesOffset + v_index * LINE_OFFSET;
+	size_t i_cg = _lines_indicesOffset + v_index * INDICES_LINE_OFFSET;
+	size_t verts_index = _lines_verticesOffset + v_index * LINE_OFFSET;
 
 	int cv = i_cg;
 	
@@ -108,8 +108,8 @@ void LineRenderer::drawRectangle(size_t v_index, const glm::vec4& destRect, cons
 {
 	SquareGlyph squareGlyph = SquareGlyph(destRect, color, angle, zIndex);
 	
-	int i_cg = _rectangles_indicesOffset + v_index * INDICES_SQUARE_OFFSET;
-	int verts_index = _rectangles_verticesOffset + v_index * SQUARE_OFFSET;
+	size_t i_cg = _rectangles_indicesOffset + v_index * INDICES_SQUARE_OFFSET;
+	size_t verts_index = _rectangles_verticesOffset + v_index * SQUARE_OFFSET;
 
 	int cv = verts_index;
 
@@ -134,8 +134,8 @@ void LineRenderer::drawBox(size_t v_index, const glm::vec3& origin, const glm::v
 {
 	BoxGlyph boxGlyph = BoxGlyph(origin, size, color, angle);
 
-	int i_cg = _boxes_indicesOffset + v_index * INDICES_BOX_OFFSET;
-	int verts_index = _boxes_verticesOffset + v_index * BOX_OFFSET;
+	size_t i_cg = _boxes_indicesOffset + v_index * INDICES_BOX_OFFSET;
+	size_t verts_index = _boxes_verticesOffset + v_index * BOX_OFFSET;
 
 	int cv = verts_index;
 

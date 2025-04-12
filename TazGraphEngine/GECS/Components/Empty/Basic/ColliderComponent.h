@@ -20,7 +20,7 @@ public:
 	}
 
 	// todo instead have offset
-	ColliderComponent(int xpos, int ypos, int size)
+	ColliderComponent(float xpos, float ypos, float size)
 	{
 		collider.x = xpos;
 		collider.y = ypos;

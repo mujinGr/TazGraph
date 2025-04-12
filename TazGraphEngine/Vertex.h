@@ -35,7 +35,8 @@ static glm::vec2 rotatePoint(float x, float y, float radians) {
 		glm::vec3 arotatedTopRight = rotatePoint(atopRight.x, atopRight.y, atopRight.z, centerX, centerY, centerZ, 0, 0, 0);*/
 
 
-using Position = glm::vec3;
+using Position	= glm::vec3;
+using UV		= glm::vec2;
 
 struct Color {
 	Color() : r(0), g(0), b(0), a(0) {}
@@ -79,22 +80,16 @@ struct Color {
     }
 };
 
-struct UV {
-	float u;
-	float v;
-};
 
 struct ColorVertex { //instead of using the general Vertex that has also info about texture
 	// we use this where we want just color
-	Position position;
+	Position position = Position(0);
 	//todo different instanceVBO for the centers
 	//Position centerMesh;
-	Color color;
+	Color color = Color();
 
-	void setPosition(float x, float y, float z = -5.0f) {
-		position.x = x;
-		position.y = y;
-		position.z = z;
+	inline void setPosition(Position m_position) {
+		position = m_position;
 	}
 
 	void setColor(GLubyte r, GLubyte g, GLubyte b, GLubyte a) {
@@ -107,10 +102,9 @@ struct ColorVertex { //instead of using the general Vertex that has also info ab
 
 struct Vertex  : ColorVertex{
 	// UV texture coordinates
-	UV uv;
+	UV uv = UV(0);
 
-	void setUV(float u, float v) {
-		uv.u = u;
-		uv.v = v;
+	inline void setUV(UV m_uv) {
+		uv = m_uv;
 	}
 };

@@ -154,7 +154,7 @@ inline bool rayIntersectsLineSegment(
     float m_sphereRad
 ) {
     for (float t = m_minT; t < m_maxT; t += m_sphereRad) {
-        m_sphereRad += 0.005;
+        m_sphereRad += 0.005f;
         glm::vec3 samplePoint = rayOrigin + t * rayDirection;
 
         glm::vec3 lineLength = segmentEnd - segmentStart;

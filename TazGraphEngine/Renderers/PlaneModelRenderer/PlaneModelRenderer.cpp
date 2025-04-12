@@ -54,6 +54,7 @@ void PlaneModelRenderer::initBatchSize()
 
 void PlaneModelRenderer::drawTriangle(
 	size_t v_index,
+	const glm::vec3& triangleOffset,
 	const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3,
 	const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
 	GLuint texture, const Color& color
@@ -62,12 +63,7 @@ void PlaneModelRenderer::drawTriangle(
 
 	int offset = _triangles_verticesOffset + v_index * TRIANGLE_OFFSET;
 
-	if (_renderBatches.empty() || triangleGlyph.texture != _renderBatches.back().texture) {
-		_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, triangleGlyph.texture);
-	}
-	else {
-		_renderBatches.back().numVertices += TRIANGLE_OFFSET;
-	}
+	_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, triangleOffset, triangleGlyph.texture);
 
 	_vertices[offset++] = triangleGlyph.topLeft;
 	_vertices[offset++] = triangleGlyph.bottomLeft;
@@ -79,19 +75,16 @@ void PlaneModelRenderer::drawTriangle(
 // how many triangles it has and accordingly add those multiple vertices with the combined texture
 void PlaneModelRenderer::draw(
 	size_t v_index,
-	const glm::vec4& destRect, const glm::vec4& uvRect,
+	const glm::vec3& rectOffset,
+	const glm::vec2& rectSize,
+	const glm::vec4& uvRect,
 	GLuint texture, const glm::vec3& bodyCenter, const Color& color) {
 
-	Glyph glyph = Glyph(destRect, uvRect, texture, bodyCenter.z, color);
+	Glyph glyph = Glyph(rectSize, uvRect, texture, bodyCenter.z, color);
 
 	int offset = v_index * RECT_OFFSET;
 
-	if (_renderBatches.empty() || glyph.texture != _renderBatches.back().texture) {
-		_renderBatches.emplace_back(offset, RECT_OFFSET, glyph.texture);
-	}
-	else {
-		_renderBatches.back().numVertices += RECT_OFFSET;
-	}
+	_renderBatches.emplace_back(offset, RECT_OFFSET, rectOffset, glyph.texture);
 
 	_vertices[offset++] = glyph.topLeft;
 	_vertices[offset++] = glyph.bottomLeft;
@@ -102,11 +95,17 @@ void PlaneModelRenderer::draw(
 
 }
 
-void PlaneModelRenderer::renderBatch() {
+void PlaneModelRenderer::renderBatch(GLSLProgram* glsl_program) {
 	glBindVertexArray(_vao);
 
+	GLint centerPosLocation = glGetUniformLocation(glsl_program->getProgramID(), "centerPosition");
+
 	for (int i = 0; i < _renderBatches.size(); i++) {
-		glBindTexture(GL_TEXTURE_2D, _renderBatches[i].texture);
+		glUniform3fv(centerPosLocation, 1, glm::value_ptr(_renderBatches[i].centerPos));
+		
+		if (i == 0 || _renderBatches[i-1].texture != _renderBatches[i].texture) {
+			glBindTexture(GL_TEXTURE_2D, _renderBatches[i].texture);
+		}
 
 		glDrawArrays(GL_TRIANGLES, _renderBatches[i].offset, _renderBatches[i].numVertices);
 	}

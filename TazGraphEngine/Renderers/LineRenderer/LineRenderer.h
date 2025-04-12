@@ -37,10 +37,10 @@ public:
 		{
 
 		fromV.color = srcColor;
-		fromV.setPosition(fromPosition.x, fromPosition.y, fromPosition.z);
+		fromV.setPosition(fromPosition);
 
 		toV.color = destColor;
-		toV.setPosition(toPosition.x, toPosition.y, toPosition.z);
+		toV.setPosition(toPosition);
 	};
 
 	ColorVertex fromV;
@@ -61,16 +61,16 @@ public:
 		glm::vec3 atopRight(destRect.x + destRect.z, destRect.y, mdepth);
 
 		topLeft.color = color;
-		topLeft.setPosition(atopLeft.x, atopLeft.y, atopLeft.z);
+		topLeft.setPosition(atopLeft);
 
 		bottomLeft.color = color;
-		bottomLeft.setPosition(abottomLeft.x, abottomLeft.y, abottomLeft.z);
+		bottomLeft.setPosition(abottomLeft);
 
 		bottomRight.color = color;
-		bottomRight.setPosition(abottomRight.x, abottomRight.y, abottomRight.z);
+		bottomRight.setPosition(abottomRight);
 
 		topRight.color = color;
-		topRight.setPosition(atopRight.x, atopRight.y, atopRight.z);
+		topRight.setPosition(atopRight);
 
 	};
 
@@ -93,16 +93,16 @@ public:
 		glm::vec3 atopRight(origin.x + size.x, origin.y, origin.z);
 
 		a_topLeft.color = color;
-		a_topLeft.setPosition(atopLeft.x, atopLeft.y, atopLeft.z);
+		a_topLeft.setPosition(atopLeft);
 
 		a_bottomLeft.color = color;
-		a_bottomLeft.setPosition(abottomLeft.x, abottomLeft.y, abottomLeft.z);
+		a_bottomLeft.setPosition(abottomLeft);
 
 		a_bottomRight.color = color;
-		a_bottomRight.setPosition(abottomRight.x, abottomRight.y, abottomRight.z);
+		a_bottomRight.setPosition(abottomRight);
 
 		a_topRight.color = color;
-		a_topRight.setPosition(atopRight.x, atopRight.y, atopRight.z);
+		a_topRight.setPosition(atopRight);
 
 		glm::vec3 btopLeft(origin.x, origin.y, origin.z + size.z);
 		glm::vec3 bbottomLeft(origin.x, origin.y + size.y, origin.z + size.z);
@@ -110,16 +110,16 @@ public:
 		glm::vec3 btopRight(origin.x + size.x, origin.y, origin.z + size.z);
 
 		b_topLeft.color = color;
-		b_topLeft.setPosition(btopLeft.x, btopLeft.y, btopLeft.z);
+		b_topLeft.setPosition(btopLeft);
 
 		b_bottomLeft.color = color;
-		b_bottomLeft.setPosition(bbottomLeft.x, bbottomLeft.y, bbottomLeft.z);
+		b_bottomLeft.setPosition(bbottomLeft);
 
 		b_bottomRight.color = color;
-		b_bottomRight.setPosition(bbottomRight.x, bbottomRight.y, bbottomRight.z);
+		b_bottomRight.setPosition(bbottomRight);
 
 		b_topRight.color = color;
-		b_topRight.setPosition(btopRight.x, btopRight.y, btopRight.z);
+		b_topRight.setPosition(btopRight);
 
 	};
 

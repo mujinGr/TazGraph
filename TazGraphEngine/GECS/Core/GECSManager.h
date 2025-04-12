@@ -13,7 +13,7 @@ namespace fs = std::filesystem;
 class Manager
 {
 private:
-	Threader* _threader;
+	Threader* _threader = nullptr;
 	int lastEntityId = 0;
 	int negativeEntityId = -1;
 	std::vector<std::unique_ptr<Entity>> entities;
