@@ -98,7 +98,7 @@ public:
 					// Need to shift the entity
 					removeEntity();
 					manager.grid->addNode(this, newCell);
-
+					
 					// not important for precision, it is fine to do it only when the cell changes
 					// now updateCells of all the in and out links
 					for (auto& link : inLinks) {
@@ -280,8 +280,9 @@ public:
 			children["ArrowHead"]->update(0.0f);
 
 			// set position of arrowHead
+			TransformComponent* ch_tr = &to->children[toPort]->GetComponent<TransformComponent>();
 
-			TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
+			TransformComponent* toPortTR = ch_tr;
 			TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
 
 			glm::vec3 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();

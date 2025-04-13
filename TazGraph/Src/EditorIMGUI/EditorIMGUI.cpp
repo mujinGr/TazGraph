@@ -781,6 +781,18 @@ void EditorIMGUI::ShowEntityComponents(glm::vec2 mousePos, Entity* displayedEnti
 		}
 		ImGui::Separator();
 
+		std::unordered_map<std::string, size_t> componentOrder;
+		size_t index = 0;
+		for (const auto& pair : addComponentMap) {
+			componentOrder[pair.first] = index++;
+		}
+
+		for (auto& [key, nameVec] : manager.componentNames) {
+			std::sort(nameVec.begin(), nameVec.end(), [&](const std::string& a, const std::string& b) {
+				return componentOrder[a] < componentOrder[b];
+				});
+		}
+
 		if (node)
 		{
 			for (auto& c : manager.componentNames["Component"]) {

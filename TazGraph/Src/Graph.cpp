@@ -650,7 +650,7 @@ void Graph::checkInput() {
 					_sceneManagerActive = false;
 				}
 				else {
-					_app->exitSimulator();
+					//_app->exitSimulator();
 				}
 			}
 			if (_displayedEntity) {
