@@ -23,4 +23,4 @@ build/
 *.tmp
 *.temp
 
-/TazGame/imgui.ini
+TazGame/imgui.ini
