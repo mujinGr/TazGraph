@@ -11,8 +11,11 @@ Grid::Grid(int width, int height, int depth, int cellSize)
 
 
 	createCells(Level::Basic);
+	gridLevelsData[Level::Basic].cameraMargin = 0.2f;
 	createCells(Level::Outer1);
+	gridLevelsData[Level::Outer1].cameraMargin = 0.3f;
 	createCells(Level::Outer2);
+	gridLevelsData[Level::Outer2].cameraMargin = 0.4f;
 
 }
 
@@ -62,7 +65,10 @@ void Grid::createCells(Grid::Level m_level) {
 
 				cell.boundingBox_origin.x = px * cellsGroupSize * _cellSize;
 				cell.boundingBox_origin.y = py * cellsGroupSize * _cellSize;
-				cell.boundingBox_origin.z = pz * cellsGroupSize * _cellSize;
+				if(gridLevelsData[m_level].endZ != gridLevelsData[m_level].startZ)
+					cell.boundingBox_origin.z = pz * cellsGroupSize * _cellSize;
+				else
+					cell.boundingBox_origin.z = (pz - 0.5f) * cellsGroupSize * _cellSize;
 
 				cell.boundingBox_size.x = cellsGroupSize * _cellSize;
 				cell.boundingBox_size.y = cellsGroupSize * _cellSize;
@@ -78,7 +84,7 @@ void Grid::createCells(Grid::Level m_level) {
 				if (py == gridLevelsData[m_level].endY) {
 					cell.boundingBox_size.y = (_height / 2.0f) - cell.boundingBox_origin.y;
 				}
-				if (pz == gridLevelsData[m_level].endZ) { // Edge case for Z
+				if (pz == gridLevelsData[m_level].endZ && gridLevelsData[m_level].endZ != gridLevelsData[m_level].startZ) { // Edge case for Z
 					cell.boundingBox_size.z = (_depth / 2.0f) - cell.boundingBox_origin.z;
 				}
 
@@ -145,9 +151,9 @@ std::vector<Cell*> Grid::getLinkCells(const LinkEntity& link, Grid::Level m_leve
 
 	for (int i = 0; i <= steps; i++) {
 		Cell* currentCell = getCell(
-			(int)(std::floor(x0 / _cellSize)),
-			(int)(std::floor(y0 / _cellSize)),
-			(int)(std::floor(z0 / _cellSize)),
+			(int)(std::floor(x0 /  (_cellSize * gridLevels[m_level]))),
+			(int)(std::floor(y0 / (_cellSize * gridLevels[m_level]))),
+			(int)(std::floor(z0 / (_cellSize * gridLevels[m_level]))),
 			m_level );
 		if (uniqueCells.insert(currentCell).second) { 
 			intersectedCells.push_back(currentCell);
@@ -157,9 +163,9 @@ std::vector<Cell*> Grid::getLinkCells(const LinkEntity& link, Grid::Level m_leve
 		z0 += zIncrement;
 	}
 	Cell* currentCell = getCell(
-		(int)(std::floor(x1 / _cellSize)),
-		(int)(std::floor(y1 / _cellSize)),
-		(int)(std::floor(z1 / _cellSize)),
+		(int)(std::floor(x1 / (_cellSize * gridLevels[m_level]))),
+		(int)(std::floor(y1 / (_cellSize * gridLevels[m_level]))),
+		(int)(std::floor(z1 / (_cellSize * gridLevels[m_level]))),
 		m_level);
 
 	if (uniqueCells.insert(currentCell).second) { 
@@ -226,9 +232,7 @@ Cell* Grid::getCell(int x, int y, int z, Grid::Level m_level)
 Cell* Grid::getCell(const Entity& entity, Grid::Level m_level)
 {
 	auto pos = entity.GetComponent<TransformComponent>().getCenterTransform();
-	if (m_level == Grid::Level::Outer2) {
-		pos -= (_cellSize * gridLevels[m_level]) / 2;
-	}
+
 	int cellX = (int)(std::floor((pos.x) / (_cellSize * gridLevels[m_level]) ));
 	int cellY = (int)(std::floor((pos.y) / (_cellSize * gridLevels[m_level]) ));
 	int cellZ = (int)(std::floor((pos.z) / (_cellSize * gridLevels[m_level])));
@@ -311,7 +315,7 @@ bool Grid::setIntersectedCameraCells(ICamera& camera) {
 		glm::vec4 cellCenter(
 			cell.boundingBox_center,
 			1.0f);
-		if (camera.isPointInCameraView(cellCenter)) {
+		if (camera.isPointInCameraView(cellCenter, gridLevelsData[_level].cameraMargin)) {
 			newInterceptedCells.push_back(&cell);
 		}
 	}

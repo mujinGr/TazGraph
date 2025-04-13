@@ -108,7 +108,7 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 		CreateGroup(node, centroid, groupNodeSize, m_level);
 
 		if (manager->arrowheadsEnabled) {
-			node.addPorts();
+			manager->arrowheadsEnabled = false;
 		}
 
 		manager->grid->addNode(&node, m_level);
@@ -192,6 +192,10 @@ void AssetManager::ungroupLayout(Grid::Level m_level) {
 	
 	Manager::groupLabels label = (m_level == Grid::Level::Outer1) ? Manager::groupNodes_0 : Manager::groupGroupNodes_0;
 	Manager::groupLabels link_label = (m_level == Grid::Level::Outer1) ? Manager::groupLinks_0 : Manager::groupGroupLinks_0;
+
+	if (manager->arrowheadsEnabled) {
+		manager->arrowheadsEnabled = false;
+	}
 
 	// reveal all the hidden nodes
 	for (auto& entity : manager->getGroup<NodeEntity>(label)) {

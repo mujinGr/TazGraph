@@ -62,6 +62,11 @@ void Manager::updateActiveEntities() {
 			[&toBeRemoved, i](Entity* mEntity) {
 				return !mEntity->isActive() || !mEntity->hasGroup(i);
 			}), group.end());
+		auto& m_group(visible_groupedEmptyEntities[i]);
+		m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
+			[&toBeRemoved, i](Entity* mEntity) {
+				return !mEntity->isActive() || !mEntity->hasGroup(i);
+			}), m_group.end());
 	}
 
 	for (auto i(0u); i < maxGroups; i++) {
@@ -70,6 +75,11 @@ void Manager::updateActiveEntities() {
 			[&nodes_toBeRemoved, i](Entity* mEntity) {
 				return !mEntity->isActive() || !mEntity->hasGroup(i);
 			}), group.end());
+		auto& m_group(visible_groupedNodeEntities[i]);
+		m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
+			[&nodes_toBeRemoved, i](Entity* mEntity) {
+				return !mEntity->isActive() || !mEntity->hasGroup(i);
+			}), m_group.end());
 	}
 
 	for (auto i(0u); i < maxGroups; i++) {
@@ -78,6 +88,11 @@ void Manager::updateActiveEntities() {
 			[&links_toBeRemoved, i](Entity* mEntity) {
 				return !mEntity->isActive() || !mEntity->hasGroup(i);
 			}), group.end());
+		auto& m_group(groupedLinkEntities[i]);
+		m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
+			[&links_toBeRemoved, i](Entity* mEntity) {
+				return !mEntity->isActive() || !mEntity->hasGroup(i);
+			}), m_group.end());
 	}
 
 

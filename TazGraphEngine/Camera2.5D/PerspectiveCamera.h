@@ -227,7 +227,7 @@ public:
 	}
 
 
-	bool isPointInCameraView(const glm::vec4 point)
+	bool isPointInCameraView(const glm::vec4 point, float margin)
 	{
 		glm::mat4 vpMatrix = _cameraMatrix;
 
@@ -240,9 +240,9 @@ public:
 		}
 
 		// 0.2f is the margin
-		if (clipSpacePos.x < -1.2f || clipSpacePos.x > 1.2f) return false;
-		if (clipSpacePos.y < -1.2f || clipSpacePos.y > 1.2f) return false;
-		if (clipSpacePos.z < -0.2f || clipSpacePos.z > 1.2f) return false;
+		if (clipSpacePos.x < -1.0f - margin || clipSpacePos.x > 1.0f + margin) return false;
+		if (clipSpacePos.y < -1.0f - margin || clipSpacePos.y > 1.0f + margin) return false;
+		if (clipSpacePos.z < -margin || clipSpacePos.z > 1.0f + margin) return false;
 
 		return true;
 	}

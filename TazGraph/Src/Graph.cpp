@@ -230,18 +230,20 @@ void Graph::update(float deltaTime) //game objects updating
 		if (manager->arrowheadsEnabled) {
 
 			//todo add to all nodes ports
-			for (auto& node : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
-				node->addPorts();
-			}
-			for (auto& node : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
-				node->addPorts();
-			}
-			for (auto& node : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
+			for (auto& node : manager->getGroup<NodeEntity>(manager->grid->getGridLevel() == Grid::Level::Basic ? Manager::groupNodes_0 : 
+				(manager->grid->getGridLevel() == Grid::Level::Outer1 ? Manager::groupGroupNodes_0 :
+					Manager::groupGroupNodes_1
+					))) 
+			{
 				node->addPorts();
 			}
 
 			//todo change each links from and to entities (empty entitites - ports)
-			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupLinks_0)) {
+			for (auto& link : manager->getGroup<LinkEntity>(manager->grid->getGridLevel() == Grid::Level::Basic ? Manager::Manager::groupLinks_0 : 
+				(manager->grid->getGridLevel() == Grid::Level::Outer1 ? Manager::Manager::groupGroupLinks_0 :
+					Manager::groupGroupLinks_1
+					))) 
+			{
 				link->updateLinkToPorts();
 				link->addArrowHead();
 			}
@@ -249,6 +251,14 @@ void Graph::update(float deltaTime) //game objects updating
 		if (!manager->arrowheadsEnabled) {
 			//todo change each links from and to entities (from ports, to center of nodes)
 			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupLinks_0)) {
+				link->updateLinkToNodes();
+				link->removeArrowHead();
+			}
+			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
+				link->updateLinkToNodes();
+				link->removeArrowHead();
+			}
+			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
 				link->updateLinkToNodes();
 				link->removeArrowHead();
 			}

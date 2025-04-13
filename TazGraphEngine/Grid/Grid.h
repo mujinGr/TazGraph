@@ -11,6 +11,7 @@
 struct GridLevelData {
 	float numXCells, numYCells, numZCells;
 	float startX, endX, startY, endY, startZ, endZ;
+	float cameraMargin = 0.0f;
 };
 
 class Grid {

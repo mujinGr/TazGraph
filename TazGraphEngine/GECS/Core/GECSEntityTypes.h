@@ -319,7 +319,7 @@ public:
 		glm::vec3 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
 
 		glm::vec3 unitDirection = glm::normalize(direction);
-		float offset = toTR->size.x + 5.0f;
+		float offset = 10.0f;
 
 		glm::vec3 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
 		
@@ -349,7 +349,8 @@ public:
 	void removeArrowHead() override {
 		std::string portName = "ArrowHead";
 		if (children[portName]) {
-			children[portName]->removeEntity();
+			children[portName]->removeFromCell();
+			children[portName]->destroy();
 			children.erase(portName);
 		}
 	}
