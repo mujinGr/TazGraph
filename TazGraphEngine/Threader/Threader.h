@@ -80,6 +80,10 @@ struct Thread {
             cur_thread.join();
         }
     }
+
+    void start() {
+        t_queue->shuttingDown = true;
+    }
 };
 
 struct Threader {
@@ -107,6 +111,7 @@ struct Threader {
             int start = slice_size * num_threads;
             callback(start, num_obj);
         }
+        //todo this may be done only at specific times
         t_queue.waitUntilDone();
     }
 };

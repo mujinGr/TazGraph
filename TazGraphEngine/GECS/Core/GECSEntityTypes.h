@@ -93,6 +93,7 @@ public:
 		if (this->ownerCell) {
 			if (this->GetComponent<TransformComponent>().last_position != this->GetComponent<TransformComponent>().position)
 			{
+				this->GetComponent<TransformComponent>().update(0.0f);
 				Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
 				if (newCell != this->ownerCell) {
 					std::scoped_lock lock(manager.movedNodesMutex);

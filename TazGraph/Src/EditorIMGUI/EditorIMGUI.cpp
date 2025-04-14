@@ -211,9 +211,11 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		}
 
 		manager.aboutTo_updateActiveEntities();
-		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-		main_camera2D->makeCameraDirty();
 
+		for (auto& n : manager.getGroup<NodeEntity>(Manager::groupNodes_0))
+		{
+			n->cellUpdate();
+		}
 	}
 
 	ImGui::Text("Camera Position");
