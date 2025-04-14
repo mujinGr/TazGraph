@@ -147,6 +147,8 @@ public:
 
 	virtual void updateLinkToNodes() {}
 
+	virtual void updateArrowHeads() {}
+
 	virtual void addArrowHead() {}
 
 	virtual void removeArrowHead() {}

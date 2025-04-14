@@ -32,6 +32,10 @@ private:
 
 	bool _update_active_entities = false;
 public:
+
+	std::vector<NodeEntity*> movedNodes;
+	std::mutex movedNodesMutex;
+
 	bool arrowheadsEnabled = false;
 	bool last_arrowheadsEnabled = false;
 
@@ -52,6 +56,56 @@ public:
 		//! THREADER CHECK
 		
 		if (_threader && !_threader->t_queue.shuttingDown) {
+
+			//! CELL UPDATE
+
+			_threader->parallel(visible_emptyEntities.size(), [&](int start, int end) {
+				for (int i = start; i < end; i++) {
+					if (visible_emptyEntities[i] && visible_emptyEntities[i]->isActive()) {
+						visible_emptyEntities[i]->cellUpdate();
+					}
+				}
+				});
+
+			_threader->parallel(visible_nodes.size(), [&](int start, int end) {
+				for (int i = start; i < end; i++) {
+					if (visible_nodes[i] && visible_nodes[i]->isActive()) {
+						visible_nodes[i]->cellUpdate();
+					}
+				}
+				});
+
+			//! UPDATE LINK CELLS
+			_threader->parallel(movedNodes.size(), [&](int start, int end) {
+				for (int i = start; i < end; i++) {
+					for (auto& link : movedNodes[i]->getInLinks()) {
+						link->cellUpdate();
+					}
+					for (auto& link : movedNodes[i]->getOutLinks()) {
+						link->cellUpdate();
+					}
+				}
+				});
+
+			_threader->parallel(movedNodes.size(), [&](int start, int end) {
+				for (int i = start; i < end; i++) {
+					for (auto& link : movedNodes[i]->getInLinks()) {
+						link->updateLinkToPorts();
+					}
+				}
+				});
+
+			_threader->parallel(movedNodes.size(), [&](int start, int end) {
+				for (int i = start; i < end; i++) {
+					for (auto& link : movedNodes[i]->getOutLinks()) {
+						link->updateLinkToPorts();
+					}
+				}
+				});
+
+			movedNodes.clear();
+
+			//! UPDATE
 			_threader->parallel(visible_emptyEntities.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
 					if (visible_emptyEntities[i] && visible_emptyEntities[i]->isActive()) {
@@ -99,6 +153,43 @@ public:
 
 		//! FOR MAIN MENU
 		else {
+
+			//! CELL UPDATE
+
+			for (auto& e : visible_emptyEntities) {
+				if (e && e->isActive()) {
+					e->cellUpdate();
+				}
+			}
+
+			for (auto& e : visible_nodes) {
+				if (e && e->isActive()) {
+					e->cellUpdate();
+				}
+			}
+
+			for (auto& e : visible_nodes) {
+				for (auto& link : e->getInLinks()) {
+					link->cellUpdate();
+				}
+				for (auto& link : e->getOutLinks()) {
+					link->cellUpdate();
+				}
+			}
+
+			for (auto& e : visible_nodes) {
+				for (auto& link : e->getInLinks()) {
+					link->updateLinkToPorts();
+				}
+			}
+
+			for (auto& e : visible_nodes) {
+				for (auto& link : e->getOutLinks()) {
+					link->updateLinkToPorts();
+				}
+			}
+
+
 			for (auto& e : visible_emptyEntities) {
 				if (!e || !e->isActive()) continue;
 

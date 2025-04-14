@@ -23,7 +23,7 @@ public:
 
 	void update(float deltaTime)
 	{
-		cellUpdate();
+		//cellUpdate();
 
 		Entity::update(deltaTime);
 	}
@@ -76,7 +76,7 @@ public:
 
 	void update(float deltaTime)
 	{
-		cellUpdate();
+		//cellUpdate();
 
 		Entity::update(deltaTime);
 	}
@@ -95,24 +95,17 @@ public:
 			{
 				Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
 				if (newCell != this->ownerCell) {
-					// Need to shift the entity
 					removeEntity();
 					manager.grid->addNode(this, newCell);
 					
-					// not important for precision, it is fine to do it only when the cell changes
-					// now updateCells of all the in and out links
-					for (auto& link : inLinks) {
-						link->cellUpdate();
-					}
-					for (auto& link : outLinks) {
-						link->cellUpdate();
-					}
+					std::scoped_lock lock(manager.movedNodesMutex);
+					manager.movedNodes.push_back(this);
 				}
 				for (auto& link : inLinks) {
-					link->updateLinkToPorts();
+					link->updateArrowHeads();
 				}
 				for (auto& link : outLinks) {
-					link->updateLinkToPorts();
+					link->updateArrowHeads();
 				}
 			}
 		}
@@ -255,8 +248,15 @@ public:
 	void cellUpdate() override {
 		// if cell(or position) of fromNode or cell(or position) of toNode is different than
 		// the saved cells in ownerCells then update it
-		if (manager.grid->getCell(*getFromNode(), manager.grid->getGridLevel()) != ownerCells.front()
-			|| manager.grid->getCell(*getToNode(), manager.grid->getGridLevel()) != ownerCells.back())
+		auto level = manager.grid->getGridLevel();
+		const auto& fromCell = manager.grid->getCell(*getFromNode(), level);
+		const auto& toCell = manager.grid->getCell(*getToNode(), level);
+
+		const auto& ownerFront = ownerCells.front();
+		const auto& ownerBack = ownerCells.back();
+
+		if (fromCell != ownerFront
+			|| toCell != ownerBack)
 		{
 			removeFromCells();
 			
@@ -264,19 +264,10 @@ public:
 		}
 	}
 
-	
-
-	void updateLinkToPorts() override{
-		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
-		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
-
-		fromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
-		toPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());
-
-
+	void updateArrowHeads() override {
 		if (children["ArrowHead"]) {
 			TransformComponent* tr = &children["ArrowHead"]->GetComponent<TransformComponent>();
-			
+
 			children["ArrowHead"]->update(0.0f);
 
 			// set position of arrowHead
@@ -303,8 +294,16 @@ public:
 			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_X(newArrowHeadPosition.x);
 			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_Y(newArrowHeadPosition.y);
 
-			children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f,0.0f, angleRadians + glm::half_pi<float>()));
+			children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleRadians + glm::half_pi<float>()));
 		}
+	}
+
+	void updateLinkToPorts() override{
+		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
+		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
+
+		fromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
+		toPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());
 	}
 
 	void addArrowHead() override {
