@@ -96,6 +96,7 @@ struct Threader {
     }
 
     void parallel(int num_obj, std::function<void(int start, int end)>&& callback) {
+        if (num_obj == 0) return;
         int slice_size = num_obj / num_threads;
         for (int i = 0; i < num_threads; i++) {
             int start = i * slice_size;

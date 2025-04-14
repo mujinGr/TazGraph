@@ -95,10 +95,10 @@ public:
 			{
 				Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
 				if (newCell != this->ownerCell) {
+					std::scoped_lock lock(manager.movedNodesMutex);
 					removeEntity();
 					manager.grid->addNode(this, newCell);
 					
-					std::scoped_lock lock(manager.movedNodesMutex);
 					manager.movedNodes.push_back(this);
 				}
 				for (auto& link : inLinks) {
