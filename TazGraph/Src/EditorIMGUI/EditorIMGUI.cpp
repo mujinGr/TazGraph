@@ -192,8 +192,18 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		centerNode->GetComponent<TransformComponent>().setPosition_X(centerPos.x);
 		centerNode->GetComponent<TransformComponent>().setPosition_Y(centerPos.y);
 
+		float minRadius = 100.0f;
+		float maxRadius = 3000.0f;
 
-		float radius = 200.0f; // distance from center
+		int minOutlinks = INT_MAX;
+		for (NodeEntity* node : nodes) {
+			if (node == centerNode) continue;
+			int count = node->getOutLinks().size();
+			minOutlinks = min(minOutlinks, count);
+			maxOutlinks = max(maxOutlinks, count);
+		}
+
+
 		size_t index = 0;
 		size_t total = nodes.size() - 1;
 
@@ -201,6 +211,11 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 			if (node == centerNode) continue;
 
 			float angle = (2 * M_PI * index) / total;
+			int outLinks = node->getOutLinks().size();
+
+			float normalized = (float)(maxOutlinks - outLinks) / max(1, maxOutlinks - minOutlinks);
+			float radius = minRadius + normalized * (maxRadius - minRadius);
+
 			glm::vec2 pos = centerPos + glm::vec2(cos(angle), sin(angle)) * radius;
 
 			node->GetComponent<TransformComponent>().setPosition_X(pos.x);
