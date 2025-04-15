@@ -219,7 +219,11 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 			float angle = (2 * M_PI * index) / total;
 			int outLinks = node->getOutLinks().size();
 
+#if defined(_WIN32) || defined(_WIN64)
 			float normalized = (float)(maxOutlinks - outLinks) / max(1, maxOutlinks - minOutlinks);
+#else
+			float normalized = (float)(maxOutlinks - outLinks) / std::max(1, maxOutlinks - minOutlinks);
+#endif
 			float radius = minRadius + normalized * (maxRadius - minRadius);
 
 			glm::vec2 pos = centerPos + glm::vec2(cos(angle), sin(angle)) * radius;

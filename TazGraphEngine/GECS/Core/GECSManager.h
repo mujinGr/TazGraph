@@ -114,32 +114,17 @@ public:
 				}
 				});
 
-			if (arrowheadsEnabled) {
 			
-				_threader->parallel(visible_nodes.size(), [&](int start, int end) {
-					for (int i = start; i < end; i++) {
-						if (visible_nodes[i] && visible_nodes[i]->isActive()) {
-
-							visible_nodes[i]->updatePorts(deltaTime);
-
-
-							visible_nodes[i]->update(deltaTime);
-						}
+			_threader->parallel(visible_nodes.size(), [&](int start, int end) {
+				for (int i = start; i < end; i++) {
+					if (visible_nodes[i] && visible_nodes[i]->isActive()) {
+						visible_nodes[i]->update(deltaTime);
 					}
+				}
 
-					});
+				});
 
-			}
-			else {
-				_threader->parallel(visible_nodes.size(), [&](int start, int end) {
-					for (int i = start; i < end; i++) {
-						if (visible_nodes[i] && visible_nodes[i]->isActive()) {
-							visible_nodes[i]->update(deltaTime);
-						}
-					}
-
-					});
-			}
+			
 			_threader->parallel(visible_links.size(), [&](int start, int end) {
 
 				for (int i = start; i < end; i++) {
