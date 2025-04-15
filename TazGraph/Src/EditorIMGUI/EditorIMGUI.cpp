@@ -199,8 +199,14 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		for (NodeEntity* node : nodes) {
 			if (node == centerNode) continue;
 			int count = node->getOutLinks().size();
+#if defined(_WIN32) || defined(_WIN64)
 			minOutlinks = min(minOutlinks, count);
 			maxOutlinks = max(maxOutlinks, count);
+#else
+			minOutlinks = std::min(minOutlinks, count);
+			maxOutlinks = std::max(maxOutlinks, count);
+#endif
+
 		}
 
 
