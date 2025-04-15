@@ -10,6 +10,9 @@
 
 #include "../AudioEngine/AudioEngine.h"
 
+#include "../Threader/Threader.h"
+
+
 class SceneList;
 class IScene;
 
@@ -32,6 +35,8 @@ public:
 
 	BaseFPSLimiter& getFPSLimiter() { return _limiter; }
 	AudioEngine& getAudioEngine() { return _audioEngine; }
+
+	Threader threadPool = Threader(4);
 
 protected:
 	virtual void checkInput();

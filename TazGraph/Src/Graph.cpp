@@ -53,10 +53,6 @@ void Graph::onEntry()
 {
 	std::string mapName = DataManager::getInstance().mapToLoad;
 
-	setManager(mapName);
-
-	auto& world_map(manager->addEntityNoId<Empty>());
-
 	/////////////////////////////////////////////
 	_resourceManager.addGLSLProgram("color");
 	_resourceManager.addGLSLProgram("circleColor");
@@ -134,20 +130,22 @@ void Graph::onEntry()
 	TextureManager::getInstance().Add_GLTexture("worldMap", "assets/Sprites/worldMap.png");
 	TextureManager::getInstance().Add_GLTexture("play-button", "assets/Sprites/images-removebg-preview.png");
 
-	
+	if (setManager(mapName)) {
+		auto& world_map(manager->addEntityNoId<Empty>());
+		_assetsManager->CreateWorldMap(world_map);
 
-	_assetsManager->CreateWorldMap(world_map);
-	
-	manager->resetEntityId();
+		manager->resetEntityId();
 
-	if (!DataManager::getInstance().mapToLoad.empty()) {
-		if (strstr(DataManager::getInstance().mapToLoad.c_str(), ".py") != nullptr) {
-			map->loadPythonMap(DataManager::getInstance().mapToLoad.c_str()); // Assuming loadPythonMap is a method for loading Python maps
+		if (!DataManager::getInstance().mapToLoad.empty()) {
+			if (strstr(DataManager::getInstance().mapToLoad.c_str(), ".py") != nullptr) {
+				map->loadPythonMap(DataManager::getInstance().mapToLoad.c_str()); // Assuming loadPythonMap is a method for loading Python maps
+			}
+			else {
+				map->loadTextMap(DataManager::getInstance().mapToLoad.c_str());
+			}
+			DataManager::getInstance().mapToLoad = "";
 		}
-		else {
-			map->loadTextMap(DataManager::getInstance().mapToLoad.c_str());
-		}
-		DataManager::getInstance().mapToLoad = "";
+
 	}
 
 
@@ -180,10 +178,6 @@ void Graph::onExit() {
 	Graph::_PlaneColorRenderer.dispose();
 
 	_resourceManager.disposeGLSLPrograms();
-
-	for (Thread& thread : threadPool.threads) {
-		thread.stop();
-	}
 }
 
 
@@ -277,7 +271,7 @@ void Graph::update(float deltaTime) //game objects updating
 
 	}
 
-	while (_editorImgui.last_activeLayout < _editorImgui.activeLayout) {
+	if (_editorImgui.last_activeLayout < _editorImgui.activeLayout) {
 		_editorImgui.last_activeLayout += 1;
 
 		manager->grid->setGridLevel(static_cast<Grid::Level>(manager->grid->getGridLevel() + 1));
@@ -290,7 +284,7 @@ void Graph::update(float deltaTime) //game objects updating
 		}
 	}
 
-	while (_editorImgui.last_activeLayout > _editorImgui.activeLayout) {
+	if (_editorImgui.last_activeLayout > _editorImgui.activeLayout) {
 		_editorImgui.last_activeLayout -= 1;
 
 		if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
@@ -571,8 +565,10 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	}
 }
 
-void Graph::setManager(std::string m_managerName)
+bool Graph::setManager(std::string m_managerName)
 {
+	bool managerIsNew = false;
+
 	if (m_managerName.empty()) {
 		_editorImgui.setNewMap(true);
 		int counter = 1;
@@ -584,8 +580,15 @@ void Graph::setManager(std::string m_managerName)
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
+	if (!m_managerName.empty() && managers.find(m_managerName) != managers.end()) {
+		managerIsNew = false;
+	}
+	else {
+		managerIsNew = true;
+	}
+
 	IScene::setManager(m_managerName);
-	manager->setThreader(threadPool);
+	manager->setThreader(_app->threadPool);
 
 	if (!manager->grid)
 	{
@@ -606,6 +609,7 @@ void Graph::setManager(std::string m_managerName)
 	main_camera2D->makeCameraDirty();
 	manager->aboutTo_updateActiveEntities();
 
+	return managerIsNew;
 }
 
 void Graph::checkInput() {
@@ -1027,16 +1031,17 @@ void Graph::updateUI() {
 		char* loadMapPath = _editorImgui.LoadingUI();
 		if (!_editorImgui.isLoading()) {
 
-			setManager(std::string(loadMapPath));
+			if (setManager(std::string(loadMapPath)))
+			{
+				auto& world_map(manager->addEntityNoId<Empty>());
+				_assetsManager->CreateWorldMap(world_map);
 
-			auto& world_map(manager->addEntityNoId<Empty>());
-			_assetsManager->CreateWorldMap(world_map);
-
-			if (strstr(loadMapPath, ".py") != nullptr) {
-				map->loadPythonMap(loadMapPath); // Assuming loadPythonMap is a method for loading Python maps
-			}
-			else {
-				map->loadTextMap(loadMapPath);
+				if (strstr(loadMapPath, ".py") != nullptr) {
+					map->loadPythonMap(loadMapPath); // Assuming loadPythonMap is a method for loading Python maps
+				}
+				else {
+					map->loadTextMap(loadMapPath);
+				}
 			}
 		}
 	}
@@ -1068,7 +1073,7 @@ void Graph::EndRender() {
 void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
 		//! activate threads near the end, where we have completed everything else
 		if (manager->arrowheadsEnabled) {
-			threadPool.parallel(entities.size(), [&](int start, int end) {
+			_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
 					assert(entities[i]->hasComponent<Line_w_Color>());
 					
@@ -1077,7 +1082,7 @@ void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& 
 			});
 		}
 		else {
-			threadPool.parallel(entities.size(), [&](int start, int end) {
+			_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
 					assert(entities[i]->hasComponent<Line_w_Color>());
 					entities[i]->GetComponent<Line_w_Color>().draw(i, batch, *Graph::_window);
@@ -1089,7 +1094,7 @@ void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& 
 
 void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch) {
 
-	threadPool.parallel(entities.size(), [&](int start, int end) {
+	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 		for (int i = start; i < end; i++) {
 			assert(entities[i]->hasComponent<Rectangle_w_Color>());
 			entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
@@ -1106,7 +1111,7 @@ void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRend
 
 void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRenderer& batch) {
 
-	threadPool.parallel(entities.size(), [&](int start, int end) {
+	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 		for (int i = start; i < end; i++) {
 			if (entities[i]->hasComponent<Rectangle_w_Color>()) {
 				entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);

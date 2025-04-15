@@ -3,7 +3,6 @@
 #include "../Renderers/LineRenderer/LineRenderer.h"
 #include "../DataManager/DataManager.h"
 
-#include "../Threader/Threader.h"
 
 #include "../GECS/Core/GECSManager.h"
 

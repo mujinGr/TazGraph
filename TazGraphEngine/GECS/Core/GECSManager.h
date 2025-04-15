@@ -78,16 +78,14 @@ public:
 			//! UPDATE LINK CELLS
 			//? THIS MAY CAUSE ERRORS, IF REMOVE LINK FROM CELL AND OTHER LINK THAT HAS THAT CELL IN SEARCH
 			//? WILL PUMP IN AN EMPTY ELEMENT OR THE SIZE WILL BE SMALLER FOR THAT LINK TO FIND ELEMENT
-			_threader->parallel(movedNodes.size(), [&](int start, int end) {
-				for (int i = start; i < end; i++) {
-					for (auto& link : movedNodes[i]->getInLinks()) {
-						link->cellUpdate();
-					}
-					for (auto& link : movedNodes[i]->getOutLinks()) {
-						link->cellUpdate();
-					}
+			for (auto& e : movedNodes) {
+				for (auto& link : e->getInLinks()) {
+					link->cellUpdate();
 				}
-				});
+				for (auto& link : e->getOutLinks()) {
+					link->cellUpdate();
+				}
+			}
 
 			_threader->parallel(movedNodes.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
@@ -170,7 +168,7 @@ public:
 				}
 			}
 
-			for (auto& e : visible_nodes) {
+			for (auto& e : movedNodes) {
 				for (auto& link : e->getInLinks()) {
 					link->cellUpdate();
 				}
@@ -179,13 +177,13 @@ public:
 				}
 			}
 
-			for (auto& e : visible_nodes) {
+			for (auto& e : movedNodes) {
 				for (auto& link : e->getInLinks()) {
 					link->updateLinkToPorts();
 				}
 			}
 
-			for (auto& e : visible_nodes) {
+			for (auto& e : movedNodes) {
 				for (auto& link : e->getOutLinks()) {
 					link->updateLinkToPorts();
 				}

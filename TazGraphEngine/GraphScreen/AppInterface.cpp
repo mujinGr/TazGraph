@@ -77,6 +77,10 @@ void AppInterface::exitSimulator() {
 		_sceneList.reset();
 	}
 	_isRunning = false;
+
+	for (Thread& thread : threadPool.threads) {
+		thread.stop();
+	}
 }
 
 void AppInterface::onSDLEvent(SDL_Event& evnt) {

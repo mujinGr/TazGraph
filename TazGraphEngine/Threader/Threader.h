@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include <functional>
 #include <queue>
 #include <vector>
@@ -14,7 +13,6 @@ struct TaskQueue {
     std::condition_variable taskCondition;
     std::atomic<int>                  remaining_tasks = 0;
     bool shuttingDown = false;
-
     void addTask(std::function<void()>&& callback) {
         {
             std::lock_guard<std::mutex> lock(mutex_);
@@ -77,13 +75,10 @@ struct Thread {
         t_queue->shuttingDown = true;
         t_queue->taskCondition.notify_all();
         if (cur_thread.joinable()) {
-            cur_thread.join();
-        }
+        cur_thread.join();
+    }
     }
 
-    void start() {
-        t_queue->shuttingDown = true;
-    }
 };
 
 struct Threader {

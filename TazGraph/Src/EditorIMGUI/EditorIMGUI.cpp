@@ -216,6 +216,26 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		{
 			n->cellUpdate();
 		}
+		for (auto& n : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_0))
+		{
+			n->cellUpdate();
+		}
+		for (auto& n : manager.getGroup<NodeEntity>(Manager::groupGroupNodes_1))
+		{
+			n->cellUpdate();
+		}
+		for (auto& l : manager.getGroup<LinkEntity>(Manager::groupLinks_0))
+		{
+			l->cellUpdate();
+		}
+		for (auto& l : manager.getGroup<LinkEntity>(Manager::groupGroupLinks_0))
+		{
+			l->cellUpdate();
+		}
+		for (auto& l : manager.getGroup<LinkEntity>(Manager::groupGroupLinks_1))
+		{
+			l->cellUpdate();
+		}
 	}
 
 	ImGui::Text("Camera Position");

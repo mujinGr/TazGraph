@@ -97,7 +97,7 @@ private:
 
 	void selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int activateMode);
 
-	void setManager(std::string m_managerName);
+	bool setManager(std::string m_managerName);
 
 	void checkInput();
 	bool onPauseGraph();
@@ -140,7 +140,6 @@ private:
 	glm::vec2 _sceneMousePosition = {0.f,0.f};
 	glm::vec2 _savedMainViewportMousePosition = { 0.f,0.f };
 
-	Threader threadPool = Threader(4);
 };
 
 

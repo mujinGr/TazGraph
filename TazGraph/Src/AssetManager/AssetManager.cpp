@@ -58,7 +58,7 @@ void AssetManager::CreateGroupLink(Entity& groupLink, Grid::Level m_level) {
 	{
 		groupLink.addComponent<Line_w_Color>();
 		groupLink.GetComponent<Line_w_Color>().setSrcColor(Color(255, 255, 0, 255));
-		groupLink.GetComponent<Line_w_Color>().setDestColor(Color(255, 255, 0, 255));
+		groupLink.GetComponent<Line_w_Color>().setDestColor(Color(255, 0, 0, 255));
 
 		groupLink.addGroup(Manager::groupGroupLinks_0);
 	}
