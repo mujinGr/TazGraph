@@ -5,6 +5,8 @@
 class Line_w_Color : public LinkComponent
 {
 public:
+	std::string temp_lineParsed = "";
+
 	Color default_src_color = { 255, 255, 255, 255 };
 	Color src_color = { 255, 255, 255, 255 };
 
@@ -84,6 +86,8 @@ public:
 
 	void showGUI() override {
 		ImGui::Separator();
+
+		ImGui::Text("Line: %s", temp_lineParsed.c_str());
 
 		ImVec4 a_color = ImVec4(src_color.r / 255.0f, src_color.g / 255.0f, src_color.b / 255.0f, src_color.a / 255.0f);
 		if (ImGui::ColorPicker4("Color Line Src", (float*)&a_color)) {

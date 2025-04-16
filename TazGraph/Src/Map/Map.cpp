@@ -73,6 +73,8 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 		auto& node(manager->addEntity<Node>());
 		(this->*addNodeFunction)(node, glm::vec2(x, y));
 
+		node.GetComponent<TransformComponent>().temp_lineParsed = line;
+
 		manager->grid->addNode(&node, manager->grid->getGridLevel());
 	}
 
@@ -109,6 +111,8 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 		glm::vec2 position(x, y);
 		(this->*addNodeFunction)(node, position);
 
+		node.GetComponent<TransformComponent>().temp_lineParsed = nodeId;
+
 		manager->grid->addNode(&node, manager->grid->getGridLevel());
 	}
 	auto& links = rootFromFile.obj["graph"].obj["edges"];
@@ -119,6 +123,8 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 
 		auto& link = manager->addEntity<Link>(fromID, toID);
 		(this->*addLinkFunction)(link);
+
+		link.GetComponent<Line_w_Color>().temp_lineParsed = std::to_string(fromID) + " - " + std::to_string(toID);
 
 		manager->grid->addLink(&link, manager->grid->getGridLevel());
 	}

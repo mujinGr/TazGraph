@@ -5,6 +5,8 @@
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {
 public:
+	std::string temp_lineParsed = "";
+
 	glm::ivec3 velocity = glm::ivec3(0);
 	glm::vec3 rotation = { 0.0f,0.0f,0.0f };
 	glm::vec3 position = glm::vec3(0);
@@ -137,6 +139,8 @@ public:
 
 	void showGUI() override {
 		ImGui::Separator();
+
+		ImGui::Text("Line: %s", temp_lineParsed.c_str());
 
 		// Position Controls
 		ImGui::Text("Position:");
