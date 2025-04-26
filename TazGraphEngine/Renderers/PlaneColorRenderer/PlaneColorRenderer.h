@@ -10,10 +10,29 @@
 #define RECT_OFFSET 6
 #define TRIANGLE_OFFSET 3
 
-class ColorRenderBatch {
+#define SQUARE_OFFSET 4
+
+
+class ColorRenderBatchElements {
 public:
-	ColorRenderBatch() {}
-	ColorRenderBatch(GLuint Offset, GLuint NumVertices, glm::vec3 CenterPos) : offset(Offset),
+	ColorRenderBatchElements() {
+
+	}
+	ColorRenderBatchElements(GLuint Offset, GLuint NumIndices, glm::vec3 CenterPos) : offset(Offset),
+		numIndices(NumIndices),
+		centerPos(CenterPos)
+	{
+
+	}
+	GLuint offset = 0;
+	GLuint numIndices = 0;
+	glm::vec3 centerPos = glm::vec3(0);
+};
+
+class ColorRenderBatchArrays {
+public:
+	ColorRenderBatchArrays() {}
+	ColorRenderBatchArrays(GLuint Offset, GLuint NumVertices, glm::vec3 CenterPos) : offset(Offset),
 		numVertices(NumVertices),
 		centerPos(CenterPos)
 	{
@@ -187,13 +206,21 @@ public:
 	void renderBatch(GLSLProgram* glsl_program);
 
 	void dispose();
+
+	int rect_triangleIndices[2][3] = {
+			{0, 1, 2},
+			{2, 3, 0}
+	};
+
 private:
 	void createRenderBatches();
 	void createVertexArray();
 
+	GLuint _ibo;
 	GLuint _vbo;
 	GLuint _vao;
 
+	std::vector<GLuint> _indices;
 	std::vector<ColorVertex> _vertices; //actual glyphs
 
 	size_t _glyphs_size = 0; //actual glyphs
@@ -203,5 +230,7 @@ private:
 	int _triangles_verticesOffset = 0;
 	int _rectangles_verticesOffset = 0;
 
-	std::vector<ColorRenderBatch> _renderBatches;
+	std::vector<ColorRenderBatchArrays> _renderBatchesArrays;
+	std::vector<ColorRenderBatchElements> _renderBatchesElements;
+
 };

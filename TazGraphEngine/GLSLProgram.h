@@ -10,6 +10,15 @@
 #include "TextureManager/TextureManager.h"
 #include "ConsoleLogger.h"
 
+#define LINE_OFFSET 2
+#define SQUARE_OFFSET 4
+#define SQUARE_PLANE_INDICES_OFFSET 6
+#define BOX_OFFSET 8
+
+constexpr int INDICES_LINE_OFFSET = LINE_OFFSET;
+constexpr int INDICES_SQUARE_OFFSET = 2 * SQUARE_OFFSET;
+constexpr int INDICES_BOX_OFFSET = 3 * BOX_OFFSET;
+
 class GLSLProgram {
 public:
 	GLSLProgram() : _programID(0), _vertexShaderID(0), _fragmentShaderID(0), _numAttributes(0)

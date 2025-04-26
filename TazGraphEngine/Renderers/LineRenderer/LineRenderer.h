@@ -7,13 +7,7 @@
 
 #include "../../Vertex.h"
 
-#define LINE_OFFSET 2
-#define SQUARE_OFFSET 4
-#define BOX_OFFSET 8
 
-constexpr int INDICES_LINE_OFFSET = LINE_OFFSET;
-constexpr int INDICES_SQUARE_OFFSET = 2 * SQUARE_OFFSET;
-constexpr int INDICES_BOX_OFFSET = 3 * BOX_OFFSET;
 
 
 class RenderLineBatch {

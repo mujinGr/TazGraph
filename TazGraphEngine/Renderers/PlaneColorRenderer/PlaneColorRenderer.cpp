@@ -15,7 +15,7 @@ void PlaneColorRenderer::init() {
 }
 
 void PlaneColorRenderer::begin() {
-	_renderBatches.clear();
+	_renderBatchesArrays.clear();
 
 	_glyphs_size = 0;
 	_triangleGlyphs_size = 0;
@@ -49,10 +49,12 @@ void PlaneColorRenderer::initBatchSize()
 	size_t totalGlyphs = _glyphs_size + _triangleGlyphs_size;
 
 	_rectangles_verticesOffset = 0;
-	_triangles_verticesOffset = _glyphs_size * RECT_OFFSET;
+	_triangles_verticesOffset = _glyphs_size * SQUARE_OFFSET;
 
-	_renderBatches.resize(totalGlyphs);
-	_vertices.resize((_glyphs_size * RECT_OFFSET) + (_triangleGlyphs_size * TRIANGLE_OFFSET));
+	_renderBatchesArrays.resize(totalGlyphs);
+	_renderBatchesElements.resize(totalGlyphs);
+	_vertices.resize((_glyphs_size * SQUARE_OFFSET) + (_triangleGlyphs_size * TRIANGLE_OFFSET));
+	_indices.resize((_glyphs_size * SQUARE_PLANE_INDICES_OFFSET));
 }
 
 
@@ -73,7 +75,7 @@ void PlaneColorRenderer::drawTriangle(
 
 	v_index = v_index + _glyphs_size;
 
-	_renderBatches[v_index] = ColorRenderBatch(
+	_renderBatchesArrays[v_index] = ColorRenderBatchArrays(
 		offset,
 		TRIANGLE_OFFSET,
 		bodyCenter);
@@ -89,16 +91,24 @@ void PlaneColorRenderer::drawTriangle(
 void PlaneColorRenderer::draw(size_t v_index, const glm::vec2& rectSize, const glm::vec3& bodyCenter, const Color& color) {
 	ColorGlyph glyph = ColorGlyph(rectSize, color);
 
-	int offset = _rectangles_verticesOffset + v_index * RECT_OFFSET;
+	int offset = v_index * SQUARE_OFFSET;
+	int index_offset = v_index * SQUARE_PLANE_INDICES_OFFSET;
 
-	_renderBatches[v_index] = ColorRenderBatch(offset, RECT_OFFSET, bodyCenter);
+	_renderBatchesElements[v_index] = ColorRenderBatchElements(index_offset, SQUARE_PLANE_INDICES_OFFSET, bodyCenter);
 	
+	_indices[index_offset++] = offset + rect_triangleIndices[0][0];
+	_indices[index_offset++] = offset + rect_triangleIndices[0][1];
+	_indices[index_offset++] = offset + rect_triangleIndices[0][2];
+	
+	_indices[index_offset++] = offset + rect_triangleIndices[1][0];
+	_indices[index_offset++] = offset + rect_triangleIndices[1][1];
+	_indices[index_offset++] = offset + rect_triangleIndices[1][2];
+
 	_vertices[offset++] = glyph.topLeft;
 	_vertices[offset++] = glyph.bottomLeft;
 	_vertices[offset++] = glyph.bottomRight;
-	_vertices[offset++] = glyph.bottomRight;
 	_vertices[offset++] = glyph.topRight;
-	_vertices[offset++] = glyph.topLeft;
+
 }
 
 void PlaneColorRenderer::drawBox(const glm::vec4& destRect, float depth, const Color& color) {
@@ -110,11 +120,26 @@ void PlaneColorRenderer::renderBatch(GLSLProgram* glsl_program) {
 
 	GLint centerPosLocation = glGetUniformLocation(glsl_program->getProgramID(), "centerPosition");
 
-	for (int i = 0; i < _renderBatches.size(); i++) {
-		glUniform3fv(centerPosLocation, 1, glm::value_ptr(_renderBatches[i].centerPos));
+	for (int i = 0; i < _renderBatchesElements.size(); i++) {
+		glUniform3fv(centerPosLocation, 1, glm::value_ptr(_renderBatchesElements[i].centerPos));
 
-		glDrawArrays(GL_TRIANGLES, _renderBatches[i].offset, _renderBatches[i].numVertices);
+		glDrawElements(
+			GL_TRIANGLES,
+			_renderBatchesElements[i].numIndices,
+			GL_UNSIGNED_INT,
+			(void*)(_renderBatchesElements[i].offset * sizeof(GLuint))
+		);
 	}
+	for (int i = 0; i < _renderBatchesArrays.size(); i++) {
+		glUniform3fv(centerPosLocation, 1, glm::value_ptr(_renderBatchesArrays[i].centerPos));
+
+		glDrawArrays(
+			GL_TRIANGLES,
+			_renderBatchesArrays[i].offset,
+			_renderBatchesArrays[i].numVertices
+		);
+	}
+
 
 	glBindVertexArray(0);
 }
@@ -131,22 +156,27 @@ void PlaneColorRenderer::createRenderBatches() {
 	}*/
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	//orphan the buffer / like using double buffer
-	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(ColorVertex), nullptr, GL_DYNAMIC_DRAW);
-	//upload the data
-	glBufferSubData(GL_ARRAY_BUFFER, 0, _vertices.size() * sizeof(ColorVertex), _vertices.data());
+	glBufferData(	GL_ARRAY_BUFFER,			_vertices.size() * sizeof(ColorVertex),	nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER,			0,	_vertices.size() * sizeof(ColorVertex), _vertices.data());
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
+	glBufferData(	GL_ELEMENT_ARRAY_BUFFER,	_indices.size() * sizeof(GLuint),		nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER,	0,	_indices.size() * sizeof(GLuint),		_indices.data());
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void PlaneColorRenderer::createVertexArray() {
 
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(1, &_vbo);
+	glGenBuffers(1, &_ibo);
 
 	glBindVertexArray(_vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo); //Buffer used for index drawing
 
 	glEnableVertexAttribArray(0); // give positions ( point to 0 element for position)
 	//position attribute pointer
@@ -164,6 +194,9 @@ void PlaneColorRenderer::dispose()
 		glDeleteVertexArrays(1, &_vao);
 	}
 	if (_vbo) {
+		glDeleteBuffers(1, &_vbo);
+	}
+	if (_ibo) {
 		glDeleteBuffers(1, &_vbo);
 	}
 	//_program.dispose();

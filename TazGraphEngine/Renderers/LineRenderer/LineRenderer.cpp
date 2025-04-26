@@ -187,7 +187,12 @@ void LineRenderer::renderBatch(float lineWidth )
 	glBindVertexArray(_vao);
 
 	for (int i = 0; i < _renderBatches.size(); i++) {
-		glDrawElements(GL_LINES, _renderBatches[i].numIndices, GL_UNSIGNED_INT, (void*)(_renderBatches[i].offset * sizeof(GLuint)));
+		glDrawElements(
+			GL_LINES,
+			_renderBatches[i].numIndices,
+			GL_UNSIGNED_INT,
+			(void*)(_renderBatches[i].offset * sizeof(GLuint))
+		);
 	}
 	glBindVertexArray(0);
 }
