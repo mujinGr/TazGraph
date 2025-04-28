@@ -55,19 +55,10 @@ void PlaneModelRenderer::initBatchSize()
 void PlaneModelRenderer::drawTriangle(
 	size_t v_index,
 	const glm::vec3& triangleOffset,
-	const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3,
 	const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
 	GLuint texture, const Color& color
 ) {
-	TriangleGlyph triangleGlyph = TriangleGlyph(v1, v2, v3, uv1, uv2, uv3, texture, color);
 
-	int offset = _triangles_verticesOffset + v_index * TRIANGLE_OFFSET;
-
-	_renderBatches.emplace_back(offset, TRIANGLE_OFFSET, triangleOffset, triangleGlyph.texture);
-
-	_vertices[offset++] = triangleGlyph.topLeft;
-	_vertices[offset++] = triangleGlyph.bottomLeft;
-	_vertices[offset++] = triangleGlyph.bottomRight;
 }
 // we can generalize the renderer for multiple kinds of meshes (triangle made instead of planes) by creating
 // more draw functions for those meshes (like draw function for triangle).

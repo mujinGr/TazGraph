@@ -1,8 +1,15 @@
 #include "PlaneColorRenderer.h"
 #include <algorithm>
 
-PlaneColorRenderer::PlaneColorRenderer() : _vbo(0), _vao(0),
-_glyphs_size(0), _triangleGlyphs_size(0), _boxGlyphs_size(0){
+PlaneColorRenderer::PlaneColorRenderer() : 
+	_quadVbo(0),
+	_triangleVbo(0),
+	_quadIbo(0),
+	_vboInstances(0),
+
+	_glyphs_size(0),
+	_triangleGlyphs_size(0),
+	_boxGlyphs_size(0){
 
 }
 
@@ -15,16 +22,17 @@ void PlaneColorRenderer::init() {
 }
 
 void PlaneColorRenderer::begin() {
-	_renderBatchesArrays.clear();
+
+	for (auto& mesh : _meshesArrays) {
+		mesh.instances.clear();
+	}
+	for (auto& mesh : _meshesElements) {
+		mesh.instances.clear();
+	}
 
 	_glyphs_size = 0;
 	_triangleGlyphs_size = 0;
 	_boxGlyphs_size = 0;
-
-	_triangles_verticesOffset = 0;
-	_rectangles_verticesOffset = 0;
-
-	_vertices.clear();
 }
 void PlaneColorRenderer::end() {
 
@@ -32,83 +40,54 @@ void PlaneColorRenderer::end() {
 	createRenderBatches();
 }
 
+void PlaneColorRenderer::initColorQuadBatch(size_t mSize)
+{
+	_glyphs_size = mSize;
+}
 
 void PlaneColorRenderer::initColorTriangleBatch(size_t mSize)
 {
 	_triangleGlyphs_size = mSize;
 }
 
-void PlaneColorRenderer::initColorQuadBatch(size_t mSize)
-{
-	_glyphs_size = mSize;
-}
-
-
-void PlaneColorRenderer::initBatchSize()
-{
-	size_t totalGlyphs = _glyphs_size + _triangleGlyphs_size;
-
-	_rectangles_verticesOffset = 0;
-	_triangles_verticesOffset = _glyphs_size * SQUARE_OFFSET;
-
-	_renderBatchesArrays.resize(totalGlyphs);
-	_renderBatchesElements.resize(totalGlyphs);
-	_vertices.resize((_glyphs_size * SQUARE_OFFSET) + (_triangleGlyphs_size * TRIANGLE_OFFSET));
-	_indices.resize((_glyphs_size * SQUARE_PLANE_INDICES_OFFSET));
-}
-
-
 void PlaneColorRenderer::initColorBoxBatch(size_t mSize)
 {
 	_boxGlyphs_size = mSize;
 }
 
+void PlaneColorRenderer::initBatchSize()
+{
+	_meshesArrays[TRIANGLE_MESH_IDX].offset = 0;
+	_meshesElements[RECTANGLE_MESH_IDX].offset = 0;
+
+	_meshesArrays[TRIANGLE_MESH_IDX].instances.resize(_triangleGlyphs_size);
+	_meshesArrays[TRIANGLE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
+	_meshesArrays[RECTANGLE_MESH_IDX].instances.resize(0);
+	_meshesArrays[BOX_MESH_IDX].instances.resize(0);
+
+	_meshesElements[TRIANGLE_MESH_IDX].instances.resize(0);
+	_meshesElements[RECTANGLE_MESH_IDX].instances.resize(_glyphs_size);
+	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
+	_meshesElements[BOX_MESH_IDX].instances.resize(0);
+}
+
+
 void PlaneColorRenderer::drawTriangle(
 	size_t v_index,
-	const glm::vec2& v1, const glm::vec2& v2, const glm::vec2& v3,
 	const glm::vec3& bodyCenter, const glm::vec3& cpuRotation, 
 	const Color& color
 ) {
-	TriangleColorGlyph triangleGlyph = TriangleColorGlyph(v1, v2, v3, cpuRotation, color);
-
-	int offset =  _triangles_verticesOffset + v_index * TRIANGLE_OFFSET;
-
-	v_index = v_index + _glyphs_size;
-
-	_renderBatchesArrays[v_index] = ColorRenderBatchArrays(
-		offset,
-		TRIANGLE_OFFSET,
-		bodyCenter);
-	_vertices[offset++] = triangleGlyph.topLeft;
-	_vertices[offset++] = triangleGlyph.bottomLeft;
-	_vertices[offset++] = triangleGlyph.bottomRight;
+	glm::vec2 size = glm::vec2(10.0f);
+	_meshesArrays[TRIANGLE_MESH_IDX].instances[v_index] = InstanceData(size, bodyCenter, cpuRotation, color);
 }
+
 // we can generalize the renderer for multiple kinds of meshes (triangle made instead of planes) by creating
 // more draw functions for those meshes (like draw function for triangle).
 // Also instead of glyphs have triangles, so when its time to createRenderBatches we see the next mesh
 // how many triangles it has and accordingly add those multiple vertices with the combined texture
 //! draws are needed to convert the pos and size to vertices
-void PlaneColorRenderer::draw(size_t v_index, const glm::vec2& rectSize, const glm::vec3& bodyCenter, const Color& color) {
-	ColorGlyph glyph = ColorGlyph(rectSize, color);
-
-	int offset = v_index * SQUARE_OFFSET;
-	int index_offset = v_index * SQUARE_PLANE_INDICES_OFFSET;
-
-	_renderBatchesElements[v_index] = ColorRenderBatchElements(index_offset, SQUARE_PLANE_INDICES_OFFSET, bodyCenter);
-	
-	_indices[index_offset++] = offset + rect_triangleIndices[0][0];
-	_indices[index_offset++] = offset + rect_triangleIndices[0][1];
-	_indices[index_offset++] = offset + rect_triangleIndices[0][2];
-	
-	_indices[index_offset++] = offset + rect_triangleIndices[1][0];
-	_indices[index_offset++] = offset + rect_triangleIndices[1][1];
-	_indices[index_offset++] = offset + rect_triangleIndices[1][2];
-
-	_vertices[offset++] = glyph.topLeft;
-	_vertices[offset++] = glyph.bottomLeft;
-	_vertices[offset++] = glyph.bottomRight;
-	_vertices[offset++] = glyph.topRight;
-
+void PlaneColorRenderer::draw(size_t v_index, const glm::vec2& rectSize, const glm::vec3& bodyCenter, const glm::vec3& mRotation, const Color& color) {
+	_meshesElements[RECTANGLE_MESH_IDX].instances[v_index] = InstanceData(rectSize, bodyCenter, mRotation,color);
 }
 
 void PlaneColorRenderer::drawBox(const glm::vec4& destRect, float depth, const Color& color) {
@@ -116,32 +95,60 @@ void PlaneColorRenderer::drawBox(const glm::vec4& destRect, float depth, const C
 }
 
 void PlaneColorRenderer::renderBatch(GLSLProgram* glsl_program) {
-	glBindVertexArray(_vao);
 
-	GLint centerPosLocation = glGetUniformLocation(glsl_program->getProgramID(), "centerPosition");
+	for (int i = 0; i < _meshesElements.size(); i++) { // different batch for each geometry
+		
+		if (_meshesElements[i].instances.size() == 0) continue;
+		
+		glBindVertexArray(_meshesElements[i].vao);
 
-	for (int i = 0; i < _renderBatchesElements.size(); i++) {
-		glUniform3fv(centerPosLocation, 1, glm::value_ptr(_renderBatchesElements[i].centerPos));
+		glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
-		glDrawElements(
+		glBufferData(GL_ARRAY_BUFFER, _meshesElements[i].instances.size() * sizeof(InstanceData), nullptr, GL_DYNAMIC_DRAW);
+
+		glBufferSubData(GL_ARRAY_BUFFER, 0,
+			_meshesElements[i].instances.size() * sizeof(InstanceData),
+			_meshesElements[i].instances.data());
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+
+		glDrawElementsInstanced(
 			GL_TRIANGLES,
-			_renderBatchesElements[i].numIndices,
+			_meshesElements[i].meshIndices,
 			GL_UNSIGNED_INT,
-			(void*)(_renderBatchesElements[i].offset * sizeof(GLuint))
+			0,
+			_meshesElements[i].instances.size()
 		);
 	}
-	for (int i = 0; i < _renderBatchesArrays.size(); i++) {
-		glUniform3fv(centerPosLocation, 1, glm::value_ptr(_renderBatchesArrays[i].centerPos));
 
-		glDrawArrays(
+
+	for (int i = 0; i < _meshesArrays.size(); i++) {
+		
+		if (_meshesArrays[i].instances.size() == 0) continue;
+
+		glBindVertexArray(_meshesArrays[i].vao);
+
+		glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
+
+		glBufferData(GL_ARRAY_BUFFER, _meshesArrays[i].instances.size() * sizeof(InstanceData), nullptr, GL_DYNAMIC_DRAW);
+
+		glBufferSubData(GL_ARRAY_BUFFER, 0,
+			_meshesArrays[i].instances.size() * sizeof(InstanceData),
+			_meshesArrays[i].instances.data());
+
+
+		glDrawArraysInstanced(
 			GL_TRIANGLES,
-			_renderBatchesArrays[i].offset,
-			_renderBatchesArrays[i].numVertices
+			0,
+			_meshesArrays[i].meshIndices,
+			_meshesArrays[i].instances.size()
 		);
 	}
 
 
 	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void PlaneColorRenderer::createRenderBatches() {
@@ -150,54 +157,109 @@ void PlaneColorRenderer::createRenderBatches() {
 	if ((_glyphs_size + _triangleGlyphs_size) == 0) {
 		return;
 	}
-	// todo not complete
-	/*if (_boxGlyphPointers.size()) {
-	
-	}*/
 
-	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBufferData(	GL_ARRAY_BUFFER,			_vertices.size() * sizeof(ColorVertex),	nullptr, GL_DYNAMIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER,			0,	_vertices.size() * sizeof(ColorVertex), _vertices.data());
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
-	glBufferData(	GL_ELEMENT_ARRAY_BUFFER,	_indices.size() * sizeof(GLuint),		nullptr, GL_DYNAMIC_DRAW);
-	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER,	0,	_indices.size() * sizeof(GLuint),		_indices.data());
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void PlaneColorRenderer::createVertexArray() {
 
-	glGenVertexArrays(1, &_vao);
-	glGenBuffers(1, &_vbo);
-	glGenBuffers(1, &_ibo);
+	_meshesArrays.resize(TOTAL_MESHES);
+	_meshesElements.resize(TOTAL_MESHES);
 
-	glBindVertexArray(_vao);
+	glGenVertexArrays(1, &_meshesArrays[TRIANGLE_MESH_IDX].vao);
+	glGenVertexArrays(1, &_meshesElements[RECTANGLE_MESH_IDX].vao);
 
-	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo); //Buffer used for index drawing
+	glGenBuffers(1, &_quadVbo);
+	glGenBuffers(1, &_triangleVbo);
+	glGenBuffers(1, &_vboInstances);
+	glGenBuffers(1, &_quadIbo);
 
-	glEnableVertexAttribArray(0); // give positions ( point to 0 element for position)
-	//position attribute pointer
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, position)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
-	glEnableVertexAttribArray(1);
-	//color attribute pointer
-	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, color));
+	glBindVertexArray(_meshesElements[RECTANGLE_MESH_IDX].vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _quadVbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
+	
+	glEnableVertexAttribArray(0); // aPos
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _quadIbo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndices), quadIndices, GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
+
+	glEnableVertexAttribArray(1); // instance size
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, size));
+	glVertexAttribDivisor(1, 1);
+
+	glEnableVertexAttribArray(2); // instance center
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, bodyCenter));
+	glVertexAttribDivisor(2, 1);
+
+	glEnableVertexAttribArray(3); // instance rotation
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, rotation));
+	glVertexAttribDivisor(3, 1);
+
+	glEnableVertexAttribArray(4); // instance color
+	glVertexAttribPointer(4, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(InstanceData), (void*)offsetof(InstanceData, color));
+	glVertexAttribDivisor(4, 1);
+
+
+	glBindVertexArray(_meshesArrays[TRIANGLE_MESH_IDX].vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _triangleVbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
+
+	glEnableVertexAttribArray(1); // instance size
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, size));
+	glVertexAttribDivisor(1, 1);
+
+	glEnableVertexAttribArray(2); // instance center
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, bodyCenter));
+	glVertexAttribDivisor(2, 1);
+
+	glEnableVertexAttribArray(3); // instance center
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, rotation));
+	glVertexAttribDivisor(3, 1);
+
+	glEnableVertexAttribArray(4); // instance color
+	glVertexAttribPointer(4, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(InstanceData), (void*)offsetof(InstanceData, color));
+	glVertexAttribDivisor(4, 1);
+
 	
 	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void PlaneColorRenderer::dispose()
 {
-	if (_vao) {
-		glDeleteVertexArrays(1, &_vao);
+
+	for (auto& mesh : _meshesArrays) {
+		glDeleteVertexArrays(1, &mesh.vao);
 	}
-	if (_vbo) {
-		glDeleteBuffers(1, &_vbo);
+
+	for (auto& mesh : _meshesElements) {
+		glDeleteVertexArrays(1, &mesh.vao);
 	}
-	if (_ibo) {
-		glDeleteBuffers(1, &_vbo);
+
+	if (_quadVbo) {
+		glDeleteBuffers(1, &_quadVbo);
+	}
+	if (_triangleVbo) {
+		glDeleteBuffers(1, &_triangleVbo);
+	}
+	if (_vboInstances) {
+		glDeleteBuffers(1, &_vboInstances);
+	}
+	if (_quadIbo) {
+		glDeleteBuffers(1, &_quadIbo);
 	}
 	//_program.dispose();
 }

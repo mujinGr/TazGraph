@@ -36,6 +36,9 @@ static glm::vec2 rotatePoint(float x, float y, float radians) {
 
 
 using Position	= glm::vec3;
+using Size		= glm::vec3;
+using Rotation	= glm::vec3;
+
 using UV		= glm::vec2;
 
 struct Color {

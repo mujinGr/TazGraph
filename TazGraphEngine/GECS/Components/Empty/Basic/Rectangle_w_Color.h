@@ -50,7 +50,7 @@ public:
 
 	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {
 		glm::vec2 size((float)destRect.w, (float)destRect.h);
-		batch.draw(v_index, size, transform->bodyCenter, color);
+		batch.draw(v_index, size, transform->bodyCenter, glm::vec3(0.0f), color);
 	}
 
 	void setColor(Color clr) {

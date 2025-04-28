@@ -7,17 +7,87 @@
 #include <vector>
 #include <fstream>
 
+#include "./Vertex.h"
+
 #include "TextureManager/TextureManager.h"
 #include "ConsoleLogger.h"
 
 #define LINE_OFFSET 2
 #define SQUARE_OFFSET 4
-#define SQUARE_PLANE_INDICES_OFFSET 6
+
+#define TRIANGLE_VERTICES 3
+#define QUAD_INDICES 6
 #define BOX_OFFSET 8
+
+#define TOTAL_MESHES 3
+
+#define TRIANGLE_MESH_IDX 0
+#define RECTANGLE_MESH_IDX 1
+#define BOX_MESH_IDX 2
+
 
 constexpr int INDICES_LINE_OFFSET = LINE_OFFSET;
 constexpr int INDICES_SQUARE_OFFSET = 2 * SQUARE_OFFSET;
 constexpr int INDICES_BOX_OFFSET = 3 * BOX_OFFSET;
+
+static Position triangleVertices[3] = {
+	{  0.0f,  0.5f, 0.0f }, // Top
+	{ -0.5f, -0.5f, 0.0f }, // Bottom Left
+	{  0.5f, -0.5f, 0.0f }  // Bottom Right
+};
+
+static GLuint triangleIndices[3] = {
+	0, 1, 2
+};
+
+static Position quadVertices[4] = {
+	{	-0.5f,  0.5f,	0.0f	},
+	{	-0.5f,  -0.5f,	0.0f	},
+	{	0.5f,   -0.5f,	0.0f	},
+	{	0.5f,   0.5f,	0.0f	}
+};
+
+static GLuint quadIndices[6] = {
+	0, 1, 2,
+	2, 3, 0
+};
+
+static Position cubeVertices[8] = {
+	{ -0.5f, -0.5f, -0.5f }, 
+	{  0.5f, -0.5f, -0.5f }, 
+	{  0.5f,  0.5f, -0.5f }, 
+	{ -0.5f,  0.5f, -0.5f }, 
+	{ -0.5f, -0.5f,  0.5f }, 
+	{  0.5f, -0.5f,  0.5f },
+	{  0.5f,  0.5f,  0.5f }, 
+	{ -0.5f,  0.5f,  0.5f }  
+};
+
+static GLuint cubeIndices[36] = {
+	// Back face
+	0, 1, 2,
+	2, 3, 0,
+
+	// Front face
+	4, 5, 6,
+	6, 7, 4,
+
+	// Left face
+	4, 0, 3,
+	3, 7, 4,
+
+	// Right face
+	1, 5, 6,
+	6, 2, 1,
+
+	// Bottom face
+	4, 5, 1,
+	1, 0, 4,
+
+	// Top face
+	3, 2, 6,
+	6, 7, 3
+};
 
 class GLSLProgram {
 public:

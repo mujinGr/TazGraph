@@ -286,7 +286,7 @@ public:
 			glm::vec3 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
 
 			// Calculate the angle in radians, and convert it to degrees
-			float angleRadians = atan2(direction.y, direction.x);
+			float angleRadians = -atan2(direction.y, direction.x);
 			float angleDegrees = glm::degrees(angleRadians);
 
 			glm::ivec3 arrowSize(10, 20, 0);
@@ -328,7 +328,7 @@ public:
 		auto& temp_arrowHead = getManager()->addEntityNoId<Empty>();
 
 		// Calculate the angle in radians, and convert it to degrees
-		float angleRadians = atan2(direction.y, direction.x);
+		float angleRadians = -atan2(direction.y, direction.x);
 		float angleDegrees = glm::degrees(angleRadians);
 
 		glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
