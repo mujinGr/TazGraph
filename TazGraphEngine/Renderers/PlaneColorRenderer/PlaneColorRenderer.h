@@ -32,12 +32,14 @@ struct InstanceData {
 };
 
 struct MeshRenderer {
-	GLuint offset = 0;
 	size_t meshIndices = 0;
 
 	std::vector<InstanceData> instances;
 
 	GLuint vao;
+
+	GLuint vbo;
+	GLuint ibo;
 };
 
 
@@ -62,8 +64,9 @@ public:
 
 	void initColorTriangleBatch(size_t mSize);
 	void initColorQuadBatch(size_t mSize);
-	void initBatchSize();
 	void initColorBoxBatch(size_t mSize);
+	
+	void initBatchSize();
 
 	void drawTriangle(size_t v_index,
 		const glm::vec3& depth,
@@ -79,11 +82,8 @@ public:
 
 private:
 	void createRenderBatches();
+	void createInstancesVBO();
 	void createVertexArray();
-
-	GLuint _quadIbo;
-	GLuint _quadVbo;
-	GLuint _triangleVbo;
 
 	GLuint _vboInstances;
 	

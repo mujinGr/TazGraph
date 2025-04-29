@@ -55,6 +55,7 @@ void PlaneModelRenderer::initBatchSize()
 void PlaneModelRenderer::drawTriangle(
 	size_t v_index,
 	const glm::vec3& triangleOffset,
+	const glm::vec3& mRotation,
 	const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
 	GLuint texture, const Color& color
 ) {
@@ -68,10 +69,11 @@ void PlaneModelRenderer::draw(
 	size_t v_index,
 	const glm::vec3& rectOffset,
 	const glm::vec2& rectSize,
+	const glm::vec3& mRotation,
 	const glm::vec4& uvRect,
 	GLuint texture, const glm::vec3& bodyCenter, const Color& color) {
 
-	Glyph glyph = Glyph(rectSize, uvRect, texture, bodyCenter.z, color);
+	Glyph glyph = Glyph(rectSize, mRotation, uvRect, texture, bodyCenter.z, color);
 
 	int offset = v_index * RECT_OFFSET;
 
@@ -130,14 +132,18 @@ void PlaneModelRenderer::createVertexArray() {
 	glEnableVertexAttribArray(0); // give positions ( point to 0 element for position)
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
+
 
 	//position attribute pointer
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
 	//color attribute pointer
 	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+	// rotation attribute pointer
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, rotation));
 	// UV attribute pointer
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
-
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+	
 	glBindVertexArray(0);
 }
 

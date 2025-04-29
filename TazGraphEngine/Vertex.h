@@ -87,6 +87,8 @@ struct Color {
 struct ColorVertex { //instead of using the general Vertex that has also info about texture
 	// we use this where we want just color
 	Position position = Position(0);
+	Rotation rotation = Position(0);
+
 	//todo different instanceVBO for the centers
 	//Position centerMesh;
 	Color color = Color();

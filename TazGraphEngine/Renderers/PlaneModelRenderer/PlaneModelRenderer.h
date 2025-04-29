@@ -31,6 +31,7 @@ class TriangleGlyph {
 public:
 	TriangleGlyph() {};
 	TriangleGlyph(
+		const glm::vec3& mRotation,
 		const glm::vec2& m_v1, const glm::vec2& m_v2, const glm::vec2& m_v3, // v1 top one, v2 bot left and v3 bot right
 		const glm::vec2& m_uv1, const glm::vec2& m_uv2, const glm::vec2& m_uv3,
 		GLuint texture, const Color& color
@@ -48,14 +49,17 @@ public:
 		//todo that going to load the uniform
 		topLeft.color = color;
 		topLeft.setPosition(positions[0]);
+		topLeft.rotation = mRotation;
 		topLeft.setUV(m_uv1);
 
 		bottomLeft.color = color;
 		bottomLeft.setPosition(positions[1]);
+		bottomLeft.rotation = mRotation;
 		bottomLeft.setUV(m_uv2);
 
 		bottomRight.color = color;
 		bottomRight.setPosition(positions[2]);
+		bottomRight.rotation = mRotation;
 		bottomRight.setUV(m_uv3);
 	};
 
@@ -70,7 +74,11 @@ class Glyph {
 
 public:
 	Glyph() {};
-	Glyph(const glm::vec2& rectSize, const glm::vec4& uvRect, GLuint texture, float Depth, const Color& color)
+	Glyph(const glm::vec2& rectSize,
+		const glm::vec3& mRotation,
+		const glm::vec4& uvRect,
+		GLuint texture, float Depth,
+		const Color& color)
 		: texture(texture) {
 
 		float halfW = rectSize.x / 2.0f;
@@ -90,18 +98,22 @@ public:
 			
 		topLeft.color = color;
 		topLeft.setPosition(positions[0]);
+		topLeft.rotation = mRotation;
 		topLeft.setUV(uv_topLeft); // Use bottom y for top
 
 		bottomLeft.color = color;
 		bottomLeft.setPosition(positions[1]);
+		bottomLeft.rotation = mRotation;
 		bottomLeft.setUV(uv_bottomLeft); // Use top y for bottom
 
 		bottomRight.color = color;
 		bottomRight.setPosition(positions[2]);
+		bottomRight.rotation = mRotation;
 		bottomRight.setUV(uv_bottomRight); // Use top y for bottom
 
 		topRight.color = color;
 		topRight.setPosition(positions[3]);
+		topRight.rotation = mRotation;
 		topRight.setUV(uv_topRight); // Use bottom y for top
 	};
 
@@ -140,10 +152,17 @@ public:
 	void drawTriangle(
 		size_t v_index,
 		const glm::vec3& triangleOffset,
+		const glm::vec3& mRotation,
 		const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
 		GLuint texture, const Color& color);
 
-	void draw(size_t v_index, const glm::vec3& rectOffset, const glm::vec2& rectSize, const glm::vec4& uvRect, GLuint texture, const glm::vec3& bodyCenter, const Color& color);
+	void draw(size_t v_index,
+		const glm::vec3& rectOffset,
+		const glm::vec2& rectSize,
+		const glm::vec3& mRotation,
+		const glm::vec4& uvRect,
+		GLuint texture,
+		const glm::vec3& bodyCenter, const Color& color);
 
 	void renderBatch(GLSLProgram* glsl_program);
 
