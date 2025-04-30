@@ -1,7 +1,7 @@
 #include "App.h"
 #include "GraphScreen/SceneList.h"
 
-App::App() {
+App::App(int threadCount) : AppInterface(threadCount) {
 
 }
 

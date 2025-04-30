@@ -7,7 +7,7 @@
 #include "../DataManager/DataManager.h"
 #include "../Camera2.5D/CameraManager.h"
 
-AppInterface::AppInterface() {
+AppInterface::AppInterface(int threadCount):threadPool(threadCount) {
 	_sceneList = std::make_unique<SceneList>(this);
 }
 

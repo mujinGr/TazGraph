@@ -7,7 +7,7 @@
 class App : public AppInterface
 {
 public:
-	App();
+	App(int threadCount);
 	~App();
 
     // Called on initialization

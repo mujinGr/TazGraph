@@ -18,7 +18,7 @@ class IScene;
 
 class AppInterface {
 public:
-	AppInterface();
+	AppInterface(int threadCount);
 	virtual ~AppInterface();
 
 	void run();
@@ -36,7 +36,7 @@ public:
 	BaseFPSLimiter& getFPSLimiter() { return _limiter; }
 	AudioEngine& getAudioEngine() { return _audioEngine; }
 
-	Threader threadPool = Threader(4);
+	Threader threadPool;
 
 protected:
 	virtual void checkInput();
