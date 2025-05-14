@@ -39,8 +39,7 @@ public:
 	}
 
 	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window ) {
-		glm::vec4 pos((float)destRect.x, (float)destRect.y, (float)destRect.w, (float)destRect.h);
-		batch.draw(v_index, pos, transform->getPosition().z, color);
+		batch.drawBox(v_index, transform->size, transform->bodyCenter, transform->rotation,color);
 	}
 
 	std::string GetComponentName() override {

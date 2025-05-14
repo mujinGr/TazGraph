@@ -30,7 +30,7 @@ public:
 		//transform->setRotation(transform->getRotation() + 0.1f);
 	}
 
-	void draw(size_t v_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window) {
+	/*void draw(size_t v_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window) {
 		float tempScreenScale = window.getScale();
 
 		batch.drawTriangle(
@@ -40,7 +40,7 @@ public:
 			uv1, uv2, uv3,
 			0, color
 		);
-	}
+	}*/
 
 	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {
 		float tempScreenScale = window.getScale();

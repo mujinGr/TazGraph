@@ -74,7 +74,11 @@ public:
 
 	void draw(size_t v_index, const glm::vec2& rectSize, const glm::vec3& bodyCenter, const glm::vec3& mRotation, const Color& color);
 
-	void drawBox(const glm::vec4& destRect, float depth, const Color& color);
+	void drawBox(size_t v_index,
+		const glm::vec3& boxSize,
+		const glm::vec3& bodyCenter,
+		const glm::vec3& mRotation,
+		const Color& color);
 
 	void renderBatch(GLSLProgram* glsl_program);
 

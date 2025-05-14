@@ -90,7 +90,14 @@ void PlaneColorRenderer::draw(
 	_meshesElements[RECTANGLE_MESH_IDX].instances[v_index] = InstanceData(rectSize, bodyCenter, mRotation,color);
 }
 
-void PlaneColorRenderer::drawBox(const glm::vec4& destRect, float depth, const Color& color) {
+void PlaneColorRenderer::drawBox(
+	size_t v_index,
+	const glm::vec3& boxSize,
+	const glm::vec3& bodyCenter,
+	const glm::vec3& mRotation,
+	const Color& color) {
+	_meshesElements[RECTANGLE_MESH_IDX].instances[v_index] = InstanceData(boxSize, bodyCenter, mRotation, color);
+
 	//_boxGlyphs.emplace_back(destRect, depth, color);
 }
 

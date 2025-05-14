@@ -42,14 +42,14 @@ public:
 		temp_rotation += 0.1f;
 	}
 
-	void draw(size_t v_index, PlaneModelRenderer&  batch, TazGraphEngine::Window& window) {
-		glm::vec3 pos((float)destRect.x, (float)destRect.y, transform->getPosition().z);
-		glm::vec2 size = glm::vec2((float)destRect.w, (float)destRect.h);
-		batch.draw(v_index, pos, size, transform->rotation, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, transform->bodyCenter, color); // 0 is for texture
-	}
+	//void draw(size_t v_index, PlaneModelRenderer&  batch, TazGraphEngine::Window& window) {
+	//	glm::vec3 pos((float)destRect.x, (float)destRect.y, transform->getPosition().z);
+	//	glm::vec2 size = glm::vec2((float)destRect.w, (float)destRect.h);
+	//	batch.draw(v_index, pos, size, transform->rotation, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, transform->bodyCenter, color); // 0 is for texture
+	//}
 
 	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {
-		glm::vec2 size((float)destRect.w, (float)destRect.h);
+		glm::vec2 size((float)transform->size.x, (float)transform->size.y);
 		batch.draw(v_index, size, transform->bodyCenter, transform->rotation, color);
 	}
 

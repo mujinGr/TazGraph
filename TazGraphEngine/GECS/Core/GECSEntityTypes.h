@@ -91,24 +91,21 @@ public:
 
 	void cellUpdate() override{
 		if (this->ownerCell) {
-			if (this->GetComponent<TransformComponent>().last_position != this->GetComponent<TransformComponent>().position)
-			{
-				updatePorts(0.0f);
-				this->GetComponent<TransformComponent>().update(0.0f);
-				Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
-				if (newCell != this->ownerCell) {
-					std::scoped_lock lock(manager.movedNodesMutex);
-					removeEntity();
-					manager.grid->addNode(this, newCell);
+			updatePorts(0.0f);
+			//this->GetComponent<TransformComponent>().update(0.0f);
+			Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
+			if (newCell != this->ownerCell) {
+				std::scoped_lock lock(manager.movedNodesMutex);
+				removeEntity();
+				manager.grid->addNode(this, newCell);
 					
-					manager.movedNodes.push_back(this);
-				}
-				for (auto& link : inLinks) {
-					link->updateArrowHeads();
-				}
-				for (auto& link : outLinks) {
-					link->updateArrowHeads();
-				}
+				manager.movedNodes.push_back(this);
+			}
+			for (auto& link : inLinks) {
+				link->updateArrowHeads();
+			}
+			for (auto& link : outLinks) {
+				link->updateArrowHeads();
 			}
 		}
 	}

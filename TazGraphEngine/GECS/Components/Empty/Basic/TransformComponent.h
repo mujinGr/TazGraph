@@ -88,6 +88,8 @@ public:
 			return;
 		}
 
+		entity->cellUpdate();
+
 		last_position = position;
 		last_size = size;
 

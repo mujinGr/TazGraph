@@ -13,9 +13,27 @@ enum class JsonType {
     Object, Array, String, Number, Boolean, Null
 };
 
+struct NumericStringCompare {
+    bool operator()(const std::string& a, const std::string& b) const {
+        bool a_numeric = isNumeric(a);
+        bool b_numeric = isNumeric(b);
+
+        if (a_numeric && b_numeric) {
+            return std::stod(a) < std::stod(b);
+        }
+        return a < b; // fallback to alphabetical for non-numeric
+    }
+
+private:
+    bool isNumeric(const std::string& s) const {
+        char* end = nullptr;
+        std::strtod(s.c_str(), &end);
+        return end != s.c_str() && *end == '\0';
+    }
+};
 struct JsonValue {
     JsonType type;
-    std::map<std::string, JsonValue> obj;
+    std::map<std::string, JsonValue, NumericStringCompare> obj;
     std::vector<JsonValue> arr;
     std::string str = "";
     double num = -1;

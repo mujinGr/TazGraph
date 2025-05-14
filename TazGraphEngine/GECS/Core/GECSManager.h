@@ -59,21 +59,21 @@ public:
 
 			//! CELL UPDATE
 
-			_threader->parallel(visible_emptyEntities.size(), [&](int start, int end) {
-				for (int i = start; i < end; i++) {
-					if (visible_emptyEntities[i] && visible_emptyEntities[i]->isActive()) {
-						visible_emptyEntities[i]->cellUpdate();
-					}
-				}
-				});
+			//_threader->parallel(visible_emptyEntities.size(), [&](int start, int end) {
+			//	for (int i = start; i < end; i++) {
+			//		if (visible_emptyEntities[i] && visible_emptyEntities[i]->isActive()) {
+			//			visible_emptyEntities[i]->cellUpdate();
+			//		}
+			//	}
+			//	});
 
-			_threader->parallel(visible_nodes.size(), [&](int start, int end) {
-				for (int i = start; i < end; i++) {
-					if (visible_nodes[i] && visible_nodes[i]->isActive()) {
-						visible_nodes[i]->cellUpdate();
-					}
-				}
-				});
+			//_threader->parallel(visible_nodes.size(), [&](int start, int end) {
+			//	for (int i = start; i < end; i++) {
+			//		if (visible_nodes[i] && visible_nodes[i]->isActive()) {
+			//			visible_nodes[i]->cellUpdate();
+			//		}
+			//	}
+			//	});
 
 			//! UPDATE LINK CELLS
 			//? THIS MAY CAUSE ERRORS, IF REMOVE LINK FROM CELL AND OTHER LINK THAT HAS THAT CELL IN SEARCH
