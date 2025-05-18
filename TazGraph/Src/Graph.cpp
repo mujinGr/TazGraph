@@ -639,12 +639,12 @@ void Graph::checkInput() {
 			if (evnt.wheel.y > 0)
 			{
 				// Scrolling up
-				main_camera2D->movePosition_Forward(20.0f);
+				main_camera2D->movePosition_Forward(CELL_SIZE);
 			}
 			else if (evnt.wheel.y < 0)
 			{
 				// Scrolling down
-				main_camera2D->movePosition_Forward(-20.0f);
+				main_camera2D->movePosition_Forward(-CELL_SIZE);
 			}
 			break;
 		case SDL_KEYDOWN:
@@ -661,22 +661,22 @@ void Graph::checkInput() {
 				return;
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_e)) {
-				main_camera2D->movePosition_Forward(10.0f);
+				main_camera2D->movePosition_Forward(manager->grid->getCellSize());
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_r)) {
-				main_camera2D->movePosition_Forward(-10.0f);
+				main_camera2D->movePosition_Forward(-manager->grid->getCellSize());
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_w)) {
-				main_camera2D->movePosition_Vert(10.0f);
+				main_camera2D->movePosition_Vert(manager->grid->getCellSize() + 10.0f);
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_s)) {
-				main_camera2D->movePosition_Vert(-10.0f);
+				main_camera2D->movePosition_Vert(-manager->grid->getCellSize() - 10.0f);
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_a)) {
-				main_camera2D->movePosition_Hor(-10.0f);
+				main_camera2D->movePosition_Hor(-manager->grid->getCellSize() - 10.0f);
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_d)) {
-				main_camera2D->movePosition_Hor(10.0f);
+				main_camera2D->movePosition_Hor(manager->grid->getCellSize() + 10.0f);
 			}
 		
 		case SDL_MOUSEMOTION:
@@ -1168,10 +1168,10 @@ void Graph::draw()
 	_framebuffer.Bind();
 	////////////OPENGL USE
 	glClearDepth(1.0);
+	glDepthFunc(GL_LEQUAL);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-
+	glEnable(GL_LINE_SMOOTH);
 
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -1342,6 +1342,8 @@ void Graph::draw()
 			return dynamic_cast<LinkEntity*>(entry.first) != nullptr;
 		});
 
+	linkCount += 2 * AXIS_CELLS + 2;
+
 	_LineRenderer.initBatchLines(
 		linkCount +
 		1
@@ -1391,11 +1393,25 @@ void Graph::draw()
 		}
 	}
 
+	float z = 0.0f;
+
+	for (int i = 0; i <= AXIS_CELLS; i++) {
+		// Vertical lines (constant X, varying Y)
+		glm::vec3 startV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), -AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);
+		glm::vec3 endV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);
+		_LineRenderer.drawLine(lineIndex++, startV, endV, Color(255, 255, 255, 64), Color(255, 255, 255, 64));
+
+		// Horizontal lines (constant Y, varying X)
+		glm::vec3 startH(-AXIS_CELLS / 2.0f * manager->grid->getCellSize(), (i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), z);
+		glm::vec3 endH(AXIS_CELLS / 2.0f * manager->grid->getCellSize(), (i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), z);
+		_LineRenderer.drawLine(lineIndex++, startH, endH, Color(255, 255, 255, 64), Color(255, 255, 255, 64));
+	}
+
 	_LineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 	_LineRenderer.end();
-	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
+	_LineRenderer.renderBatch(main_camera2D->getCameraRect().x / main_camera2D->getCameraRect().y);
 	glsl_lineColor.unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);

@@ -28,6 +28,7 @@ public:
     virtual glm::vec3 getPosition() const = 0;
     virtual void setPosition_X(const float newPosition) = 0;
     virtual void setPosition_Y(const float newPosition) = 0;
+    virtual void setPosition_Z(const float newPosition) = 0;
     virtual float getScale() const = 0;
     virtual glm::mat4 getCameraMatrix() const = 0;
     virtual void setScale(float scale) = 0;

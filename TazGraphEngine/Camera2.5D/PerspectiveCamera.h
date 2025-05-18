@@ -7,7 +7,7 @@ public:
 	glm::vec3 eyePos{ 0,0,0 };
 	glm::vec3 aimPos{ 0,0,0 };
 	glm::vec3 upDir{0,-1,0};
-
+	float zFar = 1000000.0f;
 
 	PerspectiveCamera() : _position(0.0f, 0.0f),
 		_cameraMatrix(1.0f),	//I
@@ -35,7 +35,7 @@ public:
 
 	void init() override {
 		upDir = glm::vec3(0.f, -1.f, 0.f);
-		_projectionMatrix = glm::perspective(glm::radians(45.0f), (float)_screenWidth / (float)_screenHeight, 0.1f, 10000.0f); //left, right, top, bottom
+		_projectionMatrix = glm::perspective(glm::radians(45.0f), (float)_screenWidth / (float)_screenHeight, 0.1f, zFar); //left, right, top, bottom
 		_viewMatrix = glm::lookAt(eyePos, //< eye position
 			aimPos,  //< aim position
 			upDir); //< up direction
@@ -97,6 +97,11 @@ public:
 
 	void setPosition_Y(const float newPosition) override {
 		eyePos.y = newPosition;
+		_cameraChange = true;
+	}
+
+	void setPosition_Z(const float newPosition) override {
+		eyePos.z = newPosition;
 		_cameraChange = true;
 	}
 
@@ -163,6 +168,10 @@ public:
 		return glm::vec3(glm::degrees(pitch), glm::degrees(yaw), glm::degrees(roll));
 	}
 
+
+	float getZFar() {
+		return zFar;
+	}
 
 	glm::vec3 getAimPos() {
 		return aimPos;

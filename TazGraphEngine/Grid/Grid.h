@@ -25,6 +25,9 @@ public:
 	Grid(int width, int height, int depth, int cellSize);
 	~Grid();
 
+	void setCellSize(int cellSize);
+	void init(int width, int height, int depth, int cellSize);
+
 	void createCells(Grid::Level size);
 
 	void addLink(LinkEntity* link, Grid::Level m_level);

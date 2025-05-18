@@ -3,6 +3,7 @@
 #include "GECS/UtilComponents.h"
 #include "../GECS/ScriptComponents.h"
 #include <iostream>
+#include <limits>
 
 
 Map::Map(Manager& m_manager, int ms, int ns) : manager(&m_manager), mapScale(ms), nodeSize(ns) //probably initiallization
@@ -59,6 +60,9 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 	std::string line;
 	std::getline(mapFile, line);
 
+	glm::vec2 minPos(FLT_MAX);
+	glm::vec2 maxPos(FLT_MIN);
+
 	while (std::getline(mapFile, line) && !line.empty()) {
 		std::istringstream nodeLine(line);
 		int id;
@@ -70,12 +74,22 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 		nodeLine >> x >> y;
 		nodeLine >> width >> separator >> height;
 
+#if defined(_WIN32) || defined(_WIN64)
+		minPos.x = min(minPos.x, x);
+		minPos.y = min(minPos.y, y);
+		maxPos.x = max(maxPos.x, x);
+		maxPos.y = max(maxPos.y, y);
+#else
+		minPos.x = std::min(minPos.x, x);
+		minPos.y = std::min(minPos.y, y);
+		maxPos.x = std::max(maxPos.x, x);
+		maxPos.y = std::max(maxPos.y, y);
+#endif
+
 		auto& node(manager->addEntity<Node>());
 		(this->*addNodeFunction)(node, glm::vec2(x, y));
 
 		node.GetComponent<TransformComponent>().temp_lineParsed = line;
-
-		manager->grid->addNode(&node, manager->grid->getGridLevel());
 	}
 
 	std::getline(mapFile, line);
@@ -88,19 +102,60 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 
 		auto& link(manager->addEntity<Link>(fromNodeId, toNodeId));
 		(this->*addLinkFunction)(link);
-
-		manager->grid->addLink(&link, manager->grid->getGridLevel());
 	}
+
+	float width = maxPos.x - minPos.x;
+	float height = maxPos.y - minPos.y;
+
+	float maxDistance = width > height ? width : height;
+
+	manager->grid->setCellSize(2 * (maxDistance / 80));
+
+	for (auto& node : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
+		manager->grid->addNode(node, manager->grid->getGridLevel());
+	}
+
+	for (auto& link : manager->getGroup<LinkEntity>(Manager::groupLinks_0)) {
+		manager->grid->addLink(link, manager->grid->getGridLevel());
+	}
+
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	main_camera2D->setPosition_X((maxPos.x + minPos.x) / 2.0f);
+	main_camera2D->setPosition_Y((maxPos.y + minPos.y) / 2.0f);
+
+	float aspect = static_cast<float>(main_camera2D->getCameraDimensions().x) /
+		static_cast<float>(main_camera2D->getCameraDimensions().y);
+
+	float zFromWidth = width / 2.0f / (std::tan(glm::radians(45.0f) / 2.0f) * aspect);
+
+	float zFromHeight = height / 2.0f / (std::tan(glm::radians(45.0f) / 2.0f) * aspect);
+
+#if defined(_WIN32) || defined(_WIN64)
+	float requiredZ = max(zFromHeight, zFromWidth);
+#else
+	float requiredZ = std::max(zFromHeight, zFromWidth);
+
+#endif
+
+	main_camera2D->setPosition_Z(-requiredZ);
+
+	main_camera2D->setAimPos(glm::vec3(main_camera2D->eyePos.x, main_camera2D->eyePos.y, main_camera2D->eyePos.z + 1.0f));
+
 }
 
 void Map::ProcessPythonFile(std::ifstream& mapFile,
 	void (Map::* addNodeFunction)(Entity&, glm::vec2 mPosition),
 	void (Map::* addLinkFunction)(Entity&)
 ) {
+
+	glm::vec2 minPos(FLT_MAX);
+	glm::vec2 maxPos(FLT_MIN);
 	
 	JsonParser fileParser(mapFile);
 	JsonValue rootFromFile = fileParser.parse();
 	auto& nodes = rootFromFile.obj["graph"].obj["nodes"];
+
 	for (auto& nodeEntry : nodes.obj) {
 		int nodeId = std::stoi(nodeEntry.first);
 		auto& nodeInfo = nodeEntry.second;
@@ -109,11 +164,23 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 
 		auto& node = manager->addEntity<Node>();
 		glm::vec2 position(x, y);
+
+#if defined(_WIN32) || defined(_WIN64)
+		minPos.x = min(minPos.x, x);
+		minPos.y = min(minPos.y, y);
+		maxPos.x = max(maxPos.x, x);
+		maxPos.y = max(maxPos.y, y);
+#else
+		minPos.x = std::min(minPos.x, x);
+		minPos.y = std::min(minPos.y, y);
+		maxPos.x = std::max(maxPos.x, x);
+		maxPos.y = std::max(maxPos.y, y);
+#endif
+
 		(this->*addNodeFunction)(node, position);
 
 		node.GetComponent<TransformComponent>().temp_lineParsed = nodeId;
 
-		manager->grid->addNode(&node, manager->grid->getGridLevel());
 	}
 	auto& links = rootFromFile.obj["graph"].obj["edges"];
 	for (auto& linkEntry : links.arr) {
@@ -126,9 +193,49 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 
 		link.GetComponent<Line_w_Color>().temp_lineParsed = std::to_string(fromID) + " - " + std::to_string(toID);
 
-		manager->grid->addLink(&link, manager->grid->getGridLevel());
 	}
+	
+
+	float width = maxPos.x - minPos.x;
+	float height = maxPos.y - minPos.y;
+
+	float maxDistance = width > height ? width : height;
+
+	manager->grid->setCellSize(2 * (maxDistance / 80));
+
+	for (auto& node : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
+		manager->grid->addNode(node, manager->grid->getGridLevel());
+	}
+
+	for (auto& link : manager->getGroup<LinkEntity>(Manager::groupLinks_0)) {
+		manager->grid->addLink(link, manager->grid->getGridLevel());
+	}
+
+
 	std::cout << "Parsed JSON from file successfully!" << std::endl;
+
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	main_camera2D->setPosition_X((maxPos.x + minPos.x) / 2.0f);
+	main_camera2D->setPosition_Y((maxPos.y + minPos.y) / 2.0f);
+
+	float aspect = static_cast<float>(main_camera2D->getCameraDimensions().x) /
+		static_cast<float>(main_camera2D->getCameraDimensions().y);
+
+	float zFromWidth = (maxPos.x - minPos.x) / 2.0f / (std::tan(glm::radians(45.0f) / 2.0f) * aspect);
+
+	float zFromHeight = (maxPos.y - minPos.y) / 2.0f / (std::tan(glm::radians(45.0f) / 2.0f) * aspect);
+
+#if defined(_WIN32) || defined(_WIN64)
+	float requiredZ = max(zFromHeight, zFromWidth);
+#else
+	float requiredZ = std::max(zFromHeight, zFromWidth);
+
+#endif
+
+	main_camera2D->setPosition_Z(-requiredZ);
+
+	main_camera2D->setAimPos(glm::vec3(main_camera2D->eyePos.x, main_camera2D->eyePos.y, main_camera2D->eyePos.z + 1.0f));
 }
 
 void Map::loadTextMap(const char* fileName) {
@@ -158,7 +265,7 @@ void Map::loadPythonMap(const char* fileName) {
 	manager->removeAllEntites();
 
 	ProcessPythonFile(file, &Map::AddDefaultNode, &Map::AddDefaultLink);
-
+	
 	file.close();
 }
 

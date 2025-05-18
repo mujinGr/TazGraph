@@ -3,8 +3,22 @@
 #include <unordered_set>
 
 Grid::Grid(int width, int height, int depth, int cellSize)
-	: _width(width), _height(height), _depth(depth), _cellSize(cellSize)
 {
+	init(width, height, depth, cellSize);
+}
+
+Grid::~Grid()
+{
+}
+
+void Grid::setCellSize(int cellSize) {
+	init(_width, _height, _depth, cellSize);
+}
+
+void Grid::init(int width, int height, int depth, int cellSize)
+{
+	_width = width, _height = height, _depth = depth, _cellSize = cellSize;
+
 	_numXCells = ceil((float)_width / _cellSize);
 	_numYCells = ceil((float)_height / _cellSize);
 	_numZCells = ceil((float)_depth / _cellSize);
@@ -17,10 +31,6 @@ Grid::Grid(int width, int height, int depth, int cellSize)
 	createCells(Level::Outer2);
 	gridLevelsData[Level::Outer2].cameraMargin = 0.4f;
 
-}
-
-Grid::~Grid()
-{
 }
 
 void Grid::createCells(Grid::Level m_level) {

@@ -4,7 +4,7 @@
 
 class OrthoCamera : public ICamera {
 public:
-	OrthoCamera() : _position(0.0f, 0.0f),
+	OrthoCamera() : _position(0.0f),
 		_cameraMatrix(1.0f),	//I
 		_projectionMatrix(1.0f),		//I
 		_viewMatrix(1.0f),
@@ -69,6 +69,11 @@ public:
 		_position.y = newPosition;
 		_cameraChange = true;
 	}
+	
+	void setPosition_Z(const float newPosition) override {
+		_position.z = newPosition;
+		_cameraChange = true;
+	}
 
 	void setScale(float newScale) override {
 		_scale = newScale;
@@ -77,7 +82,7 @@ public:
 
 	//getters
 	glm::vec3 getPosition() const override {
-		return glm::vec3(_position, 0.0f);
+		return _position;
 	}
 
 	float getScale() const override {
@@ -145,7 +150,7 @@ private:
 	float _scale;
 	bool _cameraChange;
 
-	glm::vec2 _position;
+	glm::vec3 _position;
 	glm::mat4 _projectionMatrix; // changed once in init
 	glm::mat4 _viewMatrix;
 	glm::mat4 _cameraMatrix;
