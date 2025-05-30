@@ -117,7 +117,7 @@ bool EditorIMGUI::isMouseOnWidget(const std::string& widgetName)
 	return false;
 }
 
-void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* onHoverEntity, float(& backgroundColor)[4], int cell_size) {
+void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* onHoverEntity, float(& backgroundColor)[4], int cell_size) {
 	ImGui::BeginChild("Background UI");
 	ImGui::Text("This is a Background UI element.");
 	ImGui::ColorEdit4("Background Color", backgroundColor);
@@ -341,6 +341,7 @@ void EditorIMGUI::BackGroundUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		ImGui::EndTable();
 	}
 
+	ImGui::Text("Grid Size: %u", manager.grid->getCellSize());
 
 	ImGui::Text("Scene/Screen Coords: {x: %f, y: %f}", mouseCoords.x, mouseCoords.y);
 	ImGui::Text("MainViewport Coords: {x: %f, y: %f}", mouseCoords2.x, mouseCoords2.y);

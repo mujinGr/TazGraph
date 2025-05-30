@@ -82,10 +82,37 @@ public:
 	}
 
 	void updatePorts(float deltaTime) override {
-		for (auto portName : { "leftPort", "rightPort", "topPort", "bottomPort" }) {
-			if (children[portName]) {
-				children[portName]->update(deltaTime);
-			}
+		// first set the new position of port based on parent size
+		// then set its bodyPosition through the transformComponent
+
+		TransformComponent* tr = &GetComponent<TransformComponent>();
+
+		glm::vec3 m_position = glm::vec3(-tr->size.x / 2, 0.0f, 0.0f);
+
+		if (children["leftPort"]) {
+			children["leftPort"]->GetComponent<TransformComponent>().position = m_position;
+			children["leftPort"]->update(deltaTime);
+		}
+
+		m_position = glm::vec3(tr->size.x / 2, 0.0f, 0.0f);
+
+		if (children["rightPort"]) {
+			children["rightPort"]->GetComponent<TransformComponent>().position = m_position;
+			children["rightPort"]->update(deltaTime);
+		}
+		
+		m_position = glm::vec3(0.0f, -tr->size.y / 2.0f, 0.0f);
+
+		if (children["topPort"]) {
+			children["topPort"]->GetComponent<TransformComponent>().position = m_position;
+			children["topPort"]->update(deltaTime);
+		}
+		
+		m_position = glm::vec3(0.0f, tr->size.y / 2.0f, 0.0f);
+
+		if (children["bottomPort"]) {
+			children["bottomPort"]->GetComponent<TransformComponent>().position = m_position;
+			children["bottomPort"]->update(deltaTime);
 		}
 	}
 

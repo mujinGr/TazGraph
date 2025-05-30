@@ -392,6 +392,11 @@ std::vector<Cell*> Graph::traversedCellsFromRay(
 }
 
 void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int activateMode) {
+
+	if (!_editorImgui.isMouseInSecondColumn) {
+		return;
+	}
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 	std::vector<Cell*> trav_cells = traversedCellsFromRay(rayOrigin, rayDirection, 10000.0f);
@@ -950,7 +955,7 @@ void Graph::updateUI() {
 	_editorImgui.FPSCounter(getApp()->getFPSLimiter());
 	ImGui::BeginChild("Tab 1");
 
-	_editorImgui.BackGroundUIElement(_renderDebug, _sceneMousePosition, _app->_inputManager.getMouseCoords(), *manager, _onHoverEntity, _backgroundColor, CELL_SIZE);
+	_editorImgui.LeftColumnUIElement(_renderDebug, _sceneMousePosition, _app->_inputManager.getMouseCoords(), *manager, _onHoverEntity, _backgroundColor, CELL_SIZE);
 	
 	ImGui::EndChild();
 
