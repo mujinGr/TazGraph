@@ -11,13 +11,16 @@ Grid::~Grid()
 {
 }
 
-void Grid::setCellSize(int cellSize) {
-	init(_width, _height, _depth, cellSize);
+void Grid::setSize(int gridDimensionSize) {
+	gridDimensionSize -= gridDimensionSize % AXIS_CELLS;
+	_cellSize = gridDimensionSize / AXIS_CELLS;
+	init(gridDimensionSize, gridDimensionSize, _depth, _cellSize);
 }
 
 void Grid::init(int width, int height, int depth, int cellSize)
 {
-	_width = width, _height = height, _depth = depth, _cellSize = cellSize;
+	_width = width, _height = height, _cellSize = cellSize;
+	_depth = 4 * cellSize;
 
 	_numXCells = ceil((float)_width / _cellSize);
 	_numYCells = ceil((float)_height / _cellSize);
@@ -101,6 +104,7 @@ void Grid::createCells(Grid::Level m_level) {
 				if (!childCells.empty())
 				{
 					int groupedCells = sqrt(childCells.size() / currentCells.size());
+					cell.children.resize(pow(groupedCells, 3));
 					for (int cz = 0; cz < groupedCells; cz++) {
 						for (int cy = 0; cy < groupedCells; cy++) {
 							for (int cx = 0; cx < groupedCells; cx++) {
@@ -109,12 +113,12 @@ void Grid::createCells(Grid::Level m_level) {
 								int childY = (py - gridLevelsData[m_level].startY) * groupedCells + cy;
 								int childZ = (pz - gridLevelsData[m_level].startZ) * groupedCells + cz;
 
-								int childIndex = (childZ * _numYCells * _numXCells) +
-									(childY * _numXCells) +
+								int childIndex = (childZ * gridLevelsData[m_level].numYCells * 2 * gridLevelsData[m_level].numXCells * 2) +
+									(childY * gridLevelsData[m_level].numXCells * 2) +
 									(childX);
 
 								if (childIndex < childCells.size()) {
-									cell.children.push_back(&childCells[childIndex]);
+									cell.children[cz * 2 * groupedCells + cy * groupedCells + cx] = &childCells[childIndex];
 								}
 							}
 						}

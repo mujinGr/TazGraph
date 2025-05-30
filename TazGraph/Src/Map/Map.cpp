@@ -109,7 +109,7 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 
 	float maxDistance = width > height ? width : height;
 
-	manager->grid->setCellSize(2 * (maxDistance / 80));
+	manager->grid->setSize(2 * maxDistance);
 
 	for (auto& node : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
 		manager->grid->addNode(node, manager->grid->getGridLevel());
@@ -201,7 +201,7 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 
 	float maxDistance = width > height ? width : height;
 
-	manager->grid->setCellSize(2 * (maxDistance / 80));
+	manager->grid->setSize(2 * maxDistance);
 
 	for (auto& node : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
 		manager->grid->addNode(node, manager->grid->getGridLevel());

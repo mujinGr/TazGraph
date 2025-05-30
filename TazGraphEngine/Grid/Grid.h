@@ -8,6 +8,14 @@
 
 #include <cmath>
 
+constexpr int CELL_SIZE = 100;
+constexpr int AXIS_CELLS = 80;
+constexpr int DEPTH_AXIS_CELLS = 4;
+constexpr int ROW_CELL_SIZE = AXIS_CELLS * CELL_SIZE;
+constexpr int COLUMN_CELL_SIZE = AXIS_CELLS * CELL_SIZE;
+constexpr int DEPTH_CELL_SIZE = DEPTH_AXIS_CELLS * CELL_SIZE;
+
+
 struct GridLevelData {
 	float numXCells, numYCells, numZCells;
 	float startX, endX, startY, endY, startZ, endZ;
@@ -25,7 +33,7 @@ public:
 	Grid(int width, int height, int depth, int cellSize);
 	~Grid();
 
-	void setCellSize(int cellSize);
+	void setSize(int cellSize);
 	void init(int width, int height, int depth, int cellSize);
 
 	void createCells(Grid::Level size);

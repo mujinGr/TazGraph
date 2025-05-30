@@ -33,12 +33,6 @@ class SceneManager;
 class ColliderComponent;
 class TransformComponent;
 
-constexpr int CELL_SIZE = 100;
-constexpr int AXIS_CELLS = 80;
-constexpr int DEPTH_AXIS_CELLS = 4;
-constexpr int ROW_CELL_SIZE		= AXIS_CELLS * CELL_SIZE;
-constexpr int COLUMN_CELL_SIZE	= AXIS_CELLS * CELL_SIZE;
-constexpr int DEPTH_CELL_SIZE	= DEPTH_AXIS_CELLS * CELL_SIZE;
 
 
 #define ON_HOVER 0
