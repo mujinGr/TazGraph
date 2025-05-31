@@ -77,7 +77,7 @@ void PlaneModelRenderer::draw(
 
 	int offset = v_index * RECT_OFFSET;
 
-	_renderBatches.emplace_back(offset, RECT_OFFSET, rectOffset, glyph.texture);
+	_renderBatches.emplace_back(offset, RECT_OFFSET, bodyCenter, glyph.texture);
 
 	_vertices[offset++] = glyph.topLeft;
 	_vertices[offset++] = glyph.bottomLeft;

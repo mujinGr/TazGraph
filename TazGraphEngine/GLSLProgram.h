@@ -89,6 +89,91 @@ static GLuint cubeIndices[36] = {
 	6, 7, 3
 };
 
+
+struct InstanceData {
+
+	InstanceData() {}
+	InstanceData(glm::vec3 mSize, Position mBodyCenter, Rotation mRotation) :
+		size(mSize),
+		bodyCenter(mBodyCenter),
+		rotation(mRotation)
+	{
+	}
+
+	InstanceData(glm::vec2 mSize, Position mBodyCenter, Rotation mRotation) :
+		size(glm::vec3(mSize, 0.0f)),
+		bodyCenter(mBodyCenter),
+		rotation(mRotation)
+	{
+	}
+
+	~InstanceData() {}
+
+	Size size = glm::vec3(0.0f);
+	Position bodyCenter = glm::vec3(0.0f);
+	Rotation rotation = glm::vec3(0.0f);
+};
+
+
+struct ColorInstanceData : InstanceData {
+
+	ColorInstanceData() {}
+	ColorInstanceData(glm::vec3 mSize, Position mBodyCenter, Rotation mRotation, Color mColor) : InstanceData(mSize, mBodyCenter, mRotation), color(mColor) {
+	}
+	ColorInstanceData(glm::vec2 mSize, Position mBodyCenter, Rotation mRotation, Color mColor) : InstanceData(mSize, mBodyCenter, mRotation), color(mColor) {
+	}
+
+	~ColorInstanceData() {};
+
+	Color color = Color(255, 255, 255, 255);
+};
+
+struct TextureInstanceData : InstanceData {
+
+	TextureInstanceData() {}
+	TextureInstanceData(glm::vec3 mSize, Position mBodyCenter, Rotation mRotation, GLuint Texture) : InstanceData(mSize, mBodyCenter, mRotation), texture(Texture) {
+	}
+	TextureInstanceData(glm::vec2 mSize, Position mBodyCenter, Rotation mRotation, GLuint Texture) : InstanceData(mSize, mBodyCenter, mRotation), texture(Texture) {
+	}
+
+	~TextureInstanceData() {};
+
+	GLuint texture = 0;
+};
+
+struct MeshRenderer {
+	size_t meshIndices = 0;
+
+	std::vector<InstanceData> instances;
+
+	GLuint vao;
+
+	GLuint vbo; //for static draws
+	GLuint ibo;
+};
+
+struct ColorMeshRenderer {
+	size_t meshIndices = 0;
+
+	std::vector<ColorInstanceData> instances;
+
+	GLuint vao;
+
+	GLuint vbo; //for static draws
+	GLuint ibo;
+};
+
+struct TextureMeshRenderer {
+	size_t meshIndices = 0;
+
+	std::vector<TextureInstanceData> instances;
+
+	GLuint vao;
+
+	GLuint vbo; //for static draws
+	GLuint ibo;
+};
+
 class GLSLProgram {
 public:
 	GLSLProgram() : _programID(0), _vertexShaderID(0), _fragmentShaderID(0), _numAttributes(0)

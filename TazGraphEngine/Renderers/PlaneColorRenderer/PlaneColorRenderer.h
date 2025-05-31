@@ -6,42 +6,6 @@
 
 #include "../../GLSLProgram.h"
 
-struct InstanceData {
-
-	InstanceData() {}
-	InstanceData(glm::vec3 mSize, Position mBodyCenter, Rotation mRotation, Color mColor) :
-		size(mSize),
-		bodyCenter(mBodyCenter),
-		rotation(mRotation),
-		color(mColor)
-	{}
-	InstanceData(glm::vec2 mSize, Position mBodyCenter, Rotation mRotation, Color mColor) :
-		size(glm::vec3(mSize,0.0f)),
-		bodyCenter(mBodyCenter),
-		rotation(mRotation),
-		color(mColor)
-	{
-	}
-	~InstanceData() {}
-
-	Size size;
-	Position bodyCenter;
-	Rotation rotation;
-
-	Color color;
-};
-
-struct MeshRenderer {
-	size_t meshIndices = 0;
-
-	std::vector<InstanceData> instances;
-
-	GLuint vao;
-
-	GLuint vbo;
-	GLuint ibo;
-};
-
 
 // init --_
 //		 `-->begin() 
@@ -72,7 +36,11 @@ public:
 		const glm::vec3& depth,
 		const glm::vec3& cpuRotation, const Color& color);
 
-	void draw(size_t v_index, const glm::vec2& rectSize, const glm::vec3& bodyCenter, const glm::vec3& mRotation, const Color& color);
+	void draw(size_t v_index,
+		const glm::vec2& rectSize,
+		const glm::vec3& bodyCenter,
+		const glm::vec3& mRotation,
+		const Color& color);
 
 	void drawBox(size_t v_index,
 		const glm::vec3& boxSize,
@@ -95,7 +63,7 @@ private:
 	size_t _triangleGlyphs_size = 0; //actual glyphs
 	size_t _boxGlyphs_size = 0;
 
-	std::vector<MeshRenderer> _meshesArrays;
-	std::vector<MeshRenderer> _meshesElements;
+	std::vector<ColorMeshRenderer> _meshesArrays;
+	std::vector<ColorMeshRenderer> _meshesElements;
 
 };

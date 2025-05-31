@@ -55,7 +55,6 @@ void Graph::onEntry()
 
 	/////////////////////////////////////////////
 	_resourceManager.addGLSLProgram("color");
-	_resourceManager.addGLSLProgram("circleColor");
 	_resourceManager.addGLSLProgram("texture");
 	_resourceManager.addGLSLProgram("framebuffer");
 
@@ -89,12 +88,6 @@ void Graph::onEntry()
 		_resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
 		_resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
 		_resourceManager.getGLSLProgram("color")->linkShaders();
-
-		_resourceManager.getGLSLProgram("circleColor")->compileShaders("Src/Shaders/circleColorShading.vert", "Src/Shaders/circleColorShading.frag");
-		_resourceManager.getGLSLProgram("circleColor")->addAttribute("vertexPosition");
-		_resourceManager.getGLSLProgram("circleColor")->addAttribute("vertexColor");
-		_resourceManager.getGLSLProgram("circleColor")->addAttribute("vertexUV");
-		_resourceManager.getGLSLProgram("circleColor")->linkShaders();
 
 		_resourceManager.getGLSLProgram("texture")->compileShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
 		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
@@ -1166,7 +1159,6 @@ void Graph::draw()
 
 	GLSLProgram glsl_texture		= *_resourceManager.getGLSLProgram("texture");
 	GLSLProgram glsl_lineColor		= *_resourceManager.getGLSLProgram("lineColor");
-	GLSLProgram glsl_circleColor	= *_resourceManager.getGLSLProgram("circleColor");
 	GLSLProgram glsl_color			= *_resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer	= *_resourceManager.getGLSLProgram("framebuffer");
 
