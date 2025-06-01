@@ -163,15 +163,20 @@ void PlaneModelRenderer::createVertexArray() {
 
 	}
 
-	glBindVertexArray(_meshesElements[RECTANGLE_MESH_IDX].vao);
+	for (int i = 0; i < _meshesElements.size(); i++) {
 
-	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].vbo);
+		glBindVertexArray(_meshesElements[i].vao);
 
-	createInstancesVBO();
+		glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[i].vbo);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
+		createInstancesVBO();
+	}
+
 
 	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void PlaneModelRenderer::dispose()
