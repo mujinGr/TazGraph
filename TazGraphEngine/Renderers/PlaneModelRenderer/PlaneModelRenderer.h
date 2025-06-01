@@ -8,64 +8,20 @@
 #include "../../Vertex.h"
 #include "../../GLSLProgram.h"
 
-#define RECT_OFFSET 6
-#define TRIANGLE_OFFSET 3
-
 class RenderBatch {
 public:
-	RenderBatch(GLuint Offset, GLuint NumVertices, glm::vec3 CenterPos, GLuint Texture) : offset(Offset),
-		numVertices(NumVertices),
+	RenderBatch(GLuint Offset, GLuint NumIndices, glm::vec3 CenterPos, GLuint Texture) : offset(Offset),
+		numIndices(NumIndices),
 		centerPos(CenterPos),
 		texture(Texture) {
 
 	}
 	GLuint offset;
-	GLuint numVertices;
+	GLuint numIndices;
 	glm::vec3 centerPos = glm::vec3(0);
 	GLuint texture;
 };
 
-
-class TriangleGlyph {
-
-public:
-	TriangleGlyph() {};
-	TriangleGlyph(
-		const glm::vec3& mRotation,
-		const glm::vec2& m_v1, const glm::vec2& m_v2, const glm::vec2& m_v3, // v1 top one, v2 bot left and v3 bot right
-		const glm::vec2& m_uv1, const glm::vec2& m_uv2, const glm::vec2& m_uv3,
-		GLuint texture, const Color& color
-	)
-		: texture(texture)
-		{
-
-
-		glm::vec3 positions[3] = {
-	   {m_v1, 0.0f},
-	   {m_v2, 0.0f},
-	   {m_v3, 0.0f}
-		};
-		//todo rotation is going to be done on gpu side, so we need to pass different renderBatches 
-		//todo that going to load the uniform
-		topLeft.setPosition(positions[0]);
-		topLeft.rotation = mRotation;
-		topLeft.setUV(m_uv1);
-
-		bottomLeft.setPosition(positions[1]);
-		bottomLeft.rotation = mRotation;
-		bottomLeft.setUV(m_uv2);
-
-		bottomRight.setPosition(positions[2]);
-		bottomRight.rotation = mRotation;
-		bottomRight.setUV(m_uv3);
-	};
-
-	GLuint texture = 0;
-
-	TextureVertex topLeft;
-	TextureVertex  bottomLeft;
-	TextureVertex  bottomRight;
-};
 
 class Glyph {
 
@@ -136,7 +92,6 @@ public:
 	void begin();
 	void end();
 
-	void initTextureTriangleBatch(size_t mSize);
 	void initTextureQuadBatch(size_t mSize);
 
 	void initBatchSize();
@@ -161,18 +116,16 @@ public:
 	void dispose();
 private:
 	void createRenderBatches();
+	void createInstancesVBO();
 	void createVertexArray();
-
-	GLuint _vbo;
-	GLuint _vao;
+	
+	GLuint _vboInstances;
 
 	std::vector<TextureVertex> _vertices;
+	std::vector<GLuint> _indices;
 
 	size_t _glyphs_size = 0; //actual glyphs
-	size_t _triangles_size = 0; //actual glyphs
 
-	int _triangles_verticesOffset = 0;
-	int _rectangles_verticesOffset = 0;
+	std::vector<TextureMeshRenderer> _meshesElements;
 
-	std::vector<RenderBatch> _renderBatches;
 };

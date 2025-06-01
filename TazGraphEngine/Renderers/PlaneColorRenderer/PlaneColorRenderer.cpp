@@ -222,6 +222,8 @@ void PlaneColorRenderer::createVertexArray() {
 		createInstancesVBO();
 	}
 
+	// rectangles/meshesElements
+
 	glBindVertexArray(_meshesElements[RECTANGLE_MESH_IDX].vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].vbo);
@@ -236,7 +238,7 @@ void PlaneColorRenderer::createVertexArray() {
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
 
-
+	// triangles/meshesArrays
 	glBindVertexArray(_meshesArrays[TRIANGLE_MESH_IDX].vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, _meshesArrays[TRIANGLE_MESH_IDX].vbo);
