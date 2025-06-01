@@ -1,9 +1,8 @@
 #version 430
 
 layout (location = 0) in vec3 vertexPosition; //vec2 is array of 2 floats
-layout (location = 1) in vec4 vertexColor;
-layout (location = 2) in vec3 vertexRotation;
-layout (location = 3) in vec2 vertexUV;
+layout (location = 1) in vec3 vertexRotation;
+layout (location = 2) in vec2 vertexUV;
 
 out vec4 fragmentColor;
 out vec2 fragmentUV;
@@ -59,7 +58,7 @@ void main() {
 
     gl_Position = projection * translation * localRotation * vec4(vertexPosition.xyz, 1.0);
 
-    fragmentColor = vertexColor;
+    fragmentColor = vec4(1.0f);
 
     fragmentUV = vertexUV;
 }

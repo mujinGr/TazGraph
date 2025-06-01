@@ -47,6 +47,13 @@ static Position quadVertices[4] = {
 	{	0.5f,   0.5f,	0.0f	}
 };
 
+static UV quadVerticesUV[4] = {
+	{0.0f, 0.0f},
+	{1.0f, 0.0f},
+	{1.0f, 1.0f},
+	{0.0f, 1.0f}
+};
+
 static GLuint quadIndices[6] = {
 	0, 1, 2,
 	2, 3, 0

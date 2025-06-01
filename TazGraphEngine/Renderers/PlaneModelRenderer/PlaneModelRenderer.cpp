@@ -57,7 +57,7 @@ void PlaneModelRenderer::drawTriangle(
 	const glm::vec3& triangleOffset,
 	const glm::vec3& mRotation,
 	const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
-	GLuint texture, const Color& color
+	GLuint texture
 ) {
 
 }
@@ -67,13 +67,14 @@ void PlaneModelRenderer::drawTriangle(
 // how many triangles it has and accordingly add those multiple vertices with the combined texture
 void PlaneModelRenderer::draw(
 	size_t v_index,
-	const glm::vec3& rectOffset,
 	const glm::vec2& rectSize,
+	const glm::vec3& bodyCenter,
 	const glm::vec3& mRotation,
 	const glm::vec4& uvRect,
-	GLuint texture, const glm::vec3& bodyCenter, const Color& color) {
+	GLuint texture
+) {
 
-	Glyph glyph = Glyph(rectSize, mRotation, uvRect, texture, bodyCenter.z, color);
+	Glyph glyph = Glyph(rectSize, mRotation, uvRect, texture, bodyCenter.z);
 
 	int offset = v_index * RECT_OFFSET;
 
@@ -96,9 +97,7 @@ void PlaneModelRenderer::renderBatch(GLSLProgram* glsl_program) {
 	for (int i = 0; i < _renderBatches.size(); i++) {
 		glUniform3fv(centerPosLocation, 1, glm::value_ptr(_renderBatches[i].centerPos));
 		
-		if (i == 0 || _renderBatches[i-1].texture != _renderBatches[i].texture) {
-			glBindTexture(GL_TEXTURE_2D, _renderBatches[i].texture);
-		}
+		glBindTexture(GL_TEXTURE_2D, _renderBatches[i].texture);
 
 		glDrawArrays(GL_TRIANGLES, _renderBatches[i].offset, _renderBatches[i].numVertices);
 	}
@@ -114,9 +113,9 @@ void PlaneModelRenderer::createRenderBatches() {
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	//orphan the buffer / like using double buffer
-	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(TextureVertex), nullptr, GL_DYNAMIC_DRAW);
 	//upload the data
-	glBufferSubData(GL_ARRAY_BUFFER, 0, _vertices.size() * sizeof(Vertex), _vertices.data());
+	glBufferSubData(GL_ARRAY_BUFFER, 0, _vertices.size() * sizeof(TextureVertex), _vertices.data());
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
@@ -132,17 +131,14 @@ void PlaneModelRenderer::createVertexArray() {
 	glEnableVertexAttribArray(0); // give positions ( point to 0 element for position)
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-	glEnableVertexAttribArray(3);
 
 
 	//position attribute pointer
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
-	//color attribute pointer
-	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, position)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
 	// rotation attribute pointer
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, rotation));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, rotation));
 	// UV attribute pointer
-	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, uv));
 	
 	glBindVertexArray(0);
 }

@@ -47,17 +47,14 @@ public:
 		};
 		//todo rotation is going to be done on gpu side, so we need to pass different renderBatches 
 		//todo that going to load the uniform
-		topLeft.color = color;
 		topLeft.setPosition(positions[0]);
 		topLeft.rotation = mRotation;
 		topLeft.setUV(m_uv1);
 
-		bottomLeft.color = color;
 		bottomLeft.setPosition(positions[1]);
 		bottomLeft.rotation = mRotation;
 		bottomLeft.setUV(m_uv2);
 
-		bottomRight.color = color;
 		bottomRight.setPosition(positions[2]);
 		bottomRight.rotation = mRotation;
 		bottomRight.setUV(m_uv3);
@@ -65,9 +62,9 @@ public:
 
 	GLuint texture = 0;
 
-	Vertex topLeft;
-	Vertex bottomLeft;
-	Vertex bottomRight;
+	TextureVertex topLeft;
+	TextureVertex  bottomLeft;
+	TextureVertex  bottomRight;
 };
 
 class Glyph {
@@ -77,8 +74,7 @@ public:
 	Glyph(const glm::vec2& rectSize,
 		const glm::vec3& mRotation,
 		const glm::vec4& uvRect,
-		GLuint texture, float Depth,
-		const Color& color)
+		GLuint texture, float Depth)
 		: texture(texture) {
 
 		float halfW = rectSize.x / 2.0f;
@@ -96,22 +92,18 @@ public:
 		glm::vec2 uv_bottomRight = glm::vec2(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
 		glm::vec2 uv_topRight = glm::vec2(uvRect.x + uvRect.z, uvRect.y);
 			
-		topLeft.color = color;
 		topLeft.setPosition(positions[0]);
 		topLeft.rotation = mRotation;
 		topLeft.setUV(uv_topLeft); // Use bottom y for top
 
-		bottomLeft.color = color;
 		bottomLeft.setPosition(positions[1]);
 		bottomLeft.rotation = mRotation;
 		bottomLeft.setUV(uv_bottomLeft); // Use top y for bottom
 
-		bottomRight.color = color;
 		bottomRight.setPosition(positions[2]);
 		bottomRight.rotation = mRotation;
 		bottomRight.setUV(uv_bottomRight); // Use top y for bottom
 
-		topRight.color = color;
 		topRight.setPosition(positions[3]);
 		topRight.rotation = mRotation;
 		topRight.setUV(uv_topRight); // Use bottom y for top
@@ -119,10 +111,10 @@ public:
 
 	GLuint texture = 0;
 
-	Vertex topLeft;
-	Vertex bottomLeft;
-	Vertex topRight;
-	Vertex bottomRight;
+	TextureVertex topLeft;
+	TextureVertex bottomLeft;
+	TextureVertex topRight;
+	TextureVertex bottomRight;
 };
 
 // init --_
@@ -154,15 +146,15 @@ public:
 		const glm::vec3& triangleOffset,
 		const glm::vec3& mRotation,
 		const glm::vec2& uv1, const glm::vec2& uv2, const glm::vec2& uv3,
-		GLuint texture, const Color& color);
+		GLuint texture);
 
 	void draw(size_t v_index,
-		const glm::vec3& rectOffset,
 		const glm::vec2& rectSize,
+		const glm::vec3& bodyCenter,
 		const glm::vec3& mRotation,
 		const glm::vec4& uvRect,
-		GLuint texture,
-		const glm::vec3& bodyCenter, const Color& color);
+		GLuint texture
+		);
 
 	void renderBatch(GLSLProgram* glsl_program);
 
@@ -174,7 +166,7 @@ private:
 	GLuint _vbo;
 	GLuint _vao;
 
-	std::vector<Vertex> _vertices;
+	std::vector<TextureVertex> _vertices;
 
 	size_t _glyphs_size = 0; //actual glyphs
 	size_t _triangles_size = 0; //actual glyphs

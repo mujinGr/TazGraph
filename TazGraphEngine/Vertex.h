@@ -84,18 +84,20 @@ struct Color {
 };
 
 
-struct ColorVertex { //instead of using the general Vertex that has also info about texture
-	// we use this where we want just color
+struct Vertex {
 	Position position = Position(0);
 	Rotation rotation = Position(0);
-
-	//todo different instanceVBO for the centers
-	//Position centerMesh;
-	Color color = Color();
 
 	inline void setPosition(Position m_position) {
 		position = m_position;
 	}
+};
+
+struct ColorVertex : Vertex { //instead of using the general Vertex that has also info about texture
+	// we use this where we want just color
+	//todo different instanceVBO for the centers
+	//Position centerMesh;
+	Color color = Color();
 
 	void setColor(GLubyte r, GLubyte g, GLubyte b, GLubyte a) {
 		color.r = r;
@@ -105,7 +107,7 @@ struct ColorVertex { //instead of using the general Vertex that has also info ab
 	}
 };
 
-struct Vertex  : ColorVertex{
+struct TextureVertex  : Vertex{
 	// UV texture coordinates
 	UV uv = UV(0);
 
