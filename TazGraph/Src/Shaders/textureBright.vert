@@ -2,7 +2,9 @@
 
 layout (location = 0) in vec3 vertexPosition; //vec2 is array of 2 floats
 layout (location = 1) in vec3 vertexRotation;
-layout (location = 2) in vec2 vertexUV;
+
+
+layout (location = 2) in vec2 UV;
 
 out vec4 fragmentColor;
 out vec2 fragmentUV;
@@ -60,5 +62,5 @@ void main() {
 
     fragmentColor = vec4(1.0f);
 
-    fragmentUV = vertexUV;
+    fragmentUV = UV;
 }

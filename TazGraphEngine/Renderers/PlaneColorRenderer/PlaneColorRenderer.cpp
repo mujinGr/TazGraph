@@ -206,6 +206,28 @@ void PlaneColorRenderer::createVertexArray() {
 
 	}
 
+
+	glBindVertexArray(_meshesElements[RECTANGLE_MESH_IDX].vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0); // aPos
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndices), quadIndices, GL_STATIC_DRAW);
+
+	// triangles/meshesArrays
+	glBindVertexArray(_meshesArrays[TRIANGLE_MESH_IDX].vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _meshesArrays[TRIANGLE_MESH_IDX].vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+
+
 	glGenBuffers(1, &_vboInstances);
 	
 	for (int i = 0; i < _meshesElements.size(); i++) {
@@ -224,28 +246,6 @@ void PlaneColorRenderer::createVertexArray() {
 
 	// rectangles/meshesElements
 
-	glBindVertexArray(_meshesElements[RECTANGLE_MESH_IDX].vao);
-
-	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
-	
-	glEnableVertexAttribArray(0); // aPos
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndices), quadIndices, GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
-
-	// triangles/meshesArrays
-	glBindVertexArray(_meshesArrays[TRIANGLE_MESH_IDX].vao);
-
-	glBindBuffer(GL_ARRAY_BUFFER, _meshesArrays[TRIANGLE_MESH_IDX].vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
 	
 	//unbind
 	glBindVertexArray(0);

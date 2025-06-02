@@ -86,7 +86,6 @@ struct Color {
 
 struct Vertex {
 	Position position = Position(0);
-	Rotation rotation = Position(0);
 
 	inline void setPosition(Position m_position) {
 		position = m_position;

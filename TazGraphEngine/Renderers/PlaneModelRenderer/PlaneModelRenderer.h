@@ -49,19 +49,15 @@ public:
 		glm::vec2 uv_topRight = glm::vec2(uvRect.x + uvRect.z, uvRect.y);
 			
 		topLeft.setPosition(positions[0]);
-		topLeft.rotation = mRotation;
 		topLeft.setUV(uv_topLeft); // Use bottom y for top
 
 		bottomLeft.setPosition(positions[1]);
-		bottomLeft.rotation = mRotation;
 		bottomLeft.setUV(uv_bottomLeft); // Use top y for bottom
 
 		bottomRight.setPosition(positions[2]);
-		bottomRight.rotation = mRotation;
 		bottomRight.setUV(uv_bottomRight); // Use top y for bottom
 
 		topRight.setPosition(positions[3]);
-		topRight.rotation = mRotation;
 		topRight.setUV(uv_topRight); // Use bottom y for top
 	};
 

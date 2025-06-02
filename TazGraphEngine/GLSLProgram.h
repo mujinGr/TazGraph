@@ -47,11 +47,18 @@ static Position quadVertices[4] = {
 	{	0.5f,   0.5f,	0.0f	}
 };
 
-static UV quadVerticesUV[4] = {
+static UV uv_quadVertices[4] = {
 	{0.0f, 0.0f},
 	{1.0f, 0.0f},
 	{1.0f, 1.0f},
 	{0.0f, 1.0f}
+};
+
+static TextureVertex tex_quadVertices[4] = {
+	{ glm::vec3(-0.5f,  0.5f, 0.0f),  glm::vec2(0.0f, 1.0f) }, // top-left
+	{ glm::vec3(-0.5f, -0.5f, 0.0f),  glm::vec2(0.0f, 0.0f) }, // bottom-left
+	{ glm::vec3(0.5f, -0.5f, 0.0f),  glm::vec2(1.0f, 0.0f) }, // bottom-right
+	{ glm::vec3(0.5f,  0.5f, 0.0f),  glm::vec2(1.0f, 1.0f) }  // top-right
 };
 
 static GLuint quadIndices[6] = {
@@ -146,6 +153,7 @@ struct TextureInstanceData : InstanceData {
 	~TextureInstanceData() {};
 
 	GLuint texture = 0;
+	UV uv = glm::vec2(0.0f);
 };
 
 struct MeshRenderer {

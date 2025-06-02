@@ -101,7 +101,7 @@ void PlaneModelRenderer::renderBatch(GLSLProgram* glsl_program) {
 		
 		glBindTexture(GL_TEXTURE_2D, _meshesElements[RECTANGLE_MESH_IDX].instances[i].texture);
 
-		glDrawElements(GL_TRIANGLES, _meshesElements[RECTANGLE_MESH_IDX].meshIndices, GL_UNSIGNED_INT, (void*)(0));
+		glDrawElementsInstanced(GL_TRIANGLES, _meshesElements[RECTANGLE_MESH_IDX].meshIndices, GL_UNSIGNED_INT, 0, 1);
 	}
 
 	glBindVertexArray(0);
@@ -128,17 +128,14 @@ void PlaneModelRenderer::createRenderBatches() {
 void PlaneModelRenderer::createInstancesVBO() {
 	//glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
+
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, position)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
-	//glVertexAttribDivisor(1, 1);
-
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, rotation));
-	//glVertexAttribDivisor(2, 1);
+	glVertexAttribDivisor(0, 0);
 
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, uv));
-	//glVertexAttribDivisor(3, 1);
+	glVertexAttribDivisor(2, 0);
 
 	//glEnableVertexAttribArray(4); // instance uv
 	//glVertexAttribPointer(4, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ColorInstanceData), (void*)offsetof(ColorInstanceData, color));
@@ -172,6 +169,17 @@ void PlaneModelRenderer::createVertexArray() {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
 		createInstancesVBO();
 	}
+
+	//glBindVertexArray(_meshesElements[RECTANGLE_MESH_IDX].vao);
+
+	//glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].vbo);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
+
+	//glEnableVertexAttribArray(0); // aPos
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndices), quadIndices, GL_STATIC_DRAW);
 
 
 	glBindVertexArray(0);
