@@ -94,12 +94,21 @@ void PlaneModelRenderer::renderBatch(GLSLProgram* glsl_program) {
 
 	glBindVertexArray(_meshesElements[RECTANGLE_MESH_IDX].vao);
 
-	GLint centerPosLocation = glGetUniformLocation(glsl_program->getProgramID(), "centerPosition");
 
 	for (int i = 0; i < _meshesElements[RECTANGLE_MESH_IDX].instances.size(); i++) {
-		glUniform3fv(centerPosLocation, 1, glm::value_ptr(_meshesElements[RECTANGLE_MESH_IDX].instances[i].bodyCenter));
 		
 		glBindTexture(GL_TEXTURE_2D, _meshesElements[RECTANGLE_MESH_IDX].instances[i].texture);
+
+		glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
+
+		glBufferData(GL_ARRAY_BUFFER, 1 * sizeof(Position), nullptr, GL_DYNAMIC_DRAW);
+
+		glBufferSubData(GL_ARRAY_BUFFER, 0,
+			1 * sizeof(Position),
+			&_meshesElements[RECTANGLE_MESH_IDX].instances[i].bodyCenter);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 
 		glDrawElementsInstanced(GL_TRIANGLES, _meshesElements[RECTANGLE_MESH_IDX].meshIndices, GL_UNSIGNED_INT, 0, 1);
 	}
@@ -126,16 +135,11 @@ void PlaneModelRenderer::createRenderBatches() {
 }
 
 void PlaneModelRenderer::createInstancesVBO() {
-	//glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
-
+	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, position)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
-	glVertexAttribDivisor(0, 0);
-
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, uv));
-	glVertexAttribDivisor(2, 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)(0)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
+	glVertexAttribDivisor(0, 1);
 
 	//glEnableVertexAttribArray(4); // instance uv
 	//glVertexAttribPointer(4, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ColorInstanceData), (void*)offsetof(ColorInstanceData, color));
@@ -160,6 +164,8 @@ void PlaneModelRenderer::createVertexArray() {
 
 	}
 
+	glGenBuffers(1, &_vboInstances);
+
 	for (int i = 0; i < _meshesElements.size(); i++) {
 
 		glBindVertexArray(_meshesElements[i].vao);
@@ -170,16 +176,19 @@ void PlaneModelRenderer::createVertexArray() {
 		createInstancesVBO();
 	}
 
-	//glBindVertexArray(_meshesElements[RECTANGLE_MESH_IDX].vao);
+	glBindVertexArray(_meshesElements[RECTANGLE_MESH_IDX].vao);
 
-	//glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].vbo);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(tex_quadVertices), tex_quadVertices, GL_STATIC_DRAW);
 
-	//glEnableVertexAttribArray(0); // aPos
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+	glEnableVertexAttribArray(1); // aPos
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, position));
 
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndices), quadIndices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(2); // aUV
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, uv));
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndices), quadIndices, GL_STATIC_DRAW);
 
 
 	glBindVertexArray(0);

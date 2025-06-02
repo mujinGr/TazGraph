@@ -1,16 +1,13 @@
 #version 430
 
-layout (location = 0) in vec3 vertexPosition; //vec2 is array of 2 floats
-layout (location = 1) in vec3 vertexRotation;
+layout (location = 0) in vec3 instancePosition; //vec2 is array of 2 floats
 
+layout (location = 1) in vec3 vertexPosition;
 
-layout (location = 2) in vec2 UV;
+layout (location = 2) in vec2 vertexUV;
 
 out vec4 fragmentColor;
 out vec2 fragmentUV;
-
-
-uniform vec3 centerPosition;
 
 uniform mat4 projection;
 
@@ -53,14 +50,12 @@ mat4 BuildInstanceRotation(vec3 rotationAngles) {
 
 void main() {
 
-    mat4 localRotation = BuildInstanceRotation(vertexRotation);
-
     mat4 translation = mat4(1.0);
-    translation[3].xyz = centerPosition;
+    translation[3].xyz = instancePosition;
 
-    gl_Position = projection * translation * localRotation * vec4(vertexPosition.xyz, 1.0);
+    gl_Position = projection * translation * vec4(vertexPosition.xyz, 1.0);
 
     fragmentColor = vec4(1.0f);
 
-    fragmentUV = UV;
+    fragmentUV = vertexUV;
 }

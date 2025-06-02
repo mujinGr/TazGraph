@@ -263,6 +263,18 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 		}
 	}
 
+	if (ImGui::Button("Cluster Layout", ImVec2(120, 30))) {
+		auto& nodes = manager.getGroup<NodeEntity>(Manager::groupNodes_0);
+
+		/*for (NodeEntity* node : nodes) {
+			node->addGroup(Manager::groupColliders);
+		}*/
+
+		for (NodeEntity* node : nodes) {
+			//manager.getAdjacentEntities(node, Manager::groupNodes_0);
+		}
+	}
+
 	ImGui::Text("Camera Position");
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));

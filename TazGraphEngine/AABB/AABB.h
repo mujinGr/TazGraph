@@ -25,6 +25,16 @@ inline bool checkCollision(const SDL_FRect& recA, const SDL_Rect& recB) {
 	return checkCollision(recB, recA); 
 }
 
+inline bool checkCollision3D(const glm::vec3& centerA, const glm::vec3& halfSizeA,
+    const glm::vec3& centerB, const glm::vec3& halfSizeB) {
+    return !(centerA.x + halfSizeA.x <= centerB.x - halfSizeB.x ||
+        centerA.x - halfSizeA.x >= centerB.x + halfSizeB.x ||
+        centerA.y + halfSizeA.y <= centerB.y - halfSizeB.y ||
+        centerA.y - halfSizeA.y >= centerB.y + halfSizeB.y ||
+        centerA.z + halfSizeA.z <= centerB.z - halfSizeB.z ||
+        centerA.z - halfSizeA.z >= centerB.z + halfSizeB.z);
+}
+
 inline float pointLineDistance(glm::vec2 point, glm::vec2 lineStartPoint, glm::vec2 lineEndPoint) {
     float num = std::abs((lineEndPoint.y - lineStartPoint.y) * point.x - (lineEndPoint.x - lineStartPoint.x) * point.y + lineEndPoint.x * lineStartPoint.y - lineEndPoint.y * lineStartPoint.x);
     float den = std::sqrt((lineEndPoint.y - lineStartPoint.y) * (lineEndPoint.y - lineStartPoint.y) + (lineEndPoint.x - lineStartPoint.x) * (lineEndPoint.x - lineStartPoint.x));
