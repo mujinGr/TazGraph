@@ -390,7 +390,7 @@ public:
 
 		for (Cell* adjCell : adjacentCells) {
 			for (auto& neighbor : adjCell->nodes) {
-				if (neighbor->hasGroup(group)) { // Optional: Exclude the original entity if necessary
+				if (neighbor->hasGroup(group) && (neighbor != mainEntity) ) { // Optional: Exclude the original entity if necessary
 					nearbyEntities.push_back(neighbor);
 				}
 			}

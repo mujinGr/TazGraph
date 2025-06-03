@@ -2,7 +2,6 @@
 #include "GECS/Components.h"
 #include "GECS/UtilComponents.h"
 #include "../GECS/ScriptComponents.h"
-#include "../Collision/Collision.h"
 
 #include <random>
 #include <unordered_set>

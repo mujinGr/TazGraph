@@ -117,7 +117,7 @@ bool EditorIMGUI::isMouseOnWidget(const std::string& widgetName)
 	return false;
 }
 
-void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* onHoverEntity, float(& backgroundColor)[4], int cell_size) {
+void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* onHoverEntity, float(& backgroundColor)[4], int cell_size) {
 	ImGui::BeginChild("Background UI");
 	ImGui::Text("This is a Background UI element.");
 	ImGui::ColorEdit4("Background Color", backgroundColor);
@@ -265,13 +265,36 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, glm::vec2 mouseCoords, 
 
 	if (ImGui::Button("Cluster Layout", ImVec2(120, 30))) {
 		auto& nodes = manager.getGroup<NodeEntity>(Manager::groupNodes_0);
+		auto& links = manager.getGroup<LinkEntity>(Manager::groupLinks_0);
+		
+		clusterLayout = !clusterLayout;
+		
+		if (clusterLayout) {
+			/*for (NodeEntity* node : nodes) {
+				node->addGroup(Manager::groupColliders);
+			}*/
 
-		/*for (NodeEntity* node : nodes) {
-			node->addGroup(Manager::groupColliders);
-		}*/
+			for (NodeEntity* node : nodes) {
+				node->addComponent<ColliderComponent>(&manager, node->GetComponent<TransformComponent>().size);
 
-		for (NodeEntity* node : nodes) {
-			//manager.getAdjacentEntities(node, Manager::groupNodes_0);
+				node->GetComponent<ColliderComponent>().addCollisionGroup(Manager::groupNodes_0);
+			}
+
+			for (LinkEntity* link : links) {
+				link->addComponent<SpringComponent>();
+			}
+		}
+		else {
+			for (NodeEntity* node : nodes) {
+				if (node->hasComponent<ColliderComponent>()) {
+					node->removeComponent<ColliderComponent>();
+				}
+			}
+			for (LinkEntity* link : links) {
+				if (link->hasComponent<SpringComponent>()) {
+					link->removeComponent<SpringComponent>();
+				}
+			}
 		}
 	}
 

@@ -192,6 +192,7 @@
     <ClInclude Include="GECS\Components\Empty\Basic\Box_w_Color.h" />
     <ClInclude Include="GECS\Components\Link\Basic\Line_w_Color.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\Triangle_w_Color.h" />
+    <ClInclude Include="GECS\Components\Link\Basic\SpringComponent.h" />
     <ClInclude Include="GECS\Components\Node\Util\PollingComponent.h" />
     <ClInclude Include="GECS\Core\CellEntity.h" />
     <ClInclude Include="GECS\Core\GECSEntity.h" />
@@ -207,7 +208,7 @@
     <ClInclude Include="GECS\Animators\MovingAnimation.h" />
     <ClInclude Include="GECS\Animators\MovingAnimatorComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Util\ButtonComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Basic\ColliderComponent.h" />
+    <ClInclude Include="GECS\Components\Empty\Util\ColliderComponent.h" />
     <ClInclude Include="GECS\Components.h" />
     <ClInclude Include="GECS\Components\Empty\Util\KeyboardControllerComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Util\UILabel.h" />

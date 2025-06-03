@@ -47,7 +47,7 @@ public:
 		auto flippedBitset = ~bitset;
 
 		if (flippedBitset.none()) {
-			entity->addComponent<ColliderComponent>((position.x), (position.y), GRID_ELEMENT_WIDTH * GRID_COLUMNS);
+			//entity->addComponent<ColliderComponent>((position.x), (position.y), GRID_ELEMENT_WIDTH * GRID_COLUMNS);
 		}
 		else {
 			glm::ivec2 gridPos;
@@ -58,7 +58,7 @@ public:
 					gridPos.x = (gridindex % GRID_COLUMNS) * GRID_ELEMENT_WIDTH;
 					gridPos.y = (int)(gridindex / GRID_ROWS) * GRID_ELEMENT_HEIGHT;
 
-					entity->addComponent<ColliderComponent>((position.x + gridPos.x), (position.y + gridPos.y), GRID_ELEMENT_WIDTH);
+					//entity->addComponent<ColliderComponent>((position.x + gridPos.x), (position.y + gridPos.y), GRID_ELEMENT_WIDTH);
 
 				}
 			}

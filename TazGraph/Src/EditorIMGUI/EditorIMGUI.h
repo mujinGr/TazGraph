@@ -67,7 +67,7 @@ public:
 	void MenuBar();
 
 	bool isMouseOnWidget(const std::string& widgetName);
-	void LeftColumnUIElement(bool& renderDebug, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* selectedEntity, float(&backgroundColor)[4], int cell_size);
+	void LeftColumnUIElement(bool& renderDebug, bool& clusterLayout, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* selectedEntity, float(&backgroundColor)[4], int cell_size);
 	void FPSCounter(const BaseFPSLimiter& baseFPSLimiter);
 	void ReloadAccessibleFiles();
 	void SavingUI(Map* map);

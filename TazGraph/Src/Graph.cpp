@@ -5,7 +5,6 @@
 #include "Map/Map.h"
 #include "GECS/Components.h"
 #include "GECS/ScriptComponents.h"
-#include "Collision/Collision.h"
 #include "Map/Map.h"
 #include "AssetManager/AssetManager.h"
 #include <sstream>
@@ -948,7 +947,7 @@ void Graph::updateUI() {
 	_editorImgui.FPSCounter(getApp()->getFPSLimiter());
 	ImGui::BeginChild("Tab 1");
 
-	_editorImgui.LeftColumnUIElement(_renderDebug, _sceneMousePosition, _app->_inputManager.getMouseCoords(), *manager, _onHoverEntity, _backgroundColor, CELL_SIZE);
+	_editorImgui.LeftColumnUIElement(_renderDebug, _clusterLayout, _sceneMousePosition, _app->_inputManager.getMouseCoords(), *manager, _onHoverEntity, _backgroundColor, CELL_SIZE);
 	
 	ImGui::EndChild();
 

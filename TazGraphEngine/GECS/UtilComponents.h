@@ -2,6 +2,7 @@
 
 #include "./Core/GECSEntityTypes.h"
 
+#include "./Components/Empty/Util/ColliderComponent.h"
 #include "./Components/Empty/Util/UILabel.h"
 #include "./Components/Empty/Util/ButtonComponent.h"
 #include "./Components/Empty/Util/RigidBodyComponent.h"

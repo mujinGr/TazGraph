@@ -149,7 +149,7 @@
     <ClInclude Include="Camera2.5D\PerspectiveCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Basic\ColliderComponent.h">
+    <ClInclude Include="GECS\Components\Empty\Util\ColliderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Components\Empty\Basic\Rectangle_w_Color.h">
@@ -279,6 +279,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Animators\RectangleAnimators\RectangleFlashAnimatorComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GECS\Components\Link\Basic\SpringComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

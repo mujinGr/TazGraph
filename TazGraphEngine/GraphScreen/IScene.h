@@ -85,4 +85,6 @@ protected:
 	std::string managerName = "";
 
 	bool _renderDebug = false;
+	bool _clusterLayout = false;
+
 };

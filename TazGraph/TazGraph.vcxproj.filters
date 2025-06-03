@@ -24,9 +24,6 @@
     <ClCompile Include="Src\Map\Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Collision\Collision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Src\AssetManager\AssetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,9 +45,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Map\Map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Collision\Collision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\AssetManager\AssetManager.h">
