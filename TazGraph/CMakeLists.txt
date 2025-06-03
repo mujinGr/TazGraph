@@ -6,7 +6,6 @@ set(PROJECT_NAME TazGraph)
 set(Header_Files
     "Src/App/App.h"
     "Src/AssetManager/AssetManager.h"
-    "Src/Collision/Collision.h"
     "Src/EditorIMGUI/EditorIMGUI.h"
     "Src/EditorIMGUI/CustomFunctions/CustomFunctions.h"
     "Src/GECS/ScriptComponents.h"
@@ -20,7 +19,6 @@ source_group("Header Files" FILES ${Header_Files})
 set(Source_Files
     "Src/App/App.cpp"
     "Src/AssetManager/AssetManager.cpp"
-    "Src/Collision/Collision.cpp"
     "Src/EditorIMGUI/EditorIMGUI.cpp"
     "Src/EditorIMGUI/CustomFunctions/CustomFunctions.cpp"
     "Src/Graph.cpp"
