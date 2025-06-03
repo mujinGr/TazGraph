@@ -123,6 +123,8 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 	ImGui::ColorEdit4("Background Color", backgroundColor);
 	
 	ImVec4 activeColor = ImVec4(0.2f, 0.7f, 0.2f, 1.0f);
+	ImVec4 inactiveColor = ImVec4(0.7f, 0.2f, 0.2f, 1.0f);
+
 	ImVec4 defaultColor = ImVec4(0.0f, 0.5f, 1.0f, 1.0f);
 	
 	// Change color based on the debug mode state
@@ -130,7 +132,7 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 		ImGui::PushStyleColor(ImGuiCol_Button, activeColor);  // Green for ON
 	}
 	else {
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.7f, 0.2f, 0.2f, 1.0f));  // Red for OFF
+		ImGui::PushStyleColor(ImGuiCol_Button, inactiveColor);  // Red for OFF
 	}
 
 	// Button toggles the debug mode
@@ -263,40 +265,57 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 		}
 	}
 
-	if (ImGui::Button("Cluster Layout", ImVec2(120, 30))) {
-		auto& nodes = manager.getGroup<NodeEntity>(Manager::groupNodes_0);
-		auto& links = manager.getGroup<LinkEntity>(Manager::groupLinks_0);
+	if (clusterLayout) {
+		ImGui::PushStyleColor(ImGuiCol_Button, activeColor);  // Green for ON
+	}
+	else {
+		ImGui::PushStyleColor(ImGuiCol_Button, inactiveColor);  // Red for OFF
+	}
+
+	if (ImGui::Button(clusterLayout ? "Disable Cluster" : "Cluster Layout", ImVec2(120, 30))) {
 		
+		auto clusterGroupLayout = [&](Group nodeGroup, Group linkGroup)
+			{
+				auto& nodes = manager.getGroup<NodeEntity>(nodeGroup);
+				auto& links = manager.getGroup<LinkEntity>(linkGroup);
+
+				if (clusterLayout) {
+					/*for (NodeEntity* node : nodes) {
+						node->addGroup(Manager::groupColliders);
+					}*/
+
+					for (NodeEntity* node : nodes) {
+						node->addComponent<ColliderComponent>(&manager, node->GetComponent<TransformComponent>().size);
+
+						node->GetComponent<ColliderComponent>().addCollisionGroup(nodeGroup);
+					}
+
+					for (LinkEntity* link : links) {
+						link->addComponent<SpringComponent>();
+					}
+				}
+				else {
+					for (NodeEntity* node : nodes) {
+						if (node->hasComponent<ColliderComponent>()) {
+							node->removeComponent<ColliderComponent>();
+						}
+					}
+					for (LinkEntity* link : links) {
+						if (link->hasComponent<SpringComponent>()) {
+							link->removeComponent<SpringComponent>();
+						}
+					}
+				}
+			};
+
 		clusterLayout = !clusterLayout;
 		
-		if (clusterLayout) {
-			/*for (NodeEntity* node : nodes) {
-				node->addGroup(Manager::groupColliders);
-			}*/
+		clusterGroupLayout(Manager::groupNodes_0, Manager::groupLinks_0);
+		clusterGroupLayout(Manager::groupGroupNodes_0, Manager::groupGroupLinks_0);
+		clusterGroupLayout(Manager::groupGroupNodes_1, Manager::groupGroupLinks_1);
 
-			for (NodeEntity* node : nodes) {
-				node->addComponent<ColliderComponent>(&manager, node->GetComponent<TransformComponent>().size);
-
-				node->GetComponent<ColliderComponent>().addCollisionGroup(Manager::groupNodes_0);
-			}
-
-			for (LinkEntity* link : links) {
-				link->addComponent<SpringComponent>();
-			}
-		}
-		else {
-			for (NodeEntity* node : nodes) {
-				if (node->hasComponent<ColliderComponent>()) {
-					node->removeComponent<ColliderComponent>();
-				}
-			}
-			for (LinkEntity* link : links) {
-				if (link->hasComponent<SpringComponent>()) {
-					link->removeComponent<SpringComponent>();
-				}
-			}
-		}
 	}
+	ImGui::PopStyleColor(1);
 
 	ImGui::Text("Camera Position");
 
