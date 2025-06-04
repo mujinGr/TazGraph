@@ -37,6 +37,12 @@ public:
 		bodyCenter = position + (size / 2.0f);
 	}
 
+	TransformComponent(glm::vec3 m_position)
+	{
+		position = m_position;
+		bodyCenter = position + (size / 2.0f);
+	}
+
 	TransformComponent(glm::vec2 m_position, layer layer, glm::vec2 m_size, float sc) : TransformComponent(m_position) {
 		position = { m_position.x, m_position.y, getLayerDepth(layer) };
 		size = { m_size.x, m_size.y, 0.0f };
@@ -50,10 +56,8 @@ public:
 	}
 
 	TransformComponent(glm::vec2 m_position, layer layer , glm::vec3 m_size, float sc) : TransformComponent(m_position){
-		position = { m_position.x, m_position.y, getLayerDepth(layer) };
 		size = m_size;
 		scale = sc;
-		bodyCenter = position + (size / 2.0f);
 	}
 
 	TransformComponent(glm::vec2 m_position, layer layer, glm::vec3 size, float sc, int sp) : TransformComponent(m_position, layer, size, sc)
@@ -61,6 +65,10 @@ public:
 		speed = sp;
 	}
 
+	TransformComponent(glm::vec3 m_position, glm::vec3 m_size, float sc) : TransformComponent(m_position) {
+		size = m_size;
+		scale = sc;
+	}
 
 	void init() override
 	{

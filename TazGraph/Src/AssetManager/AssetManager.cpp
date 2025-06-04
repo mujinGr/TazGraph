@@ -35,7 +35,7 @@ void AssetManager::CreateGroup(Entity& groupNode, glm::vec3 centerGroup, float g
 	if (m_level == Grid::Level::Outer1)
 	{
 		groupNode.addComponent<TransformComponent>(glm::vec3(centerGroup.x - groupNodeSize / 2,
-			centerGroup.y - groupNodeSize / 2, centerGroup.z - groupNodeSize / 2), Layer::action, glm::ivec2(groupNodeSize, groupNodeSize), 1);
+			centerGroup.y - groupNodeSize / 2, centerGroup.z - groupNodeSize / 2), Layer::action, glm::vec3(groupNodeSize), 1);
 		groupNode.addComponent<Rectangle_w_Color>();
 		groupNode.GetComponent<Rectangle_w_Color>().color = Color(0, 155, 155, 255);
 
@@ -43,7 +43,7 @@ void AssetManager::CreateGroup(Entity& groupNode, glm::vec3 centerGroup, float g
 	}
 	else if (m_level == Grid::Level::Outer2) {
 		groupNode.addComponent<TransformComponent>(glm::vec2(centerGroup.x - groupNodeSize / 2,
-			centerGroup.y - groupNodeSize / 2), Layer::action, glm::ivec2(groupNodeSize, groupNodeSize), 1);
+			centerGroup.y - groupNodeSize / 2), Layer::action, glm::vec3(groupNodeSize), 1);
 		groupNode.addComponent<Rectangle_w_Color>();
 		groupNode.GetComponent<Rectangle_w_Color>().color = Color(155, 155, 155, 255);
 

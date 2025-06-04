@@ -26,7 +26,11 @@ public: // it is like it has init that creates Animator Component since it inher
 		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 
 		if (!entity->hasComponent<TransformComponent>()) {
-			entity->addComponent<TransformComponent>(glm::vec2(0), Layer::action,
+			entity->addComponent<TransformComponent>(
+				glm::vec2(
+					-TextureManager::getInstance().Get_GLTexture("graphnetwork")->width / 2,
+					-TextureManager::getInstance().Get_GLTexture("graphnetwork")->height / 2
+				), Layer::action,
 				glm::ivec2(
 					TextureManager::getInstance().Get_GLTexture("graphnetwork")->width,
 					TextureManager::getInstance().Get_GLTexture("graphnetwork")->height

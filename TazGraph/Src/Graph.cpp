@@ -210,6 +210,10 @@ void Graph::update(float deltaTime) //game objects updating
 		manager->update(deltaTime);
 	}
 
+	for (auto& node : manager->getVisibleGroup<NodeEntity>(Manager::groupColliders)) {
+		node->GetComponent<ColliderComponent>().collisionPhysics();
+	}
+
 	if (manager->last_arrowheadsEnabled != manager->arrowheadsEnabled) {
 		manager->last_arrowheadsEnabled = manager->arrowheadsEnabled;
 

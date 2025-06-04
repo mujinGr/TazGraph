@@ -41,6 +41,11 @@ public:
 
 	void update(float deltaTime) override
 	{
+		
+		
+	}
+
+	void collisionPhysics() {
 		glm::vec3 nodePosition = transform->bodyCenter;
 		glm::vec3 nodeHalfSize = 0.5f * transform->size;
 
@@ -81,8 +86,8 @@ public:
 				}
 			}
 		}
-		
 	}
+
 
 	void draw(size_t e_index, PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override
 	{

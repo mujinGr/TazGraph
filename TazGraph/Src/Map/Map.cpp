@@ -56,23 +56,72 @@ void Map::saveMapAsText(const char* fileName) {
 	file.close();
 }
 
-void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Entity&, glm::vec2 mPosition), void (Map::* addLinkFunction)(Entity&)) {
+void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Entity&, glm::vec3 mPosition), void (Map::* addLinkFunction)(Entity&)) {
 	std::string line;
 	std::getline(mapFile, line);
 
+	//std::string inputPath = "assets/Maps/test_medium_save.txt";
+	//std::ifstream file(inputPath);
+
+	//if (!file.is_open()) {
+	//	std::cerr << "Failed to open file for reading: " << inputPath << std::endl;
+	//	return;
+	//}
+
+	//std::vector<std::string> processedLines;
+	//std::string temp_line;
+
+	//int i_x = -2000;
+	//int g_y = -2000;
+
+	//while (std::getline(file, temp_line)) {
+	//	std::istringstream iss(temp_line);
+	//	int id, x, y;
+
+	//	if (!(iss >> id >> x >> y)) {
+	//		continue;
+	//	}
+
+	//	if (i_x < 4000) {
+	//		i_x += 100;
+	//	}
+	//	else {
+	//		i_x = -2000;
+	//		g_y += 100;
+	//	}
+
+	//	std::ostringstream oss;
+	//	oss << id << '\t' << i_x << '\t' << g_y;
+	//	processedLines.push_back(oss.str());
+	//}
+
+	//file.close();
+
+	//inputPath = "assets/Maps/test_medium.txt";
+
+	//// Write back to the same file
+	//std::ofstream outFile(inputPath);
+	//if (!outFile.is_open()) {
+	//	std::cerr << "Failed to open file for writing: " << inputPath << std::endl;
+	//	return;
+	//}
+
+	//for (const std::string& processedLine : processedLines) {
+	//	outFile << processedLine << '\n';
+	//}
+
+	//outFile.close();
+
+
 	glm::vec2 minPos(FLT_MAX);
 	glm::vec2 maxPos(FLT_MIN);
-
 	while (std::getline(mapFile, line) && !line.empty()) {
 		std::istringstream nodeLine(line);
 		int id;
-		float x, y;
-		int width, height;
-		char separator;
+		float x, y, z;
 
 		nodeLine >> id; 
-		nodeLine >> x >> y;
-		nodeLine >> width >> separator >> height;
+		nodeLine >> x >> y >> z;
 
 #if defined(_WIN32) || defined(_WIN64)
 		minPos.x = min(minPos.x, x);
@@ -85,9 +134,8 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 		maxPos.x = std::max(maxPos.x, x);
 		maxPos.y = std::max(maxPos.y, y);
 #endif
-
 		auto& node(manager->addEntity<Node>());
-		(this->*addNodeFunction)(node, glm::vec2(x, y));
+		(this->*addNodeFunction)(node, glm::vec3(x, y, z));
 
 		node.GetComponent<TransformComponent>().temp_lineParsed = line;
 	}
@@ -96,7 +144,7 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 
 	while (std::getline(mapFile, line)) {
 		std::istringstream linkLine(line);
-		int id, fromNodeId, toNodeId;
+		unsigned int id, fromNodeId, toNodeId;
 
 		linkLine >> id >> fromNodeId >> toNodeId;
 
@@ -145,7 +193,7 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 }
 
 void Map::ProcessPythonFile(std::ifstream& mapFile,
-	void (Map::* addNodeFunction)(Entity&, glm::vec2 mPosition),
+	void (Map::* addNodeFunction)(Entity&, glm::vec3 mPosition),
 	void (Map::* addLinkFunction)(Entity&)
 ) {
 
@@ -163,7 +211,7 @@ void Map::ProcessPythonFile(std::ifstream& mapFile,
 		float y = nodeInfo.obj["metadata"].obj["y"].num / 10.0f;
 
 		auto& node = manager->addEntity<Node>();
-		glm::vec2 position(x, y);
+		glm::vec3 position(x, y, 0);
 
 #if defined(_WIN32) || defined(_WIN64)
 		minPos.x = min(minPos.x, x);
@@ -269,13 +317,13 @@ void Map::loadPythonMap(const char* fileName) {
 	file.close();
 }
 
-void Map::AddDefaultNode(Entity &node, glm::vec2 mPosition)
+void Map::AddDefaultNode(Entity &node, glm::vec3 mPosition)
 {
 	static int colorOffset = 0;
 	colorOffset = (colorOffset + 2) % 256; // Vary color slightly each time
 
 	//create Node function
-	node.addComponent<TransformComponent>(mPosition, Layer::action, glm::vec3(10.0f), 1);
+	node.addComponent<TransformComponent>(mPosition, glm::vec3(10.0f), 1);
 	node.addComponent<Rectangle_w_Color>();
 	node.GetComponent<Rectangle_w_Color>().setColor(Color(0, colorOffset, 224, 255));
 

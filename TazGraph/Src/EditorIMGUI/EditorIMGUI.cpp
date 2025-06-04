@@ -285,7 +285,10 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 					}*/
 
 					for (NodeEntity* node : nodes) {
-						node->addComponent<ColliderComponent>(&manager, node->GetComponent<TransformComponent>().size);
+						node->addGroup(Manager::groupColliders);
+						node->addComponent<ColliderComponent>(
+							&manager,
+							node->GetComponent<TransformComponent>().size);
 
 						node->GetComponent<ColliderComponent>().addCollisionGroup(nodeGroup);
 					}
@@ -313,6 +316,8 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 		clusterGroupLayout(Manager::groupNodes_0, Manager::groupLinks_0);
 		clusterGroupLayout(Manager::groupGroupNodes_0, Manager::groupGroupLinks_0);
 		clusterGroupLayout(Manager::groupGroupNodes_1, Manager::groupGroupLinks_1);
+
+		manager.aboutTo_updateActiveEntities();
 
 	}
 	ImGui::PopStyleColor(1);
@@ -1051,7 +1056,7 @@ void EditorIMGUI::ShowSceneControl(glm::vec2 mousePos, Manager& manager)
 
 			manager.grid->addNode(&node, manager.grid->getGridLevel());
 			node.addGroup(Manager::groupNodes_0);
-			manager.refresh(main_camera2D.get());
+			manager.aboutTo_updateActiveEntities();
 		}
 
 		ImGui::Separator();
@@ -1075,7 +1080,7 @@ void EditorIMGUI::ShowSceneControl(glm::vec2 mousePos, Manager& manager)
 
 				link.addGroup(Manager::groupLinks_0);
 				manager.grid->addLink(&link, manager.grid->getGridLevel());
-				manager.refresh(main_camera2D.get());
+				manager.aboutTo_updateActiveEntities();
 				errorMessage = ""; // Clear error if successful
 			}
 			else {
