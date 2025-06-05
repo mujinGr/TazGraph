@@ -141,18 +141,6 @@ public:
 
 			//! CELL UPDATE
 
-			for (auto& e : visible_emptyEntities) {
-				if (e && e->isActive()) {
-					e->cellUpdate();
-				}
-			}
-
-			for (auto& e : visible_nodes) {
-				if (e && e->isActive()) {
-					e->cellUpdate();
-				}
-			}
-
 			for (auto& e : movedNodes) {
 				for (auto& link : e->getInLinks()) {
 					link->cellUpdate();
@@ -174,6 +162,7 @@ public:
 				}
 			}
 
+			movedNodes.clear();
 
 			for (auto& e : visible_emptyEntities) {
 				if (!e || !e->isActive()) continue;
@@ -184,18 +173,9 @@ public:
 			if (arrowheadsEnabled) {
 				for (auto& e : visible_nodes) {
 					if (!e || !e->isActive()) continue;
-					
-					e->updatePorts(deltaTime);
 
 					e->update(deltaTime);
 
-				}
-			}
-			else {
-				for (auto& e : visible_nodes) {
-					if (!e || !e->isActive()) continue;
-
-					e->update(deltaTime);
 				}
 			}
 			

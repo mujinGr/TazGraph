@@ -274,20 +274,23 @@ public:
 	void cellUpdate() override {
 		// if cell(or position) of fromNode or cell(or position) of toNode is different than
 		// the saved cells in ownerCells then update it
-		auto level = manager.grid->getGridLevel();
-		const auto& fromCell = manager.grid->getCell(*getFromNode(), level);
-		const auto& toCell = manager.grid->getCell(*getToNode(), level);
+		if (!ownerCells.empty()) {
+			auto level = manager.grid->getGridLevel();
+			const auto& fromCell = manager.grid->getCell(*getFromNode(), level);
+			const auto& toCell = manager.grid->getCell(*getToNode(), level);
 
-		const auto& ownerFront = ownerCells.front();
-		const auto& ownerBack = ownerCells.back();
+			const auto& ownerFront = ownerCells.front();
+			const auto& ownerBack = ownerCells.back();
 
-		if (fromCell != ownerFront
-			|| toCell != ownerBack)
-		{
-			removeFromCells();
-			
-			manager.grid->addLink(this, manager.grid->getGridLevel());
+			if (fromCell != ownerFront
+				|| toCell != ownerBack)
+			{
+				removeFromCells();
+
+				manager.grid->addLink(this, manager.grid->getGridLevel());
+			}
 		}
+		
 	}
 
 	void updateArrowHeads() override {
