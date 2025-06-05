@@ -26,13 +26,19 @@ inline bool checkCollision(const SDL_FRect& recA, const SDL_Rect& recB) {
 }
 
 inline bool checkCollision3D(const glm::vec3& centerA, const glm::vec3& halfSizeA,
-    const glm::vec3& centerB, const glm::vec3& halfSizeB) {
-    return !(centerA.x + halfSizeA.x <= centerB.x - halfSizeB.x ||
-        centerA.x - halfSizeA.x >= centerB.x + halfSizeB.x ||
-        centerA.y + halfSizeA.y <= centerB.y - halfSizeB.y ||
-        centerA.y - halfSizeA.y >= centerB.y + halfSizeB.y ||
-        centerA.z + halfSizeA.z <= centerB.z - halfSizeB.z ||
-        centerA.z - halfSizeA.z >= centerB.z + halfSizeB.z);
+    const glm::vec3& centerB, const glm::vec3& halfSizeB,
+    float padding = 0.0f) {
+
+    glm::vec3 paddedHalfSizeA = halfSizeA + glm::vec3(padding);
+    glm::vec3 paddedHalfSizeB = halfSizeB + glm::vec3(padding);
+
+
+    return !(centerA.x + paddedHalfSizeA.x <= centerB.x - paddedHalfSizeB.x ||
+        centerA.x - paddedHalfSizeA.x >= centerB.x + paddedHalfSizeB.x ||
+        centerA.y + paddedHalfSizeA.y <= centerB.y - paddedHalfSizeB.y ||
+        centerA.y - paddedHalfSizeA.y >= centerB.y + paddedHalfSizeB.y ||
+        centerA.z + paddedHalfSizeA.z <= centerB.z - paddedHalfSizeB.z ||
+        centerA.z - paddedHalfSizeA.z >= centerB.z + paddedHalfSizeB.z);
 }
 
 inline float pointLineDistance(glm::vec2 point, glm::vec2 lineStartPoint, glm::vec2 lineEndPoint) {

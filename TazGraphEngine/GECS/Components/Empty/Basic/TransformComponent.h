@@ -7,7 +7,7 @@ class TransformComponent : public Component //transform as in graphics, we have 
 public:
 	std::string temp_lineParsed = "";
 
-	glm::ivec3 velocity = glm::ivec3(0);
+	glm::vec3 velocity = glm::vec3(0);
 	glm::vec3 rotation = { 0.0f,0.0f,0.0f };
 	glm::vec3 position = glm::vec3(0);
 	glm::vec3 size = glm::vec3(0);
@@ -75,6 +75,11 @@ public:
 	}
 	void update(float deltaTime) override
 	{
+		position.x += velocity.x * speed * deltaTime;
+		position.y += velocity.y * speed * deltaTime;
+
+		velocity *= 0.98f;
+
 		if (entity->getParentEntity() && dynamic_cast<NodeEntity*>(entity->getParentEntity())) {
 			Entity* parent = entity->getParentEntity();
 			TransformComponent* parentTR = &parent->GetComponent<TransformComponent>();
@@ -101,8 +106,6 @@ public:
 		last_position = position;
 		last_size = size;
 
-		position.x += velocity.x * speed * deltaTime;
-		position.y += velocity.y * speed * deltaTime;
 		//todo dont update the children on every iteration
 		// todo do this for component when needed		
 
@@ -128,7 +131,7 @@ public:
 		position.y = newPosition_Y;
 	}
 
-	glm::ivec3 getVelocity() {
+	glm::vec3 getVelocity() {
 		return velocity;
 	}
 

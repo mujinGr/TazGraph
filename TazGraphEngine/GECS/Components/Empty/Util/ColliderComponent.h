@@ -2,16 +2,17 @@
 #include <string>
 #include <unordered_set>
 #include <SDL2/SDL.h>
+#include <glm/glm.hpp>
 #include "../../../Components.h"
 #include "../../../UtilComponents.h"
 #include "../../../../TextureManager/TextureManager.h"
 
 
-class ColliderComponent : public Component //collider -> transform
+class ColliderComponent : public NodeComponent //collider -> transform
 {
 private:
 	Manager* _manager = nullptr;
-
+	float _collisionPadding = 100.0f;
 	std::unordered_set<Group> _groupChecks;
 public:
 	glm::vec3 box_collider = glm::vec3(0.0f);
@@ -53,37 +54,32 @@ public:
 			const auto& adjacentEntities = _manager->adjacentEntities(entity, group);
 
 			for (Entity* other : adjacentEntities) {
+
+				auto areEntitiesLinked = [&](NodeEntity* main, Entity* other)
+					{
+						for (auto& i : main->getOutLinks()) {
+							if (i->getToNode() == other) {
+								return true;
+							}
+						}
+						return false;
+					};
+
+				if (areEntitiesLinked(entity, other)) {
+					//continue;
+				}
+
 				glm::vec3 otherPosition = other->GetComponent<TransformComponent>().bodyCenter;
 				glm::vec3 otherHalfSize = 0.5f * other->GetComponent<TransformComponent>().size;
 
-				if (checkCollision3D(nodePosition, nodeHalfSize, otherPosition, otherHalfSize)) {
-					glm::vec3 delta = nodePosition - otherPosition;
+				glm::vec3 delta = nodePosition - otherPosition;
 
-					glm::vec3 intersect = (nodeHalfSize + otherHalfSize) - glm::abs(delta);
+				float dist = std::max(length(delta), 1e-4f);
+				glm::vec3 repulsion = 5000.0f * normalize(delta) / (dist * dist);
 
-					if (intersect.x > 0 && intersect.y > 0 && intersect.z > 0) {
-						glm::vec3 direction(0.0f);
-						glm::vec3 separation(0.0f);
+				transform->velocity += repulsion;
+				other->GetComponent<TransformComponent>().velocity -= repulsion;
 
-						if (intersect.x < intersect.y && intersect.x < intersect.z) {
-							direction = glm::vec3((delta.x < 0 ? -1.0f : 1.0f), 0, 0);
-							separation = glm::vec3(direction.x * intersect.x * 0.5f, 0, 0);
-						}
-						else if (intersect.y < intersect.z) {
-							direction = glm::vec3(0, (delta.y < 0 ? -1.0f : 1.0f), 0);
-							separation = glm::vec3(0, direction.y * intersect.y * 0.5f, 0);
-						}
-						else {
-							direction = glm::vec3(0, 0, (delta.z < 0 ? -1.0f : 1.0f));
-							separation = glm::vec3(0, 0, direction.z * intersect.z * 0.5f);
-						}
-
-						transform->position += separation;
-						other->GetComponent<TransformComponent>().position -= separation;
-					}
-
-
-				}
 			}
 		}
 	}

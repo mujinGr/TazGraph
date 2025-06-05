@@ -5,8 +5,8 @@
 class SpringComponent : public LinkComponent
 {
 private:
-	int deltaThreshold = 100;
-	float springStrength = 0.05f;
+	int deltaThreshold = 300;
+	float springStrength = 0.0001f;
 public:
 
 	SpringComponent()
@@ -31,10 +31,15 @@ public:
 		glm::vec3 delta = posB - posA;
 		glm::vec3 attraction = delta * springStrength;
 
-		if (glm::length(delta) > 100) {
-			a->GetComponent<TransformComponent>().position += attraction;
-			b->GetComponent<TransformComponent>().position -= attraction;
+		if (glm::length(delta) > deltaThreshold) {
+			a->GetComponent<TransformComponent>().velocity += attraction;
+			b->GetComponent<TransformComponent>().velocity -= attraction;
 		}
+
+		/*springStrength -= 0.001f;
+		if (springStrength < 0) {
+			entity->removeComponent<SpringComponent>();
+		}*/
 	}
 
 	void draw(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {

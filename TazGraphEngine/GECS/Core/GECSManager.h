@@ -385,12 +385,11 @@ public:
 	std::vector<Entity*> adjacentEntities(Entity* mainEntity, Group group) {
 		std::vector<Entity*> nearbyEntities;
 
-		// get entities of adjacent cells and return those that belong to group, and append them to result
 		auto adjacentCells = grid->getAdjacentCells(*mainEntity, grid->getGridLevel());
 
 		for (Cell* adjCell : adjacentCells) {
 			for (auto& neighbor : adjCell->nodes) {
-				if (neighbor->hasGroup(group) && (neighbor != mainEntity) ) { // Optional: Exclude the original entity if necessary
+				if (neighbor->hasGroup(group) && (neighbor != mainEntity) ) { 
 					nearbyEntities.push_back(neighbor);
 				}
 			}
