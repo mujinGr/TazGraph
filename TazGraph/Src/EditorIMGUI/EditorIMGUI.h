@@ -19,6 +19,9 @@ private:
 	char  _newFileName[126] = "";
 	std::vector<std::string> _pollingFileNames;
 	ImGui::ComboAutoSelectData _data;
+	int _currentOrientationIndex = 0;
+	float _cameraRotationZ = 0;
+
 	bool _filesLoaded = false;
 
 	bool _isSaving = false;

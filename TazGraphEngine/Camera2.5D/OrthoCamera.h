@@ -60,6 +60,11 @@ public:
 	}
 
 	//setters
+	void setPosition(const glm::vec3 newPosition) override {
+		_position = newPosition;
+		_cameraChange = true;
+	}
+
 	void setPosition_X(const float newPosition) override {
 		_position.x = newPosition;
 		_cameraChange = true;

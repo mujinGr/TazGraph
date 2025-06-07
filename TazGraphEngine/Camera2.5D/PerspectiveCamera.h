@@ -2,12 +2,20 @@
 #include <SDL2/SDL.h>
 #include "ICamera.h"
 
+enum class ViewMode {
+	Y_UP,
+	Z_UP
+};
+
+
 class PerspectiveCamera : public ICamera{
 public:
 	glm::vec3 eyePos{ 0,0,0 };
 	glm::vec3 aimPos{ 0,0,0 };
 	glm::vec3 upDir{0,-1,0};
 	float zFar = 1000000.0f;
+
+	ViewMode currentViewMode = ViewMode::Y_UP;
 
 	PerspectiveCamera() : _position(0.0f, 0.0f),
 		_cameraMatrix(1.0f),	//I
@@ -34,11 +42,8 @@ public:
 	}
 
 	void init() override {
-		upDir = glm::vec3(0.f, -1.f, 0.f);
 		_projectionMatrix = glm::perspective(glm::radians(45.0f), (float)_screenWidth / (float)_screenHeight, 0.1f, zFar); //left, right, top, bottom
-		_viewMatrix = glm::lookAt(eyePos, //< eye position
-			aimPos,  //< aim position
-			upDir); //< up direction
+		updateCameraOrientation();
 
 		_cameraMatrix = glm::mat4(1.0f);
 
@@ -54,24 +59,44 @@ public:
 	}
 
 	void update() override {
+		if (_cameraChange) {
+			updateCameraOrientation();
 
-		_viewMatrix = glm::lookAt(eyePos, //< eye position
-			aimPos,  //< aim position
-			upDir); //< up direction
-
-
-		_cameraMatrix = glm::mat4(1.0f);
+			_cameraMatrix = glm::mat4(1.0f);
 
 
-		glm::vec3 translate(-_position.x, -_position.y, 0.0f);
-		_cameraMatrix = glm::translate(_cameraMatrix, translate); //if glm ortho = -1,1,-1,1 then 1 horizontal with -400,-320 to bottom-left
+			glm::vec3 translate(-_position.x, -_position.y, 0.0f);
+			_cameraMatrix = glm::translate(_cameraMatrix, translate); //if glm ortho = -1,1,-1,1 then 1 horizontal with -400,-320 to bottom-left
 
-		glm::vec3 scale(_scale, _scale, 1.0f);
-		_cameraMatrix = glm::scale(_cameraMatrix, scale);
+			glm::vec3 scale(_scale, _scale, 1.0f);
+			_cameraMatrix = glm::scale(_cameraMatrix, scale);
 
 
-		_cameraMatrix = _projectionMatrix * _viewMatrix * _cameraMatrix;
+			_cameraMatrix = _projectionMatrix * _viewMatrix * _cameraMatrix;
 
+		}
+		
+	}
+
+	void updateCameraOrientation() {
+		if (currentViewMode == ViewMode::Y_UP) {
+			upDir = glm::vec3(0.0f, -1.0f, 0.0f);
+
+			setOrientation(
+				eyePos, aimPos, upDir 
+			);
+		}
+		else {
+			upDir = glm::vec3(0.0f, 0.0f, -1.0f);
+
+			setOrientation(
+				eyePos, aimPos, upDir 
+			);
+		}
+	}
+
+	void setOrientation(glm::vec3 eye, glm::vec3 target, glm::vec3 up) {
+		_viewMatrix = glm::lookAt(eye, target, up);
 	}
 
 	glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) const override {
@@ -90,6 +115,11 @@ public:
 	}
 
 	//setters
+	void setPosition(const glm::vec3 newPosition) override {
+		eyePos = newPosition;
+		_cameraChange = true;
+	}
+
 	void setPosition_X(const float newPosition) override {
 		eyePos.x = newPosition;
 		_cameraChange = true;
@@ -139,7 +169,7 @@ public:
 
 	void moveAimPos(glm::vec3 startingAimPos, const glm::vec2 distance) {
 		aimPos = startingAimPos;
-		const float sensitivity = 0.001f;
+		const float sensitivity = 0.0001f;
 
 		float yaw = distance.x * sensitivity;  
 		float pitch = distance.y * sensitivity;
@@ -158,11 +188,8 @@ public:
 	}
 
 	glm::vec3 getEulerAnglesFromDirection(glm::vec3 direction) {
-		// Yaw (Rotation around Y-axis)
 		float yaw = glm::atan(direction.x, direction.z);
-		// Pitch (Rotation around X-axis)
 		float pitch = glm::asin(-direction.y);
-		// Roll is typically 0 unless you want roll adjustments
 		float roll = 0.0f;
 
 		return glm::vec3(glm::degrees(pitch), glm::degrees(yaw), glm::degrees(roll));
@@ -221,6 +248,8 @@ public:
 
 		eyePos = glm::vec3(0.f, 0.f, -770.0f);
 		aimPos = glm::vec3( 0,0,0 );
+		
+		currentViewMode = ViewMode::Y_UP;
 		upDir = glm::vec3( 0,-1,0 );
 
 		init();

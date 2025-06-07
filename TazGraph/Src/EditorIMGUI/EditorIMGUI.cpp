@@ -146,8 +146,43 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
 	}
 
+	if (ImGui::SliderFloat("Rotate Around Z", &_cameraRotationZ, 0.0f, 360.0f)) {
+		float angleRad = glm::radians(_cameraRotationZ);
+		float radius = 3000.0f;
+
+		// Calculate new eye position in the XY plane (Z remains the same)
+		float x = cos(angleRad) * radius;
+		float y = sin(angleRad) * radius;
+		float z = main_camera2D->getPosition().z; // Maintain original height
+
+		glm::vec3 newEyePos = glm::vec3(x, y, z);
+		main_camera2D->setPosition(newEyePos);
+
+		// Always aim at origin or fixed point (optional)
+		main_camera2D->setAimPos(glm::vec3(0.0f, 0.0f, 0.0f));
+	}
+
+	const char* viewModeNames[] = { "Y-Up", "Z-Up" };
+
+	if (ImGui::Combo("Orientation", &_currentOrientationIndex, viewModeNames, IM_ARRAYSIZE(viewModeNames))) {
+		ViewMode newMode = static_cast<ViewMode>(_currentOrientationIndex);
+		main_camera2D->currentViewMode = newMode;
+
+		glm::vec3 eyePos = main_camera2D->getPosition();
+
+		if (newMode == ViewMode::Y_UP) {
+			main_camera2D->upDir = glm::vec3(0, -1, 0);
+			main_camera2D->setAimPos(glm::vec3(eyePos.x, eyePos.y, eyePos.z + 1.0f));
+		}
+		else if (newMode == ViewMode::Z_UP) {
+			main_camera2D->upDir = glm::vec3(0, 0, -1);
+			main_camera2D->setAimPos(glm::vec3(eyePos.x, eyePos.y + 1.0f, eyePos.z));
+		}
+
+	}
+
 	if (ImGui::Button("Reset")) {
-		main_camera2D->resetCameraPosition();  // Toggle the state
+		main_camera2D->resetCameraPosition(); 
 	}
 
 	ImGui::Separator();
