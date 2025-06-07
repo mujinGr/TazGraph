@@ -60,11 +60,11 @@ void LineRenderer::initBatchBoxes(size_t msize)
 
 void LineRenderer::initBatchSize()
 {
-	if (_lineGlyphs_size!= 0) _renderBatches.push_back(RenderLineBatch(0, _lineGlyphs_size * INDICES_LINE_OFFSET));
-	if (_squareGlyphs_size != 0) _renderBatches.push_back(RenderLineBatch(_lineGlyphs_size * INDICES_LINE_OFFSET, _squareGlyphs_size * INDICES_SQUARE_OFFSET));
+	if (_lineGlyphs_size!= 0) _renderBatches.push_back(RenderLineBatch(0, static_cast<GLuint>(_lineGlyphs_size * INDICES_LINE_OFFSET)));
+	if (_squareGlyphs_size != 0) _renderBatches.push_back(RenderLineBatch(static_cast<GLuint>(_lineGlyphs_size * INDICES_LINE_OFFSET), static_cast<GLuint>(_squareGlyphs_size * INDICES_SQUARE_OFFSET)));
 	if (_boxGlyphs_size != 0) _renderBatches.push_back(RenderLineBatch(
-		_lineGlyphs_size * INDICES_LINE_OFFSET + _squareGlyphs_size * INDICES_SQUARE_OFFSET,
-		_boxGlyphs_size * INDICES_BOX_OFFSET
+		static_cast<GLuint>(_lineGlyphs_size * INDICES_LINE_OFFSET + _squareGlyphs_size * INDICES_SQUARE_OFFSET),
+		static_cast<GLuint>(_boxGlyphs_size * INDICES_BOX_OFFSET)
 	));
 	
 
@@ -95,7 +95,7 @@ void LineRenderer::drawLine(size_t v_index, const glm::vec3 srcPosition, const g
 	size_t i_cg = _lines_indicesOffset + v_index * INDICES_LINE_OFFSET;
 	size_t verts_index = _lines_verticesOffset + v_index * LINE_OFFSET;
 
-	int cv = i_cg;
+	size_t cv = i_cg;
 	
 	_indices[i_cg++] = cv;
 	_vertices[verts_index++] = lineGlyph.fromV;
@@ -111,7 +111,7 @@ void LineRenderer::drawRectangle(size_t v_index, const glm::vec4& destRect, cons
 	size_t i_cg = _rectangles_indicesOffset + v_index * INDICES_SQUARE_OFFSET;
 	size_t verts_index = _rectangles_verticesOffset + v_index * SQUARE_OFFSET;
 
-	int cv = verts_index;
+	size_t cv = verts_index;
 
 	_indices[i_cg++] = cv;
 	_indices[i_cg++] = cv + 1;
@@ -137,7 +137,7 @@ void LineRenderer::drawBox(size_t v_index, const glm::vec3& origin, const glm::v
 	size_t i_cg = _boxes_indicesOffset + v_index * INDICES_BOX_OFFSET;
 	size_t verts_index = _boxes_verticesOffset + v_index * BOX_OFFSET;
 
-	int cv = verts_index;
+	size_t cv = verts_index;
 
 	_vertices[verts_index++] = boxGlyph.a_topLeft;
 	_vertices[verts_index++] = boxGlyph.a_bottomLeft;

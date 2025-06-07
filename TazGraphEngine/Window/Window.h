@@ -31,9 +31,9 @@ namespace TazGraphEngine {
         void setScale(float scale) { _scale = scale; }
         float getScale() { return _scale; }
     private:
-        SDL_Window* _sdlWindow;
-        int _screenWidth, _screenHeight;
-        float _scale;
+        SDL_Window* _sdlWindow = nullptr;
+        int _screenWidth = 0, _screenHeight = 0;
+        float _scale = 0.0f;
     };
 
 }

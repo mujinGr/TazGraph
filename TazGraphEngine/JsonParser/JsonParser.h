@@ -32,7 +32,7 @@ private:
     }
 };
 struct JsonValue {
-    JsonType type;
+    JsonType type = JsonType::Object;
     std::map<std::string, JsonValue, NumericStringCompare> obj;
     std::vector<JsonValue> arr;
     std::string str = "";

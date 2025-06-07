@@ -7,9 +7,9 @@ struct Cell {
 	std::vector<NodeEntity*> nodes;
 	std::vector<LinkEntity*> links;
 
-	glm::vec3 boundingBox_origin; // Starting point (minimum corner) of the cell
-	glm::vec3 boundingBox_size;
-	glm::vec3 boundingBox_center;
+	glm::vec3 boundingBox_origin = glm::vec3(0); // Starting point (minimum corner) of the cell
+	glm::vec3 boundingBox_size = glm::vec3(0);
+	glm::vec3 boundingBox_center = glm::vec3(0);
 
 	Cell* parent = nullptr;
 	std::vector<Cell*> children;

@@ -81,7 +81,7 @@ protected:
 	std::unordered_map<std::string, Manager*> managers = {
 	};
 
-	Manager* manager;
+	Manager* manager = nullptr;
 	std::string managerName = "";
 
 	bool _renderDebug = false;

@@ -28,7 +28,7 @@ void SceneList::setScene(int nextScene) {
 	_currentSceneIndex = nextScene;
 }
 void SceneList::addScene(IScene* newScene) {
-	newScene->_sceneIndex = _scenes.size();
+	newScene->_sceneIndex = static_cast<int>(_scenes.size());
 	_scenes.push_back(newScene);
 	newScene->build();
 	newScene->setParentApp(_app);

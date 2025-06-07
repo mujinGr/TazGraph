@@ -19,14 +19,14 @@ constexpr float walkingSpeed = 3.5f, runningSpeed = 8.5f, jumpingSpeed = 3.0f;
 class KeyboardControllerComponent : public Component //! moving animation
 {
 public: //TODO: maybe have variables as private
-	InputManager* _inputManager;
+	InputManager* _inputManager = nullptr;
 
 	TransformComponent* transform = nullptr;
 	AnimatorComponent* animator = nullptr;
 	RigidBodyComponent* rigidbody = nullptr;
 	SpriteComponent* sprite = nullptr;
 
-	SDL_KeyCode walkUpKey, walkLeftKey, walkRightKey, walkDownKey;
+	SDL_KeyCode walkUpKey = SDLK_UNKNOWN, walkLeftKey = SDLK_UNKNOWN, walkRightKey = SDLK_UNKNOWN, walkDownKey = SDLK_UNKNOWN;
 
 
 	KeyboardControllerComponent()

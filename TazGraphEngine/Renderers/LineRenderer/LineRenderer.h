@@ -200,13 +200,13 @@ private:
 	size_t _squareGlyphs_size	= 0;
 	size_t _boxGlyphs_size		= 0;
 
-	int _rectangles_verticesOffset = 0;
-	int _lines_verticesOffset = 0;
-	int _boxes_verticesOffset= 0;
+	size_t _rectangles_verticesOffset = 0;
+	size_t _lines_verticesOffset = 0;
+	size_t _boxes_verticesOffset= 0;
 
-	int _rectangles_indicesOffset = 0;
-	int _lines_indicesOffset = 0;
-	int _boxes_indicesOffset = 0;
+	size_t _rectangles_indicesOffset = 0;
+	size_t _lines_indicesOffset = 0;
+	size_t _boxes_indicesOffset = 0;
 
 	std::vector<RenderLineBatch> _renderBatches;
 };

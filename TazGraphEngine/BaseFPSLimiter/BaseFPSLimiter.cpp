@@ -1,6 +1,5 @@
 #include "BaseFPSLimiter.h"
 
-#include <SDL2/SDL.h>
 
 BaseFPSLimiter::BaseFPSLimiter() {
 
@@ -22,7 +21,7 @@ float BaseFPSLimiter::end() {
 
 	calculateFPS();
 
-	float frameTicks = SDL_GetTicks() - startTicks;
+	Uint32 frameTicks = SDL_GetTicks() - startTicks;
 
 	if (1000.0f / maxFPS > frameTicks)
 	{
@@ -42,13 +41,13 @@ void BaseFPSLimiter::setHistoryValue(float currentFPS)
 void BaseFPSLimiter::calculateFPS() {
 	static const int NUM_SAMPLES = 10;
 
-	static float frameTimes[NUM_SAMPLES];
+	static Uint32 frameTimes[NUM_SAMPLES];
 
 	static int currentFrame = 0;
 
-	static float prevTicks = SDL_GetTicks();
+	Uint32 prevTicks = SDL_GetTicks();
 
-	float currentTicks = SDL_GetTicks();
+	Uint32 currentTicks = SDL_GetTicks();
 
 	frameTime = currentTicks - prevTicks;
 	frameTimes[currentFrame % NUM_SAMPLES] = frameTime;

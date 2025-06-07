@@ -6,7 +6,7 @@
 class MainMenuBackground : public Component
 {
 private:
-	TransformComponent* transform;
+	TransformComponent* transform = nullptr;
 	SpriteComponent* sprite = nullptr;
 
 	float elapsedTime = 0.0f;

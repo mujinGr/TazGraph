@@ -86,7 +86,7 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 
 		if (totalNodes == 0) continue;
 
-		float groupNodeSize = 25 * manager->grid->getLevelCellScale(m_level) - 40 / (totalNodes + 1);
+		float groupNodeSize = 25.0f * manager->grid->getLevelCellScale(m_level) - 40.0f / (totalNodes + 1.0f);
 
 		auto& node = manager->addEntity<Node>();
 

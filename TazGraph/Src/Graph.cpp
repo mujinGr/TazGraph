@@ -502,7 +502,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 	float sphereRad = 5.0f;
 	for (float t = 0.0f; t < minT; t += sphereRad) {
-		sphereRad += 0.005;
+		sphereRad += 0.005f;
 	}
 	
 	for (auto& trav_cell : trav_cells) {
@@ -860,7 +860,7 @@ void Graph::checkInput() {
 			if (_app->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
 				// Calculate new camera position based on the mouse movement
 				glm::vec3 delta = glm::vec3(_app->_inputManager.calculatePanningDelta(mouseCoordsVec ),0.0f);
-				main_camera2D->moveAimPos(_app->_inputManager.getStartDragAimPos(), delta);
+				main_camera2D->moveAimPos(main_camera2D->getAimPos(), delta);
 			}
 		}
 		case SDL_MOUSEBUTTONDOWN:
@@ -893,7 +893,6 @@ void Graph::checkInput() {
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
 				_app->_inputManager.setPanningPoint(mouseCoordsVec);
-				_app->_inputManager.setStartDragAimPos(main_camera2D->getAimPos());
 			}
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
 				std::cout << "right-clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;

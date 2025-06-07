@@ -26,7 +26,7 @@ void AppInterface::run() {
 	const float DESIRED_FRAMETIME = MS_PER_SECOND / DESIRED_FPS;
 	const float MAX_DELTA_TIME = 1.0f;
 
-	float prevTicks = SDL_GetTicks();
+	Uint32 prevTicks = SDL_GetTicks();
 
 	_limiter.setMaxFPS(60.0f);
 
@@ -34,8 +34,8 @@ void AppInterface::run() {
 	while (_isRunning) {
 		_limiter.begin();
 
-		float newTicks = SDL_GetTicks();
-		float frameTime = newTicks - prevTicks;
+		Uint32 newTicks = SDL_GetTicks();
+		float frameTime = static_cast<float>(newTicks - prevTicks);
 		prevTicks = newTicks;
 		float totalDeltaTime = frameTime / DESIRED_FRAMETIME;
 
@@ -109,8 +109,8 @@ void AppInterface::onSDLEvent(SDL_Event& evnt) {
 		switch (evnt.window.event) {
 		case SDL_WINDOWEVENT_SIZE_CHANGED:
 		case SDL_WINDOWEVENT_RESIZED:
-			int newWidth = evnt.window.data1;
-			int newHeight = evnt.window.data2;
+			float newWidth = evnt.window.data1;
+			float newHeight = evnt.window.data2;
 			// Handle window resizing, update viewport or other necessary elements
 			_window.setScreenWidth(newWidth);
 			_window.setScreenHeight(newHeight);
@@ -150,7 +150,7 @@ bool AppInterface::init() {
 }
 
 bool AppInterface::initSystems() {
-	_window.create("Taz Graph", 800, 640, 1.0f, TazGraphEngine::VISIBLE);
+	_window.create("Taz Graph", 800.0f, 640.0f, 1.0f, TazGraphEngine::VISIBLE);
 	return true;
 }
 

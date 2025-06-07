@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL2/SDL.h>
 
 class BaseFPSLimiter {
 public:
@@ -21,8 +22,8 @@ public:
 
 	float fps;
 	float maxFPS;
-	float frameTime;
-	unsigned int startTicks;
+	Uint32 frameTime;
+	Uint32 startTicks;
 
 	void setHistoryValue(float currentFPS);
 
