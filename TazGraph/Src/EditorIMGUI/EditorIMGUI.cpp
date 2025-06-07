@@ -119,7 +119,6 @@ bool EditorIMGUI::isMouseOnWidget(const std::string& widgetName)
 
 void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* onHoverEntity, float(& backgroundColor)[4], int cell_size) {
 	ImGui::BeginChild("Background UI");
-	ImGui::Text("This is a Background UI element.");
 	ImGui::ColorEdit4("Background Color", backgroundColor);
 	
 	ImVec4 activeColor = ImVec4(0.2f, 0.7f, 0.2f, 1.0f);
@@ -127,6 +126,31 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 
 	ImVec4 defaultColor = ImVec4(0.0f, 0.5f, 1.0f, 1.0f);
 	
+
+
+	ImGui::Separator();
+
+	ImGui::Text("Camera:");
+
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	ImGui::Text("Rect: {x: %f, y: %f, w: %f, h: %f}", main_camera2D->getCameraRect().x, main_camera2D->getCameraRect().y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
+
+	if (ImGui::SliderFloat3("Eye Position", &main_camera2D->eyePos[0], -1000.0f, 1000.0f)) {
+		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
+	}
+	if (ImGui::SliderFloat3("Aim Position", &main_camera2D->aimPos[0], -1000.0f, 1000.0f)) {
+		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
+	}
+	if (ImGui::SliderFloat3("Up Direction", &main_camera2D->upDir[0], -1000.0f, 1000.0f)) {
+		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
+	}
+
+	if (ImGui::Button("Reset")) {
+		main_camera2D->resetCameraPosition();  // Toggle the state
+	}
+
+	ImGui::Separator();
 	// Change color based on the debug mode state
 	if (renderDebug) {
 		ImGui::PushStyleColor(ImGuiCol_Button, activeColor);  // Green for ON
@@ -134,7 +158,6 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 	else {
 		ImGui::PushStyleColor(ImGuiCol_Button, inactiveColor);  // Red for OFF
 	}
-
 	// Button toggles the debug mode
 	if (ImGui::Button("Enable Debug Mode")) {
 		renderDebug = !renderDebug;  // Toggle the state
@@ -149,6 +172,8 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 		//manager.setArrowheadsEnabled(arrowheadsEnabled); // Call function to apply change
 	}
 	
+	ImGui::Separator();
+
 	ImGui::Text("Select Grouping Layout:");
 	ImGui::PushStyleColor(ImGuiCol_Button, activeLayout == 0 ? activeColor : defaultColor);
 	if (ImGui::Button("Default Layout", ImVec2(120, 30))) {
@@ -172,7 +197,9 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 
 	ImGui::Separator();
 
-	if (ImGui::Button("Circular Layout", ImVec2(120, 30))) {
+	ImGui::Text("Choose Layout:");
+
+	if (ImGui::Button("Circular", ImVec2(120, 30))) {
 		
 		auto& nodes = manager.getGroup<NodeEntity>(Manager::groupNodes_0);
 		if (nodes.empty()) return;
@@ -272,7 +299,7 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 		ImGui::PushStyleColor(ImGuiCol_Button, inactiveColor);  // Red for OFF
 	}
 
-	if (ImGui::Button(clusterLayout ? "Disable Cluster" : "Cluster Layout", ImVec2(120, 30))) {
+	if (ImGui::Button(clusterLayout ? "Disable Cluster" : "Cluster", ImVec2(120, 30))) {
 		
 		auto clusterGroupLayout = [&](Group nodeGroup, Group linkGroup)
 			{
@@ -322,25 +349,9 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 	}
 	ImGui::PopStyleColor(1);
 
-	ImGui::Text("Camera Position");
+	ImGui::Separator();
 
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-	ImGui::Text("Rect: {x: %f, y: %f, w: %f, h: %f}", main_camera2D->getCameraRect().x, main_camera2D->getCameraRect().y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
-
-	if (ImGui::SliderFloat3("Eye Position", &main_camera2D->eyePos[0], -1000.0f, 1000.0f)) {
-		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
-	}
-	if (ImGui::SliderFloat3("Aim Position", &main_camera2D->aimPos[0], -1000.0f, 1000.0f)) {
-		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
-	}
-	if (ImGui::SliderFloat3("Up Direction", &main_camera2D->upDir[0], -1000.0f, 1000.0f)) {
-		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
-	}
-
-	if (ImGui::Button("Reset")) {
-		main_camera2D->resetCameraPosition();  // Toggle the state
-	}
 
 	if (ImGui::BeginTable("GroupsTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
 		ImGui::TableSetupColumn("Group Name", ImGuiTableColumnFlags_WidthStretch);
@@ -402,6 +413,10 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 
 	ImGui::Text("Grid Size: %u", manager.grid->getCellSize());
 
+
+	ImGui::Separator();
+
+
 	ImGui::Text("Scene/Screen Coords: {x: %f, y: %f}", mouseCoords.x, mouseCoords.y);
 	ImGui::Text("MainViewport Coords: {x: %f, y: %f}", mouseCoords2.x, mouseCoords2.y);
 
@@ -429,6 +444,9 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 	}
 
 	ImGui::EndChild();
+}
+
+void EditorIMGUI::RightColumnUIElement() {
 }
 
 void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
@@ -737,7 +755,6 @@ void EditorIMGUI::ShowAllEntities(Manager& manager, float &m_nodeRadius) {
 }
 
 void EditorIMGUI::availableFunctions() {
-	ImGui::Separator();
 
 	if (ImGui::Button("Calculate Degree Of Selected Entities")) {
 		_customFunctions.activatedScriptShown = 1;

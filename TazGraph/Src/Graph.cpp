@@ -968,22 +968,29 @@ void Graph::updateUI() {
 	if (selectedTab != managerName) {
 		setManager(selectedTab);
 	}
+
 	_editorImgui.updateIsMouseInSecondColumn();
 
 	_editorImgui.SceneViewport(_framebuffer._framebufferTexture, _windowPos, _windowSize);
 
-	_editorImgui.scriptResultsVisualization(*manager, _selectedEntities);
 
 	ImGui::NextColumn();
 	ImGui::BeginChild("Tab 2");
 
-	_editorImgui.ShowAllEntities(*manager, nodeRadius);
+
+	_editorImgui.RightColumnUIElement();
+
 	_editorImgui.availableFunctions();
 	_editorImgui.ShowFunctionExecutionResults();
+	ImGui::Separator();
+	_editorImgui.ShowAllEntities(*manager, nodeRadius);
 	ImGui::EndChild();
 
 	ImGui::End();
 
+
+	_editorImgui.scriptResultsVisualization(*manager, _selectedEntities);
+	
 	if (_editorImgui.isSaving()) {
 		_editorImgui.SavingUI(map);
 	}
