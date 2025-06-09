@@ -71,7 +71,7 @@ public:
 
 	bool isMouseOnWidget(const std::string& widgetName);
 	void LeftColumnUIElement(bool& renderDebug, bool& clusterLayout, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* selectedEntity, float(&backgroundColor)[4], int cell_size);
-	void RightColumnUIElement();
+	void RightColumnUIElement(Manager& manager, float* nodeRadius);
 	void FPSCounter(const BaseFPSLimiter& baseFPSLimiter);
 	void ReloadAccessibleFiles();
 	void SavingUI(Map* map);

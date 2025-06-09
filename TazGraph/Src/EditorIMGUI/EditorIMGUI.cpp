@@ -362,6 +362,7 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 				else {
 					for (NodeEntity* node : nodes) {
 						if (node->hasComponent<ColliderComponent>()) {
+							node->removeGroup(Manager::groupColliders);
 							node->removeComponent<ColliderComponent>();
 						}
 					}
@@ -481,7 +482,11 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 	ImGui::EndChild();
 }
 
-void EditorIMGUI::RightColumnUIElement() {
+void EditorIMGUI::RightColumnUIElement(Manager& manager, float* nodeRadius) {
+	availableFunctions();
+	ShowFunctionExecutionResults();
+	ImGui::Separator();
+	ShowAllEntities(manager, *nodeRadius);
 }
 
 void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
