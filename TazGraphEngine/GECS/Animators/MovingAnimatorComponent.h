@@ -47,11 +47,8 @@ public:
 			resetAnimation();
 		}
 
-		sprite->destRect.x = sprite->transform->getPosition().x; //make player move with the camera, being stable in centre, except on edges
-		sprite->destRect.y = sprite->transform->getPosition().y;
-
-		sprite->destRect.w = sprite->transform->size.x * sprite->transform->scale;
-		sprite->destRect.h = sprite->transform->size.y * sprite->transform->scale;
+		sprite->transform->setPosition_X(sprite->transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
+		sprite->transform->setPosition_Y(sprite->transform->getPosition().y);
 
 		sprite->moving_animation.advanceFrame(deltaTime);
 		if (sprite->moving_animation.positions.size() == 1) {

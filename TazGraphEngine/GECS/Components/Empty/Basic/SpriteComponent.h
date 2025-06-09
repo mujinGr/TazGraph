@@ -17,7 +17,6 @@ class SpriteComponent : public Component //sprite -> transform
 {
 private:
 	const GLTexture *gl_texture = nullptr;
-	GLuint _vboID = 0; //32 bits
 	bool _isMainMenu = false;
 
 public:
@@ -26,7 +25,7 @@ public:
 	Color color = { 255, 255, 255, 255 };
 
 	TransformComponent* transform = nullptr;
-	SDL_FRect srcRect = {0,0,0,0}, destRect = { 0,0,0,0 };
+	SDL_FRect srcRect = {0,0,0,0};
 
 	Animation animation;
 	MovingAnimation moving_animation;
@@ -53,11 +52,6 @@ public:
 
 	~SpriteComponent()
 	{
-		if (_vboID != 0) //buffer hasn't been generated
-		{
-			glDeleteBuffers(1, &_vboID); // create buffer and change vboID to point to that buffer
-		}
-		//SDL_DestroyTexture(texture); //no need for that anymore, because sprite points to a texture that could be used by multiple objects
 	}
 
 	void setTex(std::string id) //this function is used to change texture of a sprite
@@ -80,22 +74,10 @@ public:
 		srcRect.w = transform->size.x;
 		srcRect.h = transform->size.y;
 
-		destRect.x = transform->getPosition().x; //make player move with the camera, being stable in centre, except on edges
-		destRect.y = transform->getPosition().y;
-
-		destRect.w = transform->size.x * transform->scale;
-		destRect.h = transform->size.y * transform->scale;
-
-
 	}
 
 	void update(float deltaTime) override
 	{
-		destRect.x = transform->getPosition().x; //make player move with the camera, being stable in centre, except on edges
-		destRect.y = transform->getPosition().y;
-
-		destRect.w = transform->size.x * transform->scale;
-		destRect.h = transform->size.y * transform->scale;
 	}
 
 	void draw(size_t v_index, PlaneModelRenderer&  batch, TazGraphEngine::Window& window)
@@ -104,10 +86,17 @@ public:
 		{
 			return;
 		}
-		float tempScreenScale = window.getScale();
-		glm::vec3 pos(destRect.x * tempScreenScale, destRect.y * tempScreenScale, transform->getPosition().z);
 
-		glm::vec2 size(destRect.w * tempScreenScale, destRect.h * tempScreenScale);
+		float screenScale = window.getScale();
+
+		glm::vec3 pos(
+			transform->getPosition().x * screenScale,
+			transform->getPosition().y * screenScale,
+			transform->getPosition().z);
+
+		glm::vec2 size(
+			transform->size.x * transform->scale * screenScale,
+			transform->size.y * transform->scale * screenScale);
 
 		float srcUVposX = spriteFlip == SDL_FLIP_HORIZONTAL ?
 			(srcRect.x + srcRect.w) / gl_texture->width :
@@ -154,14 +143,14 @@ public:
 
 	void setMoveFrame() {
 
-		this->destRect.x = ((this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.positions[0].x * moving_animation.cur_frame_index);
-		this->destRect.y = ((this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.positions[0].y * moving_animation.cur_frame_index);
+		this->transform->setPosition_X(((this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.positions[0].x * moving_animation.cur_frame_index));
+		this->transform->setPosition_Y(((this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.positions[0].y * moving_animation.cur_frame_index));
 	}
 
 	void setSpecificMoveFrame() {
 
-		this->destRect.x = ((this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.positions[moving_animation.cur_frame_index].x);
-		this->destRect.y = ((this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.positions[moving_animation.cur_frame_index].y);
+		this->transform->setPosition_X(((this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.positions[moving_animation.cur_frame_index].x));
+		this->transform->setPosition_Y(((this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.positions[moving_animation.cur_frame_index].y));
 	}
 
 	void setFlashFrame() {

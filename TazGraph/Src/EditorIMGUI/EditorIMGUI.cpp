@@ -1092,12 +1092,35 @@ void EditorIMGUI::ShowSceneControl(glm::vec2 mousePos, Manager& manager)
 	ImGui::SetNextWindowPos(ImVec2(mousePos.x, mousePos.y), ImGuiCond_Always, ImVec2(0, 0));
 
 	if (ImGui::Begin(windowTitle.c_str())) {
-		if (ImGui::Button("Create Empty Entity")) {
+		if (ImGui::Button("Create Empty - Box")) {
 			auto& empty(manager.addEntityNoId<Empty>());
 
 			//empty.addGroup(Manager::groupNodes_0);
 			// todo here we also have choose shape option
 		}
+
+		if (ImGui::Button("Create Empty - Plane")) {
+			auto& empty(manager.addEntityNoId<Empty>());
+
+			//empty.addGroup(Manager::groupNodes_0);
+			// todo here we also have choose shape option
+		}
+
+		if (ImGui::Button("Create Empty - Triangle")) {
+			auto& empty(manager.addEntityNoId<Empty>());
+
+			//empty.addGroup(Manager::groupNodes_0);
+			// todo here we also have choose shape option
+		}
+
+		if (ImGui::Button("Create Empty - Sphere")) {
+			auto& empty(manager.addEntityNoId<Empty>());
+
+			//empty.addGroup(Manager::groupNodes_0);
+			// todo here we also have choose shape option
+		}
+
+		ImGui::Separator();
 
 		if (ImGui::Button("Create Node Entity")) {
 			auto& node(manager.addEntityNoId<Node>());
