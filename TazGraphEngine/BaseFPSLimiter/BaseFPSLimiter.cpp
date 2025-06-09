@@ -45,7 +45,7 @@ void BaseFPSLimiter::calculateFPS() {
 
 	static int currentFrame = 0;
 
-	Uint32 prevTicks = SDL_GetTicks();
+	static Uint32 prevTicks = SDL_GetTicks();
 
 	Uint32 currentTicks = SDL_GetTicks();
 
