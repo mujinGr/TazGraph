@@ -18,9 +18,6 @@ void PlaneModelRenderer::init() {
 void PlaneModelRenderer::begin() {
 	_glyphs_size = 0;
 
-	_vertices.clear();
-	_indices.clear();
-
 	for (auto& mesh : _meshesElements) {
 		mesh.instances.clear();
 	}
@@ -38,9 +35,6 @@ void PlaneModelRenderer::initTextureQuadBatch(size_t mSize)
 
 void PlaneModelRenderer::initBatchSize()
 {
-	_vertices.resize((_glyphs_size * SQUARE_OFFSET));
-	_indices.resize(_glyphs_size * QUAD_INDICES);
-
 	_meshesElements[TRIANGLE_MESH_IDX].instances.resize(0);
 
 	_meshesElements[RECTANGLE_MESH_IDX].instances.resize(_glyphs_size);
@@ -71,20 +65,6 @@ void PlaneModelRenderer::draw(
 	GLuint texture
 ) {
 
-	Glyph glyph = Glyph(rectSize, mRotation, uvRect, texture, bodyCenter.z);
-
-	int offset = v_index * SQUARE_OFFSET;
-	int ind_offset = v_index * QUAD_INDICES;
-
-	for (size_t i = 0; i < QUAD_INDICES; i++) {
-		_indices[ind_offset + i] = offset + quadIndices[i];
-	}
-
-	_vertices[offset++] = glyph.topLeft;
-	_vertices[offset++] = glyph.bottomLeft;
-	_vertices[offset++] = glyph.bottomRight;
-	_vertices[offset++] = glyph.topRight;
-
 	_meshesElements[RECTANGLE_MESH_IDX].instances[v_index] = TextureInstanceData(rectSize, bodyCenter, mRotation, texture);
 }
 
@@ -101,11 +81,11 @@ void PlaneModelRenderer::renderBatch(GLSLProgram* glsl_program) {
 
 		glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
-		glBufferData(GL_ARRAY_BUFFER, 1 * sizeof(Position), nullptr, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(TextureInstanceData), nullptr, GL_DYNAMIC_DRAW);
 
 		glBufferSubData(GL_ARRAY_BUFFER, 0,
-			1 * sizeof(Position),
-			&_meshesElements[RECTANGLE_MESH_IDX].instances[i].bodyCenter);
+			sizeof(TextureInstanceData),
+			&_meshesElements[RECTANGLE_MESH_IDX].instances[i]);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -121,30 +101,22 @@ void PlaneModelRenderer::createRenderBatches() {
 	if (_glyphs_size == 0 ) {
 		return;
 	}
-
-	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].vbo);
-	//orphan the buffer / like using double buffer
-	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(TextureVertex), nullptr, GL_DYNAMIC_DRAW);
-	//upload the data
-	glBufferSubData(GL_ARRAY_BUFFER, 0, _vertices.size() * sizeof(TextureVertex), _vertices.data());
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(GLuint), _indices.data(), GL_DYNAMIC_DRAW);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void PlaneModelRenderer::createInstancesVBO() {
 	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)(0)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TextureInstanceData), (void*)offsetof(TextureInstanceData, size)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
 	glVertexAttribDivisor(0, 1);
 
-	//glEnableVertexAttribArray(4); // instance uv
-	//glVertexAttribPointer(4, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ColorInstanceData), (void*)offsetof(ColorInstanceData, color));
-	//glVertexAttribDivisor(4, 1);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(TextureInstanceData), (void*)offsetof(TextureInstanceData, bodyCenter));
+	glVertexAttribDivisor(1, 1);
 
+	glEnableVertexAttribArray(2); // instance rotation
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(TextureInstanceData), (void*)offsetof(TextureInstanceData, rotation));
+	glVertexAttribDivisor(2, 1);
 
 	//glEnableVertexAttribArray(4); // instance texture
 	//glVertexAttribPointer(4, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ColorInstanceData), (void*)offsetof(ColorInstanceData, color));
@@ -181,11 +153,11 @@ void PlaneModelRenderer::createVertexArray() {
 	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(tex_quadVertices), tex_quadVertices, GL_STATIC_DRAW);
 
-	glEnableVertexAttribArray(1); // aPos
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, position));
+	glEnableVertexAttribArray(3); // aPos
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, position));
 
-	glEnableVertexAttribArray(2); // aUV
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, uv));
+	glEnableVertexAttribArray(4); // aUV
+	glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, uv));
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndices), quadIndices, GL_STATIC_DRAW);

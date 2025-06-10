@@ -117,9 +117,6 @@ private:
 	
 	GLuint _vboInstances;
 
-	std::vector<TextureVertex> _vertices;
-	std::vector<GLuint> _indices;
-
 	size_t _glyphs_size = 0; //actual glyphs
 
 	std::vector<TextureMeshRenderer> _meshesElements;

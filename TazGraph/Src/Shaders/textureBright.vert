@@ -1,10 +1,12 @@
 #version 430
 
-layout (location = 0) in vec3 instancePosition; //vec2 is array of 2 floats
+layout (location = 0) in vec3 instanceSize; 
+layout (location = 1) in vec3 instancePosition; 
+layout (location = 2) in vec3 instanceRotation;
 
-layout (location = 1) in vec3 vertexPosition;
 
-layout (location = 2) in vec2 vertexUV;
+layout (location = 3) in vec3 vertexPosition;
+layout (location = 4) in vec2 vertexUV;
 
 out vec4 fragmentColor;
 out vec2 fragmentUV;
@@ -50,10 +52,12 @@ mat4 BuildInstanceRotation(vec3 rotationAngles) {
 
 void main() {
 
+    vec3 scaledVertex = vertexPosition * instanceSize;
+
     mat4 translation = mat4(1.0);
     translation[3].xyz = instancePosition;
 
-    gl_Position = projection * translation * vec4(vertexPosition.xyz, 1.0);
+    gl_Position = projection * translation * vec4(scaledVertex.xyz, 1.0);
 
     fragmentColor = vec4(1.0f);
 
