@@ -61,6 +61,8 @@ void PlaneColorRenderer::initBatchSize()
 	_meshesArrays[RECTANGLE_MESH_IDX].instances.resize(0);
 	
 	_meshesArrays[BOX_MESH_IDX].instances.resize(0);
+	_meshesArrays[SPHERE_MESH_IDX].instances.resize(0);
+
 
 	//mesh Elements
 
@@ -71,6 +73,8 @@ void PlaneColorRenderer::initBatchSize()
 	
 	_meshesElements[BOX_MESH_IDX].instances.resize(_boxGlyphs_size);
 	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
+
+	_meshesArrays[SPHERE_MESH_IDX].instances.resize(0);
 
 }
 
@@ -106,6 +110,16 @@ void PlaneColorRenderer::drawBox(
 	const glm::vec3& mRotation,
 	const Color& color) {
 	_meshesElements[BOX_MESH_IDX].instances[v_index] = ColorInstanceData(boxSize, bodyCenter, mRotation, color);
+}
+
+void PlaneColorRenderer::drawSphere(
+	size_t v_index,
+	const glm::vec3& sphereSize,
+	const glm::vec3& bodyCenter,
+	const glm::vec3& mRotation,
+	const Color& color)
+{
+	_meshesElements[SPHERE_MESH_IDX].instances[v_index] = ColorInstanceData(sphereSize, bodyCenter, mRotation, color);
 }
 
 void PlaneColorRenderer::renderBatch(GLSLProgram* glsl_program) {

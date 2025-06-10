@@ -108,6 +108,16 @@ void LightRenderer::drawBox(
 	_meshesElements[BOX_MESH_IDX].instances[v_index] = ColorInstanceData(boxSize, bodyCenter, mRotation, color);
 }
 
+void LightRenderer::drawSphere(
+	size_t v_index,
+	const glm::vec3& sphereSize,
+	const glm::vec3& bodyCenter,
+	const glm::vec3& mRotation,
+	const Color& color)
+{
+	_meshesElements[BOX_MESH_IDX].instances[v_index] = ColorInstanceData(sphereSize, bodyCenter, mRotation, color);
+}
+
 void LightRenderer::renderBatch(GLSLProgram* glsl_program) {
 
 	for (int i = 0; i < _meshesElements.size(); i++) { // different batch for each geometry

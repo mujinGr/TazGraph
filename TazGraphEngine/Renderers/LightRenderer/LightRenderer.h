@@ -48,6 +48,13 @@ public:
 		const glm::vec3& mRotation,
 		const Color& color);
 
+	void drawSphere(size_t v_index,
+		const glm::vec3& sphereSize,
+		const glm::vec3& bodyCenter,
+		const glm::vec3& mRotation,
+		const Color& color);
+
+
 	void renderBatch(GLSLProgram* glsl_program);
 
 	void dispose();
