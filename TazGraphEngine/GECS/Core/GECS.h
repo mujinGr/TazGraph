@@ -12,6 +12,7 @@
 #include "../../Renderers/PlaneModelRenderer/PlaneModelRenderer.h"
 #include "../../Renderers/LineRenderer/LineRenderer.h"
 #include "../../Renderers/PlaneColorRenderer/PlaneColorRenderer.h"
+#include "../../Renderers/LightRenderer/LightRenderer.h"
 #include "../../Camera2.5D/CameraManager.h"
 #include "../../Window/Window.h"
 #include <optional>
@@ -108,6 +109,7 @@ public:
 	virtual void draw(size_t e_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window) {}
 	virtual void draw(size_t e_index, LineRenderer& batch, TazGraphEngine::Window& window) {}
 	virtual void draw(size_t e_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {}
+	virtual void draw(size_t e_index, LightRenderer& batch, TazGraphEngine::Window& window) {}
 
 	virtual std::string GetComponentName() { return ""; };
 
@@ -199,6 +201,12 @@ public:
 		}
 	}
 	void draw(size_t e_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window)
+	{
+		for (auto& c : components) {
+			c->draw(e_index, batch, window);
+		}
+	}
+	void draw(size_t e_index, LightRenderer& batch, TazGraphEngine::Window& window)
 	{
 		for (auto& c : components) {
 			c->draw(e_index, batch, window);

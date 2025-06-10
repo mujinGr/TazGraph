@@ -135,8 +135,6 @@ public:
 in vec3 vertexPosition; //vec3 is array of 3 floats
 in vec4 vertexColor;
 
-uniform mat4 rotationMatrix;
-
 out vec4 fragmentColor;
 
 uniform mat4 projection;

@@ -39,6 +39,8 @@ using Position	= glm::vec3;
 using Size		= glm::vec3;
 using Rotation	= glm::vec3;
 
+using Normal	= glm::vec3;
+
 using UV		= glm::vec2;
 
 struct Color {
@@ -104,6 +106,11 @@ struct ColorVertex : Vertex { //instead of using the general Vertex that has als
 		color.b = b;
 		color.a = a;
 	}
+};
+
+struct LightVertex : Vertex { 
+	Normal normal = Normal();
+
 };
 
 struct TextureVertex  : Vertex{

@@ -476,7 +476,17 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 			ImGui::Text("Id: %d", onHoverEntity->getId());
 
 		}
+		Empty* empty = dynamic_cast<Empty*>(onHoverEntity);
+		if (empty) {
 
+			ImGui::Text("Id: %d", onHoverEntity->getId());
+
+			TransformComponent* tr = &onHoverEntity->GetComponent<TransformComponent>();
+			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
+			ImGui::Text("Size: (%f, %f)", tr->size.x, tr->size.y);
+			glm::vec3 cellBox = manager.grid->getCell(*onHoverEntity, manager.grid->getGridLevel())->boundingBox_origin;
+			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
+		}
 	}
 
 	ImGui::EndChild();

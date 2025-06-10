@@ -72,6 +72,7 @@ public:
 	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch);
 	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch);
 	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch);
+	void renderBatch(const std::vector<EmptyEntity*>& entities, LightRenderer& batch);
 	void drawHUD(const std::vector<NodeEntity*>& entities);
 
 	/////////////////////////
@@ -100,6 +101,7 @@ private:
 	PlaneModelRenderer _hudPlaneModelRenderer;
 	PlaneColorRenderer _PlaneColorRenderer;
 	LineRenderer _LineRenderer;
+	LightRenderer _LightRenderer;
 
 	AssetManager* _assetsManager = nullptr;
 

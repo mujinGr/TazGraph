@@ -152,6 +152,7 @@
     <ClCompile Include="Camera2.5D\OrthoCamera.h" />
     <ClCompile Include="GECS\Core\GECSManager.cpp" />
     <ClCompile Include="Renderers\FrameBuffer\Framebuffer.cpp" />
+    <ClCompile Include="Renderers\LightRenderer\LightRenderer.cpp" />
     <ClCompile Include="Renderers\LineRenderer\LineRenderer.cpp" />
     <ClCompile Include="GECS\Core\GECS.cpp" />
     <ClCompile Include="GraphScreen\IScene.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h" />
     <ClInclude Include="GECS\Animators\RectangleAnimators\RectangleFlashAnimatorComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\BoxComponent.h" />
+    <ClInclude Include="GECS\Components\Empty\Basic\CircleComponent.h" />
     <ClInclude Include="GECS\Components\Link\Basic\Line_w_Color.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\Triangle_w_Color.h" />
     <ClInclude Include="GECS\Components\Link\Basic\SpringComponent.h" />
@@ -201,6 +203,7 @@
     <ClInclude Include="GECS\Core\GECSEntityTypes.h" />
     <ClInclude Include="JsonParser\JsonParser.h" />
     <ClInclude Include="Renderers\FrameBuffer\Framebuffer.h" />
+    <ClInclude Include="Renderers\LightRenderer\LightRenderer.h" />
     <ClInclude Include="Renderers\LineRenderer\LineRenderer.h" />
     <ClInclude Include="GECS\Animators\Animation.h" />
     <ClInclude Include="GECS\Animators\AnimatorComponent.h" />

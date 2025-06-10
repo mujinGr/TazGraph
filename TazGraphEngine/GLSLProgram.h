@@ -30,6 +30,9 @@ constexpr int INDICES_LINE_OFFSET = LINE_OFFSET;
 constexpr int INDICES_SQUARE_OFFSET = 2 * SQUARE_OFFSET;
 constexpr int INDICES_BOX_OFFSET = 3 * BOX_OFFSET;
 
+constexpr int ARRAY_BOX_OFFSET = 36;
+
+
 static Position triangleVertices[3] = {
 	{  0.0f,  0.5f, 0.0f }, // Top
 	{ -0.5f, -0.5f, 0.0f }, // Bottom Left
@@ -77,30 +80,67 @@ static Position cubeVertices[8] = {
 	{ -0.5f,  0.5f,  0.5f }  
 };
 
-static GLuint cubeIndices[36] = {
+static LightVertex light_cubeVertices[24] = {
+	// Front face
+	{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 0.0f, -1.0f) },
+	{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec3(0.0f, 0.0f, -1.0f) },
+	{ glm::vec3(0.5f, 0.5f, -0.5f),   glm::vec3(0.0f, 0.0f, -1.0f) },
+	{ glm::vec3(-0.5f, 0.5f, -0.5f),  glm::vec3(0.0f, 0.0f, -1.0f) },
+
 	// Back face
-	0, 1, 2,
+	{ glm::vec3(-0.5f, -0.5f, 0.5f),  glm::vec3(0.0f, 0.0f, 1.0f) },
+	{ glm::vec3(0.5f, -0.5f, 0.5f),   glm::vec3(0.0f, 0.0f, 1.0f) },
+	{ glm::vec3(0.5f, 0.5f, 0.5f),    glm::vec3(0.0f, 0.0f, 1.0f) },
+	{ glm::vec3(-0.5f, 0.5f, 0.5f),   glm::vec3(0.0f, 0.0f, 1.0f) },
+
+	// Left face
+	{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-1.0f, 0.0f, 0.0f) },
+	{ glm::vec3(-0.5f, -0.5f, 0.5f),  glm::vec3(-1.0f, 0.0f, 0.0f) },
+	{ glm::vec3(-0.5f, 0.5f, 0.5f),   glm::vec3(-1.0f, 0.0f, 0.0f) },
+	{ glm::vec3(-0.5f, 0.5f, -0.5f),  glm::vec3(-1.0f, 0.0f, 0.0f) },
+
+	// Right face
+	{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec3(1.0f, 0.0f, 0.0f) },
+	{ glm::vec3(0.5f, -0.5f, 0.5f),   glm::vec3(1.0f, 0.0f, 0.0f) },
+	{ glm::vec3(0.5f, 0.5f, 0.5f),    glm::vec3(1.0f, 0.0f, 0.0f) },
+	{ glm::vec3(0.5f, 0.5f, -0.5f),   glm::vec3(1.0f, 0.0f, 0.0f) },
+
+	// Bottom face
+	{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, -1.0f, 0.0f) },
+	{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec3(0.0f, -1.0f, 0.0f) },
+	{ glm::vec3(0.5f, -0.5f, 0.5f),   glm::vec3(0.0f, -1.0f, 0.0f) },
+	{ glm::vec3(-0.5f, -0.5f, 0.5f),  glm::vec3(0.0f, -1.0f, 0.0f) },
+
+	// Top face
+	{ glm::vec3(-0.5f, 0.5f, -0.5f),  glm::vec3(0.0f, 1.0f, 0.0f) },
+	{ glm::vec3(0.5f, 0.5f, -0.5f),   glm::vec3(0.0f, 1.0f, 0.0f) },
+	{ glm::vec3(0.5f, 0.5f, 0.5f),    glm::vec3(0.0f, 1.0f, 0.0f) },
+	{ glm::vec3(-0.5f, 0.5f, 0.5f),   glm::vec3(0.0f, 1.0f, 0.0f) }
+};
+
+static GLuint cubeIndices[36] = {
+	 0, 1, 2,
 	2, 3, 0,
 
-	// Front face
+	// Back face (vertices 4-7)
 	4, 5, 6,
 	6, 7, 4,
 
-	// Left face
-	4, 0, 3,
-	3, 7, 4,
+	// Left face (vertices 8-11)
+	8, 9,10,
+	10,11,8,
 
-	// Right face
-	1, 5, 6,
-	6, 2, 1,
+	// Right face (vertices 12-15)
+	12,13,14,
+	14,15,12,
 
-	// Bottom face
-	4, 5, 1,
-	1, 0, 4,
+	// Bottom face (vertices 16-19)
+	16,17,18,
+	18,19,16,
 
-	// Top face
-	3, 2, 6,
-	6, 7, 3
+	// Top face (vertices 20-23)
+	20,21,22,
+	22,23,20
 };
 
 

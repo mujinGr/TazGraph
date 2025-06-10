@@ -42,6 +42,10 @@ public:
 		batch.drawBox(v_index, transform->size, transform->bodyCenter, transform->rotation,color);
 	}
 
+	void draw(size_t v_index, LightRenderer& batch, TazGraphEngine::Window& window) {
+		batch.drawBox(v_index, transform->size, transform->bodyCenter, transform->rotation, color);
+	}
+
 	std::string GetComponentName() override {
 		return "BoxComponent";
 	}

@@ -56,6 +56,7 @@ void Graph::onEntry()
 	_resourceManager.addGLSLProgram("color");
 	_resourceManager.addGLSLProgram("texture");
 	_resourceManager.addGLSLProgram("framebuffer");
+	_resourceManager.addGLSLProgram("light");
 
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
@@ -99,7 +100,14 @@ void Graph::onEntry()
 		_resourceManager.getGLSLProgram("framebuffer")->addAttribute("inTexCoords");
 		_resourceManager.getGLSLProgram("framebuffer")->linkShaders();
 
+		_resourceManager.getGLSLProgram("light")->compileShaders("Src/Shaders/colorLighting.vert", "Src/Shaders/colorLighting.frag");
+		_resourceManager.getGLSLProgram("light")->addAttribute("vertexPosition");
+		_resourceManager.getGLSLProgram("light")->addAttribute("vertexColor");
+		_resourceManager.getGLSLProgram("light")->addAttribute("vertexUV");
+		_resourceManager.getGLSLProgram("light")->linkShaders();
+
 		Graph::_PlaneModelRenderer.init();
+		Graph::_LightRenderer.init();
 		Graph::_hudPlaneModelRenderer.init();
 
 		_resourceManager.getGLSLProgram("lineColor")->compileShadersFromSource(_LineRenderer.VERT_SRC, _LineRenderer.FRAG_SRC);
@@ -168,6 +176,7 @@ void Graph::onExit() {
 	Graph::_hudPlaneModelRenderer.dispose();
 	Graph::_LineRenderer.dispose();
 	Graph::_PlaneColorRenderer.dispose();
+	Graph::_LightRenderer.dispose();
 
 	_resourceManager.disposeGLSLPrograms();
 }
@@ -479,6 +488,91 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 					if (it == _selectedEntities.end()) {
 						glm::vec3 newNodeRelativePos = node->GetComponent<TransformComponent>().getCenterTransform() - t;
 						updatedSelection.emplace_back(node, newNodeRelativePos);
+					}
+
+					_selectedEntities = std::move(updatedSelection);
+				}
+
+				hasSelected = true;
+				break;
+			}
+		}
+
+		if (hasSelected) return;
+	}
+
+	for (auto& trav_cell : trav_cells) {
+		for (auto& empty : trav_cell->emptyEntities) {
+			glm::vec3 t;
+			TransformComponent* tempBod = &empty->GetComponent<TransformComponent>();
+			if (rayIntersectsBox(rayOrigin,
+				rayDirection,
+				glm::vec3(tempBod->position.x, tempBod->position.y, empty->GetComponent<TransformComponent>().getPosition().z),
+				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, empty->GetComponent<TransformComponent>().getPosition().z + tempBod->size.z),
+				t,
+				maxT)) {
+				std::cout << "Ray hit empty: " << empty->getId() << " at distance " << t.x << t.y << t.z << std::endl;
+				if (activateMode == SDL_BUTTON_RIGHT)
+				{
+					_displayedEntity = empty;
+				}
+				else if (activateMode == SDL_BUTTON_LEFT) {
+					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
+						[empty](const std::pair<Entity*, glm::vec3>& entry) {
+							return entry.first == empty;
+						});
+
+					if (it == _selectedEntities.end()) { // Empty not found
+						_selectedEntities.clear();
+						_selectedEntities.emplace_back(empty, empty->GetComponent<TransformComponent>().getPosition() - t);
+					}
+					else {
+						std::vector<std::pair<Entity*, glm::vec3>> updatedSelection;
+						updatedSelection.reserve(_selectedEntities.size());
+
+						for (const auto& [entity, _] : _selectedEntities) {
+							Empty* emptyEntity = dynamic_cast<Empty*>(entity);
+							if (emptyEntity) {
+								glm::vec3 relativePos = emptyEntity->GetComponent<TransformComponent>().getPosition() - t;
+								updatedSelection.emplace_back(entity, relativePos);
+							}
+							else {
+								updatedSelection.emplace_back(entity, glm::vec3(0));
+							}
+						}
+
+						_selectedEntities = std::move(updatedSelection);
+					}
+				}
+				else if (activateMode == ON_HOVER && _selectedEntities.empty()) {
+					_onHoverEntity = empty;
+				}
+				else if (activateMode == CTRLD_LEFT_CLICK) {
+
+					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
+						[empty](const std::pair<Entity*, glm::vec3>& entry) {
+							return entry.first == empty;
+						});
+
+
+					//! update selectedEntities relative positions to center
+					std::vector<std::pair<Entity*, glm::vec3>> updatedSelection;
+					updatedSelection.reserve(_selectedEntities.size());
+
+					for (const auto& [entity, _] : _selectedEntities) {
+						Empty* emptyEntity = dynamic_cast<Empty*>(entity);
+						if (emptyEntity) {
+							glm::vec3 relativePos = emptyEntity->GetComponent<TransformComponent>().getCenterTransform() - t;
+							updatedSelection.emplace_back(entity, relativePos);
+						}
+						else {
+							updatedSelection.emplace_back(entity, glm::vec3(0));
+						}
+					}
+
+					if (it == _selectedEntities.end()) {
+						glm::vec3 newEmptyRelativePos = empty->GetComponent<TransformComponent>().getCenterTransform() - t;
+						updatedSelection.emplace_back(empty, newEmptyRelativePos);
 					}
 
 					_selectedEntities = std::move(updatedSelection);
@@ -842,6 +936,11 @@ void Graph::checkInput() {
 						center += nodeEntity->GetComponent<TransformComponent>().getCenterTransform();
 						nodeEntitiesSize++;
 					}
+					Empty* emptyEntity = dynamic_cast<Empty*>(entity);
+					if (emptyEntity) {
+						center += emptyEntity->GetComponent<TransformComponent>().getCenterTransform();
+						nodeEntitiesSize++;
+					}
 				}
 
 				center /= nodeEntitiesSize;  // Include new node
@@ -851,6 +950,11 @@ void Graph::checkInput() {
 				for (const auto& [entity, relativePos] : _selectedEntities) {
 					Node* nodeEntity = dynamic_cast<Node*>(entity);
 					if (nodeEntity) {
+						entity->GetComponent<TransformComponent>().setPosition_X(pointAtCenterAxis.x + relativePos.x);
+						entity->GetComponent<TransformComponent>().setPosition_Y(pointAtCenterAxis.y + relativePos.y);
+					}
+					Empty* emptyEntity = dynamic_cast<Empty*>(entity);
+					if (emptyEntity) {
 						entity->GetComponent<TransformComponent>().setPosition_X(pointAtCenterAxis.x + relativePos.x);
 						entity->GetComponent<TransformComponent>().setPosition_Y(pointAtCenterAxis.y + relativePos.y);
 					}
@@ -1104,13 +1208,6 @@ void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRend
 			entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
 		}
 	});
-
-		/*for (int i = 0; i < entities.size(); i++) {
-			if (entities[i]->hasComponent<Rectangle_w_Color>()) {
-
-				entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
-			}
-		}*/
 }
 
 void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRenderer& batch) {
@@ -1120,22 +1217,10 @@ void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRen
 			entities[i]->draw(i, batch, *Graph::_window);
 		}
 		});
-
-		//for (int i = 0; i < entities.size(); i++) {
-		//	if (entities[i]->hasComponent<Rectangle_w_Color>()) {
-		//		entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
-		//	}
-		//	if (entities[i]->hasComponent<Triangle_w_Color>()) {
-		//		entities[i]->GetComponent<Triangle_w_Color>().draw(i, batch, *Graph::_window);
-		//	}
-		//}
 }
 
 void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch) { 
 	// before calling this make sure that reserved the right amount of memory
-	//for (const auto& entity : entities) {
-	//	entity->draw(batch, *Graph::_window);
-	//}
 
 	for (int i = 0; i < entities.size(); i++) {
 		entities[i]->draw(i, batch, *Graph::_window);
@@ -1144,9 +1229,14 @@ void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRend
 }
 void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch) {
 	// before calling this make sure that reserved the right amount of memory
-	/*for (const auto& entity : entities) {
-		entity->draw(batch, *Graph::_window);
-	}*/
+
+	for (int i = 0; i < entities.size(); i++) {
+		entities[i]->draw(i, batch, *Graph::_window);
+	}
+}
+
+void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, LightRenderer& batch) {
+	// before calling this make sure that reserved the right amount of memory
 
 	for (int i = 0; i < entities.size(); i++) {
 		entities[i]->draw(i, batch, *Graph::_window);
@@ -1159,6 +1249,7 @@ void Graph::draw()
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 	GLSLProgram glsl_texture		= *_resourceManager.getGLSLProgram("texture");
+	GLSLProgram glsl_light			= *_resourceManager.getGLSLProgram("light");
 	GLSLProgram glsl_lineColor		= *_resourceManager.getGLSLProgram("lineColor");
 	GLSLProgram glsl_color			= *_resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer	= *_resourceManager.getGLSLProgram("framebuffer");
@@ -1261,13 +1352,14 @@ void Graph::draw()
 	_LineRenderer.begin();
 	_PlaneColorRenderer.begin();
 	_PlaneModelRenderer.begin();
-
+	_LightRenderer.begin();
+	//! Line Renderer Init
 	_LineRenderer.initBatchLines(
 		manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0).size() +
 		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0).size() +
 		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size()
 	);
-	
+	//! Color Renderer Init
 	_PlaneColorRenderer.initColorQuadBatch(
 		manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
 		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
@@ -1276,18 +1368,22 @@ void Graph::draw()
 	_PlaneColorRenderer.initColorTriangleBatch(
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
 	);
-	_PlaneColorRenderer.initColorBoxBatch(
-		manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties).size()
-	);
-
+	
+	//! Model Renderer Init
 	_PlaneModelRenderer.initTextureQuadBatch(
 		manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites).size()
+	);
+
+	//! Light Renderer Init
+	_LightRenderer.initLightBoxBatch(
+		manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties).size()
 	);
 
 
 	_PlaneColorRenderer.initBatchSize();
 	_LineRenderer.initBatchSize();
 	_PlaneModelRenderer.initBatchSize();
+	_LightRenderer.initBatchSize();
 
 	renderBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
 
@@ -1304,12 +1400,12 @@ void Graph::draw()
 
 	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
 
-	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties), _PlaneColorRenderer);
 
 	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
 
 	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
 
+	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties), _LightRenderer);
 
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
@@ -1331,12 +1427,17 @@ void Graph::draw()
 	_PlaneModelRenderer.renderBatch(_resourceManager.getGLSLProgram("texture"));
 	glsl_texture.unuse();
 
+	_resourceManager.setupShader(glsl_light, *main_camera2D);
+	_LightRenderer.end();
+	_LightRenderer.renderBatch(_resourceManager.getGLSLProgram("light"));
+	glsl_light.unuse();
 
 	_LineRenderer.begin();
 
 	size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
 		[](const std::pair<Entity*, glm::vec3>& entry) {
-			return dynamic_cast<NodeEntity*>(entry.first) != nullptr;
+			return (dynamic_cast<NodeEntity*>(entry.first) != nullptr) 
+				|| (dynamic_cast<EmptyEntity*>(entry.first) != nullptr);
 		});
 
 	size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
@@ -1364,8 +1465,9 @@ void Graph::draw()
 
 		for (int i = 0; i < _selectedEntities.size(); i++) {
 			Node* node = dynamic_cast<Node*>(_selectedEntities[i].first);
+			Empty* empty = dynamic_cast<Empty*>(_selectedEntities[i].first);
 			Link* link = dynamic_cast<Link*>(_selectedEntities[i].first);
-			if (node) {
+			if (node || empty) {
 				if (_selectedEntities[i].first->hasComponent<TransformComponent>()) {
 					TransformComponent* tr = &_selectedEntities[i].first->GetComponent<TransformComponent>();
 

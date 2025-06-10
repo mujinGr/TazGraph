@@ -181,6 +181,8 @@
     <Image Include="assets\Sprites\block_networkMiserable.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Src\Shaders\colorLighting.frag" />
+    <None Include="Src\Shaders\colorLighting.vert" />
     <None Include="Src\Shaders\colorShading.frag" />
     <None Include="Src\Shaders\colorShading.vert" />
     <None Include="Src\Shaders\framebuffer.frag" />
