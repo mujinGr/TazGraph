@@ -1095,7 +1095,15 @@ void EditorIMGUI::ShowSceneControl(glm::vec2 mousePos, Manager& manager)
 		if (ImGui::Button("Create Empty - Box")) {
 			auto& empty(manager.addEntityNoId<Empty>());
 
-			//empty.addGroup(Manager::groupNodes_0);
+			glm::vec2 position(0, 0);
+
+			empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+
+			empty.addComponent<BoxComponent>();
+
+			manager.grid->addEmpty(&empty, manager.grid->getGridLevel());
+			empty.addGroup(Manager::groupEmpties);
+			manager.aboutTo_updateActiveEntities();
 			// todo here we also have choose shape option
 		}
 

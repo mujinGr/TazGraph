@@ -2,7 +2,7 @@
 
 #include "../../../Components.h"
 
-class Box_w_Color : public Component
+class BoxComponent : public Component
 {
 public:
 	Color color = { 255, 255, 255, 255 };
@@ -12,13 +12,13 @@ public:
 
 	float temp_rotation = 0.0f;
 
-	Box_w_Color()
+	BoxComponent()
 	{
 
 	}
 
 
-	~Box_w_Color() {
+	~BoxComponent() {
 
 	}
 
@@ -43,6 +43,6 @@ public:
 	}
 
 	std::string GetComponentName() override {
-		return "Box_w_Color";
+		return "BoxComponent";
 	}
 };

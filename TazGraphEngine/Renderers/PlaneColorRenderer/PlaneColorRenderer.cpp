@@ -54,15 +54,24 @@ void PlaneColorRenderer::initColorBoxBatch(size_t mSize)
 
 void PlaneColorRenderer::initBatchSize()
 {
+	//mesh Arrays
 	_meshesArrays[TRIANGLE_MESH_IDX].instances.resize(_triangleGlyphs_size);
 	_meshesArrays[TRIANGLE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
+
 	_meshesArrays[RECTANGLE_MESH_IDX].instances.resize(0);
+	
 	_meshesArrays[BOX_MESH_IDX].instances.resize(0);
 
+	//mesh Elements
+
 	_meshesElements[TRIANGLE_MESH_IDX].instances.resize(0);
+
 	_meshesElements[RECTANGLE_MESH_IDX].instances.resize(_glyphs_size);
 	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
-	_meshesElements[BOX_MESH_IDX].instances.resize(0);
+	
+	_meshesElements[BOX_MESH_IDX].instances.resize(_boxGlyphs_size);
+	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
+
 }
 
 
@@ -97,8 +106,6 @@ void PlaneColorRenderer::drawBox(
 	const glm::vec3& mRotation,
 	const Color& color) {
 	_meshesElements[BOX_MESH_IDX].instances[v_index] = ColorInstanceData(boxSize, bodyCenter, mRotation, color);
-
-	//_boxGlyphs.emplace_back(destRect, depth, color);
 }
 
 void PlaneColorRenderer::renderBatch(GLSLProgram* glsl_program) {
@@ -108,6 +115,12 @@ void PlaneColorRenderer::renderBatch(GLSLProgram* glsl_program) {
 		if (_meshesElements[i].instances.size() == 0) continue;
 		
 		glBindVertexArray(_meshesElements[i].vao);
+
+		if (i == BOX_MESH_IDX) {
+			glm::mat4 identity = glm::mat4(1.0f);
+			GLint pLocation = glsl_program->getUniformLocation("rotationMatrix");
+			glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(identity));
+		}
 
 		glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
@@ -206,7 +219,7 @@ void PlaneColorRenderer::createVertexArray() {
 
 	}
 
-
+	//!RECTANGLE STATICS
 	glBindVertexArray(_meshesElements[RECTANGLE_MESH_IDX].vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].vbo);
@@ -217,6 +230,20 @@ void PlaneColorRenderer::createVertexArray() {
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndices), quadIndices, GL_STATIC_DRAW);
+
+	//!BOX STATICS
+	glBindVertexArray(_meshesElements[BOX_MESH_IDX].vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[BOX_MESH_IDX].vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0); // aPos
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[BOX_MESH_IDX].ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
+
+
 
 	// triangles/meshesArrays
 	glBindVertexArray(_meshesArrays[TRIANGLE_MESH_IDX].vao);

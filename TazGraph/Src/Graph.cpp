@@ -1117,12 +1117,7 @@ void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRen
 
 	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 		for (int i = start; i < end; i++) {
-			if (entities[i]->hasComponent<Rectangle_w_Color>()) {
-				entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
-			}
-			if (entities[i]->hasComponent<Triangle_w_Color>()) {
-				entities[i]->GetComponent<Triangle_w_Color>().draw(i, batch, *Graph::_window);
-			}
+			entities[i]->draw(i, batch, *Graph::_window);
 		}
 		});
 
@@ -1281,6 +1276,9 @@ void Graph::draw()
 	_PlaneColorRenderer.initColorTriangleBatch(
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
 	);
+	_PlaneColorRenderer.initColorBoxBatch(
+		manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties).size()
+	);
 
 	_PlaneModelRenderer.initTextureQuadBatch(
 		manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites).size()
@@ -1306,6 +1304,7 @@ void Graph::draw()
 
 	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
 
+	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties), _PlaneColorRenderer);
 
 	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
 

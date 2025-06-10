@@ -396,6 +396,8 @@ public:
 		groupGroupNodes_1,
 		groupColliders,
 
+		groupEmpties,
+
 		groupRenderSprites,
 		
 		//fore
@@ -416,6 +418,8 @@ public:
 		{ groupNodes_0,"groupNodes_0" },
 		{ groupGroupNodes_0, "groupGroupNodes_0"},
 		{ groupGroupNodes_1, "groupGroupNodes_1"},
+
+		{ groupEmpties,"groupEmpties" },
 
 		{ groupColliders,"groupColliders" },
 		{ groupRenderSprites,"groupRenderSprites" },

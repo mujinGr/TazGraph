@@ -263,7 +263,7 @@
     <ClInclude Include="Renderers\PlaneColorRenderer\PlaneColorRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Basic\Box_w_Color.h">
+    <ClInclude Include="GECS\Components\Empty\Basic\BoxComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Core\CellEntity.h">

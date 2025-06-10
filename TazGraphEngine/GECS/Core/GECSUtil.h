@@ -12,7 +12,7 @@ static const std::unordered_map<std::string, std::function<void(Entity*)>> addCo
     {"Rectangle_w_Color", [](Entity* entity) { entity->addComponent<Rectangle_w_Color>(); }},
     {"Line_w_Color", [](Entity* entity) { entity->addComponent<Line_w_Color>(); }},
     {"SpringComponent", [](Entity* entity) { entity->addComponent<SpringComponent>(); }},
-    //{"Box_w_Color", [](Entity* entity) { entity->addComponent<Box_w_Color>(); }},
+    //{"BoxComponent", [](Entity* entity) { entity->addComponent<BoxComponent>(); }},
     {"AnimatorComponent", [](Entity* entity) { entity->addComponent<AnimatorComponent>(); }},
     {"MovingAnimatorComponent", [](Entity* entity) { entity->addComponent<MovingAnimatorComponent>(); }},
     {"FlashAnimatorComponent", [](Entity* entity) { entity->addComponent<FlashAnimatorComponent>(); }},
