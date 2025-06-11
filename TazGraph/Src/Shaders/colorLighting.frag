@@ -6,7 +6,7 @@ in vec3 fragNormal;
 
 out vec4 color; //rgb value
 
-uniform vec3 lightDir = normalize(vec3(-1.0, -1.0, -1.0));
+uniform vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
 uniform vec3 lightColor = vec3(1.f);
 
 void main() {

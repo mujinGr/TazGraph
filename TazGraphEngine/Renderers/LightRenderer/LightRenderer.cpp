@@ -6,7 +6,8 @@ LightRenderer::LightRenderer() :
 
 	_glyphs_size(0),
 	_triangleGlyphs_size(0),
-	_boxGlyphs_size(0) {
+	_boxGlyphs_size(0),
+	_sphereGlyphs_size(0){
 
 }
 
@@ -30,6 +31,7 @@ void LightRenderer::begin() {
 	_glyphs_size = 0;
 	_triangleGlyphs_size = 0;
 	_boxGlyphs_size = 0;
+	_sphereGlyphs_size = 0;
 }
 void LightRenderer::end() {
 
@@ -78,7 +80,7 @@ void LightRenderer::initBatchSize()
 	_meshesElements[BOX_MESH_IDX].meshIndices = ARRAY_BOX_OFFSET;
 
 	_meshesElements[SPHERE_MESH_IDX].instances.resize(_sphereGlyphs_size);
-	_meshesElements[SPHERE_MESH_IDX].meshIndices = ARRAY_BOX_OFFSET;
+	_meshesElements[SPHERE_MESH_IDX].meshIndices = sphereIndices.size();
 
 }
 
@@ -186,7 +188,7 @@ void LightRenderer::renderBatch(GLSLProgram* glsl_program) {
 void LightRenderer::createRenderBatches() {
 
 	//current vertex
-	if ((_glyphs_size + _triangleGlyphs_size) == 0) {
+	if ((_glyphs_size + _triangleGlyphs_size + _sphereGlyphs_size) == 0) {
 		return;
 	}
 
@@ -260,6 +262,22 @@ void LightRenderer::createVertexArray() {
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[BOX_MESH_IDX].ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
+
+	//!SPHERE STATICS
+	glBindVertexArray(_meshesElements[SPHERE_MESH_IDX].vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[SPHERE_MESH_IDX].vbo);
+	glBufferData(GL_ARRAY_BUFFER, sphereVertices.size() * sizeof(LightVertex), sphereVertices.data(), GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0); // aPos
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(LightVertex), (void*)offsetof(LightVertex, position));
+
+	glEnableVertexAttribArray(1); // aNormal
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(LightVertex), (void*)offsetof(LightVertex, normal));
+
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[SPHERE_MESH_IDX].ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphereIndices.size() * sizeof(GLuint), sphereIndices.data(), GL_STATIC_DRAW);
 
 
 

@@ -60,6 +60,14 @@ public:
 
 	void dispose();
 
+	std::vector<LightVertex> sphereVertices = {
+		// Generated vertices will go here
+	};
+
+	std::vector<GLuint> sphereIndices = {
+		// Generated indices will go here
+	};
+
 private:
 	void createRenderBatches();
 	void createInstancesVBO();

@@ -107,6 +107,10 @@ void Graph::onEntry()
 		_resourceManager.getGLSLProgram("light")->linkShaders();
 
 		Graph::_PlaneModelRenderer.init();
+		generateSphereMesh(
+			Graph::_LightRenderer.sphereVertices,
+			Graph::_LightRenderer.sphereIndices);
+
 		Graph::_LightRenderer.init();
 		Graph::_hudPlaneModelRenderer.init();
 
@@ -1371,9 +1375,6 @@ void Graph::draw()
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
 	);
 	
-	_PlaneColorRenderer.initColorSphereBatch(
-		manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties).size()
-	);
 
 	//! Model Renderer Init
 	_PlaneModelRenderer.initTextureQuadBatch(
@@ -1383,6 +1384,10 @@ void Graph::draw()
 	//! Light Renderer Init
 	_LightRenderer.initLightBoxBatch(
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties).size()
+	);
+
+	_LightRenderer.initLightSphereBatch(
+		manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties).size()
 	);
 
 
@@ -1403,7 +1408,6 @@ void Graph::draw()
 	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
 	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
 
-	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), _PlaneColorRenderer);
 	
 
 	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
@@ -1414,6 +1418,7 @@ void Graph::draw()
 	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
 
 	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties), _LightRenderer);
+	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), _LightRenderer);
 
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
