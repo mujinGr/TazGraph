@@ -16,7 +16,7 @@ void main() {
     float diff = max(dot(normal, -lightDir), 0.5);
 
     vec3 diffuse = diff * lightColor;
-    vec3 result = diffuse * fragmentColor;
+    vec3 result = diffuse * fragmentColor.rgb;
 
     color = vec4(result, fragmentColor.a);
 }
