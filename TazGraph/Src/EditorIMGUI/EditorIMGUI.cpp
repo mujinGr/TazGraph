@@ -1134,8 +1134,15 @@ void EditorIMGUI::ShowSceneControl(glm::vec2 mousePos, Manager& manager)
 		if (ImGui::Button("Create Empty - Sphere")) {
 			auto& empty(manager.addEntityNoId<Empty>());
 
-			//empty.addGroup(Manager::groupNodes_0);
-			// todo here we also have choose shape option
+			glm::vec2 position(0, 0);
+
+			empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+
+			empty.addComponent<SphereComponent>();
+
+			manager.grid->addEmpty(&empty, manager.grid->getGridLevel());
+			empty.addGroup(Manager::groupSphereEmpties);
+			manager.aboutTo_updateActiveEntities();
 		}
 
 		ImGui::Separator();

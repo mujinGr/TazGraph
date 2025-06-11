@@ -397,6 +397,7 @@ public:
 		groupColliders,
 
 		groupEmpties,
+		groupSphereEmpties,
 
 		groupRenderSprites,
 		
@@ -420,6 +421,7 @@ public:
 		{ groupGroupNodes_1, "groupGroupNodes_1"},
 
 		{ groupEmpties,"groupEmpties" },
+		{ groupSphereEmpties,"groupSphereEmpties" },
 
 		{ groupColliders,"groupColliders" },
 		{ groupRenderSprites,"groupRenderSprites" },

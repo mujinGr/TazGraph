@@ -6,7 +6,8 @@ PlaneColorRenderer::PlaneColorRenderer() :
 
 	_glyphs_size(0),
 	_triangleGlyphs_size(0),
-	_boxGlyphs_size(0){
+	_boxGlyphs_size(0),
+	_sphereGlyphs_size(0) {
 
 }
 
@@ -52,6 +53,11 @@ void PlaneColorRenderer::initColorBoxBatch(size_t mSize)
 	_boxGlyphs_size = mSize;
 }
 
+void PlaneColorRenderer::initColorSphereBatch(size_t mSize)
+{
+	_sphereGlyphs_size = mSize;
+}
+
 void PlaneColorRenderer::initBatchSize()
 {
 	//mesh Arrays
@@ -74,7 +80,8 @@ void PlaneColorRenderer::initBatchSize()
 	_meshesElements[BOX_MESH_IDX].instances.resize(_boxGlyphs_size);
 	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
 
-	_meshesArrays[SPHERE_MESH_IDX].instances.resize(0);
+	_meshesElements[SPHERE_MESH_IDX].instances.resize(_sphereGlyphs_size);
+	_meshesElements[SPHERE_MESH_IDX].meshIndices = sphereIndices.size();
 
 }
 
@@ -182,7 +189,7 @@ void PlaneColorRenderer::renderBatch(GLSLProgram* glsl_program) {
 void PlaneColorRenderer::createRenderBatches() {
 
 	//current vertex
-	if ((_glyphs_size + _triangleGlyphs_size) == 0) {
+	if ((_glyphs_size + _triangleGlyphs_size + _sphereGlyphs_size) == 0) {
 		return;
 	}
 
@@ -251,6 +258,17 @@ void PlaneColorRenderer::createVertexArray() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[BOX_MESH_IDX].ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
 
+	//!SPHERE STATICS
+	glBindVertexArray(_meshesElements[SPHERE_MESH_IDX].vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[SPHERE_MESH_IDX].vbo);
+	glBufferData(GL_ARRAY_BUFFER, sphereVertices.size() * sizeof(Position), sphereVertices.data(), GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0); // aPos
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[SPHERE_MESH_IDX].ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphereIndices.size() * sizeof(GLuint), sphereIndices.data(), GL_STATIC_DRAW);
 
 
 	// triangles/meshesArrays

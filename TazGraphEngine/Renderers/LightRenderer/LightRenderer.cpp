@@ -52,6 +52,11 @@ void LightRenderer::initLightBoxBatch(size_t mSize)
 	_boxGlyphs_size = mSize;
 }
 
+void LightRenderer::initLightSphereBatch(size_t mSize)
+{
+	_sphereGlyphs_size = mSize;
+}
+
 void LightRenderer::initBatchSize()
 {
 	//mesh Arrays
@@ -71,6 +76,9 @@ void LightRenderer::initBatchSize()
 
 	_meshesElements[BOX_MESH_IDX].instances.resize(_boxGlyphs_size);
 	_meshesElements[BOX_MESH_IDX].meshIndices = ARRAY_BOX_OFFSET;
+
+	_meshesElements[SPHERE_MESH_IDX].instances.resize(_sphereGlyphs_size);
+	_meshesElements[SPHERE_MESH_IDX].meshIndices = ARRAY_BOX_OFFSET;
 
 }
 
@@ -115,7 +123,7 @@ void LightRenderer::drawSphere(
 	const glm::vec3& mRotation,
 	const Color& color)
 {
-	_meshesElements[BOX_MESH_IDX].instances[v_index] = ColorInstanceData(sphereSize, bodyCenter, mRotation, color);
+	_meshesElements[SPHERE_MESH_IDX].instances[v_index] = ColorInstanceData(sphereSize, bodyCenter, mRotation, color);
 }
 
 void LightRenderer::renderBatch(GLSLProgram* glsl_program) {

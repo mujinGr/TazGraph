@@ -116,8 +116,10 @@ void Graph::onEntry()
 		_resourceManager.getGLSLProgram("lineColor")->linkShaders();
 
 		Graph::_LineRenderer.init();
+		generateSphereMesh(
+			Graph::_PlaneColorRenderer.sphereVertices,
+			Graph::_PlaneColorRenderer.sphereIndices);
 		Graph::_PlaneColorRenderer.init();
-
 	}
 
 	if (TTF_Init() == -1)
@@ -1369,6 +1371,10 @@ void Graph::draw()
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
 	);
 	
+	_PlaneColorRenderer.initColorSphereBatch(
+		manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties).size()
+	);
+
 	//! Model Renderer Init
 	_PlaneModelRenderer.initTextureQuadBatch(
 		manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites).size()
@@ -1396,6 +1402,8 @@ void Graph::draw()
 	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
 	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
 	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
+
+	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), _PlaneColorRenderer);
 	
 
 	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);

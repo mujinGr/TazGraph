@@ -29,6 +29,7 @@ public:
 	void initLightTriangleBatch(size_t mSize);
 	void initLightQuadBatch(size_t mSize);
 	void initLightBoxBatch(size_t mSize);
+	void initLightSphereBatch(size_t mSize);
 
 	void initBatchSize();
 
@@ -69,6 +70,7 @@ private:
 	size_t _glyphs_size = 0; //actual glyphs
 	size_t _triangleGlyphs_size = 0; //actual glyphs
 	size_t _boxGlyphs_size = 0;
+	size_t _sphereGlyphs_size = 0;
 
 	std::vector<ColorMeshRenderer> _meshesArrays;
 	std::vector<ColorMeshRenderer> _meshesElements;

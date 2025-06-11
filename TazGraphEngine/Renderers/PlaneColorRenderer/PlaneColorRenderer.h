@@ -29,6 +29,7 @@ public:
 	void initColorTriangleBatch(size_t mSize);
 	void initColorQuadBatch(size_t mSize);
 	void initColorBoxBatch(size_t mSize);
+	void initColorSphereBatch(size_t mSize);
 	
 	void initBatchSize();
 
@@ -58,6 +59,14 @@ public:
 
 	void dispose();
 
+	std::vector<Position> sphereVertices = {
+		// Generated vertices will go here
+	};
+
+	std::vector<GLuint> sphereIndices = {
+		// Generated indices will go here
+	};
+
 private:
 	void createRenderBatches();
 	void createInstancesVBO();
@@ -68,6 +77,7 @@ private:
 	size_t _glyphs_size = 0; //actual glyphs
 	size_t _triangleGlyphs_size = 0; //actual glyphs
 	size_t _boxGlyphs_size = 0;
+	size_t _sphereGlyphs_size = 0;
 
 	std::vector<ColorMeshRenderer> _meshesArrays;
 	std::vector<ColorMeshRenderer> _meshesElements;
