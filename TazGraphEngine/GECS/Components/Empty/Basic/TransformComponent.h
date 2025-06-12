@@ -14,6 +14,8 @@ public:
 
 	glm::vec3 last_position = glm::vec3(0);
 	glm::vec3 last_size = glm::vec3(0);
+	glm::vec3 last_velocity = glm::vec3(0);
+
 
 	glm::vec3 bodyCenter = { 0.0f,0.0f,0.0f };
 
@@ -75,17 +77,14 @@ public:
 	}
 	void update(float deltaTime) override
 	{
-		position.x += velocity.x * speed * deltaTime;
-		position.y += velocity.y * speed * deltaTime;
-
-		velocity *= 0.98f;
-
+		
 		if (entity->getParentEntity() && dynamic_cast<NodeEntity*>(entity->getParentEntity())) {
 			Entity* parent = entity->getParentEntity();
 			TransformComponent* parentTR = &parent->GetComponent<TransformComponent>();
 			if (
 				parentTR->position == parentTR->last_position 
 				&& parentTR->size == parentTR->last_size
+				&& parentTR->velocity == parentTR->last_velocity
 				) {
 				return;
 			}
@@ -97,7 +96,7 @@ public:
 			bodyCenter = position + (size / 2.0f);
 		}
 
-		if (position == last_position && size == last_size) {
+		if (position == last_position && size == last_size && velocity == last_velocity) {
 			return;
 		}
 
@@ -105,6 +104,13 @@ public:
 
 		last_position = position;
 		last_size = size;
+		last_velocity = velocity;
+
+		position.x += velocity.x * speed * deltaTime;
+		position.y += velocity.y * speed * deltaTime;
+
+		velocity *= 0.98f;
+
 
 		//todo dont update the children on every iteration
 		// todo do this for component when needed		
