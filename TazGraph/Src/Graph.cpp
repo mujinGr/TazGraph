@@ -1264,6 +1264,7 @@ void Graph::draw()
 	_framebuffer.Bind();
 	////////////OPENGL USE
 	glClearDepth(1.0);
+	//glDepthFunc(GL_LEQUAL);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glDisable(GL_LINE_SMOOTH);
@@ -1461,8 +1462,8 @@ void Graph::draw()
 	linkCount += 2 * AXIS_CELLS + 2;
 
 	_LineRenderer.initBatchLines(
-		linkCount +
-		1
+		linkCount
+		//+1
 	);
 	_LineRenderer.initBatchBoxes(
 		nodeCount
@@ -1526,7 +1527,7 @@ void Graph::draw()
 		_LineRenderer.drawLine(lineIndex++, startH, endH, Color(255, 255, 255, 64), Color(255, 255, 255, 64));
 	}
 
-	_LineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
+	//_LineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 	_LineRenderer.end();

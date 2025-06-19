@@ -175,14 +175,14 @@ public:
 
 		auto& leftPort = getManager()->addEntityNoId<Empty>();
 		glm::vec3 m_position = glm::vec3(-tr->size.x / 2, 0.0f, 0.0f);
-		leftPort.addComponent<TransformComponent>(m_position, Layer::action, glm::vec2(0), 1.0f);
+		leftPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children["leftPort"] = &leftPort;
 		children["leftPort"]->setParentEntity(this);
 		children["leftPort"]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
 
 		auto& rightPort = getManager()->addEntityNoId<Empty>();
 		m_position = glm::vec3(tr->size.x / 2 , 0.0f, 0.0f);
-		rightPort.addComponent<TransformComponent>(m_position, Layer::action, glm::vec2(0), 1.0f);
+		rightPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children["rightPort"] = &rightPort;
 		children["rightPort"]->setParentEntity(this);
 		children["rightPort"]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
@@ -190,7 +190,7 @@ public:
 		// Initialize top port
 		auto& topPort = getManager()->addEntityNoId<Empty>();
 		m_position = glm::vec3(0.0f, -tr->size.y / 2.0f, 0.0f);
-		topPort.addComponent<TransformComponent>(m_position, Layer::action, glm::vec2(0), 1.0f);
+		topPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children["topPort"] = &topPort;
 		children["topPort"]->setParentEntity(this);
 		children["topPort"]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
@@ -198,7 +198,7 @@ public:
 		// Initialize bottom port
 		auto& bottomPort = getManager()->addEntityNoId<Empty>();
 		m_position = glm::vec3(0.0f, tr->size.y / 2.0f, 0.0f);
-		bottomPort.addComponent<TransformComponent>(m_position, Layer::action, glm::vec2(0), 1.0f);
+		bottomPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children["bottomPort"] = &bottomPort;
 		children["bottomPort"]->setParentEntity(this);
 		children["bottomPort"]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
@@ -320,8 +320,7 @@ public:
 			glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
 
 			glm::vec3 newArrowHeadPosition = arrowHeadPos - (farrowSize / 2.0f);
-			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_X(newArrowHeadPosition.x);
-			children["ArrowHead"]->GetComponent<TransformComponent>().setPosition_Y(newArrowHeadPosition.y);
+			children["ArrowHead"]->GetComponent<TransformComponent>().position = newArrowHeadPosition;
 
 			children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleRadians + glm::half_pi<float>()));
 		}
@@ -360,7 +359,7 @@ public:
 
 		glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
 
-		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), Layer::action, farrowSize, 1);
+		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), farrowSize, 1);
 		temp_arrowHead.addComponent<Triangle_w_Color>();
 		temp_arrowHead.GetComponent<Triangle_w_Color>().color = Color(0, 0, 0, 255);
 

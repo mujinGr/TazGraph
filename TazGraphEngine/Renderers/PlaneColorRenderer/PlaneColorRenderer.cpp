@@ -65,7 +65,6 @@ void PlaneColorRenderer::initBatchSize()
 	_meshesArrays[TRIANGLE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
 
 	_meshesArrays[RECTANGLE_MESH_IDX].instances.resize(0);
-	
 	_meshesArrays[BOX_MESH_IDX].instances.resize(0);
 	_meshesArrays[SPHERE_MESH_IDX].instances.resize(0);
 
@@ -223,7 +222,7 @@ void PlaneColorRenderer::createVertexArray() {
 
 	for (int i = 0; i < _meshesArrays.size(); i++) {
 		glGenVertexArrays(1, &_meshesArrays[i].vao);
-		glGenBuffers(1, &_meshesElements[i].vbo);
+		glGenBuffers(1, &_meshesArrays[i].vbo);
 
 	}
 
