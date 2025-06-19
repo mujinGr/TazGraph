@@ -58,7 +58,7 @@ void Map::saveMapAsText(const char* fileName) {
 
 void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Entity&, glm::vec3 mPosition), void (Map::* addLinkFunction)(Entity&)) {
 	std::string line;
-	std::getline(mapFile, line);
+	std::getline(mapFile, line); // for first line
 
 	//std::string inputPath = "assets/Maps/test_medium_save.txt";
 	//std::ifstream file(inputPath);
@@ -333,11 +333,39 @@ void Map::AddDefaultNode(Entity &node, glm::vec3 mPosition)
 	node.addGroup(Manager::groupNodes_0);
 }
 
+void Map::AddTreeNode(Entity& node, glm::vec3 mPosition)
+{
+	static int colorOffset = 0;
+	colorOffset = (colorOffset + 2) % 256; // Vary color slightly each time
+
+	//create Node function
+	node.addComponent<TransformComponent>(mPosition, glm::vec3(10.0f), 1);
+	node.addComponent<Rectangle_w_Color>();
+	node.GetComponent<Rectangle_w_Color>().setColor(Color(0, colorOffset, 224, 255));
+
+	node.addComponent<RectangleFlashAnimatorComponent>();
+	node.addComponent<PollingComponent>();
+
+	node.addGroup(Manager::groupNodes_0);
+}
+
 void Map::AddDefaultLink(Entity& link)
 {
 	link.addComponent<Line_w_Color>();
 
 	link.GetComponent<Line_w_Color>().setSrcColor(Color(255, 40, 0, 255));
+	link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
+
+	link.addComponent<LineFlashAnimatorComponent>();
+
+	link.addGroup(Manager::groupLinks_0);
+}
+
+void Map::AddTreeLink(Entity& link)
+{
+	link.addComponent<Line_w_Color>();
+
+	link.GetComponent<Line_w_Color>().setSrcColor(Color(40, 255, 0, 255));
 	link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
 
 	link.addComponent<LineFlashAnimatorComponent>();

@@ -9,6 +9,7 @@
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
 
 #include "CustomFunctions/CustomFunctions.h"
+#include "./EditorLayoutUtils.h"
 
 namespace fs = std::filesystem;
 
@@ -20,7 +21,6 @@ private:
 	std::vector<std::string> _pollingFileNames;
 	ImGui::ComboAutoSelectData _data;
 	int _currentOrientationIndex = 0;
-	float _cameraRotationZ = 0;
 
 	bool _filesLoaded = false;
 
@@ -35,6 +35,7 @@ private:
 	bool _dockingEnabled = true;
 	int _lastEntityDisplayed = 0;
 public:
+	float cameraRotationZ = 0;
 	int newNodesCount = 0;
 	int newLinksCount = 0;
 

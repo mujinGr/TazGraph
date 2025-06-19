@@ -156,6 +156,7 @@
     <ClCompile Include="Src\AssetManager\AssetManager.cpp" />
     <ClCompile Include="Src\EditorIMGUI\CustomFunctions\CustomFunctions.cpp" />
     <ClCompile Include="Src\EditorIMGUI\EditorIMGUI.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\EditorLayoutUtils.cpp" />
     <ClCompile Include="Src\Graph.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\MainMenuScreen\MainMenuScreen.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
     <ClInclude Include="Src\EditorIMGUI\CustomFunctions\CustomFunctions.h" />
     <ClInclude Include="Src\EditorIMGUI\EditorIMGUI.h" />
+    <ClInclude Include="Src\EditorIMGUI\EditorLayoutUtils.h" />
     <ClInclude Include="Src\GECS\Scripts\MainMenuBackground.h" />
     <ClInclude Include="Src\GECS\ScriptComponents.h" />
     <ClInclude Include="Src\Graph.h" />

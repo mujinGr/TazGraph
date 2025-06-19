@@ -146,20 +146,8 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
 	}
 
-	if (ImGui::SliderFloat("Rotate Around Z", &_cameraRotationZ, 0.0f, 360.0f)) {
-		float angleRad = glm::radians(_cameraRotationZ);
-		float radius = 3000.0f;
-
-		// Calculate new eye position in the XY plane (Z remains the same)
-		float x = cos(angleRad) * radius;
-		float y = sin(angleRad) * radius;
-		float z = main_camera2D->getPosition().z; // Maintain original height
-
-		glm::vec3 newEyePos = glm::vec3(x, y, z);
-		main_camera2D->setPosition(newEyePos);
-
-		// Always aim at origin or fixed point (optional)
-		main_camera2D->setAimPos(glm::vec3(0.0f, 0.0f, 0.0f));
+	if (ImGui::SliderFloat("Rotate Around Z", &cameraRotationZ, 0.0f, 360.0f)) {
+		EditorLayoutUtils::rotateCamera(cameraRotationZ);
 	}
 
 	const char* viewModeNames[] = { "Y-Up", "Z-Up" };

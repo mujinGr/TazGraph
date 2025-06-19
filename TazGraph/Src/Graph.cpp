@@ -135,6 +135,7 @@ void Graph::onEntry()
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 	TextureManager::getInstance().Add_GLTexture("worldMap", "assets/Sprites/worldMap.png");
 	TextureManager::getInstance().Add_GLTexture("play-button", "assets/Sprites/images-removebg-preview.png");
+	TextureManager::getInstance().Add_GLTexture("treemap", "assets/Sprites/treemap.png");
 
 	if (setManager(mapName)) {
 		auto& world_map(manager->addEntityNoId<Empty>());
@@ -320,14 +321,14 @@ void Graph::update(float deltaTime) //game objects updating
 
 	//for all nodes and for all links, get interpolation and accordingly modify the animators?
 	if (_editorImgui.interpolation_running) {
-		
+
 		for (NodeEntity* node_entity : manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
 			if (node_entity->hasComponent<Rectangle_w_Color>()) {
 				node_entity->GetComponent<Rectangle_w_Color>().flash_animation.interpolation_a = _editorImgui.interpolation;
-				node_entity->GetComponent<Rectangle_w_Color>().setFlashFrame();
+					node_entity->GetComponent<Rectangle_w_Color>().setFlashFrame();
+				}
 			}
-		}
-
+			
 		for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
 			if (link_entity->hasComponent<Line_w_Color>()) {
 				link_entity->GetComponent<Line_w_Color>().flash_animation.interpolation_a = _editorImgui.interpolation;

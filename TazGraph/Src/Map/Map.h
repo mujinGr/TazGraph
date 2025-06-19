@@ -25,7 +25,9 @@ public:
 	void loadPythonMap(const char* fileName);
 
 	void AddDefaultNode(Entity& node, glm::vec3 mPosition);
+	void AddTreeNode(Entity& node, glm::vec3 mPosition);
 	void AddDefaultLink(Entity& node);
+	void AddTreeLink(Entity& link);
 
 	Manager* manager;
 private:
