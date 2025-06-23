@@ -136,6 +136,7 @@ void Graph::onEntry()
 	TextureManager::getInstance().Add_GLTexture("worldMap", "assets/Sprites/worldMap.png");
 	TextureManager::getInstance().Add_GLTexture("play-button", "assets/Sprites/images-removebg-preview.png");
 	TextureManager::getInstance().Add_GLTexture("treemap", "assets/Sprites/treemap.png");
+	TextureManager::getInstance().Add_GLTexture("sauronEye", "assets/Sprites/Eye-of-Sauron.png");
 
 	if (setManager(mapName)) {
 		auto& world_map(manager->addEntityNoId<Empty>());
@@ -1264,7 +1265,7 @@ void Graph::draw()
 	_framebuffer.Bind();
 	////////////OPENGL USE
 	glClearDepth(1.0);
-	//glDepthFunc(GL_LEQUAL);
+	glDepthFunc(GL_LESS);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glDisable(GL_LINE_SMOOTH);
