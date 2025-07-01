@@ -6,6 +6,9 @@
 
 #include "../DataManager/DataManager.h"
 #include "../Camera2.5D/CameraManager.h"
+#include <chrono>
+
+using namespace std::chrono;
 
 AppInterface::AppInterface(int threadCount):threadPool(threadCount) {
 	_sceneList = std::make_unique<SceneList>(this);
@@ -20,39 +23,59 @@ void AppInterface::run() {
 	const float DESIRED_FPS = 60;
 	const int MAX_PHYSICS_STEPS = 6;
 
-	if (!init()) return; // get "Game"
+	if (!init()) return;
 
 	const float MS_PER_SECOND = 1000;
 	const float DESIRED_FRAMETIME = MS_PER_SECOND / DESIRED_FPS;
 	const float MAX_DELTA_TIME = 1.0f;
 
-	Uint32 prevTicks = SDL_GetTicks();
+	Uint64 freq = SDL_GetPerformanceFrequency();
+	Uint64 prevTicks = SDL_GetPerformanceCounter();
 
-	_limiter.setMaxFPS(60.0f);
+	_limiter.setMaxFPS(100.0f);
 
 	_isRunning = true;
 	while (_isRunning) {
 		_limiter.begin();
 
-		Uint32 newTicks = SDL_GetTicks();
-		float frameTime = static_cast<float>(newTicks - prevTicks);
+		Uint64 newTicks = SDL_GetPerformanceCounter();
+		float frameTime = static_cast<float>(newTicks - prevTicks) / freq * 1000.0f; // in ms
 		prevTicks = newTicks;
 		float totalDeltaTime = frameTime / DESIRED_FRAMETIME;
 
-
 		int i = 0;
-		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS)
-		{
-			checkInput();
+		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
 
+			Uint64 startInput = SDL_GetPerformanceCounter();
+			checkInput();
+			Uint64 endInput = SDL_GetPerformanceCounter();
+			float inputTime = static_cast<float>(endInput - startInput) / freq * 1000.0f;
+
+			Uint64 startUpdate = SDL_GetPerformanceCounter();
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
-			update(deltaTime); //handleEvents first thing in update
+			update(deltaTime);
+			Uint64 endUpdate = SDL_GetPerformanceCounter();
+			float updateTime = static_cast<float>(endUpdate - startUpdate) / freq * 1000.0f;
+
 			totalDeltaTime -= deltaTime;
 			i++;
+
 			if (_isRunning) {
+				Uint64 startDraw = SDL_GetPerformanceCounter();
 				draw();
+				Uint64 endDraw = SDL_GetPerformanceCounter();
+				float drawTime = static_cast<float>(endDraw - startDraw) / freq * 1000.0f;
+
+				std::cout << "Input: " << inputTime << " ms, Update: " << updateTime << " ms, Draw: " << drawTime << " ms\n";
 			}
 		}
+
+		Uint64 startUI = SDL_GetPerformanceCounter();
+		updateUI();
+		Uint64 endUI = SDL_GetPerformanceCounter();
+		float uiTime = static_cast<float>(endUI - startUI) / freq * 1000.0f;
+
+		_window.swapBuffer();
 
 		_limiter.fps = _limiter.end();
 
@@ -60,14 +83,10 @@ void AppInterface::run() {
 		frameCounter++;
 		if (frameCounter == 10) {
 			_limiter.setHistoryValue(_limiter.fps);
-
-			//std::cout << _limiter.fps << std::endl;
 			frameCounter = 0;
 		}
 
-		updateUI();
-
-		_window.swapBuffer();
+		std::cout << "UI: " << uiTime << " ms, Total Frame Time: " << frameTime << " ms, FPS: " << _limiter.fps << "\n";
 	}
 }
 void AppInterface::exitSimulator() {
