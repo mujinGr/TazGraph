@@ -798,6 +798,18 @@ void EditorIMGUI::availableFunctions() {
 		_customFunctions.activatedScriptShown = 1;
 	}
 
+	if (ImGui::Button("Do Signals")) {
+		_customFunctions.activatedScriptShown = 2;
+	}
+
+	if (ImGui::Button("Do HeatMap")) {
+		_customFunctions.activatedScriptShown = 3;
+	}
+
+	if (ImGui::Button("Do CandleStick")) {
+		_customFunctions.activatedScriptShown = 4;
+	}
+
 	if (ImGui::Button("Show Script Results")) {
 		_customFunctions.isScriptResultsOpen = !_customFunctions.isScriptResultsOpen;
 	}

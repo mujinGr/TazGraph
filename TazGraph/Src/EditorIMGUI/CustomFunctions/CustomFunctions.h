@@ -14,4 +14,7 @@ public:
 	void default_renderUI();
 
 	void CalculateDegree(Manager& manager, std::vector<std::pair<Entity*, glm::vec3>>& m_selectedEntities);
+	void CalculateSignals();
+	void CalculateHeatMap();
+	void DrawCandlestickChart();
 };

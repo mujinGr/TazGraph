@@ -170,9 +170,9 @@ void Graph::onEntry()
 	_framebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
 
 	std::string rectInterpolation_str = "RectInterpolation";
-	for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
+	/*for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
 		node_entity->GetComponent<RectangleFlashAnimatorComponent>().Play(rectInterpolation_str);
-	}
+	}*/
 
 
 	//ImGuiIO& io = ImGui::GetIO();
@@ -1191,7 +1191,7 @@ void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& 
 		if (manager->arrowheadsEnabled) {
 			_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					assert(entities[i]->hasComponent<Line_w_Color>());
+					//assert(entities[i]->hasComponent<Line_w_Color>());
 					
 					entities[i]->GetComponent<Line_w_Color>().drawWithPorts(i, batch, *Graph::_window);
 				}
@@ -1200,7 +1200,7 @@ void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& 
 		else {
 			_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					assert(entities[i]->hasComponent<Line_w_Color>());
+					//assert(entities[i]->hasComponent<Line_w_Color>());
 					entities[i]->GetComponent<Line_w_Color>().draw(i, batch, *Graph::_window);
 				}
 			});
@@ -1212,7 +1212,7 @@ void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRend
 
 	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 		for (int i = start; i < end; i++) {
-			assert(entities[i]->hasComponent<Rectangle_w_Color>());
+			//assert(entities[i]->hasComponent<Rectangle_w_Color>());
 			entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
 		}
 	});
@@ -1423,12 +1423,6 @@ void Graph::draw()
 	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), _LightRenderer);
 
 
-	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
-	_LineRenderer.end();
-	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
-	glsl_lineColor.unuse();
-	
-	
 	_resourceManager.setupShader(glsl_color, *main_camera2D);
 	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
@@ -1436,6 +1430,11 @@ void Graph::draw()
 	_PlaneColorRenderer.renderBatch(&glsl_color);
 	glsl_color.unuse();
 
+
+	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
+	_LineRenderer.end();
+	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
+	glsl_lineColor.unuse();
 
 	_resourceManager.setupShader(glsl_texture, *main_camera2D);
 	_PlaneModelRenderer.end();
