@@ -21,7 +21,7 @@ AppInterface::~AppInterface() {
 void AppInterface::run() {
 
 	const float DESIRED_FPS = 60;
-	const int MAX_PHYSICS_STEPS = 6;
+	const int MAX_PHYSICS_STEPS = 1;
 
 	if (!init()) return;
 
@@ -43,13 +43,16 @@ void AppInterface::run() {
 		prevTicks = newTicks;
 		float totalDeltaTime = frameTime / DESIRED_FRAMETIME;
 
+
+		Uint64 startInput = SDL_GetPerformanceCounter();
+		checkInput();
+		Uint64 endInput = SDL_GetPerformanceCounter();
 		int i = 0;
+		float inputTime = static_cast<float>(endInput - startInput) / freq * 1000.0f;
+		std::cout << "Input: " << inputTime << " ms" << std::endl;
+
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
 
-			Uint64 startInput = SDL_GetPerformanceCounter();
-			checkInput();
-			Uint64 endInput = SDL_GetPerformanceCounter();
-			float inputTime = static_cast<float>(endInput - startInput) / freq * 1000.0f;
 
 			Uint64 startUpdate = SDL_GetPerformanceCounter();
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
@@ -59,17 +62,19 @@ void AppInterface::run() {
 
 			totalDeltaTime -= deltaTime;
 			i++;
+			std::cout << "Update: " << updateTime << " ms\n";
 
-			if (_isRunning) {
-				Uint64 startDraw = SDL_GetPerformanceCounter();
-				draw();
-				Uint64 endDraw = SDL_GetPerformanceCounter();
-				float drawTime = static_cast<float>(endDraw - startDraw) / freq * 1000.0f;
-
-				std::cout << "Input: " << inputTime << " ms, Update: " << updateTime << " ms, Draw: " << drawTime << " ms\n";
-			}
+			
 		}
+		if (_isRunning) {
+			Uint64 startDraw = SDL_GetPerformanceCounter();
+			draw();
+			Uint64 endDraw = SDL_GetPerformanceCounter();
+			float drawTime = static_cast<float>(endDraw - startDraw) / freq * 1000.0f;
+			std::cout << "Draw: " << drawTime << " ms\n";
 
+
+		}
 		Uint64 startUI = SDL_GetPerformanceCounter();
 		updateUI();
 		Uint64 endUI = SDL_GetPerformanceCounter();
