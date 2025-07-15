@@ -1,0 +1,109 @@
+\doxysection{Sphere\+Component Class Reference}
+\hypertarget{classSphereComponent}{}\label{classSphereComponent}\index{SphereComponent@{SphereComponent}}
+
+
+Inheritance diagram for Sphere\+Component\+:
+% FIG 0
+
+
+Collaboration diagram for Sphere\+Component\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classSphereComponent_a03d83dbea9e5efb5d48b213f7ce09a88}{init}} () override
+\item 
+void \mbox{\hyperlink{classSphereComponent_ac8e213f3d1fdbf882ddc70ce2b233824}{update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{classSphereComponent_a73370a52e2886dd20f131d4ddc1ca7dd}{draw}} (size\+\_\+t v\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+void \mbox{\hyperlink{classSphereComponent_a53d16b0f82ff5f7c591ba528a3a53762}{draw}} (size\+\_\+t v\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+std\+::string \mbox{\hyperlink{classSphereComponent_a755670a7503f915c27cdffad14bbf2ab}{Get\+Component\+Name}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries show\+GUI} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classSphereComponent_ab94f2c8a6dd8013d844671a04200d205}\label{classSphereComponent_ab94f2c8a6dd8013d844671a04200d205} 
+\mbox{\hyperlink{structColor}{Color}} {\bfseries color} = \{ 255, 255, 255, 255 \}
+\item 
+\Hypertarget{classSphereComponent_ab7babd0e8dd95b3c5730ed21fd428920}\label{classSphereComponent_ab7babd0e8dd95b3c5730ed21fd428920} 
+\mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries entity} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+Component\+ID {\bfseries id} = 0u
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classSphereComponent_a53d16b0f82ff5f7c591ba528a3a53762}\label{classSphereComponent_a53d16b0f82ff5f7c591ba528a3a53762} 
+\index{SphereComponent@{SphereComponent}!draw@{draw}}
+\index{draw@{draw}!SphereComponent@{SphereComponent}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Sphere\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{v\+\_\+index,  }\item[{\mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classSphereComponent_a73370a52e2886dd20f131d4ddc1ca7dd}\label{classSphereComponent_a73370a52e2886dd20f131d4ddc1ca7dd} 
+\index{SphereComponent@{SphereComponent}!draw@{draw}}
+\index{draw@{draw}!SphereComponent@{SphereComponent}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Sphere\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{v\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classSphereComponent_a755670a7503f915c27cdffad14bbf2ab}\label{classSphereComponent_a755670a7503f915c27cdffad14bbf2ab} 
+\index{SphereComponent@{SphereComponent}!GetComponentName@{GetComponentName}}
+\index{GetComponentName@{GetComponentName}!SphereComponent@{SphereComponent}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}}
+{\footnotesize\ttfamily std\+::string Sphere\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classSphereComponent_a03d83dbea9e5efb5d48b213f7ce09a88}\label{classSphereComponent_a03d83dbea9e5efb5d48b213f7ce09a88} 
+\index{SphereComponent@{SphereComponent}!init@{init}}
+\index{init@{init}!SphereComponent@{SphereComponent}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Sphere\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classSphereComponent_ac8e213f3d1fdbf882ddc70ce2b233824}\label{classSphereComponent_ac8e213f3d1fdbf882ddc70ce2b233824} 
+\index{SphereComponent@{SphereComponent}!update@{update}}
+\index{update@{update}!SphereComponent@{SphereComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Sphere\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Empty/\+Basic/Sphere\+Component.\+h\end{DoxyCompactItemize}

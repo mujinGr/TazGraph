@@ -1,0 +1,441 @@
+\doxysection{GECSEntity\+Types.\+h}
+\hypertarget{GECSEntityTypes_8h_source}{}\label{GECSEntityTypes_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Core/GECSEntityTypes.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Core/GECSEntityTypes.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}GECSManager.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../Components.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classEmpty}{Empty}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classEmptyEntity}{EmptyEntity}}\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classEmpty}{Empty}}(\mbox{\hyperlink{classManager}{Manager}}\&\ mManager)\ :\ \mbox{\hyperlink{classEmptyEntity}{EmptyEntity}}(mManager)\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ addGroup(Group\ mGroup)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ Entity::addGroup(mGroup);}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ manager.AddToGroup(\textcolor{keyword}{this},\ mGroup);}
+\DoxyCodeLine{00018\ \ \ \ \ \}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classEmpty}{\string~Empty}}()\ \{}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)}
+\DoxyCodeLine{00025\ \ \ \ \ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{comment}{//cellUpdate();}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ Entity::update(deltaTime);}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ cellUpdate()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>ownerCell)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structCell}{Cell}}*\ newCell\ =\ manager.grid-\/>getCell(*\textcolor{keyword}{this},\ manager.grid-\/>getGridLevel());}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (newCell\ !=\ this-\/>ownerCell)\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Need\ to\ shift\ the\ entity}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ removeEntity();}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ manager.grid-\/>addEmpty(\textcolor{keyword}{this},\ newCell);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \}}
+\DoxyCodeLine{00041\ \ \ \ \ }
+\DoxyCodeLine{00042\ \ \ \ \ }
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ imgui\_print()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ glm::vec2\ position\ =\ this-\/>GetComponent<TransformComponent>().getPosition();\ \ \textcolor{comment}{//\ Make\ sure\ Entity\ class\ has\ a\ getPosition\ method}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}Position:\ (\%.2f,\ \%.2f)"{}},\ position.x,\ position.y);}
+\DoxyCodeLine{00047\ \ \ \ \ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ destroy()\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ Entity::destroy();}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ manager.aboutTo\_updateActiveEntities();\ \textcolor{comment}{//\ cant\ have\ it\ at\ destroy\ in\ baseclass}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ may\ need\ to\ also\ update\ Visible\ Entities}}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ \};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNode}{Node}}:\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}\ \{}
+\DoxyCodeLine{00057\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00058\ \ \ \ \ }
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ std::vector<std::string>\ messageLog;}
+\DoxyCodeLine{00061\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{classNode}{Node}}(\mbox{\hyperlink{classManager}{Manager}}\&\ mManager)\ :\ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}(mManager)\ \{}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ addGroup(Group\ mGroup)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ Entity::addGroup(mGroup);}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ manager.AddToGroup(\textcolor{keyword}{this},\ mGroup);}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classNode}{\string~Node}}()\ \{}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)}
+\DoxyCodeLine{00078\ \ \ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{comment}{//cellUpdate();}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ Entity::update(deltaTime);}
+\DoxyCodeLine{00082\ \ \ \ \ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}\ updatePorts(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ first\ set\ the\ new\ position\ of\ port\ based\ on\ parent\ size}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ then\ set\ its\ bodyPosition\ through\ the\ transformComponent}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ tr\ =\ \&GetComponent<TransformComponent>();}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ glm::vec3\ m\_position\ =\ glm::vec3(-\/tr-\/>size.x\ /\ 2,\ 0.0f,\ 0.0f);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (children[\textcolor{stringliteral}{"{}leftPort"{}}])\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}leftPort"{}}]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().position\ =\ m\_position;}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}leftPort"{}}]-\/>update(deltaTime);}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ m\_position\ =\ glm::vec3(tr-\/>size.x\ /\ 2,\ 0.0f,\ 0.0f);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (children[\textcolor{stringliteral}{"{}rightPort"{}}])\ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}rightPort"{}}]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().position\ =\ m\_position;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}rightPort"{}}]-\/>update(deltaTime);}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ m\_position\ =\ glm::vec3(0.0f,\ -\/tr-\/>size.y\ /\ 2.0f,\ 0.0f);}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (children[\textcolor{stringliteral}{"{}topPort"{}}])\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}topPort"{}}]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().position\ =\ m\_position;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}topPort"{}}]-\/>update(deltaTime);}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ m\_position\ =\ glm::vec3(0.0f,\ tr-\/>size.y\ /\ 2.0f,\ 0.0f);}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (children[\textcolor{stringliteral}{"{}bottomPort"{}}])\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}bottomPort"{}}]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().position\ =\ m\_position;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}bottomPort"{}}]-\/>update(deltaTime);}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00117\ \ \ \ \ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordtype}{void}\ cellUpdate()\textcolor{keyword}{\ override}\{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>ownerCell)\ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ updatePorts(0.0f);}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//this-\/>GetComponent<TransformComponent>().update(0.0f);}}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structCell}{Cell}}*\ newCell\ =\ manager.grid-\/>getCell(*\textcolor{keyword}{this},\ manager.grid-\/>getGridLevel());}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (newCell\ !=\ this-\/>ownerCell)\ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::scoped\_lock\ lock(manager.movedNodesMutex);}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ removeEntity();}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ manager.grid-\/>addNode(\textcolor{keyword}{this},\ newCell);}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ manager.movedNodes.push\_back(\textcolor{keyword}{this});}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ inLinks)\ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>updateArrowHeads();}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ outLinks)\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>updateArrowHeads();}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00138\ \ \ \ \ \}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordtype}{void}\ addMessage(std::string\ mMessage)\textcolor{keyword}{\ override}\{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ messageLog.push\_back(mMessage);}
+\DoxyCodeLine{00142\ \ \ \ \ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{void}\ imgui\_print()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ glm::vec2\ position\ =\ this-\/>GetComponent<TransformComponent>().getPosition();\ \ \textcolor{comment}{//\ Make\ sure\ Entity\ class\ has\ a\ getPosition\ method}}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}Position:\ (\%.2f,\ \%.2f)"{}},\ position.x,\ position.y);}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::BeginTable(\textcolor{stringliteral}{"{}GroupsTable"{}},\ 1,\ ImGuiTableFlags\_Borders\ |\ ImGuiTableFlags\_RowBg))\ \{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::TableSetupColumn(\textcolor{stringliteral}{"{}Message\ Log"{}},\ ImGuiTableColumnFlags\_WidthStretch);}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::TableHeadersRow();}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ str\ :\ messageLog)\ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::TableNextRow();}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::TableSetColumnIndex(0);}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}\%s"{}},\ str.c\_str());}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ ImGui::EndTable();}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordtype}{void}\ imgui\_display()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}Display\ Info\ Here\ Node"{}});}
+\DoxyCodeLine{00166\ \ \ \ \ \}}
+\DoxyCodeLine{00167\ \ \ \ \ }
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordtype}{void}\ destroy()\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ Entity::destroy();}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ manager.aboutTo\_updateActiveEntities();}
+\DoxyCodeLine{00171\ \ \ \ \ \}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keywordtype}{void}\ addPorts()\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ tr\ =\ \&GetComponent<TransformComponent>();}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ leftPort\ =\ getManager()-\/>addEntityNoId<\mbox{\hyperlink{classEmpty}{Empty}}>();}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ glm::vec3\ m\_position\ =\ glm::vec3(-\/tr-\/>size.x\ /\ 2,\ 0.0f,\ 0.0f);}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ leftPort.addComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>(m\_position,\ glm::vec3(0),\ 1.0f);}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}leftPort"{}}]\ =\ \&leftPort;}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}leftPort"{}}]-\/>setParentEntity(\textcolor{keyword}{this});}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}leftPort"{}}]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().bodyCenter\ =\ tr-\/>bodyCenter\ +\ m\_position;}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ rightPort\ =\ getManager()-\/>addEntityNoId<\mbox{\hyperlink{classEmpty}{Empty}}>();}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ m\_position\ =\ glm::vec3(tr-\/>size.x\ /\ 2\ ,\ 0.0f,\ 0.0f);}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ rightPort.addComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>(m\_position,\ glm::vec3(0),\ 1.0f);}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}rightPort"{}}]\ =\ \&rightPort;}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}rightPort"{}}]-\/>setParentEntity(\textcolor{keyword}{this});}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}rightPort"{}}]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().bodyCenter\ =\ tr-\/>bodyCenter\ +\ m\_position;}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Initialize\ top\ port}}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ topPort\ =\ getManager()-\/>addEntityNoId<\mbox{\hyperlink{classEmpty}{Empty}}>();}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ m\_position\ =\ glm::vec3(0.0f,\ -\/tr-\/>size.y\ /\ 2.0f,\ 0.0f);}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ topPort.addComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>(m\_position,\ glm::vec3(0),\ 1.0f);}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}topPort"{}}]\ =\ \&topPort;}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}topPort"{}}]-\/>setParentEntity(\textcolor{keyword}{this});}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}topPort"{}}]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().bodyCenter\ =\ tr-\/>bodyCenter\ +\ m\_position;}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Initialize\ bottom\ port}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ bottomPort\ =\ getManager()-\/>addEntityNoId<\mbox{\hyperlink{classEmpty}{Empty}}>();}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ m\_position\ =\ glm::vec3(0.0f,\ tr-\/>size.y\ /\ 2.0f,\ 0.0f);}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ bottomPort.addComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>(m\_position,\ glm::vec3(0),\ 1.0f);}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}bottomPort"{}}]\ =\ \&bottomPort;}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}bottomPort"{}}]-\/>setParentEntity(\textcolor{keyword}{this});}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}bottomPort"{}}]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().bodyCenter\ =\ tr-\/>bodyCenter\ +\ m\_position;}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ \}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordtype}{void}\ removePorts()\ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ portName\ :\ \{\ \textcolor{stringliteral}{"{}leftPort"{}},\ \textcolor{stringliteral}{"{}rightPort"{}},\ \textcolor{stringliteral}{"{}topPort"{}},\ \textcolor{stringliteral}{"{}bottomPort"{}}\ \})\ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (children[portName])\ \{}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ children.erase(portName);}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00214\ \ \ \ \ \}}
+\DoxyCodeLine{00215\ \};}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00218\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLink}{Link}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}\ \{}
+\DoxyCodeLine{00219\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \ \ \ \ }
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00226\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}\ color\ =\ \{\};}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \ \ \ \ \mbox{\hyperlink{classLink}{Link}}(\mbox{\hyperlink{classManager}{Manager}}\&\ mManager)\ :\ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}(mManager)\ \{}
+\DoxyCodeLine{00229\ \ \ \ \ \}}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \ \ \mbox{\hyperlink{classLink}{Link}}(\mbox{\hyperlink{classManager}{Manager}}\&\ mManager,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mfromId,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mtoId)}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}(mManager,\ mfromId,\ mtoId)}
+\DoxyCodeLine{00233\ \ \ \ \ \{}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ from\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(mManager.getEntityFromId(fromId));}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ from-\/>addOutLink(\textcolor{keyword}{this});}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ to\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(mManager.getEntityFromId(toId));}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ to-\/>addInLink(\textcolor{keyword}{this});}
+\DoxyCodeLine{00238\ \ \ \ \ \}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \ \ \ \ \mbox{\hyperlink{classLink}{Link}}(\mbox{\hyperlink{classManager}{Manager}}\&\ mManager,\ \mbox{\hyperlink{classEntity}{Entity}}*\ mfrom,\ \mbox{\hyperlink{classEntity}{Entity}}*\ mto)}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}(mManager,}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(mfrom),\ \textcolor{comment}{//\ it\ is\ node\ but\ cant\ see\ it\ due\ to\ getParentEntity}}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(mto))}
+\DoxyCodeLine{00244\ \ \ \ \ \{}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ fromId\ =\ from-\/>getId();}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ toId\ =\ to-\/>getId();}
+\DoxyCodeLine{00247\ \ \ \ \ \}}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \ \ \ \ \mbox{\hyperlink{classLink}{Link}}(\mbox{\hyperlink{classManager}{Manager}}\&\ mManager,\ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ mfrom,\ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ mto)}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}(mManager,}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ mfrom,}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ mto)}
+\DoxyCodeLine{00253\ \ \ \ \ \{}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ fromId\ =\ from-\/>getId();}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ toId\ =\ to-\/>getId();}
+\DoxyCodeLine{00256\ \ \ \ \ \}}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00258\ \ \ \ \ \textcolor{keywordtype}{void}\ addGroup(Group\ mGroup)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ Entity::addGroup(mGroup);}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ manager.AddLinkToGroup(\textcolor{keyword}{this},\ mGroup);}
+\DoxyCodeLine{00261\ \ \ \ \ \}}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classLink}{\string~Link}}()\ \{}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \ \ \ \ \}}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00267\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00268\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ Entity::update(deltaTime);}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00272\ \ \ \ \ \}}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \ \ \ \ \textcolor{keywordtype}{void}\ cellUpdate()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ cell(or\ position)\ of\ fromNode\ or\ cell(or\ position)\ of\ toNode\ is\ different\ than}}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ saved\ cells\ in\ ownerCells\ then\ update\ it}}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!ownerCells.empty())\ \{}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ level\ =\ manager.grid-\/>getGridLevel();}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ fromCell\ =\ manager.grid-\/>getCell(*getFromNode(),\ level);}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ toCell\ =\ manager.grid-\/>getCell(*getToNode(),\ level);}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ ownerFront\ =\ ownerCells.front();}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ ownerBack\ =\ ownerCells.back();}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fromCell\ !=\ ownerFront}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ||\ toCell\ !=\ ownerBack)}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ removeFromCells();}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ manager.grid-\/>addLink(\textcolor{keyword}{this},\ manager.grid-\/>getGridLevel());}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00294\ \ \ \ \ \}}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ \ \ \textcolor{keywordtype}{void}\ updateArrowHeads()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (children[\textcolor{stringliteral}{"{}ArrowHead"{}}])\ \{}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ tr\ =\ \&children[\textcolor{stringliteral}{"{}ArrowHead"{}}]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}ArrowHead"{}}]-\/>update(0.0f);}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ set\ position\ of\ arrowHead}}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ ch\_tr\ =\ \&to-\/>children[toPort]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ toPortTR\ =\ ch\_tr;}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ fromPortTR\ =\ \&from-\/>children[fromPort]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ direction\ =\ toPortTR-\/>getCenterTransform()\ -\/\ fromPortTR-\/>getCenterTransform();}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ unitDirection\ =\ glm::normalize(direction);}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ offset\ =\ 10.0f;}
+\DoxyCodeLine{00312\ }
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ arrowHeadPos\ =\ toPortTR-\/>getCenterTransform()\ -\/\ unitDirection\ *\ offset;}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ angle\ in\ radians,\ and\ convert\ it\ to\ degrees}}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ angleRadians\ =\ -\/atan2(direction.y,\ direction.x);}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ angleDegrees\ =\ glm::degrees(angleRadians);}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ glm::ivec3\ arrowSize(10,\ 20,\ 0);}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ farrowSize(10.0f,\ 20.0f,\ 0.0f);}
+\DoxyCodeLine{00321\ }
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ newArrowHeadPosition\ =\ arrowHeadPos\ -\/\ (farrowSize\ /\ 2.0f);}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}ArrowHead"{}}]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().position\ =\ newArrowHeadPosition;}
+\DoxyCodeLine{00324\ }
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}ArrowHead"{}}]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().setRotation(glm::vec3(0.0f,\ 0.0f,\ angleRadians\ +\ glm::half\_pi<float>()));}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00327\ \ \ \ \ \}}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00329\ \ \ \ \ \textcolor{keywordtype}{void}\ updateLinkToPorts()\textcolor{keyword}{\ override}\{}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ toTR\ =\ \&to-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ fromTR\ =\ \&from-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ fromPort\ =\ getBestPortForConnection(fromTR-\/>getCenterTransform(),\ toTR-\/>getCenterTransform());}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ toPort\ =\ getBestPortForConnection(toTR-\/>getCenterTransform(),\ fromTR-\/>getCenterTransform());}
+\DoxyCodeLine{00335\ \ \ \ \ \}}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keywordtype}{void}\ addArrowHead()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ toTR\ =\ \&to-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ fromTR\ =\ \&from-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ fromPort\ =\ getBestPortForConnection(fromTR-\/>getCenterTransform(),\ toTR-\/>getCenterTransform());}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ toPort\ =\ getBestPortForConnection(toTR-\/>getCenterTransform(),\ fromTR-\/>getCenterTransform());}
+\DoxyCodeLine{00343\ }
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ toPortTR\ =\ \&to-\/>children[toPort]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ fromPortTR\ =\ \&from-\/>children[fromPort]-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ glm::vec3\ direction\ =\ toPortTR-\/>getCenterTransform()\ -\/\ fromPortTR-\/>getCenterTransform();}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ glm::vec3\ unitDirection\ =\ glm::normalize(direction);}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ offset\ =\ 10.0f;}
+\DoxyCodeLine{00351\ }
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ glm::vec3\ arrowHeadPos\ =\ toPortTR-\/>getCenterTransform()\ -\/\ unitDirection\ *\ offset;}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ temp\_arrowHead\ =\ getManager()-\/>addEntityNoId<\mbox{\hyperlink{classEmpty}{Empty}}>();}
+\DoxyCodeLine{00355\ }
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ angle\ in\ radians,\ and\ convert\ it\ to\ degrees}}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ angleRadians\ =\ -\/atan2(direction.y,\ direction.x);}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ angleDegrees\ =\ glm::degrees(angleRadians);}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ glm::vec3\ farrowSize(10.0f,\ 20.0f,\ 0.0f);}
+\DoxyCodeLine{00361\ }
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ temp\_arrowHead.addComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>(arrowHeadPos\ -\/\ (farrowSize\ /2.0f),\ farrowSize,\ 1);}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ temp\_arrowHead.addComponent<\mbox{\hyperlink{classTriangle__w__Color}{Triangle\_w\_Color}}>();}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ temp\_arrowHead.GetComponent<\mbox{\hyperlink{classTriangle__w__Color}{Triangle\_w\_Color}}>().color\ =\ \mbox{\hyperlink{structColor}{Color}}(0,\ 0,\ 0,\ 255);}
+\DoxyCodeLine{00365\ }
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ temp\_arrowHead.GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().setRotation(glm::vec3(0.0f,\ 0.0f,\ angleRadians\ +\ glm::half\_pi<float>()));}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ temp\_arrowHead.addGroup(Manager::groupArrowHeads\_0);}
+\DoxyCodeLine{00369\ }
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ temp\_arrowHead.setParentEntity(\textcolor{keyword}{this});}
+\DoxyCodeLine{00371\ }
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ manager.grid-\/>addEmpty(\&temp\_arrowHead,\ manager.grid-\/>getGridLevel());}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}ArrowHead"{}}]\ =\ \&temp\_arrowHead;}
+\DoxyCodeLine{00375\ \ \ \ \ \}}
+\DoxyCodeLine{00376\ }
+\DoxyCodeLine{00377\ \ \ \ \ \textcolor{keywordtype}{void}\ removeArrowHead()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ std::string\ portName\ =\ \textcolor{stringliteral}{"{}ArrowHead"{}};}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (children[portName])\ \{}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ children[portName]-\/>removeFromCell();}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ children[portName]-\/>destroy();}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ children.erase(portName);}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00384\ \ \ \ \ \}}
+\DoxyCodeLine{00385\ }
+\DoxyCodeLine{00386\ \ \ \ \ \textcolor{keywordtype}{void}\ updateLinkToNodes()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ fromPort\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ toPort\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00389\ \ \ \ \ \}}
+\DoxyCodeLine{00390\ }
+\DoxyCodeLine{00391\ \ \ \ \ std::string\ getBestPortForConnection(\textcolor{keyword}{const}\ glm::vec3\&\ fromPos,\ \textcolor{keyword}{const}\ glm::vec3\&\ toPos)\ \{}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Simple\ logic\ to\ determine\ the\ port\ based\ on\ relative\ position}}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ deltaX\ =\ toPos.x\ -\/\ fromPos.x;}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ deltaY\ =\ toPos.y\ -\/\ fromPos.y;}
+\DoxyCodeLine{00395\ }
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (abs(deltaX)\ >\ abs(deltaY))\ \{\ \ \textcolor{comment}{//\ Horizontal\ distance\ is\ greater}}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ deltaX\ >\ 0\ ?\ \textcolor{stringliteral}{"{}rightPort"{}}\ :\ \textcolor{stringliteral}{"{}leftPort"{}};}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{\ \ \textcolor{comment}{//\ Vertical\ distance\ is\ greater}}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ deltaY\ >\ 0\ ?\ \textcolor{stringliteral}{"{}bottomPort"{}}\ :\ \textcolor{stringliteral}{"{}topPort"{}};}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00402\ \ \ \ \ \}}
+\DoxyCodeLine{00403\ }
+\DoxyCodeLine{00404\ \ \ \ \ }
+\DoxyCodeLine{00405\ }
+\DoxyCodeLine{00406\ }
+\DoxyCodeLine{00407\ \ \ \ \ \textcolor{keywordtype}{void}\ imgui\_print()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ glm::vec2\ fromNodePosition\ =\ this-\/>getFromNode()-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().getCenterTransform();}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ glm::vec2\ toNodePosition\ =\ this-\/>getToNode()-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().getCenterTransform();}
+\DoxyCodeLine{00410\ }
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}From\ Node\ Position:\ (\%.2f,\ \%.2f)"{}},\ fromNodePosition.x,\ fromNodePosition.y);}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}To\ Node\ Position:\ (\%.2f,\ \%.2f)"{}},\ toNodePosition.x,\ toNodePosition.y);}
+\DoxyCodeLine{00413\ }
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}Bounding\ boxes\ of\ intercepted\ cells:"{}});}
+\DoxyCodeLine{00415\ }
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ cell\ :\ ownerCells)\ \{}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}-\/\ \%.2f\ ,\ \%.2f\ ,\ \%.2f"{}},\ cell-\/>boundingBox\_origin.x,\ cell-\/>boundingBox\_origin.y,\ cell-\/>boundingBox\_origin.z);}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00419\ \ \ \ \ \}}
+\DoxyCodeLine{00420\ }
+\DoxyCodeLine{00421\ \ \ \ \ \textcolor{keywordtype}{void}\ imgui\_display()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}Display\ Info\ Here\ Link"{}});}
+\DoxyCodeLine{00423\ \ \ \ \ \}}
+\DoxyCodeLine{00424\ }
+\DoxyCodeLine{00425\ \ \ \ \ \textcolor{keywordtype}{void}\ destroy()\ \{}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ Entity::destroy();}
+\DoxyCodeLine{00427\ }
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (children[\textcolor{stringliteral}{"{}ArrowHead"{}}])\ \{}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ children[\textcolor{stringliteral}{"{}ArrowHead"{}}]-\/>destroy();}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00431\ }
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ manager.aboutTo\_updateActiveEntities();}
+\DoxyCodeLine{00433\ \ \ \ \ \}}
+\DoxyCodeLine{00434\ }
+\DoxyCodeLine{00435\ \};}
+
+\end{DoxyCode}

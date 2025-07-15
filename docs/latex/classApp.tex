@@ -1,0 +1,116 @@
+\doxysection{App Class Reference}
+\hypertarget{classApp}{}\label{classApp}\index{App@{App}}
+
+
+Inheritance diagram for App\+:
+% FIG 0
+
+
+Collaboration diagram for App\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classApp_afec2488c552e45c7968661b71704b9a4}\label{classApp_afec2488c552e45c7968661b71704b9a4} 
+{\bfseries App} (int thread\+Count)
+\item 
+virtual void \mbox{\hyperlink{classApp_a383cf8e8949745f9b2b10651b27d1724}{on\+Init}} () override
+\item 
+virtual void \mbox{\hyperlink{classApp_a0d371de56e6debec0d219d3b7eb7d055}{add\+Scenes}} () override
+\item 
+virtual void \mbox{\hyperlink{classApp_aaf21c7c873ed7a3efb872a9172e2c869}{on\+Exit}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classAppInterface}{App\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries App\+Interface} (int thread\+Count)
+\item 
+void {\bfseries run} ()
+\item 
+void {\bfseries exit\+Simulator} ()
+\item 
+void {\bfseries on\+SDLEvent} (SDL\+\_\+\+Event \&evnt)
+\item 
+\mbox{\hyperlink{classBaseFPSLimiter}{Base\+FPSLimiter}} \& {\bfseries get\+FPSLimiter} ()
+\item 
+\mbox{\hyperlink{classAudioEngine}{Audio\+Engine}} \& {\bfseries get\+Audio\+Engine} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classAppInterface}{App\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classInputManager}{Input\+Manager}} {\bfseries \+\_\+input\+Manager}
+\item 
+\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} {\bfseries \+\_\+window}
+\item 
+\mbox{\hyperlink{structThreader}{Threader}} {\bfseries thread\+Pool}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classAppInterface}{App\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries check\+Input} ()
+\item 
+virtual void {\bfseries update} (float delta\+Time)
+\item 
+virtual void {\bfseries draw} ()
+\item 
+virtual void {\bfseries update\+UI} ()
+\item 
+bool {\bfseries init} ()
+\item 
+bool {\bfseries init\+Systems} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classAppInterface}{App\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classBaseFPSLimiter}{Base\+FPSLimiter}} {\bfseries \+\_\+limiter}
+\item 
+\mbox{\hyperlink{classAudioEngine}{Audio\+Engine}} {\bfseries \+\_\+audio\+Engine}
+\item 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classSceneList}{Scene\+List}} $>$ {\bfseries \+\_\+scene\+List} = nullptr
+\item 
+\mbox{\hyperlink{classIScene}{IScene}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+current\+Scene} = nullptr
+\item 
+bool {\bfseries \+\_\+is\+Running} = false
+\item 
+const float {\bfseries SCALE\+\_\+\+SPEED} = 0.\+1f
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classApp_a0d371de56e6debec0d219d3b7eb7d055}\label{classApp_a0d371de56e6debec0d219d3b7eb7d055} 
+\index{App@{App}!addScenes@{addScenes}}
+\index{addScenes@{addScenes}!App@{App}}
+\doxysubsubsection{\texorpdfstring{addScenes()}{addScenes()}}
+{\footnotesize\ttfamily void App\+::add\+Scenes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classAppInterface}{App\+Interface}}.
+
+\Hypertarget{classApp_aaf21c7c873ed7a3efb872a9172e2c869}\label{classApp_aaf21c7c873ed7a3efb872a9172e2c869} 
+\index{App@{App}!onExit@{onExit}}
+\index{onExit@{onExit}!App@{App}}
+\doxysubsubsection{\texorpdfstring{onExit()}{onExit()}}
+{\footnotesize\ttfamily void App\+::on\+Exit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classAppInterface}{App\+Interface}}.
+
+\Hypertarget{classApp_a383cf8e8949745f9b2b10651b27d1724}\label{classApp_a383cf8e8949745f9b2b10651b27d1724} 
+\index{App@{App}!onInit@{onInit}}
+\index{onInit@{onInit}!App@{App}}
+\doxysubsubsection{\texorpdfstring{onInit()}{onInit()}}
+{\footnotesize\ttfamily void App\+::on\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classAppInterface}{App\+Interface}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+App/App.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+App/App.\+cpp\end{DoxyCompactItemize}

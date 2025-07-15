@@ -1,0 +1,110 @@
+\doxysection{Animator\+Component Class Reference}
+\hypertarget{classAnimatorComponent}{}\label{classAnimatorComponent}\index{AnimatorComponent@{AnimatorComponent}}
+
+
+Inheritance diagram for Animator\+Component\+:
+% FIG 0
+
+
+Collaboration diagram for Animator\+Component\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classAnimatorComponent_ab3de859db35e256706dd0085764deb1f}\label{classAnimatorComponent_ab3de859db35e256706dd0085764deb1f} 
+{\bfseries Animator\+Component} (std\+::string id)
+\item 
+void \mbox{\hyperlink{classAnimatorComponent_a2c839a4960fb88009f4a6d7084121699}{init}} () override
+\item 
+void \mbox{\hyperlink{classAnimatorComponent_a8004bae57e4a5e752b0a438881be9231}{update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{classAnimatorComponent_a063b60096ded2d66b627ce52b8d2cfc7}{draw}} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window) override
+\item 
+\Hypertarget{classAnimatorComponent_aace07cbad5db59123dab63ba5ce6ae11}\label{classAnimatorComponent_aace07cbad5db59123dab63ba5ce6ae11} 
+void {\bfseries Play} (std\+::string anim\+Name, int reps=0)
+\item 
+\Hypertarget{classAnimatorComponent_a72119b7cd3a340223da8a63aa3047ec1}\label{classAnimatorComponent_a72119b7cd3a340223da8a63aa3047ec1} 
+void {\bfseries reset\+Animation} ()
+\item 
+\Hypertarget{classAnimatorComponent_a2e85e87714fe252543cc770fbcad99f2}\label{classAnimatorComponent_a2e85e87714fe252543cc770fbcad99f2} 
+std\+::string {\bfseries get\+Play\+Name} ()
+\item 
+\Hypertarget{classAnimatorComponent_af7c1876b8cfb357210361a2dbb8d44b1}\label{classAnimatorComponent_af7c1876b8cfb357210361a2dbb8d44b1} 
+void {\bfseries Destroy\+Tex} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual std\+::string {\bfseries Get\+Component\+Name} ()
+\item 
+virtual void {\bfseries show\+GUI} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classAnimatorComponent_adee98c63ec19ccdb7b3d344618bb8b5b}\label{classAnimatorComponent_adee98c63ec19ccdb7b3d344618bb8b5b} 
+\mbox{\hyperlink{classSpriteComponent}{Sprite\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries sprite} = nullptr
+\item 
+\Hypertarget{classAnimatorComponent_ac2dc7bea855d9bc937e8009f3202fedb}\label{classAnimatorComponent_ac2dc7bea855d9bc937e8009f3202fedb} 
+std\+::string {\bfseries textureid}
+\item 
+\Hypertarget{classAnimatorComponent_a995be479ace0ff8683cd34829e5a6bc2}\label{classAnimatorComponent_a995be479ace0ff8683cd34829e5a6bc2} 
+std\+::string {\bfseries animation\+Name} = "{}"{}
+\item 
+\Hypertarget{classAnimatorComponent_a9a1db84ce020e64d5cc35f2dd11fe22d}\label{classAnimatorComponent_a9a1db84ce020e64d5cc35f2dd11fe22d} 
+timestamp {\bfseries resume\+Time} = 0
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries entity} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+Component\+ID {\bfseries id} = 0u
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classAnimatorComponent_a063b60096ded2d66b627ce52b8d2cfc7}\label{classAnimatorComponent_a063b60096ded2d66b627ce52b8d2cfc7} 
+\index{AnimatorComponent@{AnimatorComponent}!draw@{draw}}
+\index{draw@{draw}!AnimatorComponent@{AnimatorComponent}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Animator\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{e\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classAnimatorComponent_a2c839a4960fb88009f4a6d7084121699}\label{classAnimatorComponent_a2c839a4960fb88009f4a6d7084121699} 
+\index{AnimatorComponent@{AnimatorComponent}!init@{init}}
+\index{init@{init}!AnimatorComponent@{AnimatorComponent}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Animator\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classAnimatorComponent_a8004bae57e4a5e752b0a438881be9231}\label{classAnimatorComponent_a8004bae57e4a5e752b0a438881be9231} 
+\index{AnimatorComponent@{AnimatorComponent}!update@{update}}
+\index{update@{update}!AnimatorComponent@{AnimatorComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Animator\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Animators/Animator\+Component.\+h\end{DoxyCompactItemize}

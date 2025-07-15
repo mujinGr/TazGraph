@@ -1,0 +1,107 @@
+\doxysection{Animator\+Component.\+h}
+\hypertarget{AnimatorComponent_8h_source}{}\label{AnimatorComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/AnimatorComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/AnimatorComponent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../Components.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Animation.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}AnimatorManager.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{typedef}\ uint32\_t\ timestamp;}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classAnimatorComponent}{AnimatorComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classComponent}{Component}}\ \textcolor{comment}{//Animator\ -\/>\ Sprite\ -\/>\ Transform}}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{comment}{//\ onAction\ is\ the\ same\ thing\ as\ Play()}}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{comment}{//\ onFinish\ and\ onStart\ are\ for\ when\ we\ free\ Animator\ and\ when\ we\ initialize\ it}}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{comment}{//\ difference\ between\ this\ and\ from\ the\ lectures\ is\ that\ in\ lectures\ it\ uses\ seperate\ animator\ for\ each\ animation}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}*\ sprite\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00021\ \ \ \ \ std::string\ textureid;}
+\DoxyCodeLine{00022\ \ \ \ \ std::string\ animationName\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00023\ \ \ \ \ timestamp\ resumeTime\ =\ 0;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{comment}{//std::map<const\ char*,\ Animation>\ animations;\ //Animator\ Manager}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{classAnimatorComponent}{AnimatorComponent}}()}
+\DoxyCodeLine{00028\ \ \ \ \ \{}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{classAnimatorComponent}{AnimatorComponent}}(std::string\ \textcolor{keywordtype}{id})}
+\DoxyCodeLine{00033\ \ \ \ \ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ textureid\ =\ id;}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{classAnimatorComponent}{\string~AnimatorComponent}}()}
+\DoxyCodeLine{00038\ \ \ \ \ \{}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00043\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity-\/>hasComponent<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>())}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>\mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>(textureid);}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ sprite\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>();}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ Play(\textcolor{stringliteral}{"{}P1Idle"{}});\ \textcolor{comment}{//onStart}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ sprite-\/>setTex(textureid);}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override}\ \textcolor{comment}{//onAction}}
+\DoxyCodeLine{00055\ \ \ \ \ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sprite-\/>animation.hasFinished())\ \{\ \textcolor{comment}{//\ playing\ again\ animation}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ sprite-\/>animation.finished\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ sprite-\/>animation.times\_played\ =\ 0;}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ resetAnimation();}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ sprite-\/>animation.advanceFrame(deltaTime);}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ sprite-\/>setCurrFrame();}
+\DoxyCodeLine{00064\ \ \ \ \ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\&\ \ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00067\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{comment}{//sprite-\/>draw(batch);}}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ Play(std::string\ animName,\ \textcolor{keywordtype}{int}\ reps\ =\ 0)}
+\DoxyCodeLine{00072\ \ \ \ \ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structAnimatorManager}{AnimatorManager}}\&\ animManager\ =\ AnimatorManager::getInstance();}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ animationName\ =\ animName;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ sprite-\/>SetAnimation(animManager.animations[animName].indexX,\ animManager.animations[animName].indexY,}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.animations[animName].total\_frames,\ animManager.animations[animName].speed,}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.animations[animName].type,\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ reps\ ?\ reps\ :\ animManager.animations[animName].reps\ );}
+\DoxyCodeLine{00079\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{void}\ resetAnimation()\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structAnimatorManager}{AnimatorManager}}\&\ animManager\ =\ AnimatorManager::getInstance();}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ animationName\ =\ \textcolor{stringliteral}{"{}P1Idle"{}};}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ sprite-\/>SetAnimation(}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.animations[animationName].indexX,\ animManager.animations[animationName].indexY,}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.animations[animationName].total\_frames,\ animManager.animations[animationName].speed,}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.animations[animationName].type}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00089\ \ \ \ \ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ std::string\ getPlayName()}
+\DoxyCodeLine{00092\ \ \ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ animationName;}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroyTex()}
+\DoxyCodeLine{00097\ \ \ \ \ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ sprite-\/>DestroyTex();}
+\DoxyCodeLine{00099\ \ \ \ \ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \};}
+
+\end{DoxyCode}

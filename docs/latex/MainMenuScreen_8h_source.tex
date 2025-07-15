@@ -1,0 +1,82 @@
+\doxysection{Main\+Menu\+Screen.\+h}
+\hypertarget{MainMenuScreen_8h_source}{}\label{MainMenuScreen_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/MainMenuScreen/MainMenuScreen.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/MainMenuScreen/MainMenuScreen.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}GraphScreen/IScene.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <SDL2/SDL\_image.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <GL/glew.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}GLSLProgram.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}ResourceManager/ResourceManager.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#undef\ main}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}Camera2.5D/PerspectiveCamera.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}Renderers/PlaneModelRenderer/PlaneModelRenderer.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}InputManager/InputManager.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}BaseFPSLimiter/BaseFPSLimiter.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\#include\ "{}../SpriteFont/SpriteFont.h"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}Window/Window.h"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}TextureManager/TextureManager.h"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}GraphScreen/ScreenIndices.h"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}../EditorIMGUI/EditorIMGUI.h"{}}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classAssetManager}{AssetManager}};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMainMenuScreen}{MainMenuScreen}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIScene}{IScene}}\ \{}
+\DoxyCodeLine{00028\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{classMainMenuScreen}{MainMenuScreen}}(\mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}*\ window);}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{classMainMenuScreen}{\string~MainMenuScreen}}();}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ getNextSceneIndex()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ getPreviousSceneIndex()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ build()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ destroy()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onEntry()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onExit()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ BeginRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ updateUI()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ EndRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ renderBatch(\textcolor{keyword}{const}\ std::vector<EmptyEntity*>\&\ entities);}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{float}\ \_backgroundColor[4]\ =\ \{\ 0.8f,\ 0.8f,\ 0.8f,\ 1.0f\ \};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{classAssetManager}{AssetManager}}*\ \_assetsManager;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ checkInput();}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{bool}\ onStartSimulator();}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{bool}\ onResumeSimulator();}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{bool}\ onLoadSimulator();}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ onExitSimulator();}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}*\ \_window;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\ \_PlaneModelRenderer;}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{classResourceManager}{ResourceManager}}\ \_resourceManager;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{int}\ \_nextSceneIndex\ =\ SCENE\_INDEX\_GRAPHPLAY;}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{int}\ \_prevSceneIndex\ =\ SCENE\_INDEX\_GRAPHPLAY;}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \mbox{\hyperlink{classEditorIMGUI}{EditorIMGUI}}\ \_editorImgui;}
+\DoxyCodeLine{00076\ \};}
+
+\end{DoxyCode}

@@ -1,0 +1,51 @@
+\doxysection{Scene\+List Class Reference}
+\hypertarget{classSceneList}{}\label{classSceneList}\index{SceneList@{SceneList}}
+
+
+Collaboration diagram for Scene\+List\+:
+% FIG 0
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classSceneList_ad7210dd2b6533e887dec4ef319ceb600}\label{classSceneList_ad7210dd2b6533e887dec4ef319ceb600} 
+{\bfseries Scene\+List} (\mbox{\hyperlink{classAppInterface}{App\+Interface}} \texorpdfstring{$\ast$}{*}app)
+\item 
+\Hypertarget{classSceneList_a52ecc02f8d5d72f99149e80b32944a50}\label{classSceneList_a52ecc02f8d5d72f99149e80b32944a50} 
+\mbox{\hyperlink{classIScene}{IScene}} \texorpdfstring{$\ast$}{*} {\bfseries move\+Next} ()
+\item 
+\Hypertarget{classSceneList_acc7f5c043f43b3d49a2970161fd594c6}\label{classSceneList_acc7f5c043f43b3d49a2970161fd594c6} 
+\mbox{\hyperlink{classIScene}{IScene}} \texorpdfstring{$\ast$}{*} {\bfseries move\+Previous} ()
+\item 
+\Hypertarget{classSceneList_a3480ac6a06bb72da67be0f1edc93b81f}\label{classSceneList_a3480ac6a06bb72da67be0f1edc93b81f} 
+void {\bfseries set\+Scene} (int next\+Scene)
+\item 
+\Hypertarget{classSceneList_a9e3c988e2c3f9bebb983eccec10968f1}\label{classSceneList_a9e3c988e2c3f9bebb983eccec10968f1} 
+void {\bfseries add\+Scene} (\mbox{\hyperlink{classIScene}{IScene}} \texorpdfstring{$\ast$}{*}new\+Scene)
+\item 
+\Hypertarget{classSceneList_a63869425fe9283a44d9ffe5e3007aa98}\label{classSceneList_a63869425fe9283a44d9ffe5e3007aa98} 
+void {\bfseries add\+Scene} (std\+::string manager\+Name, \mbox{\hyperlink{classIScene}{IScene}} \texorpdfstring{$\ast$}{*}new\+Scene)
+\item 
+\Hypertarget{classSceneList_a0eb0c7daef0466e2d851259b75c774bf}\label{classSceneList_a0eb0c7daef0466e2d851259b75c774bf} 
+void {\bfseries destroy} ()
+\item 
+\Hypertarget{classSceneList_a60ee4abb2994d8b148ee0888870e1c48}\label{classSceneList_a60ee4abb2994d8b148ee0888870e1c48} 
+\mbox{\hyperlink{classIScene}{IScene}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Current} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classSceneList_a0c4ef47329453e4ada46e6f61b344fc5}\label{classSceneList_a0c4ef47329453e4ada46e6f61b344fc5} 
+\mbox{\hyperlink{classAppInterface}{App\+Interface}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+app} = nullptr
+\item 
+\Hypertarget{classSceneList_aef42350eb703844919d9bb3b29124fe8}\label{classSceneList_aef42350eb703844919d9bb3b29124fe8} 
+std\+::vector$<$ \mbox{\hyperlink{classIScene}{IScene}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries \+\_\+scenes}
+\item 
+\Hypertarget{classSceneList_aaac2ceb69f79c1918e6f3f864313c900}\label{classSceneList_aaac2ceb69f79c1918e6f3f864313c900} 
+int {\bfseries \+\_\+current\+Scene\+Index} = -\/1
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Graph\+Screen/Scene\+List.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Graph\+Screen/Scene\+List.\+cpp\end{DoxyCompactItemize}

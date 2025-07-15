@@ -1,0 +1,105 @@
+\doxysection{Flash\+Animation Struct Reference}
+\hypertarget{structFlashAnimation}{}\label{structFlashAnimation}\index{FlashAnimation@{FlashAnimation}}
+
+
+Inheritance diagram for Flash\+Animation\+:
+% FIG 0
+
+
+Collaboration diagram for Flash\+Animation\+:
+% FIG 1
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structFlashAnimation_af6961fc91c477745a0a4fa003a533045}\label{structFlashAnimation_af6961fc91c477745a0a4fa003a533045} 
+enum class {\bfseries Flash\+State} \{ {\bfseries FLASH\+\_\+\+OUT}
+, {\bfseries EASE\+\_\+\+IN}
+, {\bfseries FLASH\+\_\+\+IN}
+, {\bfseries EASE\+\_\+\+OUT}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types inherited from \mbox{\hyperlink{structAnimation}{Animation}}}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structAnimation_a4a53520e7b1569ca3477cf26e4500856}\label{structAnimation_a4a53520e7b1569ca3477cf26e4500856} 
+enum {\bfseries anim\+Type} \{ {\bfseries ANIMTYPE\+\_\+\+NONE} = 0
+, {\bfseries ANIMTYPE\+\_\+\+PLAY\+\_\+\+N\+\_\+\+TIMES} = 1
+, {\bfseries ANIMTYPE\+\_\+\+LOOPED} = 2
+, {\bfseries ANIMTYPE\+\_\+\+BACK\+\_\+\+FORTH} = 3
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structFlashAnimation_af6d4ca87ba9d87fdc632104c71090a18}\label{structFlashAnimation_af6d4ca87ba9d87fdc632104c71090a18} 
+{\bfseries Flash\+Animation} (int ix, int iy, size\+\_\+t f, float s, const std\+::string \+\_\+type, const std\+::vector$<$ float $>$ \&flash\+Times, \mbox{\hyperlink{structColor}{Color}} flashC, int \+\_\+reps=0)
+\item 
+\Hypertarget{structFlashAnimation_a5970d9392e6a2aab09a88df697f90335}\label{structFlashAnimation_a5970d9392e6a2aab09a88df697f90335} 
+{\bfseries Flash\+Animation} (int ix, int iy, size\+\_\+t f, float s, const anim\+Type \+\_\+type, const std\+::vector$<$ float $>$ \&flash\+Times, \mbox{\hyperlink{structColor}{Color}} flashC, int \+\_\+reps=0)
+\item 
+\Hypertarget{structFlashAnimation_a4e4288c7ff1d093540151b68fd51cce9}\label{structFlashAnimation_a4e4288c7ff1d093540151b68fd51cce9} 
+void {\bfseries advance\+Frame} (float delta\+Time)
+\item 
+\Hypertarget{structFlashAnimation_a7a07d0336b052dda7c5660c37713387e}\label{structFlashAnimation_a7a07d0336b052dda7c5660c37713387e} 
+std\+::vector$<$ float $>$ {\bfseries get\+Speeds\+As\+Vector} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{structAnimation}{Animation}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Animation} (int ix, int iy, size\+\_\+t f, float s, const std\+::string \+\_\+type, int \+\_\+reps=0)
+\item 
+{\bfseries Animation} (int ix, int iy, size\+\_\+t f, float s, const anim\+Type \+\_\+type, int \+\_\+reps=0)
+\item 
+void {\bfseries advance\+Frame} (float delta\+Time)
+\item 
+void {\bfseries reset\+Frame\+Index} ()
+\item 
+bool {\bfseries has\+Finished} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structFlashAnimation_a667b1c806d9adb59dd170ba6a7d45b08}\label{structFlashAnimation_a667b1c806d9adb59dd170ba6a7d45b08} 
+float {\bfseries interpolation\+\_\+a} = 0.\+0f
+\item 
+\Hypertarget{structFlashAnimation_ac8957fcafabbeba79acfe8a8d6822206}\label{structFlashAnimation_ac8957fcafabbeba79acfe8a8d6822206} 
+std\+::map$<$ Flash\+State, float $>$ {\bfseries speeds}
+\item 
+\Hypertarget{structFlashAnimation_a4a37804a6f17f0af0c9e574a0485784f}\label{structFlashAnimation_a4a37804a6f17f0af0c9e574a0485784f} 
+Flash\+State {\bfseries current\+Speed\+Index} = Flash\+State\+::\+FLASH\+\_\+\+OUT
+\item 
+\Hypertarget{structFlashAnimation_aa7c04c0740b17acc86a68d6e943b06d8}\label{structFlashAnimation_aa7c04c0740b17acc86a68d6e943b06d8} 
+\mbox{\hyperlink{structColor}{Color}} {\bfseries flash\+Color} = \mbox{\hyperlink{structColor}{Color}}(255,255,255,255)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{structAnimation}{Animation}}}
+\begin{DoxyCompactItemize}
+\item 
+int {\bfseries indexX} = 0
+\item 
+int {\bfseries indexY} = 0
+\item 
+size\+\_\+t {\bfseries total\+\_\+frames} = 0
+\item 
+float {\bfseries speed} = 1.\+0f
+\item 
+anim\+Type {\bfseries type} = anim\+Type\+::\+ANIMTYPE\+\_\+\+NONE
+\item 
+int {\bfseries reps} = 0
+\item 
+int {\bfseries frame\+\_\+times\+\_\+played} = 0
+\item 
+int {\bfseries cur\+\_\+frame\+\_\+index} = 0
+\item 
+float {\bfseries cur\+\_\+frame\+\_\+index\+\_\+f} = 0
+\item 
+int {\bfseries times\+\_\+played} = 0
+\item 
+int {\bfseries flow\+\_\+direction} = 1
+\item 
+bool {\bfseries finished} = false
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Animators/Flash\+Animation.\+h\end{DoxyCompactItemize}

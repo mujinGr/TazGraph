@@ -1,0 +1,108 @@
+\doxysection{Triangle\+\_\+w\+\_\+\+Color Class Reference}
+\hypertarget{classTriangle__w__Color}{}\label{classTriangle__w__Color}\index{Triangle\_w\_Color@{Triangle\_w\_Color}}
+
+
+Inheritance diagram for Triangle\+\_\+w\+\_\+\+Color\+:
+% FIG 0
+
+
+Collaboration diagram for Triangle\+\_\+w\+\_\+\+Color\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classTriangle__w__Color_a22aa0a2271067c218254a96b22513cc9}{init}} () override
+\item 
+void \mbox{\hyperlink{classTriangle__w__Color_a159a61a33c303ba3f607d830c460097f}{update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{classTriangle__w__Color_aa4e5af4d5c33da9b4cef771535862ffe}{draw}} (size\+\_\+t v\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+std\+::string \mbox{\hyperlink{classTriangle__w__Color_ae213359b632e704d6d1934b48ac6b0d5}{Get\+Component\+Name}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries show\+GUI} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classTriangle__w__Color_ae6696b6d2e9bae050aed6cb8aaaca253}\label{classTriangle__w__Color_ae6696b6d2e9bae050aed6cb8aaaca253} 
+\mbox{\hyperlink{structColor}{Color}} {\bfseries color} = \{ 255, 255, 255, 255 \}
+\item 
+\Hypertarget{classTriangle__w__Color_ae0bbfa181c95bdbd0e25f6833b224eaf}\label{classTriangle__w__Color_ae0bbfa181c95bdbd0e25f6833b224eaf} 
+glm\+::vec2 {\bfseries uv1} = glm\+::vec2(0)
+\item 
+\Hypertarget{classTriangle__w__Color_aa3eee08b8e050732b1c453ebb1d292fa}\label{classTriangle__w__Color_aa3eee08b8e050732b1c453ebb1d292fa} 
+glm\+::vec2 {\bfseries uv2} = glm\+::vec2(0)
+\item 
+\Hypertarget{classTriangle__w__Color_a0459e7c2712d4f5827b29c9cfa5c70ec}\label{classTriangle__w__Color_a0459e7c2712d4f5827b29c9cfa5c70ec} 
+glm\+::vec2 {\bfseries uv3} = glm\+::vec2(0)
+\item 
+\Hypertarget{classTriangle__w__Color_a67ec67e911aa8e5f9aca72d3275505b4}\label{classTriangle__w__Color_a67ec67e911aa8e5f9aca72d3275505b4} 
+\mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries entity} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+Component\+ID {\bfseries id} = 0u
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classTriangle__w__Color_aa4e5af4d5c33da9b4cef771535862ffe}\label{classTriangle__w__Color_aa4e5af4d5c33da9b4cef771535862ffe} 
+\index{Triangle\_w\_Color@{Triangle\_w\_Color}!draw@{draw}}
+\index{draw@{draw}!Triangle\_w\_Color@{Triangle\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Triangle\+\_\+w\+\_\+\+Color\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{v\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classTriangle__w__Color_ae213359b632e704d6d1934b48ac6b0d5}\label{classTriangle__w__Color_ae213359b632e704d6d1934b48ac6b0d5} 
+\index{Triangle\_w\_Color@{Triangle\_w\_Color}!GetComponentName@{GetComponentName}}
+\index{GetComponentName@{GetComponentName}!Triangle\_w\_Color@{Triangle\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}}
+{\footnotesize\ttfamily std\+::string Triangle\+\_\+w\+\_\+\+Color\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classTriangle__w__Color_a22aa0a2271067c218254a96b22513cc9}\label{classTriangle__w__Color_a22aa0a2271067c218254a96b22513cc9} 
+\index{Triangle\_w\_Color@{Triangle\_w\_Color}!init@{init}}
+\index{init@{init}!Triangle\_w\_Color@{Triangle\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Triangle\+\_\+w\+\_\+\+Color\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classTriangle__w__Color_a159a61a33c303ba3f607d830c460097f}\label{classTriangle__w__Color_a159a61a33c303ba3f607d830c460097f} 
+\index{Triangle\_w\_Color@{Triangle\_w\_Color}!update@{update}}
+\index{update@{update}!Triangle\_w\_Color@{Triangle\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Triangle\+\_\+w\+\_\+\+Color\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Empty/\+Basic/Triangle\+\_\+w\+\_\+\+Color.\+h\end{DoxyCompactItemize}

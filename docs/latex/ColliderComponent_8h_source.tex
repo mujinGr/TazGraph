@@ -1,0 +1,110 @@
+\doxysection{Collider\+Component.\+h}
+\hypertarget{ColliderComponent_8h_source}{}\label{ColliderComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Util/ColliderComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Util/ColliderComponent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../../../UtilComponents.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../../../../TextureManager/TextureManager.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classColliderComponent}{ColliderComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classNodeComponent}{NodeComponent}}\ \textcolor{comment}{//collider\ -\/>\ transform}}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ \_manager\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{float}\ \_collisionPadding\ =\ 100.0f;}
+\DoxyCodeLine{00016\ \ \ \ \ std::unordered\_set<Group>\ \_groupChecks;}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{float}\ repulsion\_strength\ =\ 100.0f;}
+\DoxyCodeLine{00018\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00019\ \ \ \ \ glm::vec3\ box\_collider\ =\ glm::vec3(0.0f);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ transform\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classColliderComponent}{ColliderComponent}}()}
+\DoxyCodeLine{00024\ \ \ \ \ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{comment}{//\ todo\ instead\ have\ offset}}
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{classColliderComponent}{ColliderComponent}}(\mbox{\hyperlink{classManager}{Manager}}*\ manager,\ glm::vec3\ boxCollider\_size)}
+\DoxyCodeLine{00029\ \ \ \ \ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \_manager\ =\ manager;}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ box\_collider\ =\ boxCollider\_size;}
+\DoxyCodeLine{00032\ \ \ \ \ \}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00035\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity-\/>hasComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>())\ \textcolor{comment}{//todo:\ problem:\ having\ transform\ on\ top\ left\ grid,\ not\ every\ collider\ its\ own}}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>\mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ transform\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00045\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ collisionPhysics()\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ glm::vec3\ nodePosition\ =\ transform-\/>bodyCenter;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ glm::vec3\ nodeHalfSize\ =\ 0.5f\ *\ transform-\/>size;}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (Group\ group\ :\ \_groupChecks)\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ adjacentEntities\ =\ \_manager-\/>adjacentEntities(entity,\ group);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{classEntity}{Entity}}*\ other\ :\ adjacentEntities)\ \{}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ areEntitiesLinked\ =\ [\&](\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ main,\ \mbox{\hyperlink{classEntity}{Entity}}*\ other)}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ i\ :\ main-\/>getOutLinks())\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i-\/>getToNode()\ ==\ other)\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (areEntitiesLinked(entity,\ other))\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//continue;}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ otherPosition\ =\ other-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().bodyCenter;}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ otherHalfSize\ =\ 0.5f\ *\ other-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().size;}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ delta\ =\ nodePosition\ -\/\ otherPosition;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dist\ =\ std::max(length(delta),\ 1e-\/4f);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ repulsion\ =\ repulsion\_strength\ *\ normalize(delta)\ /\ (dist\ *\ dist);}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>velocity\ +=\ repulsion;}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ other-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().velocity\ -\/=\ repulsion;}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00086\ \ \ \ \ \}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\&\ \ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00090\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00091\ \ \ \ \ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}ColliderComponent"{}};}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ addCollisionGroup(Group\ g)\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \_groupChecks.insert(g);}
+\DoxyCodeLine{00099\ \ \ \ \ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{void}\ removeCollisionGroup(Group\ g)\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \_groupChecks.erase(g);}
+\DoxyCodeLine{00103\ \ \ \ \ \}}
+\DoxyCodeLine{00104\ \};}
+
+\end{DoxyCode}

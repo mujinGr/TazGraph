@@ -1,0 +1,45 @@
+\doxysection{Window.\+h}
+\hypertarget{Window_8h_source}{}\label{Window_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Window/Window.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Window/Window.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <GL/glew.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <imgui.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <imgui\_impl\_sdl2.h>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <imgui\_impl\_opengl3.h>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <implot.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <implot\_internal.h>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }TazGraphEngine\ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{enum}\ WindowFlags\ \{\ INVISIBLE\ =\ 0x1,\ VISIBLE\ =\ 0x2,\ FULLSCREEN\ =\ 0x4,\ BORDERLESS\ =\ 0x8\ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Window}}}
+\DoxyCodeLine{00018\ \ \ \ \ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Window}}();}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{\string~Window}}();}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ create(std::string\ windowName,\ \textcolor{keywordtype}{int}\ screenWidth,\ \textcolor{keywordtype}{int}\ screenHeight,\ \textcolor{keywordtype}{float}\ scale,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ currentFlags);}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ swapBuffer();}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setScreenWidth(\textcolor{keywordtype}{int}\ width)\ \{\ \_screenWidth\ =\ width;\ \}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ getScreenWidth()\ \{\ \textcolor{keywordflow}{return}\ \_screenWidth;\ \}}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setScreenHeight(\textcolor{keywordtype}{int}\ height)\ \{\ \_screenHeight\ =\ height;\ \}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ getScreenHeight()\ \{\ \textcolor{keywordflow}{return}\ \_screenHeight;\ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setScale(\textcolor{keywordtype}{float}\ scale)\ \{\ \_scale\ =\ scale;\ \}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ getScale()\ \{\ \textcolor{keywordflow}{return}\ \_scale;\ \}}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ SDL\_Window*\ \_sdlWindow\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \_screenWidth\ =\ 0,\ \_screenHeight\ =\ 0;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_scale\ =\ 0.0f;}
+\DoxyCodeLine{00037\ \ \ \ \ \};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \}}
+
+\end{DoxyCode}

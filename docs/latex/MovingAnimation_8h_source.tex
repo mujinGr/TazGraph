@@ -1,0 +1,98 @@
+\doxysection{Moving\+Animation.\+h}
+\hypertarget{MovingAnimation_8h_source}{}\label{MovingAnimation_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/MovingAnimation.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/MovingAnimation.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}Animation.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{structAnimation}{Animation}}\ \textcolor{comment}{//todo\ moving\ animation\ can\ be\ moving\ sprite\ with\ of\ without\ transform}}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{comment}{//\ have\ a\ vector\ for\ the\ positions}}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{comment}{//\ when\ given\ only\ dx\ and\ dy\ then\ add\ that\ to\ the\ same\ vector\ as\ first\ element}}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{comment}{//\ sprite\ will\ check\ bool\ if\ it\ is\ about\ continious\ }}
+\DoxyCodeLine{00014\ \ \ \ \ std::vector<glm::vec2>\ positions;\ \ \textcolor{comment}{//\ Stores\ the\ positions\ for\ the\ animation}}
+\DoxyCodeLine{00015\ \ \ \ \ std::vector<int>\ zIndices;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ zIndex\ for\ each\ position}}
+\DoxyCodeLine{00016\ \ \ \ \ std::vector<int>\ rotations;}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}()\ :\ \mbox{\hyperlink{structAnimation}{Animation}}()}
+\DoxyCodeLine{00019\ \ \ \ \ \{}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \}}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//\ ix,iy\ is\ initial\ position\ (destX,\ destY),\ f\ is\ total\ frames\ to\ move,\ s\ is\ the\ speed\ to\ move\ frames,\ type\ as\ in\ animation,\ dx,dy\ distance\ to\ move}}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}(\textcolor{keywordtype}{int}\ ix,\ \textcolor{keywordtype}{int}\ iy,\ \textcolor{keywordtype}{int}\ f,\ \textcolor{keywordtype}{float}\ s,\ \textcolor{keyword}{const}\ std::string\ \_type,\ \textcolor{keywordtype}{int}\ dx,\ \textcolor{keywordtype}{int}\ dy,\ \textcolor{keywordtype}{int}\ \_reps\ =\ 0)\ :\ \mbox{\hyperlink{structAnimation}{Animation}}(ix,\ iy,\ f,\ s,\ \_type)\ \textcolor{comment}{//\ Animation\ frames\ look\ the\ next\ number\ of\ frames\ from\ the\ index}}
+\DoxyCodeLine{00024\ \ \ \ \ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ positions.clear();}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ zIndices.clear();}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ rotations.clear();}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ glm::vec2\ distanceXY(dx,\ dy);}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ positions.push\_back(distanceXY);}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ zIndices.push\_back(0);}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ rotations.push\_back(0);}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ reps\ =\ \_reps;}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}(\textcolor{keywordtype}{int}\ ix,\ \textcolor{keywordtype}{int}\ iy,\ \textcolor{keywordtype}{int}\ f,\ \textcolor{keywordtype}{float}\ s,\ \textcolor{keyword}{const}\ animType\ \_type,\ \textcolor{keywordtype}{int}\ dx,\ \textcolor{keywordtype}{int}\ dy,\ \textcolor{keywordtype}{int}\ \_reps\ =\ 0)\ :\ \mbox{\hyperlink{structAnimation}{Animation}}(ix,\ iy,\ f,\ s,\ \_type)\ \textcolor{comment}{//\ Animation\ frames\ look\ the\ next\ number\ of\ frames\ from\ the\ index}}
+\DoxyCodeLine{00038\ \ \ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ positions.clear();}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ zIndices.clear();}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ rotations.clear();}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ glm::vec2\ distanceXY(dx,\ dy);}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ positions.push\_back(distanceXY);}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ zIndices.push\_back(0);}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ rotations.push\_back(0);}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ reps\ =\ \_reps;}
+\DoxyCodeLine{00049\ \ \ \ \ \}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}(}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ix,\ \textcolor{keywordtype}{int}\ iy,\ \textcolor{keywordtype}{int}\ f,\ \textcolor{keywordtype}{float}\ s,\ \textcolor{keyword}{const}\ std::string\ \_type,\ \textcolor{keyword}{const}\ std::vector<glm::vec2>\&\ \_positions,\ \textcolor{keyword}{const}\ std::vector<int>\&\ \_zIndices,\ \textcolor{keyword}{const}\ std::vector<int>\&\ \_rotations,\ \textcolor{keywordtype}{int}\ \_reps\ =\ 0)\ \textcolor{comment}{//\ Animation\ frames\ look\ the\ next\ number\ of\ frames\ from\ the\ index}}
+\DoxyCodeLine{00053\ \ \ \ \ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ positions.clear();}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ zIndices.clear();}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ rotations.clear();}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ positions\ =\ \_positions;}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ zIndices\ =\ \_zIndices;}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ rotations\ =\ \_rotations;}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structAnimation}{Animation}}(ix,\ iy,\ positions.size(),\ s,\ \_type);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ reps\ =\ \_reps;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ validateVectors();}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}(}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ix,\ \textcolor{keywordtype}{int}\ iy,\ \textcolor{keywordtype}{size\_t}\ f,\ \textcolor{keywordtype}{float}\ s,\ \textcolor{keyword}{const}\ animType\ \_type,\ \textcolor{keyword}{const}\ std::vector<glm::vec2>\&\ \_positions,\ \textcolor{keyword}{const}\ std::vector<int>\&\ \_zIndices,\ \textcolor{keyword}{const}\ std::vector<int>\&\ \_rotations,\ \textcolor{keywordtype}{int}\ \_reps\ =\ 0)\ \ \textcolor{comment}{//\ Animation\ frames\ look\ the\ next\ number\ of\ frames\ from\ the\ index}}
+\DoxyCodeLine{00070\ \ \ \ \ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ positions.clear();}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ zIndices.clear();}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ rotations.clear();}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ positions\ =\ \_positions;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ zIndices\ =\ \_zIndices;}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ rotations\ =\ \_rotations;}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structAnimation}{Animation}}(ix,\ iy,\ positions.size(),\ s,\ \_type);}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ reps\ =\ \_reps;}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ validateVectors();}
+\DoxyCodeLine{00083\ \ \ \ \ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ validateVectors()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ensure\ all\ vectors\ are\ of\ the\ same\ length\ to\ prevent\ indexing\ errors}}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (positions.size()\ !=\ zIndices.size()\ ||\ positions.size()\ !=\ rotations.size())\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}All\ vectors\ (positions,\ zIndices,\ rotations)\ must\ have\ the\ same\ length."{}});}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00091\ \ \ \ \ \}}
+\DoxyCodeLine{00092\ \};}
+
+\end{DoxyCode}

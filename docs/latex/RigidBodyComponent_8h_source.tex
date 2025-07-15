@@ -1,0 +1,62 @@
+\doxysection{Rigid\+Body\+Component.\+h}
+\hypertarget{RigidBodyComponent_8h_source}{}\label{RigidBodyComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Util/RigidBodyComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Util/RigidBodyComponent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classRigidBodyComponent}{RigidBodyComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classComponent}{Component}}}
+\DoxyCodeLine{00005\ \{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00007\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ transform\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{float}\ GravityForce\ =\ 1.0f;}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{float}\ accelGravity\ =\ 0.045f;}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{float}\ maxGravity\ =\ 3.f;}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{bool}\ onGround\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{bool}\ justjumped\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00014\ \ \ \ \ }
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{classRigidBodyComponent}{RigidBodyComponent}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classRigidBodyComponent}{RigidBodyComponent}}(\textcolor{keywordtype}{float}\ acc,\ \textcolor{keywordtype}{float}\ maxg)}
+\DoxyCodeLine{00018\ \ \ \ \ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ accelGravity\ =\ acc;}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ maxGravity\ =\ maxg;}
+\DoxyCodeLine{00021\ \ \ \ \ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classRigidBodyComponent}{\string~RigidBodyComponent}}()}
+\DoxyCodeLine{00024\ \ \ \ \ \{}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00029\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ transform\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00031\ \ \ \ \ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00034\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (onGround\ \&\&\ !justjumped)}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ GravityForce\ =\ 1.0f;}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>setVelocity\_Y(GravityForce);}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ GravityForce\ =\ 0.0f;}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ justjumped\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ GravityForce\ +=\ accelGravity\ *\ deltaTime;}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>setVelocity\_Y(transform-\/>getVelocity().y\ +\ GravityForce\ *\ deltaTime);}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (transform-\/>getVelocity().y\ >\ maxGravity)}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>setVelocity\_Y(maxGravity);}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}RigidBodyComponent"{}};}
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+\DoxyCodeLine{00056\ \};}
+
+\end{DoxyCode}

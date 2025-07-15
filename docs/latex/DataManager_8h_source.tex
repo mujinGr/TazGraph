@@ -1,0 +1,24 @@
+\doxysection{Data\+Manager.\+h}
+\hypertarget{DataManager_8h_source}{}\label{DataManager_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/DataManager/DataManager.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/DataManager/DataManager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classDataManager}{DataManager}}\ \{}
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{comment}{//\ Gets\ the\ single\ instance\ of\ CameraManager\ (singleton)}}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classDataManager}{DataManager}}\&\ getInstance()\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classDataManager}{DataManager}}\ instance;\ \textcolor{comment}{//\ Guaranteed\ to\ be\ destroyed.\ Instantiated\ on\ first\ use.}}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ instance;}
+\DoxyCodeLine{00013\ \ \ \ \ \}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{classDataManager}{DataManager}}()\ \{\}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ std::string\ mapToLoad;}
+\DoxyCodeLine{00018\ \};}
+
+\end{DoxyCode}

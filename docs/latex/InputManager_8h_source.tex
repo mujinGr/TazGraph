@@ -1,0 +1,68 @@
+\doxysection{Input\+Manager.\+h}
+\hypertarget{InputManager_8h_source}{}\label{InputManager_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/InputManager/InputManager.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/InputManager/InputManager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ GLM\_ENABLE\_EXPERIMENTAL}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../Camera2.5D/ICamera.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classInputManager}{InputManager}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{classInputManager}{InputManager}}();}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{classInputManager}{\string~InputManager}}();}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ update();}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ pressKey(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ keyID);}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ releaseKey(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ keyID);}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{comment}{//returns\ true\ if\ the\ key\ is\ held\ down}}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{bool}\ isKeyDown(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ keyID);}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{comment}{//returns\ true\ if\ the\ key\ was\ just\ pressed}}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{bool}\ isKeyPressed(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ keyID);}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{bool}\ checkMouseCollision(glm::vec2\ position,\ glm::ivec2\ tr\_size);}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ setMouseCoords(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ glm::vec2\ getMouseCoords()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{comment}{//\ Panning}}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ setPanningPoint(glm::vec2\ position);}
+\DoxyCodeLine{00033\ \ \ \ \ glm::vec2\ calculatePanningDelta(glm::vec2\ position);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ setObjectRelativePos(glm::vec2\ relativeObjectPos);}
+\DoxyCodeLine{00036\ \ \ \ \ glm::vec2\ getObjectRelativePos();}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ glm::vec2\ convertWindowToCameraCoords(glm::vec2\ mousePos,}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ glm::vec2\ viewportSize,}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ glm::vec2\ windowDimensions,}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec2\&\ windowPos,\ \textcolor{keyword}{const}\ glm::vec2\&\ windowSize,}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classICamera}{ICamera}}\&\ camera);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{comment}{/*glm::vec2\ convertCameraToWindowCoords(glm::vec2\ mousePos,}}
+\DoxyCodeLine{00045\ \textcolor{comment}{\ \ \ \ \ \ \ \ glm::vec2\ viewportSize,}}
+\DoxyCodeLine{00046\ \textcolor{comment}{\ \ \ \ \ \ \ \ glm::vec2\ windowDimensions,}}
+\DoxyCodeLine{00047\ \textcolor{comment}{\ \ \ \ \ \ \ \ const\ glm::vec2\&\ windowPos,\ const\ glm::vec2\&\ windowSize,}}
+\DoxyCodeLine{00048\ \textcolor{comment}{\ \ \ \ \ \ \ \ const\ ICamera\&\ camera);*/}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{bool}\ wasKeyDown(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ keyID);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ std::unordered\_map<unsigned\ int,\ bool>\ \_keyMap;}
+\DoxyCodeLine{00055\ \ \ \ \ std::unordered\_map<unsigned\ int,\ bool>\ \_prevKeyMap;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ glm::vec2\ \_mouseCoords\ =\ glm::vec2(0);}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ glm::vec2\ \_panningPoint\ =\ glm::vec2(0);}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ glm::vec2\ \_relativeObjectPos\ =\ glm::vec2(0);}
+\DoxyCodeLine{00062\ \};}
+
+\end{DoxyCode}

@@ -1,0 +1,115 @@
+\doxysection{Box\+Component Class Reference}
+\hypertarget{classBoxComponent}{}\label{classBoxComponent}\index{BoxComponent@{BoxComponent}}
+
+
+Inheritance diagram for Box\+Component\+:
+% FIG 0
+
+
+Collaboration diagram for Box\+Component\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classBoxComponent_a983d251265f9f12e7ec577ce71564ecc}{init}} () override
+\item 
+void \mbox{\hyperlink{classBoxComponent_a3d3b96ebe6e57bb25c12d64a87c80045}{update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{classBoxComponent_a4448a597bc50582bde8ab6ca7f646ec9}{draw}} (size\+\_\+t v\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+void \mbox{\hyperlink{classBoxComponent_ae4a91884869f1207ba842cc41722c8ad}{draw}} (size\+\_\+t v\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+std\+::string \mbox{\hyperlink{classBoxComponent_ae02c0036f0a851932128df1e1208e9b7}{Get\+Component\+Name}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries show\+GUI} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classBoxComponent_a36747b449bd229288abaf3ff276a4ab1}\label{classBoxComponent_a36747b449bd229288abaf3ff276a4ab1} 
+\mbox{\hyperlink{structColor}{Color}} {\bfseries color} = \{ 255, 255, 255, 255 \}
+\item 
+\Hypertarget{classBoxComponent_af18bdd6d9bd2309f4990f155c30c4907}\label{classBoxComponent_af18bdd6d9bd2309f4990f155c30c4907} 
+SDL\+\_\+\+Rect {\bfseries dest\+Rect}
+\item 
+\Hypertarget{classBoxComponent_add2a890fb82de20fdb10744fe05905eb}\label{classBoxComponent_add2a890fb82de20fdb10744fe05905eb} 
+\mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
+\item 
+\Hypertarget{classBoxComponent_a36a50ef50ea9bfa876be87d73150ad60}\label{classBoxComponent_a36a50ef50ea9bfa876be87d73150ad60} 
+float {\bfseries temp\+\_\+rotation} = 0.\+0f
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries entity} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+Component\+ID {\bfseries id} = 0u
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classBoxComponent_ae4a91884869f1207ba842cc41722c8ad}\label{classBoxComponent_ae4a91884869f1207ba842cc41722c8ad} 
+\index{BoxComponent@{BoxComponent}!draw@{draw}}
+\index{draw@{draw}!BoxComponent@{BoxComponent}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Box\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{v\+\_\+index,  }\item[{\mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classBoxComponent_a4448a597bc50582bde8ab6ca7f646ec9}\label{classBoxComponent_a4448a597bc50582bde8ab6ca7f646ec9} 
+\index{BoxComponent@{BoxComponent}!draw@{draw}}
+\index{draw@{draw}!BoxComponent@{BoxComponent}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Box\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{v\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classBoxComponent_ae02c0036f0a851932128df1e1208e9b7}\label{classBoxComponent_ae02c0036f0a851932128df1e1208e9b7} 
+\index{BoxComponent@{BoxComponent}!GetComponentName@{GetComponentName}}
+\index{GetComponentName@{GetComponentName}!BoxComponent@{BoxComponent}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}}
+{\footnotesize\ttfamily std\+::string Box\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classBoxComponent_a983d251265f9f12e7ec577ce71564ecc}\label{classBoxComponent_a983d251265f9f12e7ec577ce71564ecc} 
+\index{BoxComponent@{BoxComponent}!init@{init}}
+\index{init@{init}!BoxComponent@{BoxComponent}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Box\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classBoxComponent_a3d3b96ebe6e57bb25c12d64a87c80045}\label{classBoxComponent_a3d3b96ebe6e57bb25c12d64a87c80045} 
+\index{BoxComponent@{BoxComponent}!update@{update}}
+\index{update@{update}!BoxComponent@{BoxComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Box\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Empty/\+Basic/Box\+Component.\+h\end{DoxyCompactItemize}

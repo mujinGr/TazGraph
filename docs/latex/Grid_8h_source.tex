@@ -1,0 +1,177 @@
+\doxysection{Grid.\+h}
+\hypertarget{Grid_8h_source}{}\label{Grid_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Grid/Grid.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Grid/Grid.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}../GECS/Core/GECSEntity.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../GECS/Components.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../AABB/AABB.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ CELL\_SIZE\ =\ 100;}
+\DoxyCodeLine{00012\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ AXIS\_CELLS\ =\ 80;}
+\DoxyCodeLine{00013\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ DEPTH\_AXIS\_CELLS\ =\ 4;}
+\DoxyCodeLine{00014\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ ROW\_CELL\_SIZE\ =\ AXIS\_CELLS\ *\ CELL\_SIZE;}
+\DoxyCodeLine{00015\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ COLUMN\_CELL\_SIZE\ =\ AXIS\_CELLS\ *\ CELL\_SIZE;}
+\DoxyCodeLine{00016\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ DEPTH\_CELL\_SIZE\ =\ DEPTH\_AXIS\_CELLS\ *\ CELL\_SIZE;}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structGridLevelData}{GridLevelData}}\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{float}\ numXCells,\ numYCells,\ numZCells;}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{float}\ startX,\ endX,\ startY,\ endY,\ startZ,\ endZ;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{float}\ cameraMargin\ =\ 0.0f;}
+\DoxyCodeLine{00023\ \};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGrid}{Grid}}\ \{}
+\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{enum}\ Level\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ Basic,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ Outer1,}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ Outer2}
+\DoxyCodeLine{00031\ \ \ \ \ \};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{classGrid}{Grid}}(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keywordtype}{int}\ depth,\ \textcolor{keywordtype}{int}\ cellSize);}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{classGrid}{\string~Grid}}();}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{void}\ setSize(\textcolor{keywordtype}{int}\ cellSize);}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ init(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keywordtype}{int}\ depth,\ \textcolor{keywordtype}{int}\ cellSize);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ createCells(Grid::Level\ size);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ addLink(\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ link,\ Grid::Level\ m\_level);}
+\DoxyCodeLine{00042\ \ \ \ \ std::vector<Cell*>\ getLinkCells(\textcolor{keyword}{const}\ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}\&\ link,\ Grid::Level\ m\_level);}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ addLink(\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ link,\ std::vector<Cell*>\ cell);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ addEmpty(\mbox{\hyperlink{classEmptyEntity}{EmptyEntity}}*\ entity,\ Grid::Level\ m\_level);}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ addNode(\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ entity,\ Grid::Level\ m\_level);}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ addEmpty(\mbox{\hyperlink{classEmptyEntity}{EmptyEntity}}*\ entity,\ \mbox{\hyperlink{structCell}{Cell}}*\ cell);}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ addNode(\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ entity,\ \mbox{\hyperlink{structCell}{Cell}}*\ cell);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{structCell}{Cell}}*\ getCell(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ z,\ Grid::Level\ m\_level);}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{structCell}{Cell}}*\ getCell(\textcolor{keyword}{const}\ \mbox{\hyperlink{classEntity}{Entity}}\&\ position,\ Grid::Level\ m\_level);}
+\DoxyCodeLine{00053\ \ \ \ \ std::vector<Cell*>\ getAdjacentCells(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ z,\ Grid::Level\ m\_level);}
+\DoxyCodeLine{00054\ \ \ \ \ std::vector<Cell*>\ getAdjacentCells(\textcolor{keyword}{const}\ \mbox{\hyperlink{classEntity}{Entity}}\&\ entity,\ Grid::Level\ m\_level);}
+\DoxyCodeLine{00055\ \ \ \ \ std::vector<Cell>\&\ getCells(Grid::Level\ m\_level);}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{int}\ getCellSize();}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{int}\ getNumXCells();}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{int}\ getNumYCells();}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{int}\ getNumZCells();}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{bool}\ setIntersectedCameraCells(\mbox{\hyperlink{classICamera}{ICamera}}\&\ camera);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ std::vector<Cell*>\ getIntersectedCameraCells(\mbox{\hyperlink{classICamera}{ICamera}}\&\ camera);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00066\ \ \ \ \ std::vector<T*>\ getRevealedEntitiesInCameraCells()\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ std::vector<T*>\ result;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ NodeEntity>)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ cell\ :\ \_interceptedCells)\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ entity\ :\ cell-\/>nodes)\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity-\/>isHidden())\ \{\ \ \textcolor{comment}{//\ Check\ if\ the\ entity\ is\ visible}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.push\_back(entity);}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ EmptyEntity>)\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ cell\ :\ \_interceptedCells)\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ entity\ :\ cell-\/>emptyEntities)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity-\/>isHidden())\ \{\ \ \textcolor{comment}{//\ Check\ if\ the\ entity\ is\ visible}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.push\_back(entity);}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ LinkEntity>)\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ std::map<unsigned\ int,\ LinkEntity*>\ uniqueEntities;}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ cell\ :\ \_interceptedCells)\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ cell-\/>links)\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!link-\/>isHidden())\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ linkId\ =\ link-\/>getId();}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (uniqueEntities.find(linkId)\ ==\ uniqueEntities.end())\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uniqueEntities[linkId]\ =\ link;}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ entry\ :\ uniqueEntities)\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.push\_back(entry.second);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(T)\ ==\ 0,\ \textcolor{stringliteral}{"{}Unsupported\ entity\ type."{}});}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00113\ \ \ \ \ std::vector<T*>\ getEntitiesInCameraCells()\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ std::vector<T*>\ result;}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ NodeEntity>)\ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ cell\ :\ \_interceptedCells)\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.insert(result.end(),\ cell-\/>nodes.begin(),\ cell-\/>nodes.end());}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ EmptyEntity>)\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ cell\ :\ \_interceptedCells)\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.insert(result.end(),\ cell-\/>emptyEntities.begin(),\ cell-\/>emptyEntities.end());}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(T)\ ==\ 0,\ \textcolor{stringliteral}{"{}Unsupported\ entity\ type."{}});}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00130\ \ \ \ \ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ std::vector<LinkEntity*>\ getLinksInCameraCells();}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordtype}{bool}\ gridLevelChanged();}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \ \ Level\ getGridLevel();}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{void}\ setGridLevel(Level\ newLevel);}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordtype}{int}\ getLevelCellScale();}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordtype}{int}\ getLevelCellScale(Level\ level);}
+\DoxyCodeLine{00143\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00144\ \ \ \ \ std::vector<Cell*>\ \_interceptedCells;}
+\DoxyCodeLine{00145\ \ \ \ \ }
+\DoxyCodeLine{00146\ \ \ \ \ std::vector<Cell>\ \_cells;}
+\DoxyCodeLine{00147\ \ \ \ \ std::vector<Cell>\ \_parentCells;}
+\DoxyCodeLine{00148\ \ \ \ \ std::vector<Cell>\ \_superParentCells;}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordtype}{int}\ \_cellSize;}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordtype}{int}\ \_width;}
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordtype}{int}\ \_height;}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordtype}{int}\ \_depth;}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordtype}{int}\ \_numXCells;}
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordtype}{int}\ \_numYCells;}
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordtype}{int}\ \_numZCells;}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{comment}{//\ can\ change\ between\ different\ scenes/managers}}
+\DoxyCodeLine{00161\ \ \ \ \ std::map<Level,\ GridLevelData>\ gridLevelsData;}
+\DoxyCodeLine{00162\ \ \ \ \ }
+\DoxyCodeLine{00163\ \ \ \ \ std::map<Level,\ int>\ gridLevels\ =\ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \{Level::Basic,\ \ 1\},}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \{Level::Outer1,\ 2\},}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \{Level::Outer2,\ 4\}}
+\DoxyCodeLine{00167\ \ \ \ \ \};}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \ \ \ \ Level\ \_level\ =\ Level::Basic;}
+\DoxyCodeLine{00170\ \ \ \ \ Level\ \_lastLevel\ =\ Level::Basic;}
+\DoxyCodeLine{00171\ \};}
+
+\end{DoxyCode}

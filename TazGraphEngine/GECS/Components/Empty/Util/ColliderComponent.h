@@ -14,6 +14,7 @@ private:
 	Manager* _manager = nullptr;
 	float _collisionPadding = 100.0f;
 	std::unordered_set<Group> _groupChecks;
+	float repulsion_strength = 100.0f;
 public:
 	glm::vec3 box_collider = glm::vec3(0.0f);
 
@@ -75,7 +76,7 @@ public:
 				glm::vec3 delta = nodePosition - otherPosition;
 
 				float dist = std::max(length(delta), 1e-4f);
-				glm::vec3 repulsion = 5000.0f * normalize(delta) / (dist * dist);
+				glm::vec3 repulsion = repulsion_strength * normalize(delta) / (dist * dist);
 
 				transform->velocity += repulsion;
 				other->GetComponent<TransformComponent>().velocity -= repulsion;

@@ -1,0 +1,49 @@
+\doxysection{Asset\+Manager.\+h}
+\hypertarget{AssetManager_8h_source}{}\label{AssetManager_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/AssetManager/AssetManager.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/AssetManager/AssetManager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}TextureManager/TextureManager.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}GECS/Core/GECSManager.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <SDL2/SDL\_ttf.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../Graph.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structPairHash}{PairHash}}\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T1,\ \textcolor{keyword}{class}\ T2>}
+\DoxyCodeLine{00011\ \ \ \ \ std::size\_t\ operator()(\textcolor{keyword}{const}\ std::pair<T1,\ T2>\&\ p)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ hash1\ =\ std::hash<T1>\{\}(p.first);}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ hash2\ =\ std::hash<T2>\{\}(p.second);}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ hash1\ \string^\ (hash2\ <<\ 1);}
+\DoxyCodeLine{00015\ \ \ \ \ \}}
+\DoxyCodeLine{00016\ \};}
+\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classAssetManager}{AssetManager}}\ \textcolor{comment}{//this\ class\ created\ when\ we\ added\ projectiles,\ based\ on\ this\ class\ other\ components\ changed}}
+\DoxyCodeLine{00018\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//it\ just\ replaces\ the\ paths\ of\ textures\ with\ names}}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ SDL\_Color\ black\ =\ \{\ 0,\ 0\ ,0\ ,255\ \};}
+\DoxyCodeLine{00022\ \ \ \ \ SDL\_Color\ white\ =\ \{\ 255,\ 255\ ,255\ ,255\ \};}
+\DoxyCodeLine{00023\ \ \ \ \ SDL\_Color\ red\ =\ \{\ 255,\ 0\ ,0\ ,255\ \};}
+\DoxyCodeLine{00024\ \ \ \ \ SDL\_Color\ green\ =\ \{\ 0,\ 255\ ,0\ ,255\ \};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{classAssetManager}{AssetManager}}(\mbox{\hyperlink{classManager}{Manager}}*\ man,\ \mbox{\hyperlink{classInputManager}{InputManager}}\&\ inputManager,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window);}
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{classAssetManager}{\string~AssetManager}}();}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{comment}{//graphobjects}}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateWorldMap(\mbox{\hyperlink{classEntity}{Entity}}\&\ worldMap);}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateGroup(\mbox{\hyperlink{classEntity}{Entity}}\&\ groupNode,\ glm::vec3\ centerGroup,\ \textcolor{keywordtype}{float}\ groupNodeSize,\ Grid::Level\ m\_level);}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateGroupLink(\mbox{\hyperlink{classEntity}{Entity}}\&\ groupLink,\ Grid::Level\ m\_level);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ createGroupLayout(Grid::Level\ m\_level);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ ungroupLayout(Grid::Level\ m\_level);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ manager;}
+\DoxyCodeLine{00040\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{classInputManager}{InputManager}}\&\ \_inputManager;}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ \_window;}
+\DoxyCodeLine{00043\ \};}
+
+\end{DoxyCode}

@@ -1,0 +1,110 @@
+\doxysection{Grid Class Reference}
+\hypertarget{classGrid}{}\label{classGrid}\index{Grid@{Grid}}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGrid_a6dcee56e1d5f5a90e4183ed3989f6618}\label{classGrid_a6dcee56e1d5f5a90e4183ed3989f6618} 
+enum {\bfseries Level} \{ {\bfseries Basic}
+, {\bfseries Outer1}
+, {\bfseries Outer2}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGrid_aaa7c8c0baeac0606df845327e9106056}\label{classGrid_aaa7c8c0baeac0606df845327e9106056} 
+{\bfseries Grid} (int width, int height, int depth, int cell\+Size)
+\item 
+\Hypertarget{classGrid_a36385aa1fdc571ee631001d42e48794e}\label{classGrid_a36385aa1fdc571ee631001d42e48794e} 
+void {\bfseries set\+Size} (int cell\+Size)
+\item 
+\Hypertarget{classGrid_ade5d3d47b30811cefc67bd8ebab239ea}\label{classGrid_ade5d3d47b30811cefc67bd8ebab239ea} 
+void {\bfseries init} (int width, int height, int depth, int cell\+Size)
+\item 
+\Hypertarget{classGrid_a631a393d86a10c25b237098c5f5fe899}\label{classGrid_a631a393d86a10c25b237098c5f5fe899} 
+void {\bfseries create\+Cells} (Grid\+::\+Level size)
+\item 
+\Hypertarget{classGrid_acb43b9a1aabd0f13c063af2c9a18ce79}\label{classGrid_acb43b9a1aabd0f13c063af2c9a18ce79} 
+void {\bfseries add\+Link} (\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*}link, Grid\+::\+Level m\+\_\+level)
+\item 
+\Hypertarget{classGrid_adfb22f65ab7aa72e37efedb6de685332}\label{classGrid_adfb22f65ab7aa72e37efedb6de685332} 
+std\+::vector$<$ \mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries get\+Link\+Cells} (const \mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \&link, Grid\+::\+Level m\+\_\+level)
+\item 
+\Hypertarget{classGrid_ab68e732dc2f042163ed58e6b12568882}\label{classGrid_ab68e732dc2f042163ed58e6b12568882} 
+void {\bfseries add\+Link} (\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*}link, std\+::vector$<$ \mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*} $>$ cell)
+\item 
+\Hypertarget{classGrid_a38711443da1b2b53be0a138905e2febd}\label{classGrid_a38711443da1b2b53be0a138905e2febd} 
+void {\bfseries add\+Empty} (\mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*}entity, Grid\+::\+Level m\+\_\+level)
+\item 
+\Hypertarget{classGrid_afe5bd02e94f72167ec62d50694c12ce3}\label{classGrid_afe5bd02e94f72167ec62d50694c12ce3} 
+void {\bfseries add\+Node} (\mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*}entity, Grid\+::\+Level m\+\_\+level)
+\item 
+\Hypertarget{classGrid_a0f35577403abe9e625b52fbeafd14613}\label{classGrid_a0f35577403abe9e625b52fbeafd14613} 
+void {\bfseries add\+Empty} (\mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*}entity, \mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*}cell)
+\item 
+\Hypertarget{classGrid_aa278b58e79ee87c32763f7a01c46a6b6}\label{classGrid_aa278b58e79ee87c32763f7a01c46a6b6} 
+void {\bfseries add\+Node} (\mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*}entity, \mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*}cell)
+\item 
+\Hypertarget{classGrid_a511accb13d9917ce13e04f70146220f0}\label{classGrid_a511accb13d9917ce13e04f70146220f0} 
+\mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Cell} (int x, int y, int z, Grid\+::\+Level m\+\_\+level)
+\item 
+\Hypertarget{classGrid_a7ad4c78ecc04d05f3e0d745954b574f0}\label{classGrid_a7ad4c78ecc04d05f3e0d745954b574f0} 
+\mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Cell} (const \mbox{\hyperlink{classEntity}{Entity}} \&position, Grid\+::\+Level m\+\_\+level)
+\item 
+\Hypertarget{classGrid_ae2c271ac315f92d2d2f80dfbed757691}\label{classGrid_ae2c271ac315f92d2d2f80dfbed757691} 
+std\+::vector$<$ \mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries get\+Adjacent\+Cells} (int x, int y, int z, Grid\+::\+Level m\+\_\+level)
+\item 
+\Hypertarget{classGrid_a65d9f9d145b7c3d7d9fa21f884584930}\label{classGrid_a65d9f9d145b7c3d7d9fa21f884584930} 
+std\+::vector$<$ \mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries get\+Adjacent\+Cells} (const \mbox{\hyperlink{classEntity}{Entity}} \&entity, Grid\+::\+Level m\+\_\+level)
+\item 
+\Hypertarget{classGrid_a339358d4e1b046a69df368d031d0704d}\label{classGrid_a339358d4e1b046a69df368d031d0704d} 
+std\+::vector$<$ \mbox{\hyperlink{structCell}{Cell}} $>$ \& {\bfseries get\+Cells} (Grid\+::\+Level m\+\_\+level)
+\item 
+\Hypertarget{classGrid_ac1a96bb64c79dd1756350c254bdfb05c}\label{classGrid_ac1a96bb64c79dd1756350c254bdfb05c} 
+int {\bfseries get\+Cell\+Size} ()
+\item 
+\Hypertarget{classGrid_a295e18c160eb0e5c533a0f00f3882bb2}\label{classGrid_a295e18c160eb0e5c533a0f00f3882bb2} 
+int {\bfseries get\+Num\+XCells} ()
+\item 
+\Hypertarget{classGrid_ab7e006b13d2bb224ea6177c1848a1a83}\label{classGrid_ab7e006b13d2bb224ea6177c1848a1a83} 
+int {\bfseries get\+Num\+YCells} ()
+\item 
+\Hypertarget{classGrid_a545e1c2561842a05766404257f783f48}\label{classGrid_a545e1c2561842a05766404257f783f48} 
+int {\bfseries get\+Num\+ZCells} ()
+\item 
+\Hypertarget{classGrid_a25c261766f76a7aade73d0c27a02cee1}\label{classGrid_a25c261766f76a7aade73d0c27a02cee1} 
+bool {\bfseries set\+Intersected\+Camera\+Cells} (\mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+\item 
+\Hypertarget{classGrid_a88e6b9b199e68957cac666fbf9515168}\label{classGrid_a88e6b9b199e68957cac666fbf9515168} 
+std\+::vector$<$ \mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries get\+Intersected\+Camera\+Cells} (\mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+\item 
+\Hypertarget{classGrid_a8d3e4a15120e1ab9cf9d213995f31f84}\label{classGrid_a8d3e4a15120e1ab9cf9d213995f31f84} 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ {\bfseries get\+Revealed\+Entities\+In\+Camera\+Cells} ()
+\item 
+\Hypertarget{classGrid_af7306aa099d8ea7ba838991ecd3fb40d}\label{classGrid_af7306aa099d8ea7ba838991ecd3fb40d} 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ {\bfseries get\+Entities\+In\+Camera\+Cells} ()
+\item 
+\Hypertarget{classGrid_a9d6dfbe5cab616ad33e9059f270ad828}\label{classGrid_a9d6dfbe5cab616ad33e9059f270ad828} 
+std\+::vector$<$ \mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries get\+Links\+In\+Camera\+Cells} ()
+\item 
+\Hypertarget{classGrid_ac41c100050e08627e3658d0341112407}\label{classGrid_ac41c100050e08627e3658d0341112407} 
+bool {\bfseries grid\+Level\+Changed} ()
+\item 
+\Hypertarget{classGrid_a84753c6fcb888c33c6f85e67675aa6f1}\label{classGrid_a84753c6fcb888c33c6f85e67675aa6f1} 
+Level {\bfseries get\+Grid\+Level} ()
+\item 
+\Hypertarget{classGrid_a034171c56fe53da6e55f13ed079c7a90}\label{classGrid_a034171c56fe53da6e55f13ed079c7a90} 
+void {\bfseries set\+Grid\+Level} (Level new\+Level)
+\item 
+\Hypertarget{classGrid_a8879b3dcd01afc9012b8d29b53f447d3}\label{classGrid_a8879b3dcd01afc9012b8d29b53f447d3} 
+int {\bfseries get\+Level\+Cell\+Scale} ()
+\item 
+\Hypertarget{classGrid_a03074ae4eec07dfde6b0b96f16fa82ab}\label{classGrid_a03074ae4eec07dfde6b0b96f16fa82ab} 
+int {\bfseries get\+Level\+Cell\+Scale} (Level level)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Grid/Grid.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Grid/Grid.\+cpp\end{DoxyCompactItemize}

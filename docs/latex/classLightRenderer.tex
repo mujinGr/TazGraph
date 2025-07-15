@@ -1,0 +1,89 @@
+\doxysection{Light\+Renderer Class Reference}
+\hypertarget{classLightRenderer}{}\label{classLightRenderer}\index{LightRenderer@{LightRenderer}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classLightRenderer_a2cbcbf3072e06f4d159d3100603c378a}\label{classLightRenderer_a2cbcbf3072e06f4d159d3100603c378a} 
+void {\bfseries init} ()
+\item 
+\Hypertarget{classLightRenderer_a0270428e616dd4cafea87d1a40c9283b}\label{classLightRenderer_a0270428e616dd4cafea87d1a40c9283b} 
+void {\bfseries begin} ()
+\item 
+\Hypertarget{classLightRenderer_ae4ffbb6dc0ecbae342d7eb4bf93ab33d}\label{classLightRenderer_ae4ffbb6dc0ecbae342d7eb4bf93ab33d} 
+void {\bfseries end} ()
+\item 
+\Hypertarget{classLightRenderer_a7ee2108a96ef8c901f8cdb520c277921}\label{classLightRenderer_a7ee2108a96ef8c901f8cdb520c277921} 
+void {\bfseries init\+Light\+Triangle\+Batch} (size\+\_\+t m\+Size)
+\item 
+\Hypertarget{classLightRenderer_aecc8d767c2eefa53f76cf0bb16127c1d}\label{classLightRenderer_aecc8d767c2eefa53f76cf0bb16127c1d} 
+void {\bfseries init\+Light\+Quad\+Batch} (size\+\_\+t m\+Size)
+\item 
+\Hypertarget{classLightRenderer_a726d9a3f841602976942703134d696a3}\label{classLightRenderer_a726d9a3f841602976942703134d696a3} 
+void {\bfseries init\+Light\+Box\+Batch} (size\+\_\+t m\+Size)
+\item 
+\Hypertarget{classLightRenderer_ac0ac8c24dfaeefd8cab1d6c344c0218a}\label{classLightRenderer_ac0ac8c24dfaeefd8cab1d6c344c0218a} 
+void {\bfseries init\+Light\+Sphere\+Batch} (size\+\_\+t m\+Size)
+\item 
+\Hypertarget{classLightRenderer_a55b792515f46ff90bc038fe5352139b2}\label{classLightRenderer_a55b792515f46ff90bc038fe5352139b2} 
+void {\bfseries init\+Batch\+Size} ()
+\item 
+\Hypertarget{classLightRenderer_a6a33f8be44f9e046585e7538cfa1730f}\label{classLightRenderer_a6a33f8be44f9e046585e7538cfa1730f} 
+void {\bfseries draw\+Triangle} (size\+\_\+t v\+\_\+index, const glm\+::vec3 \&depth, const glm\+::vec3 \&cpu\+Rotation, const \mbox{\hyperlink{structColor}{Color}} \&color)
+\item 
+\Hypertarget{classLightRenderer_aeb3e200ef9c64a3de1c76fbb2a5bd1b5}\label{classLightRenderer_aeb3e200ef9c64a3de1c76fbb2a5bd1b5} 
+void {\bfseries draw} (size\+\_\+t v\+\_\+index, const glm\+::vec2 \&rect\+Size, const glm\+::vec3 \&body\+Center, const glm\+::vec3 \&m\+Rotation, const \mbox{\hyperlink{structColor}{Color}} \&color)
+\begin{DoxyCompactList}\small\item\em draws are needed to convert the pos and size to vertices \end{DoxyCompactList}\item 
+\Hypertarget{classLightRenderer_aabdf5281f1f5626698b31f4d0db9edf9}\label{classLightRenderer_aabdf5281f1f5626698b31f4d0db9edf9} 
+void {\bfseries draw\+Box} (size\+\_\+t v\+\_\+index, const glm\+::vec3 \&box\+Size, const glm\+::vec3 \&body\+Center, const glm\+::vec3 \&m\+Rotation, const \mbox{\hyperlink{structColor}{Color}} \&color)
+\item 
+\Hypertarget{classLightRenderer_a644401530e32c5995fa4a2000da49eea}\label{classLightRenderer_a644401530e32c5995fa4a2000da49eea} 
+void {\bfseries draw\+Sphere} (size\+\_\+t v\+\_\+index, const glm\+::vec3 \&sphere\+Size, const glm\+::vec3 \&body\+Center, const glm\+::vec3 \&m\+Rotation, const \mbox{\hyperlink{structColor}{Color}} \&color)
+\item 
+\Hypertarget{classLightRenderer_a8fbc18ea337c56d4f5d921b81d26d31e}\label{classLightRenderer_a8fbc18ea337c56d4f5d921b81d26d31e} 
+void {\bfseries render\+Batch} (\mbox{\hyperlink{classGLSLProgram}{GLSLProgram}} \texorpdfstring{$\ast$}{*}glsl\+\_\+program)
+\item 
+\Hypertarget{classLightRenderer_a9cf210b50c64828241a750a797341ad3}\label{classLightRenderer_a9cf210b50c64828241a750a797341ad3} 
+void {\bfseries dispose} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{structLightVertex}{Light\+Vertex}} $>$ \mbox{\hyperlink{classLightRenderer_aaff2c77f6c3df272d2834e2b1c0d1f08}{sphere\+Vertices}}
+\item 
+std\+::vector$<$ GLuint $>$ \mbox{\hyperlink{classLightRenderer_a0edc750269dc58e59d89c9110b178c8d}{sphere\+Indices}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classLightRenderer_a0edc750269dc58e59d89c9110b178c8d}\label{classLightRenderer_a0edc750269dc58e59d89c9110b178c8d} 
+\index{LightRenderer@{LightRenderer}!sphereIndices@{sphereIndices}}
+\index{sphereIndices@{sphereIndices}!LightRenderer@{LightRenderer}}
+\doxysubsubsection{\texorpdfstring{sphereIndices}{sphereIndices}}
+{\footnotesize\ttfamily std\+::vector$<$GLuint$>$ Light\+Renderer\+::sphere\+Indices}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classLightRenderer_aaff2c77f6c3df272d2834e2b1c0d1f08}\label{classLightRenderer_aaff2c77f6c3df272d2834e2b1c0d1f08} 
+\index{LightRenderer@{LightRenderer}!sphereVertices@{sphereVertices}}
+\index{sphereVertices@{sphereVertices}!LightRenderer@{LightRenderer}}
+\doxysubsubsection{\texorpdfstring{sphereVertices}{sphereVertices}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{structLightVertex}{Light\+Vertex}}$>$ Light\+Renderer\+::sphere\+Vertices}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Light\+Renderer/Light\+Renderer.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Light\+Renderer/Light\+Renderer.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,29 @@
+\doxysection{Texture\+Manager.\+h}
+\hypertarget{TextureManager_8h_source}{}\label{TextureManager_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/TextureManager/TextureManager.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/TextureManager/TextureManager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../GLTexture.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTextureManager}{TextureManager}}\ \{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classTextureManager}{TextureManager}}\&\ getInstance();}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{comment}{//OPENGL\ functions}}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ readFileToBuffer(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ filePath,\ std::vector\ <unsigned\ char>\&\ buffer);}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{structGLTexture}{GLTexture}}*\ loadPNG(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ filePath);}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{comment}{//texture\ management}}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ Add\_GLTexture(std::string\ \textcolor{keywordtype}{id},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path);}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structGLTexture}{GLTexture}}*\ Get\_GLTexture(std::string\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00019\ \ \ \ \ std::vector<std::string>\ Get\_GLTextureNames()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00022\ \ \ \ \ std::map<std::string,\ const\ GLTexture*>\ gl\_textures;}
+\DoxyCodeLine{00023\ \};}
+
+\end{DoxyCode}

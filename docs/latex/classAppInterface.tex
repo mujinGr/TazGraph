@@ -1,0 +1,100 @@
+\doxysection{App\+Interface Class Reference}
+\hypertarget{classAppInterface}{}\label{classAppInterface}\index{AppInterface@{AppInterface}}
+
+
+Inheritance diagram for App\+Interface\+:
+% FIG 0
+
+
+Collaboration diagram for App\+Interface\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classAppInterface_acd124382165b8dabb7a60d45bea5468e}\label{classAppInterface_acd124382165b8dabb7a60d45bea5468e} 
+{\bfseries App\+Interface} (int thread\+Count)
+\item 
+\Hypertarget{classAppInterface_a26b76a00a9254ec76d34dbff4f95dabe}\label{classAppInterface_a26b76a00a9254ec76d34dbff4f95dabe} 
+void {\bfseries run} ()
+\item 
+\Hypertarget{classAppInterface_a0f03e0525660d1320fdb2db2347a74b6}\label{classAppInterface_a0f03e0525660d1320fdb2db2347a74b6} 
+void {\bfseries exit\+Simulator} ()
+\item 
+\Hypertarget{classAppInterface_aa81eaba5eaa00cd7f831822cbed1748a}\label{classAppInterface_aa81eaba5eaa00cd7f831822cbed1748a} 
+virtual void {\bfseries on\+Init} ()=0
+\item 
+\Hypertarget{classAppInterface_afadbe03ecff515007e9df982ce5fb905}\label{classAppInterface_afadbe03ecff515007e9df982ce5fb905} 
+virtual void {\bfseries add\+Scenes} ()=0
+\item 
+\Hypertarget{classAppInterface_a62ce537cd9011516563cd5ad2ba526c8}\label{classAppInterface_a62ce537cd9011516563cd5ad2ba526c8} 
+virtual void {\bfseries on\+Exit} ()=0
+\item 
+\Hypertarget{classAppInterface_a4254957e527df9b7706119ba37fd3102}\label{classAppInterface_a4254957e527df9b7706119ba37fd3102} 
+void {\bfseries on\+SDLEvent} (SDL\+\_\+\+Event \&evnt)
+\item 
+\Hypertarget{classAppInterface_ae35b8a250a8421f5dca42ef905325db2}\label{classAppInterface_ae35b8a250a8421f5dca42ef905325db2} 
+\mbox{\hyperlink{classBaseFPSLimiter}{Base\+FPSLimiter}} \& {\bfseries get\+FPSLimiter} ()
+\item 
+\Hypertarget{classAppInterface_a08bf5f44f12bdafb2ebe16681583e01b}\label{classAppInterface_a08bf5f44f12bdafb2ebe16681583e01b} 
+\mbox{\hyperlink{classAudioEngine}{Audio\+Engine}} \& {\bfseries get\+Audio\+Engine} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classAppInterface_a95fd5dacf1e2ce4d800788321a40411f}\label{classAppInterface_a95fd5dacf1e2ce4d800788321a40411f} 
+\mbox{\hyperlink{classInputManager}{Input\+Manager}} {\bfseries \+\_\+input\+Manager}
+\item 
+\Hypertarget{classAppInterface_ac5829b0c62e71f83cc19070deecc3d2b}\label{classAppInterface_ac5829b0c62e71f83cc19070deecc3d2b} 
+\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} {\bfseries \+\_\+window}
+\item 
+\Hypertarget{classAppInterface_a102bec4eddc768d40fb06bac3215d48b}\label{classAppInterface_a102bec4eddc768d40fb06bac3215d48b} 
+\mbox{\hyperlink{structThreader}{Threader}} {\bfseries thread\+Pool}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classAppInterface_a808bcd9971e9a0a11280d7e1cc7358db}\label{classAppInterface_a808bcd9971e9a0a11280d7e1cc7358db} 
+virtual void {\bfseries check\+Input} ()
+\item 
+\Hypertarget{classAppInterface_ab65dd7dc60b57727029688ae3fe80297}\label{classAppInterface_ab65dd7dc60b57727029688ae3fe80297} 
+virtual void {\bfseries update} (float delta\+Time)
+\item 
+\Hypertarget{classAppInterface_a8f559e64cdcd499a8ae9e2bd964a8560}\label{classAppInterface_a8f559e64cdcd499a8ae9e2bd964a8560} 
+virtual void {\bfseries draw} ()
+\item 
+\Hypertarget{classAppInterface_a805e14219943bd90e1cc8ca1fcf1d942}\label{classAppInterface_a805e14219943bd90e1cc8ca1fcf1d942} 
+virtual void {\bfseries update\+UI} ()
+\item 
+\Hypertarget{classAppInterface_a20d957f2b624c9f3e448349162c48c18}\label{classAppInterface_a20d957f2b624c9f3e448349162c48c18} 
+bool {\bfseries init} ()
+\item 
+\Hypertarget{classAppInterface_ae4dfe3999eb38ab6209fb57592ef8e15}\label{classAppInterface_ae4dfe3999eb38ab6209fb57592ef8e15} 
+bool {\bfseries init\+Systems} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classAppInterface_a6f986d5fd106c24de4fb0051ec3d3449}\label{classAppInterface_a6f986d5fd106c24de4fb0051ec3d3449} 
+\mbox{\hyperlink{classBaseFPSLimiter}{Base\+FPSLimiter}} {\bfseries \+\_\+limiter}
+\item 
+\Hypertarget{classAppInterface_a1a2d90f97cac73f155fb80f0f799adef}\label{classAppInterface_a1a2d90f97cac73f155fb80f0f799adef} 
+\mbox{\hyperlink{classAudioEngine}{Audio\+Engine}} {\bfseries \+\_\+audio\+Engine}
+\item 
+\Hypertarget{classAppInterface_ac6daf31ed1cb049f6d32553c41ad5d47}\label{classAppInterface_ac6daf31ed1cb049f6d32553c41ad5d47} 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classSceneList}{Scene\+List}} $>$ {\bfseries \+\_\+scene\+List} = nullptr
+\item 
+\Hypertarget{classAppInterface_a51ef9b69d57da0e889901d90023a6ce3}\label{classAppInterface_a51ef9b69d57da0e889901d90023a6ce3} 
+\mbox{\hyperlink{classIScene}{IScene}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+current\+Scene} = nullptr
+\item 
+\Hypertarget{classAppInterface_a83cb55a7e19c6a5b3b34b0f409eeac7d}\label{classAppInterface_a83cb55a7e19c6a5b3b34b0f409eeac7d} 
+bool {\bfseries \+\_\+is\+Running} = false
+\item 
+\Hypertarget{classAppInterface_a1e0cfcf098799911c1714f948990ef78}\label{classAppInterface_a1e0cfcf098799911c1714f948990ef78} 
+const float {\bfseries SCALE\+\_\+\+SPEED} = 0.\+1f
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Graph\+Screen/App\+Interface.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Graph\+Screen/App\+Interface.\+cpp\end{DoxyCompactItemize}

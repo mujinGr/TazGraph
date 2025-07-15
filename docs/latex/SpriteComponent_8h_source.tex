@@ -1,0 +1,200 @@
+\doxysection{Sprite\+Component.\+h}
+\hypertarget{SpriteComponent_8h_source}{}\label{SpriteComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Basic/SpriteComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Basic/SpriteComponent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}GL/glew.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../../../../TextureManager/TextureManager.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../../../Animators/Animation.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../../../Animators/MovingAnimation.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../../../Animators/FlashAnimation.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../../../../Vertex.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ TODO:\ (extra):\ can\ add\ states\ for\ different\ states\ (0\ for\ full\ solid\ tile\ or\ 1\ for\ no\ solid}}
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classComponent}{Component}}\ \textcolor{comment}{//sprite\ -\/>\ transform}}
+\DoxyCodeLine{00017\ \{}
+\DoxyCodeLine{00018\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structGLTexture}{GLTexture}}\ *gl\_texture\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_isMainMenu\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ \ \ \ \ std::string\ texture\_name\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}\ default\_color\ =\ \{\ 255,\ 255,\ 255,\ 255\ \};}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}\ color\ =\ \{\ 255,\ 255,\ 255,\ 255\ \};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ transform\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00028\ \ \ \ \ SDL\_FRect\ srcRect\ =\ \{0,0,0,0\};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{structAnimation}{Animation}}\ animation;}
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}\ moving\_animation;}
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}\ flash\_animation;}
+\DoxyCodeLine{00033\ \ \ \ \ }
+\DoxyCodeLine{00034\ \ \ \ \ SDL\_RendererFlip\ spriteFlip\ =\ SDL\_FLIP\_NONE;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}(std::string\ \textcolor{keywordtype}{id})}
+\DoxyCodeLine{00038\ \ \ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ setTex(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00040\ \ \ \ \ \}}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}(\mbox{\hyperlink{structColor}{Color}}\ clr)}
+\DoxyCodeLine{00042\ \ \ \ \ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ default\_color\ =\ clr;}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ color\ =\ clr;}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}(std::string\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{bool}\ isMainMenu)}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \_isMainMenu\ =\ isMainMenu;}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ setTex(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{classSpriteComponent}{\string~SpriteComponent}}()}
+\DoxyCodeLine{00054\ \ \ \ \ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ setTex(std::string\ \textcolor{keywordtype}{id})\ \textcolor{comment}{//this\ function\ is\ used\ to\ change\ texture\ of\ a\ sprite}}
+\DoxyCodeLine{00058\ \ \ \ \ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ texture\_name\ =\ id;}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ gl\_texture\ =\ TextureManager::getInstance().Get\_GLTexture(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ srcRect.w\ =\ (float)gl\_texture-\/>width;}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ srcRect.h\ =\ (float)gl\_texture-\/>height;}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00066\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity-\/>hasComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>())}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>\mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ transform\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ srcRect.x\ =\ srcRect.y\ =\ 0;}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ srcRect.w\ =\ transform-\/>size.x;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ srcRect.h\ =\ transform-\/>size.y;}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00080\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00081\ \ \ \ \ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ v\_index,\ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\&\ \ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)}
+\DoxyCodeLine{00084\ \ \ \ \ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (gl\_texture\ ==\ NULL)}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ screenScale\ =\ window.getScale();}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ glm::vec3\ pos(}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>getPosition().x\ *\ screenScale,}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>getPosition().y\ *\ screenScale,}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>getPosition().z);}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ glm::vec2\ size(}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>size.x\ *\ transform-\/>scale\ *\ screenScale,}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>size.y\ *\ transform-\/>scale\ *\ screenScale);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ srcUVposX\ =\ spriteFlip\ ==\ SDL\_FLIP\_HORIZONTAL\ ?}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ (srcRect.x\ +\ srcRect.w)\ /\ gl\_texture-\/>width\ :}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ srcRect.x\ /\ gl\_texture-\/>width;}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ srcUVposY\ =\ (srcRect.y)\ /\ gl\_texture-\/>height;}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ srcUVw\ =\ spriteFlip\ ==\ SDL\_FLIP\_HORIZONTAL\ ?}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ -\/srcRect.w\ /\ gl\_texture-\/>width\ :}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ srcRect.w\ /\ gl\_texture-\/>width;}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ srcUVh\ =\ srcRect.h\ /\ gl\_texture-\/>height;}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ glm::vec4\ uv(srcUVposX,\ srcUVposY,\ srcUVw,\ srcUVh);}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ batch.draw(v\_index,\ size,\ transform-\/>bodyCenter,\ transform-\/>rotation,\ uv,\ gl\_texture-\/>id);}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ glDisableVertexAttribArray(0);}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ glDisableVertexAttribArray(1);}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ glDisableVertexAttribArray(2);}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ glBindBuffer(GL\_ARRAY\_BUFFER,\ 0);}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*glBindTexture(GL\_TEXTURE\_2D,\ 0);*/}}
+\DoxyCodeLine{00122\ \ \ \ \ \}}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordtype}{void}\ SetAnimation(\textcolor{keywordtype}{int}\ idX,\ \textcolor{keywordtype}{int}\ idY,\ \textcolor{keywordtype}{size\_t}\ fr,\ \textcolor{keywordtype}{float}\ sp,\ \textcolor{keyword}{const}\ Animation::animType\ type,\ \textcolor{keywordtype}{int}\ reps\ =\ 0)}
+\DoxyCodeLine{00125\ \ \ \ \ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ animation\ =\ \mbox{\hyperlink{structAnimation}{Animation}}(idX,\ idY,\ fr,\ sp,\ type,\ reps);}
+\DoxyCodeLine{00127\ \ \ \ \ \}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordtype}{void}\ SetMovingAnimation(\textcolor{keywordtype}{int}\ idX,\ \textcolor{keywordtype}{int}\ idY,\ \textcolor{keywordtype}{size\_t}\ fr,\ \textcolor{keywordtype}{float}\ sp,\ \textcolor{keyword}{const}\ Animation::animType\ type,\ \textcolor{keyword}{const}\ std::vector<glm::vec2>\&\ \_positions,\ \textcolor{keyword}{const}\ std::vector<int>\&\ \_zIndices,\ \textcolor{keyword}{const}\ std::vector<int>\&\ \_rotations,\ \textcolor{keywordtype}{int}\ reps\ =\ 0)}
+\DoxyCodeLine{00130\ \ \ \ \ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ moving\_animation\ =\ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}(idX,\ idY,\ fr,\ sp,\ type,\ \_positions,\ \_zIndices,\ \_rotations,\ reps);\ \textcolor{comment}{//\ dx,dy\ needs\ to\ be\ vector,\ if\ yes\ then\ dont\ need\ int\ dx\ dy}}
+\DoxyCodeLine{00132\ \ \ \ \ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordtype}{void}\ SetFlashAnimation(\textcolor{keywordtype}{int}\ idX,\ \textcolor{keywordtype}{int}\ idY,\ \textcolor{keywordtype}{size\_t}\ fr,\ \textcolor{keywordtype}{float}\ sp,\ \textcolor{keyword}{const}\ Animation::animType\ type,\ \textcolor{keyword}{const}\ std::vector<float>\&\ flashTimes,\ \mbox{\hyperlink{structColor}{Color}}\ flashC,\ \textcolor{keywordtype}{int}\ reps\ =\ 0)}
+\DoxyCodeLine{00135\ \ \ \ \ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ flash\_animation\ =\ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}(idX,\ idY,\ fr,\ sp,\ type,\ flashTimes,\ flashC,\ reps);}
+\DoxyCodeLine{00137\ \ \ \ \ \}}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{void}\ setCurrFrame()\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ this-\/>srcRect.x\ =\ (this-\/>animation.indexX\ *\ this-\/>transform-\/>size.x)\ \textcolor{comment}{/*\ init\ */}\ +\ (\ this-\/>srcRect.w\ *\ animation.cur\_frame\_index\textcolor{comment}{/*\ curframe\ from\ total\ frams\ */});}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ this-\/>srcRect.y\ =\ this-\/>animation.indexY\ *\ this-\/>transform-\/>size.y;}
+\DoxyCodeLine{00142\ \ \ \ \ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{void}\ setMoveFrame()\ \{}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ this-\/>transform-\/>setPosition\_X(((this-\/>transform-\/>getPosition().x)\ +\ this-\/>moving\_animation.indexX)\ \textcolor{comment}{/*\ init\ */}\ +\ (this-\/>moving\_animation.positions[0].x\ *\ moving\_animation.cur\_frame\_index));}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ this-\/>transform-\/>setPosition\_Y(((this-\/>transform-\/>getPosition().y)\ +\ this-\/>moving\_animation.indexY)\ +\ (this-\/>moving\_animation.positions[0].y\ *\ moving\_animation.cur\_frame\_index));}
+\DoxyCodeLine{00148\ \ \ \ \ \}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordtype}{void}\ setSpecificMoveFrame()\ \{}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ this-\/>transform-\/>setPosition\_X(((this-\/>transform-\/>getPosition().x)\ +\ this-\/>moving\_animation.indexX)\ \textcolor{comment}{/*\ init\ */}\ +\ (this-\/>moving\_animation.positions[moving\_animation.cur\_frame\_index].x));}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ this-\/>transform-\/>setPosition\_Y(((this-\/>transform-\/>getPosition().y)\ +\ this-\/>moving\_animation.indexY)\ +\ (this-\/>moving\_animation.positions[moving\_animation.cur\_frame\_index].y));}
+\DoxyCodeLine{00154\ \ \ \ \ \}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordtype}{void}\ setFlashFrame()\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ this-\/>color\ =\ this-\/>flash\_animation.flashColor\ *\ this-\/>flash\_animation.interpolation\_a}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ +\ default\_color\ *\ (1\ -\/\ this-\/>flash\_animation.interpolation\_a);}
+\DoxyCodeLine{00159\ \ \ \ \ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroyTex()}
+\DoxyCodeLine{00162\ \ \ \ \ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{comment}{//TextureManager::DestroyTexture(texture);}}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ gl\_texture\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00165\ \ \ \ \ \}}
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroyGlTex()}
+\DoxyCodeLine{00167\ \ \ \ \ \{}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ gl\_texture\ =\ NULL;}
+\DoxyCodeLine{00169\ \ \ \ \ \}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}SpriteComponent"{}};}
+\DoxyCodeLine{00173\ \ \ \ \ \}}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ ImGui::Separator();}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ the\ list\ of\ texture\ names}}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ std::vector<std::string>\ textureNames\ =\ TextureManager::getInstance().Get\_GLTextureNames();}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ currentItem\ =\ 0;}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!textureNames.empty())\ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<const\ char*>\ items;}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ std::string\&\ name\ :\ textureNames)}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ items.push\_back(name.c\_str());}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::Combo(\textcolor{stringliteral}{"{}Textures"{}},\ \&currentItem,\ items.data(),\ (\textcolor{keywordtype}{int})items.size()))\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!textureNames[currentItem].empty())\ \{}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ setTex(textureNames[currentItem]);}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00193\ \ \ \ \ \};}
+\DoxyCodeLine{00194\ \};}
+
+\end{DoxyCode}

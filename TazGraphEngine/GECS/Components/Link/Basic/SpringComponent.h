@@ -6,7 +6,7 @@ class SpringComponent : public LinkComponent
 {
 private:
 	int deltaThreshold = 300;
-	float springStrength = 0.00001f;
+	float springStrength = 0.00002f;
 public:
 
 	SpringComponent()

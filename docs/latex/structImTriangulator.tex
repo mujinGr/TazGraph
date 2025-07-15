@@ -1,0 +1,62 @@
+\doxysection{Im\+Triangulator Struct Reference}
+\hypertarget{structImTriangulator}{}\label{structImTriangulator}\index{ImTriangulator@{ImTriangulator}}
+
+
+Collaboration diagram for Im\+Triangulator\+:
+% FIG 0
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structImTriangulator_ad04a4a686a69d19bc246aa81209599bf}\label{structImTriangulator_ad04a4a686a69d19bc246aa81209599bf} 
+void {\bfseries Init} (const Im\+Vec2 \texorpdfstring{$\ast$}{*}points, int points\+\_\+count, void \texorpdfstring{$\ast$}{*}scratch\+\_\+buffer)
+\item 
+\Hypertarget{structImTriangulator_adf26cdf6f488de52f187d383cfbe87ec}\label{structImTriangulator_adf26cdf6f488de52f187d383cfbe87ec} 
+void {\bfseries Get\+Next\+Triangle} (unsigned int out\+\_\+triangle\mbox{[}3\mbox{]})
+\item 
+\Hypertarget{structImTriangulator_a37073b879c2a1a264495d49435d1ae11}\label{structImTriangulator_a37073b879c2a1a264495d49435d1ae11} 
+void {\bfseries Build\+Nodes} (const Im\+Vec2 \texorpdfstring{$\ast$}{*}points, int points\+\_\+count)
+\item 
+\Hypertarget{structImTriangulator_a9acf0c6964688f3e99e90ebf2360bb92}\label{structImTriangulator_a9acf0c6964688f3e99e90ebf2360bb92} 
+void {\bfseries Build\+Reflexes} ()
+\item 
+\Hypertarget{structImTriangulator_a4018182289f66a6a993688a979146903}\label{structImTriangulator_a4018182289f66a6a993688a979146903} 
+void {\bfseries Build\+Ears} ()
+\item 
+\Hypertarget{structImTriangulator_a6ebecaeed8a6b7b972466b0f46605b1e}\label{structImTriangulator_a6ebecaeed8a6b7b972466b0f46605b1e} 
+void {\bfseries Flip\+Node\+List} ()
+\item 
+\Hypertarget{structImTriangulator_a2fae6ba9afe9322843a93c7511985fc8}\label{structImTriangulator_a2fae6ba9afe9322843a93c7511985fc8} 
+bool {\bfseries Is\+Ear} (int i0, int i1, int i2, const Im\+Vec2 \&v0, const Im\+Vec2 \&v1, const Im\+Vec2 \&v2) const
+\item 
+\Hypertarget{structImTriangulator_a4acbba844b5b7241d1efbb61fefb895a}\label{structImTriangulator_a4acbba844b5b7241d1efbb61fefb895a} 
+void {\bfseries Reclassify\+Node} (\mbox{\hyperlink{structImTriangulatorNode}{Im\+Triangulator\+Node}} \texorpdfstring{$\ast$}{*}node)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structImTriangulator_a312243c00365f0af2b1488daeaea8bdb}\label{structImTriangulator_a312243c00365f0af2b1488daeaea8bdb} 
+static int {\bfseries Estimate\+Triangle\+Count} (int points\+\_\+count)
+\item 
+\Hypertarget{structImTriangulator_a5416f991bdc975e672f78f7ce09075e7}\label{structImTriangulator_a5416f991bdc975e672f78f7ce09075e7} 
+static int {\bfseries Estimate\+Scratch\+Buffer\+Size} (int points\+\_\+count)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structImTriangulator_ada070a1b9bf5641714dfb4cf69200625}\label{structImTriangulator_ada070a1b9bf5641714dfb4cf69200625} 
+int {\bfseries \+\_\+\+Triangles\+Left} = 0
+\item 
+\Hypertarget{structImTriangulator_a05c05caa6fc9d87c0b6036d223a5b998}\label{structImTriangulator_a05c05caa6fc9d87c0b6036d223a5b998} 
+\mbox{\hyperlink{structImTriangulatorNode}{Im\+Triangulator\+Node}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+\+Nodes} = NULL
+\item 
+\Hypertarget{structImTriangulator_ac347ef75d88cbf545d50ad85e77cbe3d}\label{structImTriangulator_ac347ef75d88cbf545d50ad85e77cbe3d} 
+\mbox{\hyperlink{structImTriangulatorNodeSpan}{Im\+Triangulator\+Node\+Span}} {\bfseries \+\_\+\+Ears}
+\item 
+\Hypertarget{structImTriangulator_a017362849997e8a99b4b48c9f9d850bb}\label{structImTriangulator_a017362849997e8a99b4b48c9f9d850bb} 
+\mbox{\hyperlink{structImTriangulatorNodeSpan}{Im\+Triangulator\+Node\+Span}} {\bfseries \+\_\+\+Reflexes}
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/imgui/imgui\+\_\+draw.\+cpp\end{DoxyCompactItemize}

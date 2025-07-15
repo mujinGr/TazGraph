@@ -1,0 +1,119 @@
+\doxysection{Multi\+Cell\+Entity Class Reference}
+\hypertarget{classMultiCellEntity}{}\label{classMultiCellEntity}\index{MultiCellEntity@{MultiCellEntity}}
+
+
+Inheritance diagram for Multi\+Cell\+Entity\+:
+% FIG 0
+
+
+Collaboration diagram for Multi\+Cell\+Entity\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classMultiCellEntity_a8ca282d7f836a192cdc19f16b282531a}\label{classMultiCellEntity_a8ca282d7f836a192cdc19f16b282531a} 
+{\bfseries Multi\+Cell\+Entity} (\mbox{\hyperlink{classManager}{Manager}} \&m\+Manager)
+\item 
+\Hypertarget{classMultiCellEntity_afea2fc5f5c42a2fa053e06b42e3b2949}\label{classMultiCellEntity_afea2fc5f5c42a2fa053e06b42e3b2949} 
+void {\bfseries set\+Owner\+Cells} (std\+::vector$<$ \mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*} $>$ cells)
+\item 
+\Hypertarget{classMultiCellEntity_a340c65f04bf274efe849e284b76f644f}\label{classMultiCellEntity_a340c65f04bf274efe849e284b76f644f} 
+\mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Owner\+Cells} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classEntity}{Entity}}}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries set\+Id} (unsigned int m\+\_\+id)
+\item 
+unsigned int {\bfseries get\+Id} ()
+\item 
+void {\bfseries hide} ()
+\item 
+void {\bfseries reveal} ()
+\item 
+bool {\bfseries is\+Hidden} ()
+\item 
+{\bfseries Entity} (\mbox{\hyperlink{classManager}{Manager}} \&m\+Manager)
+\item 
+virtual void {\bfseries update} (float delta\+Time)
+\item 
+virtual void {\bfseries cell\+Update} ()
+\item 
+virtual \mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Owner\+Cell} () const
+\item 
+void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+bool {\bfseries is\+Active} ()
+\item 
+virtual void {\bfseries destroy} ()
+\item 
+bool {\bfseries has\+Group} (Group m\+Group)
+\item 
+virtual void {\bfseries add\+Group} (Group m\+Group)
+\item 
+void {\bfseries remove\+Group} (Group m\+Group)
+\item 
+{\footnotesize template$<$typename T $>$ }\\bool {\bfseries has\+Component} () const
+\item 
+{\footnotesize template$<$typename T , typename... TArgs$>$ }\\T \& {\bfseries add\+Component} (TArgs \&\&... m\+Args)
+\begin{DoxyCompactList}\small\item\em have add\+Script function \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\void {\bfseries remove\+Component} ()
+\item 
+virtual void {\bfseries set\+Component\+Entity} (\mbox{\hyperlink{classComponent}{Component}} \texorpdfstring{$\ast$}{*}c)
+\item 
+virtual void {\bfseries set\+Component\+Entity} (\mbox{\hyperlink{classNodeComponent}{Node\+Component}} \texorpdfstring{$\ast$}{*}c)
+\item 
+virtual void {\bfseries set\+Component\+Entity} (\mbox{\hyperlink{classLinkComponent}{Link\+Component}} \texorpdfstring{$\ast$}{*}c)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \& {\bfseries Get\+Component} () const
+\item 
+bool {\bfseries has\+Component\+By\+Name} (const std\+::string \&component\+Name)
+\item 
+\mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Manager} ()
+\item 
+virtual void {\bfseries add\+Message} (std\+::string m\+Message)
+\item 
+virtual \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Parent\+Entity} ()
+\item 
+virtual void {\bfseries set\+Parent\+Entity} (\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}p\+Entity)
+\item 
+virtual void {\bfseries imgui\+\_\+print} ()
+\item 
+virtual void {\bfseries imgui\+\_\+display} ()
+\item 
+virtual void {\bfseries remove\+Entity} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classMultiCellEntity_a8e9586dd7e7c2de1bdce35fc96c331d4}\label{classMultiCellEntity_a8e9586dd7e7c2de1bdce35fc96c331d4} 
+std\+::vector$<$ \mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries owner\+Cells} = \{\}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classEntity}{Entity}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries children}
+\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} $>$ $>$ {\bfseries components}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classEntity}{Entity}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::optional$<$ Component\+Array $>$ {\bfseries node\+Component\+Array}
+\item 
+std\+::optional$<$ Component\+Bit\+Set $>$ {\bfseries node\+Component\+Bit\+Set}
+\item 
+\mbox{\hyperlink{classManager}{Manager}} \& {\bfseries manager}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Core/Cell\+Entity.\+h\end{DoxyCompactItemize}

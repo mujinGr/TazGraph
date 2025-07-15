@@ -1,0 +1,32 @@
+digraph "/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/build/TazGraphEngine/CMakeFiles/TazGraphEngine.dir"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  compound=true
+  subgraph clusterdir_e196eba094f4ba53b371b19a1f691686 {
+    graph [ bgcolor="#edf0f7", pencolor="grey50", label="CMakeFiles", fontname=Helvetica,fontsize=10 style="filled,dashed", URL="dir_e196eba094f4ba53b371b19a1f691686.html",tooltip=""]
+  subgraph clusterdir_4e2140582b0b85e25e6a4da5d2873536 {
+    graph [ bgcolor="#edf0f7", pencolor="grey25", label="", fontname=Helvetica,fontsize=10 style="filled,bold", URL="dir_4e2140582b0b85e25e6a4da5d2873536.html",tooltip=""]
+    dir_4e2140582b0b85e25e6a4da5d2873536 [shape=plaintext, label="TazGraphEngine.dir"];
+  dir_9e7ccdb72065b078d65fd1c01eb9d24a [label="AudioEngine", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_9e7ccdb72065b078d65fd1c01eb9d24a.html",tooltip=""];
+  dir_f11bfe0ff0bfa7aa7c38b6a70920fc4a [label="BaseFPSLimiter", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_f11bfe0ff0bfa7aa7c38b6a70920fc4a.html",tooltip=""];
+  dir_9ea12f79a1d76829eeb3a9112a331bae [label="DebugRenderer", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_9ea12f79a1d76829eeb3a9112a331bae.html",tooltip=""];
+  dir_207a0c25e463d467000a7a7a00f1a80d [label="ECS", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_207a0c25e463d467000a7a7a00f1a80d.html",tooltip=""];
+  dir_9e8aa2da44c6cf701e9b99bfe0c5e4be [label="GECS", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_9e8aa2da44c6cf701e9b99bfe0c5e4be.html",tooltip=""];
+  dir_e242b59c0752562f91d10fd7cb974fab [label="GraphScreen", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_e242b59c0752562f91d10fd7cb974fab.html",tooltip=""];
+  dir_a4fdefd8c8b7c7e31c9e4ee251fcec0e [label="Grid", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_a4fdefd8c8b7c7e31c9e4ee251fcec0e.html",tooltip=""];
+  dir_dee69afb5211fdc65be8f7418efbb301 [label="imgui", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_dee69afb5211fdc65be8f7418efbb301.html",tooltip=""];
+  dir_ec0a3f1b9ebf202096b9d4111d5042dc [label="ImGuiInterface", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_ec0a3f1b9ebf202096b9d4111d5042dc.html",tooltip=""];
+  dir_bb79e5f9791697f246b2295b8f793df3 [label="InputManager", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_bb79e5f9791697f246b2295b8f793df3.html",tooltip=""];
+  dir_aee9aa27b8e8c72cb9ed212b0c6dcc39 [label="Renderers", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_aee9aa27b8e8c72cb9ed212b0c6dcc39.html",tooltip=""];
+  dir_d266f7cf3d02bf2ca82046b37cb72162 [label="ResourceManager", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_d266f7cf3d02bf2ca82046b37cb72162.html",tooltip=""];
+  dir_5b4d2fe9c4803cadbb827ec97cccf77d [label="SceneManager", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_5b4d2fe9c4803cadbb827ec97cccf77d.html",tooltip=""];
+  dir_d0802c9f8a1c5cffb96cc0c7ccdf33fd [label="SpriteBatch", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_d0802c9f8a1c5cffb96cc0c7ccdf33fd.html",tooltip=""];
+  dir_dd3ca8f77ebae5327291786a2b9b25a9 [label="TextureManager", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_dd3ca8f77ebae5327291786a2b9b25a9.html",tooltip=""];
+  dir_a636e20c1212c33f3399dd239da9bd8f [label="Timing", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_a636e20c1212c33f3399dd239da9bd8f.html",tooltip=""];
+  dir_f1cc4eb24873c42a40305f4f3ebc43ed [label="Window", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_f1cc4eb24873c42a40305f4f3ebc43ed.html",tooltip=""];
+  }
+  }
+}

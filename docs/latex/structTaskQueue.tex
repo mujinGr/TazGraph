@@ -1,0 +1,40 @@
+\doxysection{Task\+Queue Struct Reference}
+\hypertarget{structTaskQueue}{}\label{structTaskQueue}\index{TaskQueue@{TaskQueue}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structTaskQueue_a4ec8c34711fda59548aed8e5822595ec}\label{structTaskQueue_a4ec8c34711fda59548aed8e5822595ec} 
+void {\bfseries add\+Task} (std\+::function$<$ void()$>$ \&\&callback)
+\item 
+\Hypertarget{structTaskQueue_a3ab369cad9ae22ec06200722c7751bf4}\label{structTaskQueue_a3ab369cad9ae22ec06200722c7751bf4} 
+bool {\bfseries get\+Task} (std\+::function$<$ void()$>$ \&task)
+\item 
+\Hypertarget{structTaskQueue_ac71a045e24c9c8e5bfb97d76d097895f}\label{structTaskQueue_ac71a045e24c9c8e5bfb97d76d097895f} 
+void {\bfseries wait\+Until\+Done} () const
+\item 
+\Hypertarget{structTaskQueue_a7880714135c198bbdeee5401b6c3cb21}\label{structTaskQueue_a7880714135c198bbdeee5401b6c3cb21} 
+void {\bfseries complete\+Task} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structTaskQueue_a7b5ad09a9cf2186ff81bea1d90c6e88c}\label{structTaskQueue_a7b5ad09a9cf2186ff81bea1d90c6e88c} 
+std\+::deque$<$ std\+::function$<$ void()$>$ $>$ {\bfseries tasks}
+\item 
+\Hypertarget{structTaskQueue_ae933b22e3f5d1aec764b27944f92a803}\label{structTaskQueue_ae933b22e3f5d1aec764b27944f92a803} 
+std\+::mutex {\bfseries mutex\+\_\+}
+\item 
+\Hypertarget{structTaskQueue_a9c2c3df1ce24bcf644aa316d17d7118a}\label{structTaskQueue_a9c2c3df1ce24bcf644aa316d17d7118a} 
+std\+::condition\+\_\+variable {\bfseries task\+Condition}
+\item 
+\Hypertarget{structTaskQueue_afb6143ca383746c53dc7c87b69ab8b53}\label{structTaskQueue_afb6143ca383746c53dc7c87b69ab8b53} 
+std\+::atomic$<$ int $>$ {\bfseries remaining\+\_\+tasks} = 0
+\item 
+\Hypertarget{structTaskQueue_aaee2832fc8dec7e813c580ed1216c436}\label{structTaskQueue_aaee2832fc8dec7e813c580ed1216c436} 
+bool {\bfseries shutting\+Down} = false
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Threader/Threader.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,73 @@
+\doxysection{Cell\+Entity.\+h}
+\hypertarget{CellEntity_8h_source}{}\label{CellEntity_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Core/CellEntity.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Core/CellEntity.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}GECS.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structCell}{Cell}}\ \{}
+\DoxyCodeLine{00006\ \ \ \ \ std::vector<EmptyEntity*>\ emptyEntities;}
+\DoxyCodeLine{00007\ \ \ \ \ std::vector<NodeEntity*>\ nodes;}
+\DoxyCodeLine{00008\ \ \ \ \ std::vector<LinkEntity*>\ links;}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \ \ glm::vec3\ boundingBox\_origin\ =\ glm::vec3(0);\ \textcolor{comment}{//\ Starting\ point\ (minimum\ corner)\ of\ the\ cell}}
+\DoxyCodeLine{00011\ \ \ \ \ glm::vec3\ boundingBox\_size\ =\ glm::vec3(0);}
+\DoxyCodeLine{00012\ \ \ \ \ glm::vec3\ boundingBox\_center\ =\ glm::vec3(0);}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{structCell}{Cell}}*\ parent\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00015\ \ \ \ \ std::vector<Cell*>\ children;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00018\ \ \ \ \ std::vector<T*>\&\ getEntityList()\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ NodeEntity>)\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ nodes;}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ EmptyEntity>)\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ emptyEntities;}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ LinkEntity>)\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ links;}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(T)\ ==\ 0,\ \textcolor{stringliteral}{"{}Unsupported\ entity\ type."{}});}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \}}
+\DoxyCodeLine{00032\ \};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classCellEntity}{CellEntity}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classEntity}{Entity}}\ \{}
+\DoxyCodeLine{00036\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{structCell}{Cell}}*\ ownerCell\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{classCellEntity}{CellEntity}}(\mbox{\hyperlink{classManager}{Manager}}\&\ mManager)\ :\ \mbox{\hyperlink{classEntity}{Entity}}(mManager)\ \{}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ setOwnerCell(\mbox{\hyperlink{structCell}{Cell}}*\ cell)\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ this-\/>ownerCell\ =\ cell;}
+\DoxyCodeLine{00046\ \ \ \ \ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{structCell}{Cell}}*\ getOwnerCell()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ ownerCell;\ \}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMultiCellEntity}{MultiCellEntity}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classEntity}{Entity}}\ \{}
+\DoxyCodeLine{00054\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00055\ \ \ \ \ std::vector<Cell*>\ ownerCells\ =\ \{\};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{classMultiCellEntity}{MultiCellEntity}}(\mbox{\hyperlink{classManager}{Manager}}\&\ mManager)\ :\ \mbox{\hyperlink{classEntity}{Entity}}(mManager)\ \{}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ setOwnerCells(std::vector<Cell*>\ cells)\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ this-\/>ownerCells\ =\ cells;}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \mbox{\hyperlink{structCell}{Cell}}*\ getOwnerCells()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ ownerCells[0];\ \}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \};}
+
+\end{DoxyCode}

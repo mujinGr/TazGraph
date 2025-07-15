@@ -1,0 +1,101 @@
+\doxysection{Rigid\+Body\+Component Class Reference}
+\hypertarget{classRigidBodyComponent}{}\label{classRigidBodyComponent}\index{RigidBodyComponent@{RigidBodyComponent}}
+
+
+Inheritance diagram for Rigid\+Body\+Component\+:
+% FIG 0
+
+
+Collaboration diagram for Rigid\+Body\+Component\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classRigidBodyComponent_ae5a3b2c69d8e2d7b104beadfd1201326}\label{classRigidBodyComponent_ae5a3b2c69d8e2d7b104beadfd1201326} 
+{\bfseries Rigid\+Body\+Component} (float acc, float maxg)
+\item 
+void \mbox{\hyperlink{classRigidBodyComponent_a2f94c1a8af29824b1665066ea154defa}{init}} () override
+\item 
+void \mbox{\hyperlink{classRigidBodyComponent_a07413caa930873f864f29214651aff6a}{update}} (float delta\+Time) override
+\item 
+std\+::string \mbox{\hyperlink{classRigidBodyComponent_a46d7f068071e9e86f9f01fd34284ad8a}{Get\+Component\+Name}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries show\+GUI} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classRigidBodyComponent_aaa0869e69477a1b90541754d9f316847}\label{classRigidBodyComponent_aaa0869e69477a1b90541754d9f316847} 
+float {\bfseries Gravity\+Force} = 1.\+0f
+\item 
+\Hypertarget{classRigidBodyComponent_afb56fb94ec7cef2428173039c1322c21}\label{classRigidBodyComponent_afb56fb94ec7cef2428173039c1322c21} 
+float {\bfseries accel\+Gravity} = 0.\+045f
+\item 
+\Hypertarget{classRigidBodyComponent_a7ce8603102cf6ce6c9fd69d1f07afea1}\label{classRigidBodyComponent_a7ce8603102cf6ce6c9fd69d1f07afea1} 
+float {\bfseries max\+Gravity} = 3.f
+\item 
+\Hypertarget{classRigidBodyComponent_a3e6557d84102b641003e425f0cddcc76}\label{classRigidBodyComponent_a3e6557d84102b641003e425f0cddcc76} 
+bool {\bfseries on\+Ground} = false
+\item 
+\Hypertarget{classRigidBodyComponent_a9cfe3e2c706b1a15a66c6466f64379c9}\label{classRigidBodyComponent_a9cfe3e2c706b1a15a66c6466f64379c9} 
+bool {\bfseries justjumped} = false
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries entity} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+Component\+ID {\bfseries id} = 0u
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classRigidBodyComponent_a46d7f068071e9e86f9f01fd34284ad8a}\label{classRigidBodyComponent_a46d7f068071e9e86f9f01fd34284ad8a} 
+\index{RigidBodyComponent@{RigidBodyComponent}!GetComponentName@{GetComponentName}}
+\index{GetComponentName@{GetComponentName}!RigidBodyComponent@{RigidBodyComponent}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}}
+{\footnotesize\ttfamily std\+::string Rigid\+Body\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classRigidBodyComponent_a2f94c1a8af29824b1665066ea154defa}\label{classRigidBodyComponent_a2f94c1a8af29824b1665066ea154defa} 
+\index{RigidBodyComponent@{RigidBodyComponent}!init@{init}}
+\index{init@{init}!RigidBodyComponent@{RigidBodyComponent}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Rigid\+Body\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classRigidBodyComponent_a07413caa930873f864f29214651aff6a}\label{classRigidBodyComponent_a07413caa930873f864f29214651aff6a} 
+\index{RigidBodyComponent@{RigidBodyComponent}!update@{update}}
+\index{update@{update}!RigidBodyComponent@{RigidBodyComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Rigid\+Body\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Empty/\+Util/Rigid\+Body\+Component.\+h\end{DoxyCompactItemize}

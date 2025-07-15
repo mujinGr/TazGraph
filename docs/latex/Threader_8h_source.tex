@@ -1,0 +1,118 @@
+\doxysection{Threader.\+h}
+\hypertarget{Threader_8h_source}{}\label{Threader_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Threader/Threader.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Threader/Threader.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <queue>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <atomic>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <condition\_variable>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTaskQueue}{TaskQueue}}\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ std::deque<std::function<void()>>\ tasks;}
+\DoxyCodeLine{00012\ \ \ \ \ std::mutex\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mutex\_;}
+\DoxyCodeLine{00013\ \ \ \ \ std::condition\_variable\ taskCondition;}
+\DoxyCodeLine{00014\ \ \ \ \ std::atomic<int>\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ remaining\_tasks\ =\ 0;}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{bool}\ shuttingDown\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ addTask(std::function<\textcolor{keywordtype}{void}()>\&\&\ callback)\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(mutex\_);}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ tasks.emplace\_back(std::move(callback));}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ remaining\_tasks++;}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ taskCondition.notify\_one();}
+\DoxyCodeLine{00023\ \ \ \ \ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{bool}\ getTask(std::function<\textcolor{keywordtype}{void}()>\&\ task)\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ std::unique\_lock<std::mutex>\ lock(mutex\_);}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ taskCondition.wait(lock,\ [\textcolor{keyword}{this}]\ \{\ \textcolor{keywordflow}{return}\ !tasks.empty()\ ||\ shuttingDown;\ \});}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shuttingDown\ ||\ tasks.empty())\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \ \textcolor{comment}{//\ Shouldn't\ happen,\ but\ just\ in\ case}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ task\ =\ std::move(tasks.front());}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ tasks.pop\_front();}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00034\ \ \ \ \ \}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{void}\ waitUntilDone()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (remaining\_tasks\ >\ 0)\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ std::this\_thread::yield();}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ completeTask()\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ remaining\_tasks-\/-\/;}
+\DoxyCodeLine{00044\ \ \ \ \ \}}
+\DoxyCodeLine{00045\ \};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structThread}{Thread}}\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{id}\ =\ 0;}
+\DoxyCodeLine{00049\ \ \ \ \ std::thread\ \ \ \ \ \ \ \ \ \ \ cur\_thread;}
+\DoxyCodeLine{00050\ \ \ \ \ std::function<void()>\ task\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ running\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{structTaskQueue}{TaskQueue}}*\ t\_queue\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{structThread}{Thread}}(\mbox{\hyperlink{structTaskQueue}{TaskQueue}}\&\ task\_queue\_,\ \textcolor{keywordtype}{int}\ id\_)}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ :\ \textcolor{keywordtype}{id}\{\ id\_\ \}}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ ,\ t\_queue\{\ \&task\_queue\_\ \}}
+\DoxyCodeLine{00057\ \ \ \ \ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ cur\_thread\ =\ std::thread([\textcolor{keyword}{this}]()\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ run();}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00061\ \ \ \ \ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ run()\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (running)\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ std::function<void()>\ task;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\_queue-\/>getTask(task))\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ task();}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\_queue-\/>completeTask();}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ stop()\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ running\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ t\_queue-\/>shuttingDown\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ t\_queue-\/>taskCondition.notify\_all();}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cur\_thread.joinable())\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ cur\_thread.join();}
+\DoxyCodeLine{00079\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \ \ \ \ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \};}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structThreader}{Threader}}\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{structTaskQueue}{TaskQueue}}\ t\_queue;}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{int}\ num\_threads\ =\ 1;}
+\DoxyCodeLine{00087\ \ \ \ \ std::vector<Thread>\ threads;}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \mbox{\hyperlink{structThreader}{Threader}}(\textcolor{keywordtype}{int}\ num\_threads\_)}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ :\ num\_threads\{\ num\_threads\_\ \}}
+\DoxyCodeLine{00091\ \ \ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ threads.reserve(num\_threads\_);}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ num\_threads\_;\ i++)}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ threads.emplace\_back(t\_queue,\ i);}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ parallel(\textcolor{keywordtype}{int}\ num\_obj,\ std::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)>\&\&\ callback)\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (num\_obj\ ==\ 0)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ slice\_size\ =\ num\_obj\ /\ num\_threads;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ num\_threads;\ i++)\ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ start\ =\ i\ *\ slice\_size;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ end\ =\ start\ +\ slice\_size;}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ t\_queue.addTask([start,\ end,\ \&callback]()\ \{\ callback(start,\ end);\});}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (slice\_size\ *\ num\_threads\ <\ num\_obj)\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ start\ =\ slice\_size\ *\ num\_threads;}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ callback(start,\ num\_obj);}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{comment}{//todo\ this\ may\ be\ done\ only\ at\ specific\ times}}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ t\_queue.waitUntilDone();}
+\DoxyCodeLine{00111\ \ \ \ \ \}}
+\DoxyCodeLine{00112\ \};}
+
+\end{DoxyCode}
