@@ -1,0 +1,541 @@
+\doxysection{pico\+PNG.\+h}
+\hypertarget{picoPNG_8h_source}{}\label{picoPNG_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/picoPNG.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/picoPNG.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00006\ \textcolor{comment}{decodePNG:\ The\ picoPNG\ function,\ decodes\ a\ PNG\ file\ buffer\ in\ memory,\ into\ a\ raw\ pixel\ buffer.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{out\_image:\ output\ parameter,\ this\ will\ contain\ the\ raw\ pixels\ after\ decoding.}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ \ By\ default\ the\ output\ is\ 32-\/bit\ RGBA\ color.}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ \ The\ std::vector\ is\ automatically\ resized\ to\ the\ correct\ size.}}
+\DoxyCodeLine{00010\ \textcolor{comment}{image\_width:\ output\_parameter,\ this\ will\ contain\ the\ width\ of\ the\ image\ in\ pixels.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{image\_height:\ output\_parameter,\ this\ will\ contain\ the\ height\ of\ the\ image\ in\ pixels.}}
+\DoxyCodeLine{00012\ \textcolor{comment}{in\_png:\ pointer\ to\ the\ buffer\ of\ the\ PNG\ file\ in\ memory.\ To\ get\ it\ from\ a\ file\ on}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ \ disk,\ load\ it\ and\ store\ it\ in\ a\ memory\ buffer\ yourself\ first.}}
+\DoxyCodeLine{00014\ \textcolor{comment}{in\_size:\ size\ of\ the\ input\ PNG\ file\ in\ bytes.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{convert\_to\_rgba32:\ optional\ parameter,\ true\ by\ default.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ \ Set\ to\ true\ to\ get\ the\ output\ in\ RGBA\ 32-\/bit\ (8\ bit\ per\ channel)\ color\ format}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ no\ matter\ what\ color\ type\ the\ original\ PNG\ image\ had.\ This\ gives\ predictable,}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ \ useable\ data\ from\ any\ random\ input\ PNG.}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ \ Set\ to\ false\ to\ do\ no\ color\ conversion\ at\ all.\ The\ result\ then\ has\ the\ same\ data}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ \ type\ as\ the\ PNG\ image,\ which\ can\ range\ from\ 1\ bit\ to\ 64\ bits\ per\ pixel.}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ \ Information\ about\ the\ color\ type\ or\ palette\ colors\ are\ not\ provided.\ You\ need}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ \ to\ know\ this\ information\ yourself\ to\ be\ able\ to\ use\ the\ data\ so\ this\ only}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ \ works\ for\ trusted\ PNG\ files.\ Use\ LodePNG\ instead\ of\ picoPNG\ if\ you\ need\ this\ information.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{return:\ 0\ if\ success,\ not\ 0\ if\ some\ error\ occured.}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{int}\ decodePNG(std::vector<unsigned\ char>\&\ out\_image,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\&\ image\_width,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\&\ image\_height,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ in\_png,\ \textcolor{keywordtype}{size\_t}\ in\_size,\ \textcolor{keywordtype}{bool}\ convert\_to\_rgba32)}
+\DoxyCodeLine{00027\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{comment}{//\ picoPNG\ version\ 20101224}}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{comment}{//\ Copyright\ (c)\ 2005-\/2010\ Lode\ Vandevenne}}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{comment}{//\ This\ software\ is\ provided\ 'as-\/is',\ without\ any\ express\ or\ implied}}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{comment}{//\ warranty.\ In\ no\ event\ will\ the\ authors\ be\ held\ liable\ for\ any\ damages}}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{comment}{//\ arising\ from\ the\ use\ of\ this\ software.}}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{comment}{//\ Permission\ is\ granted\ to\ anyone\ to\ use\ this\ software\ for\ any\ purpose,}}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{comment}{//\ including\ commercial\ applications,\ and\ to\ alter\ it\ and\ redistribute\ it}}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{comment}{//\ freely,\ subject\ to\ the\ following\ restrictions:}}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ 1.\ The\ origin\ of\ this\ software\ must\ not\ be\ misrepresented;\ you\ must\ not}}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ claim\ that\ you\ wrote\ the\ original\ software.\ If\ you\ use\ this\ software}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ in\ a\ product,\ an\ acknowledgment\ in\ the\ product\ documentation\ would\ be}}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ appreciated\ but\ is\ not\ required.}}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ 2.\ Altered\ source\ versions\ must\ be\ plainly\ marked\ as\ such,\ and\ must\ not\ be}}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ misrepresented\ as\ being\ the\ original\ software.}}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ 3.\ This\ notice\ may\ not\ be\ removed\ or\ altered\ from\ any\ source\ distribution.}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{comment}{//\ picoPNG\ is\ a\ PNG\ decoder\ in\ one\ C++\ function\ of\ around\ 500\ lines.\ Use\ picoPNG\ for}}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{comment}{//\ programs\ that\ need\ only\ 1\ .cpp\ file.\ Since\ it's\ a\ single\ function,\ it's\ very\ limited,}}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{comment}{//\ it\ can\ convert\ a\ PNG\ to\ raw\ pixel\ data\ either\ converted\ to\ 32-\/bit\ RGBA\ color\ or}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{comment}{//\ with\ no\ color\ conversion\ at\ all.\ For\ anything\ more\ complex,\ another\ tiny\ library}}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{comment}{//\ is\ available:\ LodePNG\ (lodepng.c(pp)),\ which\ is\ a\ single\ source\ and\ header\ file.}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{comment}{//\ Apologies\ for\ the\ compact\ code\ style,\ it's\ to\ make\ this\ tiny.}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ LENBASE[29]\ =\ \{\ 3,4,5,6,7,8,9,10,11,13,15,17,19,23,27,31,35,43,51,59,67,83,99,115,131,163,195,227,258\ \};}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ LENEXTRA[29]\ =\ \{\ 0,0,0,0,0,0,0,\ 0,\ 1,\ 1,\ 1,\ 1,\ 2,\ 2,\ 2,\ 2,\ 3,\ 3,\ 3,\ 3,\ 4,\ 4,\ 4,\ \ 4,\ \ 5,\ \ 5,\ \ 5,\ \ 5,\ \ 0\ \};}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ DISTBASE[30]\ =\ \{\ 1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577\ \};}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ DISTEXTRA[30]\ =\ \{\ 0,0,0,0,1,1,2,\ 2,\ 3,\ 3,\ 4,\ 4,\ 5,\ 5,\ \ 6,\ \ 6,\ \ 7,\ \ 7,\ \ 8,\ \ 8,\ \ \ 9,\ \ \ 9,\ \ 10,\ \ 10,\ \ 11,\ \ 11,\ \ 12,\ \ \ 12,\ \ \ 13,\ \ \ 13\ \};}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ CLCL[19]\ =\ \{\ 16,\ 17,\ 18,\ 0,\ 8,\ 7,\ 9,\ 6,\ 10,\ 5,\ 11,\ 4,\ 12,\ 3,\ 13,\ 2,\ 14,\ 1,\ 15\ \};\ \textcolor{comment}{//code\ length\ code\ lengths}}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{struct\ }Zlib\ \textcolor{comment}{//nested\ functions\ for\ zlib\ decompression}}
+\DoxyCodeLine{00060\ \ \ \ \ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ readBitFromStream(\textcolor{keywordtype}{size\_t}\&\ bitp,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ bits)\ \{\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ result\ =\ (bits[bitp\ >>\ 3]\ >>\ (bitp\ \&\ 0x7))\ \&\ 1;\ bitp++;\ \textcolor{keywordflow}{return}\ result;\ \}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ readBitsFromStream(\textcolor{keywordtype}{size\_t}\&\ bitp,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ bits,\ \textcolor{keywordtype}{size\_t}\ nbits)}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ result\ =\ 0;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ nbits;\ i++)\ result\ +=\ (readBitFromStream(bitp,\ bits))\ <<\ i;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }HuffmanTree}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ makeFromLengths(\textcolor{keyword}{const}\ std::vector<unsigned\ long>\&\ bitlen,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ maxbitlen)}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{comment}{//make\ tree\ given\ the\ lengths}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ numcodes\ =\ (\textcolor{keywordtype}{unsigned}\ long)(bitlen.size()),\ treepos\ =\ 0,\ nodefilled\ =\ 0;}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<unsigned\ long>\ tree1d(numcodes),\ blcount(maxbitlen\ +\ 1,\ 0),\ nextcode(maxbitlen\ +\ 1,\ 0);}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ bits\ =\ 0;\ bits\ <\ numcodes;\ bits++)\ blcount[bitlen[bits]]++;\ \textcolor{comment}{//count\ number\ of\ instances\ of\ each\ code\ length}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ bits\ =\ 1;\ bits\ <=\ maxbitlen;\ bits++)\ nextcode[bits]\ =\ (nextcode[bits\ -\/\ 1]\ +\ blcount[bits\ -\/\ 1])\ <<\ 1;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ n\ =\ 0;\ n\ <\ numcodes;\ n++)\ \textcolor{keywordflow}{if}\ (bitlen[n]\ !=\ 0)\ tree1d[n]\ =\ nextcode[bitlen[n]]++;\ \textcolor{comment}{//generate\ all\ the\ codes}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tree2d.clear();\ tree2d.resize(numcodes\ *\ 2,\ 32767);\ \textcolor{comment}{//32767\ here\ means\ the\ tree2d\ isn't\ filled\ there\ yet}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ n\ =\ 0;\ n\ <\ numcodes;\ n++)\ \textcolor{comment}{//the\ codes}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ i\ =\ 0;\ i\ <\ bitlen[n];\ i++)\ \textcolor{comment}{//the\ bits\ for\ this\ code}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ bit\ =\ (tree1d[n]\ >>\ (bitlen[n]\ -\/\ i\ -\/\ 1))\ \&\ 1;}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (treepos\ >\ numcodes\ -\/\ 2)\ \textcolor{keywordflow}{return}\ 55;}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tree2d[2\ *\ treepos\ +\ bit]\ ==\ 32767)\ \textcolor{comment}{//not\ yet\ filled\ in}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ +\ 1\ ==\ bitlen[n])\ \{\ tree2d[2\ *\ treepos\ +\ bit]\ =\ n;\ treepos\ =\ 0;\ \}\ \textcolor{comment}{//last\ bit}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{\ tree2d[2\ *\ treepos\ +\ bit]\ =\ ++nodefilled\ +\ numcodes;\ treepos\ =\ nodefilled;\ \}\ \textcolor{comment}{//addresses\ are\ encoded\ as\ values\ >\ numcodes}}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ treepos\ =\ tree2d[2\ *\ treepos\ +\ bit]\ -\/\ numcodes;\ \textcolor{comment}{//subtract\ numcodes\ from\ address\ to\ get\ address\ value}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ decode(\textcolor{keywordtype}{bool}\&\ decoded,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\&\ result,\ \textcolor{keywordtype}{size\_t}\&\ treepos,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ bit)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00093\ \textcolor{keyword}{\ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{comment}{//Decodes\ a\ symbol\ from\ the\ tree}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ numcodes\ =\ (\textcolor{keywordtype}{unsigned}\ long)tree2d.size()\ /\ 2;}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (treepos\ >=\ numcodes)\ \textcolor{keywordflow}{return}\ 11;\ \textcolor{comment}{//error:\ you\ appeared\ outside\ the\ codetree}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ tree2d[2\ *\ treepos\ +\ bit];}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ decoded\ =\ (result\ <\ numcodes);}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ treepos\ =\ decoded\ ?\ 0\ :\ result\ -\/\ numcodes;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<unsigned\ long>\ tree2d;\ \textcolor{comment}{//2D\ representation\ of\ a\ huffman\ tree:\ The\ one\ dimension\ is\ "{}0"{}\ or\ "{}1"{},\ the\ other\ contains\ all\ nodes\ and\ leaves\ of\ the\ tree.}}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }Inflator}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ error;}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ inflate(std::vector<unsigned\ char>\&\ out,\ \textcolor{keyword}{const}\ std::vector<unsigned\ char>\&\ in,\ \textcolor{keywordtype}{size\_t}\ inpos\ =\ 0)}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ bp\ =\ 0,\ pos\ =\ 0;\ \textcolor{comment}{//bit\ pointer\ and\ byte\ pointer}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\ =\ 0;}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ BFINAL\ =\ 0;}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!BFINAL\ \&\&\ !error)}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bp\ >>\ 3\ >=\ in.size())\ \{\ error\ =\ 52;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error,\ bit\ pointer\ will\ jump\ past\ memory}}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BFINAL\ =\ readBitFromStream(bp,\ \&in[inpos]);}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ BTYPE\ =\ readBitFromStream(bp,\ \&in[inpos]);\ BTYPE\ +=\ 2\ *\ readBitFromStream(bp,\ \&in[inpos]);}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (BTYPE\ ==\ 3)\ \{\ error\ =\ 20;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ invalid\ BTYPE}}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (BTYPE\ ==\ 0)\ inflateNoCompression(out,\ \&in[inpos],\ bp,\ pos,\ in.size());}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ inflateHuffmanBlock(out,\ \&in[inpos],\ bp,\ pos,\ in.size(),\ BTYPE);}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!error)\ out.resize(pos);\ \textcolor{comment}{//Only\ now\ we\ know\ the\ true\ size\ of\ out,\ resize\ it\ to\ that}}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ generateFixedTrees(HuffmanTree\&\ tree,\ HuffmanTree\&\ treeD)\ \textcolor{comment}{//get\ the\ tree\ of\ a\ deflated\ block\ with\ fixed\ tree}}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<unsigned\ long>\ bitlen(288,\ 8),\ bitlenD(32,\ 5);;}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 144;\ i\ <=\ 255;\ i++)\ bitlen[i]\ =\ 9;}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 256;\ i\ <=\ 279;\ i++)\ bitlen[i]\ =\ 7;}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tree.makeFromLengths(bitlen,\ 15);}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ treeD.makeFromLengths(bitlenD,\ 15);}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ HuffmanTree\ codetree,\ codetreeD,\ codelengthcodetree;\ \textcolor{comment}{//the\ code\ tree\ for\ Huffman\ codes,\ dist\ codes,\ and\ code\ length\ codes}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ huffmanDecodeSymbol(\textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ in,\ \textcolor{keywordtype}{size\_t}\&\ bp,\ \textcolor{keyword}{const}\ HuffmanTree\&\ codetree,\ \textcolor{keywordtype}{size\_t}\ inlength)}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{comment}{//decode\ a\ single\ symbol\ from\ given\ list\ of\ bits\ with\ given\ code\ tree.\ return\ value\ is\ the\ symbol}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ decoded;\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ ct;}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ treepos\ =\ 0;;)}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((bp\ \&\ 0x07)\ ==\ 0\ \&\&\ (bp\ >>\ 3)\ >\ inlength)\ \{\ error\ =\ 10;\ \textcolor{keywordflow}{return}\ 0;\ \}\ \textcolor{comment}{//error:\ end\ reached\ without\ endcode}}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\ =\ codetree.decode(decoded,\ ct,\ treepos,\ readBitFromStream(bp,\ in));\ \textcolor{keywordflow}{if}\ (error)\ \textcolor{keywordflow}{return}\ 0;\ \textcolor{comment}{//stop,\ an\ error\ happened}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (decoded)\ \textcolor{keywordflow}{return}\ ct;}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ getTreeInflateDynamic(HuffmanTree\&\ tree,\ HuffmanTree\&\ treeD,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ in,\ \textcolor{keywordtype}{size\_t}\&\ bp,\ \textcolor{keywordtype}{size\_t}\ inlength)}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{comment}{//get\ the\ tree\ of\ a\ deflated\ block\ with\ dynamic\ tree,\ the\ tree\ itself\ is\ also\ Huffman\ compressed\ with\ a\ known\ tree}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<unsigned\ long>\ bitlen(288,\ 0),\ bitlenD(32,\ 0);}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bp\ >>\ 3\ >=\ inlength\ -\/\ 2)\ \{\ error\ =\ 49;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//the\ bit\ pointer\ is\ or\ will\ go\ past\ the\ memory}}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ HLIT\ =\ readBitsFromStream(bp,\ in,\ 5)\ +\ 257;\ \textcolor{comment}{//number\ of\ literal/length\ codes\ +\ 257}}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ HDIST\ =\ readBitsFromStream(bp,\ in,\ 5)\ +\ 1;\ \textcolor{comment}{//number\ of\ dist\ codes\ +\ 1}}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ HCLEN\ =\ readBitsFromStream(bp,\ in,\ 4)\ +\ 4;\ \textcolor{comment}{//number\ of\ code\ length\ codes\ +\ 4}}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<unsigned\ long>\ codelengthcode(19);\ \textcolor{comment}{//lengths\ of\ tree\ to\ decode\ the\ lengths\ of\ the\ dynamic\ tree}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ 19;\ i++)\ codelengthcode[CLCL[i]]\ =\ (i\ <\ HCLEN)\ ?\ readBitsFromStream(bp,\ in,\ 3)\ :\ 0;}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\ =\ codelengthcodetree.makeFromLengths(codelengthcode,\ 7);\ \textcolor{keywordflow}{if}\ (error)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ i\ =\ 0,\ replength;}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (i\ <\ HLIT\ +\ HDIST)}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ code\ =\ huffmanDecodeSymbol(in,\ bp,\ codelengthcodetree,\ inlength);\ \textcolor{keywordflow}{if}\ (error)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (code\ <=\ 15)\ \{\ \textcolor{keywordflow}{if}\ (i\ <\ HLIT)\ bitlen[i++]\ =\ code;\ \textcolor{keywordflow}{else}\ bitlenD[i++\ -\/\ HLIT]\ =\ code;\ \}\ \textcolor{comment}{//a\ length\ code}}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (code\ ==\ 16)\ \textcolor{comment}{//repeat\ previous}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bp\ >>\ 3\ >=\ inlength)\ \{\ error\ =\ 50;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error,\ bit\ pointer\ jumps\ past\ memory}}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ replength\ =\ 3\ +\ readBitsFromStream(bp,\ in,\ 2);}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ value;\ \textcolor{comment}{//set\ value\ to\ the\ previous\ code}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((i\ -\/\ 1)\ <\ HLIT)\ value\ =\ bitlen[i\ -\/\ 1];}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ value\ =\ bitlenD[i\ -\/\ HLIT\ -\/\ 1];}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ n\ =\ 0;\ n\ <\ replength;\ n++)\ \textcolor{comment}{//repeat\ this\ value\ in\ the\ next\ lengths}}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >=\ HLIT\ +\ HDIST)\ \{\ error\ =\ 13;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ i\ is\ larger\ than\ the\ amount\ of\ codes}}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ <\ HLIT)\ bitlen[i++]\ =\ value;\ \textcolor{keywordflow}{else}\ bitlenD[i++\ -\/\ HLIT]\ =\ value;}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (code\ ==\ 17)\ \textcolor{comment}{//repeat\ "{}0"{}\ 3-\/10\ times}}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bp\ >>\ 3\ >=\ inlength)\ \{\ error\ =\ 50;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error,\ bit\ pointer\ jumps\ past\ memory}}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ replength\ =\ 3\ +\ readBitsFromStream(bp,\ in,\ 3);}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ n\ =\ 0;\ n\ <\ replength;\ n++)\ \textcolor{comment}{//repeat\ this\ value\ in\ the\ next\ lengths}}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >=\ HLIT\ +\ HDIST)\ \{\ error\ =\ 14;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ i\ is\ larger\ than\ the\ amount\ of\ codes}}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ <\ HLIT)\ bitlen[i++]\ =\ 0;\ \textcolor{keywordflow}{else}\ bitlenD[i++\ -\/\ HLIT]\ =\ 0;}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (code\ ==\ 18)\ \textcolor{comment}{//repeat\ "{}0"{}\ 11-\/138\ times}}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bp\ >>\ 3\ >=\ inlength)\ \{\ error\ =\ 50;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error,\ bit\ pointer\ jumps\ past\ memory}}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ replength\ =\ 11\ +\ readBitsFromStream(bp,\ in,\ 7);}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ n\ =\ 0;\ n\ <\ replength;\ n++)\ \textcolor{comment}{//repeat\ this\ value\ in\ the\ next\ lengths}}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >=\ HLIT\ +\ HDIST)\ \{\ error\ =\ 15;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ i\ is\ larger\ than\ the\ amount\ of\ codes}}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ <\ HLIT)\ bitlen[i++]\ =\ 0;\ \textcolor{keywordflow}{else}\ bitlenD[i++\ -\/\ HLIT]\ =\ 0;}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{\ error\ =\ 16;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ somehow\ an\ unexisting\ code\ appeared.\ This\ can\ never\ happen.}}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bitlen[256]\ ==\ 0)\ \{\ error\ =\ 64;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//the\ length\ of\ the\ end\ code\ 256\ must\ be\ larger\ than\ 0}}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\ =\ tree.makeFromLengths(bitlen,\ 15);\ \textcolor{keywordflow}{if}\ (error)\ \textcolor{keywordflow}{return};\ \textcolor{comment}{//now\ we've\ finally\ got\ HLIT\ and\ HDIST,\ so\ generate\ the\ code\ trees,\ and\ the\ function\ is\ done}}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\ =\ treeD.makeFromLengths(bitlenD,\ 15);\ \textcolor{keywordflow}{if}\ (error)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ inflateHuffmanBlock(std::vector<unsigned\ char>\&\ out,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ in,\ \textcolor{keywordtype}{size\_t}\&\ bp,\ \textcolor{keywordtype}{size\_t}\&\ pos,\ \textcolor{keywordtype}{size\_t}\ inlength,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ btype)}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (btype\ ==\ 1)\ \{\ generateFixedTrees(codetree,\ codetreeD);\ \}}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (btype\ ==\ 2)\ \{\ getTreeInflateDynamic(codetree,\ codetreeD,\ in,\ bp,\ inlength);\ \textcolor{keywordflow}{if}\ (error)\ \textcolor{keywordflow}{return};\ \}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;;)}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ code\ =\ huffmanDecodeSymbol(in,\ bp,\ codetree,\ inlength);\ \textcolor{keywordflow}{if}\ (error)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (code\ ==\ 256)\ \textcolor{keywordflow}{return};\ \textcolor{comment}{//end\ code}}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (code\ <=\ 255)\ \textcolor{comment}{//literal\ symbol}}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos\ >=\ out.size())\ out.resize((pos\ +\ 1)\ *\ 2);\ \textcolor{comment}{//reserve\ more\ room}}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[pos++]\ =\ (\textcolor{keywordtype}{unsigned}\ char)(code);}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (code\ >=\ 257\ \&\&\ code\ <=\ 285)\ \textcolor{comment}{//length\ code}}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ length\ =\ LENBASE[code\ -\/\ 257],\ numextrabits\ =\ LENEXTRA[code\ -\/\ 257];}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((bp\ >>\ 3)\ >=\ inlength)\ \{\ error\ =\ 51;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error,\ bit\ pointer\ will\ jump\ past\ memory}}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ length\ +=\ readBitsFromStream(bp,\ in,\ numextrabits);}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ codeD\ =\ huffmanDecodeSymbol(in,\ bp,\ codetreeD,\ inlength);\ \textcolor{keywordflow}{if}\ (error)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (codeD\ >\ 29)\ \{\ error\ =\ 18;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ invalid\ dist\ code\ (30-\/31\ are\ never\ used)}}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ dist\ =\ DISTBASE[codeD],\ numextrabitsD\ =\ DISTEXTRA[codeD];}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((bp\ >>\ 3)\ >=\ inlength)\ \{\ error\ =\ 51;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error,\ bit\ pointer\ will\ jump\ past\ memory}}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dist\ +=\ readBitsFromStream(bp,\ in,\ numextrabitsD);}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ start\ =\ pos,\ back\ =\ start\ -\/\ dist;\ \textcolor{comment}{//backwards}}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos\ +\ length\ >=\ out.size())\ out.resize((pos\ +\ length)\ *\ 2);\ \textcolor{comment}{//reserve\ more\ room}}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ length;\ i++)\ \{\ out[pos++]\ =\ out[back++];\ \textcolor{keywordflow}{if}\ (back\ >=\ start)\ back\ =\ start\ -\/\ dist;\ \}}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ inflateNoCompression(std::vector<unsigned\ char>\&\ out,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ in,\ \textcolor{keywordtype}{size\_t}\&\ bp,\ \textcolor{keywordtype}{size\_t}\&\ pos,\ \textcolor{keywordtype}{size\_t}\ inlength)}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ ((bp\ \&\ 0x7)\ !=\ 0)\ bp++;\ \textcolor{comment}{//go\ to\ first\ boundary\ of\ byte}}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ p\ =\ bp\ /\ 8;}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p\ >=\ inlength\ -\/\ 4)\ \{\ error\ =\ 52;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error,\ bit\ pointer\ will\ jump\ past\ memory}}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ LEN\ =\ in[p]\ +\ 256\ *\ in[p\ +\ 1],\ NLEN\ =\ in[p\ +\ 2]\ +\ 256\ *\ in[p\ +\ 3];\ p\ +=\ 4;}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (LEN\ +\ NLEN\ !=\ 65535)\ \{\ error\ =\ 21;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ NLEN\ is\ not\ one's\ complement\ of\ LEN}}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos\ +\ LEN\ >=\ out.size())\ out.resize(pos\ +\ LEN);}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p\ +\ LEN\ >\ inlength)\ \{\ error\ =\ 23;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ reading\ outside\ of\ in\ buffer}}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ n\ =\ 0;\ n\ <\ LEN;\ n++)\ out[pos++]\ =\ in[p++];\ \textcolor{comment}{//read\ LEN\ bytes\ of\ literal\ data}}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bp\ =\ p\ *\ 8;}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ decompress(std::vector<unsigned\ char>\&\ out,\ \textcolor{keyword}{const}\ std::vector<unsigned\ char>\&\ in)\ \textcolor{comment}{//returns\ error\ value}}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ Inflator\ inflator;}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (in.size()\ <\ 2)\ \{\ \textcolor{keywordflow}{return}\ 53;\ \}\ \textcolor{comment}{//error,\ size\ of\ zlib\ data\ too\ small}}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((in[0]\ *\ 256\ +\ in[1])\ \%\ 31\ !=\ 0)\ \{\ \textcolor{keywordflow}{return}\ 24;\ \}\ \textcolor{comment}{//error:\ 256\ *\ in[0]\ +\ in[1]\ must\ be\ a\ multiple\ of\ 31,\ the\ FCHECK\ value\ is\ supposed\ to\ be\ made\ that\ way}}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ CM\ =\ in[0]\ \&\ 15,\ CINFO\ =\ (in[0]\ >>\ 4)\ \&\ 15,\ FDICT\ =\ (in[1]\ >>\ 5)\ \&\ 1;}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (CM\ !=\ 8\ ||\ CINFO\ >\ 7)\ \{\ \textcolor{keywordflow}{return}\ 25;\ \}\ \textcolor{comment}{//error:\ only\ compression\ method\ 8:\ inflate\ with\ sliding\ window\ of\ 32k\ is\ supported\ by\ the\ PNG\ spec}}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (FDICT\ !=\ 0)\ \{\ \textcolor{keywordflow}{return}\ 26;\ \}\ \textcolor{comment}{//error:\ the\ specification\ of\ PNG\ says\ about\ the\ zlib\ stream:\ "{}The\ additional\ flags\ shall\ not\ specify\ a\ preset\ dictionary."{}}}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ inflator.inflate(out,\ in,\ 2);}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ inflator.error;\ \textcolor{comment}{//note:\ adler32\ checksum\ was\ skipped\ and\ ignored}}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00248\ \ \ \ \ \};}
+\DoxyCodeLine{00249\ \ \ \ \ \textcolor{keyword}{struct\ }PNG\ \textcolor{comment}{//nested\ functions\ for\ PNG\ decoding}}
+\DoxyCodeLine{00250\ \ \ \ \ \{}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }Info}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ width,\ height,\ colorType,\ bitDepth,\ compressionMethod,\ filterMethod,\ interlaceMethod,\ key\_r,\ key\_g,\ key\_b;}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ key\_defined;\ \textcolor{comment}{//is\ a\ transparent\ color\ key\ given?}}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<unsigned\ char>\ palette;}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \}\ info;}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ error;}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ decode(std::vector<unsigned\ char>\&\ out,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ in,\ \textcolor{keywordtype}{size\_t}\ size,\ \textcolor{keywordtype}{bool}\ convert\_to\_rgba32)}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ error\ =\ 0;}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (size\ ==\ 0\ ||\ in\ ==\ 0)\ \{\ error\ =\ 48;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//the\ given\ data\ is\ empty}}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ readPngHeader(\&in[0],\ size);\ \textcolor{keywordflow}{if}\ (error)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ pos\ =\ 33;\ \textcolor{comment}{//first\ byte\ of\ the\ first\ chunk\ after\ the\ header}}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<unsigned\ char>\ idat;\ \textcolor{comment}{//the\ data\ from\ idat\ chunks}}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ IEND\ =\ \textcolor{keyword}{false},\ known\_type\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ info.key\_defined\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!IEND)\ \textcolor{comment}{//loop\ through\ the\ chunks,\ ignoring\ unknown\ chunks\ and\ stopping\ at\ IEND\ chunk.\ IDAT\ data\ is\ put\ at\ the\ start\ of\ the\ in\ buffer}}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos\ +\ 8\ >=\ size)\ \{\ error\ =\ 30;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ size\ of\ the\ in\ buffer\ too\ small\ to\ contain\ next\ chunk}}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ chunkLength\ =\ read32bitInt(\&in[pos]);\ pos\ +=\ 4;}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (chunkLength\ >\ 2147483647)\ \{\ error\ =\ 63;\ \textcolor{keywordflow}{return};\ \}}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos\ +\ chunkLength\ >=\ size)\ \{\ error\ =\ 35;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ size\ of\ the\ in\ buffer\ too\ small\ to\ contain\ next\ chunk}}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (in[pos\ +\ 0]\ ==\ \textcolor{charliteral}{'I'}\ \&\&\ in[pos\ +\ 1]\ ==\ \textcolor{charliteral}{'D'}\ \&\&\ in[pos\ +\ 2]\ ==\ \textcolor{charliteral}{'A'}\ \&\&\ in[pos\ +\ 3]\ ==\ \textcolor{charliteral}{'T'})\ \textcolor{comment}{//IDAT\ chunk,\ containing\ compressed\ image\ data}}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ idat.insert(idat.end(),\ \&in[pos\ +\ 4],\ \&in[pos\ +\ 4\ +\ chunkLength]);}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ (4\ +\ chunkLength);}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (in[pos\ +\ 0]\ ==\ \textcolor{charliteral}{'I'}\ \&\&\ in[pos\ +\ 1]\ ==\ \textcolor{charliteral}{'E'}\ \&\&\ in[pos\ +\ 2]\ ==\ \textcolor{charliteral}{'N'}\ \&\&\ in[pos\ +\ 3]\ ==\ \textcolor{charliteral}{'D'})\ \{\ pos\ +=\ 4;\ IEND\ =\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (in[pos\ +\ 0]\ ==\ \textcolor{charliteral}{'P'}\ \&\&\ in[pos\ +\ 1]\ ==\ \textcolor{charliteral}{'L'}\ \&\&\ in[pos\ +\ 2]\ ==\ \textcolor{charliteral}{'T'}\ \&\&\ in[pos\ +\ 3]\ ==\ \textcolor{charliteral}{'E'})\ \textcolor{comment}{//palette\ chunk\ (PLTE)}}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ 4;\ \textcolor{comment}{//go\ after\ the\ 4\ letters}}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ info.palette.resize(4\ *\ (chunkLength\ /\ 3));}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (info.palette.size()\ >\ (4\ *\ 256))\ \{\ error\ =\ 38;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ palette\ too\ big}}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ info.palette.size();\ i\ +=\ 4)}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ j\ =\ 0;\ j\ <\ 3;\ j++)\ info.palette[i\ +\ j]\ =\ in[pos++];\ \textcolor{comment}{//RGB}}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ info.palette[i\ +\ 3]\ =\ 255;\ \textcolor{comment}{//alpha}}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (in[pos\ +\ 0]\ ==\ \textcolor{charliteral}{'t'}\ \&\&\ in[pos\ +\ 1]\ ==\ \textcolor{charliteral}{'R'}\ \&\&\ in[pos\ +\ 2]\ ==\ \textcolor{charliteral}{'N'}\ \&\&\ in[pos\ +\ 3]\ ==\ \textcolor{charliteral}{'S'})\ \textcolor{comment}{//palette\ transparency\ chunk\ (tRNS)}}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ 4;\ \textcolor{comment}{//go\ after\ the\ 4\ letters}}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (info.colorType\ ==\ 3)}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (4\ *\ chunkLength\ >\ info.palette.size())\ \{\ error\ =\ 39;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ more\ alpha\ values\ given\ than\ there\ are\ palette\ entries}}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ chunkLength;\ i++)\ info.palette[4\ *\ i\ +\ 3]\ =\ in[pos++];}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (info.colorType\ ==\ 0)}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (chunkLength\ !=\ 2)\ \{\ error\ =\ 40;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ this\ chunk\ must\ be\ 2\ bytes\ for\ greyscale\ image}}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ info.key\_defined\ =\ 1;\ info.key\_r\ =\ info.key\_g\ =\ info.key\_b\ =\ 256\ *\ in[pos]\ +\ in[pos\ +\ 1];\ pos\ +=\ 2;}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (info.colorType\ ==\ 2)}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (chunkLength\ !=\ 6)\ \{\ error\ =\ 41;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ this\ chunk\ must\ be\ 6\ bytes\ for\ RGB\ image}}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ info.key\_defined\ =\ 1;}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ info.key\_r\ =\ 256\ *\ in[pos]\ +\ in[pos\ +\ 1];\ pos\ +=\ 2;}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ info.key\_g\ =\ 256\ *\ in[pos]\ +\ in[pos\ +\ 1];\ pos\ +=\ 2;}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ info.key\_b\ =\ 256\ *\ in[pos]\ +\ in[pos\ +\ 1];\ pos\ +=\ 2;}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{\ error\ =\ 42;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ tRNS\ chunk\ not\ allowed\ for\ other\ color\ models}}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{comment}{//it's\ not\ an\ implemented\ chunk\ type,\ so\ ignore\ it:\ skip\ over\ the\ data}}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(in[pos\ +\ 0]\ \&\ 32))\ \{\ error\ =\ 69;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ unknown\ critical\ chunk\ (5th\ bit\ of\ first\ byte\ of\ chunk\ type\ is\ 0)}}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ (chunkLength\ +\ 4);\ \textcolor{comment}{//skip\ 4\ letters\ and\ uninterpreted\ data\ of\ unimplemented\ chunk}}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ known\_type\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ 4;\ \textcolor{comment}{//step\ over\ CRC\ (which\ is\ ignored)}}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ bpp\ =\ getBpp(info);}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<unsigned\ char>\ scanlines(((info.width\ *\ (info.height\ *\ bpp\ +\ 7))\ /\ 8)\ +\ info.height);\ \textcolor{comment}{//now\ the\ out\ buffer\ will\ be\ filled}}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ Zlib\ zlib;\ \textcolor{comment}{//decompress\ with\ the\ Zlib\ decompressor}}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ error\ =\ zlib.decompress(scanlines,\ idat);\ \textcolor{keywordflow}{if}\ (error)\ \textcolor{keywordflow}{return};\ \textcolor{comment}{//stop\ if\ the\ zlib\ decompressor\ returned\ an\ error}}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ bytewidth\ =\ (bpp\ +\ 7)\ /\ 8,\ outlength\ =\ (info.height\ *\ info.width\ *\ bpp\ +\ 7)\ /\ 8;}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ out.resize(outlength);\ \textcolor{comment}{//time\ to\ fill\ the\ out\ buffer}}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ out\_\ =\ outlength\ ?\ \&out[0]\ :\ 0;\ \textcolor{comment}{//use\ a\ regular\ pointer\ to\ the\ std::vector\ for\ faster\ code\ if\ compiled\ without\ optimization}}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (info.interlaceMethod\ ==\ 0)\ \textcolor{comment}{//no\ interlace,\ just\ filter}}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ linestart\ =\ 0,\ linelength\ =\ (info.width\ *\ bpp\ +\ 7)\ /\ 8;\ \textcolor{comment}{//length\ in\ bytes\ of\ a\ scanline,\ excluding\ the\ filtertype\ byte}}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bpp\ >=\ 8)\ \textcolor{comment}{//byte\ per\ byte}}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ y\ =\ 0;\ y\ <\ info.height;\ y++)}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ filterType\ =\ scanlines[linestart];}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ prevline\ =\ (y\ ==\ 0)\ ?\ 0\ :\ \&out\_[(y\ -\/\ 1)\ *\ info.width\ *\ bytewidth];}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unFilterScanline(\&out\_[linestart\ -\/\ y],\ \&scanlines[linestart\ +\ 1],\ prevline,\ bytewidth,\ filterType,\ linelength);\ \textcolor{keywordflow}{if}\ (error)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ linestart\ +=\ (1\ +\ linelength);\ \textcolor{comment}{//go\ to\ start\ of\ next\ scanline}}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{comment}{//less\ than\ 8\ bits\ per\ pixel,\ so\ fill\ it\ up\ bit\ per\ bit}}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<unsigned\ char>\ templine((info.width\ *\ bpp\ +\ 7)\ >>\ 3);\ \textcolor{comment}{//only\ used\ if\ bpp\ <\ 8}}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ y\ =\ 0,\ obp\ =\ 0;\ y\ <\ info.height;\ y++)}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ filterType\ =\ scanlines[linestart];}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ prevline\ =\ (y\ ==\ 0)\ ?\ 0\ :\ \&out\_[(y\ -\/\ 1)\ *\ info.width\ *\ bytewidth];}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unFilterScanline(\&templine[0],\ \&scanlines[linestart\ +\ 1],\ prevline,\ bytewidth,\ filterType,\ linelength);\ \textcolor{keywordflow}{if}\ (error)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ bp\ =\ 0;\ bp\ <\ info.width\ *\ bpp;)\ setBitOfReversedStream(obp,\ out\_,\ readBitFromReversedStream(bp,\ \&templine[0]));}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ linestart\ +=\ (1\ +\ linelength);\ \textcolor{comment}{//go\ to\ start\ of\ next\ scanline}}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{comment}{//interlaceMethod\ is\ 1\ (Adam7)}}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ passw[7]\ =\ \{\ (info.width\ +\ 7)\ /\ 8,\ (info.width\ +\ 3)\ /\ 8,\ (info.width\ +\ 3)\ /\ 4,\ (info.width\ +\ 1)\ /\ 4,\ (info.width\ +\ 1)\ /\ 2,\ (info.width\ +\ 0)\ /\ 2,\ (info.width\ +\ 0)\ /\ 1\ \};}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ passh[7]\ =\ \{\ (info.height\ +\ 7)\ /\ 8,\ (info.height\ +\ 7)\ /\ 8,\ (info.height\ +\ 3)\ /\ 8,\ (info.height\ +\ 3)\ /\ 4,\ (info.height\ +\ 1)\ /\ 4,\ (info.height\ +\ 1)\ /\ 2,\ (info.height\ +\ 0)\ /\ 2\ \};}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ passstart[7]\ =\ \{\ 0\ \};}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ pattern[28]\ =\ \{\ 0,4,0,2,0,1,0,0,0,4,0,2,0,1,8,8,4,4,2,2,1,8,8,8,4,4,2,2\ \};\ \textcolor{comment}{//values\ for\ the\ adam7\ passes}}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 6;\ i++)\ passstart[i\ +\ 1]\ =\ passstart[i]\ +\ passh[i]\ *\ ((passw[i]\ ?\ 1\ :\ 0)\ +\ (passw[i]\ *\ bpp\ +\ 7)\ /\ 8);}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<unsigned\ char>\ scanlineo((info.width\ *\ bpp\ +\ 7)\ /\ 8),\ scanlinen((info.width\ *\ bpp\ +\ 7)\ /\ 8);\ \textcolor{comment}{//"{}old"{}\ and\ "{}new"{}\ scanline}}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 7;\ i++)}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ adam7Pass(\&out\_[0],\ \&scanlinen[0],\ \&scanlineo[0],\ \&scanlines[passstart[i]],\ info.width,\ pattern[i],\ pattern[i\ +\ 7],\ pattern[i\ +\ 14],\ pattern[i\ +\ 21],\ passw[i],\ passh[i],\ bpp);}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (convert\_to\_rgba32\ \&\&\ (info.colorType\ !=\ 6\ ||\ info.bitDepth\ !=\ 8))\ \textcolor{comment}{//conversion\ needed}}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<unsigned\ char>\ data\ =\ out;}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\ =\ convert(out,\ \&data[0],\ info,\ info.width,\ info.height);}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ readPngHeader(\textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ in,\ \textcolor{keywordtype}{size\_t}\ inlength)\ \textcolor{comment}{//read\ the\ information\ from\ the\ header\ and\ store\ it\ in\ the\ Info}}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (inlength\ <\ 29)\ \{\ error\ =\ 27;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ the\ data\ length\ is\ smaller\ than\ the\ length\ of\ the\ header}}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (in[0]\ !=\ 137\ ||\ in[1]\ !=\ 80\ ||\ in[2]\ !=\ 78\ ||\ in[3]\ !=\ 71\ ||\ in[4]\ !=\ 13\ ||\ in[5]\ !=\ 10\ ||\ in[6]\ !=\ 26\ ||\ in[7]\ !=\ 10)\ \{\ error\ =\ 28;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//no\ PNG\ signature}}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (in[12]\ !=\ \textcolor{charliteral}{'I'}\ ||\ in[13]\ !=\ \textcolor{charliteral}{'H'}\ ||\ in[14]\ !=\ \textcolor{charliteral}{'D'}\ ||\ in[15]\ !=\ \textcolor{charliteral}{'R'})\ \{\ error\ =\ 29;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ it\ doesn't\ start\ with\ a\ IHDR\ chunk!}}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ info.width\ =\ read32bitInt(\&in[16]);\ info.height\ =\ read32bitInt(\&in[20]);}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ info.bitDepth\ =\ in[24];\ info.colorType\ =\ in[25];}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ info.compressionMethod\ =\ in[26];\ \textcolor{keywordflow}{if}\ (in[26]\ !=\ 0)\ \{\ error\ =\ 32;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ only\ compression\ method\ 0\ is\ allowed\ in\ the\ specification}}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ info.filterMethod\ =\ in[27];\ \textcolor{keywordflow}{if}\ (in[27]\ !=\ 0)\ \{\ error\ =\ 33;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ only\ filter\ method\ 0\ is\ allowed\ in\ the\ specification}}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ info.interlaceMethod\ =\ in[28];\ \textcolor{keywordflow}{if}\ (in[28]\ >\ 1)\ \{\ error\ =\ 34;\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//error:\ only\ interlace\ methods\ 0\ and\ 1\ exist\ in\ the\ specification}}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ error\ =\ checkColorValidity(info.colorType,\ info.bitDepth);}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ unFilterScanline(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ recon,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ scanline,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ precon,\ \textcolor{keywordtype}{size\_t}\ bytewidth,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ filterType,\ \textcolor{keywordtype}{size\_t}\ length)}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (filterType)}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ length;\ i++)\ recon[i]\ =\ scanline[i];\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ bytewidth;\ i++)\ recon[i]\ =\ scanline[i];}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ bytewidth;\ i\ <\ length;\ i++)\ recon[i]\ =\ scanline[i]\ +\ recon[i\ -\/\ bytewidth];}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (precon)\ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ length;\ i++)\ recon[i]\ =\ scanline[i]\ +\ precon[i];}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ length;\ i++)\ recon[i]\ =\ scanline[i];}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 3:}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (precon)}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ bytewidth;\ i++)\ recon[i]\ =\ scanline[i]\ +\ precon[i]\ /\ 2;}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ bytewidth;\ i\ <\ length;\ i++)\ recon[i]\ =\ scanline[i]\ +\ ((recon[i\ -\/\ bytewidth]\ +\ precon[i])\ /\ 2);}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ bytewidth;\ i++)\ recon[i]\ =\ scanline[i];}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ bytewidth;\ i\ <\ length;\ i++)\ recon[i]\ =\ scanline[i]\ +\ recon[i\ -\/\ bytewidth]\ /\ 2;}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (precon)}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ bytewidth;\ i++)\ recon[i]\ =\ scanline[i]\ +\ paethPredictor(0,\ precon[i],\ 0);}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ bytewidth;\ i\ <\ length;\ i++)\ recon[i]\ =\ scanline[i]\ +\ paethPredictor(recon[i\ -\/\ bytewidth],\ precon[i],\ precon[i\ -\/\ bytewidth]);}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ bytewidth;\ i++)\ recon[i]\ =\ scanline[i];}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ bytewidth;\ i\ <\ length;\ i++)\ recon[i]\ =\ scanline[i]\ +\ paethPredictor(recon[i\ -\/\ bytewidth],\ 0,\ 0);}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ error\ =\ 36;\ \textcolor{keywordflow}{return};\ \textcolor{comment}{//error:\ unexisting\ filter\ type\ given}}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ adam7Pass(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ out,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ linen,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ lineo,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ in,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ w,\ \textcolor{keywordtype}{size\_t}\ passleft,\ \textcolor{keywordtype}{size\_t}\ passtop,\ \textcolor{keywordtype}{size\_t}\ spacex,\ \textcolor{keywordtype}{size\_t}\ spacey,\ \textcolor{keywordtype}{size\_t}\ passw,\ \textcolor{keywordtype}{size\_t}\ passh,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ bpp)}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \{\ \textcolor{comment}{//filter\ and\ reposition\ the\ pixels\ into\ the\ output\ when\ the\ image\ is\ Adam7\ interlaced.\ This\ function\ can\ only\ do\ it\ after\ the\ full\ image\ is\ already\ decoded.\ The\ out\ buffer\ must\ have\ the\ correct\ allocated\ memory\ size\ already.}}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (passw\ ==\ 0)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ bytewidth\ =\ (bpp\ +\ 7)\ /\ 8,\ linelength\ =\ 1\ +\ ((bpp\ *\ passw\ +\ 7)\ /\ 8);}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ y\ =\ 0;\ y\ <\ passh;\ y++)}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ filterType\ =\ in[y\ *\ linelength],\ *\ prevline\ =\ (y\ ==\ 0)\ ?\ 0\ :\ lineo;}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unFilterScanline(linen,\ \&in[y\ *\ linelength\ +\ 1],\ prevline,\ bytewidth,\ filterType,\ (w\ *\ bpp\ +\ 7)\ /\ 8);\ \textcolor{keywordflow}{if}\ (error)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bpp\ >=\ 8)\ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ passw;\ i++)\ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ b\ =\ 0;\ b\ <\ bytewidth;\ b++)\ \textcolor{comment}{//b\ =\ current\ byte\ of\ this\ pixel}}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[bytewidth\ *\ w\ *\ (passtop\ +\ spacey\ *\ y)\ +\ bytewidth\ *\ (passleft\ +\ spacex\ *\ i)\ +\ b]\ =\ linen[bytewidth\ *\ i\ +\ b];}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ passw;\ i++)}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ obp\ =\ bpp\ *\ w\ *\ (passtop\ +\ spacey\ *\ y)\ +\ bpp\ *\ (passleft\ +\ spacex\ *\ i),\ bp\ =\ i\ *\ bpp;}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ b\ =\ 0;\ b\ <\ bpp;\ b++)\ setBitOfReversedStream(obp,\ out,\ readBitFromReversedStream(bp,\ \&linen[0]));}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ temp\ =\ linen;\ linen\ =\ lineo;\ lineo\ =\ temp;\ \textcolor{comment}{//swap\ the\ two\ buffer\ pointers\ "{}line\ old"{}\ and\ "{}line\ new"{}}}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ readBitFromReversedStream(\textcolor{keywordtype}{size\_t}\&\ bitp,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ bits)\ \{\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ result\ =\ (bits[bitp\ >>\ 3]\ >>\ (7\ -\/\ (bitp\ \&\ 0x7)))\ \&\ 1;\ bitp++;\ \textcolor{keywordflow}{return}\ result;\ \}}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ readBitsFromReversedStream(\textcolor{keywordtype}{size\_t}\&\ bitp,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ bits,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ nbits)}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ result\ =\ 0;}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ nbits\ -\/\ 1;\ i\ <\ nbits;\ i-\/-\/)\ result\ +=\ ((readBitFromReversedStream(bitp,\ bits))\ <<\ i);}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setBitOfReversedStream(\textcolor{keywordtype}{size\_t}\&\ bitp,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ bits,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ bit)\ \{\ bits[bitp\ >>\ 3]\ |=\ (bit\ <<\ (7\ -\/\ (bitp\ \&\ 0x7)));\ bitp++;\ \}}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ read32bitInt(\textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ buffer)\ \{\ \textcolor{keywordflow}{return}\ (buffer[0]\ <<\ 24)\ |\ (buffer[1]\ <<\ 16)\ |\ (buffer[2]\ <<\ 8)\ |\ buffer[3];\ \}}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ checkColorValidity(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ colorType,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ bd)\ \textcolor{comment}{//return\ type\ is\ a\ LodePNG\ error\ code}}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((colorType\ ==\ 2\ ||\ colorType\ ==\ 4\ ||\ colorType\ ==\ 6))\ \{\ \textcolor{keywordflow}{if}\ (!(bd\ ==\ 8\ ||\ bd\ ==\ 16))\ \textcolor{keywordflow}{return}\ 37;\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (colorType\ ==\ 0)\ \{\ \textcolor{keywordflow}{if}\ (!(bd\ ==\ 1\ ||\ bd\ ==\ 2\ ||\ bd\ ==\ 4\ ||\ bd\ ==\ 8\ ||\ bd\ ==\ 16))\ \textcolor{keywordflow}{return}\ 37;\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (colorType\ ==\ 3)\ \{\ \textcolor{keywordflow}{if}\ (!(bd\ ==\ 1\ ||\ bd\ ==\ 2\ ||\ bd\ ==\ 4\ ||\ bd\ ==\ 8))\ \textcolor{keywordflow}{return}\ 37;\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{return}\ 31;\ \textcolor{comment}{//unexisting\ color\ type}}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ getBpp(\textcolor{keyword}{const}\ Info\&\ info)}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (info.colorType\ ==\ 2)\ \textcolor{keywordflow}{return}\ (3\ *\ info.bitDepth);}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (info.colorType\ >=\ 4)\ \textcolor{keywordflow}{return}\ (info.colorType\ -\/\ 2)\ *\ info.bitDepth;}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{return}\ info.bitDepth;}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ convert(std::vector<unsigned\ char>\&\ out,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ in,\ Info\&\ infoIn,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ w,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ h)}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \{\ \textcolor{comment}{//converts\ from\ any\ color\ type\ to\ 32-\/bit.\ return\ value\ =\ LodePNG\ error\ code}}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ numpixels\ =\ w\ *\ h,\ bp\ =\ 0;}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ out.resize(numpixels\ *\ 4);}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ out\_\ =\ out.empty()\ ?\ 0\ :\ \&out[0];\ \textcolor{comment}{//faster\ if\ compiled\ without\ optimization}}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (infoIn.bitDepth\ ==\ 8\ \&\&\ infoIn.colorType\ ==\ 0)\ \textcolor{comment}{//greyscale}}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numpixels;\ i++)}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_[4\ *\ i\ +\ 0]\ =\ out\_[4\ *\ i\ +\ 1]\ =\ out\_[4\ *\ i\ +\ 2]\ =\ in[i];}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_[4\ *\ i\ +\ 3]\ =\ (infoIn.key\_defined\ \&\&\ in[i]\ ==\ infoIn.key\_r)\ ?\ 0\ :\ 255;}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (infoIn.bitDepth\ ==\ 8\ \&\&\ infoIn.colorType\ ==\ 2)\ \textcolor{comment}{//RGB\ color}}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numpixels;\ i++)}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ c\ =\ 0;\ c\ <\ 3;\ c++)\ out\_[4\ *\ i\ +\ c]\ =\ in[3\ *\ i\ +\ c];}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_[4\ *\ i\ +\ 3]\ =\ (infoIn.key\_defined\ ==\ 1\ \&\&\ in[3\ *\ i\ +\ 0]\ ==\ infoIn.key\_r\ \&\&\ in[3\ *\ i\ +\ 1]\ ==\ infoIn.key\_g\ \&\&\ in[3\ *\ i\ +\ 2]\ ==\ infoIn.key\_b)\ ?\ 0\ :\ 255;}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (infoIn.bitDepth\ ==\ 8\ \&\&\ infoIn.colorType\ ==\ 3)\ \textcolor{comment}{//indexed\ color\ (palette)}}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numpixels;\ i++)}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (4U\ *\ in[i]\ >=\ infoIn.palette.size())\ \textcolor{keywordflow}{return}\ 46;}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ c\ =\ 0;\ c\ <\ 4;\ c++)\ out\_[4\ *\ i\ +\ c]\ =\ infoIn.palette[4\ *\ in[i]\ +\ c];\ \textcolor{comment}{//get\ rgb\ colors\ from\ the\ palette}}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (infoIn.bitDepth\ ==\ 8\ \&\&\ infoIn.colorType\ ==\ 4)\ \textcolor{comment}{//greyscale\ with\ alpha}}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numpixels;\ i++)}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_[4\ *\ i\ +\ 0]\ =\ out\_[4\ *\ i\ +\ 1]\ =\ out\_[4\ *\ i\ +\ 2]\ =\ in[2\ *\ i\ +\ 0];}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_[4\ *\ i\ +\ 3]\ =\ in[2\ *\ i\ +\ 1];}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (infoIn.bitDepth\ ==\ 8\ \&\&\ infoIn.colorType\ ==\ 6)\ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numpixels;\ i++)\ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ c\ =\ 0;\ c\ <\ 4;\ c++)\ out\_[4\ *\ i\ +\ c]\ =\ in[4\ *\ i\ +\ c];\ \textcolor{comment}{//RGB\ with\ alpha}}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (infoIn.bitDepth\ ==\ 16\ \&\&\ infoIn.colorType\ ==\ 0)\ \textcolor{comment}{//greyscale}}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numpixels;\ i++)}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_[4\ *\ i\ +\ 0]\ =\ out\_[4\ *\ i\ +\ 1]\ =\ out\_[4\ *\ i\ +\ 2]\ =\ in[2\ *\ i];}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_[4\ *\ i\ +\ 3]\ =\ (infoIn.key\_defined\ \&\&\ 256U\ *\ in[i]\ +\ in[i\ +\ 1]\ ==\ infoIn.key\_r)\ ?\ 0\ :\ 255;}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (infoIn.bitDepth\ ==\ 16\ \&\&\ infoIn.colorType\ ==\ 2)\ \textcolor{comment}{//RGB\ color}}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numpixels;\ i++)}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ c\ =\ 0;\ c\ <\ 3;\ c++)\ out\_[4\ *\ i\ +\ c]\ =\ in[6\ *\ i\ +\ 2\ *\ c];}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_[4\ *\ i\ +\ 3]\ =\ (infoIn.key\_defined\ \&\&\ 256U\ *\ in[6\ *\ i\ +\ 0]\ +\ in[6\ *\ i\ +\ 1]\ ==\ infoIn.key\_r\ \&\&\ 256U\ *\ in[6\ *\ i\ +\ 2]\ +\ in[6\ *\ i\ +\ 3]\ ==\ infoIn.key\_g\ \&\&\ 256U\ *\ in[6\ *\ i\ +\ 4]\ +\ in[6\ *\ i\ +\ 5]\ ==\ infoIn.key\_b)\ ?\ 0\ :\ 255;}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (infoIn.bitDepth\ ==\ 16\ \&\&\ infoIn.colorType\ ==\ 4)\ \textcolor{comment}{//greyscale\ with\ alpha}}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numpixels;\ i++)}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_[4\ *\ i\ +\ 0]\ =\ out\_[4\ *\ i\ +\ 1]\ =\ out\_[4\ *\ i\ +\ 2]\ =\ in[4\ *\ i];\ \textcolor{comment}{//most\ significant\ byte}}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_[4\ *\ i\ +\ 3]\ =\ in[4\ *\ i\ +\ 2];}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (infoIn.bitDepth\ ==\ 16\ \&\&\ infoIn.colorType\ ==\ 6)\ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numpixels;\ i++)\ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ c\ =\ 0;\ c\ <\ 4;\ c++)\ out\_[4\ *\ i\ +\ c]\ =\ in[8\ *\ i\ +\ 2\ *\ c];\ \textcolor{comment}{//RGB\ with\ alpha}}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (infoIn.bitDepth\ <\ 8\ \&\&\ infoIn.colorType\ ==\ 0)\ \textcolor{comment}{//greyscale}}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numpixels;\ i++)}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ value\ =\ (readBitsFromReversedStream(bp,\ in,\ infoIn.bitDepth)\ *\ 255)\ /\ ((1\ <<\ infoIn.bitDepth)\ -\/\ 1);\ \textcolor{comment}{//scale\ value\ from\ 0\ to\ 255}}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_[4\ *\ i\ +\ 0]\ =\ out\_[4\ *\ i\ +\ 1]\ =\ out\_[4\ *\ i\ +\ 2]\ =\ (\textcolor{keywordtype}{unsigned}\ char)(value);}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\_[4\ *\ i\ +\ 3]\ =\ (infoIn.key\_defined\ \&\&\ value\ \&\&\ ((1U\ <<\ infoIn.bitDepth)\ -\/\ 1U)\ ==\ infoIn.key\_r\ \&\&\ ((1U\ <<\ infoIn.bitDepth)\ -\/\ 1U))\ ?\ 0\ :\ 255;}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (infoIn.bitDepth\ <\ 8\ \&\&\ infoIn.colorType\ ==\ 3)\ \textcolor{comment}{//palette}}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numpixels;\ i++)}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ value\ =\ readBitsFromReversedStream(bp,\ in,\ infoIn.bitDepth);}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (4\ *\ value\ >=\ infoIn.palette.size())\ \textcolor{keywordflow}{return}\ 47;}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ c\ =\ 0;\ c\ <\ 4;\ c++)\ out\_[4\ *\ i\ +\ c]\ =\ infoIn.palette[4\ *\ value\ +\ c];\ \textcolor{comment}{//get\ rgb\ colors\ from\ the\ palette}}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ paethPredictor(\textcolor{keywordtype}{short}\ a,\ \textcolor{keywordtype}{short}\ b,\ \textcolor{keywordtype}{short}\ c)\ \textcolor{comment}{//Paeth\ predicter,\ used\ by\ PNG\ filter\ type\ 4}}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ p\ =\ a\ +\ b\ -\/\ c,\ pa\ =\ p\ >\ a\ ?\ (p\ -\/\ a)\ :\ (a\ -\/\ p),\ pb\ =\ p\ >\ b\ ?\ (p\ -\/\ b)\ :\ (b\ -\/\ p),\ pc\ =\ p\ >\ c\ ?\ (p\ -\/\ c)\ :\ (c\ -\/\ p);}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char})((pa\ <=\ pb\ \&\&\ pa\ <=\ pc)\ ?\ a\ :\ pb\ <=\ pc\ ?\ b\ :\ c);}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00531\ \ \ \ \ \};}
+\DoxyCodeLine{00532\ \ \ \ \ PNG\ decoder;\ decoder.decode(out\_image,\ in\_png,\ in\_size,\ convert\_to\_rgba32);}
+\DoxyCodeLine{00533\ \ \ \ \ image\_width\ =\ decoder.info.width;\ image\_height\ =\ decoder.info.height;}
+\DoxyCodeLine{00534\ \ \ \ \ \textcolor{keywordflow}{return}\ decoder.error;}
+\DoxyCodeLine{00535\ \}}
+
+\end{DoxyCode}

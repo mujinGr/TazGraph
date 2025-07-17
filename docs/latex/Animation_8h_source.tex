@@ -1,0 +1,140 @@
+\doxysection{Animation.\+h}
+\hypertarget{Animation_8h_source}{}\label{Animation_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/Animation.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/Animation.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structAnimation}{Animation}}\ \textcolor{comment}{//todo\ for\ now\ just\ add\ a\ bool\ hasFinished\ (useful\ for\ scripts)\ and\ much\ later\ may\ need\ onStop(when\ game\ paused)}}
+\DoxyCodeLine{00006\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ todo\ also\ we\ might\ need\ to\ have\ setReps/getReps\ and\ replace\ "{}play\_once"{}\ with\ "{}play\_n\_times"{}\ where\ we\ pass\ 1\ more\ value\ to\ call}}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ ANIMTYPE\_NONE\ =\ 0,\ \textcolor{comment}{//\ just\ one\ animation}}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ ANIMTYPE\_PLAY\_N\_TIMES\ =\ 1,\ \textcolor{comment}{//\ just\ iterates\ over\ the\ images\ one\ time.\ it\ holds\ the\ final\ image\ when\ finished.}}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ ANIMTYPE\_LOOPED\ =\ 2,\ \textcolor{comment}{//\ going\ over\ the\ images\ again\ and\ again.}}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ ANIMTYPE\_BACK\_FORTH\ =\ 3\ \ \textcolor{comment}{//\ iterate\ from\ index=0\ to\ maxframe\ and\ back\ again.\ keeps\ holding\ the\ first\ image\ afterwards.}}
+\DoxyCodeLine{00012\ \ \ \ \ \}\ animType;}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{int}\ indexX\ =\ 0;\ \textcolor{comment}{//\ initial\ position}}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{int}\ indexY\ =\ 0;}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ total\_frames\ =\ 0;}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{float}\ speed\ =\ 1.0f;}
+\DoxyCodeLine{00018\ \ \ \ \ animType\ type\ =\ animType::ANIMTYPE\_NONE;}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{int}\ reps\ =\ 0;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{int}\ frame\_times\_played\ =\ 0;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{int}\ cur\_frame\_index\ =\ 0;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{float}\ cur\_frame\_index\_f\ =\ 0;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{int}\ times\_played\ =\ 0;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ flow\_direction\ =\ 1;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{bool}\ finished\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{structAnimation}{Animation}}()\ }
+\DoxyCodeLine{00031\ \ \ \ \ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00033\ \ \ \ \ \}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{structAnimation}{Animation}}(\textcolor{keywordtype}{int}\ ix,\ \textcolor{keywordtype}{int}\ iy\ ,\ \textcolor{keywordtype}{size\_t}\ f,\ \textcolor{keywordtype}{float}\ s,\ \textcolor{keyword}{const}\ std::string\ \_type,\ \textcolor{keywordtype}{int}\ \_reps\ =\ 0)\ \textcolor{comment}{//\ Animation\ frames\ look\ the\ next\ number\ of\ frames\ from\ the\ index}}
+\DoxyCodeLine{00036\ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ indexX\ =\ ix;}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ indexY\ =\ iy;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ total\_frames\ =\ f;}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ speed\ =\ s;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ type\ =\ \_type\ ==\ \textcolor{stringliteral}{"{}play\_n\_times"{}}\ ?\ ANIMTYPE\_PLAY\_N\_TIMES\ :}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \_type\ ==\ \textcolor{stringliteral}{"{}back\_forth"{}}\ ?\ ANIMTYPE\_BACK\_FORTH\ :}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \_type\ ==\ \textcolor{stringliteral}{"{}looped"{}}\ ?\ ANIMTYPE\_LOOPED\ :}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ ANIMTYPE\_NONE;}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ reps\ =\ \_reps;}
+\DoxyCodeLine{00047\ \ \ \ \ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{structAnimation}{Animation}}(\textcolor{keywordtype}{int}\ ix,\ \textcolor{keywordtype}{int}\ iy,\ \textcolor{keywordtype}{size\_t}\ f,\ \textcolor{keywordtype}{float}\ s,\ \textcolor{keyword}{const}\ animType\ \_type,\ \textcolor{keywordtype}{int}\ \_reps\ =\ 0)\ \textcolor{comment}{//\ Animation\ frames\ look\ the\ next\ number\ of\ frames\ from\ the\ index}}
+\DoxyCodeLine{00050\ \ \ \ \ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ indexX\ =\ ix;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ indexY\ =\ iy;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ total\_frames\ =\ f;}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ speed\ =\ s;}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ type\ =\ \_type;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ reps\ =\ \_reps;}
+\DoxyCodeLine{00058\ \ \ \ \ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ advanceFrame(\textcolor{keywordtype}{float}\ deltaTime)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ prev\_frame\_index\ =\ cur\_frame\_index;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (type)\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Animation::animType::ANIMTYPE\_LOOPED:}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Animation::animType::ANIMTYPE\_PLAY\_N\_TIMES:}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ cur\_frame\_index\_f\ +=\ speed\ *\ deltaTime;}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ cur\_frame\_index\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\textcolor{keyword}{>}(cur\_frame\_index\_f);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ frame\ index\ has\ changed}}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (prev\_frame\_index\ !=\ cur\_frame\_index)\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ frame\_times\_played\ =\ 1;}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ frame\_times\_played++;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cur\_frame\_index\ >\ total\_frames\ -\/\ 1)\ \textcolor{comment}{//essentially\ when\ we\ see\ that\ now\ we\ reach\ a\ frame\ out\ of\ total\ frames\ we\ reset\ it}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resetFrameIndex();}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ times\_played++;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (reps\ \&\&\ times\_played\ >=\ reps)\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ finished\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Animation::animType::ANIMTYPE\_BACK\_FORTH:}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (flow\_direction\ ==\ 1)\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cur\_frame\_index\_f\ +=\ speed\ *\ deltaTime;}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cur\_frame\_index\_f\ >\ total\_frames)\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cur\_frame\_index\_f\ -\/=\ speed;}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ flow\_direction\ =\ -\/1;}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cur\_frame\_index\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\textcolor{keyword}{>}(cur\_frame\_index\_f);}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (flow\_direction\ ==\ -\/1)\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cur\_frame\_index\ >\ 0)\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cur\_frame\_index\_f\ -\/=\ speed\ *\ deltaTime;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cur\_frame\_index\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\textcolor{keyword}{>}(cur\_frame\_index\_f);}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ times\_played++;}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ flow\_direction\ =\ 1;}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resetFrameIndex();}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (reps\ \&\&\ times\_played\ >=\ reps)\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ finished\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ frame\ index\ has\ changed}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (prev\_frame\_index\ !=\ cur\_frame\_index)\ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ frame\_times\_played\ =\ 1;}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ frame\_times\_played++;}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Animation::animType::ANIMTYPE\_NONE:}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00123\ \ \ \ \ \}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordtype}{void}\ resetFrameIndex()\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ cur\_frame\_index\ =\ 0;}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ cur\_frame\_index\_f\ =\ 0;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ frame\_times\_played\ =\ 0;}
+\DoxyCodeLine{00129\ \ \ \ \ \}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasFinished()\ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ finished;}
+\DoxyCodeLine{00133\ \ \ \ \ \}}
+\DoxyCodeLine{00134\ \};}
+
+\end{DoxyCode}

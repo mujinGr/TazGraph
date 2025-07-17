@@ -1,0 +1,142 @@
+\doxysection{Flash\+Animation.\+h}
+\hypertarget{FlashAnimation_8h_source}{}\label{FlashAnimation_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/FlashAnimation.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/FlashAnimation.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}Animation.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#define\ NUM\_LOOP\_STATES\ 3}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ NUM\_BACK\_FORTH\_STATES\ 4}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{structAnimation}{Animation}}\ \textcolor{comment}{//todo\ moving\ animation\ can\ be\ moving\ sprite\ with\ of\ without\ transform}}
+\DoxyCodeLine{00010\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{enum\ class}\ FlashState\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ FLASH\_OUT,}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ EASE\_IN,}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ FLASH\_IN,}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ EASE\_OUT}
+\DoxyCodeLine{00016\ \ \ \ \ \};}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{float}\ interpolation\_a\ =\ 0.0f;}
+\DoxyCodeLine{00019\ \ \ \ \ std::map<FlashState,\ float>\ speeds;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ FlashState\ currentSpeedIndex\ =\ FlashState::FLASH\_OUT;}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}\ flashColor\ =\ \mbox{\hyperlink{structColor}{Color}}(255,255,255,255);}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}()\ :\ \mbox{\hyperlink{structAnimation}{Animation}}()}
+\DoxyCodeLine{00025\ \ \ \ \ \{}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \}}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{comment}{//\ ix,iy\ is\ initial\ position\ (destX,\ destY),\ f\ is\ total\ frames\ to\ move,\ s\ is\ the\ speed\ to\ move\ frames,\ type\ as\ in\ animation,\ dx,dy\ distance\ to\ move}}
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}(\textcolor{keywordtype}{int}\ ix,\ \textcolor{keywordtype}{int}\ iy,\ \textcolor{keywordtype}{size\_t}\ f,\ \textcolor{keywordtype}{float}\ s,\ \textcolor{keyword}{const}\ std::string\ \_type,}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<float>\&\ flashTimes,\ \mbox{\hyperlink{structColor}{Color}}\ flashC,\ \textcolor{keywordtype}{int}\ \_reps\ =\ 0)\ :\ \mbox{\hyperlink{structAnimation}{Animation}}(ix,\ iy,\ f,\ s,\ \_type)\ \textcolor{comment}{//\ Animation\ frames\ look\ the\ next\ number\ of\ frames\ from\ the\ index}}
+\DoxyCodeLine{00031\ \ \ \ \ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ speeds[FlashState::FLASH\_OUT]\ =\ flashTimes[0];}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ speeds[FlashState::EASE\_IN]\ =\ flashTimes[1];}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ speeds[FlashState::FLASH\_IN]\ =\ flashTimes[2];}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ speeds[FlashState::EASE\_OUT]\ =\ flashTimes[3];}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ flashColor\ =\ flashC;}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ reps\ =\ \_reps;}
+\DoxyCodeLine{00038\ \ \ \ \ \}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}(\textcolor{keywordtype}{int}\ ix,\ \textcolor{keywordtype}{int}\ iy,\ \textcolor{keywordtype}{size\_t}\ f,\ \textcolor{keywordtype}{float}\ s,\ \textcolor{keyword}{const}\ animType\ \_type,}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<float>\&\ flashTimes,\ \mbox{\hyperlink{structColor}{Color}}\ flashC,\ \textcolor{keywordtype}{int}\ \_reps\ =\ 0)\ :\ \mbox{\hyperlink{structAnimation}{Animation}}(ix,\ iy,\ f,\ s,\ \_type)\ \textcolor{comment}{//\ Animation\ frames\ look\ the\ next\ number\ of\ frames\ from\ the\ index}}
+\DoxyCodeLine{00042\ \ \ \ \ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ speeds[FlashState::FLASH\_OUT]\ =\ flashTimes[0];}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ speeds[FlashState::EASE\_IN]\ =\ flashTimes[1];}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ speeds[FlashState::FLASH\_IN]\ =\ flashTimes[2];}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ speeds[FlashState::EASE\_OUT]\ =\ flashTimes[3];}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ flashColor\ =\ flashC;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ reps\ =\ \_reps;}
+\DoxyCodeLine{00049\ \ \ \ \ \}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ advanceFrame(\textcolor{keywordtype}{float}\ deltaTime)\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ prev\_frame\_index\ =\ cur\_frame\_index;}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ speed\ =\ speeds[currentSpeedIndex];}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (currentSpeedIndex)\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FlashState::FLASH\_OUT:}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ interpolation\_a\ =\ 0;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FlashState::EASE\_IN:}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Using\ simple\ subtraction\ to\ find\ the\ fractional\ part}}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ interpolation\_a\ =\ cur\_frame\_index\_f\ -\/\ (int)cur\_frame\_index\_f;}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FlashState::FLASH\_IN:}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ interpolation\_a\ =\ 1;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FlashState::EASE\_OUT:}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Using\ simple\ subtraction\ and\ inversion\ for\ the\ fractional\ part}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ interpolation\_a\ =\ 1\ -\/\ (cur\_frame\_index\_f\ -\/\ (int)cur\_frame\_index\_f);}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (type)\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Animation::animType::ANIMTYPE\_BACK\_FORTH:}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ cur\_frame\_index\_f\ +=\ speed\ *\ deltaTime;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ cur\_frame\_index\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\textcolor{keyword}{>}(cur\_frame\_index\_f);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cur\_frame\_index\ >=\ NUM\_BACK\_FORTH\_STATES)\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ times\_played++;}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resetFrameIndex();}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (reps\ \&\&\ times\_played\ >=\ reps)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ finished\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ frame\ index\ has\ changed}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (prev\_frame\_index\ !=\ cur\_frame\_index)\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ frame\_times\_played\ =\ 1;}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(currentSpeedIndex)\ +\ 1)\ \%\ NUM\_BACK\_FORTH\_STATES\ <\ NUM\_BACK\_FORTH\_STATES)}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ currentSpeedIndex\ =\ \textcolor{keyword}{static\_cast<}FlashState\textcolor{keyword}{>}((\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(currentSpeedIndex)\ +\ 1)\ \%\ speeds.size());}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ frame\_times\_played++;}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Animation::animType::ANIMTYPE\_LOOPED:}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Animation::animType::ANIMTYPE\_PLAY\_N\_TIMES:}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ cur\_frame\_index\_f\ +=\ speed\ *\ deltaTime;}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ cur\_frame\_index\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\textcolor{keyword}{>}(cur\_frame\_index\_f);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ frame\ index\ has\ changed}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (prev\_frame\_index\ !=\ cur\_frame\_index)\ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ frame\_times\_played\ =\ 1;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(currentSpeedIndex)\ \%\ NUM\_LOOP\_STATES\ <\ NUM\_LOOP\_STATES)}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ currentSpeedIndex\ =\ \textcolor{keyword}{static\_cast<}FlashState\textcolor{keyword}{>}(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(currentSpeedIndex)\ \%\ NUM\_LOOP\_STATES);}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ frame\_times\_played++;}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cur\_frame\_index\ >=\ NUM\_LOOP\_STATES)\ \textcolor{comment}{//essentially\ when\ we\ see\ that\ now\ we\ reach\ a\ frame\ out\ of\ total\ frames\ we\ reset\ it}}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resetFrameIndex();}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ times\_played++;}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (reps\ \&\&\ times\_played\ >=\ reps)\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ finished\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Animation::animType::ANIMTYPE\_NONE:}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00122\ \ \ \ \ \}}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ std::vector<float>\ getSpeedsAsVector()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ std::vector<float>\ speedsVector(4);\ \ \textcolor{comment}{//\ Create\ a\ vector\ of\ size\ 4}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ensure\ the\ vector\ fills\ according\ to\ the\ FlashState\ order}}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ speedsVector[0]\ =\ speeds.at(FlashState::FLASH\_OUT);\ \ \textcolor{comment}{//\ Use\ at()\ for\ direct\ access\ with\ bounds\ checking}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ speedsVector[1]\ =\ speeds.at(FlashState::EASE\_IN);}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ speedsVector[2]\ =\ speeds.at(FlashState::FLASH\_IN);}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ speedsVector[3]\ =\ speeds.at(FlashState::EASE\_OUT);}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ speedsVector;}
+\DoxyCodeLine{00134\ \ \ \ \ \}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \};}
+
+\end{DoxyCode}

@@ -1,0 +1,102 @@
+\doxysection{Button\+Component Class Reference}
+\hypertarget{classButtonComponent}{}\label{classButtonComponent}\index{ButtonComponent@{ButtonComponent}}
+
+
+Inheritance diagram for Button\+Component\+:
+% FIG 0
+
+
+Collaboration diagram for Button\+Component\+:
+% FIG 1
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classButtonComponent_aa7701d0ac9df73b0e6bd46568dbcf269}\label{classButtonComponent_aa7701d0ac9df73b0e6bd46568dbcf269} 
+enum class {\bfseries Button\+State} \{ {\bfseries NORMAL}
+, {\bfseries HOVERED}
+, {\bfseries PRESSED}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classButtonComponent_a6d2034e63b30b8ef6fae5de070107dbe}\label{classButtonComponent_a6d2034e63b30b8ef6fae5de070107dbe} 
+{\bfseries Button\+Component} (std\+::function$<$ void()$>$ on\+Click)
+\item 
+\Hypertarget{classButtonComponent_a63e1fd594f6251604afcda013ab5a83b}\label{classButtonComponent_a63e1fd594f6251604afcda013ab5a83b} 
+{\bfseries Button\+Component} (std\+::function$<$ void()$>$ on\+Click, std\+::string button\+\_\+label, glm\+::vec2 b\+\_\+dimensions, \mbox{\hyperlink{structColor}{Color}} b\+\_\+background)
+\item 
+void \mbox{\hyperlink{classButtonComponent_a1048144efcc2fddaa4141b238c7e33e2}{init}} () override
+\item 
+\Hypertarget{classButtonComponent_a3cfc55fc31fd39476c18eb3a5ada9e7d}\label{classButtonComponent_a3cfc55fc31fd39476c18eb3a5ada9e7d} 
+void {\bfseries set\+On\+Click} (std\+::function$<$ void()$>$ new\+On\+Click)
+\item 
+\Hypertarget{classButtonComponent_a179b070a53ef20fd17a71781bed6c3f2}\label{classButtonComponent_a179b070a53ef20fd17a71781bed6c3f2} 
+void {\bfseries set\+State} (Button\+State state)
+\item 
+void \mbox{\hyperlink{classButtonComponent_a58222fb09f5ac0df99fb60df297f2791}{update}} (float delta\+Time) override
+\item 
+std\+::string \mbox{\hyperlink{classButtonComponent_a2b1dbe3a649c1b306ec2073fff5f170a}{Get\+Component\+Name}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries show\+GUI} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries entity} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+Component\+ID {\bfseries id} = 0u
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classButtonComponent_a2b1dbe3a649c1b306ec2073fff5f170a}\label{classButtonComponent_a2b1dbe3a649c1b306ec2073fff5f170a} 
+\index{ButtonComponent@{ButtonComponent}!GetComponentName@{GetComponentName}}
+\index{GetComponentName@{GetComponentName}!ButtonComponent@{ButtonComponent}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}}
+{\footnotesize\ttfamily std\+::string Button\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classButtonComponent_a1048144efcc2fddaa4141b238c7e33e2}\label{classButtonComponent_a1048144efcc2fddaa4141b238c7e33e2} 
+\index{ButtonComponent@{ButtonComponent}!init@{init}}
+\index{init@{init}!ButtonComponent@{ButtonComponent}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Button\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classButtonComponent_a58222fb09f5ac0df99fb60df297f2791}\label{classButtonComponent_a58222fb09f5ac0df99fb60df297f2791} 
+\index{ButtonComponent@{ButtonComponent}!update@{update}}
+\index{update@{update}!ButtonComponent@{ButtonComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Button\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Empty/\+Util/Button\+Component.\+h\end{DoxyCompactItemize}

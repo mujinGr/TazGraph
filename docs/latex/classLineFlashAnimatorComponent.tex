@@ -1,0 +1,101 @@
+\doxysection{Line\+Flash\+Animator\+Component Class Reference}
+\hypertarget{classLineFlashAnimatorComponent}{}\label{classLineFlashAnimatorComponent}\index{LineFlashAnimatorComponent@{LineFlashAnimatorComponent}}
+
+
+Inheritance diagram for Line\+Flash\+Animator\+Component\+:
+% FIG 0
+
+
+Collaboration diagram for Line\+Flash\+Animator\+Component\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classLineFlashAnimatorComponent_a432e70886a34bde96d5985560fa938af}{init}} () override
+\item 
+void \mbox{\hyperlink{classLineFlashAnimatorComponent_a5cdbabc1b4828448a4dccb1e9686a4f2}{update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{classLineFlashAnimatorComponent_aedfb68f1e073d196102031cf033b280e}{draw}} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window) override
+\item 
+\Hypertarget{classLineFlashAnimatorComponent_a69f02232958615f531ce6218670b7112}\label{classLineFlashAnimatorComponent_a69f02232958615f531ce6218670b7112} 
+void {\bfseries Play} (const char \texorpdfstring{$\ast$}{*}anim\+Name, int reps=0)
+\item 
+\Hypertarget{classLineFlashAnimatorComponent_a10f05bf592646bb1f7ca7f87229bac7c}\label{classLineFlashAnimatorComponent_a10f05bf592646bb1f7ca7f87229bac7c} 
+void {\bfseries reset\+Animation} ()
+\item 
+\Hypertarget{classLineFlashAnimatorComponent_a7971f85b71c0f2a6ee0d3fd4b03bda8e}\label{classLineFlashAnimatorComponent_a7971f85b71c0f2a6ee0d3fd4b03bda8e} 
+std\+::string {\bfseries get\+Play\+Name} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual std\+::string {\bfseries Get\+Component\+Name} ()
+\item 
+virtual void {\bfseries show\+GUI} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classLineFlashAnimatorComponent_afaec4785ec0ee3a7c0413e1ea5a898f2}\label{classLineFlashAnimatorComponent_afaec4785ec0ee3a7c0413e1ea5a898f2} 
+\mbox{\hyperlink{classLine__w__Color}{Line\+\_\+w\+\_\+\+Color}} \texorpdfstring{$\ast$}{*} {\bfseries line} = nullptr
+\begin{DoxyCompactList}\small\item\em also we use Moving\+Animator instead of simple Animator so that entities use less memory and we use it to entities that have triggers that change their animation \end{DoxyCompactList}\item 
+\Hypertarget{classLineFlashAnimatorComponent_a63f212ccc02b7a89cd911787f685e1f4}\label{classLineFlashAnimatorComponent_a63f212ccc02b7a89cd911787f685e1f4} 
+std\+::string {\bfseries animation\+Name} = "{}"{}
+\item 
+\Hypertarget{classLineFlashAnimatorComponent_aa26067f440fe99dffdf5b0f637a7eb62}\label{classLineFlashAnimatorComponent_aa26067f440fe99dffdf5b0f637a7eb62} 
+timestamp {\bfseries resume\+Time} = 0
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classLinkComponent}{Link\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*} {\bfseries entity} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+Component\+ID {\bfseries id} = 0u
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classLineFlashAnimatorComponent_aedfb68f1e073d196102031cf033b280e}\label{classLineFlashAnimatorComponent_aedfb68f1e073d196102031cf033b280e} 
+\index{LineFlashAnimatorComponent@{LineFlashAnimatorComponent}!draw@{draw}}
+\index{draw@{draw}!LineFlashAnimatorComponent@{LineFlashAnimatorComponent}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Line\+Flash\+Animator\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{e\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classLineFlashAnimatorComponent_a432e70886a34bde96d5985560fa938af}\label{classLineFlashAnimatorComponent_a432e70886a34bde96d5985560fa938af} 
+\index{LineFlashAnimatorComponent@{LineFlashAnimatorComponent}!init@{init}}
+\index{init@{init}!LineFlashAnimatorComponent@{LineFlashAnimatorComponent}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Line\+Flash\+Animator\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classLineFlashAnimatorComponent_a5cdbabc1b4828448a4dccb1e9686a4f2}\label{classLineFlashAnimatorComponent_a5cdbabc1b4828448a4dccb1e9686a4f2} 
+\index{LineFlashAnimatorComponent@{LineFlashAnimatorComponent}!update@{update}}
+\index{update@{update}!LineFlashAnimatorComponent@{LineFlashAnimatorComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Line\+Flash\+Animator\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Animators/\+Line\+Animators/Line\+Flash\+Animator\+Component.\+h\end{DoxyCompactItemize}

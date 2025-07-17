@@ -1,0 +1,228 @@
+\doxysection{Ortho\+Camera Class Reference}
+\hypertarget{classOrthoCamera}{}\label{classOrthoCamera}\index{OrthoCamera@{OrthoCamera}}
+
+
+Inheritance diagram for Ortho\+Camera\+:
+% FIG 0
+
+
+Collaboration diagram for Ortho\+Camera\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classOrthoCamera_a1d91fdaaac8699213fa588c099565acf}{init}} () override
+\item 
+void \mbox{\hyperlink{classOrthoCamera_a2d3ae819922d1bec4ce3ff2c2a588358}{update}} () override
+\item 
+glm\+::vec2 \mbox{\hyperlink{classOrthoCamera_a2b58096205cea78e860686a52ccaae46}{convert\+Screen\+To\+World}} (glm\+::vec2 screen\+Coords) const override
+\item 
+void \mbox{\hyperlink{classOrthoCamera_a07f71b0b0238b8935852f19a9637cf4a}{set\+Position}} (const glm\+::vec3 new\+Position) override
+\item 
+void \mbox{\hyperlink{classOrthoCamera_ad8a3b98e0ccd9d4eb7661c4ec1359742}{set\+Position\+\_\+X}} (const float new\+Position) override
+\item 
+void \mbox{\hyperlink{classOrthoCamera_a3e2e9bb0229301dd14893d7835533a24}{set\+Position\+\_\+Y}} (const float new\+Position) override
+\item 
+void \mbox{\hyperlink{classOrthoCamera_aab08e05a3404707090c67d258df99b7e}{set\+Position\+\_\+Z}} (const float new\+Position) override
+\item 
+void \mbox{\hyperlink{classOrthoCamera_a7807f6ac2b1f3a4a87e7d095f45272fc}{set\+Scale}} (float new\+Scale) override
+\item 
+glm\+::vec3 \mbox{\hyperlink{classOrthoCamera_a6a75115ef89690845f3c4361b606b98c}{get\+Position}} () const override
+\item 
+float \mbox{\hyperlink{classOrthoCamera_ab3aa055ff5a066fd50ae7d4b32681a66}{get\+Scale}} () const override
+\item 
+glm\+::mat4 \mbox{\hyperlink{classOrthoCamera_a006da5ccc9b61efd618dc0a4db633c5b}{get\+Camera\+Matrix}} () const override
+\item 
+glm\+::ivec2 \mbox{\hyperlink{classOrthoCamera_a1b8891f8da54b94033795d6ce423a806}{get\+Camera\+Dimensions}} () const override
+\item 
+SDL\+\_\+\+FRect \mbox{\hyperlink{classOrthoCamera_a3020a917cca25bed290cc01fd5baa665}{get\+Camera\+Rect}} () const override
+\item 
+\Hypertarget{classOrthoCamera_a2a7fa87226d1c77715565013da8dd9d5}\label{classOrthoCamera_a2a7fa87226d1c77715565013da8dd9d5} 
+void {\bfseries set\+Camera\+Matrix} (glm\+::mat4 new\+Matrix)
+\item 
+bool \mbox{\hyperlink{classOrthoCamera_a0f2acb82f53914901f8ece778af3e476}{is\+Point\+In\+Camera\+View}} (const glm\+::vec4 point, float margin)
+\item 
+bool \mbox{\hyperlink{classOrthoCamera_a92c29be391981be492b0ff9e8ebcfcf7}{has\+Changed}} () override
+\item 
+void \mbox{\hyperlink{classOrthoCamera_ae88c8712c577609ed770e336b479e31e}{make\+Camera\+Dirty}} () override
+\item 
+void \mbox{\hyperlink{classOrthoCamera_adf051110827649bc2aa0e9f897d4ffe5}{refresh\+Camera}} () override
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classOrthoCamera_a2b58096205cea78e860686a52ccaae46}\label{classOrthoCamera_a2b58096205cea78e860686a52ccaae46} 
+\index{OrthoCamera@{OrthoCamera}!convertScreenToWorld@{convertScreenToWorld}}
+\index{convertScreenToWorld@{convertScreenToWorld}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{convertScreenToWorld()}{convertScreenToWorld()}}
+{\footnotesize\ttfamily glm\+::vec2 Ortho\+Camera\+::convert\+Screen\+To\+World (\begin{DoxyParamCaption}\item[{glm\+::vec2}]{screen\+Coords }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_a1b8891f8da54b94033795d6ce423a806}\label{classOrthoCamera_a1b8891f8da54b94033795d6ce423a806} 
+\index{OrthoCamera@{OrthoCamera}!getCameraDimensions@{getCameraDimensions}}
+\index{getCameraDimensions@{getCameraDimensions}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{getCameraDimensions()}{getCameraDimensions()}}
+{\footnotesize\ttfamily glm\+::ivec2 Ortho\+Camera\+::get\+Camera\+Dimensions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_a006da5ccc9b61efd618dc0a4db633c5b}\label{classOrthoCamera_a006da5ccc9b61efd618dc0a4db633c5b} 
+\index{OrthoCamera@{OrthoCamera}!getCameraMatrix@{getCameraMatrix}}
+\index{getCameraMatrix@{getCameraMatrix}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{getCameraMatrix()}{getCameraMatrix()}}
+{\footnotesize\ttfamily glm\+::mat4 Ortho\+Camera\+::get\+Camera\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_a3020a917cca25bed290cc01fd5baa665}\label{classOrthoCamera_a3020a917cca25bed290cc01fd5baa665} 
+\index{OrthoCamera@{OrthoCamera}!getCameraRect@{getCameraRect}}
+\index{getCameraRect@{getCameraRect}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{getCameraRect()}{getCameraRect()}}
+{\footnotesize\ttfamily SDL\+\_\+\+FRect Ortho\+Camera\+::get\+Camera\+Rect (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_a6a75115ef89690845f3c4361b606b98c}\label{classOrthoCamera_a6a75115ef89690845f3c4361b606b98c} 
+\index{OrthoCamera@{OrthoCamera}!getPosition@{getPosition}}
+\index{getPosition@{getPosition}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{getPosition()}{getPosition()}}
+{\footnotesize\ttfamily glm\+::vec3 Ortho\+Camera\+::get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_ab3aa055ff5a066fd50ae7d4b32681a66}\label{classOrthoCamera_ab3aa055ff5a066fd50ae7d4b32681a66} 
+\index{OrthoCamera@{OrthoCamera}!getScale@{getScale}}
+\index{getScale@{getScale}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{getScale()}{getScale()}}
+{\footnotesize\ttfamily float Ortho\+Camera\+::get\+Scale (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_a92c29be391981be492b0ff9e8ebcfcf7}\label{classOrthoCamera_a92c29be391981be492b0ff9e8ebcfcf7} 
+\index{OrthoCamera@{OrthoCamera}!hasChanged@{hasChanged}}
+\index{hasChanged@{hasChanged}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{hasChanged()}{hasChanged()}}
+{\footnotesize\ttfamily bool Ortho\+Camera\+::has\+Changed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_a1d91fdaaac8699213fa588c099565acf}\label{classOrthoCamera_a1d91fdaaac8699213fa588c099565acf} 
+\index{OrthoCamera@{OrthoCamera}!init@{init}}
+\index{init@{init}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Ortho\+Camera\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_a0f2acb82f53914901f8ece778af3e476}\label{classOrthoCamera_a0f2acb82f53914901f8ece778af3e476} 
+\index{OrthoCamera@{OrthoCamera}!isPointInCameraView@{isPointInCameraView}}
+\index{isPointInCameraView@{isPointInCameraView}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{isPointInCameraView()}{isPointInCameraView()}}
+{\footnotesize\ttfamily bool Ortho\+Camera\+::is\+Point\+In\+Camera\+View (\begin{DoxyParamCaption}\item[{const glm\+::vec4}]{point,  }\item[{float}]{margin }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_ae88c8712c577609ed770e336b479e31e}\label{classOrthoCamera_ae88c8712c577609ed770e336b479e31e} 
+\index{OrthoCamera@{OrthoCamera}!makeCameraDirty@{makeCameraDirty}}
+\index{makeCameraDirty@{makeCameraDirty}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{makeCameraDirty()}{makeCameraDirty()}}
+{\footnotesize\ttfamily void Ortho\+Camera\+::make\+Camera\+Dirty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_adf051110827649bc2aa0e9f897d4ffe5}\label{classOrthoCamera_adf051110827649bc2aa0e9f897d4ffe5} 
+\index{OrthoCamera@{OrthoCamera}!refreshCamera@{refreshCamera}}
+\index{refreshCamera@{refreshCamera}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{refreshCamera()}{refreshCamera()}}
+{\footnotesize\ttfamily void Ortho\+Camera\+::refresh\+Camera (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_a07f71b0b0238b8935852f19a9637cf4a}\label{classOrthoCamera_a07f71b0b0238b8935852f19a9637cf4a} 
+\index{OrthoCamera@{OrthoCamera}!setPosition@{setPosition}}
+\index{setPosition@{setPosition}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{setPosition()}{setPosition()}}
+{\footnotesize\ttfamily void Ortho\+Camera\+::set\+Position (\begin{DoxyParamCaption}\item[{const glm\+::vec3}]{new\+Position }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_ad8a3b98e0ccd9d4eb7661c4ec1359742}\label{classOrthoCamera_ad8a3b98e0ccd9d4eb7661c4ec1359742} 
+\index{OrthoCamera@{OrthoCamera}!setPosition\_X@{setPosition\_X}}
+\index{setPosition\_X@{setPosition\_X}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{setPosition\_X()}{setPosition\_X()}}
+{\footnotesize\ttfamily void Ortho\+Camera\+::set\+Position\+\_\+X (\begin{DoxyParamCaption}\item[{const float}]{new\+Position }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_a3e2e9bb0229301dd14893d7835533a24}\label{classOrthoCamera_a3e2e9bb0229301dd14893d7835533a24} 
+\index{OrthoCamera@{OrthoCamera}!setPosition\_Y@{setPosition\_Y}}
+\index{setPosition\_Y@{setPosition\_Y}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{setPosition\_Y()}{setPosition\_Y()}}
+{\footnotesize\ttfamily void Ortho\+Camera\+::set\+Position\+\_\+Y (\begin{DoxyParamCaption}\item[{const float}]{new\+Position }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_aab08e05a3404707090c67d258df99b7e}\label{classOrthoCamera_aab08e05a3404707090c67d258df99b7e} 
+\index{OrthoCamera@{OrthoCamera}!setPosition\_Z@{setPosition\_Z}}
+\index{setPosition\_Z@{setPosition\_Z}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{setPosition\_Z()}{setPosition\_Z()}}
+{\footnotesize\ttfamily void Ortho\+Camera\+::set\+Position\+\_\+Z (\begin{DoxyParamCaption}\item[{const float}]{new\+Position }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_a7807f6ac2b1f3a4a87e7d095f45272fc}\label{classOrthoCamera_a7807f6ac2b1f3a4a87e7d095f45272fc} 
+\index{OrthoCamera@{OrthoCamera}!setScale@{setScale}}
+\index{setScale@{setScale}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{setScale()}{setScale()}}
+{\footnotesize\ttfamily void Ortho\+Camera\+::set\+Scale (\begin{DoxyParamCaption}\item[{float}]{new\+Scale }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_a2d3ae819922d1bec4ce3ff2c2a588358}\label{classOrthoCamera_a2d3ae819922d1bec4ce3ff2c2a588358} 
+\index{OrthoCamera@{OrthoCamera}!update@{update}}
+\index{update@{update}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Ortho\+Camera\+::update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Camera2.\+5\+D/Ortho\+Camera.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,216 @@
+\doxysection{Line\+Renderer.\+h}
+\hypertarget{LineRenderer_8h_source}{}\label{LineRenderer_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Renderers/LineRenderer/LineRenderer.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Renderers/LineRenderer/LineRenderer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../GLSLProgram.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <GL/glew.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../../Vertex.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classRenderLineBatch}{RenderLineBatch}}\ \{}
+\DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{classRenderLineBatch}{RenderLineBatch}}()\ \{}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \}}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classRenderLineBatch}{RenderLineBatch}}(GLuint\ Offset,\ GLuint\ NumIndices)\ :\ offset(Offset),}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ numIndices(NumIndices)\{}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \}}
+\DoxyCodeLine{00022\ \ \ \ \ GLuint\ offset\ =\ 0;}
+\DoxyCodeLine{00023\ \ \ \ \ GLuint\ numIndices\ =\ 0;}
+\DoxyCodeLine{00024\ \};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLineGlyph}{LineGlyph}}\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{classLineGlyph}{LineGlyph}}()\ \{\};}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{classLineGlyph}{LineGlyph}}(\textcolor{keyword}{const}\ glm::vec3\&\ fromPosition,\ \textcolor{keyword}{const}\ glm::vec3\&\ toPosition,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structColor}{Color}}\&\ srcColor,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structColor}{Color}}\&\ destColor)}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ fromV.color\ =\ srcColor;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ fromV.setPosition(fromPosition);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ toV.color\ =\ destColor;}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ toV.setPosition(toPosition);}
+\DoxyCodeLine{00038\ \ \ \ \ \};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ fromV;}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ toV;}
+\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classSquareGlyph}{SquareGlyph}}\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{comment}{//todo\ avoid\ rotating\ every\ point\ individually,\ takes\ a\ lot\ of\ time}}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{comment}{//todo\ instead\ rotate\ them\ from\ transform\ using\ a\ global\ angle(based\ on\ aimpos)\ that\ is\ added\ to\ all\ transforms}}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{comment}{//todo\ then\ rotation\ in\ glyph\ is\ just\ taking\ that\ transform}}
+\DoxyCodeLine{00048\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{classSquareGlyph}{SquareGlyph}}()\ \{\};}
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{classSquareGlyph}{SquareGlyph}}(\textcolor{keyword}{const}\ glm::vec4\&\ destRect,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structColor}{Color}}\&\ color,\ \textcolor{keywordtype}{float}\ angle,\ \textcolor{keywordtype}{float}\ mdepth)}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ glm::vec3\ atopLeft(destRect.x,\ destRect.y,\ mdepth);}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ glm::vec3\ abottomLeft(destRect.x,\ destRect.y\ +\ destRect.w,\ mdepth);}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ glm::vec3\ abottomRight(destRect.x\ +\ destRect.z,\ destRect.y\ +\ destRect.w,\ mdepth);}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ glm::vec3\ atopRight(destRect.x\ +\ destRect.z,\ destRect.y,\ mdepth);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ topLeft.color\ =\ color;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ topLeft.setPosition(atopLeft);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ bottomLeft.color\ =\ color;}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ bottomLeft.setPosition(abottomLeft);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ bottomRight.color\ =\ color;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ bottomRight.setPosition(abottomRight);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ topRight.color\ =\ color;}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ topRight.setPosition(atopRight);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ topLeft;}
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ bottomLeft;}
+\DoxyCodeLine{00073\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ bottomRight;}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ topRight;}
+\DoxyCodeLine{00075\ \};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classBoxGlyph}{BoxGlyph}}\ \{}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{classBoxGlyph}{BoxGlyph}}()\ \{\};}
+\DoxyCodeLine{00081\ \ \ \ \ \mbox{\hyperlink{classBoxGlyph}{BoxGlyph}}(\textcolor{keyword}{const}\ glm::vec3\&\ origin,\ \textcolor{keyword}{const}\ glm::vec3\&\ size,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structColor}{Color}}\&\ color,\ \textcolor{keywordtype}{float}\ angle)}
+\DoxyCodeLine{00082\ \ \ \ \ \{}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ glm::vec3\ atopLeft(origin.x,\ origin.y,\ origin.z);}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ glm::vec3\ abottomLeft(origin.x,\ origin.y\ +\ size.y,\ origin.z);}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ glm::vec3\ abottomRight(origin.x\ +\ size.x,\ origin.y\ +\ size.y,\ origin.z);}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ glm::vec3\ atopRight(origin.x\ +\ size.x,\ origin.y,\ origin.z);}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ a\_topLeft.color\ =\ color;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ a\_topLeft.setPosition(atopLeft);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ a\_bottomLeft.color\ =\ color;}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ a\_bottomLeft.setPosition(abottomLeft);}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ a\_bottomRight.color\ =\ color;}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ a\_bottomRight.setPosition(abottomRight);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ a\_topRight.color\ =\ color;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ a\_topRight.setPosition(atopRight);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ glm::vec3\ btopLeft(origin.x,\ origin.y,\ origin.z\ +\ size.z);}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ glm::vec3\ bbottomLeft(origin.x,\ origin.y\ +\ size.y,\ origin.z\ +\ size.z);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ glm::vec3\ bbottomRight(origin.x\ +\ size.x,\ origin.y\ +\ size.y,\ origin.z\ +\ size.z);}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ glm::vec3\ btopRight(origin.x\ +\ size.x,\ origin.y,\ origin.z\ +\ size.z);}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ b\_topLeft.color\ =\ color;}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ b\_topLeft.setPosition(btopLeft);}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ b\_bottomLeft.color\ =\ color;}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ b\_bottomLeft.setPosition(bbottomLeft);}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ b\_bottomRight.color\ =\ color;}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ b\_bottomRight.setPosition(bbottomRight);}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ b\_topRight.color\ =\ color;}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ b\_topRight.setPosition(btopRight);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \};}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ a\_topLeft;}
+\DoxyCodeLine{00121\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ a\_bottomLeft;}
+\DoxyCodeLine{00122\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ a\_bottomRight;}
+\DoxyCodeLine{00123\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ a\_topRight;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ b\_topLeft;}
+\DoxyCodeLine{00126\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ b\_bottomLeft;}
+\DoxyCodeLine{00127\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ b\_bottomRight;}
+\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{structColorVertex}{ColorVertex}}\ b\_topRight;}
+\DoxyCodeLine{00129\ \};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLineRenderer}{LineRenderer}}\ \{}
+\DoxyCodeLine{00132\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ VERT\_SRC\ =\ R\textcolor{stringliteral}{"{}(\#version\ 400}}
+\DoxyCodeLine{00134\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{00135\ \textcolor{stringliteral}{in\ vec3\ vertexPosition;\ //vec3\ is\ array\ of\ 3\ floats}}
+\DoxyCodeLine{00136\ \textcolor{stringliteral}{in\ vec4\ vertexColor;}}
+\DoxyCodeLine{00137\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{00138\ \textcolor{stringliteral}{out\ vec4\ fragmentColor;}}
+\DoxyCodeLine{00139\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{00140\ \textcolor{stringliteral}{uniform\ mat4\ projection;}}
+\DoxyCodeLine{00141\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{00142\ \textcolor{stringliteral}{void\ main()\ \{}}
+\DoxyCodeLine{00143\ \textcolor{stringliteral}{\ \ \ \ gl\_Position\ =\ projection\ *\ vec4(vertexPosition.xyz,\ 1.0);}}
+\DoxyCodeLine{00144\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{00145\ \textcolor{stringliteral}{\ \ \ \ fragmentColor\ =\ vertexColor;}}
+\DoxyCodeLine{00146\ \textcolor{stringliteral}{\})"{};}}
+\DoxyCodeLine{00147\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{00148\ \textcolor{stringliteral}{\ \ \ \ }\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ FRAG\_SRC\ =\ R\textcolor{stringliteral}{"{}(\#version\ 400}}
+\DoxyCodeLine{00149\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{00150\ \textcolor{stringliteral}{in\ vec4\ fragmentColor;}}
+\DoxyCodeLine{00151\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{00152\ \textcolor{stringliteral}{out\ vec4\ color;\ //rgb\ value}}
+\DoxyCodeLine{00153\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{00154\ \textcolor{stringliteral}{void\ main()\ \{}}
+\DoxyCodeLine{00155\ \textcolor{stringliteral}{\ \ \ \ color\ =\ vec4(fragmentColor.rgb,\ fragmentColor.a);}}
+\DoxyCodeLine{00156\ \textcolor{stringliteral}{\})"{};}}
+\DoxyCodeLine{00157\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{00158\ \textcolor{stringliteral}{\ \ \ \ \mbox{\hyperlink{classLineRenderer}{LineRenderer}}();}}
+\DoxyCodeLine{00159\ \textcolor{stringliteral}{\ \ \ \ \mbox{\hyperlink{classLineRenderer}{\string~LineRenderer}}();}}
+\DoxyCodeLine{00160\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{00161\ \textcolor{stringliteral}{\ \ \ \ }\textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keywordtype}{void}\ begin();}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordtype}{void}\ end();}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keywordtype}{void}\ initBatchLines(\textcolor{keywordtype}{size\_t}\ msize);}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordtype}{void}\ initBatchSquares(\textcolor{keywordtype}{size\_t}\ msize);}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordtype}{void}\ initBatchBoxes(\textcolor{keywordtype}{size\_t}\ msize);}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordtype}{void}\ drawLine(\textcolor{keywordtype}{size\_t}\ v\_index,\ \textcolor{keyword}{const}\ glm::vec3\ srcPosition,\ \textcolor{keyword}{const}\ glm::vec3\ destPosition,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structColor}{Color}}\&\ srcColor,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structColor}{Color}}\&\ destColor);}
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keywordtype}{void}\ drawRectangle(\textcolor{keywordtype}{size\_t}\ v\_index,\ \textcolor{keyword}{const}\ glm::vec4\&\ destRect,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structColor}{Color}}\&\ color,\ \textcolor{keywordtype}{float}\ angle,\ \textcolor{keywordtype}{float}\ zIndex\ =0.0f);}
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordtype}{void}\ drawBox(\textcolor{keywordtype}{size\_t}\ v\_index,\ \textcolor{keyword}{const}\ glm::vec3\&\ origin,\ \textcolor{keyword}{const}\ glm::vec3\&\ size,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structColor}{Color}}\&\ color,\ \textcolor{keywordtype}{float}\ angle);}
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordtype}{void}\ drawCircle(\textcolor{keyword}{const}\ glm::vec2\&\ center,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structColor}{Color}}\&\ color,\ \textcolor{keywordtype}{float}\ radius);}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keywordtype}{void}\ initBatchSize();}
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordtype}{void}\ renderBatch(\textcolor{keywordtype}{float}\ lineWidth);}
+\DoxyCodeLine{00179\ \ \ \ \ }
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keywordtype}{void}\ dispose();}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordtype}{int}\ box\_edgePairs[12][2]\ =\ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \{0,\ 1\},\ \{1,\ 2\},\ \{2,\ 3\},\ \{3,\ 0\},\ \textcolor{comment}{//\ Bottom\ face}}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \{4,\ 5\},\ \{5,\ 6\},\ \{6,\ 7\},\ \{7,\ 4\},\ \textcolor{comment}{//\ Top\ face}}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \{0,\ 4\},\ \{1,\ 5\},\ \{2,\ 6\},\ \{3,\ 7\}\ \ \textcolor{comment}{//\ Vertical\ edges}}
+\DoxyCodeLine{00186\ \ \ \ \ \};}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordtype}{void}\ createRenderBatches();}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keywordtype}{void}\ createVertexArray();}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \ \ \ GLuint\ \_vbo\ =\ 0,\ \_vao\ =\ 0,\ \_ibo\ =\ 0;\ }
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ std::vector<ColorVertex>\ \_vertices;}
+\DoxyCodeLine{00195\ \ \ \ \ std::vector<GLuint>\ \_indices;}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_lineGlyphs\_size\ \ \ \ \ =\ 0;}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_squareGlyphs\_size\ \ \ =\ 0;}
+\DoxyCodeLine{00199\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_boxGlyphs\_size\ \ \ \ \ \ =\ 0;}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_rectangles\_verticesOffset\ =\ 0;}
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_lines\_verticesOffset\ =\ 0;}
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_boxes\_verticesOffset=\ 0;}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_rectangles\_indicesOffset\ =\ 0;}
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_lines\_indicesOffset\ =\ 0;}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_boxes\_indicesOffset\ =\ 0;}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \ \ std::vector<RenderLineBatch>\ \_renderBatches;}
+\DoxyCodeLine{00210\ \};}
+
+\end{DoxyCode}

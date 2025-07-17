@@ -1,0 +1,83 @@
+\doxysection{Grid\+Component.\+h}
+\hypertarget{GridComponent_8h_source}{}\label{GridComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Util/GridComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Util/GridComponent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#define\ GRID\_EMPTY\_TILE\ 0x0000}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ GRID\_SOLID\_TILE\ 0x0001}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ GRID\_ROWS\ 4}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ GRID\_COLUMNS\ 4}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ GRID\_ELEMENT\_WIDTH\ 8}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ GRID\_ELEMENT\_HEIGHT\ 8}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ TILE\_NUM\_GRID\_ELEMENTS\ (GRID\_ROWS\ *\ GRID\_COLUMNS)\ }\textcolor{comment}{//16}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ MAX\_MAP\_TILE\_HEIGHT\ 20}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ MAX\_MAP\_WIDTH\_TILES\ 100}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ MAX\_MAP\_GRID\_HEIGHT\ (MAX\_MAP\_TILE\_HEIGHT\ *\ GRID\_ROWS)\ }\textcolor{comment}{//80}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ MAX\_MAP\_GRID\_WIDTH\ (MAX\_MAP\_TILE\_HEIGHT\ *\ GRID\_COLUMNS)\ }\textcolor{comment}{//100}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ GRID\_CELL\_NUM\ =\ 16;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGridComponent}{GridComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classComponent}{Component}}\ \textcolor{comment}{//GridComp\ -\/-\/>\ ColliderComp}}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \textcolor{keyword}{private}:\ }
+\DoxyCodeLine{00022\ \ \ \ \ std::bitset<GRID\_CELL\_NUM>\ bitset\ ;}
+\DoxyCodeLine{00023\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00024\ \ \ \ \ glm::ivec2\ position;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ scaledTile;}
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{classColliderComponent}{ColliderComponent}}*\ collider\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{classGridComponent}{GridComponent}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{classGridComponent}{\string~GridComponent}}()}
+\DoxyCodeLine{00031\ \ \ \ \ \{}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{classGridComponent}{GridComponent}}(\textcolor{keywordtype}{int}\ xpos,\ \textcolor{keywordtype}{int}\ ypos,\ \textcolor{keywordtype}{int}\ tscaled,\ std::bitset<GRID\_CELL\_NUM>\ collider\_bitSet\ =\ std::bitset<GRID\_CELL\_NUM>())}
+\DoxyCodeLine{00036\ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ position.x\ =\ xpos;}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ position.y\ =\ ypos;}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ scaledTile\ =\ tscaled;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ bitset\ =\ collider\_bitSet.set();}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00046\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ flippedBitset\ =\ \string~bitset;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (flippedBitset.none())\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//entity-\/>addComponent<ColliderComponent>((position.x),\ (position.y),\ GRID\_ELEMENT\_WIDTH\ *\ GRID\_COLUMNS);}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ glm::ivec2\ gridPos;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ gridindex\ =\ 0;\ gridindex\ <\ TILE\_NUM\_GRID\_ELEMENTS;\ gridindex++)}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{comment}{//SetGridTileBlock}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bitset[gridindex])\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gridPos.x\ =\ (gridindex\ \%\ GRID\_COLUMNS)\ *\ GRID\_ELEMENT\_WIDTH;}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gridPos.y\ =\ (int)(gridindex\ /\ GRID\_ROWS)\ *\ GRID\_ELEMENT\_HEIGHT;}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//entity-\/>addComponent<ColliderComponent>((position.x\ +\ gridPos.x),\ (position.y\ +\ gridPos.y),\ GRID\_ELEMENT\_WIDTH);}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00067\ \ \ \ \ \}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00070\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00072\ \ \ \ \ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}GridComponent"{}};}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \};}
+
+\end{DoxyCode}

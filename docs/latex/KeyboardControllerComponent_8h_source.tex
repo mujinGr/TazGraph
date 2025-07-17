@@ -1,0 +1,97 @@
+\doxysection{Keyboard\+Controller\+Component.\+h}
+\hypertarget{KeyboardControllerComponent_8h_source}{}\label{KeyboardControllerComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Util/KeyboardControllerComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Util/KeyboardControllerComponent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)\ ||\ defined(\_WIN64)}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\ \ \ \ \#include\ <Windows.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\ \ \ \ \#include\ <MMSystem.h>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\ \ \ \ \#pragma\ comment(lib,\ "{}winmm.lib"{})\ }\textcolor{comment}{//\ Link\ to\ Windows\ multimedia\ library}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#elif\ defined(\_\_linux\_\_)\ ||\ defined(\_\_unix\_\_)}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\ \ \ \ \#include\ <unistd.h>}\ \textcolor{comment}{//\ Common\ Unix/Linux\ header}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}../../../../InputManager/InputManager.h"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{float}\ walkingSpeed\ =\ 3.5f,\ runningSpeed\ =\ 8.5f,\ jumpingSpeed\ =\ 3.0f;}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classKeyboardControllerComponent}{KeyboardControllerComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classComponent}{Component}}\ }
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:\ \textcolor{comment}{//TODO:\ maybe\ have\ variables\ as\ private}}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{classInputManager}{InputManager}}*\ \_inputManager\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ transform\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{classAnimatorComponent}{AnimatorComponent}}*\ animator\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{classRigidBodyComponent}{RigidBodyComponent}}*\ rigidbody\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}*\ sprite\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ SDL\_KeyCode\ walkUpKey\ =\ SDLK\_UNKNOWN,\ walkLeftKey\ =\ SDLK\_UNKNOWN,\ walkRightKey\ =\ SDLK\_UNKNOWN,\ walkDownKey\ =\ SDLK\_UNKNOWN;}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{classKeyboardControllerComponent}{KeyboardControllerComponent}}()}
+\DoxyCodeLine{00033\ \ \ \ \ \{}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{classKeyboardControllerComponent}{KeyboardControllerComponent}}(}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classInputManager}{InputManager}}*\ inputManager,}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ SDL\_KeyCode\ walkUpKey,}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ SDL\_KeyCode\ walkLeftKey,}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ SDL\_KeyCode\ walkRightKey,}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ SDL\_KeyCode\ walkDownKey}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ :\ \_inputManager(inputManager),}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ walkUpKey(walkUpKey),}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ walkLeftKey(walkLeftKey),}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ walkRightKey(walkRightKey),}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ walkDownKey(walkDownKey)}
+\DoxyCodeLine{00049\ \ \ \ \ \{}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{classKeyboardControllerComponent}{\string~KeyboardControllerComponent}}()}
+\DoxyCodeLine{00054\ \ \ \ \ \{}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00059\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ transform\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ animator\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classAnimatorComponent}{AnimatorComponent}}>();}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ sprite\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>();}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00066\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_inputManager-\/>isKeyDown(walkLeftKey))\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>setVelocity\_X(-\/runningSpeed);}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_inputManager-\/>isKeyDown(walkRightKey))\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>setVelocity\_X(runningSpeed);}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_inputManager-\/>isKeyDown(walkRightKey)\ \&\&\ !\_inputManager-\/>isKeyDown(walkLeftKey))\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>setVelocity\_X(0);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_inputManager-\/>isKeyDown(walkUpKey))\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>setVelocity\_Y(-\/runningSpeed);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_inputManager-\/>isKeyDown(walkDownKey))\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>setVelocity\_Y(runningSpeed);}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_inputManager-\/>isKeyDown(walkUpKey)\ \&\&\ !\_inputManager-\/>isKeyDown(walkDownKey))\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>setVelocity\_Y(0);}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00086\ \ \ \ \ \}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}KeyboardControllerComponent"{}};}
+\DoxyCodeLine{00090\ \ \ \ \ \}}
+\DoxyCodeLine{00091\ \};}
+
+\end{DoxyCode}

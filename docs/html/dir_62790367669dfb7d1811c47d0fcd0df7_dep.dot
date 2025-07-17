@@ -1,0 +1,16 @@
+digraph "/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/build/TazGraph/CMakeFiles/TazGraph.dir/Src/EditorIMGUI"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  compound=true
+  subgraph clusterdir_b6a040f518ac41eb6ebf086eff310c5a {
+    graph [ bgcolor="#edf0f7", pencolor="grey50", label="Src", fontname=Helvetica,fontsize=10 style="filled,dashed", URL="dir_b6a040f518ac41eb6ebf086eff310c5a.html",tooltip=""]
+  subgraph clusterdir_62790367669dfb7d1811c47d0fcd0df7 {
+    graph [ bgcolor="#edf0f7", pencolor="grey25", label="", fontname=Helvetica,fontsize=10 style="filled,bold", URL="dir_62790367669dfb7d1811c47d0fcd0df7.html",tooltip=""]
+    dir_62790367669dfb7d1811c47d0fcd0df7 [shape=plaintext, label="EditorIMGUI"];
+  dir_2d9cc7455a54f1d4f7be7709018e8ac8 [label="CustomFunctions", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_2d9cc7455a54f1d4f7be7709018e8ac8.html",tooltip=""];
+  }
+  }
+}

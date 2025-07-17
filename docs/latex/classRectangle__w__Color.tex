@@ -1,0 +1,124 @@
+\doxysection{Rectangle\+\_\+w\+\_\+\+Color Class Reference}
+\hypertarget{classRectangle__w__Color}{}\label{classRectangle__w__Color}\index{Rectangle\_w\_Color@{Rectangle\_w\_Color}}
+
+
+Inheritance diagram for Rectangle\+\_\+w\+\_\+\+Color\+:
+% FIG 0
+
+
+Collaboration diagram for Rectangle\+\_\+w\+\_\+\+Color\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classRectangle__w__Color_adea379eeb9401ee8bef2f6aa479b4c0c}{init}} () override
+\item 
+void \mbox{\hyperlink{classRectangle__w__Color_a8d54b94047a72ccd8058f286a7921396}{update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{classRectangle__w__Color_a7fb46243bf2632de2cb7c20a0e9a522f}{draw}} (size\+\_\+t v\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+\Hypertarget{classRectangle__w__Color_a7ac2a62305b7b4764d8324e6120a8baf}\label{classRectangle__w__Color_a7ac2a62305b7b4764d8324e6120a8baf} 
+void {\bfseries set\+Color} (\mbox{\hyperlink{structColor}{Color}} clr)
+\item 
+\Hypertarget{classRectangle__w__Color_aebdba5da894a2a4538a0c29d0fa49a60}\label{classRectangle__w__Color_aebdba5da894a2a4538a0c29d0fa49a60} 
+void {\bfseries Set\+Flash\+Animation} (int idX, int idY, size\+\_\+t fr, float sp, const Animation\+::anim\+Type type, const std\+::vector$<$ float $>$ \&flash\+Times, \mbox{\hyperlink{structColor}{Color}} flashC, int reps=0)
+\item 
+\Hypertarget{classRectangle__w__Color_af46dfeda2e88e6cbfede0121b91bfd15}\label{classRectangle__w__Color_af46dfeda2e88e6cbfede0121b91bfd15} 
+void {\bfseries set\+Flash\+Frame} ()
+\item 
+std\+::string \mbox{\hyperlink{classRectangle__w__Color_a3629ae75d0fc1fa4ce553f068e6a6708}{Get\+Component\+Name}} () override
+\item 
+void \mbox{\hyperlink{classRectangle__w__Color_a29b4917ecb45ad8db0b128682052cd8b}{show\+GUI}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classRectangle__w__Color_ac6552c49022dd25c36cce4e78a0fcb9c}\label{classRectangle__w__Color_ac6552c49022dd25c36cce4e78a0fcb9c} 
+\mbox{\hyperlink{structColor}{Color}} {\bfseries default\+\_\+color} = \{ 255, 255, 255, 255 \}
+\item 
+\Hypertarget{classRectangle__w__Color_a2ca015f8f7757859afd3054bca85a71c}\label{classRectangle__w__Color_a2ca015f8f7757859afd3054bca85a71c} 
+\mbox{\hyperlink{structColor}{Color}} {\bfseries color} = \{ 255, 255, 255, 255 \}
+\item 
+\Hypertarget{classRectangle__w__Color_a8f43c7186641d2669bf41050d3298b27}\label{classRectangle__w__Color_a8f43c7186641d2669bf41050d3298b27} 
+\mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
+\item 
+\Hypertarget{classRectangle__w__Color_a9514155e1b929abe48295baf36d1588e}\label{classRectangle__w__Color_a9514155e1b929abe48295baf36d1588e} 
+\mbox{\hyperlink{structFlashAnimation}{Flash\+Animation}} {\bfseries flash\+\_\+animation}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries entity} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+Component\+ID {\bfseries id} = 0u
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classRectangle__w__Color_a7fb46243bf2632de2cb7c20a0e9a522f}\label{classRectangle__w__Color_a7fb46243bf2632de2cb7c20a0e9a522f} 
+\index{Rectangle\_w\_Color@{Rectangle\_w\_Color}!draw@{draw}}
+\index{draw@{draw}!Rectangle\_w\_Color@{Rectangle\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Rectangle\+\_\+w\+\_\+\+Color\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{v\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classRectangle__w__Color_a3629ae75d0fc1fa4ce553f068e6a6708}\label{classRectangle__w__Color_a3629ae75d0fc1fa4ce553f068e6a6708} 
+\index{Rectangle\_w\_Color@{Rectangle\_w\_Color}!GetComponentName@{GetComponentName}}
+\index{GetComponentName@{GetComponentName}!Rectangle\_w\_Color@{Rectangle\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}}
+{\footnotesize\ttfamily std\+::string Rectangle\+\_\+w\+\_\+\+Color\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classRectangle__w__Color_adea379eeb9401ee8bef2f6aa479b4c0c}\label{classRectangle__w__Color_adea379eeb9401ee8bef2f6aa479b4c0c} 
+\index{Rectangle\_w\_Color@{Rectangle\_w\_Color}!init@{init}}
+\index{init@{init}!Rectangle\_w\_Color@{Rectangle\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Rectangle\+\_\+w\+\_\+\+Color\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classRectangle__w__Color_a29b4917ecb45ad8db0b128682052cd8b}\label{classRectangle__w__Color_a29b4917ecb45ad8db0b128682052cd8b} 
+\index{Rectangle\_w\_Color@{Rectangle\_w\_Color}!showGUI@{showGUI}}
+\index{showGUI@{showGUI}!Rectangle\_w\_Color@{Rectangle\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}}
+{\footnotesize\ttfamily void Rectangle\+\_\+w\+\_\+\+Color\+::show\+GUI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classRectangle__w__Color_a8d54b94047a72ccd8058f286a7921396}\label{classRectangle__w__Color_a8d54b94047a72ccd8058f286a7921396} 
+\index{Rectangle\_w\_Color@{Rectangle\_w\_Color}!update@{update}}
+\index{update@{update}!Rectangle\_w\_Color@{Rectangle\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Rectangle\+\_\+w\+\_\+\+Color\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Empty/\+Basic/Rectangle\+\_\+w\+\_\+\+Color.\+h\end{DoxyCompactItemize}

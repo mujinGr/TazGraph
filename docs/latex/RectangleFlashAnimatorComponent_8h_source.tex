@@ -1,0 +1,99 @@
+\doxysection{Rectangle\+Flash\+Animator\+Component.\+h}
+\hypertarget{RectangleFlashAnimatorComponent_8h_source}{}\label{RectangleFlashAnimatorComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/RectangleAnimators/RectangleFlashAnimatorComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/RectangleAnimators/RectangleFlashAnimatorComponent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../../Components.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../Animation.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../AnimatorManager.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{typedef}\ uint32\_t\ timestamp;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classRectangleFlashAnimatorComponent}{RectangleFlashAnimatorComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classComponent}{Component}}\ \textcolor{comment}{//Animator\ -\/>\ Sprite\ -\/>\ Transform\ }}
+\DoxyCodeLine{00014\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classRectangle__w__Color}{Rectangle\_w\_Color}}*\ \mbox{\hyperlink{classRectangleFlashAnimatorComponent_a68b149f1effb94fc63a2d2bc69e4da73}{rectangle}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00018\ \ \ \ \ std::string\ animationName\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00019\ \ \ \ \ timestamp\ resumeTime\ =\ 0;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{classRectangleFlashAnimatorComponent}{RectangleFlashAnimatorComponent}}()}
+\DoxyCodeLine{00022\ \ \ \ \ \{}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{classRectangleFlashAnimatorComponent}{\string~RectangleFlashAnimatorComponent}}()}
+\DoxyCodeLine{00027\ \ \ \ \ \{}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00032\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity-\/>hasComponent<\mbox{\hyperlink{classRectangle__w__Color}{Rectangle\_w\_Color}}>())}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>\mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}<\mbox{\hyperlink{classRectangle__w__Color}{Rectangle\_w\_Color}}>();}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classRectangleFlashAnimatorComponent_a68b149f1effb94fc63a2d2bc69e4da73}{rectangle}}\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classRectangle__w__Color}{Rectangle\_w\_Color}}>();}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ Play(\textcolor{stringliteral}{"{}Default"{}});}
+\DoxyCodeLine{00040\ \ \ \ \ \}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00043\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (animationName\ ==\ \textcolor{stringliteral}{"{}Default"{}})\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classRectangleFlashAnimatorComponent_a68b149f1effb94fc63a2d2bc69e4da73}{rectangle}}-\/>flash\_animation.hasFinished())\ \{\ \textcolor{comment}{//\ playing\ again\ animation}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classRectangleFlashAnimatorComponent_a68b149f1effb94fc63a2d2bc69e4da73}{rectangle}}-\/>flash\_animation.finished\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classRectangleFlashAnimatorComponent_a68b149f1effb94fc63a2d2bc69e4da73}{rectangle}}-\/>flash\_animation.times\_played\ =\ 0;}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ resetAnimation();}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classRectangleFlashAnimatorComponent_a68b149f1effb94fc63a2d2bc69e4da73}{rectangle}}-\/>flash\_animation.advanceFrame(deltaTime);}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classRectangleFlashAnimatorComponent_a68b149f1effb94fc63a2d2bc69e4da73}{rectangle}}-\/>setFlashFrame();}
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00058\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{comment}{//sprite-\/>draw(batch);}}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ Play(\textcolor{keyword}{const}\ std::string\&\ animName,\ \textcolor{keywordtype}{int}\ reps\ =\ 0)}
+\DoxyCodeLine{00063\ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structAnimatorManager}{AnimatorManager}}\&\ animManager\ =\ AnimatorManager::getInstance();}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ animationName\ =\ animName;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}\&\ flash\_animation\ =\ animManager.flash\_animations[animationName];}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classRectangleFlashAnimatorComponent_a68b149f1effb94fc63a2d2bc69e4da73}{rectangle}}-\/>SetFlashAnimation(}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ flash\_animation.indexX,\ flash\_animation.indexY,}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ flash\_animation.total\_frames,\ flash\_animation.speed,}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ flash\_animation.type,}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ flash\_animation.getSpeedsAsVector(),}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ flash\_animation.flashColor,}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ reps\ ?\ reps\ :\ flash\_animation.reps}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00075\ \ \ \ \ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ resetAnimation()\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structAnimatorManager}{AnimatorManager}}\&\ animManager\ =\ AnimatorManager::getInstance();}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ animationName\ =\ \textcolor{stringliteral}{"{}Default"{}};}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classRectangleFlashAnimatorComponent_a68b149f1effb94fc63a2d2bc69e4da73}{rectangle}}-\/>SetFlashAnimation(}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].indexX,\ animManager.flash\_animations[animationName].indexY,}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].total\_frames,\ animManager.flash\_animations[animationName].speed,}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].type,}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].getSpeedsAsVector(),}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].flashColor);}
+\DoxyCodeLine{00086\ \ \ \ \ \}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ std::string\ getPlayName()}
+\DoxyCodeLine{00089\ \ \ \ \ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ animationName;}
+\DoxyCodeLine{00091\ \ \ \ \ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \};}
+
+\end{DoxyCode}

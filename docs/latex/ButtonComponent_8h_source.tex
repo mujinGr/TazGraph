@@ -1,0 +1,99 @@
+\doxysection{Button\+Component.\+h}
+\hypertarget{ButtonComponent_8h_source}{}\label{ButtonComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Util/ButtonComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Util/ButtonComponent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../../../UtilComponents.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <functional>}\ \ \textcolor{comment}{//\ For\ std::function}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classButtonComponent}{ButtonComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classComponent}{Component}}\ \{}
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keyword}{enum\ class}\ ButtonState\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ NORMAL,}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ HOVERED,}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ PRESSED}
+\DoxyCodeLine{00013\ \ \ \ \ \};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00016\ \ \ \ \ ButtonState\ \_state\ =\ ButtonState::NORMAL;}
+\DoxyCodeLine{00017\ \ \ \ \ std::function<void()>\ \_onClick;\ \textcolor{comment}{//\ Callback\ function\ for\ click\ action}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ std::string\ buttonLabel\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00020\ \ \ \ \ glm::vec2\ bDimensions\{0,0\};}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}\ bBackground\{255,255,255,255\};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ uiLabel\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ buttonBackground\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00025\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{classButtonComponent}{ButtonComponent}}()}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ :\ \_state(ButtonState::NORMAL),}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \_onClick([]()\ \{\})\ \textcolor{comment}{//\ Default\ empty\ function}}
+\DoxyCodeLine{00029\ \ \ \ \ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{classButtonComponent}{ButtonComponent}}(std::function<\textcolor{keywordtype}{void}()>\ onClick)}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ :\ \_state(ButtonState::NORMAL),\ \_onClick(onClick)\ \{\}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{classButtonComponent}{ButtonComponent}}(std::function<\textcolor{keywordtype}{void}()>\ onClick,\ std::string\ button\_label,\ glm::vec2\ b\_dimensions,\ \mbox{\hyperlink{structColor}{Color}}\ b\_background)}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ :\ \_state(ButtonState::NORMAL),}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \_onClick(onClick),}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ buttonLabel(button\_label),}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ bDimensions(b\_dimensions),}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ bBackground(b\_background)\{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ create\ UI\ label\ with\ the\ string\ given}}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ set\ the\ button\ background\ }}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buttonLabel.length()\ >\ 0)\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ need\ different\ shader\ to\ render\ text\ so\ it\ has\ to\ be\ different\ }}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ uiLabel\ =\ \&entity-\/>getManager()-\/>addEntity<\mbox{\hyperlink{classNode}{Node}}>();}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ uiLabel-\/>\mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>(glm::vec2(0,\ 0),\ Layer::action,\ glm::ivec2(32,\ 32),\ 1);}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ uiLabel-\/>\mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}<\mbox{\hyperlink{classUILabel}{UILabel}}>(uiLabel-\/>getManager(),\ buttonLabel,\ \textcolor{stringliteral}{"{}arial"{}});}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ uiLabel-\/>setParentEntity(entity);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ uiLabel-\/>addGroup(Manager::buttonLabels);}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bDimensions\ !=\ glm::vec2(0.0f,\ 0.0f))\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ buttonBackground\ =\ \&entity-\/>getManager()-\/>addEntity<\mbox{\hyperlink{classNode}{Node}}>();}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ buttonBackground-\/>\mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>(glm::vec2(0,\ 0),\ Layer::action,\ bDimensions,\ 1);}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ buttonBackground-\/>\mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}<\mbox{\hyperlink{classRectangle__w__Color}{Rectangle\_w\_Color}}>();}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ buttonBackground-\/>GetComponent<\mbox{\hyperlink{classRectangle__w__Color}{Rectangle\_w\_Color}}>().color\ =\ bBackground;\ \textcolor{comment}{//\ Grey\ color}}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ buttonBackground-\/>setParentEntity(entity);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ buttonBackground-\/>addGroup(Manager::panelBackground);}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ setOnClick(std::function<\textcolor{keywordtype}{void}()>\ newOnClick)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \_onClick\ =\ newOnClick;}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ setState(ButtonState\ state)\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \_state\ =\ state;}
+\DoxyCodeLine{00075\ \ \ \ \ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Update\ the\ button\ state\ based\ on\ user\ input}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Change\ the\ texture\ or\ appearance\ based\ on\ the\ state}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_state\ ==\ ButtonState::PRESSED\ \&\&\ \_onClick)\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \_onClick();\ \textcolor{comment}{//\ Call\ the\ click\ action\ callback}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ setState(ButtonState::NORMAL);\ \textcolor{comment}{//\ Reset\ the\ state}}
+\DoxyCodeLine{00086\ \ \ \ \ \}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{comment}{//\ Other\ methods\ for\ setting\ textures,\ handling\ mouse\ events,\ etc.}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}ButtonComponent"{}};}
+\DoxyCodeLine{00092\ \ \ \ \ \}}
+\DoxyCodeLine{00093\ \};}
+
+\end{DoxyCode}

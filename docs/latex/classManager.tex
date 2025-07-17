@@ -1,0 +1,192 @@
+\doxysection{Manager Class Reference}
+\hypertarget{classManager}{}\label{classManager}\index{Manager@{Manager}}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classManager_a32a97005c583ad3ff1a5917aab24c98d}\label{classManager_a32a97005c583ad3ff1a5917aab24c98d} 
+enum {\bfseries group\+Labels} \+: std\+::size\+\_\+t \{ \newline
+{\bfseries group\+Background\+Layer}
+, {\bfseries panel\+Background}
+, {\bfseries group\+Links\+\_\+0}
+, {\bfseries group\+Group\+Links\+\_\+0}
+, \newline
+{\bfseries group\+Group\+Links\+\_\+1}
+, {\bfseries group\+Arrow\+Heads\+\_\+0}
+, {\bfseries group\+Nodes\+\_\+0}
+, {\bfseries group\+Group\+Nodes\+\_\+0}
+, \newline
+{\bfseries group\+Group\+Nodes\+\_\+1}
+, {\bfseries group\+Colliders}
+, {\bfseries group\+Empties}
+, {\bfseries group\+Sphere\+Empties}
+, \newline
+{\bfseries group\+Render\+Sprites}
+, {\bfseries button\+Labels}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classManager_a03d75956e906cb33548bbb352c679bad}\label{classManager_a03d75956e906cb33548bbb352c679bad} 
+void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mthreader)
+\item 
+void \mbox{\hyperlink{classManager_ada788438240e99c71e37b149c6bb8957}{update}} (float delta\+Time=1.\+0f)
+\item 
+\Hypertarget{classManager_ad383a9c03a9cb7e5868cb2260632aa02}\label{classManager_ad383a9c03a9cb7e5868cb2260632aa02} 
+void {\bfseries update\+Fully} (float delta\+Time=1.\+0f)
+\item 
+\Hypertarget{classManager_a2ad68b092df2748c0e0cc425e70c4873}\label{classManager_a2ad68b092df2748c0e0cc425e70c4873} 
+void {\bfseries refresh} (\mbox{\hyperlink{classICamera}{ICamera}} \texorpdfstring{$\ast$}{*}camera=nullptr)
+\item 
+\Hypertarget{classManager_a2119dd33279c75f0a0aa37bd3ff775d2}\label{classManager_a2119dd33279c75f0a0aa37bd3ff775d2} 
+void {\bfseries about\+To\+\_\+update\+Active\+Entities} ()
+\item 
+\Hypertarget{classManager_a666780c14670cfdbf72cd6d41f9e54c8}\label{classManager_a666780c14670cfdbf72cd6d41f9e54c8} 
+void {\bfseries update\+Active\+Entities} ()
+\item 
+\Hypertarget{classManager_a80859b72b844be7691375bc729fb5fb2}\label{classManager_a80859b72b844be7691375bc729fb5fb2} 
+void {\bfseries update\+Visible\+Entities} ()
+\item 
+\Hypertarget{classManager_a379c5505a2b1c80285ed22084b425078}\label{classManager_a379c5505a2b1c80285ed22084b425078} 
+void {\bfseries Add\+To\+Group} (\mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*}m\+Entity, Group m\+Group)
+\item 
+\Hypertarget{classManager_a772dd3f0f669dfb9d019ad5ee4f939f9}\label{classManager_a772dd3f0f669dfb9d019ad5ee4f939f9} 
+void {\bfseries Add\+To\+Group} (\mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*}m\+Entity, Group m\+Group)
+\item 
+\Hypertarget{classManager_a5b299f9cd1f4ffa7a0f453f9f13accdd}\label{classManager_a5b299f9cd1f4ffa7a0f453f9f13accdd} 
+void {\bfseries Add\+Link\+To\+Group} (\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*}m\+Entity, Group m\+Group)
+\item 
+\Hypertarget{classManager_a6577eaeef8939cf184b170c28c8d9a1b}\label{classManager_a6577eaeef8939cf184b170c28c8d9a1b} 
+const std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classEntity}{Entity}} $>$ $>$ \& {\bfseries get\+Entities} () const
+\item 
+\Hypertarget{classManager_a7a94a8aa10071c303d7a1e9940ab146c}\label{classManager_a7a94a8aa10071c303d7a1e9940ab146c} 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ {\bfseries get\+Visible} ()
+\item 
+\Hypertarget{classManager_a10ef135cf0a370e7dbc416084dc36627}\label{classManager_a10ef135cf0a370e7dbc416084dc36627} 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ \& {\bfseries get\+Visible\+Group} (Group m\+Group)
+\item 
+\Hypertarget{classManager_ab905f51ef4a48f603b5a1beabe88b1b2}\label{classManager_ab905f51ef4a48f603b5a1beabe88b1b2} 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ \& {\bfseries get\+Group} (Group m\+Group)
+\item 
+\Hypertarget{classManager_af839738bd35efac781777d59869b166c}\label{classManager_af839738bd35efac781777d59869b166c} 
+{\footnotesize template$<$typename T , typename... TArgs$>$ }\\T \& {\bfseries add\+Entity\+No\+Id} (TArgs \&\&... m\+Args)
+\item 
+\Hypertarget{classManager_aaa2916c8b53554fdcca9e6d927480090}\label{classManager_aaa2916c8b53554fdcca9e6d927480090} 
+{\footnotesize template$<$typename T , typename... TArgs$>$ }\\T \& {\bfseries add\+Entity} (TArgs \&\&... m\+Args)
+\item 
+\Hypertarget{classManager_a541ebe670564f432dc2490eff55935ab}\label{classManager_a541ebe670564f432dc2490eff55935ab} 
+void {\bfseries reset\+Entity\+Id} ()
+\item 
+\Hypertarget{classManager_a3bd4b165a509b2e6859dd5f7afdbc9f2}\label{classManager_a3bd4b165a509b2e6859dd5f7afdbc9f2} 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Entity\+From\+Id} (unsigned int m\+Id)
+\item 
+\Hypertarget{classManager_ae41afb4980d72271e4acdad182de3abb}\label{classManager_ae41afb4980d72271e4acdad182de3abb} 
+void {\bfseries clear\+All\+Entities} ()
+\item 
+\Hypertarget{classManager_ae7db622acc2a8476457eb5b40bade259}\label{classManager_ae7db622acc2a8476457eb5b40bade259} 
+void {\bfseries remove\+All\+Entites} ()
+\item 
+\Hypertarget{classManager_a28b2398f7ab5cdb7aabaa6037d6c84ce}\label{classManager_a28b2398f7ab5cdb7aabaa6037d6c84ce} 
+void {\bfseries remove\+All\+Entities\+From\+Group} (Group m\+Group)
+\item 
+\Hypertarget{classManager_abe47e3b02119cde9ced53ba018513117}\label{classManager_abe47e3b02119cde9ced53ba018513117} 
+void {\bfseries remove\+All\+Entities\+From\+Link\+Group} (Group m\+Group)
+\item 
+\Hypertarget{classManager_a33b0350f7de4236e8ba3f7467cd20018}\label{classManager_a33b0350f7de4236e8ba3f7467cd20018} 
+std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries adjacent\+Entities} (\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}main\+Entity, Group group)
+\item 
+\Hypertarget{classManager_a899dd5c5522e4ab16b56fcb6a486e6c9}\label{classManager_a899dd5c5522e4ab16b56fcb6a486e6c9} 
+std\+::string {\bfseries get\+Group\+Name} (Group m\+Group) const
+\item 
+\Hypertarget{classManager_abbb3bea2580af54fd743cc2c7d46d781}\label{classManager_abbb3bea2580af54fd743cc2c7d46d781} 
+void {\bfseries scan\+Component\+Names} (const std\+::string \&folder\+Path)
+\item 
+\Hypertarget{classManager_ab83a1f15acb31b04c99f80d7f6585280}\label{classManager_ab83a1f15acb31b04c99f80d7f6585280} 
+void {\bfseries set\+Component\+Names} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classManager_af8246157c5300e65a5d6de62d79aa238}\label{classManager_af8246157c5300e65a5d6de62d79aa238} 
+std\+::vector$<$ \mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries moved\+Nodes}
+\item 
+\Hypertarget{classManager_a22aed15a402a10cdcca3d32b991dc355}\label{classManager_a22aed15a402a10cdcca3d32b991dc355} 
+std\+::mutex {\bfseries moved\+Nodes\+Mutex}
+\item 
+\Hypertarget{classManager_acda43c0b252ac93d75fef699cc406c31}\label{classManager_acda43c0b252ac93d75fef699cc406c31} 
+bool {\bfseries arrowheads\+Enabled} = false
+\item 
+\Hypertarget{classManager_ab95d9dabda4987fec0d44d38a5e85c1d}\label{classManager_ab95d9dabda4987fec0d44d38a5e85c1d} 
+bool {\bfseries last\+\_\+arrowheads\+Enabled} = false
+\item 
+\Hypertarget{classManager_a4c87bfd50acbc3bdf3afe77df4092f3c}\label{classManager_a4c87bfd50acbc3bdf3afe77df4092f3c} 
+std\+::unordered\+\_\+map$<$ std\+::string, std\+::vector$<$ std\+::string $>$ $>$ {\bfseries component\+Names}
+\item 
+\Hypertarget{classManager_a49bed531c87cc65f2dbfe00d6d1fa8d6}\label{classManager_a49bed531c87cc65f2dbfe00d6d1fa8d6} 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classGrid}{Grid}} $>$ {\bfseries grid}
+\item 
+const std\+::unordered\+\_\+map$<$ Group, std\+::string $>$ \mbox{\hyperlink{classManager_a52c59a57eb3afe37d8eca027ddafe394}{group\+Names}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classManager_ada788438240e99c71e37b149c6bb8957}\label{classManager_ada788438240e99c71e37b149c6bb8957} 
+\index{Manager@{Manager}!update@{update}}
+\index{update@{update}!Manager@{Manager}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Manager\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time = {\ttfamily 1.0f} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+THREADER CHECK
+
+CELL UPDATE
+
+UPDATE LINK CELLS
+
+UPDATE
+
+FOR MAIN MENU
+
+CELL UPDATE
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classManager_a52c59a57eb3afe37d8eca027ddafe394}\label{classManager_a52c59a57eb3afe37d8eca027ddafe394} 
+\index{Manager@{Manager}!groupNames@{groupNames}}
+\index{groupNames@{groupNames}!Manager@{Manager}}
+\doxysubsubsection{\texorpdfstring{groupNames}{groupNames}}
+{\footnotesize\ttfamily const std\+::unordered\+\_\+map$<$Group, std\+::string$>$ Manager\+::group\+Names}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{groupBackgroundLayer,\ \textcolor{stringliteral}{"{}groupBackgroundLayer"{}}\ \},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{panelBackground,\ \textcolor{stringliteral}{"{}panelBackground"{}}\},}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupLinks\_0,\textcolor{stringliteral}{"{}groupLinks\_0"{}}\ \},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{groupGroupLinks\_0,\ \textcolor{stringliteral}{"{}groupGroupLinks\_0"{}}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{groupGroupLinks\_1,\ \textcolor{stringliteral}{"{}groupGroupLinks\_1"{}}\},}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{groupArrowHeads\_0,\ \textcolor{stringliteral}{"{}groupArrowHeads\_0"{}}\},}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupNodes\_0,\textcolor{stringliteral}{"{}groupNodes\_0"{}}\ \},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupGroupNodes\_0,\ \textcolor{stringliteral}{"{}groupGroupNodes\_0"{}}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupGroupNodes\_1,\ \textcolor{stringliteral}{"{}groupGroupNodes\_1"{}}\},}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupEmpties,\textcolor{stringliteral}{"{}groupEmpties"{}}\ \},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupSphereEmpties,\textcolor{stringliteral}{"{}groupSphereEmpties"{}}\ \},}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupColliders,\textcolor{stringliteral}{"{}groupColliders"{}}\ \},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupRenderSprites,\textcolor{stringliteral}{"{}groupRenderSprites"{}}\ \},}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ buttonLabels,\textcolor{stringliteral}{"{}buttonLabels"{}}\ \},}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Core/GECSManager.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Core/GECSManager.\+cpp\end{DoxyCompactItemize}

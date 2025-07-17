@@ -1,0 +1,39 @@
+\doxysection{Base\+FPSLimiter.\+h}
+\hypertarget{BaseFPSLimiter_8h_source}{}\label{BaseFPSLimiter_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/BaseFPSLimiter/BaseFPSLimiter.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/BaseFPSLimiter/BaseFPSLimiter.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classBaseFPSLimiter}{BaseFPSLimiter}}\ \{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ fps\_history\_count\ =\ 100;}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{classBaseFPSLimiter}{BaseFPSLimiter}}();}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{void}\ init(\textcolor{keywordtype}{float}\ maxFPS);}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{void}\ setMaxFPS(\textcolor{keywordtype}{float}\ maxFPS);}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ begin();}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{comment}{//end\ will\ return\ the\ current\ FPS}}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{float}\ end();}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{float}\ fpsHistory[fps\_history\_count]\ =\ \{\ 0\ \};}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{int}\ fpsHistoryIndx\ =\ 0;}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{float}\ fps;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{float}\ maxFPS;}
+\DoxyCodeLine{00025\ \ \ \ \ Uint32\ frameTime;}
+\DoxyCodeLine{00026\ \ \ \ \ Uint32\ startTicks;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ setHistoryValue(\textcolor{keywordtype}{float}\ currentFPS);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ calculateFPS();}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \};}
+
+\end{DoxyCode}

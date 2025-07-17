@@ -1,0 +1,148 @@
+\doxysection{Editor\+IMGUI Class Reference}
+\hypertarget{classEditorIMGUI}{}\label{classEditorIMGUI}\index{EditorIMGUI@{EditorIMGUI}}
+
+
+Inheritance diagram for Editor\+IMGUI\+:
+% FIG 0
+
+
+Collaboration diagram for Editor\+IMGUI\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classEditorIMGUI_a0a9f3767a5e18d7c2aefcc249995b411}\label{classEditorIMGUI_a0a9f3767a5e18d7c2aefcc249995b411} 
+bool {\bfseries is\+Saving} ()
+\item 
+\Hypertarget{classEditorIMGUI_a5a84111bf58af5e7844cc65be0312ff6}\label{classEditorIMGUI_a5a84111bf58af5e7844cc65be0312ff6} 
+void {\bfseries set\+New\+Map} (bool starting\+New)
+\item 
+\Hypertarget{classEditorIMGUI_a0ccbf96e2764d29ce604be1e8d1e679d}\label{classEditorIMGUI_a0ccbf96e2764d29ce604be1e8d1e679d} 
+bool {\bfseries is\+Starting\+New} ()
+\item 
+\Hypertarget{classEditorIMGUI_a4e8206061c8d8115ff02033f2076395d}\label{classEditorIMGUI_a4e8206061c8d8115ff02033f2076395d} 
+bool {\bfseries is\+Loading} ()
+\item 
+\Hypertarget{classEditorIMGUI_abad966d2dfc4341b29e26b342ced3487}\label{classEditorIMGUI_abad966d2dfc4341b29e26b342ced3487} 
+void {\bfseries set\+Loading} (bool loading)
+\item 
+\Hypertarget{classEditorIMGUI_a664528b24b50ef0d61d0103f3d0b97a0}\label{classEditorIMGUI_a664528b24b50ef0d61d0103f3d0b97a0} 
+bool {\bfseries is\+Going\+Back} ()
+\item 
+\Hypertarget{classEditorIMGUI_ad419af4ebcb7f52a914eca013a49a6d9}\label{classEditorIMGUI_ad419af4ebcb7f52a914eca013a49a6d9} 
+void {\bfseries Set\+Going\+Back} (bool going\+Back)
+\item 
+\Hypertarget{classEditorIMGUI_a9790b74ec2843803141453698cd258b4}\label{classEditorIMGUI_a9790b74ec2843803141453698cd258b4} 
+void {\bfseries update\+File\+Names\+In\+Assets} ()
+\item 
+\Hypertarget{classEditorIMGUI_a44089bb95d3c01ee58022e9ebdf9ba61}\label{classEditorIMGUI_a44089bb95d3c01ee58022e9ebdf9ba61} 
+void {\bfseries update\+Polling\+File\+Names\+In\+Assets} ()
+\item 
+\Hypertarget{classEditorIMGUI_af482258acd274c16a7a1582e566aca9d}\label{classEditorIMGUI_af482258acd274c16a7a1582e566aca9d} 
+bool \texorpdfstring{$\ast$}{*} {\bfseries get\+Dockspace\+Ref} ()
+\item 
+\Hypertarget{classEditorIMGUI_aebcdeddea4160278d2adbee61db41c21}\label{classEditorIMGUI_aebcdeddea4160278d2adbee61db41c21} 
+void {\bfseries Menu\+Bar} ()
+\item 
+\Hypertarget{classEditorIMGUI_a505edb7407d612a64ded126e9b7f845a}\label{classEditorIMGUI_a505edb7407d612a64ded126e9b7f845a} 
+bool {\bfseries is\+Mouse\+On\+Widget} (const std\+::string \&widget\+Name)
+\item 
+\Hypertarget{classEditorIMGUI_aaa9f577544fe4ab006af44a53f415ee0}\label{classEditorIMGUI_aaa9f577544fe4ab006af44a53f415ee0} 
+void {\bfseries Left\+Column\+UIElement} (bool \&render\+Debug, bool \&cluster\+Layout, glm\+::vec2 mouse\+Coords, glm\+::vec2 mouse\+Coords2, \mbox{\hyperlink{classManager}{Manager}} \&manager, \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}selected\+Entity, float(\&background\+Color)\mbox{[}4\mbox{]}, int cell\+\_\+size)
+\item 
+\Hypertarget{classEditorIMGUI_acb5f08b873011ae7d798fd5526c43839}\label{classEditorIMGUI_acb5f08b873011ae7d798fd5526c43839} 
+void {\bfseries Right\+Column\+UIElement} (\mbox{\hyperlink{classManager}{Manager}} \&manager, float \texorpdfstring{$\ast$}{*}node\+Radius)
+\item 
+\Hypertarget{classEditorIMGUI_a5c8151ca68026c164ec92168feab4f39}\label{classEditorIMGUI_a5c8151ca68026c164ec92168feab4f39} 
+void {\bfseries FPSCounter} (const \mbox{\hyperlink{classBaseFPSLimiter}{Base\+FPSLimiter}} \&base\+FPSLimiter)
+\item 
+\Hypertarget{classEditorIMGUI_aa69cd66c04464a978495dec6a2653537}\label{classEditorIMGUI_aa69cd66c04464a978495dec6a2653537} 
+void {\bfseries Reload\+Accessible\+Files} ()
+\item 
+\Hypertarget{classEditorIMGUI_afc9e056f2f695ca63a20853a7794e048}\label{classEditorIMGUI_afc9e056f2f695ca63a20853a7794e048} 
+void {\bfseries Saving\+UI} (\mbox{\hyperlink{classMap}{Map}} \texorpdfstring{$\ast$}{*}map)
+\item 
+\Hypertarget{classEditorIMGUI_a92ab978da30a8743c887ac4975806a3e}\label{classEditorIMGUI_a92ab978da30a8743c887ac4975806a3e} 
+void {\bfseries New\+Map\+UI} ()
+\item 
+\Hypertarget{classEditorIMGUI_ac20869c49430bcbebbfe1b3afe92d45a}\label{classEditorIMGUI_ac20869c49430bcbebbfe1b3afe92d45a} 
+char \texorpdfstring{$\ast$}{*} {\bfseries Loading\+UI} ()
+\item 
+\Hypertarget{classEditorIMGUI_acd829e72d6158d47934b5c01f239fa76}\label{classEditorIMGUI_acd829e72d6158d47934b5c01f239fa76} 
+void {\bfseries Main\+Menu\+UI} (std\+::function$<$ void()$>$ on\+Start\+Simulator, std\+::function$<$ void()$>$ on\+Load\+Simulator, std\+::function$<$ void()$>$ on\+Exit\+Simulator)
+\item 
+\Hypertarget{classEditorIMGUI_ae0e35e8426aed4613fc4bc11252aab0a}\label{classEditorIMGUI_ae0e35e8426aed4613fc4bc11252aab0a} 
+void {\bfseries Show\+All\+Entities} (\mbox{\hyperlink{classManager}{Manager}} \&manager, float \&m\+\_\+node\+Radius)
+\item 
+\Hypertarget{classEditorIMGUI_acd2a163904e642bb91ae59ef3f10d919}\label{classEditorIMGUI_acd2a163904e642bb91ae59ef3f10d919} 
+void {\bfseries available\+Functions} ()
+\item 
+\Hypertarget{classEditorIMGUI_adc91cc629639a9adca8feab5f505334a}\label{classEditorIMGUI_adc91cc629639a9adca8feab5f505334a} 
+void {\bfseries Scene\+Viewport} (uint32\+\_\+t texture\+Id, Im\+Vec2 \&stored\+Window\+Pos, Im\+Vec2 \&stored\+Window\+Size)
+\item 
+\Hypertarget{classEditorIMGUI_a499b2ccc7b9d201031422ff0824f4062}\label{classEditorIMGUI_a499b2ccc7b9d201031422ff0824f4062} 
+void {\bfseries script\+Results\+Visualization} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::vector$<$ std\+::pair$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}, glm\+::vec3 $>$ $>$ \&m\+\_\+selected\+Entities)
+\item 
+\Hypertarget{classEditorIMGUI_a71630322e432f752f7c238ff8ada78a4}\label{classEditorIMGUI_a71630322e432f752f7c238ff8ada78a4} 
+std\+::string {\bfseries Scene\+Tabs} (const std\+::vector$<$ std\+::string $>$ \&graph\+Names, std\+::string \&current\+Active)
+\item 
+\Hypertarget{classEditorIMGUI_a6db22511222834aed8aff25288409dd2}\label{classEditorIMGUI_a6db22511222834aed8aff25288409dd2} 
+void {\bfseries Show\+Function\+Execution\+Results} ()
+\item 
+\Hypertarget{classEditorIMGUI_ac81f47d28a4399a644a87d369590681c}\label{classEditorIMGUI_ac81f47d28a4399a644a87d369590681c} 
+void {\bfseries update\+Is\+Mouse\+In\+Second\+Column} ()
+\item 
+\Hypertarget{classEditorIMGUI_a4aa92af8d65c9e12c07621075e3773bd}\label{classEditorIMGUI_a4aa92af8d65c9e12c07621075e3773bd} 
+void {\bfseries Show\+Entity\+Components} (glm\+::vec2 mouse\+Pos, \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}displayed\+Entity, \mbox{\hyperlink{classManager}{Manager}} \&manager)
+\item 
+\Hypertarget{classEditorIMGUI_a5f2da2d4161dbcef4ca38c3b8a23a992}\label{classEditorIMGUI_a5f2da2d4161dbcef4ca38c3b8a23a992} 
+void {\bfseries Show\+Scene\+Control} (glm\+::vec2 mouse\+Pos, \mbox{\hyperlink{classManager}{Manager}} \&manager)
+\item 
+\Hypertarget{classEditorIMGUI_aa3cd39d3e915ea3853320475d5e7daa1}\label{classEditorIMGUI_aa3cd39d3e915ea3853320475d5e7daa1} 
+void {\bfseries Start\+Polling\+Component} (\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}entity, const std\+::string \&file\+Name)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classImGuiInterface}{Im\+Gui\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries Begin\+Render} ()
+\item 
+void {\bfseries Render\+UI} ()
+\item 
+void {\bfseries End\+Render} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classEditorIMGUI_a316f1c9c4df138e285ad0973f1239b01}\label{classEditorIMGUI_a316f1c9c4df138e285ad0973f1239b01} 
+float {\bfseries camera\+RotationZ} = 0
+\item 
+\Hypertarget{classEditorIMGUI_a48ad36c3866d19fd98639f3bab3e2a27}\label{classEditorIMGUI_a48ad36c3866d19fd98639f3bab3e2a27} 
+int {\bfseries new\+Nodes\+Count} = 0
+\item 
+\Hypertarget{classEditorIMGUI_a79c0bc6457f926c5ad986ad005eadb2c}\label{classEditorIMGUI_a79c0bc6457f926c5ad986ad005eadb2c} 
+int {\bfseries new\+Links\+Count} = 0
+\item 
+\Hypertarget{classEditorIMGUI_a65366f106417c361bae79378af683acd}\label{classEditorIMGUI_a65366f106417c361bae79378af683acd} 
+float {\bfseries interpolation} = 0.\+0f
+\item 
+\Hypertarget{classEditorIMGUI_add1c994ecf199d62d0215dc23bb96067}\label{classEditorIMGUI_add1c994ecf199d62d0215dc23bb96067} 
+float {\bfseries interpolation\+\_\+speed} = 0.\+01f
+\item 
+\Hypertarget{classEditorIMGUI_ad86db685cd8d867ffcbad45f1b6d0e52}\label{classEditorIMGUI_ad86db685cd8d867ffcbad45f1b6d0e52} 
+bool {\bfseries interpolation\+\_\+running} = false
+\item 
+\Hypertarget{classEditorIMGUI_a99eb80c8000209b220497b5a25181dd4}\label{classEditorIMGUI_a99eb80c8000209b220497b5a25181dd4} 
+bool {\bfseries is\+Mouse\+In\+Second\+Column} = false
+\item 
+\Hypertarget{classEditorIMGUI_a7abd8dbc2f2266c731276fbd0db6ca8c}\label{classEditorIMGUI_a7abd8dbc2f2266c731276fbd0db6ca8c} 
+int {\bfseries last\+\_\+active\+Layout} = 0
+\item 
+\Hypertarget{classEditorIMGUI_a35b63356c195ef51f20c6e184711c11c}\label{classEditorIMGUI_a35b63356c195ef51f20c6e184711c11c} 
+int {\bfseries active\+Layout} = 0
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/Editor\+IMGUI.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/Editor\+IMGUI.\+cpp\end{DoxyCompactItemize}

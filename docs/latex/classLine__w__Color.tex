@@ -1,0 +1,136 @@
+\doxysection{Line\+\_\+w\+\_\+\+Color Class Reference}
+\hypertarget{classLine__w__Color}{}\label{classLine__w__Color}\index{Line\_w\_Color@{Line\_w\_Color}}
+
+
+Inheritance diagram for Line\+\_\+w\+\_\+\+Color\+:
+% FIG 0
+
+
+Collaboration diagram for Line\+\_\+w\+\_\+\+Color\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classLine__w__Color_aa4d796dafeda23ca0613a3012dd61433}{init}} () override
+\item 
+void \mbox{\hyperlink{classLine__w__Color_aea255cd95f900c2e6b24233560cef731}{update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{classLine__w__Color_a88d5479062473f37e51b44fef0c3bf18}{draw}} (size\+\_\+t v\+\_\+index, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+\Hypertarget{classLine__w__Color_adb655d28e1201580e88152812a475cde}\label{classLine__w__Color_adb655d28e1201580e88152812a475cde} 
+void {\bfseries draw\+With\+Ports} (size\+\_\+t v\+\_\+index, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+\Hypertarget{classLine__w__Color_ad15cb902da39ddf20042ca4f2050f42a}\label{classLine__w__Color_ad15cb902da39ddf20042ca4f2050f42a} 
+void {\bfseries set\+Src\+Color} (\mbox{\hyperlink{structColor}{Color}} clr)
+\item 
+\Hypertarget{classLine__w__Color_ade065ba30aa615cbf57d9e8877776094}\label{classLine__w__Color_ade065ba30aa615cbf57d9e8877776094} 
+void {\bfseries set\+Dest\+Color} (\mbox{\hyperlink{structColor}{Color}} clr)
+\item 
+\Hypertarget{classLine__w__Color_aae2f40938ed5f6aaa8c0aef2a56a8a55}\label{classLine__w__Color_aae2f40938ed5f6aaa8c0aef2a56a8a55} 
+void {\bfseries Set\+Flash\+Animation} (int idX, int idY, size\+\_\+t fr, float sp, const Animation\+::anim\+Type type, const std\+::vector$<$ float $>$ \&flash\+Times, \mbox{\hyperlink{structColor}{Color}} flashC, int reps=0)
+\item 
+\Hypertarget{classLine__w__Color_a861b9330cd680d879367ca7c71fc38ef}\label{classLine__w__Color_a861b9330cd680d879367ca7c71fc38ef} 
+void {\bfseries set\+Flash\+Frame} ()
+\item 
+std\+::string \mbox{\hyperlink{classLine__w__Color_ade4d720d45158825a3291902d24c9a45}{Get\+Component\+Name}} () override
+\item 
+void \mbox{\hyperlink{classLine__w__Color_aeb1861f97b69aa139ab09147c4aedb52}{show\+GUI}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classLine__w__Color_ad1a09cedf8c4d197315a2a520be34cda}\label{classLine__w__Color_ad1a09cedf8c4d197315a2a520be34cda} 
+std\+::string {\bfseries temp\+\_\+line\+Parsed} = "{}"{}
+\item 
+\Hypertarget{classLine__w__Color_a77a610b958ffe2a6d0539776fdb1f369}\label{classLine__w__Color_a77a610b958ffe2a6d0539776fdb1f369} 
+\mbox{\hyperlink{structColor}{Color}} {\bfseries default\+\_\+src\+\_\+color} = \{ 255, 255, 255, 255 \}
+\item 
+\Hypertarget{classLine__w__Color_a94c5eaebb610df73293e45b946c7dc5a}\label{classLine__w__Color_a94c5eaebb610df73293e45b946c7dc5a} 
+\mbox{\hyperlink{structColor}{Color}} {\bfseries src\+\_\+color} = \{ 255, 255, 255, 255 \}
+\item 
+\Hypertarget{classLine__w__Color_a6117709da7c5f9b145c337e536221626}\label{classLine__w__Color_a6117709da7c5f9b145c337e536221626} 
+\mbox{\hyperlink{structColor}{Color}} {\bfseries default\+\_\+dest\+\_\+color} = \{ 255, 255, 255, 255 \}
+\item 
+\Hypertarget{classLine__w__Color_a08912bba92b46aea274094c556276a3e}\label{classLine__w__Color_a08912bba92b46aea274094c556276a3e} 
+\mbox{\hyperlink{structColor}{Color}} {\bfseries dest\+\_\+color} = \{ 255, 255, 255, 255 \}
+\item 
+\Hypertarget{classLine__w__Color_a9dadc7797e9b5290233d17b5080f7cdc}\label{classLine__w__Color_a9dadc7797e9b5290233d17b5080f7cdc} 
+\mbox{\hyperlink{structFlashAnimation}{Flash\+Animation}} {\bfseries flash\+\_\+animation}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classLinkComponent}{Link\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*} {\bfseries entity} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+Component\+ID {\bfseries id} = 0u
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classLine__w__Color_a88d5479062473f37e51b44fef0c3bf18}\label{classLine__w__Color_a88d5479062473f37e51b44fef0c3bf18} 
+\index{Line\_w\_Color@{Line\_w\_Color}!draw@{draw}}
+\index{draw@{draw}!Line\_w\_Color@{Line\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Line\+\_\+w\+\_\+\+Color\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{v\+\_\+index,  }\item[{\mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classLine__w__Color_ade4d720d45158825a3291902d24c9a45}\label{classLine__w__Color_ade4d720d45158825a3291902d24c9a45} 
+\index{Line\_w\_Color@{Line\_w\_Color}!GetComponentName@{GetComponentName}}
+\index{GetComponentName@{GetComponentName}!Line\_w\_Color@{Line\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}}
+{\footnotesize\ttfamily std\+::string Line\+\_\+w\+\_\+\+Color\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classLine__w__Color_aa4d796dafeda23ca0613a3012dd61433}\label{classLine__w__Color_aa4d796dafeda23ca0613a3012dd61433} 
+\index{Line\_w\_Color@{Line\_w\_Color}!init@{init}}
+\index{init@{init}!Line\_w\_Color@{Line\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Line\+\_\+w\+\_\+\+Color\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classLine__w__Color_aeb1861f97b69aa139ab09147c4aedb52}\label{classLine__w__Color_aeb1861f97b69aa139ab09147c4aedb52} 
+\index{Line\_w\_Color@{Line\_w\_Color}!showGUI@{showGUI}}
+\index{showGUI@{showGUI}!Line\_w\_Color@{Line\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}}
+{\footnotesize\ttfamily void Line\+\_\+w\+\_\+\+Color\+::show\+GUI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classLine__w__Color_aea255cd95f900c2e6b24233560cef731}\label{classLine__w__Color_aea255cd95f900c2e6b24233560cef731} 
+\index{Line\_w\_Color@{Line\_w\_Color}!update@{update}}
+\index{update@{update}!Line\_w\_Color@{Line\_w\_Color}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Line\+\_\+w\+\_\+\+Color\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Link/\+Basic/Line\+\_\+w\+\_\+\+Color.\+h\end{DoxyCompactItemize}

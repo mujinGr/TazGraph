@@ -1,0 +1,214 @@
+\doxysection{AABB.\+h}
+\hypertarget{AABB_8h_source}{}\label{AABB_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/AABB/AABB.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/AABB/AABB.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <SDL2/SDL\_rect.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ RectType>}
+\DoxyCodeLine{00007\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ checkCollision(\textcolor{keyword}{const}\ RectType\&\ recA,\ \textcolor{keyword}{const}\ RectType\&\ recB)\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{static\_assert}(std::is\_same<RectType,\ SDL\_Rect>::value\ ||\ std::is\_same<RectType,\ SDL\_FRect>::value,}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}checkCollision:\ RectType\ must\ be\ either\ SDL\_Rect\ or\ SDL\_FRect"{}});}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordflow}{if}\ (recA.x\ >=\ recB.x\ +\ recB.w\ ||\ recA.x\ +\ recA.w\ <=\ recB.x\ ||}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ recA.y\ >=\ recB.y\ +\ recB.h\ ||\ recA.y\ +\ recA.h\ <=\ recB.y)\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ no\ collision}}
+\DoxyCodeLine{00014\ \ \ \ \ \}}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00016\ \}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ checkCollision(\textcolor{keyword}{const}\ SDL\_Rect\&\ recA,\ \textcolor{keyword}{const}\ SDL\_FRect\&\ recB)\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ SDL\_FRect\ convertedA\ =\ \{\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(recA.x),\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(recA.y),}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(recA.w),\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(recA.h)\ \};}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordflow}{return}\ checkCollision(convertedA,\ recB);}
+\DoxyCodeLine{00022\ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ checkCollision(\textcolor{keyword}{const}\ SDL\_FRect\&\ recA,\ \textcolor{keyword}{const}\ SDL\_Rect\&\ recB)\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{return}\ checkCollision(recB,\ recA);\ }
+\DoxyCodeLine{00026\ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ checkCollision3D(\textcolor{keyword}{const}\ glm::vec3\&\ centerA,\ \textcolor{keyword}{const}\ glm::vec3\&\ halfSizeA,}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ centerB,\ \textcolor{keyword}{const}\ glm::vec3\&\ halfSizeB,}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{float}\ padding\ =\ 0.0f)\ \{}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ glm::vec3\ paddedHalfSizeA\ =\ halfSizeA\ +\ glm::vec3(padding);}
+\DoxyCodeLine{00033\ \ \ \ \ glm::vec3\ paddedHalfSizeB\ =\ halfSizeB\ +\ glm::vec3(padding);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{return}\ !(centerA.x\ +\ paddedHalfSizeA.x\ <=\ centerB.x\ -\/\ paddedHalfSizeB.x\ ||}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ centerA.x\ -\/\ paddedHalfSizeA.x\ >=\ centerB.x\ +\ paddedHalfSizeB.x\ ||}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ centerA.y\ +\ paddedHalfSizeA.y\ <=\ centerB.y\ -\/\ paddedHalfSizeB.y\ ||}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ centerA.y\ -\/\ paddedHalfSizeA.y\ >=\ centerB.y\ +\ paddedHalfSizeB.y\ ||}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ centerA.z\ +\ paddedHalfSizeA.z\ <=\ centerB.z\ -\/\ paddedHalfSizeB.z\ ||}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ centerA.z\ -\/\ paddedHalfSizeA.z\ >=\ centerB.z\ +\ paddedHalfSizeB.z);}
+\DoxyCodeLine{00042\ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{float}\ pointLineDistance(glm::vec2\ point,\ glm::vec2\ lineStartPoint,\ glm::vec2\ lineEndPoint)\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{float}\ num\ =\ std::abs((lineEndPoint.y\ -\/\ lineStartPoint.y)\ *\ point.x\ -\/\ (lineEndPoint.x\ -\/\ lineStartPoint.x)\ *\ point.y\ +\ lineEndPoint.x\ *\ lineStartPoint.y\ -\/\ lineEndPoint.y\ *\ lineStartPoint.x);}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{float}\ den\ =\ std::sqrt((lineEndPoint.y\ -\/\ lineStartPoint.y)\ *\ (lineEndPoint.y\ -\/\ lineStartPoint.y)\ +\ (lineEndPoint.x\ -\/\ lineStartPoint.x)\ *\ (lineEndPoint.x\ -\/\ lineStartPoint.x));}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordflow}{return}\ num\ /\ den;}
+\DoxyCodeLine{00048\ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ rayIntersectsRectangle(\textcolor{keyword}{const}\ glm::vec3\&\ rayOrigin,\ \textcolor{keyword}{const}\ glm::vec3\&\ rayDirection,}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ planePoint,\ \textcolor{keyword}{const}\ glm::vec3\&\ planeNormal,}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{float}\ xMin,\ \textcolor{keywordtype}{float}\ xMax,\ \textcolor{keywordtype}{float}\ yMin,\ \textcolor{keywordtype}{float}\ yMax)\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{comment}{//\ Step\ 1:\ Check\ if\ the\ ray\ intersects\ the\ plane}}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{float}\ denom\ =\ glm::dot(planeNormal,\ rayDirection);}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//\ If\ denom\ ==\ 0,\ the\ ray\ is\ parallel\ to\ the\ plane}}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{if}\ (std::abs(denom)\ <\ 1e-\/6)\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ No\ intersection}}
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{comment}{//\ Calculate\ t}}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{float}\ t\ =\ glm::dot(planeNormal,\ planePoint\ -\/\ rayOrigin)\ /\ denom;}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{comment}{//\ If\ t\ <\ 0,\ the\ intersection\ is\ behind\ the\ ray\ origin}}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ <\ 0)\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00067\ \ \ \ \ \}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ intersection\ point}}
+\DoxyCodeLine{00070\ \ \ \ \ glm::vec3\ intersectionPoint\ =\ rayOrigin\ +\ t\ *\ rayDirection;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{comment}{//\ Step\ 2:\ Check\ if\ the\ intersection\ point\ lies\ within\ the\ rectangle\ bounds}}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordflow}{if}\ (intersectionPoint.x\ >=\ xMin\ \&\&\ intersectionPoint.x\ <=\ xMax\ \&\&}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ intersectionPoint.y\ >=\ yMin\ \&\&\ intersectionPoint.y\ <=\ yMax)\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \textcolor{comment}{//\ Intersection\ point\ is\ within\ the\ rectangle}}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ Intersection\ point\ is\ outside\ the\ rectangle}}
+\DoxyCodeLine{00079\ \}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ rayIntersectsSphere(}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ rayOrigin,}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ rayDirection,}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ sphereCenter,}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{float}\ radius,}
+\DoxyCodeLine{00087\ \ \ \ \ glm::vec3\&\ t}
+\DoxyCodeLine{00088\ )\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ glm::vec3\ oc\ =\ rayOrigin\ -\/\ sphereCenter;}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{float}\ A\ =\ glm::dot(rayDirection,\ rayDirection);}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{float}\ B\ =\ 2.0f\ *\ glm::dot(oc,\ rayDirection);}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{float}\ C\ =\ glm::dot(oc,\ oc)\ -\/\ radius\ *\ radius;}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{float}\ discriminant\ =\ B\ *\ B\ -\/\ 4\ *\ A\ *\ C;}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordflow}{if}\ (discriminant\ <\ 0)\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \ \textcolor{comment}{//\ No\ intersection}}
+\DoxyCodeLine{00099\ \ \ \ \ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{comment}{//\ Compute\ the\ closest\ valid\ t\ value}}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{float}\ sqrtDiscriminant\ =\ sqrt(discriminant);}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{float}\ t0\ =\ (-\/B\ -\/\ sqrtDiscriminant)\ /\ (2.0f\ *\ A);}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{float}\ t1\ =\ (-\/B\ +\ sqrtDiscriminant)\ /\ (2.0f\ *\ A);}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordflow}{if}\ (t0\ >=\ 0)\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ t\ =\ rayOrigin\ +\ t0\ *\ rayDirection;\ \ \textcolor{comment}{//\ Closest\ intersection\ point}}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00109\ \ \ \ \ \}}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (t1\ >=\ 0)\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ t\ =\ rayOrigin\ +\ t1\ *\ rayDirection;\ \ \textcolor{comment}{//\ Intersection\ behind\ the\ ray\ origin}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00113\ \ \ \ \ \}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00116\ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ sphereIntersectsBox(}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ sphereCenter,\ \textcolor{keywordtype}{float}\ sphereRadius,}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ boxMin,\ \textcolor{keyword}{const}\ glm::vec3\&\ boxMax,}
+\DoxyCodeLine{00121\ \ \ \ \ glm::vec3\&\ intersectionPoint)}
+\DoxyCodeLine{00122\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ glm::vec3\ closestPoint\ =\ glm::clamp(sphereCenter,\ boxMin,\ boxMax);}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ intersectionPoint\ =\ closestPoint;}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ glm::vec3\ diff\ =\ closestPoint\ -\/\ sphereCenter;}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{float}\ distanceSquared\ =\ glm::dot(diff,\ diff);}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordflow}{return}\ distanceSquared\ <=\ (sphereRadius\ *\ sphereRadius);}
+\DoxyCodeLine{00131\ \}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ rayIntersectsBox(}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ rayOrigin,}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ rayDirection,}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ boxMin,\ \textcolor{keyword}{const}\ glm::vec3\&\ boxMax,}
+\DoxyCodeLine{00137\ \ \ \ \ glm::vec3\&\ intersectionPoint,}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_maxT}
+\DoxyCodeLine{00139\ )\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{float}\ sphereRad\ =\ glm::distance(boxMin,\ boxMax)/\ 2.0f;}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ }
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{float}\ t\ =\ 0.0f;\ t\ <\ m\_maxT;\ t\ +=\ sphereRad)\ \{}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ glm::vec3\ samplePoint\ =\ rayOrigin\ +\ t\ *\ rayDirection;}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sphereIntersectsBox(}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ samplePoint,\ sphereRad,}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ boxMin,\ boxMax,}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ intersectionPoint}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ ))\ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00156\ \ \ \ \ \}}
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ rayIntersectsLineSegment(}
+\DoxyCodeLine{00163\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ rayOrigin,}
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ rayDirection,}
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ segmentStart,}
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ segmentEnd,}
+\DoxyCodeLine{00167\ \ \ \ \ glm::vec3\&\ intersectionPoint,}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_minT,}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_maxT,}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_sphereRad}
+\DoxyCodeLine{00171\ )\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{float}\ t\ =\ m\_minT;\ t\ <\ m\_maxT;\ t\ +=\ m\_sphereRad)\ \{}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ m\_sphereRad\ +=\ 0.005f;}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ glm::vec3\ samplePoint\ =\ rayOrigin\ +\ t\ *\ rayDirection;}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ glm::vec3\ lineLength\ =\ segmentEnd\ -\/\ segmentStart;}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ glm::vec3\ lineDir\ =\ glm::normalize(lineLength);}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ glm::vec3\ t\_temp(0.0f);}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rayIntersectsSphere(segmentStart,\ lineDir,\ samplePoint,\ m\_sphereRad,\ t\_temp))\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(glm::distance(segmentStart,\ t\_temp)\ <\ glm::distance(segmentEnd,\ segmentStart))}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00185\ \ \ \ \ \}}
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00187\ \}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ checkCircleLineCollision(glm::vec2\ center,\ \textcolor{keywordtype}{int}\ circleRadius,\ glm::vec2\ lineStartPoint,\ glm::vec2\ lineEndPoint)\ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keywordtype}{float}\ dist\ =\ pointLineDistance(center,\ lineStartPoint,\ lineEndPoint);}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordflow}{if}\ (dist\ <=\ circleRadius)\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx\ =\ lineEndPoint.x\ -\/\ lineStartPoint.x;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dy\ =\ lineEndPoint.y\ -\/\ lineStartPoint.y;}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ t\ =\ ((center.x\ -\/\ lineStartPoint.x)\ *\ dx\ +\ (center.y\ -\/\ lineStartPoint.y)\ *\ dy)\ /\ (dx\ *\ dx\ +\ dy\ *\ dy);}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ t\ =\ std::max(0.0f,\ std::min(1.0f,\ t));}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ closestX\ =\ lineStartPoint.x\ +\ t\ *\ dx;}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ closestY\ =\ lineStartPoint.y\ +\ t\ *\ dy;}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ distanceToCircle\ =\ std::sqrt((closestX\ -\/\ center.x)\ *\ (closestX\ -\/\ center.x)\ +}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ (closestY\ -\/\ center.y)\ *\ (closestY\ -\/\ center.y));}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ distanceToCircle\ <=\ circleRadius;}
+\DoxyCodeLine{00205\ \ \ \ \ \}}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00208\ \}}
+
+\end{DoxyCode}

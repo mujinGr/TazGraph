@@ -1,0 +1,195 @@
+\doxysection{Main\+Menu\+Screen Class Reference}
+\hypertarget{classMainMenuScreen}{}\label{classMainMenuScreen}\index{MainMenuScreen@{MainMenuScreen}}
+
+
+Inheritance diagram for Main\+Menu\+Screen\+:
+% FIG 0
+
+
+Collaboration diagram for Main\+Menu\+Screen\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classMainMenuScreen_ae42d94b14f748c01d98211ee8feb785b}\label{classMainMenuScreen_ae42d94b14f748c01d98211ee8feb785b} 
+{\bfseries Main\+Menu\+Screen} (\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \texorpdfstring{$\ast$}{*}window)
+\item 
+virtual int \mbox{\hyperlink{classMainMenuScreen_abe1f8b192842a45aa2b4da48de3ef09f}{get\+Next\+Scene\+Index}} () const override
+\item 
+virtual int \mbox{\hyperlink{classMainMenuScreen_a63fef30ce39fa78e12d9f13017bc2a53}{get\+Previous\+Scene\+Index}} () const override
+\item 
+virtual void \mbox{\hyperlink{classMainMenuScreen_acf1a7043d43f4b11e0f55fbf92d25b8e}{build}} () override
+\item 
+virtual void \mbox{\hyperlink{classMainMenuScreen_abac17a55516f88ea856ec91749f79f1d}{destroy}} () override
+\item 
+virtual void \mbox{\hyperlink{classMainMenuScreen_a8fbd62d92bd6203f3e7be1e19d3ba905}{on\+Entry}} () override
+\item 
+virtual void \mbox{\hyperlink{classMainMenuScreen_a716b313d20d57ec4c73217eb6cb63f0b}{on\+Exit}} () override
+\item 
+virtual void \mbox{\hyperlink{classMainMenuScreen_ae83cb9003aa6add0ca1b6b2d8fca9ec0}{update}} (float delta\+Time) override
+\item 
+virtual void \mbox{\hyperlink{classMainMenuScreen_a303f6e25f9820636fc62819ffa3b9c68}{draw}} () override
+\item 
+virtual void \mbox{\hyperlink{classMainMenuScreen_a8921ec111c7cc274a30ab824941e566b}{Begin\+Render}} () override
+\item 
+virtual void \mbox{\hyperlink{classMainMenuScreen_a67db9cc15c07e64ef5d3cc5bc7612422}{update\+UI}} () override
+\item 
+virtual void \mbox{\hyperlink{classMainMenuScreen_ae7c3e7b3c118d30afde8f54635e4c61f}{End\+Render}} () override
+\item 
+\Hypertarget{classMainMenuScreen_ad35134f90fadf517991ee14c0be8cb4a}\label{classMainMenuScreen_ad35134f90fadf517991ee14c0be8cb4a} 
+void {\bfseries render\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIScene}{IScene}}}
+\begin{DoxyCompactItemize}
+\item 
+int {\bfseries get\+Scene\+Index} () const
+\item 
+void {\bfseries set\+Running} ()
+\item 
+Scene\+State {\bfseries get\+State} () const
+\item 
+void {\bfseries set\+Parent\+App} (\mbox{\hyperlink{classAppInterface}{App\+Interface}} \texorpdfstring{$\ast$}{*}app)
+\item 
+\mbox{\hyperlink{classAppInterface}{App\+Interface}} \texorpdfstring{$\ast$}{*} {\bfseries get\+App} () const
+\item 
+void {\bfseries set\+Manager} (std\+::string m\+\_\+manager\+Name)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classIScene}{IScene}}}
+\begin{DoxyCompactItemize}
+\item 
+Scene\+State {\bfseries \+\_\+current\+State} = Scene\+State\+::\+NONE
+\item 
+\mbox{\hyperlink{classAppInterface}{App\+Interface}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+app} = nullptr
+\item 
+int {\bfseries \+\_\+scene\+Index} = -\/1
+\item 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{classIScene_ad1897b6e44c9dd75a3d89e6f6e2d33fa}{managers}}
+\item 
+\mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} {\bfseries manager} = nullptr
+\item 
+std\+::string {\bfseries manager\+Name} = "{}"{}
+\item 
+bool {\bfseries \+\_\+render\+Debug} = false
+\item 
+bool {\bfseries \+\_\+cluster\+Layout} = false
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classMainMenuScreen_a8921ec111c7cc274a30ab824941e566b}\label{classMainMenuScreen_a8921ec111c7cc274a30ab824941e566b} 
+\index{MainMenuScreen@{MainMenuScreen}!BeginRender@{BeginRender}}
+\index{BeginRender@{BeginRender}!MainMenuScreen@{MainMenuScreen}}
+\doxysubsubsection{\texorpdfstring{BeginRender()}{BeginRender()}}
+{\footnotesize\ttfamily void Main\+Menu\+Screen\+::\+Begin\+Render (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classMainMenuScreen_acf1a7043d43f4b11e0f55fbf92d25b8e}\label{classMainMenuScreen_acf1a7043d43f4b11e0f55fbf92d25b8e} 
+\index{MainMenuScreen@{MainMenuScreen}!build@{build}}
+\index{build@{build}!MainMenuScreen@{MainMenuScreen}}
+\doxysubsubsection{\texorpdfstring{build()}{build()}}
+{\footnotesize\ttfamily void Main\+Menu\+Screen\+::build (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classMainMenuScreen_abac17a55516f88ea856ec91749f79f1d}\label{classMainMenuScreen_abac17a55516f88ea856ec91749f79f1d} 
+\index{MainMenuScreen@{MainMenuScreen}!destroy@{destroy}}
+\index{destroy@{destroy}!MainMenuScreen@{MainMenuScreen}}
+\doxysubsubsection{\texorpdfstring{destroy()}{destroy()}}
+{\footnotesize\ttfamily void Main\+Menu\+Screen\+::destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classMainMenuScreen_a303f6e25f9820636fc62819ffa3b9c68}\label{classMainMenuScreen_a303f6e25f9820636fc62819ffa3b9c68} 
+\index{MainMenuScreen@{MainMenuScreen}!draw@{draw}}
+\index{draw@{draw}!MainMenuScreen@{MainMenuScreen}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Main\+Menu\+Screen\+::draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classMainMenuScreen_ae7c3e7b3c118d30afde8f54635e4c61f}\label{classMainMenuScreen_ae7c3e7b3c118d30afde8f54635e4c61f} 
+\index{MainMenuScreen@{MainMenuScreen}!EndRender@{EndRender}}
+\index{EndRender@{EndRender}!MainMenuScreen@{MainMenuScreen}}
+\doxysubsubsection{\texorpdfstring{EndRender()}{EndRender()}}
+{\footnotesize\ttfamily void Main\+Menu\+Screen\+::\+End\+Render (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classMainMenuScreen_abe1f8b192842a45aa2b4da48de3ef09f}\label{classMainMenuScreen_abe1f8b192842a45aa2b4da48de3ef09f} 
+\index{MainMenuScreen@{MainMenuScreen}!getNextSceneIndex@{getNextSceneIndex}}
+\index{getNextSceneIndex@{getNextSceneIndex}!MainMenuScreen@{MainMenuScreen}}
+\doxysubsubsection{\texorpdfstring{getNextSceneIndex()}{getNextSceneIndex()}}
+{\footnotesize\ttfamily int Main\+Menu\+Screen\+::get\+Next\+Scene\+Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classMainMenuScreen_a63fef30ce39fa78e12d9f13017bc2a53}\label{classMainMenuScreen_a63fef30ce39fa78e12d9f13017bc2a53} 
+\index{MainMenuScreen@{MainMenuScreen}!getPreviousSceneIndex@{getPreviousSceneIndex}}
+\index{getPreviousSceneIndex@{getPreviousSceneIndex}!MainMenuScreen@{MainMenuScreen}}
+\doxysubsubsection{\texorpdfstring{getPreviousSceneIndex()}{getPreviousSceneIndex()}}
+{\footnotesize\ttfamily int Main\+Menu\+Screen\+::get\+Previous\+Scene\+Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classMainMenuScreen_a8fbd62d92bd6203f3e7be1e19d3ba905}\label{classMainMenuScreen_a8fbd62d92bd6203f3e7be1e19d3ba905} 
+\index{MainMenuScreen@{MainMenuScreen}!onEntry@{onEntry}}
+\index{onEntry@{onEntry}!MainMenuScreen@{MainMenuScreen}}
+\doxysubsubsection{\texorpdfstring{onEntry()}{onEntry()}}
+{\footnotesize\ttfamily void Main\+Menu\+Screen\+::on\+Entry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classMainMenuScreen_a716b313d20d57ec4c73217eb6cb63f0b}\label{classMainMenuScreen_a716b313d20d57ec4c73217eb6cb63f0b} 
+\index{MainMenuScreen@{MainMenuScreen}!onExit@{onExit}}
+\index{onExit@{onExit}!MainMenuScreen@{MainMenuScreen}}
+\doxysubsubsection{\texorpdfstring{onExit()}{onExit()}}
+{\footnotesize\ttfamily void Main\+Menu\+Screen\+::on\+Exit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classMainMenuScreen_ae83cb9003aa6add0ca1b6b2d8fca9ec0}\label{classMainMenuScreen_ae83cb9003aa6add0ca1b6b2d8fca9ec0} 
+\index{MainMenuScreen@{MainMenuScreen}!update@{update}}
+\index{update@{update}!MainMenuScreen@{MainMenuScreen}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Main\+Menu\+Screen\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classMainMenuScreen_a67db9cc15c07e64ef5d3cc5bc7612422}\label{classMainMenuScreen_a67db9cc15c07e64ef5d3cc5bc7612422} 
+\index{MainMenuScreen@{MainMenuScreen}!updateUI@{updateUI}}
+\index{updateUI@{updateUI}!MainMenuScreen@{MainMenuScreen}}
+\doxysubsubsection{\texorpdfstring{updateUI()}{updateUI()}}
+{\footnotesize\ttfamily void Main\+Menu\+Screen\+::update\+UI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Main\+Menu\+Screen/Main\+Menu\+Screen.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Main\+Menu\+Screen/Main\+Menu\+Screen.\+cpp\end{DoxyCompactItemize}

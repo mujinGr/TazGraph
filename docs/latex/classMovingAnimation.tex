@@ -1,0 +1,93 @@
+\doxysection{Moving\+Animation Class Reference}
+\hypertarget{classMovingAnimation}{}\label{classMovingAnimation}\index{MovingAnimation@{MovingAnimation}}
+
+
+Inheritance diagram for Moving\+Animation\+:
+% FIG 0
+
+
+Collaboration diagram for Moving\+Animation\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classMovingAnimation_a0d96ec39e63189c488ef4b3a828be660}\label{classMovingAnimation_a0d96ec39e63189c488ef4b3a828be660} 
+{\bfseries Moving\+Animation} (int ix, int iy, int f, float s, const std\+::string \+\_\+type, int dx, int dy, int \+\_\+reps=0)
+\item 
+\Hypertarget{classMovingAnimation_a9f128e29959e7db6fe4d9f32b65f70c4}\label{classMovingAnimation_a9f128e29959e7db6fe4d9f32b65f70c4} 
+{\bfseries Moving\+Animation} (int ix, int iy, int f, float s, const anim\+Type \+\_\+type, int dx, int dy, int \+\_\+reps=0)
+\item 
+\Hypertarget{classMovingAnimation_ae72ccb54948f8824bd2383ab57150889}\label{classMovingAnimation_ae72ccb54948f8824bd2383ab57150889} 
+{\bfseries Moving\+Animation} (int ix, int iy, int f, float s, const std\+::string \+\_\+type, const std\+::vector$<$ glm\+::vec2 $>$ \&\+\_\+positions, const std\+::vector$<$ int $>$ \&\+\_\+z\+Indices, const std\+::vector$<$ int $>$ \&\+\_\+rotations, int \+\_\+reps=0)
+\item 
+\Hypertarget{classMovingAnimation_ab63175b13c783ef02e4eec354ad8d87d}\label{classMovingAnimation_ab63175b13c783ef02e4eec354ad8d87d} 
+{\bfseries Moving\+Animation} (int ix, int iy, size\+\_\+t f, float s, const anim\+Type \+\_\+type, const std\+::vector$<$ glm\+::vec2 $>$ \&\+\_\+positions, const std\+::vector$<$ int $>$ \&\+\_\+z\+Indices, const std\+::vector$<$ int $>$ \&\+\_\+rotations, int \+\_\+reps=0)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{structAnimation}{Animation}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Animation} (int ix, int iy, size\+\_\+t f, float s, const std\+::string \+\_\+type, int \+\_\+reps=0)
+\item 
+{\bfseries Animation} (int ix, int iy, size\+\_\+t f, float s, const anim\+Type \+\_\+type, int \+\_\+reps=0)
+\item 
+void {\bfseries advance\+Frame} (float delta\+Time)
+\item 
+void {\bfseries reset\+Frame\+Index} ()
+\item 
+bool {\bfseries has\+Finished} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classMovingAnimation_a1ff47a8688dd2c2e572b01b117eee6b5}\label{classMovingAnimation_a1ff47a8688dd2c2e572b01b117eee6b5} 
+std\+::vector$<$ glm\+::vec2 $>$ {\bfseries positions}
+\item 
+\Hypertarget{classMovingAnimation_a688661829bc2976e6e176d5fd8804d03}\label{classMovingAnimation_a688661829bc2976e6e176d5fd8804d03} 
+std\+::vector$<$ int $>$ {\bfseries z\+Indices}
+\item 
+\Hypertarget{classMovingAnimation_affb6caa66be29c10b9c65630f4665ab4}\label{classMovingAnimation_affb6caa66be29c10b9c65630f4665ab4} 
+std\+::vector$<$ int $>$ {\bfseries rotations}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{structAnimation}{Animation}}}
+\begin{DoxyCompactItemize}
+\item 
+int {\bfseries indexX} = 0
+\item 
+int {\bfseries indexY} = 0
+\item 
+size\+\_\+t {\bfseries total\+\_\+frames} = 0
+\item 
+float {\bfseries speed} = 1.\+0f
+\item 
+anim\+Type {\bfseries type} = anim\+Type\+::\+ANIMTYPE\+\_\+\+NONE
+\item 
+int {\bfseries reps} = 0
+\item 
+int {\bfseries frame\+\_\+times\+\_\+played} = 0
+\item 
+int {\bfseries cur\+\_\+frame\+\_\+index} = 0
+\item 
+float {\bfseries cur\+\_\+frame\+\_\+index\+\_\+f} = 0
+\item 
+int {\bfseries times\+\_\+played} = 0
+\item 
+int {\bfseries flow\+\_\+direction} = 1
+\item 
+bool {\bfseries finished} = false
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Types inherited from \mbox{\hyperlink{structAnimation}{Animation}}}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structAnimation_a4a53520e7b1569ca3477cf26e4500856}\label{structAnimation_a4a53520e7b1569ca3477cf26e4500856} 
+enum {\bfseries anim\+Type} \{ {\bfseries ANIMTYPE\+\_\+\+NONE} = 0
+, {\bfseries ANIMTYPE\+\_\+\+PLAY\+\_\+\+N\+\_\+\+TIMES} = 1
+, {\bfseries ANIMTYPE\+\_\+\+LOOPED} = 2
+, {\bfseries ANIMTYPE\+\_\+\+BACK\+\_\+\+FORTH} = 3
+ \}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Animators/Moving\+Animation.\+h\end{DoxyCompactItemize}

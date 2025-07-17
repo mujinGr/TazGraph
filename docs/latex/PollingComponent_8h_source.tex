@@ -1,0 +1,53 @@
+\doxysection{Polling\+Component.\+h}
+\hypertarget{PollingComponent_8h_source}{}\label{PollingComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Node/Util/PollingComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Node/Util/PollingComponent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPollingComponent}{PollingComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classNodeComponent}{NodeComponent}}\ \{}
+\DoxyCodeLine{00005\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keywordtype}{void}\ StartPolling(\textcolor{keyword}{const}\ std::string\&\ file,\ \textcolor{keywordtype}{float}\ delayInSeconds)\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ \ \ \ \ pollingFile\ =\ file;}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ timer\ =\ delayInSeconds;}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ pollingActive\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00010\ \ \ \ \ \}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!pollingActive)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ timer\ -\/=\ deltaTime\ /\ 10.0f;}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (timer\ <=\ 0.0f)\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ SendMessageToOtherNodes(pollingFile);}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ pollingActive\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ Stop\ polling\ after\ sending\ the\ message}}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00020\ \ \ \ \ \}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}PollingComponent"{}};}
+\DoxyCodeLine{00024\ \ \ \ \ \}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ SendMessageToOtherNodes(\textcolor{keyword}{const}\ std::string\&\ file)\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Polling\ complete.\ Sending\ message\ from\ file:\ "{}}\ <<\ file\ <<\ std::endl;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \textcolor{comment}{//\ get\ outLinks\ of\ Node,\ fine\ the\ node\ with\ the\ id,\ and\ send\ a\ message\ saying\ "{}Hello\ World"{}}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \textcolor{comment}{//\ keep\ log\ in\ the\ nodes\ where\ it\ shows\ the\ messages\ received}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity-\/>getOutLinks().empty())\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ entity-\/>getOutLinks())\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>getToNode()-\/>addMessage(\textcolor{stringliteral}{"{}Hello\ World"{}});}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>GetComponent<\mbox{\hyperlink{classLineFlashAnimatorComponent}{LineFlashAnimatorComponent}}>().Play(\textcolor{stringliteral}{"{}LineTransfer"{}});}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ entity-\/>makeAnimation(0.01f)}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ std::string\ pollingFile;}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{float}\ timer\ =\ 0.0f;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{bool}\ pollingActive\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00047\ \};}
+
+\end{DoxyCode}

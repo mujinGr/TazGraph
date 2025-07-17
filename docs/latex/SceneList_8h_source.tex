@@ -1,0 +1,34 @@
+\doxysection{Scene\+List.\+h}
+\hypertarget{SceneList_8h_source}{}\label{SceneList_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GraphScreen/SceneList.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GraphScreen/SceneList.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classAppInterface}{AppInterface}};}
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classIScene}{IScene}};}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classSceneList}{SceneList}}\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{classSceneList}{SceneList}}(\mbox{\hyperlink{classAppInterface}{AppInterface}}*\ app);}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classSceneList}{\string~SceneList}}();}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{classIScene}{IScene}}*\ moveNext();}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{classIScene}{IScene}}*\ movePrevious();}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ setScene(\textcolor{keywordtype}{int}\ nextScene);}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ addScene(\mbox{\hyperlink{classIScene}{IScene}}*\ newScene);}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ addScene(std::string\ managerName,\ \mbox{\hyperlink{classIScene}{IScene}}*\ newScene);}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ destroy();}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{classIScene}{IScene}}*\ getCurrent();}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{classAppInterface}{AppInterface}}*\ \_app\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00026\ \ \ \ \ std::vector<IScene*>\ \_scenes;}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{int}\ \_currentSceneIndex\ =\ -\/1;}
+\DoxyCodeLine{00028\ \};}
+
+\end{DoxyCode}

@@ -1,0 +1,78 @@
+\doxysection{Animation Struct Reference}
+\hypertarget{structAnimation}{}\label{structAnimation}\index{Animation@{Animation}}
+
+
+Inheritance diagram for Animation\+:
+% FIG 0
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structAnimation_a4a53520e7b1569ca3477cf26e4500856}\label{structAnimation_a4a53520e7b1569ca3477cf26e4500856} 
+enum {\bfseries anim\+Type} \{ {\bfseries ANIMTYPE\+\_\+\+NONE} = 0
+, {\bfseries ANIMTYPE\+\_\+\+PLAY\+\_\+\+N\+\_\+\+TIMES} = 1
+, {\bfseries ANIMTYPE\+\_\+\+LOOPED} = 2
+, {\bfseries ANIMTYPE\+\_\+\+BACK\+\_\+\+FORTH} = 3
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structAnimation_a64b6ffeffccf726c65d2e9e1060ca768}\label{structAnimation_a64b6ffeffccf726c65d2e9e1060ca768} 
+{\bfseries Animation} (int ix, int iy, size\+\_\+t f, float s, const std\+::string \+\_\+type, int \+\_\+reps=0)
+\item 
+\Hypertarget{structAnimation_a82437e57e42155a17c4553e74f6b15dd}\label{structAnimation_a82437e57e42155a17c4553e74f6b15dd} 
+{\bfseries Animation} (int ix, int iy, size\+\_\+t f, float s, const anim\+Type \+\_\+type, int \+\_\+reps=0)
+\item 
+\Hypertarget{structAnimation_a07399a3186895976748b0242528e22b7}\label{structAnimation_a07399a3186895976748b0242528e22b7} 
+void {\bfseries advance\+Frame} (float delta\+Time)
+\item 
+\Hypertarget{structAnimation_a001b199e6952ef158283cb84cdbc3421}\label{structAnimation_a001b199e6952ef158283cb84cdbc3421} 
+void {\bfseries reset\+Frame\+Index} ()
+\item 
+\Hypertarget{structAnimation_a99f2268b72a10e199c51264f218b3c2a}\label{structAnimation_a99f2268b72a10e199c51264f218b3c2a} 
+bool {\bfseries has\+Finished} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structAnimation_a05edce6a586c9f8df4f1ef6c012ce744}\label{structAnimation_a05edce6a586c9f8df4f1ef6c012ce744} 
+int {\bfseries indexX} = 0
+\item 
+\Hypertarget{structAnimation_ae769f6118623e79dc6408ac06c8cac32}\label{structAnimation_ae769f6118623e79dc6408ac06c8cac32} 
+int {\bfseries indexY} = 0
+\item 
+\Hypertarget{structAnimation_aeac79c0a133bba33317897d43eb74337}\label{structAnimation_aeac79c0a133bba33317897d43eb74337} 
+size\+\_\+t {\bfseries total\+\_\+frames} = 0
+\item 
+\Hypertarget{structAnimation_a68079384a94a0ebdba03241f1937608e}\label{structAnimation_a68079384a94a0ebdba03241f1937608e} 
+float {\bfseries speed} = 1.\+0f
+\item 
+\Hypertarget{structAnimation_a86dd3eeaa7fb146d4000d3df9fb5c1b4}\label{structAnimation_a86dd3eeaa7fb146d4000d3df9fb5c1b4} 
+anim\+Type {\bfseries type} = anim\+Type\+::\+ANIMTYPE\+\_\+\+NONE
+\item 
+\Hypertarget{structAnimation_aac286171745b7159b6f543c312216ed8}\label{structAnimation_aac286171745b7159b6f543c312216ed8} 
+int {\bfseries reps} = 0
+\item 
+\Hypertarget{structAnimation_afaa8f3b9fd06b0527ba581fb476a748e}\label{structAnimation_afaa8f3b9fd06b0527ba581fb476a748e} 
+int {\bfseries frame\+\_\+times\+\_\+played} = 0
+\item 
+\Hypertarget{structAnimation_a65c552e7932f0ff816aee1d34c770d94}\label{structAnimation_a65c552e7932f0ff816aee1d34c770d94} 
+int {\bfseries cur\+\_\+frame\+\_\+index} = 0
+\item 
+\Hypertarget{structAnimation_afa0935c44e685566a3307cfab7d70910}\label{structAnimation_afa0935c44e685566a3307cfab7d70910} 
+float {\bfseries cur\+\_\+frame\+\_\+index\+\_\+f} = 0
+\item 
+\Hypertarget{structAnimation_a623439de4c644f7879c32c86c504bd6c}\label{structAnimation_a623439de4c644f7879c32c86c504bd6c} 
+int {\bfseries times\+\_\+played} = 0
+\item 
+\Hypertarget{structAnimation_a2b12655c5b947e13ac61de6c80691969}\label{structAnimation_a2b12655c5b947e13ac61de6c80691969} 
+int {\bfseries flow\+\_\+direction} = 1
+\item 
+\Hypertarget{structAnimation_a1170889964a9c5ee8ca167e164126bf0}\label{structAnimation_a1170889964a9c5ee8ca167e164126bf0} 
+bool {\bfseries finished} = false
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Animators/Animation.\+h\end{DoxyCompactItemize}

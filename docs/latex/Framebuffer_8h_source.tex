@@ -1,0 +1,42 @@
+\doxysection{Framebuffer.\+h}
+\hypertarget{Framebuffer_8h_source}{}\label{Framebuffer_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Renderers/FrameBuffer/Framebuffer.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Renderers/FrameBuffer/Framebuffer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../GLSLProgram.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <GL/glew.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classFramebuffer}{Framebuffer}}}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{float}\ \_rectangleVertices[24]\ =}
+\DoxyCodeLine{00011\ \ \ \ \ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Coords\ \ \ \ //\ texCoords}}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \ 1.0f,\ -\/1.0f,\ \ 1.0f,\ 0.0f,}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ -\/1.0f,\ -\/1.0f,\ \ 0.0f,\ 0.0f,}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ -\/1.0f,\ \ 1.0f,\ \ 0.0f,\ 1.0f,}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ 1.0f,\ \ 1.0f,\ \ 1.0f,\ 1.0f,}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ 1.0f,\ -\/1.0f,\ \ 1.0f,\ 0.0f,}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ -\/1.0f,\ \ 1.0f,\ \ 0.0f,\ 1.0f}
+\DoxyCodeLine{00020\ \ \ \ \ \};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \_rectVAO,\ \_rectVBO;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \_FBO;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \_RBO;}
+\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ \ \ \ \ uint32\_t\ \_framebufferTexture;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{Framebuffer}}();}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{\string~Framebuffer}}();}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classFramebuffer_a85c5a66a5bf899a976d0e9c7dcfa1862}{init}}(\textcolor{keywordtype}{int}\ windowWidth,\ \textcolor{keywordtype}{int}\ windowHeight);}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{void}\ Bind();}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ Unbind();}
+\DoxyCodeLine{00036\ \};}
+
+\end{DoxyCode}

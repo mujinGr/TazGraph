@@ -1,0 +1,294 @@
+\doxysection{Perspective\+Camera Class Reference}
+\hypertarget{classPerspectiveCamera}{}\label{classPerspectiveCamera}\index{PerspectiveCamera@{PerspectiveCamera}}
+
+
+Inheritance diagram for Perspective\+Camera\+:
+% FIG 0
+
+
+Collaboration diagram for Perspective\+Camera\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classPerspectiveCamera_a629e0b32da197c1fe8030e39805ddb9f}\label{classPerspectiveCamera_a629e0b32da197c1fe8030e39805ddb9f} 
+{\bfseries Perspective\+Camera} (glm\+::vec3 eye\+\_\+pos, glm\+::vec3 aim\+\_\+pos)
+\item 
+void \mbox{\hyperlink{classPerspectiveCamera_abb8e7f94f84ea8a61676cb979d784185}{init}} () override
+\item 
+void \mbox{\hyperlink{classPerspectiveCamera_a16f4fa03eb94b48977ca2954d320eccc}{update}} () override
+\item 
+\Hypertarget{classPerspectiveCamera_a6314a6b0c7907a5f9c5fc9a08900eed8}\label{classPerspectiveCamera_a6314a6b0c7907a5f9c5fc9a08900eed8} 
+void {\bfseries update\+Camera\+Orientation} ()
+\item 
+\Hypertarget{classPerspectiveCamera_a092bb63628b03159837900f7ad90d75d}\label{classPerspectiveCamera_a092bb63628b03159837900f7ad90d75d} 
+void {\bfseries set\+Orientation} (glm\+::vec3 eye, glm\+::vec3 target, glm\+::vec3 up)
+\item 
+glm\+::vec2 \mbox{\hyperlink{classPerspectiveCamera_a7693d957157d14b79cb7734146cced8f}{convert\+Screen\+To\+World}} (glm\+::vec2 screen\+Coords) const override
+\item 
+void \mbox{\hyperlink{classPerspectiveCamera_a304963c7c3b27233632358dc5dbf60db}{set\+Position}} (const glm\+::vec3 new\+Position) override
+\item 
+void \mbox{\hyperlink{classPerspectiveCamera_a710e7e3046d784d6e9452f15cf869a16}{set\+Position\+\_\+X}} (const float new\+Position) override
+\item 
+void \mbox{\hyperlink{classPerspectiveCamera_af1d0e03eda22af327e8df08c2fbb8e5d}{set\+Position\+\_\+Y}} (const float new\+Position) override
+\item 
+void \mbox{\hyperlink{classPerspectiveCamera_aba1eb14c343d61423d39c494f84aa19a}{set\+Position\+\_\+Z}} (const float new\+Position) override
+\item 
+\Hypertarget{classPerspectiveCamera_ab6293ede6b5bddd0bf819d78020c4d78}\label{classPerspectiveCamera_ab6293ede6b5bddd0bf819d78020c4d78} 
+void {\bfseries move\+Position\+\_\+\+Hor} (const float step)
+\item 
+\Hypertarget{classPerspectiveCamera_aa919e671dd00e72fa04eb28fb960d6fa}\label{classPerspectiveCamera_aa919e671dd00e72fa04eb28fb960d6fa} 
+void {\bfseries move\+Position\+\_\+\+Vert} (const float step)
+\item 
+\Hypertarget{classPerspectiveCamera_a427f853a51480da3ebd6bb9ce5c8f78b}\label{classPerspectiveCamera_a427f853a51480da3ebd6bb9ce5c8f78b} 
+void {\bfseries move\+Position\+\_\+\+Forward} (const float step)
+\item 
+\Hypertarget{classPerspectiveCamera_a090cd23abeab084fb7fb348b66f92451}\label{classPerspectiveCamera_a090cd23abeab084fb7fb348b66f92451} 
+void {\bfseries set\+Aim\+Pos} (const glm\+::vec3 new\+Aim\+Pos)
+\item 
+\Hypertarget{classPerspectiveCamera_aa5fce3ae8c69e1274522024f52a7a8b8}\label{classPerspectiveCamera_aa5fce3ae8c69e1274522024f52a7a8b8} 
+void {\bfseries move\+Aim\+Pos} (glm\+::vec3 starting\+Aim\+Pos, const glm\+::vec2 distance)
+\item 
+\Hypertarget{classPerspectiveCamera_a95dbe01f6d110f4ef993910f54cd741e}\label{classPerspectiveCamera_a95dbe01f6d110f4ef993910f54cd741e} 
+glm\+::vec3 {\bfseries get\+Euler\+Angles\+From\+Direction} (glm\+::vec3 direction)
+\item 
+\Hypertarget{classPerspectiveCamera_a1b48e629326a47777ad9dd874214b8d3}\label{classPerspectiveCamera_a1b48e629326a47777ad9dd874214b8d3} 
+float {\bfseries get\+ZFar} ()
+\item 
+\Hypertarget{classPerspectiveCamera_aa3a6993fc11eefa5957eef1081c466a3}\label{classPerspectiveCamera_aa3a6993fc11eefa5957eef1081c466a3} 
+glm\+::vec3 {\bfseries get\+Aim\+Pos} ()
+\item 
+void \mbox{\hyperlink{classPerspectiveCamera_af7fcafdacbb2e2b19bde36378ff8cfa9}{set\+Scale}} (float new\+Scale) override
+\item 
+glm\+::vec3 \mbox{\hyperlink{classPerspectiveCamera_ac6ed9d2ade8a483d19853d14bc9c339b}{get\+Position}} () const override
+\item 
+float \mbox{\hyperlink{classPerspectiveCamera_a823d24ed7cbccc568491c28da4faf86e}{get\+Scale}} () const override
+\item 
+glm\+::mat4 \mbox{\hyperlink{classPerspectiveCamera_a259aa028f6ef90839a93c5c1bb49f813}{get\+Camera\+Matrix}} () const override
+\item 
+glm\+::ivec2 \mbox{\hyperlink{classPerspectiveCamera_a9da0092a5f1e15575c5c70c7aba24b5e}{get\+Camera\+Dimensions}} () const override
+\item 
+SDL\+\_\+\+FRect \mbox{\hyperlink{classPerspectiveCamera_a4d51c9aadc6709ba4b26e0407da5358e}{get\+Camera\+Rect}} () const override
+\item 
+\Hypertarget{classPerspectiveCamera_a0039a139a40c73b92e6477493f89e993}\label{classPerspectiveCamera_a0039a139a40c73b92e6477493f89e993} 
+void {\bfseries set\+Camera\+Matrix} (glm\+::mat4 new\+Matrix)
+\item 
+\Hypertarget{classPerspectiveCamera_acd75541e3e837951a737fb205d7feac0}\label{classPerspectiveCamera_acd75541e3e837951a737fb205d7feac0} 
+void {\bfseries reset\+Camera\+Position} ()
+\item 
+\Hypertarget{classPerspectiveCamera_a26bc59ae02810126d629811e4b861c4c}\label{classPerspectiveCamera_a26bc59ae02810126d629811e4b861c4c} 
+float {\bfseries get\+Min\+Scale} ()
+\item 
+\Hypertarget{classPerspectiveCamera_a9531c921c67ae44b599cd5cc09e172b0}\label{classPerspectiveCamera_a9531c921c67ae44b599cd5cc09e172b0} 
+float {\bfseries get\+Max\+Scale} ()
+\item 
+bool \mbox{\hyperlink{classPerspectiveCamera_a2277a2d1bca7ae2d290ba65d1d51bf73}{is\+Point\+In\+Camera\+View}} (const glm\+::vec4 point, float margin)
+\item 
+bool \mbox{\hyperlink{classPerspectiveCamera_ab7c3caf62ba308bf98e40172d3f39796}{has\+Changed}} () override
+\item 
+void \mbox{\hyperlink{classPerspectiveCamera_a23a27086cb75cb72025477db5d362d1f}{make\+Camera\+Dirty}} () override
+\item 
+void \mbox{\hyperlink{classPerspectiveCamera_a99c2d704a3322238966f2ef9a1a2e331}{refresh\+Camera}} () override
+\item 
+\Hypertarget{classPerspectiveCamera_a525ac79dc6107a8918bb99eddc20b3d6}\label{classPerspectiveCamera_a525ac79dc6107a8918bb99eddc20b3d6} 
+glm\+::vec3 {\bfseries cast\+Ray\+At} (const glm\+::vec2 \&screen\+Pos)
+\item 
+\Hypertarget{classPerspectiveCamera_a5561908ef95db98fc6b15db35748b347}\label{classPerspectiveCamera_a5561908ef95db98fc6b15db35748b347} 
+glm\+::vec3 {\bfseries get\+Point\+On\+Ray\+AtZ} (const glm\+::vec3 \&ray\+Origin, const glm\+::vec3 \&ray\+Direction, float desiredZ)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classPerspectiveCamera_accacc090c6eaa055e385296d954ff795}\label{classPerspectiveCamera_accacc090c6eaa055e385296d954ff795} 
+glm\+::vec3 {\bfseries eye\+Pos} \{ 0,0,0 \}
+\item 
+\Hypertarget{classPerspectiveCamera_a95df7380b911bfeb0ccd1f9c8aa6b882}\label{classPerspectiveCamera_a95df7380b911bfeb0ccd1f9c8aa6b882} 
+glm\+::vec3 {\bfseries aim\+Pos} \{ 0,0,0 \}
+\item 
+\Hypertarget{classPerspectiveCamera_a28389058bff69747f006012a76e9dca0}\label{classPerspectiveCamera_a28389058bff69747f006012a76e9dca0} 
+glm\+::vec3 {\bfseries up\+Dir} \{0,-\/1,0\}
+\item 
+\Hypertarget{classPerspectiveCamera_af88e6161cd3c818d49e6421f52474a2b}\label{classPerspectiveCamera_af88e6161cd3c818d49e6421f52474a2b} 
+float {\bfseries z\+Far} = 1000000.\+0f
+\item 
+\Hypertarget{classPerspectiveCamera_aaf90774679736e2801b13e2d493166f5}\label{classPerspectiveCamera_aaf90774679736e2801b13e2d493166f5} 
+View\+Mode {\bfseries current\+View\+Mode} = View\+Mode\+::\+Y\+\_\+\+UP
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classPerspectiveCamera_a7693d957157d14b79cb7734146cced8f}\label{classPerspectiveCamera_a7693d957157d14b79cb7734146cced8f} 
+\index{PerspectiveCamera@{PerspectiveCamera}!convertScreenToWorld@{convertScreenToWorld}}
+\index{convertScreenToWorld@{convertScreenToWorld}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{convertScreenToWorld()}{convertScreenToWorld()}}
+{\footnotesize\ttfamily glm\+::vec2 Perspective\+Camera\+::convert\+Screen\+To\+World (\begin{DoxyParamCaption}\item[{glm\+::vec2}]{screen\+Coords }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_a9da0092a5f1e15575c5c70c7aba24b5e}\label{classPerspectiveCamera_a9da0092a5f1e15575c5c70c7aba24b5e} 
+\index{PerspectiveCamera@{PerspectiveCamera}!getCameraDimensions@{getCameraDimensions}}
+\index{getCameraDimensions@{getCameraDimensions}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{getCameraDimensions()}{getCameraDimensions()}}
+{\footnotesize\ttfamily glm\+::ivec2 Perspective\+Camera\+::get\+Camera\+Dimensions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_a259aa028f6ef90839a93c5c1bb49f813}\label{classPerspectiveCamera_a259aa028f6ef90839a93c5c1bb49f813} 
+\index{PerspectiveCamera@{PerspectiveCamera}!getCameraMatrix@{getCameraMatrix}}
+\index{getCameraMatrix@{getCameraMatrix}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{getCameraMatrix()}{getCameraMatrix()}}
+{\footnotesize\ttfamily glm\+::mat4 Perspective\+Camera\+::get\+Camera\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_a4d51c9aadc6709ba4b26e0407da5358e}\label{classPerspectiveCamera_a4d51c9aadc6709ba4b26e0407da5358e} 
+\index{PerspectiveCamera@{PerspectiveCamera}!getCameraRect@{getCameraRect}}
+\index{getCameraRect@{getCameraRect}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{getCameraRect()}{getCameraRect()}}
+{\footnotesize\ttfamily SDL\+\_\+\+FRect Perspective\+Camera\+::get\+Camera\+Rect (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_ac6ed9d2ade8a483d19853d14bc9c339b}\label{classPerspectiveCamera_ac6ed9d2ade8a483d19853d14bc9c339b} 
+\index{PerspectiveCamera@{PerspectiveCamera}!getPosition@{getPosition}}
+\index{getPosition@{getPosition}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{getPosition()}{getPosition()}}
+{\footnotesize\ttfamily glm\+::vec3 Perspective\+Camera\+::get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_a823d24ed7cbccc568491c28da4faf86e}\label{classPerspectiveCamera_a823d24ed7cbccc568491c28da4faf86e} 
+\index{PerspectiveCamera@{PerspectiveCamera}!getScale@{getScale}}
+\index{getScale@{getScale}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{getScale()}{getScale()}}
+{\footnotesize\ttfamily float Perspective\+Camera\+::get\+Scale (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_ab7c3caf62ba308bf98e40172d3f39796}\label{classPerspectiveCamera_ab7c3caf62ba308bf98e40172d3f39796} 
+\index{PerspectiveCamera@{PerspectiveCamera}!hasChanged@{hasChanged}}
+\index{hasChanged@{hasChanged}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{hasChanged()}{hasChanged()}}
+{\footnotesize\ttfamily bool Perspective\+Camera\+::has\+Changed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_abb8e7f94f84ea8a61676cb979d784185}\label{classPerspectiveCamera_abb8e7f94f84ea8a61676cb979d784185} 
+\index{PerspectiveCamera@{PerspectiveCamera}!init@{init}}
+\index{init@{init}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Perspective\+Camera\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_a2277a2d1bca7ae2d290ba65d1d51bf73}\label{classPerspectiveCamera_a2277a2d1bca7ae2d290ba65d1d51bf73} 
+\index{PerspectiveCamera@{PerspectiveCamera}!isPointInCameraView@{isPointInCameraView}}
+\index{isPointInCameraView@{isPointInCameraView}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{isPointInCameraView()}{isPointInCameraView()}}
+{\footnotesize\ttfamily bool Perspective\+Camera\+::is\+Point\+In\+Camera\+View (\begin{DoxyParamCaption}\item[{const glm\+::vec4}]{point,  }\item[{float}]{margin }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_a23a27086cb75cb72025477db5d362d1f}\label{classPerspectiveCamera_a23a27086cb75cb72025477db5d362d1f} 
+\index{PerspectiveCamera@{PerspectiveCamera}!makeCameraDirty@{makeCameraDirty}}
+\index{makeCameraDirty@{makeCameraDirty}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{makeCameraDirty()}{makeCameraDirty()}}
+{\footnotesize\ttfamily void Perspective\+Camera\+::make\+Camera\+Dirty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_a99c2d704a3322238966f2ef9a1a2e331}\label{classPerspectiveCamera_a99c2d704a3322238966f2ef9a1a2e331} 
+\index{PerspectiveCamera@{PerspectiveCamera}!refreshCamera@{refreshCamera}}
+\index{refreshCamera@{refreshCamera}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{refreshCamera()}{refreshCamera()}}
+{\footnotesize\ttfamily void Perspective\+Camera\+::refresh\+Camera (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_a304963c7c3b27233632358dc5dbf60db}\label{classPerspectiveCamera_a304963c7c3b27233632358dc5dbf60db} 
+\index{PerspectiveCamera@{PerspectiveCamera}!setPosition@{setPosition}}
+\index{setPosition@{setPosition}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{setPosition()}{setPosition()}}
+{\footnotesize\ttfamily void Perspective\+Camera\+::set\+Position (\begin{DoxyParamCaption}\item[{const glm\+::vec3}]{new\+Position }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_a710e7e3046d784d6e9452f15cf869a16}\label{classPerspectiveCamera_a710e7e3046d784d6e9452f15cf869a16} 
+\index{PerspectiveCamera@{PerspectiveCamera}!setPosition\_X@{setPosition\_X}}
+\index{setPosition\_X@{setPosition\_X}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{setPosition\_X()}{setPosition\_X()}}
+{\footnotesize\ttfamily void Perspective\+Camera\+::set\+Position\+\_\+X (\begin{DoxyParamCaption}\item[{const float}]{new\+Position }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_af1d0e03eda22af327e8df08c2fbb8e5d}\label{classPerspectiveCamera_af1d0e03eda22af327e8df08c2fbb8e5d} 
+\index{PerspectiveCamera@{PerspectiveCamera}!setPosition\_Y@{setPosition\_Y}}
+\index{setPosition\_Y@{setPosition\_Y}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{setPosition\_Y()}{setPosition\_Y()}}
+{\footnotesize\ttfamily void Perspective\+Camera\+::set\+Position\+\_\+Y (\begin{DoxyParamCaption}\item[{const float}]{new\+Position }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_aba1eb14c343d61423d39c494f84aa19a}\label{classPerspectiveCamera_aba1eb14c343d61423d39c494f84aa19a} 
+\index{PerspectiveCamera@{PerspectiveCamera}!setPosition\_Z@{setPosition\_Z}}
+\index{setPosition\_Z@{setPosition\_Z}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{setPosition\_Z()}{setPosition\_Z()}}
+{\footnotesize\ttfamily void Perspective\+Camera\+::set\+Position\+\_\+Z (\begin{DoxyParamCaption}\item[{const float}]{new\+Position }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_af7fcafdacbb2e2b19bde36378ff8cfa9}\label{classPerspectiveCamera_af7fcafdacbb2e2b19bde36378ff8cfa9} 
+\index{PerspectiveCamera@{PerspectiveCamera}!setScale@{setScale}}
+\index{setScale@{setScale}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{setScale()}{setScale()}}
+{\footnotesize\ttfamily void Perspective\+Camera\+::set\+Scale (\begin{DoxyParamCaption}\item[{float}]{new\+Scale }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classPerspectiveCamera_a16f4fa03eb94b48977ca2954d320eccc}\label{classPerspectiveCamera_a16f4fa03eb94b48977ca2954d320eccc} 
+\index{PerspectiveCamera@{PerspectiveCamera}!update@{update}}
+\index{update@{update}!PerspectiveCamera@{PerspectiveCamera}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Perspective\+Camera\+::update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Camera2.\+5\+D/Perspective\+Camera.\+h\end{DoxyCompactItemize}

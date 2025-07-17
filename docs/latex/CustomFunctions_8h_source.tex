@@ -1,0 +1,26 @@
+\doxysection{Custom\+Functions.\+h}
+\hypertarget{CustomFunctions_8h_source}{}\label{CustomFunctions_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/CustomFunctions/CustomFunctions.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/CustomFunctions/CustomFunctions.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}GECS/Components.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}GECS/UtilComponents.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classCustomFunctions}{CustomFunctions}}\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{bool}\ isScriptResultsOpen\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{int}\ activatedScriptShown\ =\ 0;}
+\DoxyCodeLine{00011\ \ \ \ \ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{void}\ renderUI(\mbox{\hyperlink{classManager}{Manager}}\&\ manager,\ std::vector<std::pair<Entity*,\ glm::vec3>>\&\ m\_selectedEntities);}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{void}\ default\_renderUI();}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ CalculateDegree(\mbox{\hyperlink{classManager}{Manager}}\&\ manager,\ std::vector<std::pair<Entity*,\ glm::vec3>>\&\ m\_selectedEntities);}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ CalculateSignals();}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ CalculateHeatMap();}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{void}\ DrawCandlestickChart();}
+\DoxyCodeLine{00020\ \};}
+
+\end{DoxyCode}

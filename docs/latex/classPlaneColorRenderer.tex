@@ -1,0 +1,89 @@
+\doxysection{Plane\+Color\+Renderer Class Reference}
+\hypertarget{classPlaneColorRenderer}{}\label{classPlaneColorRenderer}\index{PlaneColorRenderer@{PlaneColorRenderer}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classPlaneColorRenderer_adb614a282e8a8af678c3a50f92d5a3df}\label{classPlaneColorRenderer_adb614a282e8a8af678c3a50f92d5a3df} 
+void {\bfseries init} ()
+\item 
+\Hypertarget{classPlaneColorRenderer_a918089916ecc7726ec818ad2f276bd10}\label{classPlaneColorRenderer_a918089916ecc7726ec818ad2f276bd10} 
+void {\bfseries begin} ()
+\item 
+\Hypertarget{classPlaneColorRenderer_af9d5018854ef3d0c24f35ae97dd58850}\label{classPlaneColorRenderer_af9d5018854ef3d0c24f35ae97dd58850} 
+void {\bfseries end} ()
+\item 
+\Hypertarget{classPlaneColorRenderer_ad8486c734689da2f78d4d263303dce19}\label{classPlaneColorRenderer_ad8486c734689da2f78d4d263303dce19} 
+void {\bfseries init\+Color\+Triangle\+Batch} (size\+\_\+t m\+Size)
+\item 
+\Hypertarget{classPlaneColorRenderer_a74674b2d5477ba1fb9738dd5024ea739}\label{classPlaneColorRenderer_a74674b2d5477ba1fb9738dd5024ea739} 
+void {\bfseries init\+Color\+Quad\+Batch} (size\+\_\+t m\+Size)
+\item 
+\Hypertarget{classPlaneColorRenderer_a408ae1a989a054860b48cd45aa9b0e10}\label{classPlaneColorRenderer_a408ae1a989a054860b48cd45aa9b0e10} 
+void {\bfseries init\+Color\+Box\+Batch} (size\+\_\+t m\+Size)
+\item 
+\Hypertarget{classPlaneColorRenderer_af23816a7354eedcc076c139d2ea990fd}\label{classPlaneColorRenderer_af23816a7354eedcc076c139d2ea990fd} 
+void {\bfseries init\+Color\+Sphere\+Batch} (size\+\_\+t m\+Size)
+\item 
+\Hypertarget{classPlaneColorRenderer_a518a347b7c174cd8c028211438bbd80b}\label{classPlaneColorRenderer_a518a347b7c174cd8c028211438bbd80b} 
+void {\bfseries init\+Batch\+Size} ()
+\item 
+\Hypertarget{classPlaneColorRenderer_ac44acade757b34aea4e8e999dadccfff}\label{classPlaneColorRenderer_ac44acade757b34aea4e8e999dadccfff} 
+void {\bfseries draw\+Triangle} (size\+\_\+t v\+\_\+index, const glm\+::vec3 \&depth, const glm\+::vec3 \&cpu\+Rotation, const \mbox{\hyperlink{structColor}{Color}} \&color)
+\item 
+\Hypertarget{classPlaneColorRenderer_aa6dac2c0e2abdaf4a10fc025124a96f0}\label{classPlaneColorRenderer_aa6dac2c0e2abdaf4a10fc025124a96f0} 
+void {\bfseries draw} (size\+\_\+t v\+\_\+index, const glm\+::vec2 \&rect\+Size, const glm\+::vec3 \&body\+Center, const glm\+::vec3 \&m\+Rotation, const \mbox{\hyperlink{structColor}{Color}} \&color)
+\begin{DoxyCompactList}\small\item\em draws are needed to convert the pos and size to vertices \end{DoxyCompactList}\item 
+\Hypertarget{classPlaneColorRenderer_a74a39c006395f75eca59bdded05d347d}\label{classPlaneColorRenderer_a74a39c006395f75eca59bdded05d347d} 
+void {\bfseries draw\+Box} (size\+\_\+t v\+\_\+index, const glm\+::vec3 \&box\+Size, const glm\+::vec3 \&body\+Center, const glm\+::vec3 \&m\+Rotation, const \mbox{\hyperlink{structColor}{Color}} \&color)
+\item 
+\Hypertarget{classPlaneColorRenderer_aa7e44ff865281e8f68010d9efb10e001}\label{classPlaneColorRenderer_aa7e44ff865281e8f68010d9efb10e001} 
+void {\bfseries draw\+Sphere} (size\+\_\+t v\+\_\+index, const glm\+::vec3 \&sphere\+Size, const glm\+::vec3 \&body\+Center, const glm\+::vec3 \&m\+Rotation, const \mbox{\hyperlink{structColor}{Color}} \&color)
+\item 
+\Hypertarget{classPlaneColorRenderer_ae29643fd658e9b7346c6429b5107e159}\label{classPlaneColorRenderer_ae29643fd658e9b7346c6429b5107e159} 
+void {\bfseries render\+Batch} (\mbox{\hyperlink{classGLSLProgram}{GLSLProgram}} \texorpdfstring{$\ast$}{*}glsl\+\_\+program)
+\item 
+\Hypertarget{classPlaneColorRenderer_abf54caac64330f431b4b844fabf4ffc3}\label{classPlaneColorRenderer_abf54caac64330f431b4b844fabf4ffc3} 
+void {\bfseries dispose} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ Position $>$ \mbox{\hyperlink{classPlaneColorRenderer_aa66d9852014a4c550dc86d36d7c54a76}{sphere\+Vertices}}
+\item 
+std\+::vector$<$ GLuint $>$ \mbox{\hyperlink{classPlaneColorRenderer_ae3c78197167b7cc9fdf799434e0cc84f}{sphere\+Indices}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classPlaneColorRenderer_ae3c78197167b7cc9fdf799434e0cc84f}\label{classPlaneColorRenderer_ae3c78197167b7cc9fdf799434e0cc84f} 
+\index{PlaneColorRenderer@{PlaneColorRenderer}!sphereIndices@{sphereIndices}}
+\index{sphereIndices@{sphereIndices}!PlaneColorRenderer@{PlaneColorRenderer}}
+\doxysubsubsection{\texorpdfstring{sphereIndices}{sphereIndices}}
+{\footnotesize\ttfamily std\+::vector$<$GLuint$>$ Plane\+Color\+Renderer\+::sphere\+Indices}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classPlaneColorRenderer_aa66d9852014a4c550dc86d36d7c54a76}\label{classPlaneColorRenderer_aa66d9852014a4c550dc86d36d7c54a76} 
+\index{PlaneColorRenderer@{PlaneColorRenderer}!sphereVertices@{sphereVertices}}
+\index{sphereVertices@{sphereVertices}!PlaneColorRenderer@{PlaneColorRenderer}}
+\doxysubsubsection{\texorpdfstring{sphereVertices}{sphereVertices}}
+{\footnotesize\ttfamily std\+::vector$<$Position$>$ Plane\+Color\+Renderer\+::sphere\+Vertices}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Plane\+Color\+Renderer/Plane\+Color\+Renderer.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Plane\+Color\+Renderer/Plane\+Color\+Renderer.\+cpp\end{DoxyCompactItemize}

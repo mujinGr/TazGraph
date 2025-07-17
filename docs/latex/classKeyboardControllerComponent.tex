@@ -1,0 +1,125 @@
+\doxysection{Keyboard\+Controller\+Component Class Reference}
+\hypertarget{classKeyboardControllerComponent}{}\label{classKeyboardControllerComponent}\index{KeyboardControllerComponent@{KeyboardControllerComponent}}
+
+
+moving animation  
+
+
+
+
+{\ttfamily \#include $<$Keyboard\+Controller\+Component.\+h$>$}
+
+
+
+Inheritance diagram for Keyboard\+Controller\+Component\+:
+% FIG 0
+
+
+Collaboration diagram for Keyboard\+Controller\+Component\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classKeyboardControllerComponent_a35f269982d1ff30d044e61fab34e63d3}\label{classKeyboardControllerComponent_a35f269982d1ff30d044e61fab34e63d3} 
+{\bfseries Keyboard\+Controller\+Component} (\mbox{\hyperlink{classInputManager}{Input\+Manager}} \texorpdfstring{$\ast$}{*}input\+Manager, SDL\+\_\+\+Key\+Code walk\+Up\+Key, SDL\+\_\+\+Key\+Code walk\+Left\+Key, SDL\+\_\+\+Key\+Code walk\+Right\+Key, SDL\+\_\+\+Key\+Code walk\+Down\+Key)
+\item 
+void \mbox{\hyperlink{classKeyboardControllerComponent_aa956fc803a03646719da59cf4db6368a}{init}} () override
+\item 
+void \mbox{\hyperlink{classKeyboardControllerComponent_a2aa118f71217b6841ffdbe396f104945}{update}} (float delta\+Time) override
+\item 
+std\+::string \mbox{\hyperlink{classKeyboardControllerComponent_a94a24606365e614cea01242cb8d0191d}{Get\+Component\+Name}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries show\+GUI} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classKeyboardControllerComponent_ab55361dc85d48d0fc203a599fc9fcab3}\label{classKeyboardControllerComponent_ab55361dc85d48d0fc203a599fc9fcab3} 
+\mbox{\hyperlink{classInputManager}{Input\+Manager}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+input\+Manager} = nullptr
+\item 
+\Hypertarget{classKeyboardControllerComponent_adaf04cd5e1d851abfcdb88f2812f0aa4}\label{classKeyboardControllerComponent_adaf04cd5e1d851abfcdb88f2812f0aa4} 
+\mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
+\item 
+\Hypertarget{classKeyboardControllerComponent_ae07ba986f6a7634392945d7a417a4c28}\label{classKeyboardControllerComponent_ae07ba986f6a7634392945d7a417a4c28} 
+\mbox{\hyperlink{classAnimatorComponent}{Animator\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries animator} = nullptr
+\item 
+\Hypertarget{classKeyboardControllerComponent_acc159c4204bd852387b0d38909525024}\label{classKeyboardControllerComponent_acc159c4204bd852387b0d38909525024} 
+\mbox{\hyperlink{classRigidBodyComponent}{Rigid\+Body\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries rigidbody} = nullptr
+\item 
+\Hypertarget{classKeyboardControllerComponent_a269006c8e59e49a50787ca8880e0a8c5}\label{classKeyboardControllerComponent_a269006c8e59e49a50787ca8880e0a8c5} 
+\mbox{\hyperlink{classSpriteComponent}{Sprite\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries sprite} = nullptr
+\item 
+\Hypertarget{classKeyboardControllerComponent_a821c3b803b7ce125ff072052a66282b4}\label{classKeyboardControllerComponent_a821c3b803b7ce125ff072052a66282b4} 
+SDL\+\_\+\+Key\+Code {\bfseries walk\+Up\+Key} = SDLK\+\_\+\+UNKNOWN
+\item 
+\Hypertarget{classKeyboardControllerComponent_a8fcb982ef2a4b2b1da9a3258e2e09faa}\label{classKeyboardControllerComponent_a8fcb982ef2a4b2b1da9a3258e2e09faa} 
+SDL\+\_\+\+Key\+Code {\bfseries walk\+Left\+Key} = SDLK\+\_\+\+UNKNOWN
+\item 
+\Hypertarget{classKeyboardControllerComponent_a7cba978ed093f1975e03793ae984c881}\label{classKeyboardControllerComponent_a7cba978ed093f1975e03793ae984c881} 
+SDL\+\_\+\+Key\+Code {\bfseries walk\+Right\+Key} = SDLK\+\_\+\+UNKNOWN
+\item 
+\Hypertarget{classKeyboardControllerComponent_a2129d5eab31a8bb7f47bdd94101ebccd}\label{classKeyboardControllerComponent_a2129d5eab31a8bb7f47bdd94101ebccd} 
+SDL\+\_\+\+Key\+Code {\bfseries walk\+Down\+Key} = SDLK\+\_\+\+UNKNOWN
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries entity} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+Component\+ID {\bfseries id} = 0u
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+moving animation 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classKeyboardControllerComponent_a94a24606365e614cea01242cb8d0191d}\label{classKeyboardControllerComponent_a94a24606365e614cea01242cb8d0191d} 
+\index{KeyboardControllerComponent@{KeyboardControllerComponent}!GetComponentName@{GetComponentName}}
+\index{GetComponentName@{GetComponentName}!KeyboardControllerComponent@{KeyboardControllerComponent}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}}
+{\footnotesize\ttfamily std\+::string Keyboard\+Controller\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classKeyboardControllerComponent_aa956fc803a03646719da59cf4db6368a}\label{classKeyboardControllerComponent_aa956fc803a03646719da59cf4db6368a} 
+\index{KeyboardControllerComponent@{KeyboardControllerComponent}!init@{init}}
+\index{init@{init}!KeyboardControllerComponent@{KeyboardControllerComponent}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Keyboard\+Controller\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classKeyboardControllerComponent_a2aa118f71217b6841ffdbe396f104945}\label{classKeyboardControllerComponent_a2aa118f71217b6841ffdbe396f104945} 
+\index{KeyboardControllerComponent@{KeyboardControllerComponent}!update@{update}}
+\index{update@{update}!KeyboardControllerComponent@{KeyboardControllerComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Keyboard\+Controller\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Empty/\+Util/Keyboard\+Controller\+Component.\+h\end{DoxyCompactItemize}

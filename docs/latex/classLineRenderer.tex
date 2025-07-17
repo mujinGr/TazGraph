@@ -1,0 +1,120 @@
+\doxysection{Line\+Renderer Class Reference}
+\hypertarget{classLineRenderer}{}\label{classLineRenderer}\index{LineRenderer@{LineRenderer}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classLineRenderer_a7b2cb8b0327e5c415448da6e6d295f3f}\label{classLineRenderer_a7b2cb8b0327e5c415448da6e6d295f3f} 
+void {\bfseries init} ()
+\item 
+\Hypertarget{classLineRenderer_a24ecc849dbcc297d3a43d9e78c805952}\label{classLineRenderer_a24ecc849dbcc297d3a43d9e78c805952} 
+void {\bfseries begin} ()
+\item 
+\Hypertarget{classLineRenderer_a0322c7b4e54296186da2a1ed820c060d}\label{classLineRenderer_a0322c7b4e54296186da2a1ed820c060d} 
+void {\bfseries end} ()
+\item 
+\Hypertarget{classLineRenderer_af66f18ec4a314e6efc8ea61781e19eaa}\label{classLineRenderer_af66f18ec4a314e6efc8ea61781e19eaa} 
+void {\bfseries init\+Batch\+Lines} (size\+\_\+t msize)
+\item 
+\Hypertarget{classLineRenderer_a79703ac289f2d8acb298d4599c74e14e}\label{classLineRenderer_a79703ac289f2d8acb298d4599c74e14e} 
+void {\bfseries init\+Batch\+Squares} (size\+\_\+t msize)
+\item 
+\Hypertarget{classLineRenderer_a2575cacf7bee1b35300016df3f6067ed}\label{classLineRenderer_a2575cacf7bee1b35300016df3f6067ed} 
+void {\bfseries init\+Batch\+Boxes} (size\+\_\+t msize)
+\item 
+\Hypertarget{classLineRenderer_a810cd016102ab7abd072132016dbce5c}\label{classLineRenderer_a810cd016102ab7abd072132016dbce5c} 
+void {\bfseries draw\+Line} (size\+\_\+t v\+\_\+index, const glm\+::vec3 src\+Position, const glm\+::vec3 dest\+Position, const \mbox{\hyperlink{structColor}{Color}} \&src\+Color, const \mbox{\hyperlink{structColor}{Color}} \&dest\+Color)
+\item 
+\Hypertarget{classLineRenderer_a50313df4f115b10837b1b0bc7a23a3ff}\label{classLineRenderer_a50313df4f115b10837b1b0bc7a23a3ff} 
+void {\bfseries draw\+Rectangle} (size\+\_\+t v\+\_\+index, const glm\+::vec4 \&dest\+Rect, const \mbox{\hyperlink{structColor}{Color}} \&color, float angle, float z\+Index=0.\+0f)
+\item 
+\Hypertarget{classLineRenderer_a0e58aa4a98214f5cdd4fc23cd64400db}\label{classLineRenderer_a0e58aa4a98214f5cdd4fc23cd64400db} 
+void {\bfseries draw\+Box} (size\+\_\+t v\+\_\+index, const glm\+::vec3 \&origin, const glm\+::vec3 \&size, const \mbox{\hyperlink{structColor}{Color}} \&color, float angle)
+\item 
+\Hypertarget{classLineRenderer_abc4df9f77346c2126df95c91e48f2cfc}\label{classLineRenderer_abc4df9f77346c2126df95c91e48f2cfc} 
+void {\bfseries draw\+Circle} (const glm\+::vec2 \&center, const \mbox{\hyperlink{structColor}{Color}} \&color, float radius)
+\item 
+\Hypertarget{classLineRenderer_a7a202d58c8e3c83e0421ebd57f542186}\label{classLineRenderer_a7a202d58c8e3c83e0421ebd57f542186} 
+void {\bfseries init\+Batch\+Size} ()
+\item 
+\Hypertarget{classLineRenderer_a25c66568849831818eb4f471de49a47d}\label{classLineRenderer_a25c66568849831818eb4f471de49a47d} 
+void {\bfseries render\+Batch} (float line\+Width)
+\item 
+\Hypertarget{classLineRenderer_a5d147289200b5a0ef25b91be46b178b6}\label{classLineRenderer_a5d147289200b5a0ef25b91be46b178b6} 
+void {\bfseries dispose} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classLineRenderer_a58e8630a61ef51084a7668f9672fa99c}{VERT\+\_\+\+SRC}}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classLineRenderer_a209a743489d1c7d81820cde12b9b2efc}{FRAG\+\_\+\+SRC}}
+\item 
+int \mbox{\hyperlink{classLineRenderer_a7e53e83a3a655e3cf3d158d98f89dcdb}{box\+\_\+edge\+Pairs}} \mbox{[}12\mbox{]}\mbox{[}2\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classLineRenderer_a7e53e83a3a655e3cf3d158d98f89dcdb}\label{classLineRenderer_a7e53e83a3a655e3cf3d158d98f89dcdb} 
+\index{LineRenderer@{LineRenderer}!box\_edgePairs@{box\_edgePairs}}
+\index{box\_edgePairs@{box\_edgePairs}!LineRenderer@{LineRenderer}}
+\doxysubsubsection{\texorpdfstring{box\_edgePairs}{box\_edgePairs}}
+{\footnotesize\ttfamily int Line\+Renderer\+::box\+\_\+edge\+Pairs\mbox{[}12\mbox{]}\mbox{[}2\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \{0,\ 1\},\ \{1,\ 2\},\ \{2,\ 3\},\ \{3,\ 0\},\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \{4,\ 5\},\ \{5,\ 6\},\ \{6,\ 7\},\ \{7,\ 4\},\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \{0,\ 4\},\ \{1,\ 5\},\ \{2,\ 6\},\ \{3,\ 7\}\ \ }
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classLineRenderer_a209a743489d1c7d81820cde12b9b2efc}\label{classLineRenderer_a209a743489d1c7d81820cde12b9b2efc} 
+\index{LineRenderer@{LineRenderer}!FRAG\_SRC@{FRAG\_SRC}}
+\index{FRAG\_SRC@{FRAG\_SRC}!LineRenderer@{LineRenderer}}
+\doxysubsubsection{\texorpdfstring{FRAG\_SRC}{FRAG\_SRC}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} Line\+Renderer\+::\+FRAG\+\_\+\+SRC}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ R\textcolor{stringliteral}{"{}(\#version\ 400}}
+\DoxyCodeLine{\textcolor{stringliteral}{}}
+\DoxyCodeLine{\textcolor{stringliteral}{in\ vec4\ fragmentColor;}}
+\DoxyCodeLine{\textcolor{stringliteral}{}}
+\DoxyCodeLine{\textcolor{stringliteral}{out\ vec4\ color;\ //rgb\ value}}
+\DoxyCodeLine{\textcolor{stringliteral}{}}
+\DoxyCodeLine{\textcolor{stringliteral}{void\ main()\ \{}}
+\DoxyCodeLine{\textcolor{stringliteral}{\ \ \ \ color\ =\ vec4(fragmentColor.rgb,\ fragmentColor.a);}}
+\DoxyCodeLine{\textcolor{stringliteral}{\})"{}}}
+
+\end{DoxyCode}
+\Hypertarget{classLineRenderer_a58e8630a61ef51084a7668f9672fa99c}\label{classLineRenderer_a58e8630a61ef51084a7668f9672fa99c} 
+\index{LineRenderer@{LineRenderer}!VERT\_SRC@{VERT\_SRC}}
+\index{VERT\_SRC@{VERT\_SRC}!LineRenderer@{LineRenderer}}
+\doxysubsubsection{\texorpdfstring{VERT\_SRC}{VERT\_SRC}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} Line\+Renderer\+::\+VERT\+\_\+\+SRC}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ R\textcolor{stringliteral}{"{}(\#version\ 400}}
+\DoxyCodeLine{\textcolor{stringliteral}{}}
+\DoxyCodeLine{\textcolor{stringliteral}{in\ vec3\ vertexPosition;\ //vec3\ is\ array\ of\ 3\ floats}}
+\DoxyCodeLine{\textcolor{stringliteral}{in\ vec4\ vertexColor;}}
+\DoxyCodeLine{\textcolor{stringliteral}{}}
+\DoxyCodeLine{\textcolor{stringliteral}{out\ vec4\ fragmentColor;}}
+\DoxyCodeLine{\textcolor{stringliteral}{}}
+\DoxyCodeLine{\textcolor{stringliteral}{uniform\ mat4\ projection;}}
+\DoxyCodeLine{\textcolor{stringliteral}{}}
+\DoxyCodeLine{\textcolor{stringliteral}{void\ main()\ \{}}
+\DoxyCodeLine{\textcolor{stringliteral}{\ \ \ \ gl\_Position\ =\ projection\ *\ vec4(vertexPosition.xyz,\ 1.0);}}
+\DoxyCodeLine{\textcolor{stringliteral}{}}
+\DoxyCodeLine{\textcolor{stringliteral}{\ \ \ \ fragmentColor\ =\ vertexColor;}}
+\DoxyCodeLine{\textcolor{stringliteral}{\})"{}}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Line\+Renderer/Line\+Renderer.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Line\+Renderer/Line\+Renderer.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,168 @@
+\doxysection{Ortho\+Camera.\+h}
+\hypertarget{OrthoCamera_8h_source}{}\label{OrthoCamera_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Camera2.5D/OrthoCamera.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Camera2.5D/OrthoCamera.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}ICamera.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classOrthoCamera}{OrthoCamera}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classICamera}{ICamera}}\ \{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00007\ \ \ \ \ \mbox{\hyperlink{classOrthoCamera}{OrthoCamera}}()\ :\ \_position(0.0f),}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ \_cameraMatrix(1.0f),\ \ \ \ \textcolor{comment}{//I}}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \_projectionMatrix(1.0f),\ \ \ \ \ \ \ \ \textcolor{comment}{//I}}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \_viewMatrix(1.0f),}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \_scale(1.0f),}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \_cameraChange(\textcolor{keyword}{true}),}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \_screenWidth(800),}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \_screenHeight(640)}
+\DoxyCodeLine{00015\ \ \ \ \ \{}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \}}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classOrthoCamera}{\string~OrthoCamera}}()}
+\DoxyCodeLine{00019\ \ \ \ \ \{}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \_projectionMatrix\ =\ glm::ortho(0.0f,\ (\textcolor{keywordtype}{float})\_screenWidth,\ (\textcolor{keywordtype}{float})\_screenHeight,\ 0.0f);}
+\DoxyCodeLine{00026\ \ \ \ \ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ update()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_cameraChange)\ \{}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ glm::mat4(1.0f);}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ scale(\_scale,\ \_scale,\ 1.0f);}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ glm::scale(\_cameraMatrix,\ scale);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ translate(-\/\_position.x,\ -\/\_position.y,\ 0.0f);}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ glm::translate(\_cameraMatrix,\ translate);\ \textcolor{comment}{//if\ glm\ ortho\ =\ -\/1,1,-\/1,1\ then\ 1\ horizontal\ with\ -\/400,-\/320\ to\ bottom-\/left}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ \_projectionMatrix\ *\ \_viewMatrix\ *\ \_cameraMatrix;}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\_cameraMatrix\ =\ glm::scale(\_cameraMatrix,\ scale);}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \ \ \ \ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ glm::vec2\ convertScreenToWorld(glm::vec2\ screenCoords)\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Make\ 0\ the\ center}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ screenCoords\ -\/=\ glm::vec2(\_screenWidth\ /\ 2,\ \_screenHeight\ /\ 2);}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Scale\ coordinates}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ screenCoords\ /=\ \_scale;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ screenCoords\ +=\ glm::vec2(\_screenWidth\ /\ 2,\ \_screenHeight\ /\ 2);}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Translate\ with\ the\ camera2D.worldLocation\ position}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ screenCoords.x\ +=\ \_position.x;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ screenCoords.y\ +=\ \_position.y;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ screenCoords;}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{comment}{//setters}}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ setPosition(\textcolor{keyword}{const}\ glm::vec3\ newPosition)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \_position\ =\ newPosition;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ setPosition\_X(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ newPosition)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \_position.x\ =\ newPosition;}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ setPosition\_Y(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ newPosition)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \_position.y\ =\ newPosition;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \ \ \ \ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{void}\ setPosition\_Z(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ newPosition)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \_position.z\ =\ newPosition;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00081\ \ \ \ \ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{void}\ setScale(\textcolor{keywordtype}{float}\ newScale)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \_scale\ =\ newScale;}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00086\ \ \ \ \ \}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{comment}{//getters}}
+\DoxyCodeLine{00089\ \ \ \ \ glm::vec3\ getPosition()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_position;}
+\DoxyCodeLine{00091\ \ \ \ \ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{float}\ getScale()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_scale;}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ glm::mat4\ getCameraMatrix()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_cameraMatrix;}
+\DoxyCodeLine{00099\ \ \ \ \ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ glm::ivec2\ getCameraDimensions()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ glm::vec2\ cameraDimensions\ =\ \{\ \_screenWidth,\ \_screenHeight\ \};}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cameraDimensions;}
+\DoxyCodeLine{00104\ \ \ \ \ \}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ SDL\_FRect\ getCameraRect()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ cameraWidth\ =\ getCameraDimensions().x\ /\ getScale();}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ cameraHeight\ =\ getCameraDimensions().y\ /\ getScale();}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ cameraX\ =\ \_position.x\ -\/\ cameraWidth\ /\ 2.0f\ +\ getCameraDimensions().x\ /\ 2;}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ cameraY\ =\ \_position.y\ -\/\ cameraHeight\ /\ 2.0f\ +\ getCameraDimensions().y\ /\ 2;}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ SDL\_FRect\ cameraRect\ =\ \{\ cameraX\ ,\ cameraY\ ,\ cameraWidth,\ cameraHeight\ \};}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cameraRect;}
+\DoxyCodeLine{00115\ \ \ \ \ \}}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{void}\ setCameraMatrix(glm::mat4\ newMatrix)\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00119\ \ \ \ \ \}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{bool}\ isPointInCameraView(\textcolor{keyword}{const}\ glm::vec4\ point,\ \textcolor{keywordtype}{float}\ margin)}
+\DoxyCodeLine{00122\ \ \ \ \ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ glm::mat4\ vpMatrix\ =\ \_cameraMatrix;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ glm::vec4\ clipSpacePos\ =\ vpMatrix\ *\ point;}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (clipSpacePos.w\ !=\ 0.0f)\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ clipSpacePos.x\ /=\ clipSpacePos.w;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ clipSpacePos.y\ /=\ clipSpacePos.w;}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ clipSpacePos.z\ /=\ clipSpacePos.w;}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 0.2f\ is\ the\ margin}}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (clipSpacePos.x\ <\ -\/1.0f\ -\/\ margin\ ||\ clipSpacePos.x\ >\ 1.0f\ +\ margin)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (clipSpacePos.y\ <\ -\/1.0f\ -\/\ margin\ ||\ clipSpacePos.y\ >\ 1.0f\ +\ margin)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (clipSpacePos.z\ <\ -\/margin\ ||\ clipSpacePos.z\ >\ 1.0f\ +\ margin)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00139\ \ \ \ \ \}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasChanged()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_cameraChange;}
+\DoxyCodeLine{00143\ \ \ \ \ \}}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordtype}{void}\ makeCameraDirty()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00147\ \ \ \ \ \}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordtype}{void}\ refreshCamera()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00151\ \ \ \ \ \}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordtype}{int}\ \_screenWidth,\ \_screenHeight;}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordtype}{float}\ \_scale;}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_cameraChange;}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \ \ glm::vec3\ \_position;}
+\DoxyCodeLine{00159\ \ \ \ \ glm::mat4\ \_projectionMatrix;\ \textcolor{comment}{//\ changed\ once\ in\ init}}
+\DoxyCodeLine{00160\ \ \ \ \ glm::mat4\ \_viewMatrix;}
+\DoxyCodeLine{00161\ \ \ \ \ glm::mat4\ \_cameraMatrix;}
+\DoxyCodeLine{00162\ \};}
+
+\end{DoxyCode}

@@ -1,0 +1,43 @@
+\doxysection{Map.\+h}
+\hypertarget{Map_8h_source}{}\label{Map_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/Map/Map.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/Map/Map.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}JsonParser/JsonParser.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}GECS/Core/GECSEntityTypes.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <random>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <ctime>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMap}{Map}}}
+\DoxyCodeLine{00014\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classMap}{Map}}(\mbox{\hyperlink{classManager}{Manager}}\&\ m\_manager,\ \textcolor{keywordtype}{int}\ ms,\ \textcolor{keywordtype}{int}\ ns);}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classMap}{\string~Map}}();}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ saveMapAsText(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fileName);}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{void}\ ProcessFile(std::ifstream\&\ mapFile,\ \textcolor{keywordtype}{void}(\mbox{\hyperlink{classMap}{Map}}::*\ addNodeFunction)(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3\ mPosition),\ void(\mbox{\hyperlink{classMap}{Map}}::*\ addLinkFunction)(\mbox{\hyperlink{classEntity}{Entity}}\&));}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ ProcessPythonFile(std::ifstream\&\ mapFile,\ \textcolor{keywordtype}{void}(\mbox{\hyperlink{classMap}{Map}}::*\ addNodeFunction)(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3\ mPosition),\ void(\mbox{\hyperlink{classMap}{Map}}::*\ addLinkFunction)(\mbox{\hyperlink{classEntity}{Entity}}\&));}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ loadTextMap(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fileName);}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ loadPythonMap(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fileName);}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ AddDefaultNode(\mbox{\hyperlink{classEntity}{Entity}}\&\ node,\ glm::vec3\ mPosition);}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ AddTreeNode(\mbox{\hyperlink{classEntity}{Entity}}\&\ node,\ glm::vec3\ mPosition);}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ AddDefaultLink(\mbox{\hyperlink{classEntity}{Entity}}\&\ node);}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ AddTreeLink(\mbox{\hyperlink{classEntity}{Entity}}\&\ link);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ manager;}
+\DoxyCodeLine{00033\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{int}\ mapScale;}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{int}\ nodeSize;}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{int}\ scaledSize;}
+\DoxyCodeLine{00037\ \};}
+
+\end{DoxyCode}

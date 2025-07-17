@@ -1,0 +1,41 @@
+\doxysection{Thread Struct Reference}
+\hypertarget{structThread}{}\label{structThread}\index{Thread@{Thread}}
+
+
+Collaboration diagram for Thread\+:
+% FIG 0
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structThread_aec61a91b4a4b81af87eb815b7c2ba3c6}\label{structThread_aec61a91b4a4b81af87eb815b7c2ba3c6} 
+{\bfseries Thread} (\mbox{\hyperlink{structTaskQueue}{Task\+Queue}} \&task\+\_\+queue\+\_\+, int id\+\_\+)
+\item 
+\Hypertarget{structThread_ad9373d8d725c46717dfce3130018fe3a}\label{structThread_ad9373d8d725c46717dfce3130018fe3a} 
+void {\bfseries run} ()
+\item 
+\Hypertarget{structThread_abd50159ecd409936f454c2321f673616}\label{structThread_abd50159ecd409936f454c2321f673616} 
+void {\bfseries stop} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structThread_ac5e6d488e3649691c49fe5325800d417}\label{structThread_ac5e6d488e3649691c49fe5325800d417} 
+int {\bfseries id} = 0
+\item 
+\Hypertarget{structThread_a51e4ca4f63c400007f90949ede3bf75c}\label{structThread_a51e4ca4f63c400007f90949ede3bf75c} 
+std\+::thread {\bfseries cur\+\_\+thread}
+\item 
+\Hypertarget{structThread_a66ba34cf2f2263d60119cd16da4739f6}\label{structThread_a66ba34cf2f2263d60119cd16da4739f6} 
+std\+::function$<$ void()$>$ {\bfseries task} = nullptr
+\item 
+\Hypertarget{structThread_a7ae6aaea8842456a9229e2034e760700}\label{structThread_a7ae6aaea8842456a9229e2034e760700} 
+bool {\bfseries running} = true
+\item 
+\Hypertarget{structThread_aed0f86da7506ef4ff9e1c6b166587cdb}\label{structThread_aed0f86da7506ef4ff9e1c6b166587cdb} 
+\mbox{\hyperlink{structTaskQueue}{Task\+Queue}} \texorpdfstring{$\ast$}{*} {\bfseries t\+\_\+queue} = nullptr
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Threader/Threader.\+h\end{DoxyCompactItemize}
