@@ -69,16 +69,16 @@ set(Source_Files
     "GraphScreen/SceneList.cpp"
     "Grid/Grid.cpp"
     "ImGuiInterface/ImGuiInterface.cpp"
-    "imgui/imgui.cpp"
-    "imgui/imgui_combo_autoselect.cpp"
-    "imgui/imgui_demo.cpp"
-    "imgui/imgui_draw.cpp"
-    "imgui/imgui_impl_opengl3.cpp"
-    "imgui/imgui_impl_sdl2.cpp"
-    "imgui/imgui_tables.cpp"
-    "imgui/imgui_widgets.cpp"
-    "imgui/implot.cpp"
-    "imgui/implot_items.cpp"
+    "../vendors/imgui/imgui.cpp"
+    "../vendors/imguiComboAutoselect/imgui_combo_autoselect.cpp"
+    "../vendors/imgui/imgui_demo.cpp"
+    "../vendors/imgui/imgui_draw.cpp"
+    "../vendors/imgui/backends/imgui_impl_opengl3.cpp"
+    "../vendors/imgui/backends/imgui_impl_sdl2.cpp"
+    "../vendors/imgui/imgui_tables.cpp"
+    "../vendors/imgui/imgui_widgets.cpp"
+    "../vendors/implot/implot.cpp"
+    "../vendors/implot/implot_items.cpp"
     "InputManager/InputManager.cpp"
     "PNG_Letters.cpp"
     "ResourceManager/ResourceManager.cpp"
@@ -137,8 +137,20 @@ include_directories(${GLEW_INCLUDE_DIRS}) # LIBS added at end
 #include_directories(${GLEW_INCLUDE_DIR})
 
 # Set the local include of IMGUI
-set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/imgui")
+set(GLM_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/glm")
+include_directories(${GLM_INCLUDE_DIR})
+
+set(VENDORS_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors")
+include_directories(${VENDORS_INCLUDE_DIR})
+
+set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/imgui")
 include_directories(${IMGUI_INCLUDE_DIR})
+
+set(IMGUI_BACKENDS_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/imgui/backends")
+include_directories(${IMGUI_BACKENDS_INCLUDE_DIR})
+
+set(IMPLOT_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/implot")
+include_directories(${IMPLOT_INCLUDE_DIR})
 
 #file(GLOB IMGUI_SOURCES ${PROJECT_NAME}/imgui/*.cpp)
 #target_sources(${PROJECT_NAME} PRIVATE ${IMGUI_SOURCES})
