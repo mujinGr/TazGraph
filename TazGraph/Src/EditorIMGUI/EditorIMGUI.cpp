@@ -860,7 +860,7 @@ std::string EditorIMGUI::SceneTabs(const std::vector<std::string>& graphNames, s
 			}
 		}
 		ImGui::SameLine(ImGui::GetContentRegionAvail().x - 16);
-		if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(TextureManager::getInstance().Get_GLTexture("play-button")->id)), ImVec2(16, 16))) {
+		if (ImGui::ImageButton("play", static_cast<ImTextureID>(static_cast<intptr_t>(TextureManager::getInstance().Get_GLTexture("play-button")->id)), ImVec2(16, 16))) {
 			interpolation_running = !interpolation_running;
 		}
 

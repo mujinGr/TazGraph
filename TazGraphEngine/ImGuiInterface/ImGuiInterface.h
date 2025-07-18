@@ -8,7 +8,7 @@
 #include <imgui_impl_opengl3.h>
 #include <implot.h>
 #include <implot_internal.h>
-#include <imgui_combo_autoselect.h>
+#include "../imguiComboAutoselect/imgui_combo_autoselect.h"
 
 class ImGuiInterface {
 public:
