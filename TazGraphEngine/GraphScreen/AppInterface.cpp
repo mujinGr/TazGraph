@@ -49,7 +49,7 @@ void AppInterface::run() {
 		Uint64 endInput = SDL_GetPerformanceCounter();
 		int i = 0;
 		float inputTime = static_cast<float>(endInput - startInput) / freq * 1000.0f;
-		std::cout << "Input: " << inputTime << " ms" << std::endl;
+		//std::cout << "Input: " << inputTime << " ms" << std::endl;
 
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
 
@@ -62,7 +62,7 @@ void AppInterface::run() {
 
 			totalDeltaTime -= deltaTime;
 			i++;
-			std::cout << "Update: " << updateTime << " ms\n";
+			//std::cout << "Update: " << updateTime << " ms\n";
 
 			
 		}
@@ -71,7 +71,7 @@ void AppInterface::run() {
 			draw();
 			Uint64 endDraw = SDL_GetPerformanceCounter();
 			float drawTime = static_cast<float>(endDraw - startDraw) / freq * 1000.0f;
-			std::cout << "Draw: " << drawTime << " ms\n";
+			//std::cout << "Draw: " << drawTime << " ms\n";
 
 
 		}
@@ -91,7 +91,7 @@ void AppInterface::run() {
 			frameCounter = 0;
 		}
 
-		std::cout << "UI: " << uiTime << " ms, Total Frame Time: " << frameTime << " ms, FPS: " << _limiter.fps << "\n";
+		//std::cout << "UI: " << uiTime << " ms, Total Frame Time: " << frameTime << " ms, FPS: " << _limiter.fps << "\n";
 	}
 }
 void AppInterface::exitSimulator() {
@@ -174,7 +174,7 @@ bool AppInterface::init() {
 }
 
 bool AppInterface::initSystems() {
-	_window.create("Taz Graph", 800.0f, 640.0f, 1.0f, TazGraphEngine::VISIBLE);
+	_window.create("TazGraph", 800.0f, 640.0f, 1.0f, TazGraphEngine::VISIBLE);
 	return true;
 }
 

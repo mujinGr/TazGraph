@@ -105,7 +105,7 @@
     <ClCompile Include="..\vendors\implot\implot_items.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="imguiComboAutoselect\imgui_combo_autoselect.cpp">
+    <ClCompile Include="..\vendors\imguiComboAutoselect\imgui_combo_autoselect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -291,9 +291,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Components\Empty\Basic\SphereComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="imguiComboAutoselect\imgui_combo_autoselect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
