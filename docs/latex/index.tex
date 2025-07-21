@@ -2,12 +2,14 @@
 \hypertarget{index}{}\label{index}\index{TazGraph Project@{TazGraph Project}}
 \label{index_md__2mnt_2c_2Users_2lefte_2Mujin_2MastersThesis_2Taz_2TazGraph_2README}%
 \Hypertarget{index_md__2mnt_2c_2Users_2lefte_2Mujin_2MastersThesis_2Taz_2TazGraph_2README}%
- create a build folder in root necessary programs\+: cmake, g++ WSL\+: sudo apt-\/get install libsdl2-\/dev libsdl2-\/image-\/dev libsdl2-\/ttf-\/dev libsdl2-\/mixer-\/dev libglew-\/dev libglm-\/dev libopengl if libopengl does not exist\+: sudo apt install freeglut3-\/dev mesa-\/common-\/dev
+ create a build folder in root necessary programs\+: cmake, g++ WSL\+: {\ttfamily sudo apt-\/get install libsdl2-\/dev libsdl2-\/image-\/dev libsdl2-\/ttf-\/dev libsdl2-\/mixer-\/dev libglew-\/dev libglm-\/dev libopengl} if libopengl does not exist\+: {\ttfamily sudo apt install freeglut3-\/dev mesa-\/common-\/dev}
 
-In build/\+: cmake -\/DCMAKE\+\_\+\+BUILD\+\_\+\+TYPE=Release .. make
+Start by cloning the repository with {\ttfamily git clone -\/-\/recursive \href{https://carvgit.ics.forth.gr/kotsonas/tazgraph}{\texttt{ https\+://carvgit.\+ics.\+forth.\+gr/kotsonas/tazgraph}}}
 
-in Taz\+Graph/\+Taz\+Graph/\+: ../build/\+Taz\+Graph/\+Taz\+Graph
+In build/\+: {\ttfamily cmake -\/DCMAKE\+\_\+\+BUILD\+\_\+\+TYPE=Release ..} {\ttfamily make}
 
-For Windows\+: In root folder\+: msbuild Taz\+Graph.\+sln /p\+:Configuration=Debug /p\+:Platform=x64
+in Taz\+Graph/\+Taz\+Graph/\+: {\ttfamily ../build/\+Taz\+Graph/\+Taz\+Graph}
 
-In Taz\+Graph/\+: ../x64/\+Debug/\+Taz\+Graph.exe 
+For Windows\+: In root folder\+: {\ttfamily msbuild Taz\+Graph.\+sln /p\+:Configuration=Debug /p\+:Platform=x64}
+
+In Taz\+Graph/\+: {\ttfamily ../x64/\+Debug/\+Taz\+Graph.exe} 

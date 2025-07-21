@@ -9,7 +9,5 @@ var searchData=
   ['thread_6',['Thread',['../structThread.html',1,'']]],
   ['threader_7',['Threader',['../structThreader.html',1,'']]],
   ['transformcomponent_8',['TransformComponent',['../classTransformComponent.html',1,'']]],
-  ['transformer1_9',['Transformer1',['../structImPlot_1_1Transformer1.html',1,'ImPlot']]],
-  ['transformer2_10',['Transformer2',['../structImPlot_1_1Transformer2.html',1,'ImPlot']]],
-  ['triangle_5fw_5fcolor_11',['Triangle_w_Color',['../classTriangle__w__Color.html',1,'']]]
+  ['triangle_5fw_5fcolor_9',['Triangle_w_Color',['../classTriangle__w__Color.html',1,'']]]
 ];

@@ -11,6 +11,7 @@ digraph "/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/build/TazGraphEngin
     graph [ bgcolor="#edf0f7", pencolor="grey25", label="", fontname=Helvetica,fontsize=10 style="filled,bold", URL="dir_aee9aa27b8e8c72cb9ed212b0c6dcc39.html",tooltip=""]
     dir_aee9aa27b8e8c72cb9ed212b0c6dcc39 [shape=plaintext, label="Renderers"];
   dir_34904dbb535e5fc18c1541d65b265097 [label="FrameBuffer", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_34904dbb535e5fc18c1541d65b265097.html",tooltip=""];
+  dir_50cce9b49e8974316dd6b69abba9a17d [label="LightRenderer", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_50cce9b49e8974316dd6b69abba9a17d.html",tooltip=""];
   dir_48b8c654dde822648ae9a52cbd69d05d [label="LineRenderer", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_48b8c654dde822648ae9a52cbd69d05d.html",tooltip=""];
   dir_499c69de457733be75f815b173ed5bc5 [label="PlaneColorRenderer", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_499c69de457733be75f815b173ed5bc5.html",tooltip=""];
   dir_c107d874e31c5de69b9f2d5b4bcbecf4 [label="PlaneModelRenderer", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_c107d874e31c5de69b9f2d5b4bcbecf4.html",tooltip=""];

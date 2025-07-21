@@ -10,89 +10,90 @@
 \DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
 \DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <filesystem>}}
 \DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}ImGuiInterface/ImGuiInterface.h"{}}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}BaseFPSLimiter/BaseFPSLimiter.h"{}}}
-\DoxyCodeLine{00010\ }
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}CustomFunctions/CustomFunctions.h"{}}}
-\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}./EditorLayoutUtils.h"{}}}
-\DoxyCodeLine{00013\ }
-\DoxyCodeLine{00014\ \textcolor{keyword}{namespace\ }fs\ =\ std::filesystem;}
-\DoxyCodeLine{00015\ }
-\DoxyCodeLine{00016\ \textcolor{comment}{//\ it\ is\ to\ provide\ the\ ImgUI\ functions\ for\ the\ whole\ project}}
-\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classEditorIMGUI}{EditorIMGUI}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classImGuiInterface}{ImGuiInterface}}\ \{}
-\DoxyCodeLine{00018\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00019\ \ \ \ \ std::vector<std::string>\ \_fileNames;}
-\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \_newFileName[126]\ =\ \textcolor{stringliteral}{"{}"{}};}
-\DoxyCodeLine{00021\ \ \ \ \ std::vector<std::string>\ \_pollingFileNames;}
-\DoxyCodeLine{00022\ \ \ \ \ ImGui::ComboAutoSelectData\ \_data;}
-\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{int}\ \_currentOrientationIndex\ =\ 0;}
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_filesLoaded\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_isSaving\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_isStartingNew\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_isLoading\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_goingBack\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{classCustomFunctions}{CustomFunctions}}\ \_customFunctions;}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ \textcolor{comment}{//\ Note:\ Switch\ this\ to\ true\ to\ enable\ dockspace}}
-\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_dockingEnabled\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{int}\ \_lastEntityDisplayed\ =\ 0;}
-\DoxyCodeLine{00037\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{float}\ cameraRotationZ\ =\ 0;}
-\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{int}\ newNodesCount\ =\ 0;}
-\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{int}\ newLinksCount\ =\ 0;}
-\DoxyCodeLine{00041\ }
-\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{float}\ interpolation\ =\ 0.0f;}
-\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{float}\ interpolation\_speed\ =\ 0.01f;}
-\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{bool}\ interpolation\_running\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}imguiComboAutoselect/imgui\_combo\_autoselect.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}BaseFPSLimiter/BaseFPSLimiter.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}CustomFunctions/CustomFunctions.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}./EditorLayoutUtils.h"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }fs\ =\ std::filesystem;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ it\ is\ to\ provide\ the\ ImgUI\ functions\ for\ the\ whole\ project}}
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classEditorIMGUI}{EditorIMGUI}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classImGuiInterface}{ImGuiInterface}}\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00020\ \ \ \ \ std::vector<std::string>\ \_fileNames;}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \_newFileName[126]\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00022\ \ \ \ \ std::vector<std::string>\ \_pollingFileNames;}
+\DoxyCodeLine{00023\ \ \ \ \ ImGui::ComboAutoSelectData\ \_data;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{int}\ \_currentOrientationIndex\ =\ 0;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_filesLoaded\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_isSaving\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_isStartingNew\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_isLoading\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_goingBack\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{classCustomFunctions}{CustomFunctions}}\ \_customFunctions;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{comment}{//\ Note:\ Switch\ this\ to\ true\ to\ enable\ dockspace}}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_dockingEnabled\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{int}\ \_lastEntityDisplayed\ =\ 0;}
+\DoxyCodeLine{00038\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{float}\ cameraRotationZ\ =\ 0;}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{int}\ newNodesCount\ =\ 0;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{int}\ newLinksCount\ =\ 0;}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{float}\ interpolation\ =\ 0.0f;}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{float}\ interpolation\_speed\ =\ 0.01f;}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{bool}\ interpolation\_running\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00046\ }
-\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{bool}\ isMouseInSecondColumn\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{bool}\ isMouseInSecondColumn\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ }
-\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{int}\ last\_activeLayout\ =\ 0;}
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{int}\ activeLayout\ =\ 0;}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{classEditorIMGUI}{EditorIMGUI}}();}
-\DoxyCodeLine{00055\ }
-\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{classEditorIMGUI}{\string~EditorIMGUI}}();}
-\DoxyCodeLine{00057\ }
-\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{bool}\ isSaving();}
-\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{void}\ setNewMap(\textcolor{keywordtype}{bool}\ startingNew);}
-\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{bool}\ isStartingNew();}
-\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{bool}\ isLoading();}
-\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ setLoading(\textcolor{keywordtype}{bool}\ loading);}
-\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{bool}\ isGoingBack();}
-\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ SetGoingBack(\textcolor{keywordtype}{bool}\ goingBack);}
-\DoxyCodeLine{00065\ }
-\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{void}\ updateFileNamesInAssets();}
-\DoxyCodeLine{00067\ }
-\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ updatePollingFileNamesInAssets();}
-\DoxyCodeLine{00069\ }
-\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{bool}*\ getDockspaceRef();}
-\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ MenuBar();}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{bool}\ isMouseOnWidget(\textcolor{keyword}{const}\ std::string\&\ widgetName);}
-\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ LeftColumnUIElement(\textcolor{keywordtype}{bool}\&\ renderDebug,\ \textcolor{keywordtype}{bool}\&\ clusterLayout,\ glm::vec2\ mouseCoords,\ glm::vec2\ mouseCoords2,\ \mbox{\hyperlink{classManager}{Manager}}\&\ manager,\ \mbox{\hyperlink{classEntity}{Entity}}*\ selectedEntity,\ \textcolor{keywordtype}{float}(\&backgroundColor)[4],\ \textcolor{keywordtype}{int}\ cell\_size);}
-\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ RightColumnUIElement(\mbox{\hyperlink{classManager}{Manager}}\&\ manager,\ \textcolor{keywordtype}{float}*\ nodeRadius);}
-\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ FPSCounter(\textcolor{keyword}{const}\ \mbox{\hyperlink{classBaseFPSLimiter}{BaseFPSLimiter}}\&\ baseFPSLimiter);}
-\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ ReloadAccessibleFiles();}
-\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{void}\ SavingUI(\mbox{\hyperlink{classMap}{Map}}*\ map);}
-\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{void}\ NewMapUI();}
-\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{char}*\ LoadingUI();}
-\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{void}\ MainMenuUI(std::function<\textcolor{keywordtype}{void}()>\ onStartSimulator,\ std::function<\textcolor{keywordtype}{void}()>\ onLoadSimulator,\ std::function<\textcolor{keywordtype}{void}()>\ onExitSimulator);}
-\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{void}\ ShowAllEntities(\mbox{\hyperlink{classManager}{Manager}}\&\ manager,\ \textcolor{keywordtype}{float}\&\ m\_nodeRadius);}
-\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{void}\ availableFunctions();}
-\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}\ SceneViewport(uint32\_t\ textureId,\ ImVec2\&\ storedWindowPos,\ ImVec2\&\ storedWindowSize);}
-\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{void}\ scriptResultsVisualization(\mbox{\hyperlink{classManager}{Manager}}\&\ manager,\ std::vector<std::pair<Entity*,\ glm::vec3>>\&\ m\_selectedEntities);}
-\DoxyCodeLine{00086\ \ \ \ \ std::string\ SceneTabs(\textcolor{keyword}{const}\ std::vector<std::string>\&\ graphNames,\ std::string\&\ currentActive);}
-\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{void}\ ShowFunctionExecutionResults();}
-\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{void}\ updateIsMouseInSecondColumn();}
-\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{void}\ ShowEntityComponents(glm::vec2\ mousePos,\ \mbox{\hyperlink{classEntity}{Entity}}*\ displayedEntity,\ \mbox{\hyperlink{classManager}{Manager}}\&\ manager);}
-\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{void}\ ShowSceneControl(glm::vec2\ mousePos,\ \mbox{\hyperlink{classManager}{Manager}}\&\ manager);}
-\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{void}\ StartPollingComponent(\mbox{\hyperlink{classEntity}{Entity}}*\ entity,\ \textcolor{keyword}{const}\ std::string\&\ fileName);}
-\DoxyCodeLine{00092\ \};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{int}\ last\_activeLayout\ =\ 0;}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{int}\ activeLayout\ =\ 0;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{classEditorIMGUI}{EditorIMGUI}}();}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{classEditorIMGUI}{\string~EditorIMGUI}}();}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{bool}\ isSaving();}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ setNewMap(\textcolor{keywordtype}{bool}\ startingNew);}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{bool}\ isStartingNew();}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{bool}\ isLoading();}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ setLoading(\textcolor{keywordtype}{bool}\ loading);}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{bool}\ isGoingBack();}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ SetGoingBack(\textcolor{keywordtype}{bool}\ goingBack);}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{void}\ updateFileNamesInAssets();}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ updatePollingFileNamesInAssets();}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{bool}*\ getDockspaceRef();}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ MenuBar();}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{bool}\ isMouseOnWidget(\textcolor{keyword}{const}\ std::string\&\ widgetName);}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ LeftColumnUIElement(\textcolor{keywordtype}{bool}\&\ renderDebug,\ \textcolor{keywordtype}{bool}\&\ clusterLayout,\ glm::vec2\ mouseCoords,\ glm::vec2\ mouseCoords2,\ \mbox{\hyperlink{classManager}{Manager}}\&\ manager,\ \mbox{\hyperlink{classEntity}{Entity}}*\ selectedEntity,\ \textcolor{keywordtype}{float}(\&backgroundColor)[4],\ \textcolor{keywordtype}{int}\ cell\_size);}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ RightColumnUIElement(\mbox{\hyperlink{classManager}{Manager}}\&\ manager,\ \textcolor{keywordtype}{float}*\ nodeRadius);}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ FPSCounter(\textcolor{keyword}{const}\ \mbox{\hyperlink{classBaseFPSLimiter}{BaseFPSLimiter}}\&\ baseFPSLimiter);}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{void}\ ReloadAccessibleFiles();}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{void}\ SavingUI(\mbox{\hyperlink{classMap}{Map}}*\ map);}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ NewMapUI();}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{char}*\ LoadingUI();}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{void}\ MainMenuUI(std::function<\textcolor{keywordtype}{void}()>\ onStartSimulator,\ std::function<\textcolor{keywordtype}{void}()>\ onLoadSimulator,\ std::function<\textcolor{keywordtype}{void}()>\ onExitSimulator);}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{void}\ ShowAllEntities(\mbox{\hyperlink{classManager}{Manager}}\&\ manager,\ \textcolor{keywordtype}{float}\&\ m\_nodeRadius);}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}\ availableFunctions();}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{void}\ SceneViewport(uint32\_t\ textureId,\ ImVec2\&\ storedWindowPos,\ ImVec2\&\ storedWindowSize);}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ scriptResultsVisualization(\mbox{\hyperlink{classManager}{Manager}}\&\ manager,\ std::vector<std::pair<Entity*,\ glm::vec3>>\&\ m\_selectedEntities);}
+\DoxyCodeLine{00087\ \ \ \ \ std::string\ SceneTabs(\textcolor{keyword}{const}\ std::vector<std::string>\&\ graphNames,\ std::string\&\ currentActive);}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{void}\ ShowFunctionExecutionResults();}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{void}\ updateIsMouseInSecondColumn();}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{void}\ ShowEntityComponents(glm::vec2\ mousePos,\ \mbox{\hyperlink{classEntity}{Entity}}*\ displayedEntity,\ \mbox{\hyperlink{classManager}{Manager}}\&\ manager);}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{void}\ ShowSceneControl(glm::vec2\ mousePos,\ \mbox{\hyperlink{classManager}{Manager}}\&\ manager);}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{void}\ StartPollingComponent(\mbox{\hyperlink{classEntity}{Entity}}*\ entity,\ \textcolor{keyword}{const}\ std::string\&\ fileName);}
+\DoxyCodeLine{00093\ \};}
 
 \end{DoxyCode}

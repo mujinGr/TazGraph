@@ -5,5 +5,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
   node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
   rankdir="LR";
-  Node0 [id="Node000000",label="ImPlot::GetterOverrideY\l\< _Getter \>",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$structImPlot_1_1GetterOverrideY.html",tooltip=" "];
+  Node0 [id="Node000000",label="TazGraphEngine::ConsoleLogger",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classTazGraphEngine_1_1ConsoleLogger.html",tooltip=" "];
 }

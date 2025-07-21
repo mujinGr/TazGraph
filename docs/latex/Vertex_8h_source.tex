@@ -4,126 +4,127 @@
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}GL/glew.h"{}}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}glm/glm.hpp"{}}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}glm/gtc/matrix\_transform.hpp"{}}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}glm/gtc/type\_ptr.hpp"{}}}
-\DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{keyword}{static}\ glm::mat4\ getRotationMatrix(glm::vec3\ newRot)\ \{}
-\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{float}\ radX\ =\ glm::radians(newRot.x);}
-\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{float}\ radY\ =\ glm::radians(newRot.y);}
-\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{float}\ radZ\ =\ glm::radians(newRot.z);}
-\DoxyCodeLine{00012\ }
-\DoxyCodeLine{00013\ \ \ \ \ glm::mat4\ rotationX\ =\ glm::rotate(glm::mat4(1.0f),\ radX,\ glm::vec3(1.0f,\ 0.0f,\ 0.0f));}
-\DoxyCodeLine{00014\ \ \ \ \ glm::mat4\ rotationY\ =\ glm::rotate(glm::mat4(1.0f),\ radY,\ glm::vec3(0.0f,\ 1.0f,\ 0.0f));}
-\DoxyCodeLine{00015\ \ \ \ \ glm::mat4\ rotationZ\ =\ glm::rotate(glm::mat4(1.0f),\ radZ,\ glm::vec3(0.0f,\ 0.0f,\ 1.0f));}
-\DoxyCodeLine{00016\ }
-\DoxyCodeLine{00017\ \ \ \ \ glm::mat4\ rotationMatrix\ =\ rotationZ\ *\ rotationY\ *\ rotationX;}
-\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordflow}{return}\ rotationMatrix;}
-\DoxyCodeLine{00019\ \}}
-\DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ \textcolor{keyword}{static}\ glm::vec2\ rotatePoint(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ centerX,\ \textcolor{keywordtype}{float}\ centerY,\ \textcolor{keywordtype}{float}\ radians)\ \{}
-\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{float}\ dx\ =\ x\ -\/\ centerX;}
-\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{float}\ dy\ =\ y\ -\/\ centerY;}
-\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordflow}{return}\ glm::vec2(}
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ centerX\ +\ dx\ *\ cos(radians)\ -\/\ dy\ *\ sin(radians),}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ centerY\ +\ dx\ *\ sin(radians)\ +\ dy\ *\ cos(radians)}
-\DoxyCodeLine{00027\ \ \ \ \ );}
-\DoxyCodeLine{00028\ \};}
-\DoxyCodeLine{00029\ \textcolor{keyword}{static}\ glm::vec2\ rotatePoint(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ radians)\ \{}
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordflow}{return}\ rotatePoint(x,y,\ 0.0f,\ 0.0f,\ radians);}
-\DoxyCodeLine{00031\ \};}
-\DoxyCodeLine{00032\ \textcolor{comment}{/*\ \ glm::vec3\ arotatedTopLeft\ =\ rotatePoint(atopLeft.x,\ atopLeft.y,\ atopLeft.z,\ centerX,\ centerY,\ centerZ,\ 0,\ 0,\ 0);}}
-\DoxyCodeLine{00033\ \textcolor{comment}{\ \ \ \ \ \ \ \ glm::vec3\ arotatedBottomLeft\ =\ rotatePoint(abottomLeft.x,\ abottomLeft.y,\ abottomLeft.z,\ centerX,\ centerY,\ centerZ,\ 0,\ 0,\ 0);}}
-\DoxyCodeLine{00034\ \textcolor{comment}{\ \ \ \ \ \ \ \ glm::vec3\ arotatedBottomRight\ =\ rotatePoint(abottomRight.x,\ abottomRight.y,\ abottomRight.z,\ centerX,\ centerY,\ centerZ,\ 0,\ 0,\ 0);}}
-\DoxyCodeLine{00035\ \textcolor{comment}{\ \ \ \ \ \ \ \ glm::vec3\ arotatedTopRight\ =\ rotatePoint(atopRight.x,\ atopRight.y,\ atopRight.z,\ centerX,\ centerY,\ centerZ,\ 0,\ 0,\ 0);*/}}
-\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ GLM\_ENABLE\_EXPERIMENTAL}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}GL/glew.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}glm/glm.hpp"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}glm/gtc/matrix\_transform.hpp"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}glm/gtc/type\_ptr.hpp"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{static}\ glm::mat4\ getRotationMatrix(glm::vec3\ newRot)\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{float}\ radX\ =\ glm::radians(newRot.x);}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{float}\ radY\ =\ glm::radians(newRot.y);}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{float}\ radZ\ =\ glm::radians(newRot.z);}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ glm::mat4\ rotationX\ =\ glm::rotate(glm::mat4(1.0f),\ radX,\ glm::vec3(1.0f,\ 0.0f,\ 0.0f));}
+\DoxyCodeLine{00015\ \ \ \ \ glm::mat4\ rotationY\ =\ glm::rotate(glm::mat4(1.0f),\ radY,\ glm::vec3(0.0f,\ 1.0f,\ 0.0f));}
+\DoxyCodeLine{00016\ \ \ \ \ glm::mat4\ rotationZ\ =\ glm::rotate(glm::mat4(1.0f),\ radZ,\ glm::vec3(0.0f,\ 0.0f,\ 1.0f));}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ glm::mat4\ rotationMatrix\ =\ rotationZ\ *\ rotationY\ *\ rotationX;}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordflow}{return}\ rotationMatrix;}
+\DoxyCodeLine{00020\ \}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{static}\ glm::vec2\ rotatePoint(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ centerX,\ \textcolor{keywordtype}{float}\ centerY,\ \textcolor{keywordtype}{float}\ radians)\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{float}\ dx\ =\ x\ -\/\ centerX;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{float}\ dy\ =\ y\ -\/\ centerY;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{return}\ glm::vec2(}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ centerX\ +\ dx\ *\ cos(radians)\ -\/\ dy\ *\ sin(radians),}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ centerY\ +\ dx\ *\ sin(radians)\ +\ dy\ *\ cos(radians)}
+\DoxyCodeLine{00028\ \ \ \ \ );}
+\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00030\ \textcolor{keyword}{static}\ glm::vec2\ rotatePoint(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ radians)\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordflow}{return}\ rotatePoint(x,y,\ 0.0f,\ 0.0f,\ radians);}
+\DoxyCodeLine{00032\ \};}
+\DoxyCodeLine{00033\ \textcolor{comment}{/*\ \ glm::vec3\ arotatedTopLeft\ =\ rotatePoint(atopLeft.x,\ atopLeft.y,\ atopLeft.z,\ centerX,\ centerY,\ centerZ,\ 0,\ 0,\ 0);}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ \ \ \ \ \ \ \ glm::vec3\ arotatedBottomLeft\ =\ rotatePoint(abottomLeft.x,\ abottomLeft.y,\ abottomLeft.z,\ centerX,\ centerY,\ centerZ,\ 0,\ 0,\ 0);}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ \ \ \ \ \ \ \ glm::vec3\ arotatedBottomRight\ =\ rotatePoint(abottomRight.x,\ abottomRight.y,\ abottomRight.z,\ centerX,\ centerY,\ centerZ,\ 0,\ 0,\ 0);}}
+\DoxyCodeLine{00036\ \textcolor{comment}{\ \ \ \ \ \ \ \ glm::vec3\ arotatedTopRight\ =\ rotatePoint(atopRight.x,\ atopRight.y,\ atopRight.z,\ centerX,\ centerY,\ centerZ,\ 0,\ 0,\ 0);*/}}
 \DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \textcolor{keyword}{using\ }Position\ \ =\ glm::vec3;}
-\DoxyCodeLine{00039\ \textcolor{keyword}{using\ }Size\ \ \ \ \ \ =\ glm::vec3;}
-\DoxyCodeLine{00040\ \textcolor{keyword}{using\ }Rotation\ \ =\ glm::vec3;}
-\DoxyCodeLine{00041\ }
-\DoxyCodeLine{00042\ \textcolor{keyword}{using\ }Normal\ \ \ \ =\ glm::vec3;}
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ \textcolor{keyword}{using\ }UV\ \ \ \ \ \ \ \ =\ glm::vec2;}
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structColor}{Color}}\ \{}
-\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}()\ :\ r(0),\ g(0),\ b(0),\ a(0)\ \{\}}
-\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}(GLubyte\ R,\ GLubyte\ G,\ GLubyte\ B,\ GLubyte\ A)\ :\ r(R),\ g(G),\ b(B),\ a(A)\ \{\}}
-\DoxyCodeLine{00049\ \ \ \ \ }
-\DoxyCodeLine{00050\ \ \ \ \ glm::vec4\ toVec4()\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ glm::vec4(r,\ g,\ b,\ a)\ /\ 255.0f;\ \textcolor{comment}{//\ Normalize\ 0-\/255\ to\ 0-\/1}}
-\DoxyCodeLine{00052\ \ \ \ \ \}}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{structColor}{Color}}\ fromVec4(\textcolor{keyword}{const}\ glm::vec4\&\ v)\ \{}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structColor}{Color}}(}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(v.r\ *\ 255.0f),}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(v.g\ *\ 255.0f),}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(v.b\ *\ 255.0f),}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(v.a\ *\ 255.0f)}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00061\ \ \ \ \ \}}
-\DoxyCodeLine{00062\ }
-\DoxyCodeLine{00063\ \ \ \ \ GLubyte\ r;}
-\DoxyCodeLine{00064\ \ \ \ \ GLubyte\ g;}
-\DoxyCodeLine{00065\ \ \ \ \ GLubyte\ b;}
-\DoxyCodeLine{00066\ \ \ \ \ GLubyte\ a;}
-\DoxyCodeLine{00067\ }
-\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}\ operator*(\textcolor{keywordtype}{float}\ scalar)\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structColor}{Color}}(\textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(r\ *\ scalar),}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(g\ *\ scalar),}
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(b\ *\ scalar),}
-\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(a\ *\ scalar));}
-\DoxyCodeLine{00073\ \ \ \ \ \}}
-\DoxyCodeLine{00074\ }
-\DoxyCodeLine{00075\ \ \ \ \ \textcolor{comment}{//\ Operator\ overload\ for\ color\ addition}}
-\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}\ operator+(\textcolor{keyword}{const}\ \mbox{\hyperlink{structColor}{Color}}\&\ other)\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structColor}{Color}}(\textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(r\ +\ other.r),}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(g\ +\ other.g),}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(b\ +\ other.b),}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(a\ +\ other.a));}
-\DoxyCodeLine{00081\ \ \ \ \ \}}
-\DoxyCodeLine{00082\ }
-\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ \mbox{\hyperlink{structColor}{Color}}\&\ other)\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ r\ ==\ other.r\ \&\&\ g\ ==\ other.g\ \&\&\ b\ ==\ other.b\ \&\&\ a\ ==\ other.a;}
-\DoxyCodeLine{00085\ \ \ \ \ \}}
-\DoxyCodeLine{00086\ \};}
-\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{using\ }Position\ \ =\ glm::vec3;}
+\DoxyCodeLine{00040\ \textcolor{keyword}{using\ }Size\ \ \ \ \ \ =\ glm::vec3;}
+\DoxyCodeLine{00041\ \textcolor{keyword}{using\ }Rotation\ \ =\ glm::vec3;}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{using\ }Normal\ \ \ \ =\ glm::vec3;}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{using\ }UV\ \ \ \ \ \ \ \ =\ glm::vec2;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structColor}{Color}}\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}()\ :\ r(0),\ g(0),\ b(0),\ a(0)\ \{\}}
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}(GLubyte\ R,\ GLubyte\ G,\ GLubyte\ B,\ GLubyte\ A)\ :\ r(R),\ g(G),\ b(B),\ a(A)\ \{\}}
+\DoxyCodeLine{00050\ \ \ \ \ }
+\DoxyCodeLine{00051\ \ \ \ \ glm::vec4\ toVec4()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ glm::vec4(r,\ g,\ b,\ a)\ /\ 255.0f;\ \textcolor{comment}{//\ Normalize\ 0-\/255\ to\ 0-\/1}}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{structColor}{Color}}\ fromVec4(\textcolor{keyword}{const}\ glm::vec4\&\ v)\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structColor}{Color}}(}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(v.r\ *\ 255.0f),}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(v.g\ *\ 255.0f),}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(v.b\ *\ 255.0f),}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(v.a\ *\ 255.0f)}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ GLubyte\ r;}
+\DoxyCodeLine{00065\ \ \ \ \ GLubyte\ g;}
+\DoxyCodeLine{00066\ \ \ \ \ GLubyte\ b;}
+\DoxyCodeLine{00067\ \ \ \ \ GLubyte\ a;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}\ operator*(\textcolor{keywordtype}{float}\ scalar)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structColor}{Color}}(\textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(r\ *\ scalar),}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(g\ *\ scalar),}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(b\ *\ scalar),}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(a\ *\ scalar));}
+\DoxyCodeLine{00074\ \ \ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{comment}{//\ Operator\ overload\ for\ color\ addition}}
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}\ operator+(\textcolor{keyword}{const}\ \mbox{\hyperlink{structColor}{Color}}\&\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structColor}{Color}}(\textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(r\ +\ other.r),}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(g\ +\ other.g),}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(b\ +\ other.b),}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}GLubyte\textcolor{keyword}{>}(a\ +\ other.a));}
+\DoxyCodeLine{00082\ \ \ \ \ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ \mbox{\hyperlink{structColor}{Color}}\&\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ r\ ==\ other.r\ \&\&\ g\ ==\ other.g\ \&\&\ b\ ==\ other.b\ \&\&\ a\ ==\ other.a;}
+\DoxyCodeLine{00086\ \ \ \ \ \}}
+\DoxyCodeLine{00087\ \};}
 \DoxyCodeLine{00088\ }
-\DoxyCodeLine{00089\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structVertex}{Vertex}}\ \{}
-\DoxyCodeLine{00090\ \ \ \ \ Position\ position\ =\ Position(0);}
-\DoxyCodeLine{00091\ }
-\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ setPosition(Position\ m\_position)\ \{}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ position\ =\ m\_position;}
-\DoxyCodeLine{00094\ \ \ \ \ \}}
-\DoxyCodeLine{00095\ \};}
-\DoxyCodeLine{00096\ }
-\DoxyCodeLine{00097\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structColorVertex}{ColorVertex}}\ :\ \mbox{\hyperlink{structVertex}{Vertex}}\ \{\ \textcolor{comment}{//instead\ of\ using\ the\ general\ Vertex\ that\ has\ also\ info\ about\ texture}}
-\DoxyCodeLine{00098\ \ \ \ \ \textcolor{comment}{//\ we\ use\ this\ where\ we\ want\ just\ color}}
-\DoxyCodeLine{00099\ \ \ \ \ \textcolor{comment}{//todo\ different\ instanceVBO\ for\ the\ centers}}
-\DoxyCodeLine{00100\ \ \ \ \ \textcolor{comment}{//Position\ centerMesh;}}
-\DoxyCodeLine{00101\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}\ color\ =\ \mbox{\hyperlink{structColor}{Color}}();}
-\DoxyCodeLine{00102\ }
-\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{void}\ setColor(GLubyte\ r,\ GLubyte\ g,\ GLubyte\ b,\ GLubyte\ a)\ \{}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ color.r\ =\ r;}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ color.g\ =\ g;}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ color.b\ =\ b;}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ color.a\ =\ a;}
-\DoxyCodeLine{00108\ \ \ \ \ \}}
-\DoxyCodeLine{00109\ \};}
-\DoxyCodeLine{00110\ }
-\DoxyCodeLine{00111\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structLightVertex}{LightVertex}}\ :\ \mbox{\hyperlink{structVertex}{Vertex}}\ \{\ }
-\DoxyCodeLine{00112\ \ \ \ \ Normal\ normal\ =\ Normal();}
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00114\ \};}
-\DoxyCodeLine{00115\ }
-\DoxyCodeLine{00116\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTextureVertex}{TextureVertex}}\ \ :\ \mbox{\hyperlink{structVertex}{Vertex}}\{}
-\DoxyCodeLine{00117\ \ \ \ \ \textcolor{comment}{//\ UV\ texture\ coordinates}}
-\DoxyCodeLine{00118\ \ \ \ \ UV\ uv\ =\ UV(0);}
-\DoxyCodeLine{00119\ }
-\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ setUV(UV\ m\_uv)\ \{}
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ uv\ =\ m\_uv;}
-\DoxyCodeLine{00122\ \ \ \ \ \}}
-\DoxyCodeLine{00123\ \};}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structVertex}{Vertex}}\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ Position\ position\ =\ Position(0);}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ setPosition(Position\ m\_position)\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ position\ =\ m\_position;}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ \};}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structColorVertex}{ColorVertex}}\ :\ \mbox{\hyperlink{structVertex}{Vertex}}\ \{\ \textcolor{comment}{//instead\ of\ using\ the\ general\ Vertex\ that\ has\ also\ info\ about\ texture}}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{comment}{//\ we\ use\ this\ where\ we\ want\ just\ color}}
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{comment}{//todo\ different\ instanceVBO\ for\ the\ centers}}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{comment}{//Position\ centerMesh;}}
+\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}\ color\ =\ \mbox{\hyperlink{structColor}{Color}}();}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{void}\ setColor(GLubyte\ r,\ GLubyte\ g,\ GLubyte\ b,\ GLubyte\ a)\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ color.r\ =\ r;}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ color.g\ =\ g;}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ color.b\ =\ b;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ color.a\ =\ a;}
+\DoxyCodeLine{00109\ \ \ \ \ \}}
+\DoxyCodeLine{00110\ \};}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structLightVertex}{LightVertex}}\ :\ \mbox{\hyperlink{structVertex}{Vertex}}\ \{\ }
+\DoxyCodeLine{00113\ \ \ \ \ Normal\ normal\ =\ Normal();}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \};}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTextureVertex}{TextureVertex}}\ \ :\ \mbox{\hyperlink{structVertex}{Vertex}}\{}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{comment}{//\ UV\ texture\ coordinates}}
+\DoxyCodeLine{00119\ \ \ \ \ UV\ uv\ =\ UV(0);}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ setUV(UV\ m\_uv)\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ uv\ =\ m\_uv;}
+\DoxyCodeLine{00123\ \ \ \ \ \}}
+\DoxyCodeLine{00124\ \};}
 
 \end{DoxyCode}
