@@ -1,3 +1,5 @@
+Code Documentation: `https://mujingr.github.io/TazGraph/html/index.html` 
+
 create a build folder in root
 necessary programs: cmake, g++
 WSL: 
