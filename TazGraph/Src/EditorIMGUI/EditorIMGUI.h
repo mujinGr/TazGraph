@@ -6,6 +6,7 @@
 #include <string>
 #include <filesystem>
 #include "ImGuiInterface/ImGuiInterface.h"
+#include "imguiComboAutoselect/imgui_combo_autoselect.h"
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
 
 #include "CustomFunctions/CustomFunctions.h"

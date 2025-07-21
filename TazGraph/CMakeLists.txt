@@ -7,6 +7,7 @@ set(Header_Files
     "Src/App/App.h"
     "Src/AssetManager/AssetManager.h"
     "Src/EditorIMGUI/EditorIMGUI.h"
+    "Src/EditorIMGUI/EditorLayoutUtils.h"
     "Src/EditorIMGUI/CustomFunctions/CustomFunctions.h"
     "Src/GECS/ScriptComponents.h"
     "Src/GECS/Scripts/MainMenuBackground.h"
@@ -20,6 +21,7 @@ set(Source_Files
     "Src/App/App.cpp"
     "Src/AssetManager/AssetManager.cpp"
     "Src/EditorIMGUI/EditorIMGUI.cpp"
+    "Src/EditorIMGUI/EditorLayoutUtils.cpp"
     "Src/EditorIMGUI/CustomFunctions/CustomFunctions.cpp"
     "Src/Graph.cpp"
     "Src/main.cpp"
@@ -52,8 +54,21 @@ include_directories(${SDL2_TTF_INCLUDE_DIRS})
 
 
 # Set the local include of IMGUI
-set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/imgui")
+# Set the local include of IMGUI
+set(GLM_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/glm")
+include_directories(${GLM_INCLUDE_DIR})
+
+set(VENDORS_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors")
+include_directories(${VENDORS_INCLUDE_DIR})
+
+set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/imgui")
 include_directories(${IMGUI_INCLUDE_DIR})
+
+set(IMGUI_BACKENDS_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/imgui/backends")
+include_directories(${IMGUI_BACKENDS_INCLUDE_DIR})
+
+set(IMPLOT_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/implot")
+include_directories(${IMPLOT_INCLUDE_DIR})
 
 
 ################################################################################
