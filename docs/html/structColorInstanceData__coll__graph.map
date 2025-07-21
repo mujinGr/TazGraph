@@ -1,0 +1,7 @@
+<map id="ColorInstanceData" name="ColorInstanceData">
+<area shape="rect" id="Node000001" title=" " alt="" coords="41,93,184,119"/>
+<area shape="rect" id="Node000002" href="$structInstanceData.html" title=" " alt="" coords="5,5,113,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,41,108,91,103,94,72,44"/>
+<area shape="rect" id="Node000003" href="$structColor.html" title=" " alt="" coords="138,5,194,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="154,44,122,94,118,91,149,41"/>
+</map>

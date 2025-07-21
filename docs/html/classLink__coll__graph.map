@@ -1,0 +1,24 @@
+<map id="Link" name="Link">
+<area shape="rect" id="Node000001" title=" " alt="" coords="109,545,159,571"/>
+<area shape="rect" id="Node000002" href="$classLinkEntity.html" title=" " alt="" coords="43,457,129,483"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,493,130,543,125,546,97,496"/>
+<area shape="rect" id="Node000003" href="$classMultiCellEntity.html" title=" " alt="" coords="5,231,124,256"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="70,269,88,457,82,457,64,270"/>
+<area shape="rect" id="Node000004" href="$classEntity.html" title=" " alt="" coords="113,93,173,119"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="132,132,74,232,69,229,127,129"/>
+<area shape="rect" id="Node000007" href="$classEmptyEntity.html" title=" " alt="" coords="103,280,205,305"/>
+<area shape="poly" id="edge11_Node000007_Node000004" title=" " alt="" coords="147,132,156,280,151,280,142,132"/>
+<area shape="rect" id="Node000008" href="$classCellEntity.html" title=" " alt="" coords="259,181,345,207"/>
+<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="178,123,282,179,279,183,175,128"/>
+<area shape="rect" id="Node000005" href="$classManager.html" title=" " alt="" coords="104,5,183,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="146,45,146,93,141,93,141,45"/>
+<area shape="rect" id="Node000006" href="$classNodeEntity.html" title=" " alt="" coords="104,355,199,380"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="139,393,96,459,91,456,134,390"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="156,320,154,354,149,354,150,319"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="274,216,173,282,170,278,272,212"/>
+<area shape="rect" id="Node000009" href="$structCell.html" title=" " alt="" coords="279,93,325,119"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="305,133,305,181,299,181,299,133"/>
+<area shape="poly" id="edge10_Node000009_Node000009" title=" " alt="" coords="340,96,348,99,352,106,343,115,326,116,325,111,341,110,347,106,345,103,338,101"/>
+<area shape="rect" id="Node000010" href="$structColor.html" title=" " alt="" coords="154,457,210,483"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="171,496,143,546,138,543,167,493"/>
+</map>

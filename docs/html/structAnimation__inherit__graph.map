@@ -1,0 +1,7 @@
+<map id="Animation" name="Animation">
+<area shape="rect" id="Node000001" title=" " alt="" coords="100,5,189,31"/>
+<area shape="rect" id="Node000002" href="$structFlashAnimation.html" title=" " alt="" coords="5,79,129,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,42,82,80,78,76,120,38"/>
+<area shape="rect" id="Node000003" href="$classMovingAnimation.html" title=" " alt="" coords="153,79,291,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,38,211,76,208,80,165,42"/>
+</map>

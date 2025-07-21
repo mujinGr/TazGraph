@@ -1,0 +1,16 @@
+<map id="SphereComponent" name="SphereComponent">
+<area shape="rect" id="Node000001" title=" " alt="" coords="123,344,265,369"/>
+<area shape="rect" id="Node000002" href="$classComponent.html" title=" " alt="" coords="43,181,140,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,220,93,250,103,280,117,300,135,317,172,342,169,346,132,321,113,303,98,283,88,251,86,220"/>
+<area shape="rect" id="Node000007" href="$classTransformComponent.html" title=" " alt="" coords="113,256,275,281"/>
+<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="121,213,179,254,176,258,118,217"/>
+<area shape="rect" id="Node000003" href="$classBaseComponent.html" title=" " alt="" coords="5,93,135,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="79,131,91,180,86,181,74,133"/>
+<area shape="rect" id="Node000004" href="$classEntity.html" title=" " alt="" coords="159,93,219,119"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="167,130,107,183,103,179,164,126"/>
+<area shape="rect" id="Node000005" href="$classManager.html" title=" " alt="" coords="149,5,228,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="191,45,191,93,186,93,186,45"/>
+<area shape="rect" id="Node000006" href="$structColor.html" title=" " alt="" coords="299,256,355,281"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="307,293,270,322,224,346,221,342,267,318,304,289"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="197,295,197,343,191,343,191,295"/>
+</map>

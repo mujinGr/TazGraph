@@ -1,0 +1,7 @@
+<map id="Glyph" name="Glyph">
+<area shape="rect" id="Node000001" title=" " alt="" coords="31,212,91,237"/>
+<area shape="rect" id="Node000002" href="$structTextureVertex.html" title=" " alt="" coords="5,80,117,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="64,119,64,212,59,212,59,119"/>
+<area shape="rect" id="Node000003" href="$structVertex.html" title=" " alt="" coords="29,5,93,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="64,45,64,80,59,80,59,45"/>
+</map>

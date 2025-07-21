@@ -1,0 +1,11 @@
+<map id="ButtonComponent" name="ButtonComponent">
+<area shape="rect" id="Node000001" title=" " alt="" coords="40,256,180,281"/>
+<area shape="rect" id="Node000002" href="$classComponent.html" title=" " alt="" coords="61,181,159,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,221,113,256,107,256,107,221"/>
+<area shape="rect" id="Node000003" href="$classBaseComponent.html" title=" " alt="" coords="5,93,135,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="84,130,107,180,102,182,79,132"/>
+<area shape="rect" id="Node000004" href="$classEntity.html" title=" " alt="" coords="159,93,219,119"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="171,131,123,183,119,179,167,127"/>
+<area shape="rect" id="Node000005" href="$classManager.html" title=" " alt="" coords="149,5,228,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="191,45,191,93,186,93,186,45"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="ICamera" name="ICamera">
+<area shape="rect" id="Node000001" title=" " alt="" coords="97,5,175,31"/>
+<area shape="rect" id="Node000002" href="$classOrthoCamera.html" title=" " alt="" coords="5,79,115,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,42,74,80,71,76,112,38"/>
+<area shape="rect" id="Node000003" href="$classPerspectiveCamera.html" title=" " alt="" coords="139,79,288,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,38,202,76,199,80,157,42"/>
+</map>

@@ -1,0 +1,25 @@
+<map id="SpriteComponent" name="SpriteComponent">
+<area shape="rect" id="Node000001" title=" " alt="" coords="261,361,396,387"/>
+<area shape="rect" id="Node000002" href="$classComponent.html" title=" " alt="" coords="43,181,140,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,220,63,238,55,258,52,279,59,297,71,308,89,319,141,337,202,351,261,361,260,367,201,356,140,342,87,324,68,313,54,300,47,279,50,257,59,235,70,217"/>
+<area shape="rect" id="Node000007" href="$classTransformComponent.html" title=" " alt="" coords="69,271,231,297"/>
+<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="109,216,144,269,140,272,104,219"/>
+<area shape="rect" id="Node000003" href="$classBaseComponent.html" title=" " alt="" coords="5,93,135,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="79,131,91,180,86,181,74,133"/>
+<area shape="rect" id="Node000004" href="$classEntity.html" title=" " alt="" coords="159,93,219,119"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="167,130,107,183,103,179,164,126"/>
+<area shape="rect" id="Node000005" href="$classManager.html" title=" " alt="" coords="149,5,228,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="191,45,191,93,186,93,186,45"/>
+<area shape="rect" id="Node000006" href="$structColor.html" title=" " alt="" coords="331,181,387,207"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="335,217,312,241,294,270,291,295,297,319,309,342,321,360,317,363,304,345,292,321,285,295,289,268,307,238,331,214"/>
+<area shape="rect" id="Node000010" href="$structFlashAnimation.html" title=" " alt="" coords="389,271,513,297"/>
+<area shape="poly" id="edge13_Node000010_Node000006" title=" " alt="" coords="383,214,441,269,437,273,379,218"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="166,307,178,322,193,335,226,351,262,362,260,367,224,356,190,340,174,326,162,310"/>
+<area shape="rect" id="Node000008" href="$structAnimation.html" title=" " alt="" coords="517,181,607,207"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="563,221,559,249,551,281,537,312,514,339,494,350,465,358,397,369,396,364,464,353,492,345,511,335,532,310,546,279,554,247,558,220"/>
+<area shape="rect" id="Node000009" href="$classMovingAnimation.html" title=" " alt="" coords="657,271,795,297"/>
+<area shape="poly" id="edge10_Node000009_Node000008" title=" " alt="" coords="597,211,706,269,703,274,594,216"/>
+<area shape="poly" id="edge12_Node000010_Node000008" title=" " alt="" coords="539,217,467,273,464,269,535,213"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="688,304,638,323,581,340,485,359,397,370,396,364,484,353,580,335,636,318,686,299"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="426,307,346,363,343,359,423,302"/>
+</map>
