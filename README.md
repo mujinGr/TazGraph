@@ -23,3 +23,5 @@ In root folder:
 
 In TazGraph/:
 `../x64/Debug/TazGraph.exe`
+
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support%20me-FFDD00?style=for-the-badge&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/mujingr)
