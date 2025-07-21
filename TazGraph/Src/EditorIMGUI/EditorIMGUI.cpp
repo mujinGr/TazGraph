@@ -489,6 +489,11 @@ void EditorIMGUI::RightColumnUIElement(Manager& manager, float* nodeRadius) {
 
 void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
 
+	// Set up ImGuizmo
+	//ImGuizmo::BeginFrame();
+
+
+
 	ImGui::Begin("Performance");
 	ImGui::Text("FPS: %f", baseFPSLimiter.fps);
 	if (ImPlot::BeginPlot("FPS Plot")) {

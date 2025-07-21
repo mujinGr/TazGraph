@@ -9,6 +9,7 @@
 #include <implot.h>
 #include <implot_internal.h>
 #include "../imguiComboAutoselect/imgui_combo_autoselect.h"
+#include <ImGuizmo/ImGuizmo.h>
 
 class ImGuiInterface {
 public:

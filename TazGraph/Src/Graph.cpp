@@ -439,7 +439,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, node->GetComponent<TransformComponent>().getPosition().z + tempBod->size.z),
 				t,
 				maxT)) {
-				std::cout << "Ray hit node: " << node->getId() << " at distance " << t.x << t.y << t.z << std::endl;
+				//std::cout << "Ray hit node: " << node->getId() << " at distance " << t.x << t.y << t.z << std::endl;
 				if (activateMode == SDL_BUTTON_RIGHT)
 				{
 					_displayedEntity = node;
@@ -524,7 +524,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, empty->GetComponent<TransformComponent>().getPosition().z + tempBod->size.z),
 				t,
 				maxT)) {
-				std::cout << "Ray hit empty: " << empty->getId() << " at distance " << t.x << t.y << t.z << std::endl;
+				//std::cout << "Ray hit empty: " << empty->getId() << " at distance " << t.x << t.y << t.z << std::endl;
 				if (activateMode == SDL_BUTTON_RIGHT)
 				{
 					_displayedEntity = empty;
@@ -626,7 +626,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				maxT,
 				sphereRad)
 				) {
-				std::cout << "Ray hit link: " << link->getId() << " at distance " << t.x << t.y << t.z << std::endl;
+				//std::cout << "Ray hit link: " << link->getId() << " at distance " << t.x << t.y << t.z << std::endl;
 
 				if (activateMode == SDL_BUTTON_RIGHT)
 				{
