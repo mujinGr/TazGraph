@@ -489,11 +489,6 @@ void EditorIMGUI::RightColumnUIElement(Manager& manager, float* nodeRadius) {
 
 void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
 
-	// Set up ImGuizmo
-	//ImGuizmo::BeginFrame();
-
-
-
 	ImGui::Begin("Performance");
 	ImGui::Text("FPS: %f", baseFPSLimiter.fps);
 	if (ImPlot::BeginPlot("FPS Plot")) {
@@ -821,7 +816,9 @@ void EditorIMGUI::availableFunctions() {
 
 }
 
-void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize) {
+/*
+* 
+* void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize) {
 	ImGui::BeginChild("Viewport");
 	ImVec2 pos = ImGui::GetCursorScreenPos();
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
@@ -835,6 +832,158 @@ void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImV
 
 	storedWindowPos = ImGui::GetWindowPos(); // You need to call this when the window is in context (i.e., between ImGui::Begin and ImGui::End)
 	storedWindowSize = viewportPanelSize;
+
+	// --- Use your actual camera matrices ---
+	std::shared_ptr<PerspectiveCamera> main_camera2D =
+		std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	glm::mat4 view = main_camera2D->getViewMatrix();
+	glm::mat4 proj = main_camera2D->getProjMatrix();
+
+	bool isHovered = ImGui::IsItemHovered();
+
+	// Static object matrix - consider making this non-static for multiple objects
+	static glm::mat4 objMatrix = glm::mat4(1.0f);
+	static ImGuizmo::OPERATION currentGizmoOperation = ImGuizmo::TRANSLATE;
+	static ImGuizmo::MODE currentGizmoMode = ImGuizmo::LOCAL;
+
+	// Set up ImGuizmo
+	ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
+	ImGuizmo::SetRect(pos.x, pos.y, viewportPanelSize.x, viewportPanelSize.y);
+
+	// Enable/disable gizmo based on mouse interaction
+	ImGuizmo::Enable(isHovered);
+
+	// Handle keyboard shortcuts for gizmo operations
+	if (ImGui::IsKeyPressed(ImGuiKey_Q)) currentGizmoOperation = ImGuizmo::TRANSLATE;
+	if (ImGui::IsKeyPressed(ImGuiKey_W)) currentGizmoOperation = ImGuizmo::ROTATE;
+	if (ImGui::IsKeyPressed(ImGuiKey_E)) currentGizmoOperation = ImGuizmo::SCALE;
+	if (ImGui::IsKeyPressed(ImGuiKey_R)) currentGizmoMode = (currentGizmoMode == ImGuizmo::LOCAL) ? ImGuizmo::WORLD : ImGuizmo::LOCAL;
+
+	// Render the gizmo
+	bool gizmoUsed = ImGuizmo::Manipulate(
+		glm::value_ptr(view),
+		glm::value_ptr(proj),
+		currentGizmoOperation,
+		currentGizmoMode,
+		glm::value_ptr(objMatrix),
+		nullptr, // deltaMatrix (optional)
+		nullptr  // snap values (optional)
+	);
+
+	// Optional: Handle gizmo interaction feedback
+	if (gizmoUsed) {
+		// Object was manipulated - you might want to:
+		// 1. Update your actual object's transform
+		// 2. Mark scene as dirty
+		// 3. Trigger callbacks
+
+		// Example: Extract position, rotation, scale from objMatrix
+		// glm::vec3 position, rotation, scale;
+		// ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(objMatrix), 
+		//                                       glm::value_ptr(position),
+		//                                       glm::value_ptr(rotation),
+		//                                       glm::value_ptr(scale));
+	}
+
+
+	ImGui::EndChild();
+}
+
+*/
+
+void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize) {
+
+	ImGui::BeginChild("Viewport");
+
+	ImVec2 pos = ImGui::GetCursorScreenPos();
+	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+
+	// Render your scene texture
+	ImGui::Image(
+		reinterpret_cast<void*>(static_cast<uintptr_t>(textureId)),
+		viewportPanelSize,
+		ImVec2(0, 1),
+		ImVec2(1, 0)
+	);
+
+	storedWindowPos = ImGui::GetWindowPos();
+	storedWindowSize = viewportPanelSize;
+
+	// Check if we have valid size and camera
+	if (viewportPanelSize.x <= 0 || viewportPanelSize.y <= 0) {
+		ImGui::EndChild();
+		return;
+	}
+
+	// Get camera matrices
+	std::shared_ptr<PerspectiveCamera> main_camera2D =
+		std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	if (!main_camera2D) {
+		ImGui::EndChild();
+		return;
+	}
+
+	glm::mat4 view = main_camera2D->getViewMatrix();
+	glm::mat4 proj = main_camera2D->getProjMatrix();
+
+	// Object matrix - make this reference your actual selected object's transform
+	static glm::mat4 objMatrix = glm::mat4(1.0f);
+	static ImGuizmo::OPERATION gizmoOp = ImGuizmo::TRANSLATE;
+	static ImGuizmo::MODE gizmoMode = ImGuizmo::WORLD;
+
+	// Optional: Add keyboard shortcuts for gizmo control
+	if (ImGui::IsWindowFocused()) {
+		if (ImGui::IsKeyPressed(ImGuiKey_Q)) gizmoOp = ImGuizmo::TRANSLATE;
+		if (ImGui::IsKeyPressed(ImGuiKey_W)) gizmoOp = ImGuizmo::ROTATE;
+		if (ImGui::IsKeyPressed(ImGuiKey_E)) gizmoOp = ImGuizmo::SCALE;
+		if (ImGui::IsKeyPressed(ImGuiKey_R)) gizmoMode = (gizmoMode == ImGuizmo::WORLD) ? ImGuizmo::LOCAL : ImGuizmo::WORLD;
+	}
+
+	// Set up ImGuizmo to render over the image
+	ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
+	ImGuizmo::SetRect(pos.x, pos.y, viewportPanelSize.x, viewportPanelSize.y);
+
+	// Only enable gizmo when mouse is over the viewport
+	bool isHovered = ImGui::IsItemHovered();
+	ImGuizmo::Enable(isHovered);
+
+	// Render the gizmo
+	bool gizmoUsed = ImGuizmo::Manipulate(
+		glm::value_ptr(view),
+		glm::value_ptr(proj),
+		gizmoOp,
+		gizmoMode,
+		glm::value_ptr(objMatrix),
+		nullptr, // deltaMatrix
+		nullptr  // snap
+	);
+
+	// Handle gizmo interaction
+	if (gizmoUsed) {
+		// TODO: Update your actual scene object's transform with objMatrix
+		// Example:
+		// if (selectedObject) {
+		//     selectedObject->setTransform(objMatrix);
+		// }
+	}
+
+	// Optional: Show gizmo controls in a small overlay
+	ImGui::SetCursorPos(ImVec2(10, 30));
+	ImGui::BeginGroup();
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0.3f));
+	if (ImGui::SmallButton("T")) gizmoOp = ImGuizmo::TRANSLATE;
+	ImGui::SameLine();
+	if (ImGui::SmallButton("R")) gizmoOp = ImGuizmo::ROTATE;
+	ImGui::SameLine();
+	if (ImGui::SmallButton("S")) gizmoOp = ImGuizmo::SCALE;
+	ImGui::SameLine();
+	if (ImGui::SmallButton(gizmoMode == ImGuizmo::WORLD ? "W" : "L")) {
+		gizmoMode = (gizmoMode == ImGuizmo::WORLD) ? ImGuizmo::LOCAL : ImGuizmo::WORLD;
+	}
+	ImGui::PopStyleColor();
+	ImGui::EndGroup();
 
 	ImGui::EndChild();
 }

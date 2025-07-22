@@ -201,6 +201,7 @@
     <None Include="Src\Shaders\framebuffer.frag" />
     <None Include="Src\Shaders\framebuffer.vert" />
     <None Include="Src\Shaders\lineColorShading.frag" />
+    <None Include="Src\Shaders\lineColorShading.gs" />
     <None Include="Src\Shaders\lineColorShading.vert" />
     <None Include="Src\Shaders\textureBright.frag" />
     <None Include="Src\Shaders\textureBright.vert" />

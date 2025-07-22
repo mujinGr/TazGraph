@@ -10,7 +10,7 @@ layout (location = 4) in vec4 vertexColor;
 
 out vec4 fragmentColor;
 
-uniform mat4 projection;
+uniform mat4 u_ViewProjection;
 
 uniform mat4 rotationMatrix;
 
@@ -58,7 +58,7 @@ void main() {
     mat4 translation = mat4(1.0);
     translation[3].xyz = instanceBodyCenter;
 
-    gl_Position = projection * translation * rotationMatrix * localRotation * vec4(scaledPos.xyz, 1.0);
+    gl_Position = u_ViewProjection * translation * rotationMatrix * localRotation * vec4(scaledPos.xyz, 1.0);
 
     fragmentColor = vertexColor;
 }

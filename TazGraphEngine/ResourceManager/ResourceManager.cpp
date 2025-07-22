@@ -3,8 +3,8 @@
 
 void ResourceManager::setupShader(GLSLProgram& shaderProgram, ICamera& camera) {
 	shaderProgram.use();
-	
-	GLint pLocation = shaderProgram.getUniformLocation("projection");
+
+	GLint pLocation = shaderProgram.getUniformLocation("u_ViewProjection");
 	glm::mat4 cameraMatrix = camera.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }

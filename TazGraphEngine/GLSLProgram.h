@@ -316,7 +316,7 @@ struct TextureMeshRenderer {
 
 class GLSLProgram {
 public:
-	GLSLProgram() : _programID(0), _vertexShaderID(0), _fragmentShaderID(0), _numAttributes(0)
+	GLSLProgram() : _programID(0), _vertexShaderID(0), _geometryShaderID(0), _fragmentShaderID(0), _numAttributes(0)
 	{
 
 	}
@@ -325,77 +325,44 @@ public:
 
 	}
 
-	void compileShaders(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath) {
+	// Vertex + Fragment
+	void compileAndLinkShaders(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath) {
+		std::string vertSource = readShaderFile(vertexShaderFilePath);
+		std::string fragSource = readShaderFile(fragmentShaderFilePath);
 
-		std::vector<unsigned char> vertSourceVec;
-		std::vector<unsigned char> fragSourceVec;
-
-		TextureManager::readFileToBuffer(vertexShaderFilePath.c_str(), vertSourceVec);
-		TextureManager::readFileToBuffer(fragmentShaderFilePath.c_str(), fragSourceVec);
-
-		std::string vertSource(vertSourceVec.begin(), vertSourceVec.end());
-		std::string fragSource(fragSourceVec.begin(), fragSourceVec.end());
-
-		compileShadersFromSource(vertSource.c_str(), fragSource.c_str());
+		compileAndLinkShadersFromSource(vertSource.c_str(), fragSource.c_str());
 	}
 
-	void compileShadersFromSource(const char* vertexSource, const char* fragmentSource) {
+	// Vertex + Geometry + Fragment
+	void compileAndLinkShaders(const std::string& vertexShaderFilePath, const std::string& geometryShaderFilePath, const std::string& fragmentShaderFilePath) {
+		std::string vertSource = readShaderFile(vertexShaderFilePath);
+		std::string geomSource = readShaderFile(geometryShaderFilePath);
+		std::string fragSource = readShaderFile(fragmentShaderFilePath);
 
-		// Vertex and fragment shaders are successfully compiled.
-		// Now time to link them together into a program.
-		// Get a program object.
-		_programID = glCreateProgram();
-
-		_vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-		if (_vertexShaderID == 0) {
-			TazGraphEngine::ConsoleLogger::error("Vertex Shader Failed to create!");
-		}
-
-		_fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-		if (_fragmentShaderID == 0) {
-			TazGraphEngine::ConsoleLogger::error("Fragment Shader Failed to create!");
-		}
-
-		compileShader(vertexSource, "vertex Shader", _vertexShaderID);
-		compileShader(fragmentSource, "fragment Shader", _fragmentShaderID);
+		compileAndLinkShadersFromSource(vertSource.c_str(), geomSource.c_str(), fragSource.c_str());
 	}
 
-	void linkShaders() {
-		// Attach our shaders to our program
-		glAttachShader(_programID, _vertexShaderID);
-		glAttachShader(_programID, _fragmentShaderID);
+	void compileAndLinkShadersFromSource(const char* vertexSource, const char* fragmentSource) {
 
-		// Link our program
-		glLinkProgram(_programID);
+		std::vector<GLuint> shaderIDs;
 
-		// Note the different functions here: glGetProgram* instead of glGetShader*.
-		GLint isLinked = 0;
-		glGetProgramiv(_programID, GL_LINK_STATUS, (int*)&isLinked);
-		if (isLinked == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			glGetProgramiv(_programID, GL_INFO_LOG_LENGTH, &maxLength);
+		shaderIDs.push_back(createAndCompileShader(vertexSource, GL_VERTEX_SHADER, "Vertex"));
+		shaderIDs.push_back(createAndCompileShader(fragmentSource, GL_FRAGMENT_SHADER, "Fragment"));
 
-			// The maxLength includes the NULL character
-			std::vector<GLchar> errorLog(maxLength);
-			glGetProgramInfoLog(_programID, maxLength, &maxLength, &errorLog[0]);
-
-			// We don't need the program anymore.
-			glDeleteProgram(_programID);
-			// Don't leak shaders either.
-			glDeleteShader(_vertexShaderID);
-			glDeleteShader(_fragmentShaderID);
-
-			std::printf("%s\n", &(errorLog[0]));
-			TazGraphEngine::ConsoleLogger::error("Shaders failed to link");
-		}
-
-		// Always detach shaders after a successful link.
-		glDetachShader(_programID, _vertexShaderID);
-		glDetachShader(_programID, _fragmentShaderID);
-		glDeleteShader(_vertexShaderID);
-		glDeleteShader(_fragmentShaderID);
+		linkShadersInternal(shaderIDs);
 	}
+
+	void compileAndLinkShadersFromSource(const char* vertexSource, const char* geometrySource, const char* fragmentSource) {
+
+		std::vector<GLuint> shaderIDs;
+
+		shaderIDs.push_back(createAndCompileShader(vertexSource, GL_VERTEX_SHADER, "Vertex"));
+		shaderIDs.push_back(createAndCompileShader(geometrySource, GL_GEOMETRY_SHADER, "Geometry"));
+		shaderIDs.push_back(createAndCompileShader(fragmentSource, GL_FRAGMENT_SHADER, "Fragment"));
+
+		linkShadersInternal(shaderIDs);
+	}
+
 
 	void addAttribute(const std::string& attributeName) {
 		glBindAttribLocation(_programID, _numAttributes++, attributeName.c_str());
@@ -436,9 +403,27 @@ private:
 	GLuint _programID;
 
 	GLuint _vertexShaderID;
+	GLuint _geometryShaderID;
 	GLuint _fragmentShaderID;
 
 	int _numAttributes;
+
+	std::string readShaderFile(const std::string& filePath) {
+		std::vector<unsigned char> buffer;
+		TextureManager::readFileToBuffer(filePath.c_str(), buffer);
+		return std::string(buffer.begin(), buffer.end());
+	}
+
+	GLuint createAndCompileShader(const std::string& source, GLenum shaderType, const std::string& typeName) {
+		GLuint shaderID = glCreateShader(shaderType);
+		if (shaderID == 0) {
+			TazGraphEngine::ConsoleLogger::error(typeName + " Shader Failed to create!");
+			return 0;
+		}
+
+		compileShader(source.c_str(), typeName, shaderID);
+		return shaderID;
+	}
 
 	void compileShader(const char* source, const std::string& name, GLuint id) {
 
@@ -467,4 +452,45 @@ private:
 
 		}
 	}
+
+	void linkShadersInternal(const std::vector<GLuint>& shaderIDs) {
+		_programID = glCreateProgram();
+
+		// Attach all shaders
+		for (GLuint shaderID : shaderIDs) {
+			glAttachShader(_programID, shaderID);
+		}
+
+		// Link program
+		glLinkProgram(_programID);
+
+		// Check link status
+		GLint isLinked = 0;
+		glGetProgramiv(_programID, GL_LINK_STATUS, &isLinked);
+
+		if (isLinked == GL_FALSE) {
+			GLint maxLength = 0;
+			glGetProgramiv(_programID, GL_INFO_LOG_LENGTH, &maxLength);
+
+			std::vector<GLchar> errorLog(maxLength);
+			glGetProgramInfoLog(_programID, maxLength, &maxLength, &errorLog[0]);
+
+			// Cleanup on failure
+			glDeleteProgram(_programID);
+			for (GLuint shaderID : shaderIDs) {
+				glDeleteShader(shaderID);
+			}
+
+			std::printf("%s\n", &errorLog[0]);
+			TazGraphEngine::ConsoleLogger::error("Shaders failed to link");
+			return;
+		}
+
+		// Cleanup shaders after successful link
+		for (GLuint shaderID : shaderIDs) {
+			glDetachShader(_programID, shaderID);
+			glDeleteShader(shaderID);
+		}
+	}
+
 };

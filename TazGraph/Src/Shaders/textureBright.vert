@@ -11,7 +11,7 @@ layout (location = 4) in vec2 vertexUV;
 out vec4 fragmentColor;
 out vec2 fragmentUV;
 
-uniform mat4 projection;
+uniform mat4 u_ViewProjection;
 
 
 ///// FUNCTIONS /////
@@ -57,7 +57,7 @@ void main() {
     mat4 translation = mat4(1.0);
     translation[3].xyz = instancePosition;
 
-    gl_Position = projection * translation * vec4(scaledVertex.xyz, 1.0);
+    gl_Position = u_ViewProjection * translation * vec4(scaledVertex.xyz, 1.0);
 
     fragmentColor = vec4(1.0f);
 

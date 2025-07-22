@@ -137,10 +137,10 @@ in vec4 vertexColor;
 
 out vec4 fragmentColor;
 
-uniform mat4 projection;
+uniform mat4 u_ViewProjection;
 
 void main() {
-    gl_Position = projection * vec4(vertexPosition.xyz, 1.0);
+    gl_Position = u_ViewProjection * vec4(vertexPosition.xyz, 1.0);
 
     fragmentColor = vertexColor;
 })";
