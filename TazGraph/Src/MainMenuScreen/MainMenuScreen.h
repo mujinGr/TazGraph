@@ -11,7 +11,7 @@
 #include <vector>
 #include <functional>
 #include "Camera2.5D/PerspectiveCamera.h"
-#include "Renderers/PlaneModelRenderer/PlaneModelRenderer.h"
+#include "Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h"
 #include "InputManager/InputManager.h"
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
 //#include "../SpriteFont/SpriteFont.h"

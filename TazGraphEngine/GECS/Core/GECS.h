@@ -9,10 +9,10 @@
 #include <unordered_map>
 
 #include <SDL2/SDL.h>
-#include "../../Renderers/PlaneModelRenderer/PlaneModelRenderer.h"
+#include "../../Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h"
 #include "../../Renderers/LineRenderer/LineRenderer.h"
-#include "../../Renderers/PlaneColorRenderer/PlaneColorRenderer.h"
-#include "../../Renderers/LightRenderer/LightRenderer.h"
+#include "../../Renderers/PlaneRenderers/PlaneColorRenderer/PlaneColorRenderer.h"
+#include "../../Renderers/PlaneRenderers/LightRenderer/LightRenderer.h"
 #include "../../Camera2.5D/CameraManager.h"
 #include "../../Window/Window.h"
 #include <optional>

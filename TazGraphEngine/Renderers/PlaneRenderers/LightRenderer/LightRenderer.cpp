@@ -1,13 +1,7 @@
 #include "LightRenderer.h"
 #include <algorithm>
 
-LightRenderer::LightRenderer() :
-	_vboInstances(0),
-
-	_glyphs_size(0),
-	_triangleGlyphs_size(0),
-	_boxGlyphs_size(0),
-	_sphereGlyphs_size(0){
+LightRenderer::LightRenderer(){
 
 }
 
@@ -20,6 +14,7 @@ void LightRenderer::init() {
 }
 
 void LightRenderer::begin() {
+	PlaneRenderer::begin();
 
 	for (auto& mesh : _meshesArrays) {
 		mesh.instances.clear();
@@ -27,36 +22,10 @@ void LightRenderer::begin() {
 	for (auto& mesh : _meshesElements) {
 		mesh.instances.clear();
 	}
-
-	_glyphs_size = 0;
-	_triangleGlyphs_size = 0;
-	_boxGlyphs_size = 0;
-	_sphereGlyphs_size = 0;
 }
 void LightRenderer::end() {
+	PlaneRenderer::end();
 
-	//set up all pointers for fast sorting
-	createRenderBatches();
-}
-
-void LightRenderer::initLightQuadBatch(size_t mSize)
-{
-	_glyphs_size = mSize;
-}
-
-void LightRenderer::initLightTriangleBatch(size_t mSize)
-{
-	_triangleGlyphs_size = mSize;
-}
-
-void LightRenderer::initLightBoxBatch(size_t mSize)
-{
-	_boxGlyphs_size = mSize;
-}
-
-void LightRenderer::initLightSphereBatch(size_t mSize)
-{
-	_sphereGlyphs_size = mSize;
 }
 
 void LightRenderer::initBatchSize()
@@ -185,14 +154,6 @@ void LightRenderer::renderBatch(GLSLProgram* glsl_program) {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void LightRenderer::createRenderBatches() {
-
-	//current vertex
-	if ((_glyphs_size + _triangleGlyphs_size + _sphereGlyphs_size) == 0) {
-		return;
-	}
-
-}
 
 void LightRenderer::createInstancesVBO() {
 	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);

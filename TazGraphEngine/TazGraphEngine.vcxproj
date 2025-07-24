@@ -170,7 +170,7 @@
     <ClCompile Include="Camera2.5D\OrthoCamera.h" />
     <ClCompile Include="GECS\Core\GECSManager.cpp" />
     <ClCompile Include="Renderers\FrameBuffer\Framebuffer.cpp" />
-    <ClCompile Include="Renderers\LightRenderer\LightRenderer.cpp" />
+    <ClCompile Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.cpp" />
     <ClCompile Include="Renderers\LineRenderer\LineRenderer.cpp" />
     <ClCompile Include="GECS\Core\GECS.cpp" />
     <ClCompile Include="GraphScreen\IScene.cpp" />
@@ -192,9 +192,10 @@
     <ClCompile Include="..\vendors\ImGuizmo\ImGuizmo.cpp" />
     <ClCompile Include="InputManager\InputManager.cpp" />
     <ClCompile Include="PNG_Letters.cpp" />
-    <ClCompile Include="Renderers\PlaneColorRenderer\PlaneColorRenderer.cpp" />
+    <ClCompile Include="Renderers\PlaneRenderers\PlaneColorRenderer\PlaneColorRenderer.cpp" />
+    <ClCompile Include="Renderers\PlaneRenderers\PlaneRenderer.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
-    <ClCompile Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.cpp" />
+    <ClCompile Include="Renderers\PlaneRenderers\PlaneModelRenderer\PlaneModelRenderer.cpp" />
     <ClCompile Include="TextureManager\TextureManager.cpp" />
     <ClCompile Include="BaseFPSLimiter\BaseFPSLimiter.cpp" />
     <ClCompile Include="Window\Window.cpp" />
@@ -222,7 +223,7 @@
     <ClInclude Include="GECS\Core\GECSEntityTypes.h" />
     <ClInclude Include="JsonParser\JsonParser.h" />
     <ClInclude Include="Renderers\FrameBuffer\Framebuffer.h" />
-    <ClInclude Include="Renderers\LightRenderer\LightRenderer.h" />
+    <ClInclude Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.h" />
     <ClInclude Include="Renderers\LineRenderer\LineRenderer.h" />
     <ClInclude Include="GECS\Animators\Animation.h" />
     <ClInclude Include="GECS\Animators\AnimatorComponent.h" />
@@ -253,9 +254,10 @@
     <ClInclude Include="InputManager\InputManager.h" />
     <ClInclude Include="picoPNG.h" />
     <ClInclude Include="PNG_Letters.h" />
-    <ClInclude Include="Renderers\PlaneColorRenderer\PlaneColorRenderer.h" />
+    <ClInclude Include="Renderers\PlaneRenderers\PlaneColorRenderer\PlaneColorRenderer.h" />
+    <ClInclude Include="Renderers\PlaneRenderers\PlaneRenderer.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
-    <ClInclude Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.h" />
+    <ClInclude Include="Renderers\PlaneRenderers\PlaneModelRenderer\PlaneModelRenderer.h" />
     <ClInclude Include="TextureManager\TextureManager.h" />
     <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h" />
     <ClInclude Include="Threader\Threader.h" />

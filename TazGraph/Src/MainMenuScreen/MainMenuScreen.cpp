@@ -150,7 +150,7 @@ void MainMenuScreen::draw()
 
 	_PlaneModelRenderer.begin();
 
-	_PlaneModelRenderer.initTextureQuadBatch(mainmenubackground.size());
+	_PlaneModelRenderer.initQuadBatch(mainmenubackground.size());
 
 	_PlaneModelRenderer.initBatchSize();
 

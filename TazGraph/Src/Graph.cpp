@@ -1378,27 +1378,27 @@ void Graph::draw()
 		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size()
 	);
 	//! Color Renderer Init
-	_PlaneColorRenderer.initColorQuadBatch(
+	_PlaneColorRenderer.initQuadBatch(
 		manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
 		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
 		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size()
 	);
-	_PlaneColorRenderer.initColorTriangleBatch(
+	_PlaneColorRenderer.initTriangleBatch(
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
 	);
 	
 
 	//! Model Renderer Init
-	_PlaneModelRenderer.initTextureQuadBatch(
+	_PlaneModelRenderer.initQuadBatch(
 		manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites).size()
 	);
 
 	//! Light Renderer Init
-	_LightRenderer.initLightBoxBatch(
+	_LightRenderer.initBoxBatch(
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties).size()
 	);
 
-	_LightRenderer.initLightSphereBatch(
+	_LightRenderer.initSphereBatch(
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties).size()
 	);
 
@@ -1442,9 +1442,7 @@ void Graph::draw()
 
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
-	//GLint viewportLoc = glsl_lineColor.getUniformLocation("_viewport");
-	//glUniform4f(viewportLoc, 0.0f, 0.0f, 800.0f, 640.0f);
-
+	
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
 	glsl_lineColor.unuse();
@@ -1544,8 +1542,6 @@ void Graph::draw()
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 	
-	/*viewportLoc = glsl_lineColor.getUniformLocation("_viewport");
-	glUniform4f(viewportLoc, 0.0f, 0.0f, 800.0f, 640.0f);*/
 
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getCameraRect().x / main_camera2D->getCameraRect().y);

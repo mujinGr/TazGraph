@@ -281,37 +281,26 @@ struct TextureInstanceData : InstanceData {
 	UV uv = glm::vec2(0.0f);
 };
 
-struct MeshRenderer {
+struct BaseRenderer {
 	size_t meshIndices = 0;
+	
+	GLuint vao;
 
+	//for static draws
+	GLuint vbo; 
+	GLuint ibo;
+};
+
+struct MeshRenderer : BaseRenderer {
 	std::vector<InstanceData> instances;
-
-	GLuint vao;
-
-	GLuint vbo; //for static draws
-	GLuint ibo;
 };
 
-struct ColorMeshRenderer {
-	size_t meshIndices = 0;
-
+struct ColorMeshRenderer : BaseRenderer {
 	std::vector<ColorInstanceData> instances;
-
-	GLuint vao;
-
-	GLuint vbo; //for static draws
-	GLuint ibo;
 };
 
-struct TextureMeshRenderer {
-	size_t meshIndices = 0;
-
+struct TextureMeshRenderer : BaseRenderer {
 	std::vector<TextureInstanceData> instances;
-
-	GLuint vao;
-
-	GLuint vbo; //for static draws
-	GLuint ibo;
 };
 
 class GLSLProgram {
