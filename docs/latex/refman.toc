@@ -1,0 +1,409 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}Taz\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Graph Project}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Hierarchical Index}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Class Hierarchy}{3}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Class Index}{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Class List}{7}{section.3.1}%
+\contentsline {chapter}{\numberline {4}File Index}{11}{chapter.4}%
+\contentsline {section}{\numberline {4.1}File List}{11}{section.4.1}%
+\contentsline {chapter}{\numberline {5}Class Documentation}{15}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Animation Struct Reference}{15}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Animator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{16}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Member Function Documentation}{18}{subsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.1.1}draw()}{18}{subsubsection.5.2.1.1}%
+\contentsline {subsubsection}{\numberline {5.2.1.2}init()}{18}{subsubsection.5.2.1.2}%
+\contentsline {subsubsection}{\numberline {5.2.1.3}update()}{18}{subsubsection.5.2.1.3}%
+\contentsline {section}{\numberline {5.3}Animator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager Struct Reference}{18}{section.5.3}%
+\contentsline {section}{\numberline {5.4}App Class Reference}{19}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Member Function Documentation}{20}{subsection.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.4.1.1}addScenes()}{20}{subsubsection.5.4.1.1}%
+\contentsline {subsubsection}{\numberline {5.4.1.2}onExit()}{20}{subsubsection.5.4.1.2}%
+\contentsline {subsubsection}{\numberline {5.4.1.3}onInit()}{21}{subsubsection.5.4.1.3}%
+\contentsline {section}{\numberline {5.5}App\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Interface Class Reference}{21}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Asset\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager Class Reference}{23}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Audio\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Engine Class Reference}{23}{section.5.7}%
+\contentsline {section}{\numberline {5.8}Base\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{24}{section.5.8}%
+\contentsline {section}{\numberline {5.9}Base\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}FPSLimiter Class Reference}{25}{section.5.9}%
+\contentsline {section}{\numberline {5.10}Box\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{25}{section.5.10}%
+\contentsline {subsection}{\numberline {5.10.1}Member Function Documentation}{27}{subsection.5.10.1}%
+\contentsline {subsubsection}{\numberline {5.10.1.1}draw()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{27}{subsubsection.5.10.1.1}%
+\contentsline {subsubsection}{\numberline {5.10.1.2}draw()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{27}{subsubsection.5.10.1.2}%
+\contentsline {subsubsection}{\numberline {5.10.1.3}GetComponentName()}{27}{subsubsection.5.10.1.3}%
+\contentsline {subsubsection}{\numberline {5.10.1.4}init()}{27}{subsubsection.5.10.1.4}%
+\contentsline {subsubsection}{\numberline {5.10.1.5}update()}{27}{subsubsection.5.10.1.5}%
+\contentsline {section}{\numberline {5.11}Box\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Glyph Class Reference}{28}{section.5.11}%
+\contentsline {section}{\numberline {5.12}Button\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{29}{section.5.12}%
+\contentsline {subsection}{\numberline {5.12.1}Member Function Documentation}{30}{subsection.5.12.1}%
+\contentsline {subsubsection}{\numberline {5.12.1.1}GetComponentName()}{30}{subsubsection.5.12.1.1}%
+\contentsline {subsubsection}{\numberline {5.12.1.2}init()}{30}{subsubsection.5.12.1.2}%
+\contentsline {subsubsection}{\numberline {5.12.1.3}update()}{31}{subsubsection.5.12.1.3}%
+\contentsline {section}{\numberline {5.13}Camera\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager Class Reference}{31}{section.5.13}%
+\contentsline {section}{\numberline {5.14}Cell Struct Reference}{31}{section.5.14}%
+\contentsline {section}{\numberline {5.15}Cell\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Entity Class Reference}{32}{section.5.15}%
+\contentsline {subsection}{\numberline {5.15.1}Member Function Documentation}{34}{subsection.5.15.1}%
+\contentsline {subsubsection}{\numberline {5.15.1.1}getOwnerCell()}{34}{subsubsection.5.15.1.1}%
+\contentsline {section}{\numberline {5.16}Collider\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{35}{section.5.16}%
+\contentsline {subsection}{\numberline {5.16.1}Member Function Documentation}{37}{subsection.5.16.1}%
+\contentsline {subsubsection}{\numberline {5.16.1.1}draw()}{37}{subsubsection.5.16.1.1}%
+\contentsline {subsubsection}{\numberline {5.16.1.2}GetComponentName()}{37}{subsubsection.5.16.1.2}%
+\contentsline {subsubsection}{\numberline {5.16.1.3}init()}{37}{subsubsection.5.16.1.3}%
+\contentsline {subsubsection}{\numberline {5.16.1.4}update()}{38}{subsubsection.5.16.1.4}%
+\contentsline {section}{\numberline {5.17}Color Struct Reference}{38}{section.5.17}%
+\contentsline {section}{\numberline {5.18}Color\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Instance\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Data Struct Reference}{39}{section.5.18}%
+\contentsline {section}{\numberline {5.19}Color\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Mesh\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Renderer Struct Reference}{40}{section.5.19}%
+\contentsline {section}{\numberline {5.20}Color\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Vertex Struct Reference}{40}{section.5.20}%
+\contentsline {section}{\numberline {5.21}Component Class Reference}{42}{section.5.21}%
+\contentsline {section}{\numberline {5.22}Taz\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Graph\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Engine\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::Console\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Logger Class Reference}{43}{section.5.22}%
+\contentsline {section}{\numberline {5.23}Custom\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Functions Class Reference}{43}{section.5.23}%
+\contentsline {section}{\numberline {5.24}Data\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager Class Reference}{44}{section.5.24}%
+\contentsline {section}{\numberline {5.25}Editor\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}IMGUI Class Reference}{44}{section.5.25}%
+\contentsline {section}{\numberline {5.26}Empty Class Reference}{46}{section.5.26}%
+\contentsline {subsection}{\numberline {5.26.1}Member Function Documentation}{49}{subsection.5.26.1}%
+\contentsline {subsubsection}{\numberline {5.26.1.1}addGroup()}{49}{subsubsection.5.26.1.1}%
+\contentsline {subsubsection}{\numberline {5.26.1.2}cellUpdate()}{49}{subsubsection.5.26.1.2}%
+\contentsline {subsubsection}{\numberline {5.26.1.3}destroy()}{49}{subsubsection.5.26.1.3}%
+\contentsline {subsubsection}{\numberline {5.26.1.4}imgui\_print()}{49}{subsubsection.5.26.1.4}%
+\contentsline {subsubsection}{\numberline {5.26.1.5}update()}{49}{subsubsection.5.26.1.5}%
+\contentsline {section}{\numberline {5.27}Empty\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Entity Class Reference}{50}{section.5.27}%
+\contentsline {subsection}{\numberline {5.27.1}Member Function Documentation}{53}{subsection.5.27.1}%
+\contentsline {subsubsection}{\numberline {5.27.1.1}getParentEntity()}{53}{subsubsection.5.27.1.1}%
+\contentsline {subsubsection}{\numberline {5.27.1.2}removeEntity()}{53}{subsubsection.5.27.1.2}%
+\contentsline {subsubsection}{\numberline {5.27.1.3}setComponentEntity()}{53}{subsubsection.5.27.1.3}%
+\contentsline {subsubsection}{\numberline {5.27.1.4}setParentEntity()}{53}{subsubsection.5.27.1.4}%
+\contentsline {section}{\numberline {5.28}Entity Class Reference}{54}{section.5.28}%
+\contentsline {section}{\numberline {5.29}Flash\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Animation Struct Reference}{56}{section.5.29}%
+\contentsline {section}{\numberline {5.30}Flash\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Animator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{58}{section.5.30}%
+\contentsline {subsection}{\numberline {5.30.1}Member Function Documentation}{60}{subsection.5.30.1}%
+\contentsline {subsubsection}{\numberline {5.30.1.1}draw()}{60}{subsubsection.5.30.1.1}%
+\contentsline {subsubsection}{\numberline {5.30.1.2}init()}{60}{subsubsection.5.30.1.2}%
+\contentsline {subsubsection}{\numberline {5.30.1.3}update()}{60}{subsubsection.5.30.1.3}%
+\contentsline {section}{\numberline {5.31}Framebuffer Class Reference}{60}{section.5.31}%
+\contentsline {subsection}{\numberline {5.31.1}Member Function Documentation}{61}{subsection.5.31.1}%
+\contentsline {subsubsection}{\numberline {5.31.1.1}init()}{61}{subsubsection.5.31.1.1}%
+\contentsline {section}{\numberline {5.32}GLSLProgram Class Reference}{61}{section.5.32}%
+\contentsline {section}{\numberline {5.33}GLTexture Struct Reference}{61}{section.5.33}%
+\contentsline {section}{\numberline {5.34}Glyph Class Reference}{62}{section.5.34}%
+\contentsline {section}{\numberline {5.35}Graph Class Reference}{63}{section.5.35}%
+\contentsline {subsection}{\numberline {5.35.1}Member Function Documentation}{64}{subsection.5.35.1}%
+\contentsline {subsubsection}{\numberline {5.35.1.1}BeginRender()}{64}{subsubsection.5.35.1.1}%
+\contentsline {subsubsection}{\numberline {5.35.1.2}build()}{64}{subsubsection.5.35.1.2}%
+\contentsline {subsubsection}{\numberline {5.35.1.3}destroy()}{64}{subsubsection.5.35.1.3}%
+\contentsline {subsubsection}{\numberline {5.35.1.4}draw()}{65}{subsubsection.5.35.1.4}%
+\contentsline {subsubsection}{\numberline {5.35.1.5}EndRender()}{65}{subsubsection.5.35.1.5}%
+\contentsline {subsubsection}{\numberline {5.35.1.6}getNextSceneIndex()}{65}{subsubsection.5.35.1.6}%
+\contentsline {subsubsection}{\numberline {5.35.1.7}getPreviousSceneIndex()}{65}{subsubsection.5.35.1.7}%
+\contentsline {subsubsection}{\numberline {5.35.1.8}onEntry()}{65}{subsubsection.5.35.1.8}%
+\contentsline {subsubsection}{\numberline {5.35.1.9}onExit()}{65}{subsubsection.5.35.1.9}%
+\contentsline {subsubsection}{\numberline {5.35.1.10}renderBatch()}{66}{subsubsection.5.35.1.10}%
+\contentsline {subsubsection}{\numberline {5.35.1.11}update()}{66}{subsubsection.5.35.1.11}%
+\contentsline {subsubsection}{\numberline {5.35.1.12}updateUI()}{66}{subsubsection.5.35.1.12}%
+\contentsline {section}{\numberline {5.36}Grid Class Reference}{66}{section.5.36}%
+\contentsline {section}{\numberline {5.37}Grid\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{67}{section.5.37}%
+\contentsline {subsection}{\numberline {5.37.1}Member Function Documentation}{69}{subsection.5.37.1}%
+\contentsline {subsubsection}{\numberline {5.37.1.1}GetComponentName()}{69}{subsubsection.5.37.1.1}%
+\contentsline {subsubsection}{\numberline {5.37.1.2}init()}{69}{subsubsection.5.37.1.2}%
+\contentsline {subsubsection}{\numberline {5.37.1.3}update()}{69}{subsubsection.5.37.1.3}%
+\contentsline {section}{\numberline {5.38}Grid\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Level\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Data Struct Reference}{70}{section.5.38}%
+\contentsline {section}{\numberline {5.39}ICamera Class Reference}{70}{section.5.39}%
+\contentsline {section}{\numberline {5.40}Im\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Gui\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Interface Class Reference}{71}{section.5.40}%
+\contentsline {section}{\numberline {5.41}Input\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager Class Reference}{72}{section.5.41}%
+\contentsline {section}{\numberline {5.42}Instance\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Data Struct Reference}{72}{section.5.42}%
+\contentsline {section}{\numberline {5.43}IScene Class Reference}{73}{section.5.43}%
+\contentsline {subsection}{\numberline {5.43.1}Member Function Documentation}{74}{subsection.5.43.1}%
+\contentsline {subsubsection}{\numberline {5.43.1.1}draw()}{74}{subsubsection.5.43.1.1}%
+\contentsline {subsection}{\numberline {5.43.2}Member Data Documentation}{74}{subsection.5.43.2}%
+\contentsline {subsubsection}{\numberline {5.43.2.1}managers}{74}{subsubsection.5.43.2.1}%
+\contentsline {section}{\numberline {5.44}Json\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Parser Class Reference}{75}{section.5.44}%
+\contentsline {section}{\numberline {5.45}Json\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Value Struct Reference}{75}{section.5.45}%
+\contentsline {section}{\numberline {5.46}Keyboard\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Controller\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{75}{section.5.46}%
+\contentsline {subsection}{\numberline {5.46.1}Detailed Description}{77}{subsection.5.46.1}%
+\contentsline {subsection}{\numberline {5.46.2}Member Function Documentation}{77}{subsection.5.46.2}%
+\contentsline {subsubsection}{\numberline {5.46.2.1}GetComponentName()}{77}{subsubsection.5.46.2.1}%
+\contentsline {subsubsection}{\numberline {5.46.2.2}init()}{77}{subsubsection.5.46.2.2}%
+\contentsline {subsubsection}{\numberline {5.46.2.3}update()}{77}{subsubsection.5.46.2.3}%
+\contentsline {section}{\numberline {5.47}Light\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Renderer Class Reference}{77}{section.5.47}%
+\contentsline {subsection}{\numberline {5.47.1}Member Data Documentation}{78}{subsection.5.47.1}%
+\contentsline {subsubsection}{\numberline {5.47.1.1}sphereIndices}{78}{subsubsection.5.47.1.1}%
+\contentsline {subsubsection}{\numberline {5.47.1.2}sphereVertices}{78}{subsubsection.5.47.1.2}%
+\contentsline {section}{\numberline {5.48}Light\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Vertex Struct Reference}{78}{section.5.48}%
+\contentsline {section}{\numberline {5.49}Line\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}w\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Color Class Reference}{79}{section.5.49}%
+\contentsline {subsection}{\numberline {5.49.1}Member Function Documentation}{81}{subsection.5.49.1}%
+\contentsline {subsubsection}{\numberline {5.49.1.1}draw()}{81}{subsubsection.5.49.1.1}%
+\contentsline {subsubsection}{\numberline {5.49.1.2}GetComponentName()}{81}{subsubsection.5.49.1.2}%
+\contentsline {subsubsection}{\numberline {5.49.1.3}init()}{81}{subsubsection.5.49.1.3}%
+\contentsline {subsubsection}{\numberline {5.49.1.4}showGUI()}{81}{subsubsection.5.49.1.4}%
+\contentsline {subsubsection}{\numberline {5.49.1.5}update()}{82}{subsubsection.5.49.1.5}%
+\contentsline {section}{\numberline {5.50}Line\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Flash\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Animator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{82}{section.5.50}%
+\contentsline {subsection}{\numberline {5.50.1}Member Function Documentation}{84}{subsection.5.50.1}%
+\contentsline {subsubsection}{\numberline {5.50.1.1}draw()}{84}{subsubsection.5.50.1.1}%
+\contentsline {subsubsection}{\numberline {5.50.1.2}init()}{84}{subsubsection.5.50.1.2}%
+\contentsline {subsubsection}{\numberline {5.50.1.3}update()}{84}{subsubsection.5.50.1.3}%
+\contentsline {section}{\numberline {5.51}Line\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Glyph Class Reference}{85}{section.5.51}%
+\contentsline {section}{\numberline {5.52}Line\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Renderer Class Reference}{85}{section.5.52}%
+\contentsline {subsection}{\numberline {5.52.1}Member Data Documentation}{86}{subsection.5.52.1}%
+\contentsline {subsubsection}{\numberline {5.52.1.1}box\_edgePairs}{86}{subsubsection.5.52.1.1}%
+\contentsline {subsubsection}{\numberline {5.52.1.2}FRAG\_SRC}{86}{subsubsection.5.52.1.2}%
+\contentsline {subsubsection}{\numberline {5.52.1.3}VERT\_SRC}{86}{subsubsection.5.52.1.3}%
+\contentsline {section}{\numberline {5.53}Link Class Reference}{87}{section.5.53}%
+\contentsline {subsection}{\numberline {5.53.1}Member Function Documentation}{90}{subsection.5.53.1}%
+\contentsline {subsubsection}{\numberline {5.53.1.1}addArrowHead()}{90}{subsubsection.5.53.1.1}%
+\contentsline {subsubsection}{\numberline {5.53.1.2}addGroup()}{90}{subsubsection.5.53.1.2}%
+\contentsline {subsubsection}{\numberline {5.53.1.3}cellUpdate()}{91}{subsubsection.5.53.1.3}%
+\contentsline {subsubsection}{\numberline {5.53.1.4}destroy()}{91}{subsubsection.5.53.1.4}%
+\contentsline {subsubsection}{\numberline {5.53.1.5}imgui\_display()}{91}{subsubsection.5.53.1.5}%
+\contentsline {subsubsection}{\numberline {5.53.1.6}imgui\_print()}{91}{subsubsection.5.53.1.6}%
+\contentsline {subsubsection}{\numberline {5.53.1.7}removeArrowHead()}{91}{subsubsection.5.53.1.7}%
+\contentsline {subsubsection}{\numberline {5.53.1.8}update()}{91}{subsubsection.5.53.1.8}%
+\contentsline {subsubsection}{\numberline {5.53.1.9}updateArrowHeads()}{91}{subsubsection.5.53.1.9}%
+\contentsline {subsubsection}{\numberline {5.53.1.10}updateLinkToNodes()}{92}{subsubsection.5.53.1.10}%
+\contentsline {subsubsection}{\numberline {5.53.1.11}updateLinkToPorts()}{92}{subsubsection.5.53.1.11}%
+\contentsline {section}{\numberline {5.54}Link\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{92}{section.5.54}%
+\contentsline {section}{\numberline {5.55}Link\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Entity Class Reference}{94}{section.5.55}%
+\contentsline {subsection}{\numberline {5.55.1}Member Function Documentation}{97}{subsection.5.55.1}%
+\contentsline {subsubsection}{\numberline {5.55.1.1}removeEntity()}{97}{subsubsection.5.55.1.1}%
+\contentsline {subsubsection}{\numberline {5.55.1.2}setComponentEntity()}{97}{subsubsection.5.55.1.2}%
+\contentsline {section}{\numberline {5.56}Main\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Menu\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Background Class Reference}{98}{section.5.56}%
+\contentsline {subsection}{\numberline {5.56.1}Member Function Documentation}{99}{subsection.5.56.1}%
+\contentsline {subsubsection}{\numberline {5.56.1.1}GetComponentName()}{99}{subsubsection.5.56.1.1}%
+\contentsline {subsubsection}{\numberline {5.56.1.2}init()}{99}{subsubsection.5.56.1.2}%
+\contentsline {subsubsection}{\numberline {5.56.1.3}update()}{99}{subsubsection.5.56.1.3}%
+\contentsline {section}{\numberline {5.57}Main\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Menu\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Screen Class Reference}{100}{section.5.57}%
+\contentsline {subsection}{\numberline {5.57.1}Member Function Documentation}{101}{subsection.5.57.1}%
+\contentsline {subsubsection}{\numberline {5.57.1.1}BeginRender()}{101}{subsubsection.5.57.1.1}%
+\contentsline {subsubsection}{\numberline {5.57.1.2}build()}{101}{subsubsection.5.57.1.2}%
+\contentsline {subsubsection}{\numberline {5.57.1.3}destroy()}{101}{subsubsection.5.57.1.3}%
+\contentsline {subsubsection}{\numberline {5.57.1.4}draw()}{101}{subsubsection.5.57.1.4}%
+\contentsline {subsubsection}{\numberline {5.57.1.5}EndRender()}{101}{subsubsection.5.57.1.5}%
+\contentsline {subsubsection}{\numberline {5.57.1.6}getNextSceneIndex()}{102}{subsubsection.5.57.1.6}%
+\contentsline {subsubsection}{\numberline {5.57.1.7}getPreviousSceneIndex()}{102}{subsubsection.5.57.1.7}%
+\contentsline {subsubsection}{\numberline {5.57.1.8}onEntry()}{102}{subsubsection.5.57.1.8}%
+\contentsline {subsubsection}{\numberline {5.57.1.9}onExit()}{102}{subsubsection.5.57.1.9}%
+\contentsline {subsubsection}{\numberline {5.57.1.10}update()}{102}{subsubsection.5.57.1.10}%
+\contentsline {subsubsection}{\numberline {5.57.1.11}updateUI()}{102}{subsubsection.5.57.1.11}%
+\contentsline {section}{\numberline {5.58}Manager Class Reference}{103}{section.5.58}%
+\contentsline {subsection}{\numberline {5.58.1}Member Function Documentation}{104}{subsection.5.58.1}%
+\contentsline {subsubsection}{\numberline {5.58.1.1}update()}{104}{subsubsection.5.58.1.1}%
+\contentsline {subsection}{\numberline {5.58.2}Member Data Documentation}{104}{subsection.5.58.2}%
+\contentsline {subsubsection}{\numberline {5.58.2.1}groupNames}{104}{subsubsection.5.58.2.1}%
+\contentsline {section}{\numberline {5.59}Map Class Reference}{105}{section.5.59}%
+\contentsline {section}{\numberline {5.60}Mesh\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Renderer Struct Reference}{105}{section.5.60}%
+\contentsline {section}{\numberline {5.61}Moving\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Animation Class Reference}{106}{section.5.61}%
+\contentsline {section}{\numberline {5.62}Moving\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Animator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{108}{section.5.62}%
+\contentsline {subsection}{\numberline {5.62.1}Member Function Documentation}{109}{subsection.5.62.1}%
+\contentsline {subsubsection}{\numberline {5.62.1.1}draw()}{109}{subsubsection.5.62.1.1}%
+\contentsline {subsubsection}{\numberline {5.62.1.2}init()}{110}{subsubsection.5.62.1.2}%
+\contentsline {subsubsection}{\numberline {5.62.1.3}update()}{110}{subsubsection.5.62.1.3}%
+\contentsline {section}{\numberline {5.63}Multi\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Cell\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Entity Class Reference}{110}{section.5.63}%
+\contentsline {section}{\numberline {5.64}Music Class Reference}{112}{section.5.64}%
+\contentsline {section}{\numberline {5.65}Node Class Reference}{113}{section.5.65}%
+\contentsline {subsection}{\numberline {5.65.1}Member Function Documentation}{116}{subsection.5.65.1}%
+\contentsline {subsubsection}{\numberline {5.65.1.1}addGroup()}{116}{subsubsection.5.65.1.1}%
+\contentsline {subsubsection}{\numberline {5.65.1.2}addMessage()}{116}{subsubsection.5.65.1.2}%
+\contentsline {subsubsection}{\numberline {5.65.1.3}addPorts()}{116}{subsubsection.5.65.1.3}%
+\contentsline {subsubsection}{\numberline {5.65.1.4}cellUpdate()}{117}{subsubsection.5.65.1.4}%
+\contentsline {subsubsection}{\numberline {5.65.1.5}destroy()}{117}{subsubsection.5.65.1.5}%
+\contentsline {subsubsection}{\numberline {5.65.1.6}imgui\_display()}{117}{subsubsection.5.65.1.6}%
+\contentsline {subsubsection}{\numberline {5.65.1.7}imgui\_print()}{117}{subsubsection.5.65.1.7}%
+\contentsline {subsubsection}{\numberline {5.65.1.8}removePorts()}{117}{subsubsection.5.65.1.8}%
+\contentsline {subsubsection}{\numberline {5.65.1.9}update()}{117}{subsubsection.5.65.1.9}%
+\contentsline {subsubsection}{\numberline {5.65.1.10}updatePorts()}{117}{subsubsection.5.65.1.10}%
+\contentsline {section}{\numberline {5.66}Node\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{118}{section.5.66}%
+\contentsline {section}{\numberline {5.67}Node\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Entity Class Reference}{119}{section.5.67}%
+\contentsline {subsection}{\numberline {5.67.1}Member Function Documentation}{122}{subsection.5.67.1}%
+\contentsline {subsubsection}{\numberline {5.67.1.1}removeEntity()}{122}{subsubsection.5.67.1.1}%
+\contentsline {subsubsection}{\numberline {5.67.1.2}setComponentEntity()}{122}{subsubsection.5.67.1.2}%
+\contentsline {section}{\numberline {5.68}Numeric\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}String\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Compare Struct Reference}{122}{section.5.68}%
+\contentsline {section}{\numberline {5.69}Ortho\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Camera Class Reference}{123}{section.5.69}%
+\contentsline {subsection}{\numberline {5.69.1}Member Function Documentation}{124}{subsection.5.69.1}%
+\contentsline {subsubsection}{\numberline {5.69.1.1}convertScreenToWorld()}{124}{subsubsection.5.69.1.1}%
+\contentsline {subsubsection}{\numberline {5.69.1.2}getCameraDimensions()}{124}{subsubsection.5.69.1.2}%
+\contentsline {subsubsection}{\numberline {5.69.1.3}getCameraMatrix()}{124}{subsubsection.5.69.1.3}%
+\contentsline {subsubsection}{\numberline {5.69.1.4}getCameraRect()}{124}{subsubsection.5.69.1.4}%
+\contentsline {subsubsection}{\numberline {5.69.1.5}getPosition()}{124}{subsubsection.5.69.1.5}%
+\contentsline {subsubsection}{\numberline {5.69.1.6}getScale()}{124}{subsubsection.5.69.1.6}%
+\contentsline {subsubsection}{\numberline {5.69.1.7}hasChanged()}{124}{subsubsection.5.69.1.7}%
+\contentsline {subsubsection}{\numberline {5.69.1.8}init()}{125}{subsubsection.5.69.1.8}%
+\contentsline {subsubsection}{\numberline {5.69.1.9}isPointInCameraView()}{125}{subsubsection.5.69.1.9}%
+\contentsline {subsubsection}{\numberline {5.69.1.10}makeCameraDirty()}{125}{subsubsection.5.69.1.10}%
+\contentsline {subsubsection}{\numberline {5.69.1.11}refreshCamera()}{125}{subsubsection.5.69.1.11}%
+\contentsline {subsubsection}{\numberline {5.69.1.12}setPosition()}{125}{subsubsection.5.69.1.12}%
+\contentsline {subsubsection}{\numberline {5.69.1.13}setPosition\_X()}{125}{subsubsection.5.69.1.13}%
+\contentsline {subsubsection}{\numberline {5.69.1.14}setPosition\_Y()}{125}{subsubsection.5.69.1.14}%
+\contentsline {subsubsection}{\numberline {5.69.1.15}setPosition\_Z()}{126}{subsubsection.5.69.1.15}%
+\contentsline {subsubsection}{\numberline {5.69.1.16}setScale()}{126}{subsubsection.5.69.1.16}%
+\contentsline {subsubsection}{\numberline {5.69.1.17}update()}{126}{subsubsection.5.69.1.17}%
+\contentsline {section}{\numberline {5.70}Pair\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Hash Struct Reference}{126}{section.5.70}%
+\contentsline {section}{\numberline {5.71}Perspective\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Camera Class Reference}{127}{section.5.71}%
+\contentsline {subsection}{\numberline {5.71.1}Member Function Documentation}{128}{subsection.5.71.1}%
+\contentsline {subsubsection}{\numberline {5.71.1.1}convertScreenToWorld()}{128}{subsubsection.5.71.1.1}%
+\contentsline {subsubsection}{\numberline {5.71.1.2}getCameraDimensions()}{128}{subsubsection.5.71.1.2}%
+\contentsline {subsubsection}{\numberline {5.71.1.3}getCameraMatrix()}{128}{subsubsection.5.71.1.3}%
+\contentsline {subsubsection}{\numberline {5.71.1.4}getCameraRect()}{129}{subsubsection.5.71.1.4}%
+\contentsline {subsubsection}{\numberline {5.71.1.5}getPosition()}{129}{subsubsection.5.71.1.5}%
+\contentsline {subsubsection}{\numberline {5.71.1.6}getScale()}{129}{subsubsection.5.71.1.6}%
+\contentsline {subsubsection}{\numberline {5.71.1.7}hasChanged()}{129}{subsubsection.5.71.1.7}%
+\contentsline {subsubsection}{\numberline {5.71.1.8}init()}{129}{subsubsection.5.71.1.8}%
+\contentsline {subsubsection}{\numberline {5.71.1.9}isPointInCameraView()}{129}{subsubsection.5.71.1.9}%
+\contentsline {subsubsection}{\numberline {5.71.1.10}makeCameraDirty()}{129}{subsubsection.5.71.1.10}%
+\contentsline {subsubsection}{\numberline {5.71.1.11}refreshCamera()}{130}{subsubsection.5.71.1.11}%
+\contentsline {subsubsection}{\numberline {5.71.1.12}setPosition()}{130}{subsubsection.5.71.1.12}%
+\contentsline {subsubsection}{\numberline {5.71.1.13}setPosition\_X()}{130}{subsubsection.5.71.1.13}%
+\contentsline {subsubsection}{\numberline {5.71.1.14}setPosition\_Y()}{130}{subsubsection.5.71.1.14}%
+\contentsline {subsubsection}{\numberline {5.71.1.15}setPosition\_Z()}{130}{subsubsection.5.71.1.15}%
+\contentsline {subsubsection}{\numberline {5.71.1.16}setScale()}{130}{subsubsection.5.71.1.16}%
+\contentsline {subsubsection}{\numberline {5.71.1.17}update()}{130}{subsubsection.5.71.1.17}%
+\contentsline {section}{\numberline {5.72}Plane\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Color\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Renderer Class Reference}{131}{section.5.72}%
+\contentsline {subsection}{\numberline {5.72.1}Member Data Documentation}{131}{subsection.5.72.1}%
+\contentsline {subsubsection}{\numberline {5.72.1.1}sphereIndices}{131}{subsubsection.5.72.1.1}%
+\contentsline {subsubsection}{\numberline {5.72.1.2}sphereVertices}{131}{subsubsection.5.72.1.2}%
+\contentsline {section}{\numberline {5.73}Plane\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Model\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Renderer Class Reference}{132}{section.5.73}%
+\contentsline {section}{\numberline {5.74}Polling\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{132}{section.5.74}%
+\contentsline {subsection}{\numberline {5.74.1}Member Function Documentation}{134}{subsection.5.74.1}%
+\contentsline {subsubsection}{\numberline {5.74.1.1}GetComponentName()}{134}{subsubsection.5.74.1.1}%
+\contentsline {subsubsection}{\numberline {5.74.1.2}update()}{134}{subsubsection.5.74.1.2}%
+\contentsline {section}{\numberline {5.75}Rectangle\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}w\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Color Class Reference}{134}{section.5.75}%
+\contentsline {subsection}{\numberline {5.75.1}Member Function Documentation}{136}{subsection.5.75.1}%
+\contentsline {subsubsection}{\numberline {5.75.1.1}draw()}{136}{subsubsection.5.75.1.1}%
+\contentsline {subsubsection}{\numberline {5.75.1.2}GetComponentName()}{136}{subsubsection.5.75.1.2}%
+\contentsline {subsubsection}{\numberline {5.75.1.3}init()}{136}{subsubsection.5.75.1.3}%
+\contentsline {subsubsection}{\numberline {5.75.1.4}showGUI()}{136}{subsubsection.5.75.1.4}%
+\contentsline {subsubsection}{\numberline {5.75.1.5}update()}{136}{subsubsection.5.75.1.5}%
+\contentsline {section}{\numberline {5.76}Rectangle\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Flash\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Animator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{137}{section.5.76}%
+\contentsline {subsection}{\numberline {5.76.1}Member Function Documentation}{138}{subsection.5.76.1}%
+\contentsline {subsubsection}{\numberline {5.76.1.1}draw()}{138}{subsubsection.5.76.1.1}%
+\contentsline {subsubsection}{\numberline {5.76.1.2}init()}{138}{subsubsection.5.76.1.2}%
+\contentsline {subsubsection}{\numberline {5.76.1.3}update()}{139}{subsubsection.5.76.1.3}%
+\contentsline {section}{\numberline {5.77}Render\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Batch Class Reference}{139}{section.5.77}%
+\contentsline {section}{\numberline {5.78}Render\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Line\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Batch Class Reference}{139}{section.5.78}%
+\contentsline {section}{\numberline {5.79}Resource\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager Class Reference}{140}{section.5.79}%
+\contentsline {section}{\numberline {5.80}Rigid\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Body\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{140}{section.5.80}%
+\contentsline {subsection}{\numberline {5.80.1}Member Function Documentation}{142}{subsection.5.80.1}%
+\contentsline {subsubsection}{\numberline {5.80.1.1}GetComponentName()}{142}{subsubsection.5.80.1.1}%
+\contentsline {subsubsection}{\numberline {5.80.1.2}init()}{142}{subsubsection.5.80.1.2}%
+\contentsline {subsubsection}{\numberline {5.80.1.3}update()}{142}{subsubsection.5.80.1.3}%
+\contentsline {section}{\numberline {5.81}Scene\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}List Class Reference}{142}{section.5.81}%
+\contentsline {section}{\numberline {5.82}Sound\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Effect Class Reference}{143}{section.5.82}%
+\contentsline {section}{\numberline {5.83}Sphere\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{144}{section.5.83}%
+\contentsline {subsection}{\numberline {5.83.1}Member Function Documentation}{145}{subsection.5.83.1}%
+\contentsline {subsubsection}{\numberline {5.83.1.1}draw()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{145}{subsubsection.5.83.1.1}%
+\contentsline {subsubsection}{\numberline {5.83.1.2}draw()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{145}{subsubsection.5.83.1.2}%
+\contentsline {subsubsection}{\numberline {5.83.1.3}GetComponentName()}{146}{subsubsection.5.83.1.3}%
+\contentsline {subsubsection}{\numberline {5.83.1.4}init()}{146}{subsubsection.5.83.1.4}%
+\contentsline {subsubsection}{\numberline {5.83.1.5}update()}{146}{subsubsection.5.83.1.5}%
+\contentsline {section}{\numberline {5.84}Spring\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{146}{section.5.84}%
+\contentsline {subsection}{\numberline {5.84.1}Member Function Documentation}{148}{subsection.5.84.1}%
+\contentsline {subsubsection}{\numberline {5.84.1.1}draw()}{148}{subsubsection.5.84.1.1}%
+\contentsline {subsubsection}{\numberline {5.84.1.2}GetComponentName()}{148}{subsubsection.5.84.1.2}%
+\contentsline {subsubsection}{\numberline {5.84.1.3}init()}{148}{subsubsection.5.84.1.3}%
+\contentsline {subsubsection}{\numberline {5.84.1.4}showGUI()}{148}{subsubsection.5.84.1.4}%
+\contentsline {subsubsection}{\numberline {5.84.1.5}update()}{148}{subsubsection.5.84.1.5}%
+\contentsline {section}{\numberline {5.85}Sprite\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{149}{section.5.85}%
+\contentsline {subsection}{\numberline {5.85.1}Member Function Documentation}{150}{subsection.5.85.1}%
+\contentsline {subsubsection}{\numberline {5.85.1.1}draw()}{150}{subsubsection.5.85.1.1}%
+\contentsline {subsubsection}{\numberline {5.85.1.2}GetComponentName()}{151}{subsubsection.5.85.1.2}%
+\contentsline {subsubsection}{\numberline {5.85.1.3}init()}{151}{subsubsection.5.85.1.3}%
+\contentsline {subsubsection}{\numberline {5.85.1.4}showGUI()}{151}{subsubsection.5.85.1.4}%
+\contentsline {subsubsection}{\numberline {5.85.1.5}update()}{151}{subsubsection.5.85.1.5}%
+\contentsline {section}{\numberline {5.86}Square\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Glyph Class Reference}{151}{section.5.86}%
+\contentsline {section}{\numberline {5.87}Task\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Queue Struct Reference}{152}{section.5.87}%
+\contentsline {section}{\numberline {5.88}Texture\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Instance\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Data Struct Reference}{153}{section.5.88}%
+\contentsline {section}{\numberline {5.89}Texture\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager Class Reference}{154}{section.5.89}%
+\contentsline {section}{\numberline {5.90}Texture\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Mesh\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Renderer Struct Reference}{154}{section.5.90}%
+\contentsline {section}{\numberline {5.91}Texture\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Vertex Struct Reference}{155}{section.5.91}%
+\contentsline {section}{\numberline {5.92}Thread Struct Reference}{156}{section.5.92}%
+\contentsline {section}{\numberline {5.93}Threader Struct Reference}{156}{section.5.93}%
+\contentsline {section}{\numberline {5.94}Transform\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component Class Reference}{157}{section.5.94}%
+\contentsline {subsection}{\numberline {5.94.1}Member Function Documentation}{159}{subsection.5.94.1}%
+\contentsline {subsubsection}{\numberline {5.94.1.1}GetComponentName()}{159}{subsubsection.5.94.1.1}%
+\contentsline {subsubsection}{\numberline {5.94.1.2}init()}{159}{subsubsection.5.94.1.2}%
+\contentsline {subsubsection}{\numberline {5.94.1.3}showGUI()}{159}{subsubsection.5.94.1.3}%
+\contentsline {subsubsection}{\numberline {5.94.1.4}update()}{160}{subsubsection.5.94.1.4}%
+\contentsline {section}{\numberline {5.95}Triangle\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}w\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Color Class Reference}{160}{section.5.95}%
+\contentsline {subsection}{\numberline {5.95.1}Member Function Documentation}{162}{subsection.5.95.1}%
+\contentsline {subsubsection}{\numberline {5.95.1.1}draw()}{162}{subsubsection.5.95.1.1}%
+\contentsline {subsubsection}{\numberline {5.95.1.2}GetComponentName()}{162}{subsubsection.5.95.1.2}%
+\contentsline {subsubsection}{\numberline {5.95.1.3}init()}{162}{subsubsection.5.95.1.3}%
+\contentsline {subsubsection}{\numberline {5.95.1.4}update()}{162}{subsubsection.5.95.1.4}%
+\contentsline {section}{\numberline {5.96}UILabel Class Reference}{163}{section.5.96}%
+\contentsline {subsection}{\numberline {5.96.1}Member Function Documentation}{164}{subsection.5.96.1}%
+\contentsline {subsubsection}{\numberline {5.96.1.1}draw()}{164}{subsubsection.5.96.1.1}%
+\contentsline {subsubsection}{\numberline {5.96.1.2}GetComponentName()}{164}{subsubsection.5.96.1.2}%
+\contentsline {subsubsection}{\numberline {5.96.1.3}init()}{165}{subsubsection.5.96.1.3}%
+\contentsline {subsubsection}{\numberline {5.96.1.4}update()}{165}{subsubsection.5.96.1.4}%
+\contentsline {section}{\numberline {5.97}Vertex Struct Reference}{165}{section.5.97}%
+\contentsline {section}{\numberline {5.98}Taz\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Graph\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Engine\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::Window Class Reference}{166}{section.5.98}%
+\contentsline {chapter}{\numberline {6}File Documentation}{167}{chapter.6}%
+\contentsline {section}{\numberline {6.1}App.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{167}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Asset\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{167}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Custom\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Functions.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{168}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Editor\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}IMGUI.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{168}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Editor\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Layout\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Utils.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{169}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Script\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Components.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{169}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Main\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Menu\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Background.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{170}{section.6.7}%
+\contentsline {section}{\numberline {6.8}/mnt/c/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Users/lefte/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Mujin/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Masters\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Thesis/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Taz/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Taz\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Graph/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Taz\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Graph/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Src/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Graph.cpp File Reference}{170}{section.6.8}%
+\contentsline {section}{\numberline {6.9}Graph.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{171}{section.6.9}%
+\contentsline {section}{\numberline {6.10}Main\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Menu\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Screen.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{173}{section.6.10}%
+\contentsline {section}{\numberline {6.11}Map.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{174}{section.6.11}%
+\contentsline {section}{\numberline {6.12}AABB.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{174}{section.6.12}%
+\contentsline {section}{\numberline {6.13}Audio\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Engine.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{177}{section.6.13}%
+\contentsline {section}{\numberline {6.14}Base\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}FPSLimiter.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{177}{section.6.14}%
+\contentsline {section}{\numberline {6.15}Camera\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{178}{section.6.15}%
+\contentsline {section}{\numberline {6.16}ICamera.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{179}{section.6.16}%
+\contentsline {section}{\numberline {6.17}Ortho\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Camera.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{179}{section.6.17}%
+\contentsline {section}{\numberline {6.18}Perspective\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Camera.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{181}{section.6.18}%
+\contentsline {section}{\numberline {6.19}Console\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Logger.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{185}{section.6.19}%
+\contentsline {section}{\numberline {6.20}Data\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{186}{section.6.20}%
+\contentsline {section}{\numberline {6.21}Animation.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{186}{section.6.21}%
+\contentsline {section}{\numberline {6.22}Animator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{188}{section.6.22}%
+\contentsline {section}{\numberline {6.23}Animator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{189}{section.6.23}%
+\contentsline {section}{\numberline {6.24}Flash\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Animation.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{190}{section.6.24}%
+\contentsline {section}{\numberline {6.25}Flash\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Animator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{191}{section.6.25}%
+\contentsline {section}{\numberline {6.26}Line\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Flash\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Animator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{192}{section.6.26}%
+\contentsline {section}{\numberline {6.27}Moving\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Animation.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{194}{section.6.27}%
+\contentsline {section}{\numberline {6.28}Moving\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Animator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{195}{section.6.28}%
+\contentsline {section}{\numberline {6.29}Rectangle\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Flash\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Animator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{196}{section.6.29}%
+\contentsline {section}{\numberline {6.30}Components.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{197}{section.6.30}%
+\contentsline {section}{\numberline {6.31}Box\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{198}{section.6.31}%
+\contentsline {section}{\numberline {6.32}Rectangle\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}w\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Color.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{198}{section.6.32}%
+\contentsline {section}{\numberline {6.33}Sphere\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{200}{section.6.33}%
+\contentsline {section}{\numberline {6.34}Sprite\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{200}{section.6.34}%
+\contentsline {section}{\numberline {6.35}Transform\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{203}{section.6.35}%
+\contentsline {section}{\numberline {6.36}Triangle\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}w\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Color.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{205}{section.6.36}%
+\contentsline {section}{\numberline {6.37}Button\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{205}{section.6.37}%
+\contentsline {section}{\numberline {6.38}Collider\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{207}{section.6.38}%
+\contentsline {section}{\numberline {6.39}Grid\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{208}{section.6.39}%
+\contentsline {section}{\numberline {6.40}Keyboard\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Controller\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{209}{section.6.40}%
+\contentsline {section}{\numberline {6.41}Rigid\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Body\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{210}{section.6.41}%
+\contentsline {section}{\numberline {6.42}UILabel.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{211}{section.6.42}%
+\contentsline {section}{\numberline {6.43}Line\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}w\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Color.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{212}{section.6.43}%
+\contentsline {section}{\numberline {6.44}Spring\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{213}{section.6.44}%
+\contentsline {section}{\numberline {6.45}Polling\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Component.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{214}{section.6.45}%
+\contentsline {section}{\numberline {6.46}Cell\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Entity.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{215}{section.6.46}%
+\contentsline {section}{\numberline {6.47}GECS.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{216}{section.6.47}%
+\contentsline {section}{\numberline {6.48}GECSEntity.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{220}{section.6.48}%
+\contentsline {section}{\numberline {6.49}GECSEntity\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Types.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{222}{section.6.49}%
+\contentsline {section}{\numberline {6.50}GECSManager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{227}{section.6.50}%
+\contentsline {section}{\numberline {6.51}GECSUtil.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{233}{section.6.51}%
+\contentsline {section}{\numberline {6.52}Util\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Components.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{234}{section.6.52}%
+\contentsline {section}{\numberline {6.53}GLSLProgram.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{234}{section.6.53}%
+\contentsline {section}{\numberline {6.54}GLTexture.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{240}{section.6.54}%
+\contentsline {section}{\numberline {6.55}App\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Interface.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{240}{section.6.55}%
+\contentsline {section}{\numberline {6.56}IScene.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{241}{section.6.56}%
+\contentsline {section}{\numberline {6.57}Scene\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}List.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{242}{section.6.57}%
+\contentsline {section}{\numberline {6.58}Screen\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Indices.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{242}{section.6.58}%
+\contentsline {section}{\numberline {6.59}Grid.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{242}{section.6.59}%
+\contentsline {section}{\numberline {6.60}Im\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Gui\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Interface.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{244}{section.6.60}%
+\contentsline {section}{\numberline {6.61}Input\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{245}{section.6.61}%
+\contentsline {section}{\numberline {6.62}Json\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Parser.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{246}{section.6.62}%
+\contentsline {section}{\numberline {6.63}pico\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}PNG.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{249}{section.6.63}%
+\contentsline {section}{\numberline {6.64}PNG\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Letters.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{257}{section.6.64}%
+\contentsline {section}{\numberline {6.65}Framebuffer.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{258}{section.6.65}%
+\contentsline {section}{\numberline {6.66}Light\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Renderer.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{258}{section.6.66}%
+\contentsline {section}{\numberline {6.67}Line\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Renderer.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{259}{section.6.67}%
+\contentsline {section}{\numberline {6.68}Plane\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Color\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Renderer.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{262}{section.6.68}%
+\contentsline {section}{\numberline {6.69}Plane\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Model\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Renderer.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{263}{section.6.69}%
+\contentsline {section}{\numberline {6.70}Resource\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{264}{section.6.70}%
+\contentsline {section}{\numberline {6.71}Texture\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{265}{section.6.71}%
+\contentsline {section}{\numberline {6.72}Threader.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{265}{section.6.72}%
+\contentsline {section}{\numberline {6.73}Vertex.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{267}{section.6.73}%
+\contentsline {section}{\numberline {6.74}Window.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{268}{section.6.74}%
