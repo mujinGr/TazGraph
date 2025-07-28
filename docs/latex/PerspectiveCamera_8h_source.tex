@@ -334,16 +334,24 @@
 \DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pointOnRay;}
 \DoxyCodeLine{00331\ \ \ \ \ \}}
 \DoxyCodeLine{00332\ }
-\DoxyCodeLine{00333\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00334\ \ \ \ \ \textcolor{keywordtype}{int}\ \_screenWidth,\ \_screenHeight;}
-\DoxyCodeLine{00335\ \ \ \ \ \textcolor{keywordtype}{float}\ \_minScale\ =\ 0.1f,\ \_maxScale\ =\ 5.0f;}
-\DoxyCodeLine{00336\ \ \ \ \ \textcolor{keywordtype}{float}\ \_scale;\ \textcolor{comment}{//\ decreases\ when\ zoom-\/out}}
-\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_cameraChange;}
-\DoxyCodeLine{00338\ }
-\DoxyCodeLine{00339\ \ \ \ \ glm::vec2\ \_position;}
-\DoxyCodeLine{00340\ \ \ \ \ glm::mat4\ \_projectionMatrix;\ \textcolor{comment}{//\ changed\ once\ in\ init}}
-\DoxyCodeLine{00341\ \ \ \ \ glm::mat4\ \_viewMatrix;}
-\DoxyCodeLine{00342\ \ \ \ \ glm::mat4\ \_cameraMatrix;}
-\DoxyCodeLine{00343\ \};}
+\DoxyCodeLine{00333\ \ \ \ \ glm::mat4\ getViewMatrix()\ \{}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_viewMatrix;}
+\DoxyCodeLine{00335\ \ \ \ \ \}}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00337\ \ \ \ \ glm::mat4\ getProjMatrix()\ \{}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_viewMatrix;}
+\DoxyCodeLine{00339\ \ \ \ \ \}}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00342\ \ \ \ \ \textcolor{keywordtype}{int}\ \_screenWidth,\ \_screenHeight;}
+\DoxyCodeLine{00343\ \ \ \ \ \textcolor{keywordtype}{float}\ \_minScale\ =\ 0.1f,\ \_maxScale\ =\ 5.0f;}
+\DoxyCodeLine{00344\ \ \ \ \ \textcolor{keywordtype}{float}\ \_scale;\ \textcolor{comment}{//\ decreases\ when\ zoom-\/out}}
+\DoxyCodeLine{00345\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_cameraChange;}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00347\ \ \ \ \ glm::vec2\ \_position;}
+\DoxyCodeLine{00348\ \ \ \ \ glm::mat4\ \_projectionMatrix;\ \textcolor{comment}{//\ changed\ once\ in\ init}}
+\DoxyCodeLine{00349\ \ \ \ \ glm::mat4\ \_viewMatrix;}
+\DoxyCodeLine{00350\ \ \ \ \ glm::mat4\ \_cameraMatrix;}
+\DoxyCodeLine{00351\ \};}
 
 \end{DoxyCode}

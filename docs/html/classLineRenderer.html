@@ -189,10 +189,10 @@ Public Attributes</h2></td></tr>
 <div class="line"><span class="stringliteral"></span> </div>
 <div class="line"><span class="stringliteral">out vec4 fragmentColor;</span></div>
 <div class="line"><span class="stringliteral"></span> </div>
-<div class="line"><span class="stringliteral">uniform mat4 projection;</span></div>
+<div class="line"><span class="stringliteral">uniform mat4 u_ViewProjection;</span></div>
 <div class="line"><span class="stringliteral"></span> </div>
 <div class="line"><span class="stringliteral">void main() {</span></div>
-<div class="line"><span class="stringliteral">    gl_Position = projection * vec4(vertexPosition.xyz, 1.0);</span></div>
+<div class="line"><span class="stringliteral">    gl_Position = u_ViewProjection * vec4(vertexPosition.xyz, 1.0);</span></div>
 <div class="line"><span class="stringliteral"></span> </div>
 <div class="line"><span class="stringliteral">    fragmentColor = vertexColor;</span></div>
 <div class="line"><span class="stringliteral">})&quot;</span></div>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tazgraph_20project_0',['TazGraph Project',['../index.html',1,'']]]
+  ['9_20mb_0',['TazGraph (40.9 MB)',['../index.html',1,'']]]
 ];

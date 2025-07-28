@@ -1,5 +1,25 @@
 \doxysection{Plane\+Model\+Renderer Class Reference}
 \hypertarget{classPlaneModelRenderer}{}\label{classPlaneModelRenderer}\index{PlaneModelRenderer@{PlaneModelRenderer}}
+
+
+Inheritance diagram for Plane\+Model\+Renderer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=198pt]{classPlaneModelRenderer__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Plane\+Model\+Renderer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=198pt]{classPlaneModelRenderer__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -11,9 +31,6 @@ void {\bfseries begin} ()
 \item 
 \Hypertarget{classPlaneModelRenderer_a5cbd6157af61c29ce3bfa4e27a9f4a03}\label{classPlaneModelRenderer_a5cbd6157af61c29ce3bfa4e27a9f4a03} 
 void {\bfseries end} ()
-\item 
-\Hypertarget{classPlaneModelRenderer_acafbea77e294962de6534a6e6f4e5041}\label{classPlaneModelRenderer_acafbea77e294962de6534a6e6f4e5041} 
-void {\bfseries init\+Texture\+Quad\+Batch} (size\+\_\+t m\+Size)
 \item 
 \Hypertarget{classPlaneModelRenderer_afb070fbae08c573757c42bf18a5ce47e}\label{classPlaneModelRenderer_afb070fbae08c573757c42bf18a5ce47e} 
 void {\bfseries init\+Batch\+Size} ()
@@ -30,9 +47,42 @@ void {\bfseries render\+Batch} (\mbox{\hyperlink{classGLSLProgram}{GLSLProgram}}
 \Hypertarget{classPlaneModelRenderer_a1cf99f9996639715df292e4630792f4e}\label{classPlaneModelRenderer_a1cf99f9996639715df292e4630792f4e} 
 void {\bfseries dispose} ()
 \end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classPlaneRenderer}{Plane\+Renderer}}}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries init} ()
+\item 
+void {\bfseries begin} ()
+\item 
+void {\bfseries end} ()
+\item 
+void {\bfseries init\+Triangle\+Batch} (size\+\_\+t m\+Size)
+\item 
+void {\bfseries init\+Quad\+Batch} (size\+\_\+t m\+Size)
+\item 
+void {\bfseries init\+Box\+Batch} (size\+\_\+t m\+Size)
+\item 
+void {\bfseries init\+Sphere\+Batch} (size\+\_\+t m\+Size)
+\item 
+void {\bfseries create\+Render\+Batches} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classPlaneRenderer}{Plane\+Renderer}}}
+\begin{DoxyCompactItemize}
+\item 
+GLuint {\bfseries \+\_\+vbo\+Instances}
+\item 
+size\+\_\+t {\bfseries \+\_\+glyphs\+\_\+size} = 0
+\item 
+size\+\_\+t {\bfseries \+\_\+triangle\+Glyphs\+\_\+size} = 0
+\item 
+size\+\_\+t {\bfseries \+\_\+box\+Glyphs\+\_\+size} = 0
+\item 
+size\+\_\+t {\bfseries \+\_\+sphere\+Glyphs\+\_\+size} = 0
+\end{DoxyCompactItemize}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Plane\+Model\+Renderer/Plane\+Model\+Renderer.\+h\item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Plane\+Model\+Renderer/Plane\+Model\+Renderer.\+cpp\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Plane\+Renderers/\+Plane\+Model\+Renderer/Plane\+Model\+Renderer.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Plane\+Renderers/\+Plane\+Model\+Renderer/Plane\+Model\+Renderer.\+cpp\end{DoxyCompactItemize}

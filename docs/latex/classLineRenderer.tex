@@ -103,10 +103,10 @@ int \mbox{\hyperlink{classLineRenderer_a7e53e83a3a655e3cf3d158d98f89dcdb}{box\+\
 \DoxyCodeLine{\textcolor{stringliteral}{}}
 \DoxyCodeLine{\textcolor{stringliteral}{out\ vec4\ fragmentColor;}}
 \DoxyCodeLine{\textcolor{stringliteral}{}}
-\DoxyCodeLine{\textcolor{stringliteral}{uniform\ mat4\ projection;}}
+\DoxyCodeLine{\textcolor{stringliteral}{uniform\ mat4\ u\_ViewProjection;}}
 \DoxyCodeLine{\textcolor{stringliteral}{}}
 \DoxyCodeLine{\textcolor{stringliteral}{void\ main()\ \{}}
-\DoxyCodeLine{\textcolor{stringliteral}{\ \ \ \ gl\_Position\ =\ projection\ *\ vec4(vertexPosition.xyz,\ 1.0);}}
+\DoxyCodeLine{\textcolor{stringliteral}{\ \ \ \ gl\_Position\ =\ u\_ViewProjection\ *\ vec4(vertexPosition.xyz,\ 1.0);}}
 \DoxyCodeLine{\textcolor{stringliteral}{}}
 \DoxyCodeLine{\textcolor{stringliteral}{\ \ \ \ fragmentColor\ =\ vertexColor;}}
 \DoxyCodeLine{\textcolor{stringliteral}{\})"{}}}

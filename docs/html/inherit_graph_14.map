@@ -1,19 +1,19 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="Node000000" href="$classEntity.html" title=" " alt="" coords="5,80,65,105"/>
 <area shape="rect" id="Node000001" href="$classCellEntity.html" title=" " alt="" coords="130,55,215,80"/>
-<area shape="poly" id="edge28_Node000000_Node000001" title=" " alt="" coords="79,82,129,73,130,78,80,87"/>
+<area shape="poly" id="edge31_Node000000_Node000001" title=" " alt="" coords="79,82,129,73,130,78,80,87"/>
 <area shape="rect" id="Node000006" href="$classMultiCellEntity.html" title=" " alt="" coords="113,104,232,129"/>
-<area shape="poly" id="edge33_Node000000_Node000006" title=" " alt="" coords="80,98,113,104,112,109,79,103"/>
+<area shape="poly" id="edge36_Node000000_Node000006" title=" " alt="" coords="80,98,113,104,112,109,79,103"/>
 <area shape="rect" id="Node000002" href="$classEmptyEntity.html" title=" " alt="" coords="280,55,383,80"/>
-<area shape="poly" id="edge29_Node000001_Node000002" title=" " alt="" coords="229,65,279,65,279,70,229,70"/>
+<area shape="poly" id="edge32_Node000001_Node000002" title=" " alt="" coords="229,65,279,65,279,70,229,70"/>
 <area shape="rect" id="Node000003" href="$classEmpty.html" title=" " alt="" coords="446,5,510,31"/>
-<area shape="poly" id="edge30_Node000002_Node000003" title=" " alt="" coords="382,48,445,26,446,31,383,53"/>
+<area shape="poly" id="edge33_Node000002_Node000003" title=" " alt="" coords="382,48,445,26,446,31,383,53"/>
 <area shape="rect" id="Node000004" href="$classNodeEntity.html" title=" " alt="" coords="431,55,525,80"/>
-<area shape="poly" id="edge31_Node000002_Node000004" title=" " alt="" coords="397,65,430,65,430,70,397,70"/>
+<area shape="poly" id="edge34_Node000002_Node000004" title=" " alt="" coords="397,65,430,65,430,70,397,70"/>
 <area shape="rect" id="Node000005" href="$classNode.html" title=" " alt="" coords="573,55,629,80"/>
-<area shape="poly" id="edge32_Node000004_Node000005" title=" " alt="" coords="539,65,573,65,573,70,539,70"/>
+<area shape="poly" id="edge35_Node000004_Node000005" title=" " alt="" coords="539,65,573,65,573,70,539,70"/>
 <area shape="rect" id="Node000007" href="$classLinkEntity.html" title=" " alt="" coords="288,104,375,129"/>
-<area shape="poly" id="edge34_Node000006_Node000007" title=" " alt="" coords="246,114,288,114,288,119,246,119"/>
+<area shape="poly" id="edge37_Node000006_Node000007" title=" " alt="" coords="246,114,288,114,288,119,246,119"/>
 <area shape="rect" id="Node000008" href="$classLink.html" title=" " alt="" coords="453,104,503,129"/>
-<area shape="poly" id="edge35_Node000007_Node000008" title=" " alt="" coords="388,114,453,114,453,119,388,119"/>
+<area shape="poly" id="edge38_Node000007_Node000008" title=" " alt="" coords="388,114,453,114,453,119,388,119"/>
 </map>

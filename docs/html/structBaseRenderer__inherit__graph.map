@@ -1,0 +1,9 @@
+<map id="BaseRenderer" name="BaseRenderer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="181,5,295,31"/>
+<area shape="rect" id="Node000002" href="$structColorMeshRenderer.html" title=" " alt="" coords="5,79,156,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,39,107,81,105,76,199,34"/>
+<area shape="rect" id="Node000003" href="$structMeshRenderer.html" title=" " alt="" coords="180,79,296,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="241,44,241,79,235,79,235,44"/>
+<area shape="rect" id="Node000004" href="$structTextureMeshRenderer.html" title=" " alt="" coords="320,79,484,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="278,34,376,76,374,81,276,39"/>
+</map>

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['datamanager_0',['DataManager',['../classDataManager.html',1,'']]],
-  ['draw_1',['draw',['../classGraph.html#ad16ce3c3a8dcd0c02c4fd9fca968c893',1,'Graph::draw()'],['../classLightRenderer.html#aeb3e200ef9c64a3de1c76fbb2a5bd1b5',1,'LightRenderer::draw()'],['../classPlaneColorRenderer.html#aa6dac2c0e2abdaf4a10fc025124a96f0',1,'PlaneColorRenderer::draw()']]]
+  ['4_20instance_20rendering_0',['4. Instance Rendering',['../index.html#autotoc_md9',1,'']]],
+  ['40_209_20mb_1',['TazGraph (40.9 MB)',['../index.html',1,'']]]
 ];

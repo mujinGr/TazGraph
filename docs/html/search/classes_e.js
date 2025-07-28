@@ -4,5 +4,6 @@ var searchData=
   ['perspectivecamera_1',['PerspectiveCamera',['../classPerspectiveCamera.html',1,'']]],
   ['planecolorrenderer_2',['PlaneColorRenderer',['../classPlaneColorRenderer.html',1,'']]],
   ['planemodelrenderer_3',['PlaneModelRenderer',['../classPlaneModelRenderer.html',1,'']]],
-  ['pollingcomponent_4',['PollingComponent',['../classPollingComponent.html',1,'']]]
+  ['planerenderer_4',['PlaneRenderer',['../classPlaneRenderer.html',1,'']]],
+  ['pollingcomponent_5',['PollingComponent',['../classPollingComponent.html',1,'']]]
 ];

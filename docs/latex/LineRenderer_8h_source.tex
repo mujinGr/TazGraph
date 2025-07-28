@@ -141,10 +141,10 @@
 \DoxyCodeLine{00137\ \textcolor{stringliteral}{}}
 \DoxyCodeLine{00138\ \textcolor{stringliteral}{out\ vec4\ fragmentColor;}}
 \DoxyCodeLine{00139\ \textcolor{stringliteral}{}}
-\DoxyCodeLine{00140\ \textcolor{stringliteral}{uniform\ mat4\ projection;}}
+\DoxyCodeLine{00140\ \textcolor{stringliteral}{uniform\ mat4\ u\_ViewProjection;}}
 \DoxyCodeLine{00141\ \textcolor{stringliteral}{}}
 \DoxyCodeLine{00142\ \textcolor{stringliteral}{void\ main()\ \{}}
-\DoxyCodeLine{00143\ \textcolor{stringliteral}{\ \ \ \ gl\_Position\ =\ projection\ *\ vec4(vertexPosition.xyz,\ 1.0);}}
+\DoxyCodeLine{00143\ \textcolor{stringliteral}{\ \ \ \ gl\_Position\ =\ u\_ViewProjection\ *\ vec4(vertexPosition.xyz,\ 1.0);}}
 \DoxyCodeLine{00144\ \textcolor{stringliteral}{}}
 \DoxyCodeLine{00145\ \textcolor{stringliteral}{\ \ \ \ fragmentColor\ =\ vertexColor;}}
 \DoxyCodeLine{00146\ \textcolor{stringliteral}{\})"{};}}

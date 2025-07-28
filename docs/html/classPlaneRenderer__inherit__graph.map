@@ -1,0 +1,9 @@
+<map id="PlaneRenderer" name="PlaneRenderer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="159,5,277,31"/>
+<area shape="rect" id="Node000002" href="$classLightRenderer.html" title=" " alt="" coords="5,79,119,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,39,89,81,86,76,179,34"/>
+<area shape="rect" id="Node000003" href="$classPlaneColorRenderer.html" title=" " alt="" coords="143,79,293,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,44,221,79,215,79,215,44"/>
+<area shape="rect" id="Node000004" href="$classPlaneModelRenderer.html" title=" " alt="" coords="318,79,475,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="260,33,368,76,366,81,258,38"/>
+</map>

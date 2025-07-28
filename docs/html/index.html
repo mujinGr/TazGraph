@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TazGraph Project: TazGraph Project</title>
+<title>TazGraph Project: TazGraph (40.9 MB)</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,15 +69,103 @@ $(function() {
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">TazGraph Project </div></div>
+  <div class="headertitle"><div class="title">TazGraph (40.9 MB) </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md__2mnt_2c_2Users_2lefte_2Mujin_2MastersThesis_2Taz_2TazGraph_2README"></a> create a build folder in root necessary programs: cmake, g++ WSL: <code>sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev libglew-dev libglm-dev libopengl</code> if libopengl does not exist: <code>sudo apt install freeglut3-dev mesa-common-dev</code></p>
+<div class="textblock"><p><a class="anchor" id="md__2mnt_2c_2Users_2lefte_2Mujin_2MastersThesis_2Taz_2TazGraph_2README"></a> <img src="TazGraph/assets/Sprites/readme-1.png" alt="Graph Scene Screenshot" class="inline"/></p>
+<p>TazGraph is a 3D graph editor and visualization tool built using C++, OpenGL, ImGui and SDL2. It provides interactive manipulation of nodes and edges with customizable rendering, ECS-based architecture, and multithreaded performance optimizations.</p>
+<p><a href="https://mujingr.github.io/TazGraph/html/index.html">DoxyDocument</a></p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+Build Instructions</h1>
+<p>create a build folder in root necessary programs: cmake, g++ WSL: <code>sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev libglew-dev libglm-dev libopengl</code> if libopengl does not exist: <code>sudo apt install freeglut3-dev mesa-common-dev</code></p>
 <p>Start by cloning the repository with <code>git clone --recursive <a href="https://carvgit.ics.forth.gr/kotsonas/tazgraph">https://carvgit.ics.forth.gr/kotsonas/tazgraph</a></code></p>
-<p>In build/: <code>cmake -DCMAKE_BUILD_TYPE=Release ..</code> <code>make</code></p>
+<p>In build/: \ <code>cmake -DCMAKE_BUILD_TYPE=Release ..</code> \ <code>make</code></p>
 <p>in TazGraph/TazGraph/: <code>../build/TazGraph/TazGraph</code></p>
-<p>For Windows: In root folder: <code>msbuild TazGraph.sln /p:Configuration=Debug /p:Platform=x64</code></p>
-<p>In TazGraph/: <code>../x64/Debug/TazGraph.exe</code> </p>
+<p>For Windows: In root folder: <code>msbuild TazGraph.sln /p:Configuration=Release /p:Platform=x64</code></p>
+<p>In TazGraph/: <code>../x64/Debug/TazGraph.exe</code></p>
+<h1><a class="anchor" id="autotoc_md2"></a>
+Developer Integration Guide</h1>
+<h2><a class="anchor" id="autotoc_md3"></a>
+Core Architecture:</h2>
+<p>TazGraph uses a <b>custom ECS</b> where entities (such as nodes, links, and emptyEntities) are composed of components. Components are plain data-only structures, like <code><a class="el" href="classTransformComponent.html">TransformComponent</a></code> and <code><a class="el" href="classPollingComponent.html">PollingComponent</a></code>.</p>
+<p>The ECS is managed by **<code>GECSManager</code>**, which handles creation, removal, update, and drawing of entities. <a class="el" href="classEntity.html">Entity</a> processing is based on <b>groups</b> (<code>EntityGroups</code>) for rendering and update.</p>
+<h2><a class="anchor" id="autotoc_md4"></a>
+Scene System</h2>
+<p>There are two scenes implemented:</p>
+<ul>
+<li><code>MainMenuScene</code></li>
+<li><code><a class="el" href="classGraph.html">Graph</a></code></li>
+</ul>
+<p>Each scene controls its own logic, similar to a game state system. In the <code><a class="el" href="classGraph.html">Graph</a></code> Scene:</p><ul>
+<li>You can load <b>multiple graphs</b> in tabs, each saved in a <b><a class="el" href="classManager.html">Manager</a></b>.</li>
+<li>Developers <b>shouldn’t need to modify the core of graph engine logic</b> (TazGraphEngine/GECS/Core) — instead, use the main scene's update function (<a class="el" href="Graph_8cpp.html">TazGraph/Src/Graph.cpp</a>) to hook into behaviors like:<ul>
+<li>Grouping nodes</li>
+<li>Flash-frame animations</li>
+<li>UI interactions</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md5"></a>
+Graph Rendering Pipeline</h2>
+<p>All rendering logic is handled in <code><a class="el" href="classGraph.html#ad16ce3c3a8dcd0c02c4fd9fca968c893">Graph::draw()</a></code>.</p>
+<h3><a class="anchor" id="autotoc_md6"></a>
+1. Shader Setup</h3>
+<p>GLSL shader programs are loaded and set up using the resource manager. Uniforms (e.g. camera matrix, rotation) are passed before rendering:</p>
+<div class="fragment"><div class="line">_resourceManager.setupShader(glsl_color, *main_camera2D);</div>
+<div class="line">GLint pLocation = glsl_color.getUniformLocation(<span class="stringliteral">&quot;rotationMatrix&quot;</span>);</div>
+<div class="line">glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md7"></a>
+2. Render Pass Initialization</h3>
+<p>Before batching begins, the renderers are prepared. This includes setting up internal buffers and clearing previous frame data.</p>
+<div class="fragment"><div class="line">    _PlaneModelRenderer.initTextureQuadBatch(</div>
+<div class="line">        manager-&gt;getVisibleGroup&lt;<a class="code hl_class" href="classNodeEntity.html">NodeEntity</a>&gt;(Manager::groupRenderSprites).size()</div>
+<div class="line">    );</div>
+<div class="line">...</div>
+<div class="line"> </div>
+<div class="line">    _PlaneModelRenderer.initBatchSize();</div>
+<div class="line">...</div>
+<div class="ttc" id="aclassNodeEntity_html"><div class="ttname"><a href="classNodeEntity.html">NodeEntity</a></div><div class="ttdef"><b>Definition</b> GECSEntity.h:43</div></div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md8"></a>
+3. Render Batching (Multithreaded)</h3>
+<p>Entities are grouped and passed to the appropriate renderer via renderBatch. This uses multithreading to fill buffers (meshElements &amp; meshArrays) efficiently.</p>
+<div class="fragment"><div class="line"> cpp</div>
+<div class="line">renderBatch(</div>
+<div class="line">    manager-&gt;getVisibleGroup&lt;LinkEntity&gt;(Manager::groupLinks_0),</div>
+<div class="line">    _LineRenderer</div>
+<div class="line">);</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md9"></a>
+4. Instance Rendering</h3>
+<p>After batching, each renderer draws its instances and clears its buffers:</p>
+<div class="fragment"><div class="line"> cpp</div>
+<div class="line">_PlaneColorRenderer.end();</div>
+<div class="line">_PlaneColorRenderer.renderBatch(&amp;glsl_color);</div>
+<div class="line">glsl_color.unuse();</div>
+</div><!-- fragment --><p> Repeat for each renderer (e.g. _LineRenderer, _PlaneModelRenderer, _LightRenderer) in your preferred draw order.</p>
+<p><code style="color : limegreen">Not all <a class="el" href="classEntity.html">Entity</a> Components can draw with all renderers (e.g. Sprite <a class="el" href="classComponent.html">Component</a> is used to specifically draw for <a class="el" href="classPlaneModelRenderer.html">PlaneModelRenderer</a>). The draw function in the component indicates the renderers used: <code>void draw(size_t v_index,</code><code style="color : red"><a class="el" href="classPlaneModelRenderer.html">PlaneModelRenderer</a></code><code>&amp; batch, <a class="el" href="classTazGraphEngine_1_1Window.html">TazGraphEngine::Window</a>&amp; window) { ... } </code></code></p>
+<h2><a class="anchor" id="autotoc_md10"></a>
+Custom Renderers</h2>
+<p>Renderers in TazGraph are grouped by the attributes they support, which directly affects the shaders they use. This design makes rendering highly memory-efficient, but each renderer is tailored for a specific use case.</p>
+<p>Each renderer sets a fixed number of per-vertex and per-instance attributes. For example, the <code><a class="el" href="classPlaneColorRenderer.html">PlaneColorRenderer</a></code> expects shaders with the following layout:</p>
+<div class="fragment"><div class="line">layout (location = 0) in vec3 aPos; //vertex Pos</div>
+<div class="line">layout (location = 1) in vec3 aNormal; //vertex Normal</div>
+<div class="line"> </div>
+<div class="line">layout (location = 2) in vec3 instanceSize;</div>
+<div class="line">layout (location = 3) in vec3 instanceBodyCenter;</div>
+<div class="line">layout (location = 4) in vec3 instanceRotation;</div>
+<div class="line">layout (location = 5) in vec4 instanceColor;</div>
+</div><!-- fragment --><p> Your GLSL shader must match the expected attribute layout of the renderer you're using.</p>
+<p>Currently, the engine includes the following specific renderers:</p><ul>
+<li><code><a class="el" href="classPlaneColorRenderer.html">PlaneColorRenderer</a></code> – for flat-colored, instanced 3D planes</li>
+<li><code><a class="el" href="classPlaneModelRenderer.html">PlaneModelRenderer</a></code> – for textured plane instances</li>
+<li><code><a class="el" href="classLightRenderer.html">LightRenderer</a></code> – for planes with lighting and shading</li>
+<li><code><a class="el" href="classLineRenderer.html">LineRenderer</a></code> – for simple colored lines (typically used for links)</li>
+</ul>
+<p>To create a new renderer - for example, a <b>textured plane with shading</b> - you need to implement a new renderer class that matches the data layout and rendering logic required for that effect.</p>
+<p>In the following folder: <code>TazGraphEngine/Renderers/PlaneRenderers/PlaneLitTextRenderer</code> use one of the existing renderers as a base, then write glsl shader to match the renderer under <code>TazGraph/Src/Shaders</code>, implement a <code>draw</code> function in a component that uses that renderer and then pass that renderer as argument for <code>renderBatch</code> in <code><a class="el" href="classGraph.html#ad16ce3c3a8dcd0c02c4fd9fca968c893">Graph::draw()</a></code>.</p>
+<h2><a class="anchor" id="autotoc_md11"></a>
+Graph Loaders (WIP)</h2>
+<p>Currently TazGraph has the ability to process txt and python files with a specific format. Developers are able to implement their own processing of files, by creating more functions inside <code>TazGraph/Src/Map</code></p>
+<p><a href="https://www.buymeacoffee.com/mujingr"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support%20me-FFDD00?style=for-the-badge&amp;logo=buy-me-a-coffee" alt="Buy Me a Coffee" class="inline"/></a> </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->

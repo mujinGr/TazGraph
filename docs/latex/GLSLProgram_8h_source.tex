@@ -285,192 +285,207 @@
 \DoxyCodeLine{00281\ \ \ \ \ UV\ uv\ =\ glm::vec2(0.0f);}
 \DoxyCodeLine{00282\ \};}
 \DoxyCodeLine{00283\ }
-\DoxyCodeLine{00284\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structMeshRenderer}{MeshRenderer}}\ \{}
+\DoxyCodeLine{00284\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structBaseRenderer}{BaseRenderer}}\ \{}
 \DoxyCodeLine{00285\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ meshIndices\ =\ 0;}
-\DoxyCodeLine{00286\ }
-\DoxyCodeLine{00287\ \ \ \ \ std::vector<InstanceData>\ instances;}
+\DoxyCodeLine{00286\ \ \ \ \ }
+\DoxyCodeLine{00287\ \ \ \ \ GLuint\ vao;}
 \DoxyCodeLine{00288\ }
-\DoxyCodeLine{00289\ \ \ \ \ GLuint\ vao;}
-\DoxyCodeLine{00290\ }
-\DoxyCodeLine{00291\ \ \ \ \ GLuint\ vbo;\ \textcolor{comment}{//for\ static\ draws}}
-\DoxyCodeLine{00292\ \ \ \ \ GLuint\ ibo;}
-\DoxyCodeLine{00293\ \};}
-\DoxyCodeLine{00294\ }
-\DoxyCodeLine{00295\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structColorMeshRenderer}{ColorMeshRenderer}}\ \{}
-\DoxyCodeLine{00296\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ meshIndices\ =\ 0;}
+\DoxyCodeLine{00289\ \ \ \ \ \textcolor{comment}{//for\ static\ draws}}
+\DoxyCodeLine{00290\ \ \ \ \ GLuint\ vbo;\ }
+\DoxyCodeLine{00291\ \ \ \ \ GLuint\ ibo;}
+\DoxyCodeLine{00292\ \};}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structMeshRenderer}{MeshRenderer}}\ :\ \mbox{\hyperlink{structBaseRenderer}{BaseRenderer}}\ \{}
+\DoxyCodeLine{00295\ \ \ \ \ std::vector<InstanceData>\ instances;}
+\DoxyCodeLine{00296\ \};}
 \DoxyCodeLine{00297\ }
-\DoxyCodeLine{00298\ \ \ \ \ std::vector<ColorInstanceData>\ instances;}
-\DoxyCodeLine{00299\ }
-\DoxyCodeLine{00300\ \ \ \ \ GLuint\ vao;}
+\DoxyCodeLine{00298\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structColorMeshRenderer}{ColorMeshRenderer}}\ :\ \mbox{\hyperlink{structBaseRenderer}{BaseRenderer}}\ \{}
+\DoxyCodeLine{00299\ \ \ \ \ std::vector<ColorInstanceData>\ instances;}
+\DoxyCodeLine{00300\ \};}
 \DoxyCodeLine{00301\ }
-\DoxyCodeLine{00302\ \ \ \ \ GLuint\ vbo;\ \textcolor{comment}{//for\ static\ draws}}
-\DoxyCodeLine{00303\ \ \ \ \ GLuint\ ibo;}
+\DoxyCodeLine{00302\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTextureMeshRenderer}{TextureMeshRenderer}}\ :\ \mbox{\hyperlink{structBaseRenderer}{BaseRenderer}}\ \{}
+\DoxyCodeLine{00303\ \ \ \ \ std::vector<TextureInstanceData>\ instances;}
 \DoxyCodeLine{00304\ \};}
 \DoxyCodeLine{00305\ }
-\DoxyCodeLine{00306\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTextureMeshRenderer}{TextureMeshRenderer}}\ \{}
-\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ meshIndices\ =\ 0;}
-\DoxyCodeLine{00308\ }
-\DoxyCodeLine{00309\ \ \ \ \ std::vector<TextureInstanceData>\ instances;}
+\DoxyCodeLine{00306\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGLSLProgram}{GLSLProgram}}\ \{}
+\DoxyCodeLine{00307\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00308\ \ \ \ \ \mbox{\hyperlink{classGLSLProgram}{GLSLProgram}}()\ :\ \_programID(0),\ \_vertexShaderID(0),\ \_geometryShaderID(0),\ \_fragmentShaderID(0),\ \_numAttributes(0)}
+\DoxyCodeLine{00309\ \ \ \ \ \{}
 \DoxyCodeLine{00310\ }
-\DoxyCodeLine{00311\ \ \ \ \ GLuint\ vao;}
+\DoxyCodeLine{00311\ \ \ \ \ \}}
 \DoxyCodeLine{00312\ }
-\DoxyCodeLine{00313\ \ \ \ \ GLuint\ vbo;\ \textcolor{comment}{//for\ static\ draws}}
-\DoxyCodeLine{00314\ \ \ \ \ GLuint\ ibo;}
-\DoxyCodeLine{00315\ \};}
+\DoxyCodeLine{00313\ \ \ \ \ \mbox{\hyperlink{classGLSLProgram}{\string~GLSLProgram}}()\ \{}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \ \ \ \ \}}
 \DoxyCodeLine{00316\ }
-\DoxyCodeLine{00317\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGLSLProgram}{GLSLProgram}}\ \{}
-\DoxyCodeLine{00318\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00319\ \ \ \ \ \mbox{\hyperlink{classGLSLProgram}{GLSLProgram}}()\ :\ \_programID(0),\ \_vertexShaderID(0),\ \_fragmentShaderID(0),\ \_numAttributes(0)}
-\DoxyCodeLine{00320\ \ \ \ \ \{}
+\DoxyCodeLine{00317\ \ \ \ \ \textcolor{comment}{//\ Vertex\ +\ Fragment}}
+\DoxyCodeLine{00318\ \ \ \ \ \textcolor{keywordtype}{void}\ compileAndLinkShaders(\textcolor{keyword}{const}\ std::string\&\ vertexShaderFilePath,\ \textcolor{keyword}{const}\ std::string\&\ fragmentShaderFilePath)\ \{}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ std::string\ vertSource\ =\ readShaderFile(vertexShaderFilePath);}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ std::string\ fragSource\ =\ readShaderFile(fragmentShaderFilePath);}
 \DoxyCodeLine{00321\ }
-\DoxyCodeLine{00322\ \ \ \ \ \}}
-\DoxyCodeLine{00323\ }
-\DoxyCodeLine{00324\ \ \ \ \ \mbox{\hyperlink{classGLSLProgram}{\string~GLSLProgram}}()\ \{}
-\DoxyCodeLine{00325\ }
-\DoxyCodeLine{00326\ \ \ \ \ \}}
-\DoxyCodeLine{00327\ }
-\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keywordtype}{void}\ compileShaders(\textcolor{keyword}{const}\ std::string\&\ vertexShaderFilePath,\ \textcolor{keyword}{const}\ std::string\&\ fragmentShaderFilePath)\ \{}
-\DoxyCodeLine{00329\ }
-\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ std::vector<unsigned\ char>\ vertSourceVec;}
-\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ std::vector<unsigned\ char>\ fragSourceVec;}
-\DoxyCodeLine{00332\ }
-\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ TextureManager::readFileToBuffer(vertexShaderFilePath.c\_str(),\ vertSourceVec);}
-\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ TextureManager::readFileToBuffer(fragmentShaderFilePath.c\_str(),\ fragSourceVec);}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ compileAndLinkShadersFromSource(vertSource.c\_str(),\ fragSource.c\_str());}
+\DoxyCodeLine{00323\ \ \ \ \ \}}
+\DoxyCodeLine{00324\ }
+\DoxyCodeLine{00325\ \ \ \ \ \textcolor{comment}{//\ Vertex\ +\ Geometry\ +\ Fragment}}
+\DoxyCodeLine{00326\ \ \ \ \ \textcolor{keywordtype}{void}\ compileAndLinkShaders(\textcolor{keyword}{const}\ std::string\&\ vertexShaderFilePath,\ \textcolor{keyword}{const}\ std::string\&\ geometryShaderFilePath,\ \textcolor{keyword}{const}\ std::string\&\ fragmentShaderFilePath)\ \{}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ std::string\ vertSource\ =\ readShaderFile(vertexShaderFilePath);}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ std::string\ geomSource\ =\ readShaderFile(geometryShaderFilePath);}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ std::string\ fragSource\ =\ readShaderFile(fragmentShaderFilePath);}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ compileAndLinkShadersFromSource(vertSource.c\_str(),\ geomSource.c\_str(),\ fragSource.c\_str());}
+\DoxyCodeLine{00332\ \ \ \ \ \}}
+\DoxyCodeLine{00333\ }
+\DoxyCodeLine{00334\ \ \ \ \ \textcolor{keywordtype}{void}\ compileAndLinkShadersFromSource(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ vertexSource,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fragmentSource)\ \{}
 \DoxyCodeLine{00335\ }
-\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ std::string\ vertSource(vertSourceVec.begin(),\ vertSourceVec.end());}
-\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ std::string\ fragSource(fragSourceVec.begin(),\ fragSourceVec.end());}
-\DoxyCodeLine{00338\ }
-\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ compileShadersFromSource(vertSource.c\_str(),\ fragSource.c\_str());}
-\DoxyCodeLine{00340\ \ \ \ \ \}}
-\DoxyCodeLine{00341\ }
-\DoxyCodeLine{00342\ \ \ \ \ \textcolor{keywordtype}{void}\ compileShadersFromSource(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ vertexSource,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fragmentSource)\ \{}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ std::vector<GLuint>\ shaderIDs;}
+\DoxyCodeLine{00337\ }
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ shaderIDs.push\_back(createAndCompileShader(vertexSource,\ GL\_VERTEX\_SHADER,\ \textcolor{stringliteral}{"{}Vertex"{}}));}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ shaderIDs.push\_back(createAndCompileShader(fragmentSource,\ GL\_FRAGMENT\_SHADER,\ \textcolor{stringliteral}{"{}Fragment"{}}));}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ linkShadersInternal(shaderIDs);}
+\DoxyCodeLine{00342\ \ \ \ \ \}}
 \DoxyCodeLine{00343\ }
-\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Vertex\ and\ fragment\ shaders\ are\ successfully\ compiled.}}
-\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Now\ time\ to\ link\ them\ together\ into\ a\ program.}}
-\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ a\ program\ object.}}
-\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \_programID\ =\ glCreateProgram();}
-\DoxyCodeLine{00348\ }
-\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \_vertexShaderID\ =\ glCreateShader(GL\_VERTEX\_SHADER);}
-\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_vertexShaderID\ ==\ 0)\ \{}
-\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(\textcolor{stringliteral}{"{}Vertex\ Shader\ Failed\ to\ create!"{}});}
-\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00353\ }
-\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \_fragmentShaderID\ =\ glCreateShader(GL\_FRAGMENT\_SHADER);}
-\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_fragmentShaderID\ ==\ 0)\ \{}
-\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(\textcolor{stringliteral}{"{}Fragment\ Shader\ Failed\ to\ create!"{}});}
-\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00358\ }
-\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ compileShader(vertexSource,\ \textcolor{stringliteral}{"{}vertex\ Shader"{}},\ \_vertexShaderID);}
-\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ compileShader(fragmentSource,\ \textcolor{stringliteral}{"{}fragment\ Shader"{}},\ \_fragmentShaderID);}
-\DoxyCodeLine{00361\ \ \ \ \ \}}
+\DoxyCodeLine{00344\ \ \ \ \ \textcolor{keywordtype}{void}\ compileAndLinkShadersFromSource(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ vertexSource,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ geometrySource,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fragmentSource)\ \{}
+\DoxyCodeLine{00345\ }
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ std::vector<GLuint>\ shaderIDs;}
+\DoxyCodeLine{00347\ }
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ shaderIDs.push\_back(createAndCompileShader(vertexSource,\ GL\_VERTEX\_SHADER,\ \textcolor{stringliteral}{"{}Vertex"{}}));}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ shaderIDs.push\_back(createAndCompileShader(geometrySource,\ GL\_GEOMETRY\_SHADER,\ \textcolor{stringliteral}{"{}Geometry"{}}));}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ shaderIDs.push\_back(createAndCompileShader(fragmentSource,\ GL\_FRAGMENT\_SHADER,\ \textcolor{stringliteral}{"{}Fragment"{}}));}
+\DoxyCodeLine{00351\ }
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ linkShadersInternal(shaderIDs);}
+\DoxyCodeLine{00353\ \ \ \ \ \}}
+\DoxyCodeLine{00354\ }
+\DoxyCodeLine{00355\ }
+\DoxyCodeLine{00356\ \ \ \ \ \textcolor{keywordtype}{void}\ addAttribute(\textcolor{keyword}{const}\ std::string\&\ attributeName)\ \{}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ glBindAttribLocation(\_programID,\ \_numAttributes++,\ attributeName.c\_str());}
+\DoxyCodeLine{00358\ \ \ \ \ \}}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00360\ \ \ \ \ GLint\ getUniformLocation(\textcolor{keyword}{const}\ std::string\&\ uniformName)\ \{}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ GLint\ location\ =\ glGetUniformLocation(\_programID,\ uniformName.c\_str());}
 \DoxyCodeLine{00362\ }
-\DoxyCodeLine{00363\ \ \ \ \ \textcolor{keywordtype}{void}\ linkShaders()\ \{}
-\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Attach\ our\ shaders\ to\ our\ program}}
-\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ glAttachShader(\_programID,\ \_vertexShaderID);}
-\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ glAttachShader(\_programID,\ \_fragmentShaderID);}
-\DoxyCodeLine{00367\ }
-\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Link\ our\ program}}
-\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ glLinkProgram(\_programID);}
-\DoxyCodeLine{00370\ }
-\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Note\ the\ different\ functions\ here:\ glGetProgram*\ instead\ of\ glGetShader*.}}
-\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ GLint\ isLinked\ =\ 0;}
-\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ glGetProgramiv(\_programID,\ GL\_LINK\_STATUS,\ (\textcolor{keywordtype}{int}*)\&isLinked);}
-\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isLinked\ ==\ GL\_FALSE)}
-\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ GLint\ maxLength\ =\ 0;}
-\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ glGetProgramiv(\_programID,\ GL\_INFO\_LOG\_LENGTH,\ \&maxLength);}
-\DoxyCodeLine{00378\ }
-\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ maxLength\ includes\ the\ NULL\ character}}
-\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<GLchar>\ errorLog(maxLength);}
-\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ glGetProgramInfoLog(\_programID,\ maxLength,\ \&maxLength,\ \&errorLog[0]);}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (location\ ==\ GL\_INVALID\_INDEX)\ \{}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(\textcolor{stringliteral}{"{}Uniform\ "{}}\ +\ uniformName\ +\ \textcolor{stringliteral}{"{}\ not\ found\ in\ shader!"{}});}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ location;}
+\DoxyCodeLine{00367\ \ \ \ \ \}}
+\DoxyCodeLine{00368\ }
+\DoxyCodeLine{00369\ \ \ \ \ \textcolor{keywordtype}{void}\ use()\ \{}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ glUseProgram(\_programID);}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \_numAttributes;\ i++)\ \{}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ glEnableVertexAttribArray(i);}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00374\ \ \ \ \ \}}
+\DoxyCodeLine{00375\ }
+\DoxyCodeLine{00376\ \ \ \ \ \textcolor{keywordtype}{void}\ unuse()\ \{}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ glUseProgram(0);}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \_numAttributes;\ i++)\ \{}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ glDisableVertexAttribArray(i);}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00381\ \ \ \ \ \}}
 \DoxyCodeLine{00382\ }
-\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ don't\ need\ the\ program\ anymore.}}
-\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ glDeleteProgram(\_programID);}
-\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ leak\ shaders\ either.}}
-\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ glDeleteShader(\_vertexShaderID);}
-\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ glDeleteShader(\_fragmentShaderID);}
-\DoxyCodeLine{00388\ }
-\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ std::printf(\textcolor{stringliteral}{"{}\%s\(\backslash\)n"{}},\ \&(errorLog[0]));}
-\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(\textcolor{stringliteral}{"{}Shaders\ failed\ to\ link"{}});}
-\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00392\ }
-\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Always\ detach\ shaders\ after\ a\ successful\ link.}}
-\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ glDetachShader(\_programID,\ \_vertexShaderID);}
-\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ glDetachShader(\_programID,\ \_fragmentShaderID);}
-\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ glDeleteShader(\_vertexShaderID);}
-\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ glDeleteShader(\_fragmentShaderID);}
-\DoxyCodeLine{00398\ \ \ \ \ \}}
+\DoxyCodeLine{00383\ \ \ \ \ \textcolor{keywordtype}{void}\ dispose()\ \{}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\_programID\ !=\ 0)\ glDeleteProgram(\_programID);}
+\DoxyCodeLine{00385\ \ \ \ \ \}}
+\DoxyCodeLine{00386\ }
+\DoxyCodeLine{00387\ \ \ \ \ GLuint\ getProgramID()\ \{}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_programID;}
+\DoxyCodeLine{00389\ \ \ \ \ \}}
+\DoxyCodeLine{00390\ }
+\DoxyCodeLine{00391\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00392\ \ \ \ \ GLuint\ \_programID;}
+\DoxyCodeLine{00393\ }
+\DoxyCodeLine{00394\ \ \ \ \ GLuint\ \_vertexShaderID;}
+\DoxyCodeLine{00395\ \ \ \ \ GLuint\ \_geometryShaderID;}
+\DoxyCodeLine{00396\ \ \ \ \ GLuint\ \_fragmentShaderID;}
+\DoxyCodeLine{00397\ }
+\DoxyCodeLine{00398\ \ \ \ \ \textcolor{keywordtype}{int}\ \_numAttributes;}
 \DoxyCodeLine{00399\ }
-\DoxyCodeLine{00400\ \ \ \ \ \textcolor{keywordtype}{void}\ addAttribute(\textcolor{keyword}{const}\ std::string\&\ attributeName)\ \{}
-\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ glBindAttribLocation(\_programID,\ \_numAttributes++,\ attributeName.c\_str());}
-\DoxyCodeLine{00402\ \ \ \ \ \}}
-\DoxyCodeLine{00403\ }
-\DoxyCodeLine{00404\ \ \ \ \ GLint\ getUniformLocation(\textcolor{keyword}{const}\ std::string\&\ uniformName)\ \{}
-\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ GLint\ location\ =\ glGetUniformLocation(\_programID,\ uniformName.c\_str());}
-\DoxyCodeLine{00406\ }
-\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (location\ ==\ GL\_INVALID\_INDEX)\ \{}
-\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(\textcolor{stringliteral}{"{}Uniform\ "{}}\ +\ uniformName\ +\ \textcolor{stringliteral}{"{}\ not\ found\ in\ shader!"{}});}
-\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ location;}
-\DoxyCodeLine{00411\ \ \ \ \ \}}
+\DoxyCodeLine{00400\ \ \ \ \ std::string\ readShaderFile(\textcolor{keyword}{const}\ std::string\&\ filePath)\ \{}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ std::vector<unsigned\ char>\ buffer;}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ TextureManager::readFileToBuffer(filePath.c\_str(),\ buffer);}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::string(buffer.begin(),\ buffer.end());}
+\DoxyCodeLine{00404\ \ \ \ \ \}}
+\DoxyCodeLine{00405\ }
+\DoxyCodeLine{00406\ \ \ \ \ GLuint\ createAndCompileShader(\textcolor{keyword}{const}\ std::string\&\ source,\ GLenum\ shaderType,\ \textcolor{keyword}{const}\ std::string\&\ typeName)\ \{}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ GLuint\ shaderID\ =\ glCreateShader(shaderType);}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shaderID\ ==\ 0)\ \{}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(typeName\ +\ \textcolor{stringliteral}{"{}\ Shader\ Failed\ to\ create!"{}});}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00412\ }
-\DoxyCodeLine{00413\ \ \ \ \ \textcolor{keywordtype}{void}\ use()\ \{}
-\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ glUseProgram(\_programID);}
-\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \_numAttributes;\ i++)\ \{}
-\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ glEnableVertexAttribArray(i);}
-\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00418\ \ \ \ \ \}}
-\DoxyCodeLine{00419\ }
-\DoxyCodeLine{00420\ \ \ \ \ \textcolor{keywordtype}{void}\ unuse()\ \{}
-\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ glUseProgram(0);}
-\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \_numAttributes;\ i++)\ \{}
-\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ glDisableVertexAttribArray(i);}
-\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00425\ \ \ \ \ \}}
-\DoxyCodeLine{00426\ }
-\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keywordtype}{void}\ dispose()\ \{}
-\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\_programID\ !=\ 0)\ glDeleteProgram(\_programID);}
-\DoxyCodeLine{00429\ \ \ \ \ \}}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ compileShader(source.c\_str(),\ typeName,\ shaderID);}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ shaderID;}
+\DoxyCodeLine{00415\ \ \ \ \ \}}
+\DoxyCodeLine{00416\ }
+\DoxyCodeLine{00417\ \ \ \ \ \textcolor{keywordtype}{void}\ compileShader(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ source,\ \textcolor{keyword}{const}\ std::string\&\ name,\ GLuint\ \textcolor{keywordtype}{id})\ \{}
+\DoxyCodeLine{00418\ }
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ glShaderSource(\textcolor{keywordtype}{id},\ 1,\ \&source,\ \textcolor{keyword}{nullptr});\ \textcolor{comment}{//1\ for\ number\ of\ strings}}
+\DoxyCodeLine{00420\ }
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ glCompileShader(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00422\ }
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ GLint\ success\ =\ 0;}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ glGetShaderiv(\textcolor{keywordtype}{id},\ GL\_COMPILE\_STATUS,\ \&success);}
+\DoxyCodeLine{00425\ }
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (success\ ==\ GL\_FALSE)}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ GLint\ maxLength\ =\ 0;}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ glGetShaderiv(\textcolor{keywordtype}{id},\ GL\_INFO\_LOG\_LENGTH,\ \&maxLength);}
 \DoxyCodeLine{00430\ }
-\DoxyCodeLine{00431\ \ \ \ \ GLuint\ getProgramID()\ \{}
-\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_programID;}
-\DoxyCodeLine{00433\ \ \ \ \ \}}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ maxLength\ includes\ the\ NULL\ character}}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<GLchar>\ errorLog(maxLength);}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ glGetShaderInfoLog(\textcolor{keywordtype}{id},\ maxLength,\ \&maxLength,\ \&errorLog[0]);}
 \DoxyCodeLine{00434\ }
-\DoxyCodeLine{00435\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00436\ \ \ \ \ GLuint\ \_programID;}
-\DoxyCodeLine{00437\ }
-\DoxyCodeLine{00438\ \ \ \ \ GLuint\ \_vertexShaderID;}
-\DoxyCodeLine{00439\ \ \ \ \ GLuint\ \_fragmentShaderID;}
-\DoxyCodeLine{00440\ }
-\DoxyCodeLine{00441\ \ \ \ \ \textcolor{keywordtype}{int}\ \_numAttributes;}
-\DoxyCodeLine{00442\ }
-\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keywordtype}{void}\ compileShader(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ source,\ \textcolor{keyword}{const}\ std::string\&\ name,\ GLuint\ \textcolor{keywordtype}{id})\ \{}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Provide\ the\ infolog\ in\ whatever\ manor\ you\ deem\ best.}}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Exit\ with\ failure.}}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ glDeleteShader(\textcolor{keywordtype}{id});\ \textcolor{comment}{//\ Don't\ leak\ the\ shader.}}
+\DoxyCodeLine{00438\ }
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ std::printf(\textcolor{stringliteral}{"{}\%s\(\backslash\)n"{}},\ \&(errorLog[0]));}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Shader\ "{}}\ +\ name\ +\ \textcolor{stringliteral}{"{}\ failed\ to\ compile"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00441\ }
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00443\ \ \ \ \ \}}
 \DoxyCodeLine{00444\ }
-\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ glShaderSource(\textcolor{keywordtype}{id},\ 1,\ \&source,\ \textcolor{keyword}{nullptr});\ \textcolor{comment}{//1\ for\ number\ of\ strings}}
-\DoxyCodeLine{00446\ }
-\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ glCompileShader(\textcolor{keywordtype}{id});}
-\DoxyCodeLine{00448\ }
-\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ GLint\ success\ =\ 0;}
-\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ glGetShaderiv(\textcolor{keywordtype}{id},\ GL\_COMPILE\_STATUS,\ \&success);}
-\DoxyCodeLine{00451\ }
-\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (success\ ==\ GL\_FALSE)}
-\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ GLint\ maxLength\ =\ 0;}
-\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ glGetShaderiv(\textcolor{keywordtype}{id},\ GL\_INFO\_LOG\_LENGTH,\ \&maxLength);}
-\DoxyCodeLine{00456\ }
-\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ maxLength\ includes\ the\ NULL\ character}}
-\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<GLchar>\ errorLog(maxLength);}
-\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ glGetShaderInfoLog(\textcolor{keywordtype}{id},\ maxLength,\ \&maxLength,\ \&errorLog[0]);}
-\DoxyCodeLine{00460\ }
-\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Provide\ the\ infolog\ in\ whatever\ manor\ you\ deem\ best.}}
-\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Exit\ with\ failure.}}
-\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ glDeleteShader(\textcolor{keywordtype}{id});\ \textcolor{comment}{//\ Don't\ leak\ the\ shader.}}
-\DoxyCodeLine{00464\ }
-\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ std::printf(\textcolor{stringliteral}{"{}\%s\(\backslash\)n"{}},\ \&(errorLog[0]));}
-\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Shader\ "{}}\ +\ name\ +\ \textcolor{stringliteral}{"{}\ failed\ to\ compile"{}}\ <<\ std::endl;}
-\DoxyCodeLine{00467\ }
-\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00469\ \ \ \ \ \}}
-\DoxyCodeLine{00470\ \};}
+\DoxyCodeLine{00445\ \ \ \ \ \textcolor{keywordtype}{void}\ linkShadersInternal(\textcolor{keyword}{const}\ std::vector<GLuint>\&\ shaderIDs)\ \{}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \_programID\ =\ glCreateProgram();}
+\DoxyCodeLine{00447\ }
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Attach\ all\ shaders}}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (GLuint\ shaderID\ :\ shaderIDs)\ \{}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ glAttachShader(\_programID,\ shaderID);}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00452\ }
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Link\ program}}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ glLinkProgram(\_programID);}
+\DoxyCodeLine{00455\ }
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ link\ status}}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ GLint\ isLinked\ =\ 0;}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ glGetProgramiv(\_programID,\ GL\_LINK\_STATUS,\ \&isLinked);}
+\DoxyCodeLine{00459\ }
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isLinked\ ==\ GL\_FALSE)\ \{}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ GLint\ maxLength\ =\ 0;}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ glGetProgramiv(\_programID,\ GL\_INFO\_LOG\_LENGTH,\ \&maxLength);}
+\DoxyCodeLine{00463\ }
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<GLchar>\ errorLog(maxLength);}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ glGetProgramInfoLog(\_programID,\ maxLength,\ \&maxLength,\ \&errorLog[0]);}
+\DoxyCodeLine{00466\ }
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cleanup\ on\ failure}}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ glDeleteProgram(\_programID);}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (GLuint\ shaderID\ :\ shaderIDs)\ \{}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glDeleteShader(shaderID);}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00472\ }
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ std::printf(\textcolor{stringliteral}{"{}\%s\(\backslash\)n"{}},\ \&errorLog[0]);}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(\textcolor{stringliteral}{"{}Shaders\ failed\ to\ link"{}});}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00477\ }
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cleanup\ shaders\ after\ successful\ link}}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (GLuint\ shaderID\ :\ shaderIDs)\ \{}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ glDetachShader(\_programID,\ shaderID);}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ \ \ glDeleteShader(shaderID);}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00483\ \ \ \ \ \}}
+\DoxyCodeLine{00484\ }
+\DoxyCodeLine{00485\ \};}
 
 \end{DoxyCode}

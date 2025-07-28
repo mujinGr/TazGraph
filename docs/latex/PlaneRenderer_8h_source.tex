@@ -1,0 +1,50 @@
+\doxysection{Plane\+Renderer.\+h}
+\hypertarget{PlaneRenderer_8h_source}{}\label{PlaneRenderer_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Renderers/PlaneRenderers/PlaneRenderer.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Renderers/PlaneRenderers/PlaneRenderer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <GL/glew.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ GLM\_ENABLE\_EXPERIMENTAL\ }}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../../Vertex.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../../GLSLProgram.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ init\ -\/-\/\_}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ \ \ \ \ \ \`{}-\/-\/>begin()\ }}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ \ \ \ \ \ |\ -\/-\/>\ draw()}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ \ \ \ \ \ |\ -\/-\/>\ draw()}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ \ \ \ \ \ \ |-\/-\/>\ end()\ }}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ \ \ \ \ \ \ \`{}-\/-\/>\ renderBatch()\ }}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPlaneRenderer}{PlaneRenderer}}\ \{}
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{classPlaneRenderer}{PlaneRenderer}}();}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classPlaneRenderer}{\string~PlaneRenderer}}();}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ begin();}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ end();}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ initTriangleBatch(\textcolor{keywordtype}{size\_t}\ mSize);}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ initQuadBatch(\textcolor{keywordtype}{size\_t}\ mSize);}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ initBoxBatch(\textcolor{keywordtype}{size\_t}\ mSize);}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ initSphereBatch(\textcolor{keywordtype}{size\_t}\ mSize);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ GLuint\ \_vboInstances;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_glyphs\_size\ =\ 0;\ \textcolor{comment}{//actual\ glyphs}}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_triangleGlyphs\_size\ =\ 0;\ \textcolor{comment}{//actual\ glyphs}}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_boxGlyphs\_size\ =\ 0;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_sphereGlyphs\_size\ =\ 0;}
+\DoxyCodeLine{00042\ \ \ \ \ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ createRenderBatches();}
+\DoxyCodeLine{00044\ \};}
+
+\end{DoxyCode}

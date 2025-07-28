@@ -1,3 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classBoxGlyph.html" title=" " alt="" coords="5,5,91,31"/>
+<area shape="rect" id="Node000000" href="$structBaseRenderer.html" title=" " alt="" coords="5,55,119,80"/>
+<area shape="rect" id="Node000001" href="$structColorMeshRenderer.html" title=" " alt="" coords="173,5,324,31"/>
+<area shape="poly" id="edge28_Node000000_Node000001" title=" " alt="" coords="123,49,199,28,200,33,124,54"/>
+<area shape="rect" id="Node000002" href="$structMeshRenderer.html" title=" " alt="" coords="191,55,307,80"/>
+<area shape="poly" id="edge29_Node000000_Node000002" title=" " alt="" coords="133,65,191,65,191,70,133,70"/>
+<area shape="rect" id="Node000003" href="$structTextureMeshRenderer.html" title=" " alt="" coords="167,104,331,129"/>
+<area shape="poly" id="edge30_Node000000_Node000003" title=" " alt="" coords="124,81,200,101,199,106,123,86"/>
 </map>

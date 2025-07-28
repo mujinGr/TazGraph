@@ -414,17 +414,25 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>        <span class="keywordflow">return</span> pointOnRay;</div>
 <div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>    }</div>
 <div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span> </div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>    <span class="keywordtype">int</span> _screenWidth, _screenHeight;</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>    <span class="keywordtype">float</span> _minScale = 0.1f, _maxScale = 5.0f;</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>    <span class="keywordtype">float</span> _scale; <span class="comment">// decreases when zoom-out</span></div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    <span class="keywordtype">bool</span> _cameraChange;</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    glm::vec2 _position;</div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>    glm::mat4 _projectionMatrix; <span class="comment">// changed once in init</span></div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>    glm::mat4 _viewMatrix;</div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>    glm::mat4 _cameraMatrix;</div>
-<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>};</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>    glm::mat4 getViewMatrix() {</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>        <span class="keywordflow">return</span> _viewMatrix;</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>    }</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span> </div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    glm::mat4 getProjMatrix() {</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>        <span class="keywordflow">return</span> _viewMatrix;</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    }</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>    <span class="keywordtype">int</span> _screenWidth, _screenHeight;</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>    <span class="keywordtype">float</span> _minScale = 0.1f, _maxScale = 5.0f;</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>    <span class="keywordtype">float</span> _scale; <span class="comment">// decreases when zoom-out</span></div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>    <span class="keywordtype">bool</span> _cameraChange;</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span> </div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>    glm::vec2 _position;</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>    glm::mat4 _projectionMatrix; <span class="comment">// changed once in init</span></div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>    glm::mat4 _viewMatrix;</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>    glm::mat4 _cameraMatrix;</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>};</div>
 </div>
 <div class="ttc" id="aclassICamera_html"><div class="ttname"><a href="classICamera.html">ICamera</a></div><div class="ttdef"><b>Definition</b> ICamera.h:9</div></div>
 <div class="ttc" id="aclassPerspectiveCamera_html"><div class="ttname"><a href="classPerspectiveCamera.html">PerspectiveCamera</a></div><div class="ttdef"><b>Definition</b> PerspectiveCamera.h:11</div></div>

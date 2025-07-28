@@ -1,5 +1,25 @@
 \doxysection{Light\+Renderer Class Reference}
 \hypertarget{classLightRenderer}{}\label{classLightRenderer}\index{LightRenderer@{LightRenderer}}
+
+
+Inheritance diagram for Light\+Renderer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=168pt]{classLightRenderer__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Light\+Renderer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=168pt]{classLightRenderer__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -11,18 +31,6 @@ void {\bfseries begin} ()
 \item 
 \Hypertarget{classLightRenderer_ae4ffbb6dc0ecbae342d7eb4bf93ab33d}\label{classLightRenderer_ae4ffbb6dc0ecbae342d7eb4bf93ab33d} 
 void {\bfseries end} ()
-\item 
-\Hypertarget{classLightRenderer_a7ee2108a96ef8c901f8cdb520c277921}\label{classLightRenderer_a7ee2108a96ef8c901f8cdb520c277921} 
-void {\bfseries init\+Light\+Triangle\+Batch} (size\+\_\+t m\+Size)
-\item 
-\Hypertarget{classLightRenderer_aecc8d767c2eefa53f76cf0bb16127c1d}\label{classLightRenderer_aecc8d767c2eefa53f76cf0bb16127c1d} 
-void {\bfseries init\+Light\+Quad\+Batch} (size\+\_\+t m\+Size)
-\item 
-\Hypertarget{classLightRenderer_a726d9a3f841602976942703134d696a3}\label{classLightRenderer_a726d9a3f841602976942703134d696a3} 
-void {\bfseries init\+Light\+Box\+Batch} (size\+\_\+t m\+Size)
-\item 
-\Hypertarget{classLightRenderer_ac0ac8c24dfaeefd8cab1d6c344c0218a}\label{classLightRenderer_ac0ac8c24dfaeefd8cab1d6c344c0218a} 
-void {\bfseries init\+Light\+Sphere\+Batch} (size\+\_\+t m\+Size)
 \item 
 \Hypertarget{classLightRenderer_a55b792515f46ff90bc038fe5352139b2}\label{classLightRenderer_a55b792515f46ff90bc038fe5352139b2} 
 void {\bfseries init\+Batch\+Size} ()
@@ -45,12 +53,44 @@ void {\bfseries render\+Batch} (\mbox{\hyperlink{classGLSLProgram}{GLSLProgram}}
 \Hypertarget{classLightRenderer_a9cf210b50c64828241a750a797341ad3}\label{classLightRenderer_a9cf210b50c64828241a750a797341ad3} 
 void {\bfseries dispose} ()
 \end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classPlaneRenderer}{Plane\+Renderer}}}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries init} ()
+\item 
+void {\bfseries begin} ()
+\item 
+void {\bfseries end} ()
+\item 
+void {\bfseries init\+Triangle\+Batch} (size\+\_\+t m\+Size)
+\item 
+void {\bfseries init\+Quad\+Batch} (size\+\_\+t m\+Size)
+\item 
+void {\bfseries init\+Box\+Batch} (size\+\_\+t m\+Size)
+\item 
+void {\bfseries init\+Sphere\+Batch} (size\+\_\+t m\+Size)
+\item 
+void {\bfseries create\+Render\+Batches} ()
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
 std\+::vector$<$ \mbox{\hyperlink{structLightVertex}{Light\+Vertex}} $>$ \mbox{\hyperlink{classLightRenderer_aaff2c77f6c3df272d2834e2b1c0d1f08}{sphere\+Vertices}}
 \item 
 std\+::vector$<$ GLuint $>$ \mbox{\hyperlink{classLightRenderer_a0edc750269dc58e59d89c9110b178c8d}{sphere\+Indices}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classPlaneRenderer}{Plane\+Renderer}}}
+\begin{DoxyCompactItemize}
+\item 
+GLuint {\bfseries \+\_\+vbo\+Instances}
+\item 
+size\+\_\+t {\bfseries \+\_\+glyphs\+\_\+size} = 0
+\item 
+size\+\_\+t {\bfseries \+\_\+triangle\+Glyphs\+\_\+size} = 0
+\item 
+size\+\_\+t {\bfseries \+\_\+box\+Glyphs\+\_\+size} = 0
+\item 
+size\+\_\+t {\bfseries \+\_\+sphere\+Glyphs\+\_\+size} = 0
 \end{DoxyCompactItemize}
 
 
@@ -85,5 +125,5 @@ std\+::vector$<$ GLuint $>$ \mbox{\hyperlink{classLightRenderer_a0edc750269dc58e
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Light\+Renderer/Light\+Renderer.\+h\item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Light\+Renderer/Light\+Renderer.\+cpp\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Plane\+Renderers/\+Light\+Renderer/Light\+Renderer.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Plane\+Renderers/\+Light\+Renderer/Light\+Renderer.\+cpp\end{DoxyCompactItemize}
