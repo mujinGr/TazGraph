@@ -42,7 +42,7 @@
     <ClCompile Include="BaseFPSLimiter\BaseFPSLimiter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.cpp">
+    <ClCompile Include="Renderers\PlaneRenderers\PlaneModelRenderer\PlaneModelRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GECS\Core\GECS.cpp">
@@ -69,13 +69,13 @@
     <ClCompile Include="Renderers\FrameBuffer\Framebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderers\PlaneColorRenderer\PlaneColorRenderer.cpp">
+    <ClCompile Include="Renderers\PlaneRenderers\PlaneColorRenderer\PlaneColorRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GECS\Core\GECSManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderers\LightRenderer\LightRenderer.cpp">
+    <ClCompile Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\vendors\imgui\imgui.cpp">
@@ -106,6 +106,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\vendors\imguiComboAutoselect\imgui_combo_autoselect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vendors\ImGuizmo\ImGuizmo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderers\PlaneRenderers\PlaneRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,7 +152,7 @@
     <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderers\PlaneModelRenderer\PlaneModelRenderer.h">
+    <ClInclude Include="Renderers\PlaneRenderers\PlaneModelRenderer\PlaneModelRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera2.5D\PerspectiveCamera.h">
@@ -263,7 +269,7 @@
     <ClInclude Include="GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderers\PlaneColorRenderer\PlaneColorRenderer.h">
+    <ClInclude Include="Renderers\PlaneRenderers\PlaneColorRenderer\PlaneColorRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Components\Empty\Basic\BoxComponent.h">
@@ -287,10 +293,13 @@
     <ClInclude Include="GECS\Components\Link\Basic\SpringComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderers\LightRenderer\LightRenderer.h">
+    <ClInclude Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Components\Empty\Basic\SphereComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderers\PlaneRenderers\PlaneRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

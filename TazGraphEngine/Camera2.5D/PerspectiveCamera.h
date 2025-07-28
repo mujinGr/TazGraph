@@ -330,6 +330,14 @@ public:
 		return pointOnRay;
 	}
 
+	glm::mat4 getViewMatrix() {
+		return _viewMatrix;
+	}
+
+	glm::mat4 getProjMatrix() {
+		return _viewMatrix;
+	}
+
 private:
 	int _screenWidth, _screenHeight;
 	float _minScale = 0.1f, _maxScale = 5.0f;

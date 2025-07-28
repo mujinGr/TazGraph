@@ -1,14 +1,7 @@
 #include "PlaneColorRenderer.h"
 #include <algorithm>
 
-PlaneColorRenderer::PlaneColorRenderer() : 
-	_vboInstances(0),
-
-	_glyphs_size(0),
-	_triangleGlyphs_size(0),
-	_boxGlyphs_size(0),
-	_sphereGlyphs_size(0) {
-
+PlaneColorRenderer::PlaneColorRenderer(){
 }
 
 PlaneColorRenderer::~PlaneColorRenderer() {
@@ -21,41 +14,17 @@ void PlaneColorRenderer::init() {
 
 void PlaneColorRenderer::begin() {
 
+	PlaneRenderer::begin();
+
 	for (auto& mesh : _meshesArrays) {
 		mesh.instances.clear();
 	}
 	for (auto& mesh : _meshesElements) {
 		mesh.instances.clear();
 	}
-
-	_glyphs_size = 0;
-	_triangleGlyphs_size = 0;
-	_boxGlyphs_size = 0;
 }
 void PlaneColorRenderer::end() {
-
-	//set up all pointers for fast sorting
-	createRenderBatches();
-}
-
-void PlaneColorRenderer::initColorQuadBatch(size_t mSize)
-{
-	_glyphs_size = mSize;
-}
-
-void PlaneColorRenderer::initColorTriangleBatch(size_t mSize)
-{
-	_triangleGlyphs_size = mSize;
-}
-
-void PlaneColorRenderer::initColorBoxBatch(size_t mSize)
-{
-	_boxGlyphs_size = mSize;
-}
-
-void PlaneColorRenderer::initColorSphereBatch(size_t mSize)
-{
-	_sphereGlyphs_size = mSize;
+	PlaneRenderer::end();
 }
 
 void PlaneColorRenderer::initBatchSize()
@@ -183,15 +152,6 @@ void PlaneColorRenderer::renderBatch(GLSLProgram* glsl_program) {
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-void PlaneColorRenderer::createRenderBatches() {
-
-	//current vertex
-	if ((_glyphs_size + _triangleGlyphs_size + _sphereGlyphs_size) == 0) {
-		return;
-	}
-
 }
 
 void PlaneColorRenderer::createInstancesVBO() {

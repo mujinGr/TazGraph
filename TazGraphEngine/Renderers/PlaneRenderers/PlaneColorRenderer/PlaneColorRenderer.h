@@ -4,8 +4,8 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-#include "../../GLSLProgram.h"
-
+#include "../../../GLSLProgram.h"
+#include "../PlaneRenderer.h"
 
 // init --_
 //		 `-->begin() 
@@ -16,20 +16,15 @@
 //		 |--> end() 
 //		 `--> renderBatch() 
 
-class LightRenderer {
+class PlaneColorRenderer : public PlaneRenderer {
 public:
-	LightRenderer();
-	~LightRenderer();
+	PlaneColorRenderer();
+	~PlaneColorRenderer();
 
 	void init();
 
 	void begin();
 	void end();
-
-	void initLightTriangleBatch(size_t mSize);
-	void initLightQuadBatch(size_t mSize);
-	void initLightBoxBatch(size_t mSize);
-	void initLightSphereBatch(size_t mSize);
 
 	void initBatchSize();
 
@@ -55,12 +50,11 @@ public:
 		const glm::vec3& mRotation,
 		const Color& color);
 
-
 	void renderBatch(GLSLProgram* glsl_program);
 
 	void dispose();
 
-	std::vector<LightVertex> sphereVertices = {
+	std::vector<Position> sphereVertices = {
 		// Generated vertices will go here
 	};
 
@@ -69,16 +63,8 @@ public:
 	};
 
 private:
-	void createRenderBatches();
 	void createInstancesVBO();
 	void createVertexArray();
-
-	GLuint _vboInstances;
-
-	size_t _glyphs_size = 0; //actual glyphs
-	size_t _triangleGlyphs_size = 0; //actual glyphs
-	size_t _boxGlyphs_size = 0;
-	size_t _sphereGlyphs_size = 0;
 
 	std::vector<ColorMeshRenderer> _meshesArrays;
 	std::vector<ColorMeshRenderer> _meshesElements;

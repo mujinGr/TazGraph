@@ -93,5 +93,6 @@
     <None Include="Src\Shaders\framebuffer.vert" />
     <None Include="Src\Shaders\colorLighting.vert" />
     <None Include="Src\Shaders\colorLighting.frag" />
+    <None Include="Src\Shaders\lineColorShading.gs" />
   </ItemGroup>
 </Project>

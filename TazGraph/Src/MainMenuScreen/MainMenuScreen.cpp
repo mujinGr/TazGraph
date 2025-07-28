@@ -77,17 +77,15 @@ void MainMenuScreen::onEntry()
 
 
 		//InitShaders function from Bengine
-		_resourceManager.getGLSLProgram("texture")->compileShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
+		_resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
 		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
 		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
 		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
-		_resourceManager.getGLSLProgram("texture")->linkShaders();
 
-		_resourceManager.getGLSLProgram("color")->compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
+		_resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
 		_resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
 		_resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
 		_resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
-		_resourceManager.getGLSLProgram("color")->linkShaders();
 
 		MainMenuScreen::_PlaneModelRenderer.init();
 	}
@@ -152,7 +150,7 @@ void MainMenuScreen::draw()
 
 	_PlaneModelRenderer.begin();
 
-	_PlaneModelRenderer.initTextureQuadBatch(mainmenubackground.size());
+	_PlaneModelRenderer.initQuadBatch(mainmenubackground.size());
 
 	_PlaneModelRenderer.initBatchSize();
 

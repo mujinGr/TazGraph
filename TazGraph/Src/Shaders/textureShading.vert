@@ -8,10 +8,10 @@ out vec3 fragmentPosition;
 out vec4 fragmentColor;
 out vec2 fragmentUV;
 
-uniform mat4 projection;
+uniform mat4 u_ViewProjection;
 
 void main() {
-    gl_Position = projection * vec4(vertexPosition.xyz, 1.0);
+    gl_Position = u_ViewProjection * vec4(vertexPosition.xyz, 1.0);
 
     fragmentPosition = vertexPosition;
 

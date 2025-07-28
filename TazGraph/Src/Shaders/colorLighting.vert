@@ -1,7 +1,7 @@
 #version 430
 
 layout (location = 0) in vec3 aPos; //vertex Pos
-layout (location = 1) in vec3 aNormal; //vertex Pos
+layout (location = 1) in vec3 aNormal; //vertex Normal
 
 layout (location = 2) in vec3 instanceSize;
 layout (location = 3) in vec3 instanceBodyCenter;
@@ -13,7 +13,7 @@ out vec4 fragmentColor;
 
 out vec3 fragNormal;
 
-uniform mat4 projection;
+uniform mat4 u_ViewProjection;
 
 
 ///// FUNCTIONS /////
@@ -60,7 +60,7 @@ void main() {
     mat4 translation = mat4(1.0);
     translation[3].xyz = instanceBodyCenter;
 
-    gl_Position = projection * translation * localRotation * vec4(scaledPos.xyz, 1.0);
+    gl_Position = u_ViewProjection * translation * localRotation * vec4(scaledPos.xyz, 1.0);
 
     fragmentColor = instanceColor;
     fragNormal = mat3(localRotation) * aNormal;

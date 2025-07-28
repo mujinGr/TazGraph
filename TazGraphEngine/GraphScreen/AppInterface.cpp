@@ -32,7 +32,7 @@ void AppInterface::run() {
 	Uint64 freq = SDL_GetPerformanceFrequency();
 	Uint64 prevTicks = SDL_GetPerformanceCounter();
 
-	_limiter.setMaxFPS(100.0f);
+	_limiter.setMaxFPS(60.0f);
 
 	_isRunning = true;
 	while (_isRunning) {

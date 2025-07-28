@@ -23,4 +23,5 @@ build/
 *.tmp
 *.temp
 
+*.sln
 TazGraph/imgui.ini

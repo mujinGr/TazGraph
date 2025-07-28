@@ -1,8 +1,7 @@
 #include "PlaneModelRenderer.h"
 #include <algorithm>
 
-PlaneModelRenderer::PlaneModelRenderer() : _vboInstances(0),
-_glyphs_size(0)
+PlaneModelRenderer::PlaneModelRenderer()
 {
 
 }
@@ -16,22 +15,19 @@ void PlaneModelRenderer::init() {
 }
 
 void PlaneModelRenderer::begin() {
-	_glyphs_size = 0;
+
+	PlaneRenderer::begin();
 
 	for (auto& mesh : _meshesElements) {
 		mesh.instances.clear();
 	}
+
 }
 void PlaneModelRenderer::end() {
 	//set up all pointers for fast sorting
-	createRenderBatches();
+	PlaneRenderer::end();
 }
 
-
-void PlaneModelRenderer::initTextureQuadBatch(size_t mSize)
-{
-	_glyphs_size = mSize;
-}
 
 void PlaneModelRenderer::initBatchSize()
 {
@@ -96,12 +92,6 @@ void PlaneModelRenderer::renderBatch(GLSLProgram* glsl_program) {
 	glBindVertexArray(0);
 }
 
-void PlaneModelRenderer::createRenderBatches() {
-
-	if (_glyphs_size == 0 ) {
-		return;
-	}
-}
 
 void PlaneModelRenderer::createInstancesVBO() {
 	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);

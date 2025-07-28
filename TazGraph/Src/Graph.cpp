@@ -88,28 +88,24 @@ void Graph::onEntry()
 
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-		_resourceManager.getGLSLProgram("color")->compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
+		_resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
 		_resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
 		_resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
 		_resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
-		_resourceManager.getGLSLProgram("color")->linkShaders();
 
-		_resourceManager.getGLSLProgram("texture")->compileShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
+		_resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
 		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
 		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
 		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
-		_resourceManager.getGLSLProgram("texture")->linkShaders();
 
-		_resourceManager.getGLSLProgram("framebuffer")->compileShaders("Src/Shaders/framebuffer.vert", "Src/Shaders/framebuffer.frag");
+		_resourceManager.getGLSLProgram("framebuffer")->compileAndLinkShaders("Src/Shaders/framebuffer.vert", "Src/Shaders/framebuffer.frag");
 		_resourceManager.getGLSLProgram("framebuffer")->addAttribute("inPos");
 		_resourceManager.getGLSLProgram("framebuffer")->addAttribute("inTexCoords");
-		_resourceManager.getGLSLProgram("framebuffer")->linkShaders();
 
-		_resourceManager.getGLSLProgram("light")->compileShaders("Src/Shaders/colorLighting.vert", "Src/Shaders/colorLighting.frag");
+		_resourceManager.getGLSLProgram("light")->compileAndLinkShaders("Src/Shaders/colorLighting.vert", "Src/Shaders/colorLighting.frag");
 		_resourceManager.getGLSLProgram("light")->addAttribute("vertexPosition");
 		_resourceManager.getGLSLProgram("light")->addAttribute("vertexColor");
 		_resourceManager.getGLSLProgram("light")->addAttribute("vertexUV");
-		_resourceManager.getGLSLProgram("light")->linkShaders();
 
 		Graph::_PlaneModelRenderer.init();
 		generateSphereMesh(
@@ -119,10 +115,15 @@ void Graph::onEntry()
 		Graph::_LightRenderer.init();
 		Graph::_hudPlaneModelRenderer.init();
 
-		_resourceManager.getGLSLProgram("lineColor")->compileShadersFromSource(_LineRenderer.VERT_SRC, _LineRenderer.FRAG_SRC);
+		/*_resourceManager.getGLSLProgram("lineColor")->compileShadersFromSource(_LineRenderer.VERT_SRC, _LineRenderer.FRAG_SRC);
 		_resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexPosition");
 		_resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexColor");
-		_resourceManager.getGLSLProgram("lineColor")->linkShaders();
+		_resourceManager.getGLSLProgram("lineColor")->linkShaders();*/
+
+		_resourceManager.getGLSLProgram("lineColor")->compileAndLinkShaders("Src/Shaders/lineColorShading.vert", "Src/Shaders/lineColorShading.gs", "Src/Shaders/lineColorShading.frag");
+		_resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexPosition");
+		_resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexColor");
+
 
 		Graph::_LineRenderer.init();
 		generateSphereMesh(
@@ -439,7 +440,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, node->GetComponent<TransformComponent>().getPosition().z + tempBod->size.z),
 				t,
 				maxT)) {
-				std::cout << "Ray hit node: " << node->getId() << " at distance " << t.x << t.y << t.z << std::endl;
+				//std::cout << "Ray hit node: " << node->getId() << " at distance " << t.x << t.y << t.z << std::endl;
 				if (activateMode == SDL_BUTTON_RIGHT)
 				{
 					_displayedEntity = node;
@@ -524,7 +525,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, empty->GetComponent<TransformComponent>().getPosition().z + tempBod->size.z),
 				t,
 				maxT)) {
-				std::cout << "Ray hit empty: " << empty->getId() << " at distance " << t.x << t.y << t.z << std::endl;
+				//std::cout << "Ray hit empty: " << empty->getId() << " at distance " << t.x << t.y << t.z << std::endl;
 				if (activateMode == SDL_BUTTON_RIGHT)
 				{
 					_displayedEntity = empty;
@@ -626,7 +627,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				maxT,
 				sphereRad)
 				) {
-				std::cout << "Ray hit link: " << link->getId() << " at distance " << t.x << t.y << t.z << std::endl;
+				//std::cout << "Ray hit link: " << link->getId() << " at distance " << t.x << t.y << t.z << std::endl;
 
 				if (activateMode == SDL_BUTTON_RIGHT)
 				{
@@ -1298,6 +1299,10 @@ void Graph::draw()
 		_LineRenderer.begin();
 		_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
+		/*GLint viewportLoc = glsl_lineColor.getUniformLocation("_viewport");
+		glUniform4f(viewportLoc, 0.0f, 0.0f, 800.0f, 640.0f);*/
+
+
 		std::vector<Cell*> intercectedCells = manager->grid->getIntersectedCameraCells(*main_camera2D);
 		
 		_LineRenderer.initBatchSquares(4);
@@ -1373,27 +1378,27 @@ void Graph::draw()
 		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size()
 	);
 	//! Color Renderer Init
-	_PlaneColorRenderer.initColorQuadBatch(
+	_PlaneColorRenderer.initQuadBatch(
 		manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
 		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
 		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size()
 	);
-	_PlaneColorRenderer.initColorTriangleBatch(
+	_PlaneColorRenderer.initTriangleBatch(
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
 	);
 	
 
 	//! Model Renderer Init
-	_PlaneModelRenderer.initTextureQuadBatch(
+	_PlaneModelRenderer.initQuadBatch(
 		manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites).size()
 	);
 
 	//! Light Renderer Init
-	_LightRenderer.initLightBoxBatch(
+	_LightRenderer.initBoxBatch(
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties).size()
 	);
 
-	_LightRenderer.initLightSphereBatch(
+	_LightRenderer.initSphereBatch(
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties).size()
 	);
 
@@ -1437,6 +1442,7 @@ void Graph::draw()
 
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
+	
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
 	glsl_lineColor.unuse();
@@ -1535,6 +1541,8 @@ void Graph::draw()
 	//_LineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
+	
+
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getCameraRect().x / main_camera2D->getCameraRect().y);
 	glsl_lineColor.unuse();
