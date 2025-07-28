@@ -4,12 +4,12 @@
 \Hypertarget{index_md__2mnt_2c_2Users_2lefte_2Mujin_2MastersThesis_2Taz_2TazGraph_2README}%
  
 
-Taz\+Graph is a 3D graph editor and visualization tool built using C++, Open\+GL, Im\+Gui and SDL2. It provides interactive manipulation of nodes and edges with customizable rendering, ECS-\/based architecture, and multithreaded performance optimizations.
-
-\href{https://mujingr.github.io/TazGraph/html/index.html}{\texttt{ Doxy\+Document}}\hypertarget{index_autotoc_md1}{}\doxysection{\texorpdfstring{Build Instructions}{Build Instructions}}\label{index_autotoc_md1}
+Taz\+Graph is a real-\/time, extensible 3D graph visualization and editing tool powered by a custom Entity-\/\+Component System (GECS) and Open\+GL rendering.\hypertarget{index_autotoc_md11}{}\doxysection{\texorpdfstring{Getting Started}{Getting Started}}\label{index_autotoc_md11}
 create a build folder in root necessary programs\+: cmake, g++ WSL\+: {\ttfamily sudo apt-\/get install libsdl2-\/dev libsdl2-\/image-\/dev libsdl2-\/ttf-\/dev libsdl2-\/mixer-\/dev libglew-\/dev libglm-\/dev libopengl} if libopengl does not exist\+: {\ttfamily sudo apt install freeglut3-\/dev mesa-\/common-\/dev}
 
 Start by cloning the repository with {\ttfamily git clone -\/-\/recursive \href{https://carvgit.ics.forth.gr/kotsonas/tazgraph}{\texttt{ https\+://carvgit.\+ics.\+forth.\+gr/kotsonas/tazgraph}}}
+
+If the repository was cloned non-\/recursively previously, use {\ttfamily git submodule update -\/-\/init} to clone the necessary submodules.
 
 In build/\+: \textbackslash{} {\ttfamily cmake -\/DCMAKE\+\_\+\+BUILD\+\_\+\+TYPE=Release ..} \textbackslash{} {\ttfamily make}
 
@@ -17,107 +17,12 @@ in Taz\+Graph/\+Taz\+Graph/\+: {\ttfamily ../build/\+Taz\+Graph/\+Taz\+Graph}
 
 For Windows\+: In root folder\+: {\ttfamily msbuild Taz\+Graph.\+sln /p\+:Configuration=Release /p\+:Platform=x64}
 
-In Taz\+Graph/\+: {\ttfamily ../x64/\+Debug/\+Taz\+Graph.exe}\hypertarget{index_autotoc_md2}{}\doxysection{\texorpdfstring{Developer Integration Guide}{Developer Integration Guide}}\label{index_autotoc_md2}
-\hypertarget{index_autotoc_md3}{}\doxysubsection{\texorpdfstring{Core Architecture\+:}{Core Architecture:}}\label{index_autotoc_md3}
-Taz\+Graph uses a {\bfseries{custom ECS}} where entities (such as nodes, links, and empty\+Entities) are composed of components. Components are plain data-\/only structures, like {\ttfamily \doxylink{classTransformComponent}{Transform\+Component}} and {\ttfamily \doxylink{classPollingComponent}{Polling\+Component}}.
+In Taz\+Graph/\+: {\ttfamily ../x64/\+Debug/\+Taz\+Graph.exe}\hypertarget{index_autotoc_md12}{}\doxysection{\texorpdfstring{Intro}{Intro}}\label{index_autotoc_md12}
+Taz\+Graph was developed as part of a master\textquotesingle{}s thesis to provide a performant and modular framework for interactive graph editing and exploration. It supports scene management, multithreaded rendering, and real-\/time updates, tailored for visual analysis, research, and rapid prototyping of graph algorithms.
 
-The ECS is managed by \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily GECSManager}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}, which handles creation, removal, update, and drawing of entities. \doxylink{classEntity}{Entity} processing is based on {\bfseries{groups}} ({\ttfamily Entity\+Groups}) for rendering and update.\hypertarget{index_autotoc_md4}{}\doxysubsection{\texorpdfstring{Scene System}{Scene System}}\label{index_autotoc_md4}
-There are two scenes implemented\+:
+Entities are grouped into custom groups (nodes, links, empty), and rendering is decoupled from logic using optimized renderer classes. Developers can extend the engine through custom loaders, renderers, and graph behaviors.
 
-
-\begin{DoxyItemize}
-\item {\ttfamily Main\+Menu\+Scene}
-\item {\ttfamily \doxylink{classGraph}{Graph}}
-\end{DoxyItemize}
-
-Each scene controls its own logic, similar to a game state system. In the {\ttfamily \doxylink{classGraph}{Graph}} Scene\+:
-\begin{DoxyItemize}
-\item You can load {\bfseries{multiple graphs}} in tabs, each saved in a {\bfseries{\doxylink{classManager}{Manager}}}.
-\item Developers {\bfseries{shouldn’t need to modify the core of graph engine logic}} (Taz\+Graph\+Engine/\+GECS/\+Core) — instead, use the main scene\textquotesingle{}s update function (\doxylink{Graph_8cpp}{Taz\+Graph/\+Src/\+Graph.\+cpp}) to hook into behaviors like\+:
-\begin{DoxyItemize}
-\item Grouping nodes
-\item Flash-\/frame animations
-\item UI interactions
-\end{DoxyItemize}
-\end{DoxyItemize}\hypertarget{index_autotoc_md5}{}\doxysubsection{\texorpdfstring{Graph Rendering Pipeline}{Graph Rendering Pipeline}}\label{index_autotoc_md5}
-All rendering logic is handled in {\ttfamily \doxylink{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893}{Graph\+::draw()}}.\hypertarget{index_autotoc_md6}{}\doxysubsubsection{\texorpdfstring{1. Shader Setup}{1. Shader Setup}}\label{index_autotoc_md6}
-GLSL shader programs are loaded and set up using the resource manager. Uniforms (e.\+g. camera matrix, rotation) are passed before rendering\+:
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\_resourceManager.setupShader(glsl\_color,\ *main\_camera2D);}
-\DoxyCodeLine{GLint\ pLocation\ =\ glsl\_color.getUniformLocation(\textcolor{stringliteral}{"{}rotationMatrix"{}});}
-\DoxyCodeLine{glUniformMatrix4fv(pLocation,\ 1,\ GL\_FALSE,\ glm::value\_ptr(rotationMatrix));}
-
-\end{DoxyCode}
-\hypertarget{index_autotoc_md7}{}\doxysubsubsection{\texorpdfstring{2. Render Pass Initialization}{2. Render Pass Initialization}}\label{index_autotoc_md7}
-Before batching begins, the renderers are prepared. This includes setting up internal buffers and clearing previous frame data.
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\ \ \ \ \_PlaneModelRenderer.initTextureQuadBatch(}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ manager-\/>getVisibleGroup<\mbox{\hyperlink{classNodeEntity}{NodeEntity}}>(Manager::groupRenderSprites).size()}
-\DoxyCodeLine{\ \ \ \ );}
-\DoxyCodeLine{...}
-\DoxyCodeLine{}
-\DoxyCodeLine{\ \ \ \ \_PlaneModelRenderer.initBatchSize();}
-\DoxyCodeLine{...}
-
-\end{DoxyCode}
-\hypertarget{index_autotoc_md8}{}\doxysubsubsection{\texorpdfstring{3. Render Batching (\+Multithreaded)}{3. Render Batching (Multithreaded)}}\label{index_autotoc_md8}
-Entities are grouped and passed to the appropriate renderer via render\+Batch. This uses multithreading to fill buffers (mesh\+Elements \& mesh\+Arrays) efficiently.
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\ cpp}
-\DoxyCodeLine{renderBatch(}
-\DoxyCodeLine{\ \ \ \ manager-\/>getVisibleGroup<LinkEntity>(Manager::groupLinks\_0),}
-\DoxyCodeLine{\ \ \ \ \_LineRenderer}
-\DoxyCodeLine{);}
-
-\end{DoxyCode}
-\hypertarget{index_autotoc_md9}{}\doxysubsubsection{\texorpdfstring{4. Instance Rendering}{4. Instance Rendering}}\label{index_autotoc_md9}
-After batching, each renderer draws its instances and clears its buffers\+:
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\ cpp}
-\DoxyCodeLine{\_PlaneColorRenderer.end();}
-\DoxyCodeLine{\_PlaneColorRenderer.renderBatch(\&glsl\_color);}
-\DoxyCodeLine{glsl\_color.unuse();}
-
-\end{DoxyCode}
- Repeat for each renderer (e.\+g. \+\_\+\+Line\+Renderer, \+\_\+\+Plane\+Model\+Renderer, \+\_\+\+Light\+Renderer) in your preferred draw order.
-
-{\ttfamily Not all \doxylink{classEntity}{Entity} Components can draw with all renderers (e.\+g. Sprite \doxylink{classComponent}{Component} is used to specifically draw for \doxylink{classPlaneModelRenderer}{Plane\+Model\+Renderer}). The draw function in the component indicates the renderers used\+: {\ttfamily void draw(size\+\_\+t v\+\_\+index,}{\ttfamily \doxylink{classPlaneModelRenderer}{Plane\+Model\+Renderer}}{\ttfamily \& batch, \doxylink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}\& window) \{ ... \} }}\hypertarget{index_autotoc_md10}{}\doxysubsection{\texorpdfstring{Custom Renderers}{Custom Renderers}}\label{index_autotoc_md10}
-Renderers in Taz\+Graph are grouped by the attributes they support, which directly affects the shaders they use. This design makes rendering highly memory-\/efficient, but each renderer is tailored for a specific use case.
-
-Each renderer sets a fixed number of per-\/vertex and per-\/instance attributes. For example, the {\ttfamily \doxylink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} expects shaders with the following layout\+:
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{layout\ (location\ =\ 0)\ in\ vec3\ aPos;\ //vertex\ Pos}
-\DoxyCodeLine{layout\ (location\ =\ 1)\ in\ vec3\ aNormal;\ //vertex\ Normal}
-\DoxyCodeLine{}
-\DoxyCodeLine{layout\ (location\ =\ 2)\ in\ vec3\ instanceSize;}
-\DoxyCodeLine{layout\ (location\ =\ 3)\ in\ vec3\ instanceBodyCenter;}
-\DoxyCodeLine{layout\ (location\ =\ 4)\ in\ vec3\ instanceRotation;}
-\DoxyCodeLine{layout\ (location\ =\ 5)\ in\ vec4\ instanceColor;}
-
-\end{DoxyCode}
- Your GLSL shader must match the expected attribute layout of the renderer you\textquotesingle{}re using.
-
-Currently, the engine includes the following specific renderers\+:
-\begin{DoxyItemize}
-\item {\ttfamily \doxylink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} – for flat-\/colored, instanced 3D planes
-\item {\ttfamily \doxylink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} – for textured plane instances
-\item {\ttfamily \doxylink{classLightRenderer}{Light\+Renderer}} – for planes with lighting and shading
-\item {\ttfamily \doxylink{classLineRenderer}{Line\+Renderer}} – for simple colored lines (typically used for links)
-\end{DoxyItemize}
-
-To create a new renderer -\/ for example, a {\bfseries{textured plane with shading}} -\/ you need to implement a new renderer class that matches the data layout and rendering logic required for that effect.
-
-In the following folder\+: {\ttfamily Taz\+Graph\+Engine/\+Renderers/\+Plane\+Renderers/\+Plane\+Lit\+Text\+Renderer} use one of the existing renderers as a base, then write glsl shader to match the renderer under {\ttfamily Taz\+Graph/\+Src/\+Shaders}, implement a {\ttfamily draw} function in a component that uses that renderer and then pass that renderer as argument for {\ttfamily render\+Batch} in {\ttfamily \doxylink{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893}{Graph\+::draw()}}.\hypertarget{index_autotoc_md11}{}\doxysubsection{\texorpdfstring{Graph Loaders (\+WIP)}{Graph Loaders (WIP)}}\label{index_autotoc_md11}
-Currently Taz\+Graph has the ability to process txt and python files with a specific format. Developers are able to implement their own processing of files, by creating more functions inside {\ttfamily Taz\+Graph/\+Src/\+Map}
+The architecture draws inspiration from game engines, using ECS for flexibility and batching techniques for performance.\hypertarget{index_autotoc_md13}{}\doxysection{\texorpdfstring{Developer Guide\+: $<$a href="{}https\+://mujingr.\+github.\+io/\+Taz\+Graph/html/dev\+\_\+guide.\+html"{} $>$\+Doxy\+Dev\+Guide$<$/a$>$}{Developer Guide: <a href="https://mujingr.github.io/TazGraph/html/dev\_guide.html" >DoxyDevGuide</a>}}\label{index_autotoc_md13}
+Full Documentation\+: \href{https://mujingr.github.io/TazGraph/html/index.html}{\texttt{ Doxy\+Document}} \textbackslash{} Or download the pdf documentation\+: \href{docs/latex/refman.pdf}{\texttt{ PDF Documentation}}
 
 \href{https://www.buymeacoffee.com/mujingr}{\texttt{ }} 

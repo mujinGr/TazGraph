@@ -10,7 +10,7 @@ var searchData=
   ['colorvertex_7',['ColorVertex',['../structColorVertex.html',1,'']]],
   ['component_8',['Component',['../classComponent.html',1,'']]],
   ['consolelogger_9',['ConsoleLogger',['../classTazGraphEngine_1_1ConsoleLogger.html',1,'TazGraphEngine']]],
-  ['core_20architecture_3a_10',['Core Architecture:',['../index.html#autotoc_md3',1,'']]],
-  ['custom_20renderers_11',['Custom Renderers',['../index.html#autotoc_md10',1,'']]],
+  ['core_20architecture_3a_10',['Core Architecture:',['../dev_guide.html#autotoc_md1',1,'']]],
+  ['custom_20renderers_11',['Custom Renderers',['../dev_guide.html#autotoc_md8',1,'']]],
   ['customfunctions_12',['CustomFunctions',['../classCustomFunctions.html',1,'']]]
 ];

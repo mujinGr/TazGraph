@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['page_0',['test page',['../My_test_page.html',1,'']]]
+  ['guide_0',['Developer Integration Guide',['../dev_guide.html',1,'']]]
 ];
