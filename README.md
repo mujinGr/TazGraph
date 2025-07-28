@@ -4,7 +4,7 @@
 
 TazGraph is a 3D graph editor and visualization tool built using C++, OpenGL, ImGui and SDL2. It provides interactive manipulation of nodes and edges with customizable rendering, ECS-based architecture, and multithreaded performance optimizations.
 
-**Documentation**: [Code Docs (Doxygen)](https://mujingr.github.io/TazGraph/html/index.html)
+[DoxyDocument](https://mujingr.github.io/TazGraph/html/index.html)
 
 ## Build Instructions
 create a build folder in root

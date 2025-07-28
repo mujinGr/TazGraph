@@ -60,59 +60,6 @@ void Map::ProcessFile(std::ifstream& mapFile, void (Map::* addNodeFunction)(Enti
 	std::string line;
 	std::getline(mapFile, line); // for first line
 
-	//std::string inputPath = "assets/Maps/test_medium_save.txt";
-	//std::ifstream file(inputPath);
-
-	//if (!file.is_open()) {
-	//	std::cerr << "Failed to open file for reading: " << inputPath << std::endl;
-	//	return;
-	//}
-
-	//std::vector<std::string> processedLines;
-	//std::string temp_line;
-
-	//int i_x = -2000;
-	//int g_y = -2000;
-
-	//while (std::getline(file, temp_line)) {
-	//	std::istringstream iss(temp_line);
-	//	int id, x, y;
-
-	//	if (!(iss >> id >> x >> y)) {
-	//		continue;
-	//	}
-
-	//	if (i_x < 4000) {
-	//		i_x += 100;
-	//	}
-	//	else {
-	//		i_x = -2000;
-	//		g_y += 100;
-	//	}
-
-	//	std::ostringstream oss;
-	//	oss << id << '\t' << i_x << '\t' << g_y;
-	//	processedLines.push_back(oss.str());
-	//}
-
-	//file.close();
-
-	//inputPath = "assets/Maps/test_medium.txt";
-
-	//// Write back to the same file
-	//std::ofstream outFile(inputPath);
-	//if (!outFile.is_open()) {
-	//	std::cerr << "Failed to open file for writing: " << inputPath << std::endl;
-	//	return;
-	//}
-
-	//for (const std::string& processedLine : processedLines) {
-	//	outFile << processedLine << '\n';
-	//}
-
-	//outFile.close();
-
-
 	glm::vec2 minPos(FLT_MAX);
 	glm::vec2 maxPos(FLT_MIN);
 	while (std::getline(mapFile, line) && !line.empty()) {
