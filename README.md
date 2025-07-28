@@ -18,7 +18,9 @@ Start by cloning the repository with
 `git clone --recursive https://carvgit.ics.forth.gr/kotsonas/tazgraph`
 
 In build/:
+\
 `cmake -DCMAKE_BUILD_TYPE=Release ..`
+\
 `make`
 
 in TazGraph/TazGraph/:
