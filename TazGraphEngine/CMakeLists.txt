@@ -80,6 +80,7 @@ set(Source_Files
     "../vendors/imgui/imgui_widgets.cpp"
     "../vendors/implot/implot.cpp"
     "../vendors/implot/implot_items.cpp"
+    "../vendors/ImGuizmo/ImGuizmo.cpp"
     "InputManager/InputManager.cpp"
     "PNG_Letters.cpp"
     "ResourceManager/ResourceManager.cpp"

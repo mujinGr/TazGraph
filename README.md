@@ -1,4 +1,4 @@
-# TazGraph
+# TazGraph (40.9 MB)
 
 ![Graph Scene Screenshot](TazGraph/assets/Sprites/readme-1.png)
 
@@ -140,7 +140,7 @@ To create a new renderer - for example, a **textured plane with shading** - you 
 
 In the following folder: `TazGraphEngine/Renderers/PlaneRenderers/PlaneLitTextRenderer` use one of the existing renderers as a base, then write glsl shader to match the renderer under `TazGraph/Src/Shaders`, implement a `draw` function in a component that uses that renderer and then pass that renderer as argument for `renderBatch` in `Graph::draw()`.
 
-### Graph Loaders
+### Graph Loaders (WIP)
 
 Currently TazGraph has the ability to process txt and python files with a specific format. Developers are able to implement their own processing of files, by creating more functions inside `TazGraph/Src/Map`
 
