@@ -2,7 +2,7 @@
 
 ![Graph Scene Screenshot](TazGraph/assets/Sprites/readme-1.png)
 
-TazGraph is a real-time, extensible 3D graph visualization and editing tool powered by a custom Entity-Component System (GECS) and OpenGL rendering.
+TazGraph is a modular, high-performance 3D graph editor built in C++ with OpenGL, designed for efficient visualization and interaction with large-scale graph data.
 
 
 ## Getting Started
@@ -36,11 +36,17 @@ In TazGraph/:
 
 ## Intro
 
-TazGraph was developed as part of a master's thesis to provide a performant and modular framework for interactive graph editing and exploration. It supports scene management, multithreaded rendering, and real-time updates, tailored for visual analysis, research, and rapid prototyping of graph algorithms.
+Originally developed to support HPC simulation workflows, TazGraph enables real-time rendering of over 10,000 nodes and 60,000 links on consumer-grade hardware. It provides a flexible and extensible interface for visualizing complex systems using intuitive node-link diagrams.
 
-Entities are grouped into custom groups (nodes, links, empty), and rendering is decoupled from logic using optimized renderer classes. Developers can extend the engine through custom loaders, renderers, and graph behaviors.
+TazGraph is powered by a custom Entity-Component System (ECS) inspired by game engines. Entities (nodes, links, or empty) are modular, scriptable, and dynamically composed at runtime. The system supports multi-threaded batching, instanced rendering, and a 3D interactive workspace with support for multiple graphs and statistical overlays.
 
-The architecture draws inspiration from game engines, using ECS for flexibility and batching techniques for performance.
+Unlike many existing graph tools that are either limited in scope or hard to extend, TazGraph offers a lightweight, cross-platform platform ideal for rapid prototyping, HPC monitoring, and deep structural analysis.
+
+#### Built with:
+- C++ & OpenGL
+- ImGui & ImPlot
+- Multithreaded ECS
+- Custom renderer batching pipeline
 
 
 ## Developer Guide: [DoxyDevGuide](https://mujingr.github.io/TazGraph/html/dev_guide.html)
