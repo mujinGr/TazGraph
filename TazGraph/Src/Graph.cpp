@@ -150,15 +150,9 @@ void Graph::onEntry()
 
 		manager->resetEntityId();
 
-		if (!DataManager::getInstance().mapToLoad.empty()) {
-			if (strstr(DataManager::getInstance().mapToLoad.c_str(), ".py") != nullptr) {
-				map->loadPythonMap(DataManager::getInstance().mapToLoad.c_str()); // Assuming loadPythonMap is a method for loading Python maps
-			}
-			else {
-				map->loadTextMap(DataManager::getInstance().mapToLoad.c_str());
-			}
-			DataManager::getInstance().mapToLoad = "";
-		}
+		map->loadMap(DataManager::getInstance().mapToLoad.c_str(),
+			std::bind(&Map::AddDefaultNode, map, std::placeholders::_1, std::placeholders::_2),
+			std::bind(&Map::AddDefaultLink, map, std::placeholders::_1));
 
 	}
 
@@ -1158,12 +1152,9 @@ void Graph::updateUI() {
 				auto& world_map(manager->addEntityNoId<Empty>());
 				_assetsManager->CreateWorldMap(world_map);
 
-				if (strstr(loadMapPath, ".py") != nullptr) {
-					map->loadPythonMap(loadMapPath); // Assuming loadPythonMap is a method for loading Python maps
-				}
-				else {
-					map->loadTextMap(loadMapPath);
-				}
+				map->loadMap(loadMapPath,
+					std::bind(&Map::AddDefaultNode, map, std::placeholders::_1, std::placeholders::_2),
+					std::bind(&Map::AddDefaultLink, map, std::placeholders::_1));
 			}
 		}
 	}

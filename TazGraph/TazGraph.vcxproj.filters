@@ -42,6 +42,12 @@
     <ClCompile Include="Src\EditorIMGUI\EditorLayoutUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Map\Parsers\PythonMapParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Map\Parsers\TextMapParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Graph.h">
@@ -72,6 +78,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\EditorIMGUI\EditorLayoutUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Map\Parsers\IMapParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Map\Parsers\TextMapParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Map\Parsers\PythonMapParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -172,6 +172,8 @@
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\MainMenuScreen\MainMenuScreen.cpp" />
     <ClCompile Include="Src\Map\Map.cpp" />
+    <ClCompile Include="Src\Map\Parsers\PythonMapParser.cpp" />
+    <ClCompile Include="Src\Map\Parsers\TextMapParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\App\App.h" />
@@ -183,7 +185,10 @@
     <ClInclude Include="Src\GECS\ScriptComponents.h" />
     <ClInclude Include="Src\Graph.h" />
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h" />
+    <ClInclude Include="Src\Map\Parsers\IMapParser.h" />
     <ClInclude Include="Src\Map\Map.h" />
+    <ClInclude Include="Src\Map\Parsers\PythonMapParser.h" />
+    <ClInclude Include="Src\Map\Parsers\TextMapParser.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TazGraphEngine\TazGraphEngine.vcxproj">

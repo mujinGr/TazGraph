@@ -54,7 +54,7 @@ Unlike many existing graph tools that are either limited in scope or hard to ext
 Full Documentation:
 [DoxyDocument](https://mujingr.github.io/TazGraph/html/index.html)
 \
-Or download the pdf documentation: [PDF Documentation](docs/latex/refman.pdf)
+Or download the pdf documentation: [PDF Documentation](https://github.com/mujinGr/TazGraph/blob/docs/docs/latex/refman.pdf)
 
 
 
