@@ -37,9 +37,6 @@ void PythonMapParser::parse(Manager& manager,
 #endif
 
 		addNodeFunc(node, position);
-
-		node.GetComponent<TransformComponent>().temp_lineParsed = nodeId;
-
 	}
 	auto& links = rootFromFile.obj["graph"].obj["edges"];
 	for (auto& linkEntry : links.arr) {
@@ -49,9 +46,6 @@ void PythonMapParser::parse(Manager& manager,
 
 		auto& link = manager.addEntity<Link>(fromID, toID);
 		addLinkFunc(link);
-
-		link.GetComponent<Line_w_Color>().temp_lineParsed = std::to_string(fromID) + " - " + std::to_string(toID);
-
 	}
 
 

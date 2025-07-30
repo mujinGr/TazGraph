@@ -60,7 +60,8 @@ void Map::saveMapAsText(const char* fileName) {
 void Map::loadMap(
 	const char* fileName,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
-	std::function<void(Entity&)> addLinkFunc
+	std::function<void(Entity&)> addLinkFunc,
+	Threader* m_threadPool
 ) {
 	std::string text = "assets/Maps/" + std::string(fileName);
 	std::ifstream file(text);
@@ -80,6 +81,8 @@ void Map::loadMap(
 
 	manager->removeAllEntites();
 
+	processor->setThreader(*m_threadPool);
+
 	processor->parse(*manager, addNodeFunc, addLinkFunc);
 
 	file.close();
@@ -96,9 +99,6 @@ void Map::AddDefaultNode(Entity &node, glm::vec3 mPosition)
 	node.GetComponent<Rectangle_w_Color>().setColor(Color(0, colorOffset, 224, 255));
 
 	node.addComponent<RectangleFlashAnimatorComponent>();
-
-
-	node.addGroup(Manager::groupNodes_0);
 }
 
 void Map::AddTreeNode(Entity& node, glm::vec3 mPosition)
@@ -113,8 +113,6 @@ void Map::AddTreeNode(Entity& node, glm::vec3 mPosition)
 
 	node.addComponent<RectangleFlashAnimatorComponent>();
 	node.addComponent<PollingComponent>();
-
-	node.addGroup(Manager::groupNodes_0);
 }
 
 void Map::AddDefaultLink(Entity& link)
@@ -125,8 +123,6 @@ void Map::AddDefaultLink(Entity& link)
 	link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
 
 	link.addComponent<LineFlashAnimatorComponent>();
-
-	link.addGroup(Manager::groupLinks_0);
 }
 
 void Map::AddTreeLink(Entity& link)
@@ -137,6 +133,4 @@ void Map::AddTreeLink(Entity& link)
 	link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
 
 	link.addComponent<LineFlashAnimatorComponent>();
-
-	link.addGroup(Manager::groupLinks_0);
 }

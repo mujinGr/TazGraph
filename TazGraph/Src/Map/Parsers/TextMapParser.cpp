@@ -9,43 +9,113 @@ void TextMapParser::parse(Manager& manager,
 	std::string line;
 	std::getline(file, line); // for first line
 
-	glm::vec2 minPos(FLT_MAX);
-	glm::vec2 maxPos(FLT_MIN);
+	std::vector<std::string> nodeLines;
 	while (std::getline(file, line) && !line.empty()) {
-		std::istringstream nodeLine(line);
-		int id;
-		float x, y, z;
-
-		nodeLine >> id;
-		nodeLine >> x >> y >> z;
-
-#if defined(_WIN32) || defined(_WIN64)
-		minPos.x = std::min(minPos.x, x);
-		minPos.y = std::min(minPos.y, y);
-		maxPos.x = std::max(maxPos.x, x);
-		maxPos.y = std::max(maxPos.y, y);
-#else
-		minPos.x = std::min(minPos.x, x);
-		minPos.y = std::min(minPos.y, y);
-		maxPos.x = std::max(maxPos.x, x);
-		maxPos.y = std::max(maxPos.y, y);
-#endif
-		auto& node(manager.addEntity<Node>());
-		addNodeFunc(node, glm::vec3(x, y, z));
-
-		node.GetComponent<TransformComponent>().temp_lineParsed = line;
+		nodeLines.push_back(line);
 	}
 
-	std::getline(file, line);
+	std::getline(file, line); // skip middle line
 
+	// Read links
+	std::vector<std::string> linkLines;
 	while (std::getline(file, line)) {
-		std::istringstream linkLine(line);
-		unsigned int id, fromNodeId, toNodeId;
+		linkLines.push_back(line);
+	}
 
-		linkLine >> id >> fromNodeId >> toNodeId;
+	std::vector<ParsedNode> parsedNodes(nodeLines.size());
 
-		auto& link(manager.addEntity<Link>(fromNodeId, toNodeId));
-		addLinkFunc(link);
+	struct MinMax {
+		glm::vec2 min;
+		glm::vec2 max;
+	};
+
+	std::vector<MinMax> localExtremes(_threader->num_threads);
+
+	glm::vec2 minPos(FLT_MAX);
+	glm::vec2 maxPos(FLT_MIN);
+
+	if (_threader) {
+		_threader->parallel(nodeLines.size(), [&](int start, int end) {
+			glm::vec2 local_minPos(FLT_MAX);
+			glm::vec2 local_maxPos(FLT_MIN);
+
+			for (int i = start; i < end; i++) {
+				std::istringstream nodeLine(nodeLines[i]);
+				int id;
+				float x, y, z;
+				nodeLine >> id >> x >> y >> z;
+
+				parsedNodes[i] = { id, glm::vec3(x, y, z)};
+
+				// Update local min/max
+				local_minPos.x = std::min(local_minPos.x, x);
+				local_minPos.y = std::min(local_minPos.y, y);
+				local_maxPos.x = std::max(local_maxPos.x, x);
+				local_maxPos.y = std::max(local_maxPos.y, y);
+			}
+			int threadID = (start * _threader->num_threads) / nodeLines.size();
+			localExtremes[threadID] = { local_minPos, local_maxPos };
+		});
+	}
+
+	for (const auto& mm : localExtremes) {
+		minPos.x = std::min(minPos.x, mm.min.x);
+		minPos.y = std::min(minPos.y, mm.min.y);
+		maxPos.x = std::max(maxPos.x, mm.max.x);
+		maxPos.y = std::max(maxPos.y, mm.max.y);
+	}
+
+	std::vector<ParsedLink> parsedLinks(linkLines.size());
+
+	if (_threader) {
+		_threader->parallel(linkLines.size(), [&](int start, int end) {
+			for (int i = start; i < end; i++) {
+				std::istringstream linkLine(linkLines[i]);
+				int id, fromNodeId, toNodeId;
+				linkLine >> id >> fromNodeId >> toNodeId;
+
+				parsedLinks[i] = { id, fromNodeId, toNodeId };
+			}
+		});
+	}
+
+	std::vector<Entity*> nodeEntities;
+	nodeEntities.reserve(parsedNodes.size());
+
+	for (const auto& parsedNode : parsedNodes) {
+		auto& node(manager.addEntity<Node>());
+
+		node.addGroup(Manager::groupNodes_0);
+
+		//addNodeFunc(node, glm::vec3(x, y, z));
+		nodeEntities.push_back(&node);
+	}
+
+	if (_threader) {
+		_threader->parallel(nodeEntities.size(), [&](int start, int end) {
+			for (int i = start; i < end; i++) {
+				addNodeFunc(*nodeEntities[i], parsedNodes[i].pos);
+			}
+		});
+	}
+
+	std::vector<Entity*> linkEntities;
+	linkEntities.reserve(parsedLinks.size());
+
+	for (const auto& parsedLink : parsedLinks) {
+		auto& link = manager.addEntity<Link>(parsedLink.fromId, parsedLink.toId);
+		
+		link.addGroup(Manager::groupLinks_0);
+
+		linkEntities.push_back(&link);
+	}
+
+	if (_threader) {
+		_threader->parallel(linkEntities.size(), [&](int start, int end) {
+			for (int i = start; i < end; i++) {
+				addLinkFunc(*linkEntities[i]);
+			}
+			});
 	}
 
 	float width = maxPos.x - minPos.x;

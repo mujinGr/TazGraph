@@ -25,7 +25,9 @@ public:
 	void loadMap(
 		const char* fileName,
 		std::function<void(Entity&, glm::vec3)> addNodeFunc,
-		std::function<void(Entity&)> addLinkFunc);
+		std::function<void(Entity&)> addLinkFunc,
+		Threader* m_threadPool
+	);
 
 	void AddDefaultNode(Entity& node, glm::vec3 mPosition);
 	void AddTreeNode(Entity& node, glm::vec3 mPosition);

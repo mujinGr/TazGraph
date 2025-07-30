@@ -150,9 +150,12 @@ void Graph::onEntry()
 
 		manager->resetEntityId();
 
-		map->loadMap(DataManager::getInstance().mapToLoad.c_str(),
+		map->loadMap(
+			DataManager::getInstance().mapToLoad.c_str(),
 			std::bind(&Map::AddDefaultNode, map, std::placeholders::_1, std::placeholders::_2),
-			std::bind(&Map::AddDefaultLink, map, std::placeholders::_1));
+			std::bind(&Map::AddDefaultLink, map, std::placeholders::_1),
+			&_app->threadPool
+		);
 
 	}
 
@@ -1152,9 +1155,12 @@ void Graph::updateUI() {
 				auto& world_map(manager->addEntityNoId<Empty>());
 				_assetsManager->CreateWorldMap(world_map);
 
-				map->loadMap(loadMapPath,
+				map->loadMap(
+					loadMapPath,
 					std::bind(&Map::AddDefaultNode, map, std::placeholders::_1, std::placeholders::_2),
-					std::bind(&Map::AddDefaultLink, map, std::placeholders::_1));
+					std::bind(&Map::AddDefaultLink, map, std::placeholders::_1),
+					&_app->threadPool
+				);
 			}
 		}
 	}
