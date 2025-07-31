@@ -48,6 +48,12 @@
     <ClCompile Include="Src\Map\Parsers\TextMapParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Map\Parsers\GraphMLMapParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Map\Parsers\DOTMapParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Graph.h">
@@ -87,6 +93,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Map\Parsers\PythonMapParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Map\Parsers\GraphMLMapParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Map\Parsers\DOTMapParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

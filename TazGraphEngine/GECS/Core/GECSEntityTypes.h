@@ -255,6 +255,17 @@ public:
 		toId = to->getId();
 	}
 
+	Link(Manager& mManager, 
+		unsigned int mfromId, unsigned int mtoId,
+		NodeEntity* mfrom, NodeEntity* mto
+	)
+		: LinkEntity(mManager,
+			mfromId, mtoId,
+			mfrom, mto)
+	{
+
+	}
+
 	void addGroup(Group mGroup) override {
 		Entity::addGroup(mGroup);
 		manager.AddLinkToGroup(this, mGroup);

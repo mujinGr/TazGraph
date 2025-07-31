@@ -110,6 +110,14 @@ public:
 		: MultiCellEntity(mManager), from(mfrom), to(mto) {
 	}
 
+	LinkEntity(Manager& mManager, 
+		unsigned int mfromId, unsigned int mtoId,
+		NodeEntity* mfrom, NodeEntity* mto)
+		: MultiCellEntity(mManager), 
+		fromId(mfromId), toId(mtoId), 
+		from(mfrom), to(mto) {
+	}
+
 	void setComponentEntity(LinkComponent* c) override {
 		c->entity = this;
 	}

@@ -17,6 +17,14 @@ struct ParsedLink {
 	int fromId, toId;
 };
 
+struct DetailParsedLink {
+	int id;
+	int fromId, toId;
+	NodeEntity* from = nullptr;
+	NodeEntity* to = nullptr;
+};
+
+
 class IMapParser {
 public:
 	virtual ~IMapParser() = default;

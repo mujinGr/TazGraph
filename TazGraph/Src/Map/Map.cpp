@@ -84,7 +84,6 @@ void Map::loadMap(
 	processor->setThreader(*m_threadPool);
 
 	processor->parse(*manager, addNodeFunc, addLinkFunc);
-
 	file.close();
 }
 

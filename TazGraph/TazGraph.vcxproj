@@ -172,6 +172,8 @@
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\MainMenuScreen\MainMenuScreen.cpp" />
     <ClCompile Include="Src\Map\Map.cpp" />
+    <ClCompile Include="Src\Map\Parsers\DOTMapParser.cpp" />
+    <ClCompile Include="Src\Map\Parsers\GraphMLMapParser.cpp" />
     <ClCompile Include="Src\Map\Parsers\PythonMapParser.cpp" />
     <ClCompile Include="Src\Map\Parsers\TextMapParser.cpp" />
   </ItemGroup>
@@ -185,6 +187,8 @@
     <ClInclude Include="Src\GECS\ScriptComponents.h" />
     <ClInclude Include="Src\Graph.h" />
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h" />
+    <ClInclude Include="Src\Map\Parsers\DOTMapParser.h" />
+    <ClInclude Include="Src\Map\Parsers\GraphMLMapParser.h" />
     <ClInclude Include="Src\Map\Parsers\IMapParser.h" />
     <ClInclude Include="Src\Map\Map.h" />
     <ClInclude Include="Src\Map\Parsers\PythonMapParser.h" />
