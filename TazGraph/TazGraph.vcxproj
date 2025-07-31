@@ -102,7 +102,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -117,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,7 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(IncludePath)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -152,7 +152,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

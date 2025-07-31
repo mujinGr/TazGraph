@@ -5,6 +5,8 @@
 #include <ctime>
 
 #include "JsonParser/JsonParser.h"
+#include <tinyxml2.h>
+
 #include "GECS/Core/GECSEntityTypes.h"
 
 struct ParsedNode {
@@ -28,9 +30,16 @@ struct DetailParsedLink {
 class IMapParser {
 public:
 	virtual ~IMapParser() = default;
-	virtual void parse(Manager& manager,
+
+	virtual void readFile(std::string m_fileName) = 0;
+
+	virtual void parse(
+		Manager& manager,
 		std::function<void(Entity&, glm::vec3)> addNodeFunc,
 		std::function<void(Entity&)> addLinkFunc) = 0;
+
+	virtual void closeFile() = 0;
+
 
 	Threader* _threader = nullptr;
 

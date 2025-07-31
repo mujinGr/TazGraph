@@ -1,7 +1,20 @@
 #include "./PythonMapParser.h"
 
 
-PythonMapParser::PythonMapParser(std::ifstream& file) : file(file) {}
+PythonMapParser::PythonMapParser() {}
+
+void PythonMapParser::readFile(std::string m_fileName) {
+	file.open(m_fileName);
+
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file for reading: " << m_fileName << std::endl;
+		return;
+	}
+}
+
+void PythonMapParser::closeFile() {
+	file.close();
+}
 
 void PythonMapParser::parse(Manager& manager,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,

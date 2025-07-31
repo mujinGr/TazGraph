@@ -64,27 +64,29 @@ void Map::loadMap(
 	Threader* m_threadPool
 ) {
 	std::string text = "assets/Maps/" + std::string(fileName);
-	std::ifstream file(text);
-
-	if (!file.is_open()) {
-		std::cerr << "Failed to open file for writing: " << text << std::endl;
-		return;
-	}
 
 	std::unique_ptr<IMapParser> processor;
 	if (text.find(".py") != std::string::npos) {
-		processor = std::make_unique<PythonMapParser>(file);
+		processor = std::make_unique<PythonMapParser>();
+	}
+	else if (text.find(".graphml") != std::string::npos) {
+		processor = std::make_unique<GraphMLMapParser>();
+	}
+	else if (text.find(".dot") != std::string::npos) {
+		processor = std::make_unique<DOTMapParser>();
 	}
 	else {
-		processor = std::make_unique<TextMapParser>(file);
+		processor = std::make_unique<TextMapParser>();
 	}
 
 	manager->removeAllEntites();
 
 	processor->setThreader(*m_threadPool);
 
+	processor->readFile(text);
 	processor->parse(*manager, addNodeFunc, addLinkFunc);
-	file.close();
+	processor->closeFile();
+
 }
 
 void Map::AddDefaultNode(Entity &node, glm::vec3 mPosition)

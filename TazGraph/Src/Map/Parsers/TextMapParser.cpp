@@ -1,6 +1,19 @@
 #include "./TextMapParser.h"
 
-TextMapParser::TextMapParser(std::ifstream& file) : file(file) {}
+TextMapParser::TextMapParser() {}
+
+void TextMapParser::readFile(std::string m_fileName) {
+	file.open(m_fileName);
+
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file for reading: " << m_fileName << std::endl;
+		return;
+	}
+}
+
+void TextMapParser::closeFile() {
+	file.close();
+}
 
 void TextMapParser::parse(Manager& manager,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,

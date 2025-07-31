@@ -1,6 +1,15 @@
 #include "./DOTMapParser.h"
 
-DOTMapParser::DOTMapParser(std::ifstream& file) : file(file) {}
+DOTMapParser::DOTMapParser() {}
+
+void DOTMapParser::readFile(std::string m_fileName) {
+	file.open(m_fileName);
+
+}
+
+void DOTMapParser::closeFile() {
+	file.close();
+}
 
 void DOTMapParser::parse(Manager& manager,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,

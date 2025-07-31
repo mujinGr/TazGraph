@@ -8,6 +8,8 @@
 
 #include "./Parsers/TextMapParser.h"
 #include "./Parsers/PythonMapParser.h"
+#include "./Parsers/GraphMLMapParser.h"
+#include "./Parsers/DOTMapParser.h"
 
 #include <algorithm>
 #include <random>
