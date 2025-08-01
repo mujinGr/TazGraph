@@ -24,7 +24,7 @@
     </node>
 
     <!-- Edges -->
-    <edge id="e0" source="0" target="1"/>
-    <edge id="e1" source="1" target="2"/>
+    <edge id="3" source="0" target="1"/>
+    <edge id="4" source="1" target="2"/>
   </graph>
 </graphml>

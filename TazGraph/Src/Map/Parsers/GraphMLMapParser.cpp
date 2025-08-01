@@ -3,7 +3,7 @@
 GraphMLMapParser::GraphMLMapParser() {}
 
 void GraphMLMapParser::readFile(std::string m_fileName) {
-	file = doc.LoadFile("assets/Maps/map.graphml");
+	file = doc.LoadFile(m_fileName.c_str());
 
 	if (file != tinyxml2::XML_SUCCESS) {
 		std::cerr << "Error loading GraphML file: " << doc.ErrorStr() << std::endl;
@@ -21,7 +21,7 @@ void GraphMLMapParser::parse(Manager& manager,
 {
 
 	// Store node positions for later edge processing
-	std::unordered_map<std::string, glm::vec3> nodePositions;
+	std::vector<glm::vec3> nodePositions;
 
 	// 1. Parse nodes
 	tinyxml2::XMLElement* graph = doc.FirstChildElement("graphml")->FirstChildElement("graph");
@@ -29,10 +29,10 @@ void GraphMLMapParser::parse(Manager& manager,
 		node != nullptr;
 		node = node->NextSiblingElement("node"))
 	{
-		const char* id = node->Attribute("id");
+		int id = std::stoi(node->Attribute("id"));
 
 		// Extract position from data (assuming x,y,z properties)
-		float x = 0, y = 0, z = 0;
+		float x = 0, y = 0;
 		for (tinyxml2::XMLElement* data = node->FirstChildElement("data");
 			data != nullptr;
 			data = data->NextSiblingElement("data"))
@@ -40,15 +40,18 @@ void GraphMLMapParser::parse(Manager& manager,
 			const char* key = data->Attribute("key");
 			if (strcmp(key, "x") == 0) x = std::stof(data->GetText());
 			else if (strcmp(key, "y") == 0) y = std::stof(data->GetText());
-			else if (strcmp(key, "z") == 0) z = std::stof(data->GetText());
 		}
 
 		// Create node entity
 		auto& entity = manager.addEntity<Node>();
-		glm::vec3 position(x, y, z);
+
+		entity.addGroup(Manager::groupNodes_0);
+
+		glm::vec3 position(x, y, 0);
 		addNodeFunc(entity, position);
 
 		// Store position for edge processing
+		nodePositions.resize(nodePositions.size() + 1);
 		nodePositions[id] = position;
 	}
 
@@ -57,11 +60,14 @@ void GraphMLMapParser::parse(Manager& manager,
 		edge != nullptr;
 		edge = edge->NextSiblingElement("edge"))
 	{
-		const char* sourceId = edge->Attribute("source");
-		const char* targetId = edge->Attribute("target");
+		int sourceId = std::stoi(edge->Attribute("source"));
+		int targetId = std::stoi(edge->Attribute("target"));
 
 		// Create link entity (assuming you have a way to reference nodes by ID)
-		auto& link = manager.addEntity<Link>();
+		auto& link = manager.addEntity<Link>(sourceId, targetId);
+
+		link.addGroup(Manager::groupLinks_0);
+
 		addLinkFunc(link);
 
 		// Optional: Set edge properties

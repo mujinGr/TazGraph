@@ -13,3 +13,6 @@
 [submodule "vendors/tinyxml2"]
 	path = vendors/tinyxml2
 	url = https://github.com/leethomason/tinyxml2
+[submodule "vendors/JSONParser_Mujin"]
+	path = vendors/JSONParser_Mujin
+	url = https://github.com/mujinGr/JSONParser_Mujin.git

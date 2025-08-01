@@ -4,7 +4,7 @@
 #include <random>
 #include <ctime>
 
-#include "JsonParser/JsonParser.h"
+#include <JsonParser.h>
 #include <tinyxml2.h>
 
 #include "GECS/Core/GECSEntityTypes.h"

@@ -42,7 +42,8 @@ void TextMapParser::parse(Manager& manager,
 		glm::vec2 max;
 	};
 
-	std::vector<MinMax> localExtremes(_threader->num_threads);
+	std::vector<MinMax> localExtremes(_threader->num_threads, 
+		{ glm::vec2(FLT_MAX), glm::vec2(FLT_MIN) });
 
 	glm::vec2 minPos(FLT_MAX);
 	glm::vec2 maxPos(FLT_MIN);
@@ -55,10 +56,10 @@ void TextMapParser::parse(Manager& manager,
 			for (int i = start; i < end; i++) {
 				std::istringstream nodeLine(nodeLines[i]);
 				int id;
-				float x, y, z;
-				nodeLine >> id >> x >> y >> z;
+				float x, y;
+				nodeLine >> id >> x >> y;
 
-				parsedNodes[i] = { id, glm::vec3(x, y, z)};
+				parsedNodes[i] = { id, glm::vec3(x, y, 0)};
 
 				// Update local min/max
 				local_minPos.x = std::min(local_minPos.x, x);

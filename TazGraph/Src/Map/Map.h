@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "JsonParser/JsonParser.h"
+#include <JsonParser.h>
 #include "GECS/Core/GECSEntityTypes.h"
 
 #include "./Parsers/TextMapParser.h"
