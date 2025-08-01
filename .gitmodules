@@ -16,3 +16,6 @@
 [submodule "vendors/JSONParser_Mujin"]
 	path = vendors/JSONParser_Mujin
 	url = https://github.com/mujinGr/JSONParser_Mujin.git
+[submodule "vendors/DotParser"]
+	path = vendors/DotParser
+	url = https://github.com/mujinGr/DotParser.git

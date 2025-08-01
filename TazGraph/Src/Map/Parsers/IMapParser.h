@@ -4,8 +4,9 @@
 #include <random>
 #include <ctime>
 
-#include <JsonParser.h>
-#include <tinyxml2.h>
+#include <JsonParser.h> //for json
+#include <tinyxml2.h> // for graphml
+#include <DotParser.h> // for dot/graphviz
 
 #include "GECS/Core/GECSEntityTypes.h"
 

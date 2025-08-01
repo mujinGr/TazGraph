@@ -101,7 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,7 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/JSONParser_Mujin/include;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(SolutionDir)vendors/JSONParser_Mujin/include;$(IncludePath)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -151,7 +151,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -191,6 +191,7 @@
     <ClCompile Include="..\vendors\implot\implot_items.cpp" />
     <ClCompile Include="..\vendors\ImGuizmo\ImGuizmo.cpp" />
     <ClCompile Include="..\vendors\tinyxml2\tinyxml2.cpp" />
+    <ClCompile Include="..\vendors\DotParser\DotParser\DotParser.cpp" />
     <ClCompile Include="InputManager\InputManager.cpp" />
     <ClCompile Include="PNG_Letters.cpp" />
     <ClCompile Include="Renderers\PlaneRenderers\PlaneColorRenderer\PlaneColorRenderer.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="Camera2.5D\ICamera.h" />
     <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="DataManager\DataManager.h" />
+    <ClInclude Include="DorParser\DotParser.h" />
     <ClInclude Include="GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h" />
     <ClInclude Include="GECS\Animators\RectangleAnimators\RectangleFlashAnimatorComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\BoxComponent.h" />
