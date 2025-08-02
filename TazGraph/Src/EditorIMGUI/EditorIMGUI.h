@@ -10,6 +10,8 @@
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
 
 #include "CustomFunctions/CustomFunctions.h"
+#include "Minimap/Minimap.h"
+
 #include "./EditorLayoutUtils.h"
 
 namespace fs = std::filesystem;
@@ -31,6 +33,7 @@ private:
 	bool _goingBack = false;
 
 	CustomFunctions _customFunctions;
+	Minimap _minimap;
 
 	// Note: Switch this to true to enable dockspace
 	bool _dockingEnabled = true;

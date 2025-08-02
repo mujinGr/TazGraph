@@ -340,15 +340,26 @@ public:
 		return pointOnRay;
 	}
 
+	void setViewMatrix(glm::mat4 newViewMatrix) {
+		_viewMatrix = newViewMatrix;
+		_cameraChange = true;
+
+	}
+
 	glm::mat4 getViewMatrix() {
 		return _viewMatrix;
 	}
 
-	glm::mat4 getProjMatrix() {
-		return _viewMatrix;
+	void setProjMatrix(glm::mat4 newProjMatrix) {
+		_projectionMatrix = newProjMatrix;
+		_cameraChange = true;
+
 	}
 
-private:
+	glm::mat4 getProjMatrix() {
+		return _projectionMatrix;
+	}
+
 	int _screenWidth, _screenHeight;
 	float _minScale = 0.1f, _maxScale = 5.0f;
 	float _scale; // decreases when zoom-out
