@@ -15,6 +15,8 @@ public:
 	glm::vec3 upDir{0,-1,0};
 	float zFar = 1000000.0f;
 
+	glm::vec3 panningAimPos{ 0,0,0 };
+
 	ViewMode currentViewMode = ViewMode::Y_UP;
 
 	PerspectiveCamera() : _position(0.0f, 0.0f),
@@ -169,7 +171,7 @@ public:
 
 	void moveAimPos(glm::vec3 startingAimPos, const glm::vec2 distance) {
 		aimPos = startingAimPos;
-		const float sensitivity = 0.0001f;
+		const float sensitivity = 0.005f;
 
 		float yaw = distance.x * sensitivity;  
 		float pitch = distance.y * sensitivity;
@@ -202,6 +204,14 @@ public:
 
 	glm::vec3 getAimPos() {
 		return aimPos;
+	}
+
+	void setPanningAimPos(const glm::vec3 newAimPos) {
+		panningAimPos = newAimPos;
+	}
+
+	glm::vec3 getPanningAimPos() {
+		return panningAimPos;
 	}
 
 	void setScale(float newScale) override {

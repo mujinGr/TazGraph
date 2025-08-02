@@ -974,8 +974,8 @@ void Graph::checkInput() {
 
 			if (_app->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
 				// Calculate new camera position based on the mouse movement
-				glm::vec3 delta = glm::vec3(_app->_inputManager.calculatePanningDelta(mouseCoordsVec ),0.0f);
-				main_camera2D->moveAimPos(main_camera2D->getAimPos(), delta);
+				glm::vec3 delta = glm::vec3(_app->_inputManager.calculatePanningDelta(mouseCoordsVec ), 0.0f);
+				main_camera2D->moveAimPos(main_camera2D->getPanningAimPos(), delta);
 			}
 		}
 		case SDL_MOUSEBUTTONDOWN:
@@ -1008,6 +1008,7 @@ void Graph::checkInput() {
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
 				_app->_inputManager.setPanningPoint(mouseCoordsVec);
+				main_camera2D->setPanningAimPos(main_camera2D->getAimPos());
 			}
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
 				std::cout << "right-clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
