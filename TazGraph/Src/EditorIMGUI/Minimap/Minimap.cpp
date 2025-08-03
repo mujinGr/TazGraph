@@ -60,10 +60,7 @@ void Minimap::DrawMinimapObjects(Manager& manager, ImVec2 minimapPos, float mini
     // Example: Draw some objects on the minimap
     // You would replace this with your actual scene objects
     std::vector<glm::vec3> objectPositions = {
-        glm::vec3(10.0f, 0.0f, 10.0f),
-        glm::vec3(-15.0f, 0.0f, 5.0f),
-        glm::vec3(0.0f, 20.0f, -20.0f),
-        glm::vec3(25.0f, 0.0f, -10.0f)
+        glm::vec3(0.0f, 0.0f, 10.0f),
     };
 
     auto& nodes = manager.getGroup<NodeEntity>(Manager::groupNodes_0);
@@ -83,6 +80,24 @@ void Minimap::DrawMinimapObjects(Manager& manager, ImVec2 minimapPos, float mini
             // Draw object as a small circle
             drawList->AddCircleFilled(screenPos, 3.0f, IM_COL32(0, 255, 0, 255), 8);
             drawList->AddCircle(screenPos, 3.0f, IM_COL32(0, 150, 0, 255), 8, 1.0f);
+        }
+    }
+
+    for (auto& node : objectPositions) {
+        // Transform world position to minimap screen coordinates
+        glm::vec4 clipPos = minimapProj * minimapView * glm::vec4(node, 1.0f);
+        if (clipPos.w > 0) {
+            glm::vec2 ndcPos = glm::vec2(clipPos.x / clipPos.w, clipPos.y / clipPos.w);
+
+            // Convert NDC to screen coordinates
+            ImVec2 screenPos = ImVec2(
+                minimapPos.x + (ndcPos.x * 0.5f + 0.5f) * minimapSize,
+                minimapPos.y + (-ndcPos.y * 0.5f + 0.5f) * minimapSize
+            );
+
+            // Draw object as a small circle
+            drawList->AddCircleFilled(screenPos, 3.0f, IM_COL32(255, 0, 0, 255), 8);
+            drawList->AddCircle(screenPos, 3.0f, IM_COL32(255, 0, 0, 255), 8, 1.0f);
         }
     }
 }

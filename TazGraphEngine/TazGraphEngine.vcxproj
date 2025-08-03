@@ -167,6 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioEngine\AudioEngine.cpp" />
+    <ClCompile Include="Camera2.5D\ICamera.cpp" />
     <ClCompile Include="Camera2.5D\OrthoCamera.h" />
     <ClCompile Include="GECS\Core\GECSManager.cpp" />
     <ClCompile Include="Renderers\FrameBuffer\Framebuffer.cpp" />

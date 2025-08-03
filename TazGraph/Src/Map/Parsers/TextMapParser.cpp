@@ -149,8 +149,11 @@ void TextMapParser::parse(Manager& manager,
 	}
 
 	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
-	minimap_camera2D->setPosition_X((maxPos.x + minPos.x) / 2.0f);
-	minimap_camera2D->setPosition_Y((maxPos.y + minPos.y) / 2.0f);
+	minimap_camera2D->setPosition_X(0.0f);
+	minimap_camera2D->setPosition_Y(0.0f);
+
+	//glm::mat4 newProjection = glm::ortho(0.0f, 2 * maxDistance, 0.0f,-2 * maxDistance);
+	//minimap_camera2D->setProjMatrix(newProjection);
 	//! Set camera based on map loaded
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
@@ -175,5 +178,5 @@ void TextMapParser::parse(Manager& manager,
 	minimap_camera2D->setPosition_Z(-requiredZ);
 
 	main_camera2D->setAimPos(glm::vec3(main_camera2D->eyePos.x, main_camera2D->eyePos.y, main_camera2D->eyePos.z + 1.0f));
-	//minimap_camera2D->setAimPos(glm::vec3(main_camera2D->eyePos.x, main_camera2D->eyePos.y, main_camera2D->eyePos.z + 1.0f));
+	minimap_camera2D->setAimPos(glm::vec3(0.0f));
 }

@@ -81,8 +81,8 @@ void Graph::onEntry()
 	hud_camera2D->init();
 	minimap_camera2D->init();
 
-	hud_camera2D->setPosition_X(main_camera2D->getPosition().x);
-	hud_camera2D->setPosition_Y(main_camera2D->getPosition().y);
+	minimap_camera2D->setPosition_X(main_camera2D->getPosition().x);
+	minimap_camera2D->setPosition_Y(main_camera2D->getPosition().y);
 
 	AnimatorManager& animManager = AnimatorManager::getInstance();
 	animManager.InitializeAnimators();
@@ -755,11 +755,13 @@ void Graph::checkInput() {
 			{
 				// Scrolling up
 				main_camera2D->movePosition_Forward(CELL_SIZE);
+				minimap_camera2D->movePosition_Forward(CELL_SIZE);
 			}
 			else if (evnt.wheel.y < 0)
 			{
 				// Scrolling down
 				main_camera2D->movePosition_Forward(-CELL_SIZE);
+				minimap_camera2D->movePosition_Forward(-CELL_SIZE);
 			}
 			break;
 		case SDL_KEYDOWN:
@@ -781,6 +783,7 @@ void Graph::checkInput() {
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_r)) {
 				main_camera2D->movePosition_Forward(-manager->grid->getCellSize());
+				minimap_camera2D->movePosition_Forward(-manager->grid->getCellSize());
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_w)) {
 				main_camera2D->movePosition_Vert(manager->grid->getCellSize() + 10.0f);
@@ -794,9 +797,11 @@ void Graph::checkInput() {
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_a)) {
 				main_camera2D->movePosition_Hor(-manager->grid->getCellSize() - 10.0f);
+				minimap_camera2D->movePosition_Hor(-manager->grid->getCellSize() - 1.0f);
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_d)) {
 				main_camera2D->movePosition_Hor(manager->grid->getCellSize() + 10.0f);
+				minimap_camera2D->movePosition_Hor(manager->grid->getCellSize() + 1.0f);
 			}
 		
 		case SDL_MOUSEMOTION:

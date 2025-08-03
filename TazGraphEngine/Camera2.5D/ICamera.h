@@ -13,6 +13,15 @@ enum class ViewMode {
 
 class ICamera {
 public:
+	int _screenWidth = 800, _screenHeight = 640;
+
+    glm::vec3 eyePos{ 0,0,0 };
+    glm::vec3 aimPos{ 0,0,0 };
+    glm::vec3 upDir{ 0,-1,0 };
+    float zFar = 1000000.0f;
+
+    ViewMode currentViewMode = ViewMode::Y_UP;
+
     virtual ~ICamera() = default;
 
     // Initializes the camera2D.worldLocation with the screen's width and height
@@ -40,8 +49,34 @@ public:
     virtual glm::mat4 getCameraMatrix() const = 0;
     virtual void setScale(float scale) = 0;
 
-    virtual	bool isPointInCameraView(const glm::vec4 point, float margin) = 0;
     virtual void makeCameraDirty() = 0;
     virtual bool hasChanged() = 0;
     virtual void refreshCamera() = 0;
+
+    void updateCameraOrientation();
+
+    void setOrientation(glm::vec3 eye, glm::vec3 target, glm::vec3 up);
+
+	bool isPointInCameraView(const glm::vec4 point, float margin);
+
+	// Function to cast a ray from screen coordinates into world space
+    glm::vec3 castRayAt(const glm::vec2& screenPos);
+
+    glm::vec3 getPointOnRayAtZ(const glm::vec3& rayOrigin, const glm::vec3& rayDirection, float desiredZ);
+
+    void setViewMatrix(glm::mat4 newViewMatrix);
+
+    glm::mat4 getViewMatrix();
+
+    void setProjMatrix(glm::mat4 newProjMatrix);
+
+    glm::mat4 getProjMatrix();
+
+protected:
+    glm::mat4 _projectionMatrix = glm::mat4(1.0f); // changed once in init
+    glm::mat4 _viewMatrix = glm::mat4(1.0f);
+    glm::mat4 _cameraMatrix = glm::mat4(1.0f);
+
+	bool _cameraChange = true;
+
 };

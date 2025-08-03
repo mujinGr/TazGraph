@@ -117,7 +117,10 @@
     <ClCompile Include="..\vendors\tinyxml2\tinyxml2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\vendors\DotParser\DotParser.cpp">
+    <ClCompile Include="..\vendors\DotParser\DotParser\DotParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera2.5D\ICamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
