@@ -6,6 +6,11 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <SDL2/SDL.h>
 
+enum class ViewMode {
+    Y_UP,
+    Z_UP
+};
+
 class ICamera {
 public:
     virtual ~ICamera() = default;

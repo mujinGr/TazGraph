@@ -2,11 +2,6 @@
 #include <SDL2/SDL.h>
 #include "ICamera.h"
 
-enum class ViewMode {
-	Y_UP,
-	Z_UP
-};
-
 
 class PerspectiveCamera : public ICamera{
 public:

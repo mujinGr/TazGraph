@@ -6,9 +6,9 @@
 
 class Minimap {
 public:
-    void Create(ImVec2 viewportPos, ImVec2 viewportSize,
+    void Create(Manager& manager, ImVec2 viewportPos, ImVec2 viewportSize,
         const glm::mat4& view, const glm::mat4& proj,
         std::shared_ptr<PerspectiveCamera> camera);
-    void DrawMinimapObjects(ImVec2 minimapPos, float minimapSize,
+    void DrawMinimapObjects(Manager& manager, ImVec2 minimapPos, float minimapSize,
         const glm::mat4& minimapView, const glm::mat4& minimapProj);
 };

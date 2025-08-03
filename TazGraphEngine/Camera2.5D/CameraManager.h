@@ -38,6 +38,10 @@ public:
         // Configure your hudCamera as needed, usually orthographic with fixed positioning
         CameraManager::getInstance().addCamera("hud", hudCamera);
 
+        auto minimapCamera = std::make_shared<OrthoCamera>();
+        // Configure your hudCamera as needed, usually orthographic with fixed positioning
+        CameraManager::getInstance().addCamera("minimap", minimapCamera);
+
         auto mainMenu_mainCamera = std::make_shared<PerspectiveCamera>();
         // Configure your mainCamera as needed
         CameraManager::getInstance().addCamera("mainMenu_main", mainMenu_mainCamera);

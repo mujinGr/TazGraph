@@ -1,6 +1,6 @@
 #include "./Minimap.h"
 
-void Minimap::Create(ImVec2 viewportPos, ImVec2 viewportSize,
+void Minimap::Create(Manager& manager, ImVec2 viewportPos, ImVec2 viewportSize,
     const glm::mat4& view, const glm::mat4& proj,
     std::shared_ptr<PerspectiveCamera> camera) {
 
@@ -36,7 +36,7 @@ void Minimap::Create(ImVec2 viewportPos, ImVec2 viewportSize,
 
 
     // Draw objects/entities on minimap
-    DrawMinimapObjects(minimapPos, minimapSize, view, proj);
+    DrawMinimapObjects(manager, minimapPos, minimapSize, view, proj);
 
     // Draw camera frustum on minimap
     //DrawCameraFrustumOnMinimap(minimapPos, minimapSize, view, proj, minimapView, minimapProj);
@@ -53,7 +53,7 @@ void Minimap::Create(ImVec2 viewportPos, ImVec2 viewportSize,
 
 }
 
-void Minimap::DrawMinimapObjects(ImVec2 minimapPos, float minimapSize,
+void Minimap::DrawMinimapObjects(Manager& manager, ImVec2 minimapPos, float minimapSize,
     const glm::mat4& minimapView, const glm::mat4& minimapProj) {
     ImDrawList* drawList = ImGui::GetWindowDrawList();
 
@@ -62,13 +62,15 @@ void Minimap::DrawMinimapObjects(ImVec2 minimapPos, float minimapSize,
     std::vector<glm::vec3> objectPositions = {
         glm::vec3(10.0f, 0.0f, 10.0f),
         glm::vec3(-15.0f, 0.0f, 5.0f),
-        glm::vec3(0.0f, 0.0f, -20.0f),
+        glm::vec3(0.0f, 20.0f, -20.0f),
         glm::vec3(25.0f, 0.0f, -10.0f)
     };
 
-    for (const auto& objPos : objectPositions) {
+    auto& nodes = manager.getGroup<NodeEntity>(Manager::groupNodes_0);
+
+    for (auto& node : nodes) {
         // Transform world position to minimap screen coordinates
-        glm::vec4 clipPos = minimapProj * minimapView * glm::vec4(objPos, 1.0f);
+        glm::vec4 clipPos = minimapProj * minimapView * glm::vec4(node->GetComponent<TransformComponent>().getPosition(), 1.0f);
         if (clipPos.w > 0) {
             glm::vec2 ndcPos = glm::vec2(clipPos.x / clipPos.w, clipPos.y / clipPos.w);
 

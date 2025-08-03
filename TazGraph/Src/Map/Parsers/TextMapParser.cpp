@@ -137,6 +137,7 @@ void TextMapParser::parse(Manager& manager,
 
 	float maxDistance = width > height ? width : height;
 
+	//! Set grid size
 	manager.grid->setSize(2 * maxDistance);
 
 	for (auto& node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
@@ -147,6 +148,10 @@ void TextMapParser::parse(Manager& manager,
 		manager.grid->addLink(link, manager.grid->getGridLevel());
 	}
 
+	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
+	minimap_camera2D->setPosition_X((maxPos.x + minPos.x) / 2.0f);
+	minimap_camera2D->setPosition_Y((maxPos.y + minPos.y) / 2.0f);
+	//! Set camera based on map loaded
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 	main_camera2D->setPosition_X((maxPos.x + minPos.x) / 2.0f);
@@ -167,7 +172,8 @@ void TextMapParser::parse(Manager& manager,
 #endif
 
 	main_camera2D->setPosition_Z(-requiredZ);
+	minimap_camera2D->setPosition_Z(-requiredZ);
 
 	main_camera2D->setAimPos(glm::vec3(main_camera2D->eyePos.x, main_camera2D->eyePos.y, main_camera2D->eyePos.z + 1.0f));
-
+	//minimap_camera2D->setAimPos(glm::vec3(main_camera2D->eyePos.x, main_camera2D->eyePos.y, main_camera2D->eyePos.z + 1.0f));
 }

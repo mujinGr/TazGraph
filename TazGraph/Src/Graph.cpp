@@ -66,6 +66,7 @@ void Graph::onEntry()
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
+	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 
 	_resourceManager.addGLSLProgram("lineColor");
 
@@ -78,6 +79,10 @@ void Graph::onEntry()
 	main_camera2D->setScale(1.0f);
 
 	hud_camera2D->init();
+	minimap_camera2D->init();
+
+	hud_camera2D->setPosition_X(main_camera2D->getPosition().x);
+	hud_camera2D->setPosition_Y(main_camera2D->getPosition().y);
 
 	AnimatorManager& animManager = AnimatorManager::getInstance();
 	animManager.InitializeAnimators();
@@ -203,11 +208,13 @@ void Graph::update(float deltaTime) //game objects updating
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
+	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 
 	glm::vec2 mouseCoordsVec = _sceneMousePosition;
 
 	main_camera2D->update();
 	hud_camera2D->update();
+	minimap_camera2D->update();
 	
 	if (!manager) {
 		return;
@@ -225,8 +232,6 @@ void Graph::update(float deltaTime) //game objects updating
 		_firstLoop = false;
 	}
 	else {
-		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-
 		manager->update(deltaTime);
 	}
 
@@ -685,6 +690,7 @@ bool Graph::setManager(std::string m_managerName)
 	}
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 
 	if (!m_managerName.empty() && managers.find(m_managerName) != managers.end()) {
 		managerIsNew = false;
@@ -713,6 +719,8 @@ bool Graph::setManager(std::string m_managerName)
 	map->manager = manager;
 
 	main_camera2D->makeCameraDirty();
+	minimap_camera2D->makeCameraDirty();
+
 	manager->aboutTo_updateActiveEntities();
 
 	return managerIsNew;
@@ -721,6 +729,7 @@ bool Graph::setManager(std::string m_managerName)
 void Graph::checkInput() {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
+	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 
 	if (!manager) {
 		return;
@@ -768,15 +777,20 @@ void Graph::checkInput() {
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_e)) {
 				main_camera2D->movePosition_Forward(manager->grid->getCellSize());
+				minimap_camera2D->movePosition_Forward(manager->grid->getCellSize());
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_r)) {
 				main_camera2D->movePosition_Forward(-manager->grid->getCellSize());
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_w)) {
 				main_camera2D->movePosition_Vert(manager->grid->getCellSize() + 10.0f);
+				minimap_camera2D->movePosition_Vert(manager->grid->getCellSize() + 1.0f);
+
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_s)) {
 				main_camera2D->movePosition_Vert(-manager->grid->getCellSize() - 10.0f);
+				minimap_camera2D->movePosition_Vert(-manager->grid->getCellSize() - 1.0f);
+
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_a)) {
 				main_camera2D->movePosition_Hor(-manager->grid->getCellSize() - 10.0f);
@@ -1086,7 +1100,7 @@ void Graph::updateUI() {
 
 	_editorImgui.updateIsMouseInSecondColumn();
 
-	_editorImgui.SceneViewport(_framebuffer._framebufferTexture, _windowPos, _windowSize);
+	_editorImgui.SceneViewport(*manager, _framebuffer._framebufferTexture, _windowPos, _windowSize);
 
 
 	ImGui::NextColumn();

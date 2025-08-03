@@ -159,11 +159,11 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 		glm::vec3 eyePos = main_camera2D->getPosition();
 
 		if (newMode == ViewMode::Y_UP) {
-			main_camera2D->upDir = glm::vec3(0, -1, 0);
+			//main_camera2D->upDir = glm::vec3(0, -1, 0);
 			main_camera2D->setAimPos(glm::vec3(eyePos.x, eyePos.y, eyePos.z + 1.0f));
 		}
 		else if (newMode == ViewMode::Z_UP) {
-			main_camera2D->upDir = glm::vec3(0, 0, -1);
+			//main_camera2D->upDir = glm::vec3(0, 0, -1);
 			main_camera2D->setAimPos(glm::vec3(eyePos.x, eyePos.y + 1.0f, eyePos.z));
 		}
 
@@ -816,7 +816,7 @@ void EditorIMGUI::availableFunctions() {
 
 }
 
-void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize) {
+void EditorIMGUI::SceneViewport(Manager& manager, uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize) {
 
 	ImGui::BeginChild("Viewport");
 
@@ -844,13 +844,20 @@ void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImV
 	std::shared_ptr<PerspectiveCamera> main_camera2D =
 		std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-	if (!main_camera2D) {
+	std::shared_ptr<OrthoCamera> hud_camera2D =
+		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
+	
+	std::shared_ptr<OrthoCamera> minimap_camera2D =
+		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
+
+	
+	if (!minimap_camera2D) {
 		ImGui::EndChild();
 		return;
 	}
 
-	glm::mat4 view = main_camera2D->getViewMatrix();
-	glm::mat4 proj = main_camera2D->getProjMatrix();
+	glm::mat4 view = minimap_camera2D->getViewMatrix();
+	glm::mat4 proj = minimap_camera2D->getProjMatrix();
 
 	// Set up ImGuizmo to render over the image
 	ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
@@ -860,7 +867,7 @@ void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImV
 	bool isHovered = ImGui::IsItemHovered();
 	ImGuizmo::Enable(isHovered);
 
-	_minimap.Create(pos, viewportPanelSize, view, proj, main_camera2D);
+	_minimap.Create(manager, pos, viewportPanelSize, view, proj, main_camera2D);
 
 	ImGui::EndChild();
 }
