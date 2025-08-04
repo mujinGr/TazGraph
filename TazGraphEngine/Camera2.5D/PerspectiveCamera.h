@@ -7,6 +7,10 @@ class PerspectiveCamera : public ICamera{
 public:
 	glm::vec3 panningAimPos{ 0,0,0 };
 
+	float fov = 45.0f;
+	float aspect = 0.0f;
+	float nearPlane = 0.1f;
+
 	PerspectiveCamera() : 
 		_scale(1.0f)
 	{
@@ -20,7 +24,8 @@ public:
 	}
 
 	void init() override {
-		_projectionMatrix = glm::perspective(glm::radians(45.0f), (float)_screenWidth / (float)_screenHeight, 0.1f, zFar); //left, right, top, bottom
+		aspect = (float)_screenWidth / (float)_screenHeight;
+		_projectionMatrix = glm::perspective(glm::radians(fov), aspect, nearPlane, zFar); //left, right, top, bottom
 		updateCameraOrientation();
 
 		_cameraMatrix = glm::mat4(1.0f);

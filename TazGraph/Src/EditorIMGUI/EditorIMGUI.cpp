@@ -816,7 +816,7 @@ void EditorIMGUI::availableFunctions() {
 
 }
 
-void EditorIMGUI::SceneViewport(Manager& manager, uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize) {
+void EditorIMGUI::SceneViewport(const BaseFPSLimiter& baseFPSLimiter, Manager& manager, uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize) {
 
 	ImGui::BeginChild("Viewport");
 
@@ -856,9 +856,6 @@ void EditorIMGUI::SceneViewport(Manager& manager, uint32_t textureId, ImVec2& st
 		return;
 	}
 
-	glm::mat4 view = minimap_camera2D->getViewMatrix();
-	glm::mat4 proj = minimap_camera2D->getProjMatrix();
-
 	// Set up ImGuizmo to render over the image
 	ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
 	ImGuizmo::SetRect(pos.x, pos.y, viewportPanelSize.x, viewportPanelSize.y);
@@ -867,8 +864,8 @@ void EditorIMGUI::SceneViewport(Manager& manager, uint32_t textureId, ImVec2& st
 	bool isHovered = ImGui::IsItemHovered();
 	ImGuizmo::Enable(isHovered);
 
-	_minimap.Create(manager, pos, viewportPanelSize, view, proj, main_camera2D);
-
+	_minimap.Create(baseFPSLimiter, manager, pos, viewportPanelSize);
+	
 	ImGui::EndChild();
 }
 
