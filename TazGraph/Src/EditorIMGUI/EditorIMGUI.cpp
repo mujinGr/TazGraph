@@ -865,7 +865,8 @@ void EditorIMGUI::SceneViewport(const BaseFPSLimiter& baseFPSLimiter, Manager& m
 	ImGuizmo::Enable(isHovered);
 
 	_minimap.Create(baseFPSLimiter, manager, pos, viewportPanelSize);
-	
+	_orientationBox.Create(pos, viewportPanelSize);
+
 	ImGui::EndChild();
 }
 

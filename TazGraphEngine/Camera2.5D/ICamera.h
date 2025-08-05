@@ -72,6 +72,7 @@ public:
 
     glm::mat4 getProjMatrix();
 
+    glm::vec3 getUpDir();
 protected:
     glm::mat4 _projectionMatrix = glm::mat4(1.0f); // changed once in init
     glm::mat4 _viewMatrix = glm::mat4(1.0f);

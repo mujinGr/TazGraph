@@ -169,6 +169,7 @@
     <ClCompile Include="Src\EditorIMGUI\EditorIMGUI.cpp" />
     <ClCompile Include="Src\EditorIMGUI\EditorLayoutUtils.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Minimap\Minimap.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\OrientationBox\OrientationBox.cpp" />
     <ClCompile Include="Src\Graph.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\MainMenuScreen\MainMenuScreen.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Src\EditorIMGUI\EditorIMGUI.h" />
     <ClInclude Include="Src\EditorIMGUI\EditorLayoutUtils.h" />
     <ClInclude Include="Src\EditorIMGUI\Minimap\Minimap.h" />
+    <ClInclude Include="Src\EditorIMGUI\OrientationBox\OrientationBox.h" />
     <ClInclude Include="Src\GECS\Scripts\MainMenuBackground.h" />
     <ClInclude Include="Src\GECS\ScriptComponents.h" />
     <ClInclude Include="Src\Graph.h" />

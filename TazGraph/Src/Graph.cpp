@@ -1277,6 +1277,22 @@ void Graph::draw()
 	GLSLProgram glsl_framebuffer	= *_resourceManager.getGLSLProgram("framebuffer");
 
 	_framebuffer.Bind();
+
+	//todo TECHNIQUE TO USE FOR MINIMAP
+	//static float elapsed;
+	//
+	//elapsed = elapsed + getApp()->getFPSLimiter().frameTime / 1000.0f;
+
+	//if (elapsed < 10) {
+	//	_framebuffer.Unbind();
+
+	//	glClear(GL_COLOR_BUFFER_BIT);
+	//	return;
+	//}
+	//else {
+	//	elapsed = 0;
+	//}
+
 	////////////OPENGL USE
 	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);

@@ -94,3 +94,7 @@ void ICamera::setProjMatrix(glm::mat4 newProjMatrix) {
 glm::mat4 ICamera::getProjMatrix() {
 	return _projectionMatrix;
 }
+
+glm::vec3 ICamera::getUpDir() {
+	return upDir;
+}

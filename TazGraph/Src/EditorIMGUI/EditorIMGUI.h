@@ -11,6 +11,7 @@
 
 #include "CustomFunctions/CustomFunctions.h"
 #include "Minimap/Minimap.h"
+#include "OrientationBox/OrientationBox.h"
 
 #include "./EditorLayoutUtils.h"
 
@@ -34,6 +35,7 @@ private:
 
 	CustomFunctions _customFunctions;
 	Minimap _minimap;
+	OrientationBox _orientationBox;
 
 	// Note: Switch this to true to enable dockspace
 	bool _dockingEnabled = true;
