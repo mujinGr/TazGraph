@@ -21,16 +21,20 @@ namespace fs = std::filesystem;
 class EditorIMGUI : public ImGuiInterface {
 private:
 	std::vector<std::string> _fileNames;
-	char  _newFileName[126] = "";
 	std::vector<std::string> _pollingFileNames;
+	std::vector<std::string> _pathsFileNames;
+	std::string _pathLoading;
 	ImGui::ComboAutoSelectData _data;
+	ImGui::ComboAutoSelectData _pathData;
 	int _currentOrientationIndex = 0;
+	int _currentLinksPathIndex = 0;
 
 	bool _filesLoaded = false;
 
 	bool _isSaving = false;
 	bool _isStartingNew = false;
 	bool _isLoading = false;
+	bool _isLoadingPath = false;
 	bool _goingBack = false;
 
 	CustomFunctions _customFunctions;
@@ -65,13 +69,18 @@ public:
 	void setNewMap(bool startingNew);
 	bool isStartingNew();
 	bool isLoading();
+	bool isLoadingPath();
 	void setLoading(bool loading);
+	void setPathLoading(bool loading);
 	bool isGoingBack();
+	std::string getPathLoading();
 	void SetGoingBack(bool goingBack);
 
 	void updateFileNamesInAssets();
 
 	void updatePollingFileNamesInAssets();
+
+	void updatePathFileNamesInAssets();
 
 	bool* getDockspaceRef();
 	void MenuBar();

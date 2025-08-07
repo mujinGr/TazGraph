@@ -59,9 +59,6 @@ void OrientationBox::Create(ImVec2 viewportPos, ImVec2 viewportSize) {
     if (_boxViewMatrix != main_camera2D->getViewMatrix()) {
         UpdateCameraFromMatrix();
     }
-    // Update state
-    _isUsing = ImGuizmo::IsUsing();
-    _isHovered = ImGuizmo::IsOver();
 }
 
 
@@ -73,12 +70,12 @@ void OrientationBox::UpdateCameraFromMatrix() {
     glm::mat3 rotation = glm::mat3(_boxViewMatrix);
 
     // Calculate new camera vectors
-    glm::vec3 forward = glm::transpose(rotation) * glm::vec3(0, 0, -1); // -Z is forward in view space
-    glm::vec3 up = main_camera2D->getUpDir();       // Y is up
+    glm::vec3 forward = glm::transpose(rotation) * glm::vec3(0, 0, -1); 
+    glm::vec3 up = main_camera2D->getUpDir();       
 
     // Get current camera state
     glm::vec3 currentPos = main_camera2D->getPosition();
-    glm::vec3 currentTarget = glm::vec3(0); // You'll need this method
+    glm::vec3 currentTarget = glm::vec3(0); 
 
     // Calculate new position maintaining the same distance from target
     float distance = glm::length(currentPos - currentTarget);

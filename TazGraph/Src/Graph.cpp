@@ -1175,6 +1175,20 @@ void Graph::updateUI() {
 			}
 		}
 	}
+	if (_editorImgui.isLoadingPath()) {
+		_editorImgui.setPathLoading(false);
+
+		std::string loadPathName = _editorImgui.getPathLoading();
+
+		map->loadPaths(loadPathName.c_str(),
+			std::bind(&Map::AddDefaultNode, map, std::placeholders::_1, std::placeholders::_2),
+			std::bind(&Map::AddPathLink, map, std::placeholders::_1),
+			nullptr);
+		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+		main_camera2D->makeCameraDirty();
+		manager->aboutTo_updateActiveEntities();
+	}
 	if (_editorImgui.isGoingBack()) {
 		_currentState = SceneState::CHANGE_PREVIOUS;
 		_editorImgui.SetGoingBack(false);
@@ -1432,19 +1446,22 @@ void Graph::draw()
 	_PlaneModelRenderer.initBatchSize();
 	_LightRenderer.initBatchSize();
 
-	renderBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0), _LineRenderer);
+	std::vector<LinkEntity*> allLinks;
+	auto& links = manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0);
+	auto& group0 = manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0);
+	auto& group1 = manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1);
 
-	renderBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0), _LineRenderer); // todo add offset render based on previous line rendering
-	renderBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1), _LineRenderer);
-	
+	allLinks.insert(allLinks.end(), links.begin(), links.end());
+	allLinks.insert(allLinks.end(), group0.begin(), group0.end());
+	allLinks.insert(allLinks.end(), group1.begin(), group1.end());
+
+	renderBatch(allLinks, _LineRenderer);
 
 	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
 
 	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
 	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
 	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
-
-	
 
 	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
 
@@ -1480,6 +1497,26 @@ void Graph::draw()
 	_LightRenderer.end();
 	_LightRenderer.renderBatch(_resourceManager.getGLSLProgram("light"));
 	glsl_light.unuse();
+
+
+	//! Link Paths rendering
+	_LineRenderer.begin();
+	_LineRenderer.initBatchLines(
+		manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks_0).size()
+	);
+	_LineRenderer.initBatchSize();
+
+	renderBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks_0), _LineRenderer);
+
+	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
+
+	pLocation = glsl_lineColor.getUniformLocation("lineWidth");
+	glUniform1f(pLocation, 30.0f);
+
+	_LineRenderer.end();
+	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
+	glsl_lineColor.unuse();
+
 
 	_LineRenderer.begin();
 
@@ -1566,6 +1603,9 @@ void Graph::draw()
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 	
+
+	pLocation = glsl_lineColor.getUniformLocation("lineWidth");
+	glUniform1f(pLocation, 10.0f);
 
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getCameraRect().x / main_camera2D->getCameraRect().y);

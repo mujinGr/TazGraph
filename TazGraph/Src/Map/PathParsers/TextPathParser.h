@@ -1,9 +1,9 @@
 #pragma once
 #include "../IMapParser.h"
 
-class TextMapParser : public IMapParser {
+class TextPathParser : public IMapParser {
 public:
-    TextMapParser();
+    TextPathParser();
     void readFile(std::string m_fileName) override;
 
     void parse(

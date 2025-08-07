@@ -89,6 +89,24 @@ void Map::loadMap(
 
 }
 
+void Map::loadPaths(
+	const char* fileName,
+	std::function<void(Entity&, glm::vec3)> addNodeFunc,
+	std::function<void(Entity&)> addLinkFunc,
+	Threader* m_threadPool
+) {
+	std::string text = "assets/Paths/" + std::string(fileName);
+
+	std::unique_ptr<IMapParser> processor;
+	
+	processor = std::make_unique<TextPathParser>();
+	
+	processor->readFile(text);
+	processor->parse(*manager, addNodeFunc, addLinkFunc);
+	processor->closeFile();
+
+}
+
 void Map::AddDefaultNode(Entity &node, glm::vec3 mPosition)
 {
 	static int colorOffset = 0;
@@ -134,4 +152,12 @@ void Map::AddTreeLink(Entity& link)
 	link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
 
 	link.addComponent<LineFlashAnimatorComponent>();
+}
+
+void Map::AddPathLink(Entity& link)
+{
+	link.addComponent<Line_w_Color>();
+
+	link.GetComponent<Line_w_Color>().setSrcColor(Color(0, 0, 255, 255));
+	link.GetComponent<Line_w_Color>().setDestColor(Color(40, 0, 255, 255));
 }

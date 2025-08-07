@@ -1,5 +1,5 @@
 #pragma once
-#include "IMapParser.h"
+#include "../IMapParser.h"
 
 class DOTMapParser : public IMapParser {
 public:

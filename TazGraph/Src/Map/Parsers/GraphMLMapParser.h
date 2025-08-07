@@ -1,5 +1,5 @@
 #pragma once
-#include "IMapParser.h"
+#include "../IMapParser.h"
 
 class GraphMLMapParser : public IMapParser {
 public:

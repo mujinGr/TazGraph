@@ -23,6 +23,11 @@ void EditorIMGUI::setLoading(bool loading)
 	_isLoading = loading;
 }
 
+void EditorIMGUI::setPathLoading(bool loading)
+{
+	_isLoadingPath = loading;
+}
+
 bool EditorIMGUI::isStartingNew()
 {
 	return _isStartingNew;
@@ -33,9 +38,18 @@ bool EditorIMGUI::isLoading()
 	return _isLoading;
 }
 
+bool EditorIMGUI::isLoadingPath()
+{
+	return _isLoadingPath;
+}
+
 bool EditorIMGUI::isGoingBack()
 {
 	return _goingBack;
+}
+
+std::string EditorIMGUI::getPathLoading() {
+	return _pathLoading;
 }
 
 void EditorIMGUI::SetGoingBack(bool goingBack) {
@@ -62,10 +76,22 @@ void EditorIMGUI::updatePollingFileNamesInAssets() {
 	}
 }
 
+void EditorIMGUI::updatePathFileNamesInAssets() {
+	_pathsFileNames.clear();
+	const std::string path = "assets/Paths"; // Directory path
+	for (const auto& entry : fs::directory_iterator(path)) {
+		if (entry.is_regular_file()) {
+			_pathsFileNames.push_back(entry.path().filename().string()); // Add file name to vector
+		}
+	}
+	_pathsFileNames.push_back(">Reset");
+}
+
 void EditorIMGUI::ReloadAccessibleFiles() {
 	if (!_filesLoaded) {
 		updateFileNamesInAssets();
 		updatePollingFileNamesInAssets();
+		updatePathFileNamesInAssets();
 
 		_filesLoaded = true; // Set to true so we don't reload unnecessarily
 	}
@@ -375,7 +401,23 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 
 	ImGui::Separator();
 
+	_pathData.SetSelectData(std::move(_pathsFileNames));
 
+	if (ImGui::ComboAutoSelect("Choose Links Path File", _pathData)) {
+		std::string resetIndex = ">Reset";
+		if (strcmp(_pathData.input, resetIndex.c_str()) == 0) {
+			manager.removeAllEntitiesFromGroup(Manager::groupPathLinks_0);
+			manager.removeAllEntitiesFromGroup(Manager::groupPathLinks_1);
+			manager.removeAllEntitiesFromGroup(Manager::groupPathLinks_2);
+		}
+		else {
+			_pathLoading = _pathData.input;
+			setPathLoading(true);
+		}
+
+	}
+
+	ImGui::Separator();
 
 	if (ImGui::BeginTable("GroupsTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
 		ImGui::TableSetupColumn("Group Name", ImGuiTableColumnFlags_WidthStretch);

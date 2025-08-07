@@ -389,6 +389,10 @@ public:
 		groupGroupLinks_0,
 		groupGroupLinks_1,
 
+		groupPathLinks_0,
+		groupPathLinks_1,
+		groupPathLinks_2,
+
 		groupArrowHeads_0,
 
 		groupNodes_0,
@@ -413,6 +417,10 @@ public:
 		{ groupLinks_0,"groupLinks_0" },
 		{groupGroupLinks_0, "groupGroupLinks_0"},
 		{groupGroupLinks_1, "groupGroupLinks_1"},
+		
+		{groupPathLinks_0, "groupPathLinks_0"},
+		{groupPathLinks_1, "groupPathLinks_1"},
+		{groupPathLinks_2, "groupPathLinks_2"},
 
 		{groupArrowHeads_0, "groupArrowHeads_0"},
 
