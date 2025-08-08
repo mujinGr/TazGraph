@@ -213,11 +213,14 @@ public:
 		
 		auto& testSlot = getManager()->addEntityNoId<Empty>();
 		testSlot.addGroup(Manager::groupPortSlots);
-		testSlot.addComponent<TransformComponent>();
+		testSlot.addComponent<TransformComponent>(m_position, glm::vec3(10), 1.0f);
 		testSlot.addComponent<Rectangle_w_Color>();
 
 		children[NodePorts::BOTTOM]->GetComponent<PortComponent>().
-			portSlots.push_back(&testSlot);
+			portSlots.resize(1, nullptr);
+
+		children[NodePorts::BOTTOM]->GetComponent<PortComponent>().
+			portSlots[0] = &testSlot;
 
 	}
 

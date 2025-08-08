@@ -139,10 +139,15 @@ public:
 			for (auto& cell : _interceptedCells) {
 				for (auto& entity : cell->nodes) {
 					if (!entity->isHidden()) {
-						// Also include children if they exist
-						for (auto* child : entity->children) {
-							if (child && !child->isHidden()) {
-								visible_emptyEntities.push_back(child);
+						// Also include children(ports) if they exist
+						for (auto* port : entity->children) {
+							if (port && !port->isHidden()) {
+								visible_emptyEntities.push_back(port);
+
+								if (port->hasComponent<PortComponent>()) {
+									for (auto& portSlots : port->GetComponent<PortComponent>().portSlots)
+										visible_emptyEntities.push_back(portSlots);
+								}
 							}
 						}
 					}
@@ -153,19 +158,6 @@ public:
 		else if constexpr (std::is_same_v<T, EmptyEntity>) {
 			for (auto& cell : _interceptedCells) {
 				result.insert(result.end(), cell->emptyEntities.begin(), cell->emptyEntities.end());
-			}
-
-			for (auto& cell : _interceptedCells) {
-				for (auto& entity : cell->emptyEntities) {
-					if (!entity->isHidden()) {
-						// Also include port comp children if they exist
-						for (auto* child : entity->GetComponent<PortComponent>().portSlots) {
-							if (child && !child->isHidden()) {
-								visible_emptyEntities.push_back(child);
-							}
-						}
-					}
-				}
 			}
 		}
 		else {
