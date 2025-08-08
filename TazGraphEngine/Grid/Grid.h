@@ -77,10 +77,9 @@ public:
 					if (!entity->isHidden()) {  // Check if the entity is visible
 						result.push_back(entity);
 
-						// Also include children if they exist
 						for (auto* child : entity->children) {
 							if (child && !child->isHidden()) {
-								result.push_back(static_cast<T*>(child));
+								visible_emptyEntities.push_back(child);
 							}
 						}
 					}
@@ -92,6 +91,12 @@ public:
 				for (auto& entity : cell->emptyEntities) {
 					if (!entity->isHidden()) {  // Check if the entity is visible
 						result.push_back(entity);
+
+						for (auto* child : entity->GetComponent<PortComponent>().portSlots) {
+							if (child && !child->isHidden()) {
+								visible_emptyEntities.push_back(child);
+							}
+						}
 					}
 				}
 			}
@@ -137,7 +142,6 @@ public:
 						// Also include children if they exist
 						for (auto* child : entity->children) {
 							if (child && !child->isHidden()) {
-								// If you only want certain child types, check here
 								visible_emptyEntities.push_back(child);
 							}
 						}
@@ -149,6 +153,19 @@ public:
 		else if constexpr (std::is_same_v<T, EmptyEntity>) {
 			for (auto& cell : _interceptedCells) {
 				result.insert(result.end(), cell->emptyEntities.begin(), cell->emptyEntities.end());
+			}
+
+			for (auto& cell : _interceptedCells) {
+				for (auto& entity : cell->emptyEntities) {
+					if (!entity->isHidden()) {
+						// Also include port comp children if they exist
+						for (auto* child : entity->GetComponent<PortComponent>().portSlots) {
+							if (child && !child->isHidden()) {
+								visible_emptyEntities.push_back(child);
+							}
+						}
+					}
+				}
 			}
 		}
 		else {

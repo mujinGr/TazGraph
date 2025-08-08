@@ -404,7 +404,8 @@ public:
 		groupRenderSprites,
 		
 		groupPorts,
-		
+		groupPortSlots,
+
 		//fore
 		buttonLabels,
 	};
@@ -434,6 +435,7 @@ public:
 		{ groupColliders,"groupColliders" },
 		{ groupRenderSprites,"groupRenderSprites" },
 		{ groupPorts,"groupPorts" },
+		{ groupPortSlots,"groupPortSlots" },
 
 		//fore
 		{ buttonLabels,"buttonLabels" },

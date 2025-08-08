@@ -1512,7 +1512,10 @@ void Graph::draw()
 	_LineRenderer.initBatchLines(
 		manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks_0).size()
 	);
-	_PlaneColorRenderer.initQuadBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupPorts).size());
+	_PlaneColorRenderer.initQuadBatch(
+		manager->getVisibleGroup<EmptyEntity>(Manager::groupPorts).size() + 
+		manager->getVisibleGroup<EmptyEntity>(Manager::groupPortSlots).size()
+	);
 
 	_LineRenderer.initBatchSize();
 	_PlaneColorRenderer.initBatchSize();
@@ -1520,7 +1523,14 @@ void Graph::draw()
 
 	renderBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks_0), _LineRenderer);
 
-	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupPorts), _PlaneColorRenderer);
+	std::vector<EmptyEntity*> allNodeUtils;
+	auto& ports = manager->getVisibleGroup<EmptyEntity>(Manager::groupPorts);
+	auto& portSlots = manager->getVisibleGroup<EmptyEntity>(Manager::groupPortSlots);
+
+	allNodeUtils.insert(allNodeUtils.end(), ports.begin(), ports.end());
+	allNodeUtils.insert(allNodeUtils.end(), portSlots.begin(), portSlots.end());
+
+	renderBatch(allNodeUtils, _PlaneColorRenderer);
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 

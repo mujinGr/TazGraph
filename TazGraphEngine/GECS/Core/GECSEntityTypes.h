@@ -210,6 +210,14 @@ public:
 		children[NodePorts::BOTTOM]->setParentEntity(this);
 		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
 		children[NodePorts::BOTTOM]->addComponent<PortComponent>();
+		
+		auto& testSlot = getManager()->addEntityNoId<Empty>();
+		testSlot.addGroup(Manager::groupPortSlots);
+		testSlot.addComponent<TransformComponent>();
+		testSlot.addComponent<Rectangle_w_Color>();
+
+		children[NodePorts::BOTTOM]->GetComponent<PortComponent>().
+			portSlots.push_back(&testSlot);
 
 	}
 
@@ -217,9 +225,9 @@ public:
 		for (auto portName : { NodePorts::LEFT, NodePorts::RIGHT, NodePorts::TOP, NodePorts::BOTTOM }) {
 			if (children[portName]) {
 				children[portName]->destroy();
-				for (auto port : children[portName]->GetComponent<PortComponent>().portIndexes)
+				for (auto port : children[portName]->GetComponent<PortComponent>().portSlots)
 				{
-					port.destroy();
+					port->destroy();
 				}
 				children[portName] = nullptr;
 			}
@@ -354,8 +362,14 @@ public:
 		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
 		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
 
-		fromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
-		toPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());
+		int newFromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
+		int newToPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());
+
+		fromSlotIndex = assignSlotIndex(from, newFromPort, this, fromPort, fromSlotIndex);
+		toSlotIndex = assignSlotIndex(to, newToPort, this, toPort, toSlotIndex);
+
+		fromPort = newFromPort;
+		toPort = newToPort;
 	}
 
 	void addArrowHead() override {
@@ -424,7 +438,26 @@ public:
 		}
 	}
 
-	
+	int assignSlotIndex(NodeEntity* node, int newPort, LinkEntity* link, int oldPort, int oldSlotIndex) {
+		// If port changed, remove from old one
+		if (oldPort != -1 && oldPort != newPort) {
+			Entity* oldPortEntity = node->children[oldPort];
+			auto& oldSlots = oldPortEntity->GetComponent<PortComponent>().portSlots;
+			if (oldSlotIndex >= 0 && oldSlotIndex < (int)oldSlots.size()) {
+				oldSlots.erase(oldSlots.begin() + oldSlotIndex);
+				/*oldPortEntity->GetComponent<PortComponent>().updateLayout(
+					oldPortEntity->GetComponent<TransformComponent>());*/
+			}
+		}
+
+		// Get new port entity
+		Entity* newPortEntity = node->children[newPort];
+		auto& newSlots = newPortEntity->GetComponent<PortComponent>().portSlots;
+
+		/*newPortEntity->GetComponent<PortComponent>().updateLayout(
+			newPortEntity->GetComponent<TransformComponent>());*/
+		return static_cast<int>(newSlots.size() - 1);
+	}
 
 
 	void imgui_print() override {

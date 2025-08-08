@@ -100,6 +100,8 @@ protected:
 public:
 	int fromPort;
 	int toPort;
+	int fromSlotIndex;
+	int toSlotIndex;
 
 	LinkEntity(Manager& mManager) : MultiCellEntity(mManager) {
 		children.resize(1, nullptr);

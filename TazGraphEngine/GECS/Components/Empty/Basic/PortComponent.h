@@ -7,7 +7,7 @@ class PortComponent : public Component
 public:
 	Color color = { 255, 255, 255, 255 };
 
-	std::vector<EmptyEntity*> portIndexes;
+	std::vector<EmptyEntity*> portSlots;
 
 	TransformComponent* transform = nullptr;
 

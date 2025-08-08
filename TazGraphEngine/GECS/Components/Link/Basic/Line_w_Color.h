@@ -40,8 +40,25 @@ public:
 	void drawWithPorts(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
 		//float tempScreenScale = window.getScale();
 
-		glm::vec3 fromPortCenter = entity->getFromNode()->children[entity->fromPort]->GetComponent<TransformComponent>().getCenterTransform();
-		glm::vec3 toPortCenter = entity->getToNode()->children[entity->toPort]->GetComponent<TransformComponent>().getCenterTransform();
+		if (entity->fromPort < 0 || entity->toPort < 0) {
+			return;
+		}
+
+		NodeEntity* fromNode = entity->getFromNode();
+		NodeEntity* toNode = entity->getToNode();
+
+		Entity* fromPortEntity = fromNode->children[entity->fromPort];
+		Entity* toPortEntity = toNode->children[entity->toPort];
+		//////////////////////////////////
+		PortComponent& fromPortComp = fromPortEntity->GetComponent<PortComponent>();
+		PortComponent& toPortComp = toPortEntity->GetComponent<PortComponent>();
+
+		// Get specific connection points based on slot indices
+		//glm::vec3 fromConnectionPoint = fromPortComp.getConnectionPoint(entity->fromSlotIndex);
+		//glm::vec3 toConnectionPoint = toPortComp.getConnectionPoint(entity->toSlotIndex);
+		//////////////////////////////////
+		glm::vec3 fromPortCenter = fromPortEntity->GetComponent<TransformComponent>().getCenterTransform();
+		glm::vec3 toPortCenter = toPortEntity->GetComponent<TransformComponent>().getCenterTransform();
 
 		batch.drawLine(v_index, fromPortCenter, toPortCenter, src_color, dest_color);
 	}
