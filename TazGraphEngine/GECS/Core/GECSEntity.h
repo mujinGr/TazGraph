@@ -49,6 +49,8 @@ public:
 	NodeEntity(Manager& mManager) : EmptyEntity(mManager) {
 		nodeComponentArray.emplace();
 		nodeComponentBitSet.emplace();
+		children.resize(4, nullptr);
+
 	}
 	void setComponentEntity(NodeComponent* c) override {
 		c->entity = this;
@@ -96,18 +98,24 @@ protected:
 	NodeEntity* to = nullptr;
 
 public:
-	std::string fromPort;
-	std::string toPort;
+	int fromPort;
+	int toPort;
 
 	LinkEntity(Manager& mManager) : MultiCellEntity(mManager) {
+		children.resize(1, nullptr);
+
 	}
 
 	LinkEntity(Manager& mManager, unsigned int mfromId, unsigned int mtoId)
 		: MultiCellEntity(mManager), fromId(mfromId), toId(mtoId) {
+		children.resize(1, nullptr);
+
 	}
 
 	LinkEntity(Manager& mManager, NodeEntity* mfrom, NodeEntity* mto)
 		: MultiCellEntity(mManager), from(mfrom), to(mto) {
+		children.resize(1, nullptr);
+
 	}
 
 	LinkEntity(Manager& mManager, 
@@ -116,6 +124,8 @@ public:
 		: MultiCellEntity(mManager), 
 		fromId(mfromId), toId(mtoId), 
 		from(mfrom), to(mto) {
+		children.resize(1, nullptr);
+
 	}
 
 	void setComponentEntity(LinkComponent* c) override {

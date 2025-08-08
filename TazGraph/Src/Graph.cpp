@@ -1236,6 +1236,17 @@ void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& 
 	
 }
 
+//void Graph::renderBatch(const std::vector<PathEntity*>& entities, LineRenderer& batch) {
+//	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
+//		for (int i = start; i < end; i++) {
+//			assert(entities[i]->hasComponent<Line_w_Color>());
+//
+//			/*for(each 2 nodes)
+//				entities[i]->GetComponent<Line_w_Color>().drawWithPorts(i, batch, *Graph::_window);*/
+//		}
+//		});
+//}
+
 void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch) {
 
 	_app->threadPool.parallel(entities.size(), [&](int start, int end) {

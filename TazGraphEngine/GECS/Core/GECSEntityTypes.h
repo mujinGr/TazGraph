@@ -89,30 +89,30 @@ public:
 
 		glm::vec3 m_position = glm::vec3(-tr->size.x / 2, 0.0f, 0.0f);
 
-		if (children["leftPort"]) {
-			children["leftPort"]->GetComponent<TransformComponent>().position = m_position;
-			children["leftPort"]->update(deltaTime);
+		if (children[NodePorts::LEFT]) {
+			children[NodePorts::LEFT]->GetComponent<TransformComponent>().position = m_position;
+			children[NodePorts::LEFT]->update(deltaTime);
 		}
 
 		m_position = glm::vec3(tr->size.x / 2, 0.0f, 0.0f);
 
-		if (children["rightPort"]) {
-			children["rightPort"]->GetComponent<TransformComponent>().position = m_position;
-			children["rightPort"]->update(deltaTime);
+		if (children[NodePorts::RIGHT]) {
+			children[NodePorts::RIGHT]->GetComponent<TransformComponent>().position = m_position;
+			children[NodePorts::RIGHT]->update(deltaTime);
 		}
 		
 		m_position = glm::vec3(0.0f, -tr->size.y / 2.0f, 0.0f);
 
-		if (children["topPort"]) {
-			children["topPort"]->GetComponent<TransformComponent>().position = m_position;
-			children["topPort"]->update(deltaTime);
+		if (children[NodePorts::TOP]) {
+			children[NodePorts::TOP]->GetComponent<TransformComponent>().position = m_position;
+			children[NodePorts::TOP]->update(deltaTime);
 		}
 		
 		m_position = glm::vec3(0.0f, tr->size.y / 2.0f, 0.0f);
 
-		if (children["bottomPort"]) {
-			children["bottomPort"]->GetComponent<TransformComponent>().position = m_position;
-			children["bottomPort"]->update(deltaTime);
+		if (children[NodePorts::BOTTOM]) {
+			children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().position = m_position;
+			children[NodePorts::BOTTOM]->update(deltaTime);
 		}
 	}
 
@@ -176,39 +176,39 @@ public:
 		auto& leftPort = getManager()->addEntityNoId<Empty>();
 		glm::vec3 m_position = glm::vec3(-tr->size.x / 2, 0.0f, 0.0f);
 		leftPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
-		children["leftPort"] = &leftPort;
-		children["leftPort"]->setParentEntity(this);
-		children["leftPort"]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
+		children[NodePorts::LEFT] = &leftPort;
+		children[NodePorts::LEFT]->setParentEntity(this);
+		children[NodePorts::LEFT]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
 
 		auto& rightPort = getManager()->addEntityNoId<Empty>();
 		m_position = glm::vec3(tr->size.x / 2 , 0.0f, 0.0f);
 		rightPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
-		children["rightPort"] = &rightPort;
-		children["rightPort"]->setParentEntity(this);
-		children["rightPort"]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
+		children[NodePorts::RIGHT] = &rightPort;
+		children[NodePorts::RIGHT]->setParentEntity(this);
+		children[NodePorts::RIGHT]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
 
 		// Initialize top port
 		auto& topPort = getManager()->addEntityNoId<Empty>();
 		m_position = glm::vec3(0.0f, -tr->size.y / 2.0f, 0.0f);
 		topPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
-		children["topPort"] = &topPort;
-		children["topPort"]->setParentEntity(this);
-		children["topPort"]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
+		children[NodePorts::TOP] = &topPort;
+		children[NodePorts::TOP]->setParentEntity(this);
+		children[NodePorts::TOP]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
 
 		// Initialize bottom port
 		auto& bottomPort = getManager()->addEntityNoId<Empty>();
 		m_position = glm::vec3(0.0f, tr->size.y / 2.0f, 0.0f);
 		bottomPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
-		children["bottomPort"] = &bottomPort;
-		children["bottomPort"]->setParentEntity(this);
-		children["bottomPort"]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
+		children[NodePorts::BOTTOM] = &bottomPort;
+		children[NodePorts::BOTTOM]->setParentEntity(this);
+		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
 
 	}
 
 	void removePorts() {
-		for (auto portName : { "leftPort", "rightPort", "topPort", "bottomPort" }) {
+		for (auto portName : { NodePorts::LEFT, NodePorts::RIGHT, NodePorts::TOP, NodePorts::BOTTOM }) {
 			if (children[portName]) {
-				children.erase(portName);
+				children[portName] = nullptr;
 			}
 		}
 	}
@@ -305,10 +305,10 @@ public:
 	}
 
 	void updateArrowHeads() override {
-		if (children["ArrowHead"]) {
-			TransformComponent* tr = &children["ArrowHead"]->GetComponent<TransformComponent>();
+		if (children[LinkPorts::ARROWHEAD]) {
+			TransformComponent* tr = &children[LinkPorts::ARROWHEAD]->GetComponent<TransformComponent>();
 
-			children["ArrowHead"]->update(0.0f);
+			children[LinkPorts::ARROWHEAD]->update(0.0f);
 
 			// set position of arrowHead
 			TransformComponent* ch_tr = &to->children[toPort]->GetComponent<TransformComponent>();
@@ -331,9 +331,9 @@ public:
 			glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
 
 			glm::vec3 newArrowHeadPosition = arrowHeadPos - (farrowSize / 2.0f);
-			children["ArrowHead"]->GetComponent<TransformComponent>().position = newArrowHeadPosition;
+			children[LinkPorts::ARROWHEAD]->GetComponent<TransformComponent>().position = newArrowHeadPosition;
 
-			children["ArrowHead"]->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleRadians + glm::half_pi<float>()));
+			children[LinkPorts::ARROWHEAD]->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleRadians + glm::half_pi<float>()));
 		}
 	}
 
@@ -382,33 +382,32 @@ public:
 
 		manager.grid->addEmpty(&temp_arrowHead, manager.grid->getGridLevel());
 
-		children["ArrowHead"] = &temp_arrowHead;
+		children[LinkPorts::ARROWHEAD] = &temp_arrowHead;
 	}
 
 	void removeArrowHead() override {
-		std::string portName = "ArrowHead";
-		if (children[portName]) {
-			children[portName]->removeFromCell();
-			children[portName]->destroy();
-			children.erase(portName);
+		if (children[LinkPorts::ARROWHEAD]) {
+			children[LinkPorts::ARROWHEAD]->removeFromCell();
+			children[LinkPorts::ARROWHEAD]->destroy();
+			children[LinkPorts::ARROWHEAD] = nullptr;
 		}
 	}
 
 	void updateLinkToNodes() override {
-		fromPort = "";
-		toPort = "";
+		fromPort = -1;
+		toPort = -1;
 	}
 
-	std::string getBestPortForConnection(const glm::vec3& fromPos, const glm::vec3& toPos) {
+	int getBestPortForConnection(const glm::vec3& fromPos, const glm::vec3& toPos) {
 		// Simple logic to determine the port based on relative position
 		float deltaX = toPos.x - fromPos.x;
 		float deltaY = toPos.y - fromPos.y;
 
 		if (abs(deltaX) > abs(deltaY)) {  // Horizontal distance is greater
-			return deltaX > 0 ? "rightPort" : "leftPort";
+			return deltaX > 0 ? NodePorts::RIGHT : NodePorts::LEFT;
 		}
 		else {  // Vertical distance is greater
-			return deltaY > 0 ? "bottomPort" : "topPort";
+			return deltaY > 0 ? NodePorts::BOTTOM : NodePorts::TOP;
 		}
 	}
 
@@ -436,8 +435,8 @@ public:
 	void destroy() {
 		Entity::destroy();
 
-		if (children["ArrowHead"]) {
-			children["ArrowHead"]->destroy();
+		if (children[LinkPorts::ARROWHEAD]) {
+			children[LinkPorts::ARROWHEAD]->destroy();
 		}
 
 		manager.aboutTo_updateActiveEntities();
