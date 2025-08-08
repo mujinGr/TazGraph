@@ -180,7 +180,7 @@ public:
 		children[NodePorts::LEFT] = &leftPort;
 		children[NodePorts::LEFT]->setParentEntity(this);
 		children[NodePorts::LEFT]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
-		children[NodePorts::LEFT]->addComponent<PortComponent>();
+		children[NodePorts::LEFT]->addComponent<PortComponent>(true);
 
 		auto& rightPort = getManager()->addEntityNoId<Empty>();
 		rightPort.addGroup(Manager::groupPorts);
@@ -189,7 +189,7 @@ public:
 		children[NodePorts::RIGHT] = &rightPort;
 		children[NodePorts::RIGHT]->setParentEntity(this);
 		children[NodePorts::RIGHT]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
-		children[NodePorts::RIGHT]->addComponent<PortComponent>();
+		children[NodePorts::RIGHT]->addComponent<PortComponent>(true);
 
 		// Initialize top port
 		auto& topPort = getManager()->addEntityNoId<Empty>();
@@ -199,7 +199,7 @@ public:
 		children[NodePorts::TOP] = &topPort;
 		children[NodePorts::TOP]->setParentEntity(this);
 		children[NodePorts::TOP]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
-		children[NodePorts::TOP]->addComponent<PortComponent>();
+		children[NodePorts::TOP]->addComponent<PortComponent>(false);
 
 		// Initialize bottom port
 		auto& bottomPort = getManager()->addEntityNoId<Empty>();
@@ -209,18 +209,16 @@ public:
 		children[NodePorts::BOTTOM] = &bottomPort;
 		children[NodePorts::BOTTOM]->setParentEntity(this);
 		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
-		children[NodePorts::BOTTOM]->addComponent<PortComponent>();
+		children[NodePorts::BOTTOM]->addComponent<PortComponent>(false);
 		
 		auto& testSlot = getManager()->addEntityNoId<Empty>();
 		testSlot.addGroup(Manager::groupPortSlots);
 		testSlot.addComponent<TransformComponent>(m_position, glm::vec3(10), 1.0f);
 		testSlot.addComponent<Rectangle_w_Color>();
+		testSlot.GetComponent<Rectangle_w_Color>().setColor(Color(0, 200, 224, 255));
 
 		children[NodePorts::BOTTOM]->GetComponent<PortComponent>().
-			portSlots.resize(1, nullptr);
-
-		children[NodePorts::BOTTOM]->GetComponent<PortComponent>().
-			portSlots[0] = &testSlot;
+			portSlots.push_back(&testSlot);
 
 	}
 
@@ -232,6 +230,7 @@ public:
 				{
 					port->destroy();
 				}
+				children[portName]->GetComponent<PortComponent>().portSlots.clear();
 				children[portName] = nullptr;
 			}
 		}
