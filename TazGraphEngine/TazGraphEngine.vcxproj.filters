@@ -311,5 +311,8 @@
     <ClInclude Include="DorParser\DotParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GECS\Components\Empty\Basic\PortComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -30,6 +30,10 @@ public:
 		Outer2
 	};
 
+	std::vector<EmptyEntity*> visible_emptyEntities;
+	std::vector<NodeEntity*> visible_nodes;
+	std::vector<LinkEntity*> visible_links;
+
 	Grid(int width, int height, int depth, int cellSize);
 	~Grid();
 
@@ -62,6 +66,7 @@ public:
 
 	std::vector<Cell*> getIntersectedCameraCells(ICamera& camera);
 
+	// loops through the intrecepted cells and just get the entities
 	template <typename T>
 	std::vector<T*> getRevealedEntitiesInCameraCells() {
 		std::vector<T*> result;
@@ -71,6 +76,13 @@ public:
 				for (auto& entity : cell->nodes) {
 					if (!entity->isHidden()) {  // Check if the entity is visible
 						result.push_back(entity);
+
+						// Also include children if they exist
+						for (auto* child : entity->children) {
+							if (child && !child->isHidden()) {
+								result.push_back(static_cast<T*>(child));
+							}
+						}
 					}
 				}
 			}
@@ -109,6 +121,7 @@ public:
 
 	}
 
+	// loops through the intrecepted cells and just get the entities
 	template <typename T>
 	std::vector<T*> getEntitiesInCameraCells() {
 		std::vector<T*> result;
@@ -117,6 +130,21 @@ public:
 			for (auto& cell : _interceptedCells) {
 				result.insert(result.end(), cell->nodes.begin(), cell->nodes.end());
 			}
+
+			for (auto& cell : _interceptedCells) {
+				for (auto& entity : cell->nodes) {
+					if (!entity->isHidden()) {
+						// Also include children if they exist
+						for (auto* child : entity->children) {
+							if (child && !child->isHidden()) {
+								// If you only want certain child types, check here
+								visible_emptyEntities.push_back(child);
+							}
+						}
+					}
+				}
+			}
+
 		}
 		else if constexpr (std::is_same_v<T, EmptyEntity>) {
 			for (auto& cell : _interceptedCells) {

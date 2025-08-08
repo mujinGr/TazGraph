@@ -22,9 +22,7 @@ private:
 	std::array<std::vector<NodeEntity*>, maxGroups> groupedNodeEntities;
 	std::array<std::vector<LinkEntity*>, maxGroups> groupedLinkEntities;
 
-	std::vector<EmptyEntity*> visible_emptyEntities;
-	std::vector<NodeEntity*> visible_nodes;
-	std::vector<LinkEntity*> visible_links;
+
 	
 	std::array<std::vector<EmptyEntity*>, maxGroups> visible_groupedEmptyEntities;
 	std::array<std::vector<NodeEntity*>, maxGroups> visible_groupedNodeEntities;
@@ -106,30 +104,30 @@ public:
 			movedNodes.clear();
 
 			//! UPDATE
-			_threader->parallel(visible_emptyEntities.size(), [&](int start, int end) {
+			_threader->parallel(grid->visible_emptyEntities.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					if (visible_emptyEntities[i] && visible_emptyEntities[i]->isActive()) {
-						visible_emptyEntities[i]->update(deltaTime);
+					if (grid->visible_emptyEntities[i] && grid->visible_emptyEntities[i]->isActive()) {
+						grid->visible_emptyEntities[i]->update(deltaTime);
 					}
 				}
 				});
 
 			
-			_threader->parallel(visible_nodes.size(), [&](int start, int end) {
+			_threader->parallel(grid->visible_nodes.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					if (visible_nodes[i] && visible_nodes[i]->isActive()) {
-						visible_nodes[i]->update(deltaTime);
+					if (grid->visible_nodes[i] && grid->visible_nodes[i]->isActive()) {
+						grid->visible_nodes[i]->update(deltaTime);
 					}
 				}
 
 				});
 
 			
-			_threader->parallel(visible_links.size(), [&](int start, int end) {
+			_threader->parallel(grid->visible_links.size(), [&](int start, int end) {
 
 				for (int i = start; i < end; i++) {
-					if (visible_links[i] && visible_links[i]->isActive()) {
-						visible_links[i]->update(deltaTime);
+					if (grid->visible_links[i] && grid->visible_links[i]->isActive()) {
+						grid->visible_links[i]->update(deltaTime);
 					}
 				}
 				});
@@ -164,14 +162,14 @@ public:
 
 			movedNodes.clear();
 
-			for (auto& e : visible_emptyEntities) {
+			for (auto& e : grid->visible_emptyEntities) {
 				if (!e || !e->isActive()) continue;
 
 				e->update(deltaTime);
 			}
 
 			if (arrowheadsEnabled) {
-				for (auto& e : visible_nodes) {
+				for (auto& e : grid->visible_nodes) {
 					if (!e || !e->isActive()) continue;
 
 					e->update(deltaTime);
@@ -180,7 +178,7 @@ public:
 			}
 			
 
-			for (auto& e : visible_links) {
+			for (auto& e : grid->visible_links) {
 				if (!e || !e->isActive()) continue;
 
 				e->update(deltaTime);
@@ -250,13 +248,13 @@ public:
 	template <typename T>
 	std::vector<T*> getVisible() {
 		if constexpr (std::is_same_v<T, EmptyEntity>) {
-			return visible_emptyEntities;
+			return grid->visible_emptyEntities;
 		}
 		else if constexpr (std::is_same_v<T, NodeEntity>) {
-			return visible_nodes;
+			return grid->visible_nodes;
 		}
 		else if constexpr (std::is_same_v<T, LinkEntity>) {
-			return visible_links;
+			return grid->visible_links;
 		}
 		else {
 			static_assert(sizeof(T) == 0, "Unsupported entity type.");
@@ -405,6 +403,8 @@ public:
 
 		groupRenderSprites,
 		
+		groupPorts,
+		
 		//fore
 		buttonLabels,
 	};
@@ -433,7 +433,7 @@ public:
 
 		{ groupColliders,"groupColliders" },
 		{ groupRenderSprites,"groupRenderSprites" },
-
+		{ groupPorts,"groupPorts" },
 
 		//fore
 		{ buttonLabels,"buttonLabels" },

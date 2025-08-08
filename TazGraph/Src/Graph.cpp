@@ -262,6 +262,10 @@ void Graph::update(float deltaTime) //game objects updating
 				link->updateLinkToPorts();
 				link->addArrowHead();
 			}
+			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupPathLinks_0))
+			{
+				link->updateLinkToPorts();
+			}
 		}
 		if (!manager->arrowheadsEnabled) {
 			//todo change each links from and to entities (from ports, to center of nodes)
@@ -1236,17 +1240,6 @@ void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& 
 	
 }
 
-//void Graph::renderBatch(const std::vector<PathEntity*>& entities, LineRenderer& batch) {
-//	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
-//		for (int i = start; i < end; i++) {
-//			assert(entities[i]->hasComponent<Line_w_Color>());
-//
-//			/*for(each 2 nodes)
-//				entities[i]->GetComponent<Line_w_Color>().drawWithPorts(i, batch, *Graph::_window);*/
-//		}
-//		});
-//}
-
 void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch) {
 
 	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
@@ -1473,7 +1466,7 @@ void Graph::draw()
 	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
 	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
 	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
-
+	
 	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
 
 
@@ -1509,25 +1502,42 @@ void Graph::draw()
 	_LightRenderer.renderBatch(_resourceManager.getGLSLProgram("light"));
 	glsl_light.unuse();
 
+	glDepthMask(GL_FALSE);  // don’t write to depth buffer
+	glDisable(GL_DEPTH_TEST);
 
-	//! Link Paths rendering
+	//! Link Paths rendering & Ports rendering
 	_LineRenderer.begin();
+	_PlaneColorRenderer.begin();
+
 	_LineRenderer.initBatchLines(
 		manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks_0).size()
 	);
+	_PlaneColorRenderer.initQuadBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupPorts).size());
+
 	_LineRenderer.initBatchSize();
+	_PlaneColorRenderer.initBatchSize();
+
 
 	renderBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks_0), _LineRenderer);
+
+	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupPorts), _PlaneColorRenderer);
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
 	pLocation = glsl_lineColor.getUniformLocation("lineWidth");
-	glUniform1f(pLocation, 30.0f);
+	glUniform1f(pLocation, 5.0f);
 
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
 	glsl_lineColor.unuse();
 
+	_resourceManager.setupShader(glsl_color, *main_camera2D);
+	_PlaneColorRenderer.end();
+	_PlaneColorRenderer.renderBatch(&glsl_color);
+	glsl_color.unuse();
+
+	glDepthMask(GL_TRUE);
+	glEnable(GL_DEPTH_TEST);
 
 	_LineRenderer.begin();
 
@@ -1616,7 +1626,7 @@ void Graph::draw()
 	
 
 	pLocation = glsl_lineColor.getUniformLocation("lineWidth");
-	glUniform1f(pLocation, 10.0f);
+	glUniform1f(pLocation, 5.0f);
 
 	_LineRenderer.end();
 	_LineRenderer.renderBatch(main_camera2D->getCameraRect().x / main_camera2D->getCameraRect().y);

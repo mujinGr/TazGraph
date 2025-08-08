@@ -174,40 +174,53 @@ public:
 		TransformComponent* tr = &GetComponent<TransformComponent>();
 
 		auto& leftPort = getManager()->addEntityNoId<Empty>();
+		leftPort.addGroup(Manager::groupPorts);
 		glm::vec3 m_position = glm::vec3(-tr->size.x / 2, 0.0f, 0.0f);
 		leftPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children[NodePorts::LEFT] = &leftPort;
 		children[NodePorts::LEFT]->setParentEntity(this);
 		children[NodePorts::LEFT]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
+		children[NodePorts::LEFT]->addComponent<PortComponent>();
 
 		auto& rightPort = getManager()->addEntityNoId<Empty>();
+		rightPort.addGroup(Manager::groupPorts);
 		m_position = glm::vec3(tr->size.x / 2 , 0.0f, 0.0f);
 		rightPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children[NodePorts::RIGHT] = &rightPort;
 		children[NodePorts::RIGHT]->setParentEntity(this);
 		children[NodePorts::RIGHT]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
+		children[NodePorts::RIGHT]->addComponent<PortComponent>();
 
 		// Initialize top port
 		auto& topPort = getManager()->addEntityNoId<Empty>();
+		topPort.addGroup(Manager::groupPorts);
 		m_position = glm::vec3(0.0f, -tr->size.y / 2.0f, 0.0f);
 		topPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children[NodePorts::TOP] = &topPort;
 		children[NodePorts::TOP]->setParentEntity(this);
 		children[NodePorts::TOP]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
+		children[NodePorts::TOP]->addComponent<PortComponent>();
 
 		// Initialize bottom port
 		auto& bottomPort = getManager()->addEntityNoId<Empty>();
+		bottomPort.addGroup(Manager::groupPorts);
 		m_position = glm::vec3(0.0f, tr->size.y / 2.0f, 0.0f);
 		bottomPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children[NodePorts::BOTTOM] = &bottomPort;
 		children[NodePorts::BOTTOM]->setParentEntity(this);
 		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
+		children[NodePorts::BOTTOM]->addComponent<PortComponent>();
 
 	}
 
 	void removePorts() {
 		for (auto portName : { NodePorts::LEFT, NodePorts::RIGHT, NodePorts::TOP, NodePorts::BOTTOM }) {
 			if (children[portName]) {
+				children[portName]->destroy();
+				for (auto port : children[portName]->GetComponent<PortComponent>().portIndexes)
+				{
+					port.destroy();
+				}
 				children[portName] = nullptr;
 			}
 		}
