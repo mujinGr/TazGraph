@@ -49,18 +49,17 @@ public:
 
 		Entity* fromPortEntity = fromNode->children[entity->fromPort];
 		Entity* toPortEntity = toNode->children[entity->toPort];
-		//////////////////////////////////
 		PortComponent& fromPortComp = fromPortEntity->GetComponent<PortComponent>();
 		PortComponent& toPortComp = toPortEntity->GetComponent<PortComponent>();
 
-		// Get specific connection points based on slot indices
-		//glm::vec3 fromConnectionPoint = fromPortComp.getConnectionPoint(entity->fromSlotIndex);
-		//glm::vec3 toConnectionPoint = toPortComp.getConnectionPoint(entity->toSlotIndex);
-		//////////////////////////////////
-		glm::vec3 fromPortCenter = fromPortEntity->GetComponent<TransformComponent>().getCenterTransform();
-		glm::vec3 toPortCenter = toPortEntity->GetComponent<TransformComponent>().getCenterTransform();
+		if ((entity->fromSlotIndex >= fromPortComp.portSlots.size())
+			 || (entity->toSlotIndex >= toPortComp.portSlots.size())) {
+			return;
+		}
+		glm::vec3 fromConnectionPoint = fromPortComp.portSlots[entity->fromSlotIndex]->GetComponent<TransformComponent>().getCenterTransform();
+		glm::vec3 toConnectionPoint = toPortComp.portSlots[entity->toSlotIndex]->GetComponent<TransformComponent>().getCenterTransform();
 
-		batch.drawLine(v_index, fromPortCenter, toPortCenter, src_color, dest_color);
+		batch.drawLine(v_index, fromConnectionPoint, toConnectionPoint, src_color, dest_color);
 	}
 
 	void setSrcColor(Color clr) {

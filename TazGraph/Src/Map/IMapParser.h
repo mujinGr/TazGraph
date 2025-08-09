@@ -9,6 +9,7 @@
 #include <DotParser.h> // for dot/graphviz
 
 #include "GECS/Core/GECSEntityTypes.h"
+#include "GECS/UtilComponents.h"
 
 struct ParsedNode {
 	int id;

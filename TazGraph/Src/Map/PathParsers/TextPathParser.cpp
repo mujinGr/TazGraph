@@ -26,12 +26,17 @@ void TextPathParser::parse(Manager& manager,
 		linkLines.push_back(line);
 	}
 
+    
+
     std::vector<Entity*> linkEntities;
 
     for (const std::string& line : linkLines) {
         std::stringstream ss(line);
         std::string token;
         std::vector<int> ids;
+
+        auto& pathLinker = manager.addEntity<Empty>();
+        pathLinker.addComponent<PathLinkerComponent>();
 
         while (std::getline(ss, token, '-')) {
             ids.push_back(std::stoi(token));
@@ -44,6 +49,10 @@ void TextPathParser::parse(Manager& manager,
             auto& link = manager.addEntity<Link>(idA, idB);
 
             link.addGroup(Manager::groupPathLinks_0);
+
+            pathLinker.GetComponent<PathLinkerComponent>().addLink(&link);
+            pathLinker.addGroup(Manager::groupPathLinksHolder);
+
             linkEntities.push_back(&link);
         }
     }

@@ -33,6 +33,9 @@ public:
 	}
 
 	void update(float deltaTime) override {
+		transform->size.x = entity->getParentEntity()->GetComponent<TransformComponent>().size.x;
+		transform->size.y = entity->getParentEntity()->GetComponent<TransformComponent>().size.y;
+
 		if (!isVertical) {
 			if (portSlots.size() > 1)
 				slotSpacing = transform->size.x / (portSlots.size());

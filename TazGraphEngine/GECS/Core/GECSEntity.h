@@ -130,6 +130,19 @@ public:
 
 	}
 
+	LinkEntity(
+		Manager& mManager,
+		NodeEntity* mfrom, NodeEntity* mto,
+		int m_fromPort, int m_toPort, int m_fromSlot, int m_toSlot )
+		: MultiCellEntity(mManager), from(mfrom), to(mto)
+	{
+		children.resize(1, nullptr);
+		fromPort = m_fromPort;
+		toPort = m_toPort;
+		fromSlotIndex = m_fromSlot;
+		toSlotIndex = m_toSlot;
+	}
+
 	void setComponentEntity(LinkComponent* c) override {
 		c->entity = this;
 	}

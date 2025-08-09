@@ -302,6 +302,19 @@ public:
 
 	}
 
+	Link(
+		Manager& mManager,
+		NodeEntity* mfrom, NodeEntity* mto,
+		int m_fromPort, int m_toPort, int m_fromSlot, int m_toSlot
+	)
+		: LinkEntity(mManager,
+			mfrom, mto,
+			m_fromPort, m_toPort,
+			m_fromSlot, m_toSlot)
+	{
+
+	}
+
 	void addGroup(Group mGroup) override {
 		Entity::addGroup(mGroup);
 		manager.AddLinkToGroup(this, mGroup);
@@ -465,6 +478,8 @@ public:
 
 					oldSlots.erase(oldSlots.begin() + oldSlotIndex);  // Remove from vector first
 					slotToRemove->destroy();
+
+					updateLinksSlotIndices(node, oldPort, oldSlotIndex);
 				}
 			}
 		}
@@ -503,6 +518,23 @@ public:
 		return oldSlotIndex;
 	}
 
+	void updateLinksSlotIndices(NodeEntity* node, int portIndex, int removedSlotIndex) {
+		for (auto& linkEntity : node->getOutLinks()) {
+
+			if (linkEntity->fromPort == portIndex &&
+				linkEntity->fromSlotIndex > removedSlotIndex) {
+				linkEntity->fromSlotIndex--;
+			}
+		}
+
+		for (auto& linkEntity : node->getInLinks()) {
+
+			if (linkEntity->toPort == portIndex &&
+				linkEntity->toSlotIndex > removedSlotIndex) {
+				linkEntity->toSlotIndex--;
+			}
+		}
+	}
 
 	void imgui_print() override {
 		glm::vec2 fromNodePosition = this->getFromNode()->GetComponent<TransformComponent>().getCenterTransform();

@@ -239,6 +239,20 @@ void Graph::update(float deltaTime) //game objects updating
 		node->GetComponent<ColliderComponent>().collisionPhysics();
 	}
 
+	if (manager->updateInnerPathLinks) {
+		for (auto& pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
+		{
+			pathLinker->GetComponent<PathLinkerComponent>().removeInnerLinks();
+		}
+		if (manager->arrowheadsEnabled) {
+			for (auto& pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
+			{
+				pathLinker->GetComponent<PathLinkerComponent>().createInnerLinks();
+			}
+		}
+		manager->updateInnerPathLinks = false;
+	}
+
 	if (manager->last_arrowheadsEnabled != manager->arrowheadsEnabled) {
 		manager->last_arrowheadsEnabled = manager->arrowheadsEnabled;
 
@@ -266,8 +280,10 @@ void Graph::update(float deltaTime) //game objects updating
 			{
 				link->updateLinkToPorts();
 			}
+			
 		}
 		if (!manager->arrowheadsEnabled) {
+			
 			//todo change each links from and to entities (from ports, to center of nodes)
 			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupLinks_0)) {
 				link->updateLinkToNodes();
@@ -619,60 +635,132 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 		sphereRad += 0.005f;
 	}
 	
-	for (auto& trav_cell : trav_cells) {
+	// Helper function to check if entity is already selected
+	auto isEntitySelected = [&](Entity* entity) {
+		return std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
+			[entity](const std::pair<Entity*, glm::vec3>& entry) {
+				return entry.first == entity;
+			}) != _selectedEntities.end();
+		};
 
+	// Helper function to find which path a link belongs to
+	auto findPathContainingLink = [&](Entity* targetLink) -> std::vector<LinkEntity*>*{
+		for (auto& pathHolder : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
+			auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
+
+			for (auto* link : pathLinks) {
+				if (link == targetLink) {
+					return &pathLinks; // Return reference to the path's link vector
+				}
+			}
+		}
+		return nullptr; // Link is not part of any path
+		};
+
+	// Unified link selection handler
+	auto handleLinkSelection = [&](Entity* link, int mode, bool selectWholePath = false) {
+		std::vector<Entity*> linksToSelect;
+
+		if (selectWholePath) {
+			// Find the path this link belongs to
+			auto* pathLinks = findPathContainingLink(link);
+			if (pathLinks) {
+				// Add all valid links in the path (cast LinkEntity* to Entity*)
+				for (auto* pathLink : *pathLinks) {
+					if (pathLink) {
+						linksToSelect.push_back(static_cast<Entity*>(pathLink));
+					}
+				}
+			}
+			else {
+				// Not a path link, just select the single link
+				linksToSelect.push_back(link);
+			}
+		}
+		else {
+			// Single link selection
+			linksToSelect.push_back(link);
+		}
+
+		// Apply selection based on mode
+		switch (mode) {
+		case SDL_BUTTON_RIGHT:
+			_displayedEntity = link; // Still display just the clicked link for UI purposes
+			break;
+
+		case SDL_BUTTON_LEFT:
+			_selectedEntities.clear(); // Clear previous selection
+			for (auto* linkToSelect : linksToSelect) {
+				if (!isEntitySelected(linkToSelect)) {
+					_selectedEntities.emplace_back(linkToSelect, glm::vec3(0));
+				}
+			}
+			break;
+
+		case ON_HOVER:
+			if (_selectedEntities.empty()) {
+				_onHoverEntity = link; // Still hover just the individual link
+			}
+			break;
+
+		case CTRLD_LEFT_CLICK:
+			// Add to selection (multi-select)
+			for (auto* linkToSelect : linksToSelect) {
+				if (!isEntitySelected(linkToSelect)) {
+					_selectedEntities.emplace_back(linkToSelect, glm::vec3(0));
+				}
+			}
+			break;
+		}
+		};
+
+	// Check individual links in trav_cells (now with path awareness)
+	for (auto& trav_cell : trav_cells) {
 		for (auto& link : trav_cell->links) {
 			glm::vec3 t;
-
-			if (rayIntersectsLineSegment(rayOrigin,
-				rayDirection,
+			if (rayIntersectsLineSegment(rayOrigin, rayDirection,
 				link->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(),
 				link->getToNode()->GetComponent<TransformComponent>().getCenterTransform(),
-				t,
-				minT,
-				maxT,
-				sphereRad)
-				) {
-				//std::cout << "Ray hit link: " << link->getId() << " at distance " << t.x << t.y << t.z << std::endl;
+				t, minT, maxT, sphereRad)) {
 
-				if (activateMode == SDL_BUTTON_RIGHT)
-				{
-					_displayedEntity = link;
-				}
-				else if (activateMode == SDL_BUTTON_LEFT) {
-					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[link](const std::pair<Entity*, glm::vec3>& entry) {
-							return entry.first == link;
-						});
-
-					if (it == _selectedEntities.end()) { // Node not found
-						_selectedEntities.clear();
-						_selectedEntities.emplace_back(link, glm::vec3(0));
-					}
-				}
-				else if (activateMode == ON_HOVER && _selectedEntities.empty()) {
-					_onHoverEntity = link;
-				}
-				else if (activateMode == CTRLD_LEFT_CLICK) {
-					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[link](const std::pair<Entity*, glm::vec3>& entry) {
-							return entry.first == link;
-						});
-
-					if (it == _selectedEntities.end()) { // Node not found
-						_selectedEntities.emplace_back(link, glm::vec3(0));
-					}
-					
-				}
-
+				// Check if this link is part of a path and select accordingly
+				handleLinkSelection(link, activateMode, true); // true = select whole path if it's a path link
 				hasSelected = true;
 				break;
 			}
 		}
-
 		if (hasSelected) return;
+	}
 
-		
+	// Check path link holders (existing behavior - select entire path)
+	for (auto& pathHolder : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
+		auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
+		bool hitAny = false;
+		glm::vec3 t;
+
+		// Check if ray hits any link in this path
+		for (auto* link : pathLinks) {
+			if (!link) continue;
+
+			if (rayIntersectsLineSegment(rayOrigin, rayDirection,
+				link->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(),
+				link->getToNode()->GetComponent<TransformComponent>().getCenterTransform(),
+				t, minT, maxT, sphereRad)) {
+
+				hitAny = true;
+				break;
+			}
+		}
+
+		if (hitAny) {
+			// Select all links in this path
+			for (auto* link : pathLinks) {
+				if (!link) continue;
+				handleLinkSelection(link, activateMode, false); // false = don't double-process path selection
+			}
+			hasSelected = true;
+			return; // Stop after first hit path holder
+		}
 	}
 
 	if (!hasSelected && activateMode == SDL_BUTTON_LEFT) {

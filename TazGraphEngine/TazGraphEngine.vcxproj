@@ -218,6 +218,7 @@
     <ClInclude Include="GECS\Components\Empty\Basic\PortSlotComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\SphereComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\PortComponent.h" />
+    <ClInclude Include="GECS\Components\Empty\Util\PathLinkerComponent.h" />
     <ClInclude Include="GECS\Components\Link\Basic\Line_w_Color.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\Triangle_w_Color.h" />
     <ClInclude Include="GECS\Components\Link\Basic\SpringComponent.h" />

@@ -218,6 +218,7 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 
 	if (ImGui::Button(manager.arrowheadsEnabled ? "Disable Arrowheads" : "Enable Arrowheads")) {
 		manager.arrowheadsEnabled = !manager.arrowheadsEnabled;
+		manager.updateInnerPathLinks = true;
 		//manager.setArrowheadsEnabled(arrowheadsEnabled); // Call function to apply change
 	}
 	
@@ -277,13 +278,9 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 		for (NodeEntity* node : nodes) {
 			if (node == centerNode) continue;
 			int count = node->getOutLinks().size();
-#if defined(_WIN32) || defined(_WIN64)
-			minOutlinks = min(minOutlinks, count);
-			maxOutlinks = max(maxOutlinks, count);
-#else
+
 			minOutlinks = std::min(minOutlinks, count);
 			maxOutlinks = std::max(maxOutlinks, count);
-#endif
 
 		}
 
@@ -297,11 +294,7 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 			float angle = (2 * M_PI * index) / total;
 			int outLinks = node->getOutLinks().size();
 
-#if defined(_WIN32) || defined(_WIN64)
-			float normalized = (float)(maxOutlinks - outLinks) / max(1, maxOutlinks - minOutlinks);
-#else
 			float normalized = (float)(maxOutlinks - outLinks) / std::max(1, maxOutlinks - minOutlinks);
-#endif
 			float radius = minRadius + normalized * (maxRadius - minRadius);
 
 			glm::vec2 pos = centerPos + glm::vec2(cos(angle), sin(angle)) * radius;
@@ -534,18 +527,10 @@ void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
 	ImGui::Begin("Performance");
 	ImGui::Text("FPS: %f", baseFPSLimiter.fps);
 	if (ImPlot::BeginPlot("FPS Plot")) {
-#if defined(_WIN32) || defined(_WIN64)
-		int plot_count = min(baseFPSLimiter.fps_history_count,
-			baseFPSLimiter.fpsHistoryIndx); // Ensuring we do not read out of bounds
-		int plot_offset = max(0,
-			baseFPSLimiter.fpsHistoryIndx - baseFPSLimiter.fps_history_count); // Ensure a positive offset
-#else
 		int plot_count = std::min(baseFPSLimiter.fps_history_count,
 			baseFPSLimiter.fpsHistoryIndx); // Ensuring we do not read out of bounds
 		int plot_offset = std::max(0,
 			baseFPSLimiter.fpsHistoryIndx - baseFPSLimiter.fps_history_count); // Ensure a positive offset
-
-#endif
 
 		ImPlot::SetupAxesLimits(0, 100, 0, 200);
 

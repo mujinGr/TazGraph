@@ -37,6 +37,8 @@ public:
 	bool arrowheadsEnabled = false;
 	bool last_arrowheadsEnabled = false;
 
+	bool updateInnerPathLinks = false;
+
 	std::unordered_map<std::string, std::vector<std::string>> componentNames;
 
 	std::unique_ptr<Grid> grid;
@@ -77,6 +79,7 @@ public:
 			//? THIS MAY CAUSE ERRORS, IF REMOVE LINK FROM CELL AND OTHER LINK THAT HAS THAT CELL IN SEARCH
 			//? WILL PUMP IN AN EMPTY ELEMENT OR THE SIZE WILL BE SMALLER FOR THAT LINK TO FIND ELEMENT
 			for (auto& e : movedNodes) {
+				updateInnerPathLinks = true;
 				for (auto& link : e->getInLinks()) {
 					link->cellUpdate();
 				}
@@ -391,6 +394,8 @@ public:
 		groupPathLinks_1,
 		groupPathLinks_2,
 
+		groupPathLinksHolder,
+
 		groupArrowHeads_0,
 
 		groupNodes_0,
@@ -422,6 +427,8 @@ public:
 		{groupPathLinks_0, "groupPathLinks_0"},
 		{groupPathLinks_1, "groupPathLinks_1"},
 		{groupPathLinks_2, "groupPathLinks_2"},
+		
+		{groupPathLinksHolder, "groupPathLinksHolder"},
 
 		{groupArrowHeads_0, "groupArrowHeads_0"},
 
