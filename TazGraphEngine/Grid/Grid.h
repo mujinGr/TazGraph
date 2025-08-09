@@ -77,9 +77,14 @@ public:
 					if (!entity->isHidden()) {  // Check if the entity is visible
 						result.push_back(entity);
 
-						for (auto* child : entity->children) {
-							if (child && !child->isHidden()) {
-								visible_emptyEntities.push_back(child);
+						for (auto* port : entity->children) {
+							if (port && !port->isHidden()) {
+								visible_emptyEntities.push_back(port);
+
+								if (port->hasComponent<PortComponent>()) {
+									for (auto& portSlots : port->GetComponent<PortComponent>().portSlots)
+										visible_emptyEntities.push_back(portSlots);
+								}
 							}
 						}
 					}
@@ -91,12 +96,6 @@ public:
 				for (auto& entity : cell->emptyEntities) {
 					if (!entity->isHidden()) {  // Check if the entity is visible
 						result.push_back(entity);
-
-						for (auto* child : entity->GetComponent<PortComponent>().portSlots) {
-							if (child && !child->isHidden()) {
-								visible_emptyEntities.push_back(child);
-							}
-						}
 					}
 				}
 			}

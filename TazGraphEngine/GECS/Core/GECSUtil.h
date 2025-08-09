@@ -24,6 +24,7 @@ static const std::unordered_map<std::string, std::function<void(Entity*)>> addCo
     {"KeyboardControllerComponent", [](Entity* entity) { entity->addComponent<KeyboardControllerComponent>(); }},
     {"GridComponent", [](Entity* entity) { entity->addComponent<GridComponent>(); }},
     {"PortComponent", [](Entity* entity) { entity->addComponent<PortComponent>(); }},
+    {"PortSlotComponent", [](Entity* entity) { entity->addComponent<PortSlotComponent>(); }},
     {"PollingComponent", [](Entity* entity) { entity->addComponent<PollingComponent>(); }},
 };
 
@@ -47,6 +48,7 @@ static const std::unordered_map<std::string, std::function<void(Entity*)>> remov
     {"KeyboardControllerComponent", [](Entity* entity) { entity->removeComponent<KeyboardControllerComponent>(); }},
     {"GridComponent", [](Entity* entity) { entity->removeComponent<GridComponent>(); }},
     {"PortComponent", [](Entity* entity) { entity->removeComponent<PortComponent>(); }},
+    {"PortSlotComponent", [](Entity* entity) { entity->removeComponent<PortSlotComponent>(); }},
     {"PollingComponent", [](Entity* entity) { entity->removeComponent<PollingComponent>(); }},
 };
 
@@ -70,6 +72,7 @@ static const std::unordered_map<std::string, std::function<BaseComponent* (Entit
     {"KeyboardControllerComponent", [](Entity* entity) -> BaseComponent* { return &entity->GetComponent<KeyboardControllerComponent>(); }},
     {"GridComponent", [](Entity* entity) -> BaseComponent* { return &entity->GetComponent<GridComponent>(); }},
     {"PortComponent", [](Entity* entity) -> BaseComponent* { return &entity->GetComponent<PortComponent>(); }},
+    {"PortSlotComponent", [](Entity* entity) -> BaseComponent* { return &entity->GetComponent<PortSlotComponent>(); }},
     {"PollingComponent", [](Entity* entity) -> BaseComponent* { return &entity->GetComponent<PollingComponent>(); }},
 };
 

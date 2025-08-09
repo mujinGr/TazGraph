@@ -46,8 +46,6 @@ public:
 				slotSpacing = transform->size.y;
 		}
 
-		updateSlotPositions();
-		//transform->setRotation(transform->getRotation() + 0.1f);
 	}
 
 	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {
@@ -75,21 +73,34 @@ public:
 		}
 
 	}
-private:
-	void updateSlotPositions() {
-		glm::vec3 basePos = transform->bodyCenter; // center of the port entity
 
-		for (size_t i = 0; i < portSlots.size(); i++) {
-			glm::vec3 offset(0.0f);
-
-			if (!isVertical) {
-				offset.x = (static_cast<float>(i) - (portSlots.size() - 1) / 2.0f) * slotSpacing;
-			}
-			else { // Vertical
-				offset.y = (static_cast<float>(i) - (portSlots.size() - 1) / 2.0f) * slotSpacing;
-			}
-
-			portSlots[i]->GetComponent<TransformComponent>().bodyCenter = basePos + offset;
+	glm::vec3 getSlotPosition(size_t slotIndex) const {
+		if (slotIndex >= portSlots.size()) {
+			TazGraphEngine::ConsoleLogger::error("Port Slot index wrong");
+			return transform->bodyCenter;
 		}
+
+		glm::vec3 basePos = transform->bodyCenter;
+		glm::vec3 offset(0.0f);
+
+		if (!isVertical) {
+			offset.x = (static_cast<float>(slotIndex) - (portSlots.size() - 1) / 2.0f) * slotSpacing;
+		}
+		else { // Vertical
+			offset.y = (static_cast<float>(slotIndex) - (portSlots.size() - 1) / 2.0f) * slotSpacing;
+		}
+
+		return basePos + offset;
 	}
+
+	// Helper function to find the index of a specific slot
+	int getSlotIndex(EmptyEntity* slot) const {
+		for (size_t i = 0; i < portSlots.size(); ++i) {
+			if (portSlots[i] == slot) {
+				return static_cast<int>(i);
+			}
+		}
+		return -1; // Not found
+	}
+
 };

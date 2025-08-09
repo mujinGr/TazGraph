@@ -9,6 +9,7 @@
 #include "./Components/Empty/Basic/BoxComponent.h"
 #include "./Components/Empty/Basic/SphereComponent.h"
 #include "./Components/Empty/Basic/PortComponent.h"
+#include "./Components/Empty/Basic/PortSlotComponent.h"
 
 #include "./Components/Link/Basic/Line_w_Color.h"
 #include "./Components/Link/Basic/SpringComponent.h"

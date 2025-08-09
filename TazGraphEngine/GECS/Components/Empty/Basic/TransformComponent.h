@@ -76,7 +76,10 @@ public:
 	void update(float deltaTime) override
 	{
 		
-		if (entity->getParentEntity() && dynamic_cast<NodeEntity*>(entity->getParentEntity())) {
+		if (entity->getParentEntity()
+			&& (dynamic_cast<NodeEntity*>(entity->getParentEntity()) 
+				|| dynamic_cast<EmptyEntity*>(entity->getParentEntity()))) 
+		{
 			Entity* parent = entity->getParentEntity();
 			TransformComponent* parentTR = &parent->GetComponent<TransformComponent>();
 			if (

@@ -98,10 +98,10 @@ protected:
 	NodeEntity* to = nullptr;
 
 public:
-	int fromPort;
-	int toPort;
-	int fromSlotIndex;
-	int toSlotIndex;
+	int fromPort = -1;
+	int toPort = -1;
+	int fromSlotIndex = -1;
+	int toSlotIndex = -1;
 
 	LinkEntity(Manager& mManager) : MultiCellEntity(mManager) {
 		children.resize(1, nullptr);

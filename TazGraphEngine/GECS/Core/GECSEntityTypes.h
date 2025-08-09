@@ -92,6 +92,9 @@ public:
 		if (children[NodePorts::LEFT]) {
 			children[NodePorts::LEFT]->GetComponent<TransformComponent>().position = m_position;
 			children[NodePorts::LEFT]->update(deltaTime);
+			for (auto& portSlots : children[NodePorts::LEFT]->GetComponent<PortComponent>().portSlots) {
+				portSlots->update(deltaTime);
+			}
 		}
 
 		m_position = glm::vec3(tr->size.x / 2, 0.0f, 0.0f);
@@ -99,6 +102,9 @@ public:
 		if (children[NodePorts::RIGHT]) {
 			children[NodePorts::RIGHT]->GetComponent<TransformComponent>().position = m_position;
 			children[NodePorts::RIGHT]->update(deltaTime);
+			for (auto& portSlots : children[NodePorts::RIGHT]->GetComponent<PortComponent>().portSlots) {
+				portSlots->update(deltaTime);
+			}
 		}
 		
 		m_position = glm::vec3(0.0f, -tr->size.y / 2.0f, 0.0f);
@@ -106,6 +112,9 @@ public:
 		if (children[NodePorts::TOP]) {
 			children[NodePorts::TOP]->GetComponent<TransformComponent>().position = m_position;
 			children[NodePorts::TOP]->update(deltaTime);
+			for (auto& portSlots : children[NodePorts::TOP]->GetComponent<PortComponent>().portSlots) {
+				portSlots->update(deltaTime);
+			}
 		}
 		
 		m_position = glm::vec3(0.0f, tr->size.y / 2.0f, 0.0f);
@@ -113,6 +122,9 @@ public:
 		if (children[NodePorts::BOTTOM]) {
 			children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().position = m_position;
 			children[NodePorts::BOTTOM]->update(deltaTime);
+			for (auto& portSlots : children[NodePorts::BOTTOM]->GetComponent<PortComponent>().portSlots) {
+				portSlots->update(deltaTime);
+			}
 		}
 	}
 
@@ -211,14 +223,15 @@ public:
 		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
 		children[NodePorts::BOTTOM]->addComponent<PortComponent>(false);
 		
-		auto& testSlot = getManager()->addEntityNoId<Empty>();
+	/*	auto& testSlot = getManager()->addEntityNoId<Empty>();
 		testSlot.addGroup(Manager::groupPortSlots);
-		testSlot.addComponent<TransformComponent>(m_position, glm::vec3(10), 1.0f);
+		testSlot.addComponent<TransformComponent>(m_position, glm::vec3(3), 1.0f);
 		testSlot.addComponent<Rectangle_w_Color>();
-		testSlot.GetComponent<Rectangle_w_Color>().setColor(Color(0, 200, 224, 255));
-
+		testSlot.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255));
+		testSlot.addComponent<PortSlotComponent>();
+		testSlot.setParentEntity(children[NodePorts::BOTTOM]);
 		children[NodePorts::BOTTOM]->GetComponent<PortComponent>().
-			portSlots.push_back(&testSlot);
+			portSlots.push_back(&testSlot);*/
 
 	}
 
@@ -367,8 +380,8 @@ public:
 		int newFromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
 		int newToPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());
 
-		fromSlotIndex = assignSlotIndex(from, newFromPort, this, fromPort, fromSlotIndex);
-		toSlotIndex = assignSlotIndex(to, newToPort, this, toPort, toSlotIndex);
+		fromSlotIndex = assignSlotIndex(from, newFromPort, fromPort, fromSlotIndex);
+		toSlotIndex = assignSlotIndex(to, newToPort, toPort, toSlotIndex);
 
 		fromPort = newFromPort;
 		toPort = newToPort;
@@ -440,25 +453,54 @@ public:
 		}
 	}
 
-	int assignSlotIndex(NodeEntity* node, int newPort, LinkEntity* link, int oldPort, int oldSlotIndex) {
-		// If port changed, remove from old one
-		if (oldPort != -1 && oldPort != newPort) {
+	int assignSlotIndex(NodeEntity* node, int newPort, int oldPort, int oldSlotIndex) {
+		// If port changed, remove link from old port's slots
+		if (oldPort != -1 && oldPort != newPort && oldPort < (int)node->children.size()) {
 			Entity* oldPortEntity = node->children[oldPort];
-			auto& oldSlots = oldPortEntity->GetComponent<PortComponent>().portSlots;
-			if (oldSlotIndex >= 0 && oldSlotIndex < (int)oldSlots.size()) {
-				oldSlots.erase(oldSlots.begin() + oldSlotIndex);
-				/*oldPortEntity->GetComponent<PortComponent>().updateLayout(
-					oldPortEntity->GetComponent<TransformComponent>());*/
+			if (oldPortEntity && oldPortEntity->hasComponent<PortComponent>()) {
+				auto& oldSlots = oldPortEntity->GetComponent<PortComponent>().portSlots;
+
+				if (oldSlotIndex >= 0 && oldSlotIndex < (int)oldSlots.size()) {
+					EmptyEntity* slotToRemove = oldSlots[oldSlotIndex];
+
+					oldSlots.erase(oldSlots.begin() + oldSlotIndex);  // Remove from vector first
+					slotToRemove->destroy();
+				}
 			}
 		}
 
-		// Get new port entity
-		Entity* newPortEntity = node->children[newPort];
-		auto& newSlots = newPortEntity->GetComponent<PortComponent>().portSlots;
+		if (oldPort != newPort) {
+			if (newPort < 0 || newPort >= (int)node->children.size()) {
+				return -1; // Invalid port
+			}
 
-		/*newPortEntity->GetComponent<PortComponent>().updateLayout(
-			newPortEntity->GetComponent<TransformComponent>());*/
-		return static_cast<int>(newSlots.size() - 1);
+			Entity* newPortEntity = node->children[newPort];
+			if (!newPortEntity || !newPortEntity->hasComponent<PortComponent>()) {
+				return -1; // Port doesn't exist or doesn't have PortComponent
+			}
+
+			auto& newSlots = newPortEntity->GetComponent<PortComponent>().portSlots;
+
+			auto& newSlot = node->getManager()->addEntityNoId<Empty>();
+			newSlot.addGroup(Manager::groupPortSlots);
+			TransformComponent& portTransform = newPortEntity->GetComponent<TransformComponent>();
+			newSlot.addComponent<TransformComponent>(
+				portTransform.bodyCenter,
+				glm::vec3(3),
+				1.0f
+			);
+			newSlot.addComponent<Rectangle_w_Color>();
+			newSlot.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255)); // Green for connected
+			newSlot.addComponent<PortSlotComponent>();
+			// Store reference to the link (you might want to add this field to PortSlotComponent)
+			// newSlot.GetComponent<PortSlotComponent>().linkedEntity = link;
+			newSlot.setParentEntity(newPortEntity);
+			newSlots.push_back(&newSlot);
+
+			return static_cast<int>(newSlots.size() - 1);
+		}
+
+		return oldSlotIndex;
 	}
 
 

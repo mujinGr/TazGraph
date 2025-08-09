@@ -215,6 +215,7 @@
     <ClInclude Include="GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h" />
     <ClInclude Include="GECS\Animators\RectangleAnimators\RectangleFlashAnimatorComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\BoxComponent.h" />
+    <ClInclude Include="GECS\Components\Empty\Basic\PortSlotComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\SphereComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\PortComponent.h" />
     <ClInclude Include="GECS\Components\Link\Basic\Line_w_Color.h" />

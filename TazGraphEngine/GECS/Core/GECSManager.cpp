@@ -31,7 +31,7 @@ void Manager::updateActiveEntities() {
 	// if from visible entities is something deleted, then delete it from all data structures (groupedEntities + enentities)
 	// ! or instead of updating the groupedEntities when we see an inactive entity, update the groupedEntities the moment an entity goes
 	// ! inactive and wait until we about to delete more
-	for (auto& group : groupedNodeEntities) {
+	for (auto& group : groupedEmptyEntities) {
 		for (EmptyEntity* entity : group) {
 			if (!entity->isActive()) {
 				entity->removeFromCell();
@@ -62,7 +62,7 @@ void Manager::updateActiveEntities() {
 			[&toBeRemoved, i](Entity* mEntity) {
 				return !mEntity->isActive() || !mEntity->hasGroup(i);
 			}), group.end());
-		auto& m_group(visible_groupedEmptyEntities[i]);
+		auto& m_group(groupedEmptyEntities[i]);
 		m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
 			[&toBeRemoved, i](Entity* mEntity) {
 				return !mEntity->isActive() || !mEntity->hasGroup(i);
@@ -75,7 +75,7 @@ void Manager::updateActiveEntities() {
 			[&nodes_toBeRemoved, i](Entity* mEntity) {
 				return !mEntity->isActive() || !mEntity->hasGroup(i);
 			}), group.end());
-		auto& m_group(visible_groupedNodeEntities[i]);
+		auto& m_group(groupedNodeEntities[i]);
 		m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
 			[&nodes_toBeRemoved, i](Entity* mEntity) {
 				return !mEntity->isActive() || !mEntity->hasGroup(i);
@@ -113,6 +113,19 @@ void Manager::updateActiveEntities() {
 		}),
 		grid->visible_links.end());
 
+	entities.erase(
+		std::remove_if(
+			entities.begin(),
+			entities.end(),
+			[&](const std::unique_ptr<Entity>& e) {
+				Entity* raw = e.get();
+				return std::find(toBeRemoved.begin(), toBeRemoved.end(), raw) != toBeRemoved.end() ||
+					std::find(nodes_toBeRemoved.begin(), nodes_toBeRemoved.end(), raw) != nodes_toBeRemoved.end() ||
+					std::find(links_toBeRemoved.begin(), links_toBeRemoved.end(), raw) != links_toBeRemoved.end();
+			}
+		),
+		entities.end()
+	);
 }
 
 void Manager::updateVisibleEntities() {
