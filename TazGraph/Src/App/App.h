@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GraphScreen/AppInterface.h"
-#include "../Graph.h"
-#include "../MainMenuScreen/MainMenuScreen.h"
+#include <AppScene/AppInterface.h>
+#include "../Screens/GraphScene/Graph.h"
+#include "../Screens/MainMenuScreen/MainMenuScreen.h"
 
 class App : public AppInterface
 {

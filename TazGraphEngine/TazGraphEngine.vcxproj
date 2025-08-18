@@ -174,10 +174,10 @@
     <ClCompile Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.cpp" />
     <ClCompile Include="Renderers\LineRenderer\LineRenderer.cpp" />
     <ClCompile Include="GECS\Core\GECS.cpp" />
-    <ClCompile Include="GraphScreen\IScene.cpp" />
-    <ClCompile Include="GraphScreen\AppInterface.cpp" />
-    <ClCompile Include="GraphScreen\ScreenIndices.h" />
-    <ClCompile Include="GraphScreen\SceneList.cpp" />
+    <ClCompile Include="AppScene\IScene.cpp" />
+    <ClCompile Include="AppScene\AppInterface.cpp" />
+    <ClCompile Include="AppScene\ScreenIndices.h" />
+    <ClCompile Include="AppScene\SceneList.cpp" />
     <ClCompile Include="Grid\Grid.cpp" />
     <ClCompile Include="ImGuiInterface\ImGuiInterface.cpp" />
     <ClCompile Include="..\vendors\imgui\imgui.cpp" />
@@ -250,9 +250,9 @@
     <ClInclude Include="GECS\Components\Empty\Util\RigidBodyComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\SpriteComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\TransformComponent.h" />
-    <ClInclude Include="GraphScreen\IScene.h" />
-    <ClInclude Include="GraphScreen\AppInterface.h" />
-    <ClInclude Include="GraphScreen\SceneList.h" />
+    <ClInclude Include="AppScene\IScene.h" />
+    <ClInclude Include="AppScene\AppInterface.h" />
+    <ClInclude Include="AppScene\SceneList.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTexture.h" />
     <ClInclude Include="Grid\Grid.h" />

@@ -27,16 +27,16 @@
     <ClCompile Include="InputManager\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphScreen\IScene.cpp">
+    <ClCompile Include="AppScene\IScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphScreen\AppInterface.cpp">
+    <ClCompile Include="AppScene\AppInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphScreen\SceneList.cpp">
+    <ClCompile Include="AppScene\SceneList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphScreen\ScreenIndices.h">
+    <ClCompile Include="AppScene\ScreenIndices.h">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BaseFPSLimiter\BaseFPSLimiter.cpp">
@@ -149,13 +149,13 @@
     <ClInclude Include="InputManager\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphScreen\IScene.h">
+    <ClInclude Include="AppScene\IScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphScreen\AppInterface.h">
+    <ClInclude Include="AppScene\AppInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphScreen\SceneList.h">
+    <ClInclude Include="AppScene\SceneList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h">

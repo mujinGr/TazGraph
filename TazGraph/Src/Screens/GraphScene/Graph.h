@@ -1,28 +1,28 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include <GraphScreen/IScene.h>
+#include <AppScene/IScene.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <GL/glew.h>
-#include "GLSLProgram.h"
-#include "ResourceManager/ResourceManager.h"
+#include <GLSLProgram.h>
+#include <ResourceManager/ResourceManager.h>
 #undef main
 #include <iostream>
 #include <vector>
 #include "Camera2.5D/PerspectiveCamera.h"
 #include <Renderers/FrameBuffer/Framebuffer.h>
-#include "Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h"
-#include "InputManager/InputManager.h"
-#include "BaseFPSLimiter/BaseFPSLimiter.h"
+#include <Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h>
+#include <InputManager/InputManager.h>
+#include <BaseFPSLimiter/BaseFPSLimiter.h>
 //#include "SpriteFont/SpriteFont.h"
 #include "Window/Window.h"
 #include "TextureManager/TextureManager.h"
 
 
-#include "GraphScreen/ScreenIndices.h"
+#include "AppScene/ScreenIndices.h"
 
-#include "EditorIMGUI/EditorIMGUI.h"
+#include "../../EditorIMGUI/EditorIMGUI.h"
 
 #include <chrono>
 #include <thread>
@@ -127,7 +127,6 @@ private:
 	unsigned int _rectVAO = 0, _rectVBO = 0;
 
 	unsigned int _FBO = 0;
-	unsigned int _framebufferTexture = 0;
 	unsigned int _RBO = 0;
 
 	ImVec2 _windowPos;

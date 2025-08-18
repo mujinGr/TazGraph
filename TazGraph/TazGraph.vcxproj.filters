@@ -18,7 +18,7 @@
     <ClCompile Include="Src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Graph.cpp">
+    <ClCompile Include="Src\Screens\GraphScene\Graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Map\Map.cpp">
@@ -27,7 +27,7 @@
     <ClCompile Include="Src\AssetManager\AssetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\MainMenuScreen\MainMenuScreen.cpp">
+    <ClCompile Include="Src\Screens\MainMenuScreen\MainMenuScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\App\App.cpp">
@@ -63,9 +63,21 @@
     <ClCompile Include="Src\Map\PathParsers\TextPathParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Screens\GraphScene\GraphUpdate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Screens\GraphScene\GraphDraw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Screens\GraphScene\GraphUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Screens\GraphScene\GraphInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Graph.h">
+    <ClInclude Include="Src\Screens\GraphScene\Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Map\Map.h">
@@ -74,7 +86,7 @@
     <ClInclude Include="Src\AssetManager\AssetManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h">
+    <ClInclude Include="Src\Screens\MainMenuScreen\MainMenuScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\GECS\ScriptComponents.h">

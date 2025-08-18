@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphScreen/IScene.h"
+#include "AppScene/IScene.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <GL/glew.h>
@@ -18,9 +18,9 @@
 #include "Window/Window.h"
 #include "TextureManager/TextureManager.h"
 
-#include "GraphScreen/ScreenIndices.h"
+#include "AppScene/ScreenIndices.h"
 
-#include "../EditorIMGUI/EditorIMGUI.h"
+#include "../../EditorIMGUI/EditorIMGUI.h"
 
 class AssetManager;
 

@@ -170,9 +170,13 @@
     <ClCompile Include="Src\EditorIMGUI\EditorLayoutUtils.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Minimap\Minimap.cpp" />
     <ClCompile Include="Src\EditorIMGUI\OrientationBox\OrientationBox.cpp" />
-    <ClCompile Include="Src\Graph.cpp" />
+    <ClCompile Include="Src\Screens\GraphScene\Graph.cpp" />
     <ClCompile Include="Src\main.cpp" />
-    <ClCompile Include="Src\MainMenuScreen\MainMenuScreen.cpp" />
+    <ClCompile Include="Src\Screens\GraphScene\GraphDraw.cpp" />
+    <ClCompile Include="Src\Screens\GraphScene\GraphInput.cpp" />
+    <ClCompile Include="Src\Screens\GraphScene\GraphUI.cpp" />
+    <ClCompile Include="Src\Screens\GraphScene\GraphUpdate.cpp" />
+    <ClCompile Include="Src\Screens\MainMenuScreen\MainMenuScreen.cpp" />
     <ClCompile Include="Src\Map\Map.cpp" />
     <ClCompile Include="Src\Map\Parsers\DOTMapParser.cpp" />
     <ClCompile Include="Src\Map\Parsers\GraphMLMapParser.cpp" />
@@ -190,8 +194,8 @@
     <ClInclude Include="Src\EditorIMGUI\OrientationBox\OrientationBox.h" />
     <ClInclude Include="Src\GECS\Scripts\MainMenuBackground.h" />
     <ClInclude Include="Src\GECS\ScriptComponents.h" />
-    <ClInclude Include="Src\Graph.h" />
-    <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h" />
+    <ClInclude Include="Src\Screens\GraphScene\Graph.h" />
+    <ClInclude Include="Src\Screens\MainMenuScreen\MainMenuScreen.h" />
     <ClInclude Include="Src\Map\Parsers\DOTMapParser.h" />
     <ClInclude Include="Src\Map\Parsers\GraphMLMapParser.h" />
     <ClInclude Include="Src\Map\IMapParser.h" />

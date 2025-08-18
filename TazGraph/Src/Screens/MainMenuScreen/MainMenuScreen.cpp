@@ -2,11 +2,10 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "GECS/Components.h"
-#include "../GECS/ScriptComponents.h"
+#include "../../GECS/ScriptComponents.h"
 #include "Camera2.5D/CameraManager.h"
-#include "../GECS/ScriptComponents.h"
-#include "../AssetManager/AssetManager.h"
-#include "GraphScreen/AppInterface.h"
+#include "../../AssetManager/AssetManager.h"
+#include "AppScene/AppInterface.h"
 
 
 
