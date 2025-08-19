@@ -147,7 +147,7 @@ public:
 		return zFar;
 	}
 
-	glm::vec3 getAimPos() {
+	glm::vec3 getAimPos() override {
 		return aimPos;
 	}
 

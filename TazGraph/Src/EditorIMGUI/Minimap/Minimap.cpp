@@ -1,6 +1,6 @@
 #include "./Minimap.h"
 
-void Minimap::Create(const BaseFPSLimiter& baseFPSLimiter, Manager& manager, ImVec2 viewportPos, ImVec2 viewportSize) {
+void Minimap::Create(uint32_t m_textureID, const BaseFPSLimiter& baseFPSLimiter, Manager& manager, ImVec2 viewportPos, ImVec2 viewportSize) {
 
     const float minimapSize = 200.0f; // Size of the minimap
     const float minimapPadding = 10.0f;
@@ -17,10 +17,12 @@ void Minimap::Create(const BaseFPSLimiter& baseFPSLimiter, Manager& manager, ImV
 
     // Draw minimap background
     ImDrawList* drawList = ImGui::GetWindowDrawList();
-    drawList->AddRectFilled(
+    drawList->AddImage(
+        reinterpret_cast<void*>(static_cast<uintptr_t>(m_textureID)),
         minimapPos,
         ImVec2(minimapPos.x + minimapSize, minimapPos.y + minimapSize),
-        IM_COL32(40, 40, 40, 200)  // Semi-transparent dark background
+        ImVec2(0, 1),   // UV top-left
+        ImVec2(1, 0)    // UV bottom-right (flip Y)
     );
 
     // Draw minimap border
@@ -38,8 +40,6 @@ void Minimap::Create(const BaseFPSLimiter& baseFPSLimiter, Manager& manager, ImV
     //! elapsed = 0;
     //! }
     // Draw objects/entities on minimap
-    DrawMinimapObjects(manager, minimapPos, minimapSize);
-
     // Draw camera position indicator
     DrawCameraFrustumOnMinimap(minimapPos, minimapSize);
     DrawCameraIndicator(minimapPos, minimapSize);
@@ -50,16 +50,6 @@ void Minimap::Create(const BaseFPSLimiter& baseFPSLimiter, Manager& manager, ImV
         IM_COL32(255, 255, 255, 255),
         "Minimap"
     );
-
-    float maxDistance = manager.grid->getNumXCells() * manager.grid->getCellSize();
-
-    std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
-    minimap_camera2D->setPosition_X(0.0f);
-    minimap_camera2D->setPosition_Y(0.0f);
-
-    glm::mat4 newProjection = glm::ortho(-maxDistance / 2.0f, maxDistance / 2.0f, -maxDistance / 2.0f, maxDistance / 2.0f);
-    minimap_camera2D->setProjMatrix(newProjection);
-    minimap_camera2D->setAimPos(glm::vec3(0.0f));
 
 }
 

@@ -401,6 +401,9 @@ public:
 		groupNodes_0,
 		groupGroupNodes_0,
 		groupGroupNodes_1,
+
+		groupMinimapNodes,
+
 		groupColliders,
 
 		groupEmpties,
@@ -435,6 +438,8 @@ public:
 		{ groupNodes_0,"groupNodes_0" },
 		{ groupGroupNodes_0, "groupGroupNodes_0"},
 		{ groupGroupNodes_1, "groupGroupNodes_1"},
+		
+		{ groupMinimapNodes,"groupMinimapNodes" },
 
 		{ groupEmpties,"groupEmpties" },
 		{ groupSphereEmpties,"groupSphereEmpties" },

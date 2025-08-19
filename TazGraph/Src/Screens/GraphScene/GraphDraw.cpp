@@ -70,6 +70,9 @@ void Graph::draw()
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
+	std::shared_ptr<OrthoCamera> minimap_camera2D =
+		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
+
 
 	GLSLProgram glsl_texture = *_resourceManager.getGLSLProgram("texture");
 	GLSLProgram glsl_light = *_resourceManager.getGLSLProgram("light");
@@ -77,7 +80,6 @@ void Graph::draw()
 	GLSLProgram glsl_color = *_resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer = *_resourceManager.getGLSLProgram("framebuffer");
 
-	_framebuffer.Bind();
 
 	//todo TECHNIQUE TO USE FOR MINIMAP
 	//static float elapsed;
@@ -94,6 +96,7 @@ void Graph::draw()
 	//	elapsed = 0;
 	//}
 
+	_framebuffer.Bind();
 	////////////OPENGL USE
 	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);
@@ -437,6 +440,100 @@ void Graph::draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	_framebuffer.Unbind();
+
+	static float elapsed = 0.0f;
+    elapsed += getApp()->getFPSLimiter().frameTime / 1000.0f;
+
+	if (elapsed < 10.0f && !_firstLoop) {
+		return;
+	}
+	else
+	{
+        elapsed = 0.0f;
+    }
+
+	_minimapFramebuffer.Bind();
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearDepth(1.0);
+	glDepthFunc(GL_LESS);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_LINE_SMOOTH);
+
+	/////////////////////////////////////////////////////
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+	auto& nodes = manager->getGroup<NodeEntity>(Manager::groupNodes_0);
+
+	manager->removeAllEntitiesFromGroup(Manager::groupMinimapNodes);
+
+	for (auto& node : nodes) {
+		auto& transform = node->GetComponent<TransformComponent>();
+		auto& color = node->GetComponent<Rectangle_w_Color>();
+
+		// Create a new entity in the minimap group
+		auto& mnode = manager->addEntity<Node>();
+		mnode.addGroup(Manager::groupMinimapNodes);
+
+		//// Copy/scale transform
+		auto& mtrans = mnode.addComponent<TransformComponent>();
+
+		mtrans.bodyCenter.x = transform.bodyCenter.x;
+		mtrans.bodyCenter.y = transform.bodyCenter.y;
+		mtrans.size = transform.size * 10.0f; // enlarge only on minimap
+		mnode.addComponent<Rectangle_w_Color>();
+		mnode.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255));
+	}
+
+	_PlaneColorRenderer.begin();
+	_PlaneColorRenderer.initQuadBatch(
+		manager->getGroup<NodeEntity>(Manager::groupMinimapNodes).size()
+	);
+
+	_PlaneColorRenderer.initBatchSize();
+
+	renderBatch(manager->getGroup<NodeEntity>(Manager::groupMinimapNodes), _PlaneColorRenderer);
+
+	float maxDistance = manager->grid->getNumXCells() * manager->grid->getCellSize();
+
+	minimap_camera2D->setPosition_X(0.0f);
+	minimap_camera2D->setPosition_Y(0.0f);
+
+	glm::mat4 newProjection = glm::ortho(-maxDistance / 2.0f, maxDistance / 2.0f, -maxDistance / 2.0f, maxDistance / 2.0f);
+	minimap_camera2D->setProjMatrix(newProjection);
+	minimap_camera2D->setAimPos(glm::vec3(0.0f));
+
+	float halfSize = 1000.0f;  // shows +/- 100 units around center
+	float near = 0.1f;
+	float far = 2000.0f;
+
+	glm::mat4 proj = glm::ortho(-maxDistance / 2.0f, maxDistance / 2.0f, -maxDistance / 2.0f, maxDistance / 2.0f, near, far);
+	minimap_camera2D->setProjMatrix(proj);
+
+	_resourceManager.setupShader(glsl_color, *minimap_camera2D);
+	pLocation = glsl_color.getUniformLocation("rotationMatrix");
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
+	_PlaneColorRenderer.end();
+	_PlaneColorRenderer.renderBatch(&glsl_color);
+	glsl_color.unuse();
+
+
+	glDepthMask(GL_FALSE);  // don’t write to depth buffer
+	glDisable(GL_DEPTH_TEST);
+
+	glDepthMask(GL_TRUE);
+	glEnable(GL_DEPTH_TEST);
+
+	glEnable(GL_LINE_SMOOTH);//!this reduces a bit fps
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	///////////////////////////////////////////////////////
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	_minimapFramebuffer.Unbind();
 
 	glClear(GL_COLOR_BUFFER_BIT);
 }

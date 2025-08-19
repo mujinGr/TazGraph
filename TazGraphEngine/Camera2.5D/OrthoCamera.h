@@ -136,6 +136,9 @@ public:
 		return glm::vec3(glm::degrees(pitch), glm::degrees(yaw), glm::degrees(roll));
 	}
 
+	glm::vec3 getAimPos() override {
+		return aimPos;
+	}
 
 	void setScale(float newScale) override {
 		_scale = newScale;

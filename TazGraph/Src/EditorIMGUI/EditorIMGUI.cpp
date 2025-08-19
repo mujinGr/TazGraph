@@ -843,7 +843,13 @@ void EditorIMGUI::availableFunctions() {
 
 }
 
-void EditorIMGUI::SceneViewport(const BaseFPSLimiter& baseFPSLimiter, Manager& manager, uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize) {
+void EditorIMGUI::SceneViewport(
+	const BaseFPSLimiter& baseFPSLimiter, 
+	Manager& manager, 
+	Framebuffer& m_fb, 
+	Framebuffer& m_minimap_fb, 
+	ImVec2& storedWindowPos, ImVec2& storedWindowSize
+) {
 
 	ImGui::BeginChild("Viewport");
 
@@ -852,7 +858,7 @@ void EditorIMGUI::SceneViewport(const BaseFPSLimiter& baseFPSLimiter, Manager& m
 
 	// Render your scene texture
 	ImGui::Image(
-		reinterpret_cast<void*>(static_cast<uintptr_t>(textureId)),
+		reinterpret_cast<void*>(static_cast<uintptr_t>(m_fb._framebufferTexture)),
 		viewportPanelSize,
 		ImVec2(0, 1),
 		ImVec2(1, 0)
@@ -890,8 +896,9 @@ void EditorIMGUI::SceneViewport(const BaseFPSLimiter& baseFPSLimiter, Manager& m
 	// Only enable gizmo when mouse is over the viewport
 	bool isHovered = ImGui::IsItemHovered();
 	ImGuizmo::Enable(isHovered);
+	
+	_minimap.Create(m_minimap_fb._framebufferTexture, baseFPSLimiter, manager, pos, viewportPanelSize);
 
-	_minimap.Create(baseFPSLimiter, manager, pos, viewportPanelSize);
 	_orientationBox.Create(pos, viewportPanelSize);
 
 	ImGui::EndChild();

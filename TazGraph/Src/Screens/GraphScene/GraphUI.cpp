@@ -49,7 +49,12 @@ void Graph::updateUI() {
 
 	_editorImgui.updateIsMouseInSecondColumn();
 
-	_editorImgui.SceneViewport(getApp()->getFPSLimiter(), *manager, _framebuffer._framebufferTexture, _windowPos, _windowSize);
+	_editorImgui.SceneViewport(
+		getApp()->getFPSLimiter(),
+		*manager,
+		_framebuffer,
+		_minimapFramebuffer,
+		_windowPos, _windowSize);
 
 	ImGui::NextColumn();
 	ImGui::BeginChild("Tab 2");

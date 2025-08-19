@@ -85,6 +85,7 @@ public:
 
 private:
 	float _backgroundColor[4] = { 0.407f,0.384f,0.356f, 1.0f };
+	float _minimap_backgroundColor[4] = { 1.f,0.f,0.f, 1.0f };
 
 	std::vector<Cell*> traversedCellsFromRay(glm::vec3 rayOrigin,
 		glm::vec3 rayDirection,
@@ -123,11 +124,7 @@ private:
 	bool _showSaveWindow = false;
 
 	Framebuffer _framebuffer;
-
-	unsigned int _rectVAO = 0, _rectVBO = 0;
-
-	unsigned int _FBO = 0;
-	unsigned int _RBO = 0;
+	Framebuffer _minimapFramebuffer;
 
 	ImVec2 _windowPos;
 	ImVec2 _windowSize;

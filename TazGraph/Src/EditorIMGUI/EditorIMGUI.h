@@ -15,6 +15,8 @@
 
 #include "./EditorLayoutUtils.h"
 
+#include <Renderers/FrameBuffer/Framebuffer.h>
+
 namespace fs = std::filesystem;
 
 // it is to provide the ImgUI functions for the whole project
@@ -96,7 +98,12 @@ public:
 	void MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onLoadSimulator, std::function<void()> onExitSimulator);
 	void ShowAllEntities(Manager& manager, float& m_nodeRadius);
 	void availableFunctions();
-	void SceneViewport(const BaseFPSLimiter& baseFPSLimiter, Manager& manager, uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize);
+	void SceneViewport(
+		const BaseFPSLimiter& baseFPSLimiter,
+		Manager& manager,
+		Framebuffer& textureId, 
+		Framebuffer& m_minimap_fb,
+		ImVec2& storedWindowPos, ImVec2& storedWindowSize);
 	void scriptResultsVisualization(Manager& manager, std::vector<std::pair<Entity*, glm::vec3>>& m_selectedEntities);
 	std::string SceneTabs(const std::vector<std::string>& graphNames, std::string& currentActive);
 	void ShowFunctionExecutionResults();

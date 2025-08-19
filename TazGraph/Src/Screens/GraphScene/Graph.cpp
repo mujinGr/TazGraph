@@ -169,6 +169,7 @@ void Graph::onEntry()
 	_resourceManager.getGLSLProgram("framebuffer")->unuse();
 
 	_framebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
+	_minimapFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
 
 	std::string rectInterpolation_str = "RectInterpolation";
 	for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
