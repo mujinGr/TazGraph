@@ -103,7 +103,19 @@ void Graph::draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glDisable(GL_LINE_SMOOTH);
+	glEnable(GL_MULTISAMPLE);
 
+	// Optional: better per-sample shading for sharp results on subpixel edges
+	glEnable(GL_SAMPLE_SHADING);
+	glMinSampleShading(1.0f);      // needs GL 4.0+
+
+	// If your fragment shader outputs alpha falloff (see #2),
+	// alpha-to-coverage helps:
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+	// Blending for smooth edges (premultiplied or standard)
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

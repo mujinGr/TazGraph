@@ -9,7 +9,6 @@
 class Minimap {
 public:
     void Create(uint32_t m_textureID, const BaseFPSLimiter& baseFPSLimiter, Manager& manager, ImVec2 viewportPos, ImVec2 viewportSize);
-    void DrawMinimapObjects(Manager& manager, ImVec2 minimapPos, float minimapSize);
     void DrawCameraFrustumOnMinimap(ImVec2 minimapPos, float minimapSize);
     void DrawCameraIndicator(ImVec2 minimapPos, float minimapSize);
 

@@ -33,14 +33,6 @@ void Minimap::Create(uint32_t m_textureID, const BaseFPSLimiter& baseFPSLimiter,
         0.0f, 0, 2.0f
     );
 
-    //! TODO: have minimap as texture
-    //! elapsed = elapsed + baseFPSLimiter.frameTime / 1000.0f;
-    //! if (elapsed > 10) {
-    //! ...
-    //! elapsed = 0;
-    //! }
-    // Draw objects/entities on minimap
-    // Draw camera position indicator
     DrawCameraFrustumOnMinimap(minimapPos, minimapSize);
     DrawCameraIndicator(minimapPos, minimapSize);
 
@@ -51,55 +43,6 @@ void Minimap::Create(uint32_t m_textureID, const BaseFPSLimiter& baseFPSLimiter,
         "Minimap"
     );
 
-}
-
-void Minimap::DrawMinimapObjects(Manager& manager, ImVec2 minimapPos, float minimapSize) {
-    ImDrawList* drawList = ImGui::GetWindowDrawList();
-    std::shared_ptr<OrthoCamera> minimap_camera2D =
-        std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
-    // Example: Draw some objects on the minimap
-    // You would replace this with your actual scene objects
-    std::vector<glm::vec3> objectPositions = {
-        glm::vec3(0.0f, 0.0f, 10.0f),
-    };
-
-    auto& nodes = manager.getGroup<NodeEntity>(Manager::groupNodes_0);
-
-    for (auto& node : nodes) {
-        // Transform world position to minimap screen coordinates
-        glm::vec4 clipPos = minimap_camera2D->getProjMatrix() * minimap_camera2D->getViewMatrix() * glm::vec4(node->GetComponent<TransformComponent>().getPosition(), 1.0f);
-        if (clipPos.w > 0) {
-            glm::vec2 ndcPos = glm::vec2(clipPos.x / clipPos.w, clipPos.y / clipPos.w);
-
-            // Convert NDC to screen coordinates
-            ImVec2 screenPos = ImVec2(
-                minimapPos.x + (ndcPos.x * 0.5f + 0.5f) * minimapSize,
-                minimapPos.y + (-ndcPos.y * 0.5f + 0.5f) * minimapSize
-            );
-
-            // Draw object as a small circle
-            drawList->AddCircleFilled(screenPos, 3.0f, IM_COL32(0, 255, 0, 255), 8);
-            drawList->AddCircle(screenPos, 3.0f, IM_COL32(0, 150, 0, 255), 8, 1.0f);
-        }
-    }
-
-    for (auto& node : objectPositions) {
-        // Transform world position to minimap screen coordinates
-        glm::vec4 clipPos = minimap_camera2D->getProjMatrix() * minimap_camera2D->getViewMatrix() * glm::vec4(node, 1.0f);
-        if (clipPos.w > 0) {
-            glm::vec2 ndcPos = glm::vec2(clipPos.x / clipPos.w, clipPos.y / clipPos.w);
-
-            // Convert NDC to screen coordinates
-            ImVec2 screenPos = ImVec2(
-                minimapPos.x + (ndcPos.x * 0.5f + 0.5f) * minimapSize,
-                minimapPos.y + (-ndcPos.y * 0.5f + 0.5f) * minimapSize
-            );
-
-            // Draw object as a small circle
-            drawList->AddCircleFilled(screenPos, 3.0f, IM_COL32(255, 0, 0, 255), 8);
-            drawList->AddCircle(screenPos, 3.0f, IM_COL32(255, 0, 0, 255), 8, 1.0f);
-        }
-    }
 }
 
 void Minimap::DrawCameraFrustumOnMinimap(ImVec2 minimapPos, float minimapSize) {

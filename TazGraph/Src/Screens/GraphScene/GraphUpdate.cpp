@@ -49,6 +49,7 @@ void Graph::update(float deltaTime) //game objects updating
 			}
 		}
 		manager->updateInnerPathLinks = false;
+		manager->aboutTo_updateActiveEntities();
 	}
 
 	if (manager->last_arrowheadsEnabled != manager->arrowheadsEnabled) {
