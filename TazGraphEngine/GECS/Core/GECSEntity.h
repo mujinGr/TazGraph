@@ -83,6 +83,7 @@ public:
 	virtual void addPorts() {}
 
 	virtual void removePorts() {}
+	virtual void removeSlots() {}
 
 	virtual void updatePorts(float deltaTime) {}
 

@@ -37,21 +37,6 @@ void Graph::update(float deltaTime) //game objects updating
 		node->GetComponent<ColliderComponent>().collisionPhysics();
 	}
 
-	if (manager->updateInnerPathLinks) {
-		for (auto& pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
-		{
-			pathLinker->GetComponent<PathLinkerComponent>().removeInnerLinks();
-		}
-		if (manager->arrowheadsEnabled) {
-			for (auto& pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
-			{
-				pathLinker->GetComponent<PathLinkerComponent>().createInnerLinks();
-			}
-		}
-		manager->updateInnerPathLinks = false;
-		manager->aboutTo_updateActiveEntities();
-	}
-
 	if (manager->last_arrowheadsEnabled != manager->arrowheadsEnabled) {
 		manager->last_arrowheadsEnabled = manager->arrowheadsEnabled;
 
@@ -96,6 +81,11 @@ void Graph::update(float deltaTime) //game objects updating
 				link->updateLinkToNodes();
 				link->removeArrowHead();
 			}
+
+			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupPathLinks_0)) {
+				link->updateLinkToNodes();
+				link->removeArrowHead();
+			}
 			//todo remove all ports
 			for (auto& node : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
 				node->removePorts();
@@ -107,6 +97,21 @@ void Graph::update(float deltaTime) //game objects updating
 				node->removePorts();
 			}
 		}
+
+		if(manager->updateInnerPathLinks) {
+			for (auto& pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
+			{
+				pathLinker->GetComponent<PathLinkerComponent>().removeInnerLinks();
+			}
+			if (manager->arrowheadsEnabled) {
+				for (auto& pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
+				{
+					pathLinker->GetComponent<PathLinkerComponent>().createInnerLinks();
+				}
+			}
+			manager->updateInnerPathLinks = false;
+		}
+
 		manager->aboutTo_updateActiveEntities();
 
 	}

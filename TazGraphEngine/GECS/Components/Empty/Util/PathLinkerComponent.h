@@ -52,7 +52,7 @@ public:
 	}
 
 	void createInnerLinks() {
-		for (size_t i = 1; i < pathLinks.size(); ++i) {
+		for (size_t i = 1; i < pathLinks.size(); i++) {
 			LinkEntity* prevLink = pathLinks[i - 1];
 			LinkEntity* currLink = pathLinks[i];
 
@@ -61,7 +61,7 @@ public:
 			NodeEntity* currFromNode = currLink->getFromNode();
 
 			if (prevToNode != currFromNode)
-				std::cout << "nigger!" << std::endl;
+				TazGraphEngine::ConsoleLogger::error("Should be same node to create innerPaths!");
 
 			if (!prevToNode || !currFromNode)
 				continue;

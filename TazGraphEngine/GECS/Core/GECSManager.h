@@ -355,6 +355,15 @@ public:
 			entity->destroy();
 		}
 	}
+
+	void removeAllEntitiesFromEmptyGroup(Group mGroup) {
+		auto& entitiesInGroup = groupedEmptyEntities[mGroup];
+
+		for (Entity* entity : entitiesInGroup) {
+			entity->destroy();
+		}
+	}
+
 	void removeAllEntitiesFromLinkGroup(Group mGroup) {
 		auto& entitiesInGroup = groupedLinkEntities[mGroup];
 

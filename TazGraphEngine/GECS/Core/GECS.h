@@ -15,6 +15,8 @@
 #include "../../Renderers/PlaneRenderers/LightRenderer/LightRenderer.h"
 #include "../../Camera2.5D/CameraManager.h"
 #include "../../Window/Window.h"
+#include "../../ConsoleLogger.h"
+
 #include <optional>
 
 #define CULLING_OFFSET 100

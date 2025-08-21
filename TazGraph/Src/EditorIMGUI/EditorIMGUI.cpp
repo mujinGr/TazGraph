@@ -399,9 +399,19 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 	if (ImGui::ComboAutoSelect("Choose Links Path File", _pathData)) {
 		std::string resetIndex = ">Reset";
 		if (strcmp(_pathData.input, resetIndex.c_str()) == 0) {
-			manager.removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_0);
-			manager.removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_1);
-			manager.removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_2);
+
+			for (auto& pathHolder : manager.getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
+				auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
+
+				for (auto* link : pathLinks) {
+					link->updateLinkToNodes();
+					link->removeArrowHead();
+					link->getFromNode()->removeSlots();
+					link->getToNode()->removeSlots();
+				}
+
+				pathHolder->destroy();
+			}
 		}
 		else {
 			_pathLoading = _pathData.input;

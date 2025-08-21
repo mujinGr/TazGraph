@@ -235,19 +235,32 @@ public:
 
 	}
 
-	void removePorts() {
+	void removePorts() override {
 		for (auto portName : { NodePorts::LEFT, NodePorts::RIGHT, NodePorts::TOP, NodePorts::BOTTOM }) {
 			if (children[portName]) {
 				children[portName]->destroy();
-				for (auto port : children[portName]->GetComponent<PortComponent>().portSlots)
+				for (auto slot : children[portName]->GetComponent<PortComponent>().portSlots)
 				{
-					port->destroy();
+					slot->destroy();
 				}
 				children[portName]->GetComponent<PortComponent>().portSlots.clear();
 				children[portName] = nullptr;
 			}
 		}
 	}
+
+	void removeSlots() override {
+		for (auto portName : { NodePorts::LEFT, NodePorts::RIGHT, NodePorts::TOP, NodePorts::BOTTOM }) {
+			if (children[portName]) {
+				for (auto slot : children[portName]->GetComponent<PortComponent>().portSlots)
+				{
+					slot->destroy();
+				}
+				children[portName]->GetComponent<PortComponent>().portSlots.clear();
+			}
+		}
+	}
+
 };
 
 
