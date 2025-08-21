@@ -88,7 +88,7 @@ public:
 	void MenuBar();
 
 	bool isMouseOnWidget(const std::string& widgetName);
-	void LeftColumnUIElement(bool& renderDebug, bool& clusterLayout, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* selectedEntity, float(&backgroundColor)[4], int cell_size);
+	void LeftColumnUIElement(bool& renderDebug, bool& clusterLayout, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, float(&backgroundColor)[4], int cell_size);
 	void RightColumnUIElement(Manager& manager, float* nodeRadius);
 	void FPSCounter(const BaseFPSLimiter& baseFPSLimiter);
 	void ReloadAccessibleFiles();
@@ -108,6 +108,7 @@ public:
 	std::string SceneTabs(const std::vector<std::string>& graphNames, std::string& currentActive);
 	void ShowFunctionExecutionResults();
 	void updateIsMouseInSecondColumn();
+	void showHoveredEntity(Manager& manager, glm::vec2 mousePos, Entity* onHoverEntity);
 	void ShowEntityComponents(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager);
 	void ShowSceneControl(glm::vec2 mousePos, Manager& manager);
 	void StartPollingComponent(Entity* entity, const std::string& fileName);

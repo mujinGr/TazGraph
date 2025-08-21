@@ -29,7 +29,7 @@ void Graph::updateUI() {
 	_editorImgui.FPSCounter(getApp()->getFPSLimiter());
 	ImGui::BeginChild("Tab 1");
 
-	_editorImgui.LeftColumnUIElement(_renderDebug, _clusterLayout, _sceneMousePosition, _app->_inputManager.getMouseCoords(), *manager, _onHoverEntity, _backgroundColor, CELL_SIZE);
+	_editorImgui.LeftColumnUIElement(_renderDebug, _clusterLayout, _sceneMousePosition, _app->_inputManager.getMouseCoords(), *manager, _backgroundColor, CELL_SIZE);
 
 	ImGui::EndChild();
 
@@ -155,6 +155,7 @@ void Graph::updateUI() {
 	//glm::vec2 worldToVieport
 	if (manager) {
 		_editorImgui.ShowEntityComponents(_savedMainViewportMousePosition, _displayedEntity, *manager);
+		_editorImgui.showHoveredEntity(*manager, _app->_inputManager.getMouseCoords(), _onHoverEntity);
 	}
 
 

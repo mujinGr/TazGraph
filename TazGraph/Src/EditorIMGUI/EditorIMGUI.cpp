@@ -143,7 +143,7 @@ bool EditorIMGUI::isMouseOnWidget(const std::string& widgetName)
 	return false;
 }
 
-void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* onHoverEntity, float(& backgroundColor)[4], int cell_size) {
+void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, float(& backgroundColor)[4], int cell_size) {
 	ImGui::BeginChild("Background UI");
 	ImGui::ColorEdit4("Background Color", backgroundColor);
 	
@@ -409,9 +409,12 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 					link->getFromNode()->removeSlots();
 					link->getToNode()->removeSlots();
 				}
-
-				pathHolder->destroy();
 			}
+			manager.removeAllEntitiesFromEmptyGroup(Manager::groupPathLinksHolder);
+
+			manager.removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_0);
+			manager.removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_1);
+			manager.removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_2);
 		}
 		else {
 			_pathLoading = _pathData.input;
@@ -490,37 +493,7 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 	ImGui::Text("MainViewport Coords: {x: %f, y: %f}", mouseCoords2.x, mouseCoords2.y);
 
 
-	if (onHoverEntity) {
-		ImGui::Text("Selected Entity Details");
-
-		Node* node = dynamic_cast<Node*>(onHoverEntity);
-		if (node) {
-
-			ImGui::Text("Id: %d", onHoverEntity->getId());
-
-			TransformComponent* tr = &onHoverEntity->GetComponent<TransformComponent>();
-			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
-			ImGui::Text("Size: (%f, %f)", tr->size.x, tr->size.y);
-			glm::vec3 cellBox = manager.grid->getCell(*onHoverEntity, manager.grid->getGridLevel())->boundingBox_origin;
-			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
-		}
-		Link* link = dynamic_cast<Link*>(onHoverEntity);
-		if (link) {
-			ImGui::Text("Id: %d", onHoverEntity->getId());
-
-		}
-		Empty* empty = dynamic_cast<Empty*>(onHoverEntity);
-		if (empty) {
-
-			ImGui::Text("Id: %d", onHoverEntity->getId());
-
-			TransformComponent* tr = &onHoverEntity->GetComponent<TransformComponent>();
-			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
-			ImGui::Text("Size: (%f, %f)", tr->size.x, tr->size.y);
-			glm::vec3 cellBox = manager.grid->getCell(*onHoverEntity, manager.grid->getGridLevel())->boundingBox_origin;
-			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
-		}
-	}
+	
 
 	ImGui::EndChild();
 }
@@ -984,6 +957,116 @@ void EditorIMGUI::updateIsMouseInSecondColumn() {
 	ImVec2 mousePos = ImGui::GetMousePos();
 	isMouseInSecondColumn = (mousePos.x >= columnStartPos.x && mousePos.x <= (columnStartPos.x + columnSize.x) &&
 		mousePos.y >= columnStartPos.y && mousePos.y <= (columnStartPos.y + columnSize.y));
+}
+
+void EditorIMGUI::showHoveredEntity(Manager& manager, glm::vec2 mousePos, Entity* onHoverEntity)
+{
+	if (!onHoverEntity) return;
+
+	const float hoveredEntityWindowSize = 220.0f;
+	const float windowHeight = 120.0f; // Adjust height based on content
+
+	// Position window near mouse cursor
+	ImVec2 hoveredEntityWindowPos = ImVec2(mousePos.x + 10, mousePos.y + 10);
+
+	// Set up ImGuizmo for drawing
+
+	// Get draw list for custom drawing
+	ImDrawList* drawList = ImGui::GetForegroundDrawList();
+	ImGuizmo::SetDrawlist(drawList);
+	// Draw background rectangle
+	drawList->AddRectFilled(
+		hoveredEntityWindowPos,
+		ImVec2(hoveredEntityWindowPos.x + hoveredEntityWindowSize, hoveredEntityWindowPos.y + windowHeight),
+		IM_COL32(40, 40, 40, 240) // Dark semi-transparent background
+	);
+
+	// Draw border
+	drawList->AddRect(
+		hoveredEntityWindowPos,
+		ImVec2(hoveredEntityWindowPos.x + hoveredEntityWindowSize, hoveredEntityWindowPos.y + windowHeight),
+		IM_COL32(100, 100, 100, 255),
+		3.0f, // Corner rounding
+		0,
+		2.0f  // Border thickness
+	);
+
+	// Draw title
+	drawList->AddText(
+		ImVec2(hoveredEntityWindowPos.x + 10, hoveredEntityWindowPos.y + 10),
+		IM_COL32(255, 255, 255, 255),
+		"Hovered Entity"
+	);
+
+	// Current text position
+	float currentY = hoveredEntityWindowPos.y + 35;
+	const float lineHeight = 15.0f;
+	const float textX = hoveredEntityWindowPos.x + 10;
+
+	// Display entity information
+	Node* node = dynamic_cast<Node*>(onHoverEntity);
+	if (node) {
+		// Entity ID
+		char idText[64];
+		sprintf_s(idText, "Id: %d", onHoverEntity->getId());
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
+		currentY += lineHeight;
+
+		// Position
+		TransformComponent* tr = &onHoverEntity->GetComponent<TransformComponent>();
+		char posText[128];
+		sprintf_s(posText, "Position: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), posText);
+		currentY += lineHeight;
+
+		// Size
+		char sizeText[128];
+		sprintf_s(sizeText, "Size: (%.2f, %.2f)", tr->size.x, tr->size.y);
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), sizeText);
+		currentY += lineHeight;
+
+		// Grid position
+		glm::vec3 cellBox = manager.grid->getCell(*onHoverEntity, manager.grid->getGridLevel())->boundingBox_origin;
+		char gridText[128];
+		sprintf_s(gridText, "Grid: (%.2f, %.2f)", cellBox.x, cellBox.y);
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), gridText);
+	}
+
+	Link* link = dynamic_cast<Link*>(onHoverEntity);
+	if (link) {
+		char idText[64];
+		sprintf_s(idText, "Link Id: %d", onHoverEntity->getId());
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
+	}
+
+	Empty* empty = dynamic_cast<Empty*>(onHoverEntity);
+	if (empty) {
+		// Entity ID
+		char idText[64];
+		sprintf_s(idText, "Empty Id: %d", onHoverEntity->getId());
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
+		currentY += lineHeight;
+
+		// Position
+		TransformComponent* tr = &onHoverEntity->GetComponent<TransformComponent>();
+		char posText[128];
+		sprintf_s(posText, "Position: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), posText);
+		currentY += lineHeight;
+
+		// Size
+		char sizeText[128];
+		sprintf_s(sizeText, "Size: (%.2f, %.2f)", tr->size.x, tr->size.y);
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), sizeText);
+		currentY += lineHeight;
+
+		// Grid position
+		glm::vec3 cellBox = manager.grid->getCell(*onHoverEntity, manager.grid->getGridLevel())->boundingBox_origin;
+		char gridText[128];
+		sprintf_s(gridText, "Grid: (%.2f, %.2f)", cellBox.x, cellBox.y);
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), gridText);
+	}
+
 }
 
 void EditorIMGUI::ShowEntityComponents(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager)
