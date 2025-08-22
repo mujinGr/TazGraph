@@ -25,14 +25,16 @@ In build/:
 `make`
 
 in TazGraph/TazGraph/:
-`../build/TazGraph/TazGraph`
+`../build/TazGraph/TazGraph `**`N`**
+where N is the number of threads to use
 
-For Windows:
+**For Windows**:\
 In root folder:
 `msbuild TazGraph.sln /p:Configuration=Release /p:Platform=x64`
 
 In TazGraph/:
-`../x64/Debug/TazGraph.exe`
+`../x64/Release/TazGraph.exe `**`N`**
+where N is the number of threads to use
 
 ## Intro
 

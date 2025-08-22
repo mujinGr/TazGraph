@@ -64,6 +64,8 @@ void TextPathParser::parse(Manager& manager,
     for (auto& link : manager.getGroup<LinkEntity>(Manager::groupPathLinks_0)) {
         manager.grid->addLink(link, manager.grid->getGridLevel());
     }
+    manager.updateInnerPathLinks = true;
+
     //for (auto& link : manager.getGroup<LinkEntity>(Manager::groupPathLinks_1)) {
     //    manager.grid->addLink(link, manager.grid->getGridLevel());
     //}

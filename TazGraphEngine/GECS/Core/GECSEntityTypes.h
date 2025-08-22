@@ -399,7 +399,7 @@ public:
 		}
 	}
 
-	void updateLinkToPorts() override{
+	void updateConnectedPorts() override{
 		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
 		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
 
@@ -461,7 +461,7 @@ public:
 		}
 	}
 
-	void updateLinkToNodes() override {
+	void resetPorts() override {
 		fromPort = -1;
 		toPort = -1;
 	}

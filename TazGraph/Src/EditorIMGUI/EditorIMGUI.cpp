@@ -404,10 +404,20 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 				auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
 
 				for (auto* link : pathLinks) {
-					link->updateLinkToNodes();
+					NodeEntity* from = link->getFromNode();
+					NodeEntity* to = link->getToNode();
+
+					if (from) {
+						from->removeOutLink(link);
+						from->removeSlots(); // if slots are per-link
+					}
+					if (to) {
+						to->removeInLink(link);
+						to->removeSlots();
+					}
+
 					link->removeArrowHead();
-					link->getFromNode()->removeSlots();
-					link->getToNode()->removeSlots();
+					link->resetPorts();
 				}
 			}
 			manager.removeAllEntitiesFromEmptyGroup(Manager::groupPathLinksHolder);
@@ -967,7 +977,7 @@ void EditorIMGUI::showHoveredEntity(Manager& manager, glm::vec2 mousePos, Entity
 	const float windowHeight = 120.0f; // Adjust height based on content
 
 	// Position window near mouse cursor
-	ImVec2 hoveredEntityWindowPos = ImVec2(mousePos.x + 10, mousePos.y + 10);
+	ImVec2 hoveredEntityWindowPos = ImVec2(mousePos.x + 10, mousePos.y - windowHeight);
 
 	// Set up ImGuizmo for drawing
 

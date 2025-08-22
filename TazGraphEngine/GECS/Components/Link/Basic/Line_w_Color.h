@@ -41,6 +41,7 @@ public:
 		//float tempScreenScale = window.getScale();
 
 		if (entity->fromPort < 0 || entity->toPort < 0) {
+			TazGraphEngine::ConsoleLogger::error("Ports are not assigned!");
 			return;
 		}
 

@@ -91,7 +91,7 @@ public:
 			_threader->parallel(movedNodes.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
 					for (auto& link : movedNodes[i]->getInLinks()) {
-						link->updateLinkToPorts();
+						link->updateConnectedPorts();
 					}
 				}
 				});
@@ -99,7 +99,7 @@ public:
 			_threader->parallel(movedNodes.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
 					for (auto& link : movedNodes[i]->getOutLinks()) {
-						link->updateLinkToPorts();
+						link->updateConnectedPorts();
 					}
 				}
 				});
@@ -153,13 +153,13 @@ public:
 
 			for (auto& e : movedNodes) {
 				for (auto& link : e->getInLinks()) {
-					link->updateLinkToPorts();
+					link->updateConnectedPorts();
 				}
 			}
 
 			for (auto& e : movedNodes) {
 				for (auto& link : e->getOutLinks()) {
-					link->updateLinkToPorts();
+					link->updateConnectedPorts();
 				}
 			}
 

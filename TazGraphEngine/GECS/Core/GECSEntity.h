@@ -72,6 +72,20 @@ public:
 		outLinks.push_back(link);
 	}
 
+	void removeInLink(LinkEntity* link) {
+		auto it = std::find(inLinks.begin(), inLinks.end(), link);
+		if (it != inLinks.end()) {
+			inLinks.erase(it);
+		}
+	}
+
+	void removeOutLink(LinkEntity* link) {
+		auto it = std::find(outLinks.begin(), outLinks.end(), link);
+		if (it != outLinks.end()) {
+			outLinks.erase(it);
+		}
+	}
+
 	const std::vector<LinkEntity*>& getInLinks() const {
 		return inLinks;
 	}
@@ -177,9 +191,9 @@ public:
 		return to->children[toPort];
 	}
 
-	virtual void updateLinkToPorts() {}
+	virtual void updateConnectedPorts() {}
 
-	virtual void updateLinkToNodes() {}
+	virtual void resetPorts() {}
 
 	virtual void updateArrowHeads() {}
 

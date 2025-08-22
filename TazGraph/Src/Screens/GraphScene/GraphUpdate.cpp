@@ -37,6 +37,28 @@ void Graph::update(float deltaTime) //game objects updating
 		node->GetComponent<ColliderComponent>().collisionPhysics();
 	}
 
+
+	if (manager->arrowheadsEnabled && manager->updateInnerPathLinks) {
+		for (auto& link : manager->getGroup<LinkEntity>(Manager::groupPathLinks_0))
+		{
+			link->updateConnectedPorts();
+		}
+
+		for (auto& pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
+		{
+			pathLinker->GetComponent<PathLinkerComponent>().removeInnerLinks();
+		}
+		if (manager->arrowheadsEnabled) {
+			for (auto& pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
+			{
+				pathLinker->GetComponent<PathLinkerComponent>().createInnerLinks();
+			}
+		}
+
+		manager->aboutTo_updateActiveEntities();
+		manager->updateInnerPathLinks = false;
+	}
+
 	if (manager->last_arrowheadsEnabled != manager->arrowheadsEnabled) {
 		manager->last_arrowheadsEnabled = manager->arrowheadsEnabled;
 
@@ -57,12 +79,12 @@ void Graph::update(float deltaTime) //game objects updating
 					Manager::groupGroupLinks_1
 					)))
 			{
-				link->updateLinkToPorts();
+				link->updateConnectedPorts();
 				link->addArrowHead();
 			}
 			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupPathLinks_0))
 			{
-				link->updateLinkToPorts();
+				link->updateConnectedPorts();
 			}
 
 		}
@@ -70,20 +92,20 @@ void Graph::update(float deltaTime) //game objects updating
 
 			//todo change each links from and to entities (from ports, to center of nodes)
 			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupLinks_0)) {
-				link->updateLinkToNodes();
+				link->resetPorts();
 				link->removeArrowHead();
 			}
 			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
-				link->updateLinkToNodes();
+				link->resetPorts();
 				link->removeArrowHead();
 			}
 			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
-				link->updateLinkToNodes();
+				link->resetPorts();
 				link->removeArrowHead();
 			}
 
 			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupPathLinks_0)) {
-				link->updateLinkToNodes();
+				link->resetPorts();
 				link->removeArrowHead();
 			}
 			//todo remove all ports
