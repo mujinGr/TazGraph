@@ -1,0 +1,13 @@
+/**
+  @page docs_guide Docs Guide
+
+From **docs** branch:
+
+- merge changes from master
+- Create Related pages by creating `.dox` files in Project Dir, using template as the other pages.
+- execute `doxygen` inside **docs**
+- commit&push files.
+
+- github automatically builds and deploys website
+
+*/
