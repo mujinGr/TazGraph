@@ -422,6 +422,8 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 			}
 			manager.removeAllEntitiesFromEmptyGroup(Manager::groupPathLinksHolder);
 
+			manager.removeAllEntitiesFromEmptyGroup(Manager::groupPathInnerLinks);
+
 			manager.removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_0);
 			manager.removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_1);
 			manager.removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_2);

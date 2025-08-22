@@ -78,7 +78,7 @@ public:
 				prevToPortIndex, currFromPortIndex,
 				prevLink->toSlotIndex, currLink->fromSlotIndex
 			);
-			newInnerLink.addGroup(Manager::groupPathLinks_0);  // or a dedicated group for inner links
+			newInnerLink.addGroup(Manager::groupPathInnerLinks);  // or a dedicated group for inner links
 
 			newInnerLink.addComponent<Line_w_Color>();
 

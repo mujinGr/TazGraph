@@ -37,51 +37,43 @@ void Graph::update(float deltaTime) //game objects updating
 		node->GetComponent<ColliderComponent>().collisionPhysics();
 	}
 
+	/*
+	
+	action: add path links
 
-	if (manager->arrowheadsEnabled && manager->updateInnerPathLinks) {
-		for (auto& link : manager->getGroup<LinkEntity>(Manager::groupPathLinks_0))
+	-> if arrowheads are enabled, 
+
+
+	
+	*/
+
+	if ((manager->last_arrowheadsEnabled != manager->arrowheadsEnabled)
+		&& manager->arrowheadsEnabled) {
+		//todo add to all nodes ports
+		for (auto& node : manager->getGroup<NodeEntity>(manager->grid->getGridLevel() == Grid::Level::Basic ? Manager::groupNodes_0 :
+			(manager->grid->getGridLevel() == Grid::Level::Outer1 ? Manager::groupGroupNodes_0 :
+				Manager::groupGroupNodes_1
+				)))
+		{
+			node->addPorts();
+		}
+
+		//todo change each links from and to entities (empty entitites - ports)
+		for (auto& link : manager->getGroup<LinkEntity>(manager->grid->getGridLevel() == Grid::Level::Basic ? Manager::Manager::groupLinks_0 :
+			(manager->grid->getGridLevel() == Grid::Level::Outer1 ? Manager::Manager::groupGroupLinks_0 :
+				Manager::groupGroupLinks_1
+				)))
 		{
 			link->updateConnectedPorts();
+			link->addArrowHead();
 		}
-
-		for (auto& pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
-		{
-			pathLinker->GetComponent<PathLinkerComponent>().removeInnerLinks();
-		}
-		if (manager->arrowheadsEnabled) {
-			for (auto& pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
-			{
-				pathLinker->GetComponent<PathLinkerComponent>().createInnerLinks();
-			}
-		}
-
-		manager->aboutTo_updateActiveEntities();
-		manager->updateInnerPathLinks = false;
 	}
 
-	if (manager->last_arrowheadsEnabled != manager->arrowheadsEnabled) {
+	if ((manager->last_arrowheadsEnabled != manager->arrowheadsEnabled) || manager->updateInnerPathLinks) {
 		manager->last_arrowheadsEnabled = manager->arrowheadsEnabled;
 
 		if (manager->arrowheadsEnabled) {
 
-			//todo add to all nodes ports
-			for (auto& node : manager->getGroup<NodeEntity>(manager->grid->getGridLevel() == Grid::Level::Basic ? Manager::groupNodes_0 :
-				(manager->grid->getGridLevel() == Grid::Level::Outer1 ? Manager::groupGroupNodes_0 :
-					Manager::groupGroupNodes_1
-					)))
-			{
-				node->addPorts();
-			}
-
-			//todo change each links from and to entities (empty entitites - ports)
-			for (auto& link : manager->getGroup<LinkEntity>(manager->grid->getGridLevel() == Grid::Level::Basic ? Manager::Manager::groupLinks_0 :
-				(manager->grid->getGridLevel() == Grid::Level::Outer1 ? Manager::Manager::groupGroupLinks_0 :
-					Manager::groupGroupLinks_1
-					)))
-			{
-				link->updateConnectedPorts();
-				link->addArrowHead();
-			}
 			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupPathLinks_0))
 			{
 				link->updateConnectedPorts();
@@ -105,6 +97,10 @@ void Graph::update(float deltaTime) //game objects updating
 			}
 
 			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupPathLinks_0)) {
+				link->resetPorts();
+				link->removeArrowHead();
+			}
+			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupPathInnerLinks)) {
 				link->resetPorts();
 				link->removeArrowHead();
 			}
@@ -138,6 +134,7 @@ void Graph::update(float deltaTime) //game objects updating
 
 	}
 
+	//! Group layout Change
 	if (_editorImgui.last_activeLayout < _editorImgui.activeLayout) {
 		_editorImgui.last_activeLayout += 1;
 

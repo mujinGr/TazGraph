@@ -183,6 +183,14 @@ public:
 	}
 
 	void addPorts() {
+		bool hasChildren = std::all_of(children.begin(), children.end(),
+			[](auto* c) { return c != nullptr; });
+
+		if (hasChildren) {
+			TazGraphEngine::ConsoleLogger::error("Node already has 4 children!");
+			return;
+		}
+
 		TransformComponent* tr = &GetComponent<TransformComponent>();
 
 		auto& leftPort = getManager()->addEntityNoId<Empty>();

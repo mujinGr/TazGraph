@@ -403,6 +403,8 @@ public:
 		groupPathLinks_1,
 		groupPathLinks_2,
 
+		groupPathInnerLinks,
+
 		groupPathLinksHolder,
 
 		groupArrowHeads_0,
@@ -440,6 +442,8 @@ public:
 		{groupPathLinks_1, "groupPathLinks_1"},
 		{groupPathLinks_2, "groupPathLinks_2"},
 		
+		{groupPathInnerLinks, "groupPathInnerLinks"},
+
 		{groupPathLinksHolder, "groupPathLinksHolder"},
 
 		{groupArrowHeads_0, "groupArrowHeads_0"},
