@@ -1,6 +1,6 @@
 #include "Window.h"
 #include "../ConsoleLogger.h"
-
+#include <SDL2/SDL_image.h>
 
 TazGraphEngine::Window::Window()
 {
@@ -37,7 +37,8 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
     if (_sdlWindow == nullptr) {
         TazGraphEngine::ConsoleLogger::error("SDL Window could not be created!");
     }
-
+    SDL_Surface* icon = IMG_Load("../TazGraph/assets/Sprites/TazGraph_whitebg.jpg");
+    SDL_SetWindowIcon(_sdlWindow, icon);
     //Set up our OpenGL context
     SDL_GLContext glContext = SDL_GL_CreateContext(_sdlWindow);
     if (glContext == nullptr) {

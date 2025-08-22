@@ -101,7 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,7 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(SolutionDir)vendors/JSONParser_Mujin/include;$(IncludePath)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -151,7 +151,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -167,16 +167,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioEngine\AudioEngine.cpp" />
+    <ClCompile Include="Camera2.5D\ICamera.cpp" />
     <ClCompile Include="Camera2.5D\OrthoCamera.h" />
     <ClCompile Include="GECS\Core\GECSManager.cpp" />
     <ClCompile Include="Renderers\FrameBuffer\Framebuffer.cpp" />
     <ClCompile Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.cpp" />
     <ClCompile Include="Renderers\LineRenderer\LineRenderer.cpp" />
     <ClCompile Include="GECS\Core\GECS.cpp" />
-    <ClCompile Include="GraphScreen\IScene.cpp" />
-    <ClCompile Include="GraphScreen\AppInterface.cpp" />
-    <ClCompile Include="GraphScreen\ScreenIndices.h" />
-    <ClCompile Include="GraphScreen\SceneList.cpp" />
+    <ClCompile Include="AppScene\IScene.cpp" />
+    <ClCompile Include="AppScene\AppInterface.cpp" />
+    <ClCompile Include="AppScene\ScreenIndices.h" />
+    <ClCompile Include="AppScene\SceneList.cpp" />
     <ClCompile Include="Grid\Grid.cpp" />
     <ClCompile Include="ImGuiInterface\ImGuiInterface.cpp" />
     <ClCompile Include="..\vendors\imgui\imgui.cpp" />
@@ -190,6 +191,8 @@
     <ClCompile Include="..\vendors\implot\implot.cpp" />
     <ClCompile Include="..\vendors\implot\implot_items.cpp" />
     <ClCompile Include="..\vendors\ImGuizmo\ImGuizmo.cpp" />
+    <ClCompile Include="..\vendors\tinyxml2\tinyxml2.cpp" />
+    <ClCompile Include="..\vendors\DotParser\DotParser\DotParser.cpp" />
     <ClCompile Include="InputManager\InputManager.cpp" />
     <ClCompile Include="PNG_Letters.cpp" />
     <ClCompile Include="Renderers\PlaneRenderers\PlaneColorRenderer\PlaneColorRenderer.cpp" />
@@ -208,10 +211,14 @@
     <ClInclude Include="Camera2.5D\ICamera.h" />
     <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="DataManager\DataManager.h" />
+    <ClInclude Include="DorParser\DotParser.h" />
     <ClInclude Include="GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h" />
     <ClInclude Include="GECS\Animators\RectangleAnimators\RectangleFlashAnimatorComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\BoxComponent.h" />
+    <ClInclude Include="GECS\Components\Empty\Basic\PortSlotComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\SphereComponent.h" />
+    <ClInclude Include="GECS\Components\Empty\Basic\PortComponent.h" />
+    <ClInclude Include="GECS\Components\Empty\Util\PathLinkerComponent.h" />
     <ClInclude Include="GECS\Components\Link\Basic\Line_w_Color.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\Triangle_w_Color.h" />
     <ClInclude Include="GECS\Components\Link\Basic\SpringComponent.h" />
@@ -221,7 +228,6 @@
     <ClInclude Include="GECS\Core\GECSUtil.h" />
     <ClInclude Include="GECS\UtilComponents.h" />
     <ClInclude Include="GECS\Core\GECSEntityTypes.h" />
-    <ClInclude Include="JsonParser\JsonParser.h" />
     <ClInclude Include="Renderers\FrameBuffer\Framebuffer.h" />
     <ClInclude Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.h" />
     <ClInclude Include="Renderers\LineRenderer\LineRenderer.h" />
@@ -244,9 +250,9 @@
     <ClInclude Include="GECS\Components\Empty\Util\RigidBodyComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\SpriteComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\TransformComponent.h" />
-    <ClInclude Include="GraphScreen\IScene.h" />
-    <ClInclude Include="GraphScreen\AppInterface.h" />
-    <ClInclude Include="GraphScreen\SceneList.h" />
+    <ClInclude Include="AppScene\IScene.h" />
+    <ClInclude Include="AppScene\AppInterface.h" />
+    <ClInclude Include="AppScene\SceneList.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTexture.h" />
     <ClInclude Include="Grid\Grid.h" />

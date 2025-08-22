@@ -9,11 +9,19 @@ set(Header_Files
     "Src/EditorIMGUI/EditorIMGUI.h"
     "Src/EditorIMGUI/EditorLayoutUtils.h"
     "Src/EditorIMGUI/CustomFunctions/CustomFunctions.h"
+    "Src/EditorIMGUI/Minimap/Minimap.h"
+    "Src/EditorIMGUI/OrientationBox/OrientationBox.h"
     "Src/GECS/ScriptComponents.h"
     "Src/GECS/Scripts/MainMenuBackground.h"
-    "Src/Graph.h"
-    "Src/MainMenuScreen/MainMenuScreen.h"
+    "Src/Screens/GraphScene/Graph.h"
+    "Src/Screens/MainMenuScreen/MainMenuScreen.h"
+    "Src/Map/IMapParser.h"
     "Src/Map/Map.h"
+    "Src/Map/Parsers/DOTMapParser.h"
+    "Src/Map/Parsers/GraphMLMapParser.h"
+    "Src/Map/Parsers/PythonMapParser.h"
+    "Src/Map/Parsers/TextMapParser.h"
+    "Src/Map/PathParsers/TextPathParser.h"
 )
 source_group("Header Files" FILES ${Header_Files})
 
@@ -23,10 +31,21 @@ set(Source_Files
     "Src/EditorIMGUI/EditorIMGUI.cpp"
     "Src/EditorIMGUI/EditorLayoutUtils.cpp"
     "Src/EditorIMGUI/CustomFunctions/CustomFunctions.cpp"
-    "Src/Graph.cpp"
+    "Src/EditorIMGUI/Minimap/Minimap.cpp"
+    "Src/EditorIMGUI/OrientationBox/OrientationBox.cpp"
+    "Src/Screens/GraphScene/Graph.cpp"
+    "Src/Screens/GraphScene/GraphDraw.cpp"
+    "Src/Screens/GraphScene/GraphUI.cpp"
+    "Src/Screens/GraphScene/GraphUpdate.cpp"
+    "Src/Screens/GraphScene/GraphInput.cpp"
     "Src/main.cpp"
-    "Src/MainMenuScreen/MainMenuScreen.cpp"
+    "Src/Screens/MainMenuScreen/MainMenuScreen.cpp"
     "Src/Map/Map.cpp"
+    "Src/Map/Parsers/DOTMapParser.cpp"
+    "Src/Map/Parsers/GraphMLMapParser.cpp"
+    "Src/Map/Parsers/PythonMapParser.cpp"
+    "Src/Map/Parsers/TextMapParser.cpp"
+    "Src/Map/PathParsers/TextPathParser.cpp"
 )
 source_group("Source Files" FILES ${Source_Files})
 
@@ -52,14 +71,13 @@ include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
 find_package(SDL2_ttf REQUIRED)
 include_directories(${SDL2_TTF_INCLUDE_DIRS})
 
+# COPY FROM PROPERTIES IN MSVS
+set(VENDORS_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors")
+include_directories(${VENDORS_INCLUDE_DIR})
 
-# Set the local include of IMGUI
 # Set the local include of IMGUI
 set(GLM_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/glm")
 include_directories(${GLM_INCLUDE_DIR})
-
-set(VENDORS_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors")
-include_directories(${VENDORS_INCLUDE_DIR})
 
 set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/imgui")
 include_directories(${IMGUI_INCLUDE_DIR})
@@ -70,6 +88,17 @@ include_directories(${IMGUI_BACKENDS_INCLUDE_DIR})
 set(IMPLOT_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/implot")
 include_directories(${IMPLOT_INCLUDE_DIR})
 
+set(IMGUIZMO_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/ImGuizmo")
+include_directories(${IMGUIZMO_INCLUDE_DIR})
+
+set(TINYXML_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/tinyxml2")
+include_directories(${TINYXML_INCLUDE_DIR})
+
+set(JSONPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/JSONParser_Mujin/include")
+include_directories(${JSONPARSER_INCLUDE_DIR})
+
+set(DOTPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/DotParser/DotParser")
+include_directories(${DOTPARSER_INCLUDE_DIR})
 
 ################################################################################
 # Target
@@ -223,4 +252,3 @@ endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_IMAGE_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_ttf::SDL2_ttf)
-

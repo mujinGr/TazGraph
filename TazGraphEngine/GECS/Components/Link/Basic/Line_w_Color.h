@@ -5,8 +5,6 @@
 class Line_w_Color : public LinkComponent
 {
 public:
-	std::string temp_lineParsed = "";
-
 	Color default_src_color = { 255, 255, 255, 255 };
 	Color src_color = { 255, 255, 255, 255 };
 
@@ -42,10 +40,27 @@ public:
 	void drawWithPorts(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
 		//float tempScreenScale = window.getScale();
 
-		glm::vec3 fromPortCenter = entity->getFromNode()->children[entity->fromPort]->GetComponent<TransformComponent>().getCenterTransform();
-		glm::vec3 toPortCenter = entity->getToNode()->children[entity->toPort]->GetComponent<TransformComponent>().getCenterTransform();
+		if (entity->fromPort < 0 || entity->toPort < 0) {
+			TazGraphEngine::ConsoleLogger::error("Ports are not assigned!");
+			return;
+		}
 
-		batch.drawLine(v_index, fromPortCenter, toPortCenter, src_color, dest_color);
+		NodeEntity* fromNode = entity->getFromNode();
+		NodeEntity* toNode = entity->getToNode();
+
+		Entity* fromPortEntity = fromNode->children[entity->fromPort];
+		Entity* toPortEntity = toNode->children[entity->toPort];
+		PortComponent& fromPortComp = fromPortEntity->GetComponent<PortComponent>();
+		PortComponent& toPortComp = toPortEntity->GetComponent<PortComponent>();
+
+		if ((entity->fromSlotIndex >= fromPortComp.portSlots.size())
+			 || (entity->toSlotIndex >= toPortComp.portSlots.size())) {
+			return;
+		}
+		glm::vec3 fromConnectionPoint = fromPortComp.portSlots[entity->fromSlotIndex]->GetComponent<TransformComponent>().getCenterTransform();
+		glm::vec3 toConnectionPoint = toPortComp.portSlots[entity->toSlotIndex]->GetComponent<TransformComponent>().getCenterTransform();
+
+		batch.drawLine(v_index, fromConnectionPoint, toConnectionPoint, src_color, dest_color);
 	}
 
 	void setSrcColor(Color clr) {
@@ -86,8 +101,6 @@ public:
 
 	void showGUI() override {
 		ImGui::Separator();
-
-		ImGui::Text("Line: %s", temp_lineParsed.c_str());
 
 		ImVec4 a_color = ImVec4(src_color.r / 255.0f, src_color.g / 255.0f, src_color.b / 255.0f, src_color.a / 255.0f);
 		if (ImGui::ColorPicker4("Color Line Src", (float*)&a_color)) {

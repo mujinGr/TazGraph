@@ -2,38 +2,20 @@
 #include <SDL2/SDL.h>
 #include "ICamera.h"
 
-enum class ViewMode {
-	Y_UP,
-	Z_UP
-};
-
 
 class PerspectiveCamera : public ICamera{
 public:
-	glm::vec3 eyePos{ 0,0,0 };
-	glm::vec3 aimPos{ 0,0,0 };
-	glm::vec3 upDir{0,-1,0};
-	float zFar = 1000000.0f;
+	glm::vec3 panningAimPos{ 0,0,0 };
 
-	ViewMode currentViewMode = ViewMode::Y_UP;
+	float fov = 45.0f;
+	float aspect = 0.0f;
+	float nearPlane = 0.1f;
 
-	PerspectiveCamera() : _position(0.0f, 0.0f),
-		_cameraMatrix(1.0f),	//I
-		_projectionMatrix(1.0f),		//I
-		_viewMatrix(1.0f),
-		_scale(1.0f),
-		_cameraChange(true),
-		_screenWidth(800),
-		_screenHeight(640)
+	PerspectiveCamera() : 
+		_scale(1.0f)
 	{
 		eyePos = glm::vec3(0.f, 0.f, -770.0f);
 		aimPos = glm::vec3(0.f, 0.f, 0.f);
-	}
-
-	PerspectiveCamera(glm::vec3 eye_pos, glm::vec3 aim_pos) : PerspectiveCamera()
-	{
-		eyePos = eye_pos;
-		aimPos = aim_pos;
 	}
 
 	~PerspectiveCamera()
@@ -42,19 +24,13 @@ public:
 	}
 
 	void init() override {
-		_projectionMatrix = glm::perspective(glm::radians(45.0f), (float)_screenWidth / (float)_screenHeight, 0.1f, zFar); //left, right, top, bottom
+		aspect = (float)_screenWidth / (float)_screenHeight;
+		_projectionMatrix = glm::perspective(glm::radians(fov), aspect, nearPlane, zFar); //left, right, top, bottom
 		updateCameraOrientation();
 
 		_cameraMatrix = glm::mat4(1.0f);
 
-		glm::vec3 scale(_scale, _scale, 1.0f);
-		_cameraMatrix = glm::scale(_cameraMatrix, scale);
-
-
-		glm::vec3 translate(-_position.x, -_position.y, 0.0f);
-		_cameraMatrix = glm::translate(_cameraMatrix, translate); //if glm ortho = -1,1,-1,1 then 1 horizontal with -400,-320 to bottom-left
-
-		_cameraMatrix = _projectionMatrix * _viewMatrix * _cameraMatrix;
+		_cameraMatrix = _projectionMatrix * _viewMatrix;
 
 	}
 
@@ -64,39 +40,10 @@ public:
 
 			_cameraMatrix = glm::mat4(1.0f);
 
-
-			glm::vec3 translate(-_position.x, -_position.y, 0.0f);
-			_cameraMatrix = glm::translate(_cameraMatrix, translate); //if glm ortho = -1,1,-1,1 then 1 horizontal with -400,-320 to bottom-left
-
-			glm::vec3 scale(_scale, _scale, 1.0f);
-			_cameraMatrix = glm::scale(_cameraMatrix, scale);
-
-
-			_cameraMatrix = _projectionMatrix * _viewMatrix * _cameraMatrix;
+			_cameraMatrix = _projectionMatrix * _viewMatrix;
 
 		}
 		
-	}
-
-	void updateCameraOrientation() {
-		if (currentViewMode == ViewMode::Y_UP) {
-			upDir = glm::vec3(0.0f, -1.0f, 0.0f);
-
-			setOrientation(
-				eyePos, aimPos, upDir 
-			);
-		}
-		else {
-			upDir = glm::vec3(0.0f, 0.0f, -1.0f);
-
-			setOrientation(
-				eyePos, aimPos, upDir 
-			);
-		}
-	}
-
-	void setOrientation(glm::vec3 eye, glm::vec3 target, glm::vec3 up) {
-		_viewMatrix = glm::lookAt(eye, target, up);
 	}
 
 	glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) const override {
@@ -169,7 +116,7 @@ public:
 
 	void moveAimPos(glm::vec3 startingAimPos, const glm::vec2 distance) {
 		aimPos = startingAimPos;
-		const float sensitivity = 0.0001f;
+		const float sensitivity = 0.005f;
 
 		float yaw = distance.x * sensitivity;  
 		float pitch = distance.y * sensitivity;
@@ -200,8 +147,16 @@ public:
 		return zFar;
 	}
 
-	glm::vec3 getAimPos() {
+	glm::vec3 getAimPos() override {
 		return aimPos;
+	}
+
+	void setPanningAimPos(const glm::vec3 newAimPos) {
+		panningAimPos = newAimPos;
+	}
+
+	glm::vec3 getPanningAimPos() {
+		return panningAimPos;
 	}
 
 	void setScale(float newScale) override {
@@ -231,8 +186,8 @@ public:
 		float cameraWidth = getCameraDimensions().x / getScale();
 		float cameraHeight = getCameraDimensions().y / getScale();
 
-		float cameraX = _position.x - cameraWidth / 2.0f ;
-		float cameraY = _position.y - cameraHeight / 2.0f ;
+		float cameraX = eyePos.x - cameraWidth / 2.0f ;
+		float cameraY = eyePos.y - cameraHeight / 2.0f ;
 
 		SDL_FRect cameraRect = { cameraX , cameraY , cameraWidth, cameraHeight };
 		return cameraRect;
@@ -243,7 +198,6 @@ public:
 	}
 	void resetCameraPosition() {
 
-		_position = glm::vec2(0.0f,0.0f);
 		_scale = 1.0f;
 
 		eyePos = glm::vec3(0.f, 0.f, -770.0f);
@@ -265,26 +219,6 @@ public:
 	}
 
 
-	bool isPointInCameraView(const glm::vec4 point, float margin)
-	{
-		glm::mat4 vpMatrix = _cameraMatrix;
-
-		glm::vec4 clipSpacePos = vpMatrix * point;
-
-		if (clipSpacePos.w != 0.0f) {
-			clipSpacePos.x /= clipSpacePos.w;
-			clipSpacePos.y /= clipSpacePos.w;
-			clipSpacePos.z /= clipSpacePos.w;
-		}
-
-		// 0.2f is the margin
-		if (clipSpacePos.x < -1.0f - margin || clipSpacePos.x > 1.0f + margin) return false;
-		if (clipSpacePos.y < -1.0f - margin || clipSpacePos.y > 1.0f + margin) return false;
-		if (clipSpacePos.z < -margin || clipSpacePos.z > 1.0f + margin) return false;
-
-		return true;
-	}
-
 	bool hasChanged() override {
 		return _cameraChange;
 	}
@@ -297,55 +231,9 @@ public:
 		_cameraChange = false;
 	}
 
-	// Function to cast a ray from screen coordinates into world space
-	glm::vec3 castRayAt(const glm::vec2& screenPos) {
-		// Convert screen position to normalized device coordinates (NDC)
-		float x = (2.0f * screenPos.x) / _screenWidth - 1.0f;
-		float y = 1.0f - (2.0f * screenPos.y) / _screenHeight;
-		glm::vec4 clipCoords = glm::vec4(x, y, -1.0f, 1.0f);
 
-		// Convert to eye space
-		glm::vec4 eyeCoords = glm::inverse(_projectionMatrix) * clipCoords;
-		eyeCoords = glm::vec4(eyeCoords.x, eyeCoords.y, -1.0f, 0.0f);
 
-		// Convert to world space
-		glm::vec3 worldRay = glm::vec3(glm::inverse(_viewMatrix) * eyeCoords);
-		worldRay = glm::normalize(worldRay);
-
-		return worldRay;
-	}
-	glm::vec3 getPointOnRayAtZ(const glm::vec3& rayOrigin, const glm::vec3& rayDirection, float desiredZ) {
-		// Check if the ray is parallel to the z-plane (no intersection)
-		if (rayDirection.z == 0.0f) {
-			// Ray is parallel to the plane, no intersection
-			return glm::vec3(std::numeric_limits<float>::infinity()); // Return invalid point
-		}
-
-		// Calculate t for the desired z value
-		float t = (desiredZ - rayOrigin.z) / rayDirection.z;
-
-		// Calculate the point on the ray
-		glm::vec3 pointOnRay = rayOrigin + t * rayDirection;
-
-		return pointOnRay;
-	}
-
-	glm::mat4 getViewMatrix() {
-		return _viewMatrix;
-	}
-
-	glm::mat4 getProjMatrix() {
-		return _viewMatrix;
-	}
-
-private:
-	int _screenWidth, _screenHeight;
 	float _minScale = 0.1f, _maxScale = 5.0f;
 	float _scale; // decreases when zoom-out
-	bool _cameraChange;
 
-	glm::vec2 _position;
-	glm::mat4 _projectionMatrix; // changed once in init
-	glm::mat4 _viewMatrix;
-	glm::mat4 _cameraMatrix;
 };

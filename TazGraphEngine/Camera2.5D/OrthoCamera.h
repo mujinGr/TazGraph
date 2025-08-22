@@ -2,18 +2,16 @@
 #include <SDL2/SDL.h>
 #include "ICamera.h"
 
+
 class OrthoCamera : public ICamera {
 public:
-	OrthoCamera() : _position(0.0f),
-		_cameraMatrix(1.0f),	//I
-		_projectionMatrix(1.0f),		//I
-		_viewMatrix(1.0f),
-		_scale(1.0f),
-		_cameraChange(true),
-		_screenWidth(800),
-		_screenHeight(640)
-	{
 
+
+	OrthoCamera() :
+		_scale(1.0f)
+	{
+		eyePos = glm::vec3(0.f, 0.f, -770.0f);
+		aimPos = glm::vec3(0.f, 0.f, 0.f);
 	}
 	~OrthoCamera()
 	{
@@ -22,28 +20,26 @@ public:
 
 	void init() override {
 
-		_projectionMatrix = glm::ortho(0.0f, (float)_screenWidth, (float)_screenHeight, 0.0f);
+		_projectionMatrix = glm::ortho(0.0f, (float)_screenWidth, 0.0f, (float)_screenHeight );
+
+		updateCameraOrientation();
+
+		_cameraMatrix = glm::mat4(1.0f);
+
+		_cameraMatrix = _projectionMatrix * _viewMatrix;
 	}
 
 	void update() override {
 
 		if (_cameraChange) {
+			updateCameraOrientation();
 
 			_cameraMatrix = glm::mat4(1.0f);
 
-			glm::vec3 scale(_scale, _scale, 1.0f);
-			_cameraMatrix = glm::scale(_cameraMatrix, scale);
-
-
-			glm::vec3 translate(-_position.x, -_position.y, 0.0f);
-			_cameraMatrix = glm::translate(_cameraMatrix, translate); //if glm ortho = -1,1,-1,1 then 1 horizontal with -400,-320 to bottom-left
-
-			_cameraMatrix = _projectionMatrix * _viewMatrix * _cameraMatrix;
-
-			//_cameraMatrix = glm::scale(_cameraMatrix, scale);
-			_cameraChange = false;
+			_cameraMatrix = _projectionMatrix * _viewMatrix;
 		}
 	}
+
 
 	glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) const override {
 		//Make 0 the center
@@ -52,8 +48,8 @@ public:
 		screenCoords /= _scale;
 		screenCoords += glm::vec2(_screenWidth / 2, _screenHeight / 2);
 		//Translate with the camera2D.worldLocation position
-		screenCoords.x += _position.x;
-		screenCoords.y += _position.y;
+		screenCoords.x += eyePos.x;
+		screenCoords.y += eyePos.y;
 
 
 		return screenCoords;
@@ -61,23 +57,87 @@ public:
 
 	//setters
 	void setPosition(const glm::vec3 newPosition) override {
-		_position = newPosition;
+		eyePos = newPosition;
 		_cameraChange = true;
 	}
 
 	void setPosition_X(const float newPosition) override {
-		_position.x = newPosition;
+		eyePos.x = newPosition;
 		_cameraChange = true;
 	}
 
 	void setPosition_Y(const float newPosition) override {
-		_position.y = newPosition;
+		eyePos.y = newPosition;
 		_cameraChange = true;
 	}
-	
+
 	void setPosition_Z(const float newPosition) override {
-		_position.z = newPosition;
+		eyePos.z = newPosition;
 		_cameraChange = true;
+	}
+
+	void movePosition_Hor(const float step) {
+		glm::vec3 direction = glm::normalize(aimPos - eyePos);  // Get movement direction
+
+		// Calculate the right vector (perpendicular to direction and up)
+		glm::vec3 right = glm::normalize(glm::cross(direction, upDir));
+
+		// Move the camera horizontally along the right vector
+		eyePos += right * step;
+		aimPos += right * step;
+		_cameraChange = true;
+	}
+	void movePosition_Vert(const float step) {
+		glm::vec3 direction = glm::normalize(aimPos - eyePos);  // Get movement direction
+
+		// Move the camera horizontally along the right vector
+		eyePos += upDir * step;
+		aimPos += upDir * step;
+		_cameraChange = true;
+	}
+
+	void movePosition_Forward(const float step) {
+		glm::vec3 direction = glm::normalize(aimPos - eyePos);
+		eyePos += direction * step;
+		aimPos += direction * step;
+		_cameraChange = true;
+	}
+
+	void setAimPos(const glm::vec3 newAimPos) {
+		aimPos = newAimPos;
+		_cameraChange = true;
+	}
+
+	void moveAimPos(glm::vec3 startingAimPos, const glm::vec2 distance) {
+		aimPos = startingAimPos;
+		const float sensitivity = 0.005f;
+
+		float yaw = distance.x * sensitivity;
+		float pitch = distance.y * sensitivity;
+
+		glm::vec3 direction = glm::normalize(aimPos - eyePos);
+
+		direction = glm::rotate(direction, yaw, upDir);
+
+		glm::vec3 right = glm::normalize(glm::cross(direction, upDir));
+
+		direction = glm::rotate(direction, pitch, right);
+
+		// Update the aimPos based on the new direction
+		aimPos = eyePos + direction;
+		_cameraChange = true;
+	}
+
+	glm::vec3 getEulerAnglesFromDirection(glm::vec3 direction) {
+		float yaw = glm::atan(direction.x, direction.z);
+		float pitch = glm::asin(-direction.y);
+		float roll = 0.0f;
+
+		return glm::vec3(glm::degrees(pitch), glm::degrees(yaw), glm::degrees(roll));
+	}
+
+	glm::vec3 getAimPos() override {
+		return aimPos;
 	}
 
 	void setScale(float newScale) override {
@@ -87,7 +147,7 @@ public:
 
 	//getters
 	glm::vec3 getPosition() const override {
-		return _position;
+		return eyePos;
 	}
 
 	float getScale() const override {
@@ -107,8 +167,8 @@ public:
 		float cameraWidth = getCameraDimensions().x / getScale();
 		float cameraHeight = getCameraDimensions().y / getScale();
 
-		float cameraX = _position.x - cameraWidth / 2.0f + getCameraDimensions().x / 2;
-		float cameraY = _position.y - cameraHeight / 2.0f + getCameraDimensions().y / 2;
+		float cameraX = eyePos.x - cameraWidth / 2.0f + getCameraDimensions().x / 2;
+		float cameraY = eyePos.y - cameraHeight / 2.0f + getCameraDimensions().y / 2;
 
 		SDL_FRect cameraRect = { cameraX , cameraY , cameraWidth, cameraHeight };
 		return cameraRect;
@@ -116,26 +176,6 @@ public:
 
 	void setCameraMatrix(glm::mat4 newMatrix) {
 		_cameraChange = true;
-	}
-
-	bool isPointInCameraView(const glm::vec4 point, float margin)
-	{
-		glm::mat4 vpMatrix = _cameraMatrix;
-
-		glm::vec4 clipSpacePos = vpMatrix * point;
-
-		if (clipSpacePos.w != 0.0f) {
-			clipSpacePos.x /= clipSpacePos.w;
-			clipSpacePos.y /= clipSpacePos.w;
-			clipSpacePos.z /= clipSpacePos.w;
-		}
-
-		// 0.2f is the margin
-		if (clipSpacePos.x < -1.0f - margin || clipSpacePos.x > 1.0f + margin) return false;
-		if (clipSpacePos.y < -1.0f - margin || clipSpacePos.y > 1.0f + margin) return false;
-		if (clipSpacePos.z < -margin || clipSpacePos.z > 1.0f + margin) return false;
-
-		return true;
 	}
 
 	bool hasChanged() override {
@@ -151,12 +191,5 @@ public:
 	}
 
 private:
-	int _screenWidth, _screenHeight;
 	float _scale;
-	bool _cameraChange;
-
-	glm::vec3 _position;
-	glm::mat4 _projectionMatrix; // changed once in init
-	glm::mat4 _viewMatrix;
-	glm::mat4 _cameraMatrix;
 };

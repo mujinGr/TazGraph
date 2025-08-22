@@ -14,7 +14,7 @@ if libopengl does not exist:
 `sudo apt install freeglut3-dev mesa-common-dev`
 
 Start by cloning the repository with
-`git clone --recursive https://carvgit.ics.forth.gr/kotsonas/tazgraph`
+`git clone --recursive https://github.com/mujinGr/TazGraph.git`
 
 If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
 
@@ -25,14 +25,16 @@ In build/:
 `make`
 
 in TazGraph/TazGraph/:
-`../build/TazGraph/TazGraph`
+`../build/TazGraph/TazGraph `**`N`**
+where N is the number of threads to use
 
-For Windows:
+**For Windows**:\
 In root folder:
 `msbuild TazGraph.sln /p:Configuration=Release /p:Platform=x64`
 
 In TazGraph/:
-`../x64/Debug/TazGraph.exe`
+`../x64/Release/TazGraph.exe `**`N`**
+where N is the number of threads to use
 
 ## Intro
 
@@ -54,7 +56,7 @@ Unlike many existing graph tools that are either limited in scope or hard to ext
 Full Documentation:
 [DoxyDocument](https://mujingr.github.io/TazGraph/html/index.html)
 \
-Or download the pdf documentation: [PDF Documentation](docs/latex/refman.pdf)
+Or download the pdf documentation: [PDF Documentation](https://github.com/mujinGr/TazGraph/blob/docs/docs/latex/refman.pdf)
 
 
 

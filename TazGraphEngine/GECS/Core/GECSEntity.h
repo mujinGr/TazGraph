@@ -49,6 +49,8 @@ public:
 	NodeEntity(Manager& mManager) : EmptyEntity(mManager) {
 		nodeComponentArray.emplace();
 		nodeComponentBitSet.emplace();
+		children.resize(4, nullptr);
+
 	}
 	void setComponentEntity(NodeComponent* c) override {
 		c->entity = this;
@@ -70,6 +72,20 @@ public:
 		outLinks.push_back(link);
 	}
 
+	void removeInLink(LinkEntity* link) {
+		auto it = std::find(inLinks.begin(), inLinks.end(), link);
+		if (it != inLinks.end()) {
+			inLinks.erase(it);
+		}
+	}
+
+	void removeOutLink(LinkEntity* link) {
+		auto it = std::find(outLinks.begin(), outLinks.end(), link);
+		if (it != outLinks.end()) {
+			outLinks.erase(it);
+		}
+	}
+
 	const std::vector<LinkEntity*>& getInLinks() const {
 		return inLinks;
 	}
@@ -81,6 +97,7 @@ public:
 	virtual void addPorts() {}
 
 	virtual void removePorts() {}
+	virtual void removeSlots() {}
 
 	virtual void updatePorts(float deltaTime) {}
 
@@ -96,18 +113,49 @@ protected:
 	NodeEntity* to = nullptr;
 
 public:
-	std::string fromPort;
-	std::string toPort;
+	int fromPort = -1;
+	int toPort = -1;
+	int fromSlotIndex = -1;
+	int toSlotIndex = -1;
 
 	LinkEntity(Manager& mManager) : MultiCellEntity(mManager) {
+		children.resize(1, nullptr);
+
 	}
 
 	LinkEntity(Manager& mManager, unsigned int mfromId, unsigned int mtoId)
 		: MultiCellEntity(mManager), fromId(mfromId), toId(mtoId) {
+		children.resize(1, nullptr);
+
 	}
 
 	LinkEntity(Manager& mManager, NodeEntity* mfrom, NodeEntity* mto)
 		: MultiCellEntity(mManager), from(mfrom), to(mto) {
+		children.resize(1, nullptr);
+
+	}
+
+	LinkEntity(Manager& mManager, 
+		unsigned int mfromId, unsigned int mtoId,
+		NodeEntity* mfrom, NodeEntity* mto)
+		: MultiCellEntity(mManager), 
+		fromId(mfromId), toId(mtoId), 
+		from(mfrom), to(mto) {
+		children.resize(1, nullptr);
+
+	}
+
+	LinkEntity(
+		Manager& mManager,
+		NodeEntity* mfrom, NodeEntity* mto,
+		int m_fromPort, int m_toPort, int m_fromSlot, int m_toSlot )
+		: MultiCellEntity(mManager), from(mfrom), to(mto)
+	{
+		children.resize(1, nullptr);
+		fromPort = m_fromPort;
+		toPort = m_toPort;
+		fromSlotIndex = m_fromSlot;
+		toSlotIndex = m_toSlot;
 	}
 
 	void setComponentEntity(LinkComponent* c) override {
@@ -143,9 +191,9 @@ public:
 		return to->children[toPort];
 	}
 
-	virtual void updateLinkToPorts() {}
+	virtual void updateConnectedPorts() {}
 
-	virtual void updateLinkToNodes() {}
+	virtual void resetPorts() {}
 
 	virtual void updateArrowHeads() {}
 

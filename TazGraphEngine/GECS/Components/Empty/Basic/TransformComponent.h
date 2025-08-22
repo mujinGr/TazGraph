@@ -5,8 +5,6 @@
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {
 public:
-	std::string temp_lineParsed = "";
-
 	glm::vec3 velocity = glm::vec3(0);
 	glm::vec3 rotation = { 0.0f,0.0f,0.0f };
 	glm::vec3 position = glm::vec3(0);
@@ -78,7 +76,10 @@ public:
 	void update(float deltaTime) override
 	{
 		
-		if (entity->getParentEntity() && dynamic_cast<NodeEntity*>(entity->getParentEntity())) {
+		if (entity->getParentEntity()
+			&& (dynamic_cast<NodeEntity*>(entity->getParentEntity()) 
+				|| dynamic_cast<EmptyEntity*>(entity->getParentEntity()))) 
+		{
 			Entity* parent = entity->getParentEntity();
 			TransformComponent* parentTR = &parent->GetComponent<TransformComponent>();
 			if (
@@ -158,8 +159,6 @@ public:
 
 	void showGUI() override {
 		ImGui::Separator();
-
-		ImGui::Text("Line: %s", temp_lineParsed.c_str());
 
 		// Position Controls
 		ImGui::Text("Position:");

@@ -10,7 +10,12 @@
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
 
 #include "CustomFunctions/CustomFunctions.h"
+#include "Minimap/Minimap.h"
+#include "OrientationBox/OrientationBox.h"
+
 #include "./EditorLayoutUtils.h"
+
+#include <Renderers/FrameBuffer/Framebuffer.h>
 
 namespace fs = std::filesystem;
 
@@ -18,19 +23,25 @@ namespace fs = std::filesystem;
 class EditorIMGUI : public ImGuiInterface {
 private:
 	std::vector<std::string> _fileNames;
-	char  _newFileName[126] = "";
 	std::vector<std::string> _pollingFileNames;
+	std::vector<std::string> _pathsFileNames;
+	std::string _pathLoading;
 	ImGui::ComboAutoSelectData _data;
+	ImGui::ComboAutoSelectData _pathData;
 	int _currentOrientationIndex = 0;
+	int _currentLinksPathIndex = 0;
 
 	bool _filesLoaded = false;
 
 	bool _isSaving = false;
 	bool _isStartingNew = false;
 	bool _isLoading = false;
+	bool _isLoadingPath = false;
 	bool _goingBack = false;
 
 	CustomFunctions _customFunctions;
+	Minimap _minimap;
+	OrientationBox _orientationBox;
 
 	// Note: Switch this to true to enable dockspace
 	bool _dockingEnabled = true;
@@ -60,19 +71,24 @@ public:
 	void setNewMap(bool startingNew);
 	bool isStartingNew();
 	bool isLoading();
+	bool isLoadingPath();
 	void setLoading(bool loading);
+	void setPathLoading(bool loading);
 	bool isGoingBack();
+	std::string getPathLoading();
 	void SetGoingBack(bool goingBack);
 
 	void updateFileNamesInAssets();
 
 	void updatePollingFileNamesInAssets();
 
+	void updatePathFileNamesInAssets();
+
 	bool* getDockspaceRef();
 	void MenuBar();
 
 	bool isMouseOnWidget(const std::string& widgetName);
-	void LeftColumnUIElement(bool& renderDebug, bool& clusterLayout, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* selectedEntity, float(&backgroundColor)[4], int cell_size);
+	void LeftColumnUIElement(bool& renderDebug, bool& clusterLayout, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, float(&backgroundColor)[4], int cell_size);
 	void RightColumnUIElement(Manager& manager, float* nodeRadius);
 	void FPSCounter(const BaseFPSLimiter& baseFPSLimiter);
 	void ReloadAccessibleFiles();
@@ -82,11 +98,17 @@ public:
 	void MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onLoadSimulator, std::function<void()> onExitSimulator);
 	void ShowAllEntities(Manager& manager, float& m_nodeRadius);
 	void availableFunctions();
-	void SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize);
+	void SceneViewport(
+		const BaseFPSLimiter& baseFPSLimiter,
+		Manager& manager,
+		Framebuffer& textureId, 
+		Framebuffer& m_minimap_fb,
+		ImVec2& storedWindowPos, ImVec2& storedWindowSize);
 	void scriptResultsVisualization(Manager& manager, std::vector<std::pair<Entity*, glm::vec3>>& m_selectedEntities);
 	std::string SceneTabs(const std::vector<std::string>& graphNames, std::string& currentActive);
 	void ShowFunctionExecutionResults();
 	void updateIsMouseInSecondColumn();
+	void showHoveredEntity(Manager& manager, glm::vec2 mousePos, Entity* onHoverEntity);
 	void ShowEntityComponents(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager);
 	void ShowSceneControl(glm::vec2 mousePos, Manager& manager);
 	void StartPollingComponent(Entity* entity, const std::string& fileName);

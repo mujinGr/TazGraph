@@ -22,9 +22,7 @@ private:
 	std::array<std::vector<NodeEntity*>, maxGroups> groupedNodeEntities;
 	std::array<std::vector<LinkEntity*>, maxGroups> groupedLinkEntities;
 
-	std::vector<EmptyEntity*> visible_emptyEntities;
-	std::vector<NodeEntity*> visible_nodes;
-	std::vector<LinkEntity*> visible_links;
+
 	
 	std::array<std::vector<EmptyEntity*>, maxGroups> visible_groupedEmptyEntities;
 	std::array<std::vector<NodeEntity*>, maxGroups> visible_groupedNodeEntities;
@@ -38,6 +36,8 @@ public:
 
 	bool arrowheadsEnabled = false;
 	bool last_arrowheadsEnabled = false;
+
+	bool updateInnerPathLinks = false;
 
 	std::unordered_map<std::string, std::vector<std::string>> componentNames;
 
@@ -79,6 +79,7 @@ public:
 			//? THIS MAY CAUSE ERRORS, IF REMOVE LINK FROM CELL AND OTHER LINK THAT HAS THAT CELL IN SEARCH
 			//? WILL PUMP IN AN EMPTY ELEMENT OR THE SIZE WILL BE SMALLER FOR THAT LINK TO FIND ELEMENT
 			for (auto& e : movedNodes) {
+				updateInnerPathLinks = true;
 				for (auto& link : e->getInLinks()) {
 					link->cellUpdate();
 				}
@@ -90,7 +91,7 @@ public:
 			_threader->parallel(movedNodes.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
 					for (auto& link : movedNodes[i]->getInLinks()) {
-						link->updateLinkToPorts();
+						link->updateConnectedPorts();
 					}
 				}
 				});
@@ -98,7 +99,7 @@ public:
 			_threader->parallel(movedNodes.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
 					for (auto& link : movedNodes[i]->getOutLinks()) {
-						link->updateLinkToPorts();
+						link->updateConnectedPorts();
 					}
 				}
 				});
@@ -106,30 +107,30 @@ public:
 			movedNodes.clear();
 
 			//! UPDATE
-			_threader->parallel(visible_emptyEntities.size(), [&](int start, int end) {
+			_threader->parallel(grid->visible_emptyEntities.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					if (visible_emptyEntities[i] && visible_emptyEntities[i]->isActive()) {
-						visible_emptyEntities[i]->update(deltaTime);
+					if (grid->visible_emptyEntities[i] && grid->visible_emptyEntities[i]->isActive()) {
+						grid->visible_emptyEntities[i]->update(deltaTime);
 					}
 				}
 				});
 
 			
-			_threader->parallel(visible_nodes.size(), [&](int start, int end) {
+			_threader->parallel(grid->visible_nodes.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					if (visible_nodes[i] && visible_nodes[i]->isActive()) {
-						visible_nodes[i]->update(deltaTime);
+					if (grid->visible_nodes[i] && grid->visible_nodes[i]->isActive()) {
+						grid->visible_nodes[i]->update(deltaTime);
 					}
 				}
 
 				});
 
 			
-			_threader->parallel(visible_links.size(), [&](int start, int end) {
+			_threader->parallel(grid->visible_links.size(), [&](int start, int end) {
 
 				for (int i = start; i < end; i++) {
-					if (visible_links[i] && visible_links[i]->isActive()) {
-						visible_links[i]->update(deltaTime);
+					if (grid->visible_links[i] && grid->visible_links[i]->isActive()) {
+						grid->visible_links[i]->update(deltaTime);
 					}
 				}
 				});
@@ -152,26 +153,26 @@ public:
 
 			for (auto& e : movedNodes) {
 				for (auto& link : e->getInLinks()) {
-					link->updateLinkToPorts();
+					link->updateConnectedPorts();
 				}
 			}
 
 			for (auto& e : movedNodes) {
 				for (auto& link : e->getOutLinks()) {
-					link->updateLinkToPorts();
+					link->updateConnectedPorts();
 				}
 			}
 
 			movedNodes.clear();
 
-			for (auto& e : visible_emptyEntities) {
+			for (auto& e : grid->visible_emptyEntities) {
 				if (!e || !e->isActive()) continue;
 
 				e->update(deltaTime);
 			}
 
 			if (arrowheadsEnabled) {
-				for (auto& e : visible_nodes) {
+				for (auto& e : grid->visible_nodes) {
 					if (!e || !e->isActive()) continue;
 
 					e->update(deltaTime);
@@ -180,7 +181,7 @@ public:
 			}
 			
 
-			for (auto& e : visible_links) {
+			for (auto& e : grid->visible_links) {
 				if (!e || !e->isActive()) continue;
 
 				e->update(deltaTime);
@@ -250,13 +251,13 @@ public:
 	template <typename T>
 	std::vector<T*> getVisible() {
 		if constexpr (std::is_same_v<T, EmptyEntity>) {
-			return visible_emptyEntities;
+			return grid->visible_emptyEntities;
 		}
 		else if constexpr (std::is_same_v<T, NodeEntity>) {
-			return visible_nodes;
+			return grid->visible_nodes;
 		}
 		else if constexpr (std::is_same_v<T, LinkEntity>) {
-			return visible_links;
+			return grid->visible_links;
 		}
 		else {
 			static_assert(sizeof(T) == 0, "Unsupported entity type.");
@@ -354,6 +355,15 @@ public:
 			entity->destroy();
 		}
 	}
+
+	void removeAllEntitiesFromEmptyGroup(Group mGroup) {
+		auto& entitiesInGroup = groupedEmptyEntities[mGroup];
+
+		for (Entity* entity : entitiesInGroup) {
+			entity->destroy();
+		}
+	}
+
 	void removeAllEntitiesFromLinkGroup(Group mGroup) {
 		auto& entitiesInGroup = groupedLinkEntities[mGroup];
 
@@ -389,11 +399,22 @@ public:
 		groupGroupLinks_0,
 		groupGroupLinks_1,
 
+		groupPathLinks_0,
+		groupPathLinks_1,
+		groupPathLinks_2,
+
+		groupPathInnerLinks,
+
+		groupPathLinksHolder,
+
 		groupArrowHeads_0,
 
 		groupNodes_0,
 		groupGroupNodes_0,
 		groupGroupNodes_1,
+
+		groupMinimapNodes,
+
 		groupColliders,
 
 		groupEmpties,
@@ -401,6 +422,9 @@ public:
 
 		groupRenderSprites,
 		
+		groupPorts,
+		groupPortSlots,
+
 		//fore
 		buttonLabels,
 	};
@@ -413,19 +437,30 @@ public:
 		{ groupLinks_0,"groupLinks_0" },
 		{groupGroupLinks_0, "groupGroupLinks_0"},
 		{groupGroupLinks_1, "groupGroupLinks_1"},
+		
+		{groupPathLinks_0, "groupPathLinks_0"},
+		{groupPathLinks_1, "groupPathLinks_1"},
+		{groupPathLinks_2, "groupPathLinks_2"},
+		
+		{groupPathInnerLinks, "groupPathInnerLinks"},
+
+		{groupPathLinksHolder, "groupPathLinksHolder"},
 
 		{groupArrowHeads_0, "groupArrowHeads_0"},
 
 		{ groupNodes_0,"groupNodes_0" },
 		{ groupGroupNodes_0, "groupGroupNodes_0"},
 		{ groupGroupNodes_1, "groupGroupNodes_1"},
+		
+		{ groupMinimapNodes,"groupMinimapNodes" },
 
 		{ groupEmpties,"groupEmpties" },
 		{ groupSphereEmpties,"groupSphereEmpties" },
 
 		{ groupColliders,"groupColliders" },
 		{ groupRenderSprites,"groupRenderSprites" },
-
+		{ groupPorts,"groupPorts" },
+		{ groupPortSlots,"groupPortSlots" },
 
 		//fore
 		{ buttonLabels,"buttonLabels" },

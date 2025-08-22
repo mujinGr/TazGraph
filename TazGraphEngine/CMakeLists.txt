@@ -9,6 +9,7 @@ set(Header_Files
     "AudioEngine/AudioEngine.h"
     "Camera2.5D/CameraManager.h"
     "Camera2.5D/ICamera.h"
+    "Camera2.5D/OrthoCamera.h"
     "Camera2.5D/PerspectiveCamera.h"
     "Renderers/LineRenderer/LineRenderer.h"
     "GECS/Animators/Animation.h"
@@ -37,9 +38,9 @@ set(Header_Files
     "GECS/Components/Empty/Basic/TransformComponent.h"
     "GLSLProgram.h"
     "GLTexture.h"
-    "GraphScreen/IScene.h"
-    "GraphScreen/AppInterface.h"
-    "GraphScreen/SceneList.h"
+    "AppScene/IScene.h"
+    "AppScene/AppInterface.h"
+    "AppScene/SceneList.h"
     "Grid/Grid.h"
     "ImGuiInterface/ImGuiInterface.h"
     "InputManager/InputManager.h"
@@ -59,15 +60,15 @@ set(Header_Files
 source_group("Header Files" FILES ${Header_Files})
 
 set(Source_Files
+    "Camera2.5D/ICamera.cpp"
     "AudioEngine/AudioEngine.cpp"
-    "Camera2.5D/OrthoCamera.h"
     "Renderers/LineRenderer/LineRenderer.cpp"
     "GECS/Core/GECS.cpp"
     "GECS/Core/GECSManager.cpp"
-    "GraphScreen/IScene.cpp"
-    "GraphScreen/AppInterface.cpp"
-    "GraphScreen/ScreenIndices.h"
-    "GraphScreen/SceneList.cpp"
+    "AppScene/IScene.cpp"
+    "AppScene/AppInterface.cpp"
+    "AppScene/ScreenIndices.h"
+    "AppScene/SceneList.cpp"
     "Grid/Grid.cpp"
     "ImGuiInterface/ImGuiInterface.cpp"
     "../vendors/imgui/imgui.cpp"
@@ -81,6 +82,8 @@ set(Source_Files
     "../vendors/implot/implot.cpp"
     "../vendors/implot/implot_items.cpp"
     "../vendors/ImGuizmo/ImGuizmo.cpp"
+    "../vendors/tinyxml2/tinyxml2.cpp"
+    "../vendors/DotParser/DotParser/DotParser.cpp"
     "InputManager/InputManager.cpp"
     "PNG_Letters.cpp"
     "ResourceManager/ResourceManager.cpp"
@@ -118,6 +121,7 @@ add_compile_options(-pedantic)
 
 # Find SDL2 Mixer library
 find_package(SDL2_mixer REQUIRED)
+find_package(SDL2_image REQUIRED)
 #include_directories(${SDL2_MIXER_INCLUDE_DIRS})
 
 if(SDL2_mixer_FOUND)
@@ -139,12 +143,12 @@ include_directories(${GLEW_INCLUDE_DIRS}) # LIBS added at end
 #set(GLEW_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/GL")
 #include_directories(${GLEW_INCLUDE_DIR})
 
+set(VENDORS_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors")
+include_directories(${VENDORS_INCLUDE_DIR})
+
 # Set the local include of IMGUI
 set(GLM_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/glm")
 include_directories(${GLM_INCLUDE_DIR})
-
-set(VENDORS_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors")
-include_directories(${VENDORS_INCLUDE_DIR})
 
 set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/imgui")
 include_directories(${IMGUI_INCLUDE_DIR})
@@ -154,6 +158,18 @@ include_directories(${IMGUI_BACKENDS_INCLUDE_DIR})
 
 set(IMPLOT_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/implot")
 include_directories(${IMPLOT_INCLUDE_DIR})
+
+set(IMGUIZMO_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/ImGuizmo")
+include_directories(${IMGUIZMO_INCLUDE_DIR})
+
+set(TINYXML_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/tinyxml2")
+include_directories(${TINYXML_INCLUDE_DIR})
+
+set(JSONPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/JSONParser_Mujin/include")
+include_directories(${JSONPARSER_INCLUDE_DIR})
+
+set(DOTPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/DotParser/DotParser")
+include_directories(${DOTPARSER_INCLUDE_DIR})
 
 #file(GLOB IMGUI_SOURCES ${PROJECT_NAME}/imgui/*.cpp)
 #target_sources(${PROJECT_NAME} PRIVATE ${IMGUI_SOURCES})
@@ -287,6 +303,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARIES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_mixer::SDL2_mixer)
 message(STATUS "Linking SDL2_mixer with ${PROJECT_NAME} using ${SDL2_MIXER_LIBRARIES}")
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_image::SDL2_image)
+message(STATUS "Linking SDL2_image with ${PROJECT_NAME} using ${SDL2_IMAGE_LIBRARIES}")
 #target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${GLEW_LIBRARIES})

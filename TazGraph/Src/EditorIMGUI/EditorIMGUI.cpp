@@ -23,6 +23,11 @@ void EditorIMGUI::setLoading(bool loading)
 	_isLoading = loading;
 }
 
+void EditorIMGUI::setPathLoading(bool loading)
+{
+	_isLoadingPath = loading;
+}
+
 bool EditorIMGUI::isStartingNew()
 {
 	return _isStartingNew;
@@ -33,9 +38,18 @@ bool EditorIMGUI::isLoading()
 	return _isLoading;
 }
 
+bool EditorIMGUI::isLoadingPath()
+{
+	return _isLoadingPath;
+}
+
 bool EditorIMGUI::isGoingBack()
 {
 	return _goingBack;
+}
+
+std::string EditorIMGUI::getPathLoading() {
+	return _pathLoading;
 }
 
 void EditorIMGUI::SetGoingBack(bool goingBack) {
@@ -62,10 +76,22 @@ void EditorIMGUI::updatePollingFileNamesInAssets() {
 	}
 }
 
+void EditorIMGUI::updatePathFileNamesInAssets() {
+	_pathsFileNames.clear();
+	const std::string path = "assets/Paths"; // Directory path
+	for (const auto& entry : fs::directory_iterator(path)) {
+		if (entry.is_regular_file()) {
+			_pathsFileNames.push_back(entry.path().filename().string()); // Add file name to vector
+		}
+	}
+	_pathsFileNames.push_back(">Reset");
+}
+
 void EditorIMGUI::ReloadAccessibleFiles() {
 	if (!_filesLoaded) {
 		updateFileNamesInAssets();
 		updatePollingFileNamesInAssets();
+		updatePathFileNamesInAssets();
 
 		_filesLoaded = true; // Set to true so we don't reload unnecessarily
 	}
@@ -117,7 +143,7 @@ bool EditorIMGUI::isMouseOnWidget(const std::string& widgetName)
 	return false;
 }
 
-void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, Entity* onHoverEntity, float(& backgroundColor)[4], int cell_size) {
+void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, float(& backgroundColor)[4], int cell_size) {
 	ImGui::BeginChild("Background UI");
 	ImGui::ColorEdit4("Background Color", backgroundColor);
 	
@@ -159,11 +185,11 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 		glm::vec3 eyePos = main_camera2D->getPosition();
 
 		if (newMode == ViewMode::Y_UP) {
-			main_camera2D->upDir = glm::vec3(0, -1, 0);
+			//main_camera2D->upDir = glm::vec3(0, -1, 0);
 			main_camera2D->setAimPos(glm::vec3(eyePos.x, eyePos.y, eyePos.z + 1.0f));
 		}
 		else if (newMode == ViewMode::Z_UP) {
-			main_camera2D->upDir = glm::vec3(0, 0, -1);
+			//main_camera2D->upDir = glm::vec3(0, 0, -1);
 			main_camera2D->setAimPos(glm::vec3(eyePos.x, eyePos.y + 1.0f, eyePos.z));
 		}
 
@@ -192,6 +218,7 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 
 	if (ImGui::Button(manager.arrowheadsEnabled ? "Disable Arrowheads" : "Enable Arrowheads")) {
 		manager.arrowheadsEnabled = !manager.arrowheadsEnabled;
+		manager.updateInnerPathLinks = true;
 		//manager.setArrowheadsEnabled(arrowheadsEnabled); // Call function to apply change
 	}
 	
@@ -251,13 +278,9 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 		for (NodeEntity* node : nodes) {
 			if (node == centerNode) continue;
 			int count = node->getOutLinks().size();
-#if defined(_WIN32) || defined(_WIN64)
-			minOutlinks = min(minOutlinks, count);
-			maxOutlinks = max(maxOutlinks, count);
-#else
+
 			minOutlinks = std::min(minOutlinks, count);
 			maxOutlinks = std::max(maxOutlinks, count);
-#endif
 
 		}
 
@@ -271,11 +294,7 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 			float angle = (2 * M_PI * index) / total;
 			int outLinks = node->getOutLinks().size();
 
-#if defined(_WIN32) || defined(_WIN64)
-			float normalized = (float)(maxOutlinks - outLinks) / max(1, maxOutlinks - minOutlinks);
-#else
 			float normalized = (float)(maxOutlinks - outLinks) / std::max(1, maxOutlinks - minOutlinks);
-#endif
 			float radius = minRadius + normalized * (maxRadius - minRadius);
 
 			glm::vec2 pos = centerPos + glm::vec2(cos(angle), sin(angle)) * radius;
@@ -375,7 +394,48 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 
 	ImGui::Separator();
 
+	_pathData.SetSelectData(std::move(_pathsFileNames));
 
+	if (ImGui::ComboAutoSelect("Choose Links Path File", _pathData)) {
+		std::string resetIndex = ">Reset";
+		if (strcmp(_pathData.input, resetIndex.c_str()) == 0) {
+
+			for (auto& pathHolder : manager.getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
+				auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
+
+				for (auto* link : pathLinks) {
+					NodeEntity* from = link->getFromNode();
+					NodeEntity* to = link->getToNode();
+
+					if (from) {
+						from->removeOutLink(link);
+						from->removeSlots(); // if slots are per-link
+					}
+					if (to) {
+						to->removeInLink(link);
+						to->removeSlots();
+					}
+
+					link->removeArrowHead();
+					link->resetPorts();
+				}
+			}
+			manager.removeAllEntitiesFromEmptyGroup(Manager::groupPathLinksHolder);
+
+			manager.removeAllEntitiesFromEmptyGroup(Manager::groupPathInnerLinks);
+
+			manager.removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_0);
+			manager.removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_1);
+			manager.removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_2);
+		}
+		else {
+			_pathLoading = _pathData.input;
+			setPathLoading(true);
+		}
+
+	}
+
+	ImGui::Separator();
 
 	if (ImGui::BeginTable("GroupsTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
 		ImGui::TableSetupColumn("Group Name", ImGuiTableColumnFlags_WidthStretch);
@@ -445,37 +505,7 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 	ImGui::Text("MainViewport Coords: {x: %f, y: %f}", mouseCoords2.x, mouseCoords2.y);
 
 
-	if (onHoverEntity) {
-		ImGui::Text("Selected Entity Details");
-
-		Node* node = dynamic_cast<Node*>(onHoverEntity);
-		if (node) {
-
-			ImGui::Text("Id: %d", onHoverEntity->getId());
-
-			TransformComponent* tr = &onHoverEntity->GetComponent<TransformComponent>();
-			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
-			ImGui::Text("Size: (%f, %f)", tr->size.x, tr->size.y);
-			glm::vec3 cellBox = manager.grid->getCell(*onHoverEntity, manager.grid->getGridLevel())->boundingBox_origin;
-			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
-		}
-		Link* link = dynamic_cast<Link*>(onHoverEntity);
-		if (link) {
-			ImGui::Text("Id: %d", onHoverEntity->getId());
-
-		}
-		Empty* empty = dynamic_cast<Empty*>(onHoverEntity);
-		if (empty) {
-
-			ImGui::Text("Id: %d", onHoverEntity->getId());
-
-			TransformComponent* tr = &onHoverEntity->GetComponent<TransformComponent>();
-			ImGui::Text("Position: (%f, %f)", tr->getPosition().x, tr->getPosition().y);
-			ImGui::Text("Size: (%f, %f)", tr->size.x, tr->size.y);
-			glm::vec3 cellBox = manager.grid->getCell(*onHoverEntity, manager.grid->getGridLevel())->boundingBox_origin;
-			ImGui::Text("Grid x: %.2f and y: %.2f", cellBox.x, cellBox.y);
-		}
-	}
+	
 
 	ImGui::EndChild();
 }
@@ -492,18 +522,10 @@ void EditorIMGUI::FPSCounter(const BaseFPSLimiter& baseFPSLimiter) {
 	ImGui::Begin("Performance");
 	ImGui::Text("FPS: %f", baseFPSLimiter.fps);
 	if (ImPlot::BeginPlot("FPS Plot")) {
-#if defined(_WIN32) || defined(_WIN64)
-		int plot_count = min(baseFPSLimiter.fps_history_count,
-			baseFPSLimiter.fpsHistoryIndx); // Ensuring we do not read out of bounds
-		int plot_offset = max(0,
-			baseFPSLimiter.fpsHistoryIndx - baseFPSLimiter.fps_history_count); // Ensure a positive offset
-#else
 		int plot_count = std::min(baseFPSLimiter.fps_history_count,
 			baseFPSLimiter.fpsHistoryIndx); // Ensuring we do not read out of bounds
 		int plot_offset = std::max(0,
 			baseFPSLimiter.fpsHistoryIndx - baseFPSLimiter.fps_history_count); // Ensure a positive offset
-
-#endif
 
 		ImPlot::SetupAxesLimits(0, 100, 0, 200);
 
@@ -816,83 +838,13 @@ void EditorIMGUI::availableFunctions() {
 
 }
 
-/*
-* 
-* void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize) {
-	ImGui::BeginChild("Viewport");
-	ImVec2 pos = ImGui::GetCursorScreenPos();
-	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-	//ImGui::Image();
-	ImGui::Image(
-		reinterpret_cast<void*>(static_cast<uintptr_t>(textureId)),
-		viewportPanelSize,
-		ImVec2(0, 1),
-		ImVec2(1, 0)
-	);
-
-	storedWindowPos = ImGui::GetWindowPos(); // You need to call this when the window is in context (i.e., between ImGui::Begin and ImGui::End)
-	storedWindowSize = viewportPanelSize;
-
-	// --- Use your actual camera matrices ---
-	std::shared_ptr<PerspectiveCamera> main_camera2D =
-		std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-
-	glm::mat4 view = main_camera2D->getViewMatrix();
-	glm::mat4 proj = main_camera2D->getProjMatrix();
-
-	bool isHovered = ImGui::IsItemHovered();
-
-	// Static object matrix - consider making this non-static for multiple objects
-	static glm::mat4 objMatrix = glm::mat4(1.0f);
-	static ImGuizmo::OPERATION currentGizmoOperation = ImGuizmo::TRANSLATE;
-	static ImGuizmo::MODE currentGizmoMode = ImGuizmo::LOCAL;
-
-	// Set up ImGuizmo
-	ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
-	ImGuizmo::SetRect(pos.x, pos.y, viewportPanelSize.x, viewportPanelSize.y);
-
-	// Enable/disable gizmo based on mouse interaction
-	ImGuizmo::Enable(isHovered);
-
-	// Handle keyboard shortcuts for gizmo operations
-	if (ImGui::IsKeyPressed(ImGuiKey_Q)) currentGizmoOperation = ImGuizmo::TRANSLATE;
-	if (ImGui::IsKeyPressed(ImGuiKey_W)) currentGizmoOperation = ImGuizmo::ROTATE;
-	if (ImGui::IsKeyPressed(ImGuiKey_E)) currentGizmoOperation = ImGuizmo::SCALE;
-	if (ImGui::IsKeyPressed(ImGuiKey_R)) currentGizmoMode = (currentGizmoMode == ImGuizmo::LOCAL) ? ImGuizmo::WORLD : ImGuizmo::LOCAL;
-
-	// Render the gizmo
-	bool gizmoUsed = ImGuizmo::Manipulate(
-		glm::value_ptr(view),
-		glm::value_ptr(proj),
-		currentGizmoOperation,
-		currentGizmoMode,
-		glm::value_ptr(objMatrix),
-		nullptr, // deltaMatrix (optional)
-		nullptr  // snap values (optional)
-	);
-
-	// Optional: Handle gizmo interaction feedback
-	if (gizmoUsed) {
-		// Object was manipulated - you might want to:
-		// 1. Update your actual object's transform
-		// 2. Mark scene as dirty
-		// 3. Trigger callbacks
-
-		// Example: Extract position, rotation, scale from objMatrix
-		// glm::vec3 position, rotation, scale;
-		// ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(objMatrix), 
-		//                                       glm::value_ptr(position),
-		//                                       glm::value_ptr(rotation),
-		//                                       glm::value_ptr(scale));
-	}
-
-
-	ImGui::EndChild();
-}
-
-*/
-
-void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImVec2& storedWindowSize) {
+void EditorIMGUI::SceneViewport(
+	const BaseFPSLimiter& baseFPSLimiter, 
+	Manager& manager, 
+	Framebuffer& m_fb, 
+	Framebuffer& m_minimap_fb, 
+	ImVec2& storedWindowPos, ImVec2& storedWindowSize
+) {
 
 	ImGui::BeginChild("Viewport");
 
@@ -901,7 +853,7 @@ void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImV
 
 	// Render your scene texture
 	ImGui::Image(
-		reinterpret_cast<void*>(static_cast<uintptr_t>(textureId)),
+		reinterpret_cast<void*>(static_cast<uintptr_t>(m_fb._framebufferTexture)),
 		viewportPanelSize,
 		ImVec2(0, 1),
 		ImVec2(1, 0)
@@ -920,25 +872,16 @@ void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImV
 	std::shared_ptr<PerspectiveCamera> main_camera2D =
 		std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-	if (!main_camera2D) {
+	std::shared_ptr<OrthoCamera> hud_camera2D =
+		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
+	
+	std::shared_ptr<OrthoCamera> minimap_camera2D =
+		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
+
+	
+	if (!minimap_camera2D) {
 		ImGui::EndChild();
 		return;
-	}
-
-	glm::mat4 view = main_camera2D->getViewMatrix();
-	glm::mat4 proj = main_camera2D->getProjMatrix();
-
-	// Object matrix - make this reference your actual selected object's transform
-	static glm::mat4 objMatrix = glm::mat4(1.0f);
-	static ImGuizmo::OPERATION gizmoOp = ImGuizmo::TRANSLATE;
-	static ImGuizmo::MODE gizmoMode = ImGuizmo::WORLD;
-
-	// Optional: Add keyboard shortcuts for gizmo control
-	if (ImGui::IsWindowFocused()) {
-		if (ImGui::IsKeyPressed(ImGuiKey_Q)) gizmoOp = ImGuizmo::TRANSLATE;
-		if (ImGui::IsKeyPressed(ImGuiKey_W)) gizmoOp = ImGuizmo::ROTATE;
-		if (ImGui::IsKeyPressed(ImGuiKey_E)) gizmoOp = ImGuizmo::SCALE;
-		if (ImGui::IsKeyPressed(ImGuiKey_R)) gizmoMode = (gizmoMode == ImGuizmo::WORLD) ? ImGuizmo::LOCAL : ImGuizmo::WORLD;
 	}
 
 	// Set up ImGuizmo to render over the image
@@ -948,42 +891,10 @@ void EditorIMGUI::SceneViewport(uint32_t textureId, ImVec2& storedWindowPos, ImV
 	// Only enable gizmo when mouse is over the viewport
 	bool isHovered = ImGui::IsItemHovered();
 	ImGuizmo::Enable(isHovered);
+	
+	_minimap.Create(m_minimap_fb._framebufferTexture, baseFPSLimiter, manager, pos, viewportPanelSize);
 
-	// Render the gizmo
-	bool gizmoUsed = ImGuizmo::Manipulate(
-		glm::value_ptr(view),
-		glm::value_ptr(proj),
-		gizmoOp,
-		gizmoMode,
-		glm::value_ptr(objMatrix),
-		nullptr, // deltaMatrix
-		nullptr  // snap
-	);
-
-	// Handle gizmo interaction
-	if (gizmoUsed) {
-		// TODO: Update your actual scene object's transform with objMatrix
-		// Example:
-		// if (selectedObject) {
-		//     selectedObject->setTransform(objMatrix);
-		// }
-	}
-
-	// Optional: Show gizmo controls in a small overlay
-	ImGui::SetCursorPos(ImVec2(10, 30));
-	ImGui::BeginGroup();
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0.3f));
-	if (ImGui::SmallButton("T")) gizmoOp = ImGuizmo::TRANSLATE;
-	ImGui::SameLine();
-	if (ImGui::SmallButton("R")) gizmoOp = ImGuizmo::ROTATE;
-	ImGui::SameLine();
-	if (ImGui::SmallButton("S")) gizmoOp = ImGuizmo::SCALE;
-	ImGui::SameLine();
-	if (ImGui::SmallButton(gizmoMode == ImGuizmo::WORLD ? "W" : "L")) {
-		gizmoMode = (gizmoMode == ImGuizmo::WORLD) ? ImGuizmo::LOCAL : ImGuizmo::WORLD;
-	}
-	ImGui::PopStyleColor();
-	ImGui::EndGroup();
+	_orientationBox.Create(pos, viewportPanelSize);
 
 	ImGui::EndChild();
 }
@@ -1058,6 +969,116 @@ void EditorIMGUI::updateIsMouseInSecondColumn() {
 	ImVec2 mousePos = ImGui::GetMousePos();
 	isMouseInSecondColumn = (mousePos.x >= columnStartPos.x && mousePos.x <= (columnStartPos.x + columnSize.x) &&
 		mousePos.y >= columnStartPos.y && mousePos.y <= (columnStartPos.y + columnSize.y));
+}
+
+void EditorIMGUI::showHoveredEntity(Manager& manager, glm::vec2 mousePos, Entity* onHoverEntity)
+{
+	if (!onHoverEntity) return;
+
+	const float hoveredEntityWindowSize = 220.0f;
+	const float windowHeight = 120.0f; // Adjust height based on content
+
+	// Position window near mouse cursor
+	ImVec2 hoveredEntityWindowPos = ImVec2(mousePos.x + 10, mousePos.y - windowHeight);
+
+	// Set up ImGuizmo for drawing
+
+	// Get draw list for custom drawing
+	ImDrawList* drawList = ImGui::GetForegroundDrawList();
+	ImGuizmo::SetDrawlist(drawList);
+	// Draw background rectangle
+	drawList->AddRectFilled(
+		hoveredEntityWindowPos,
+		ImVec2(hoveredEntityWindowPos.x + hoveredEntityWindowSize, hoveredEntityWindowPos.y + windowHeight),
+		IM_COL32(40, 40, 40, 240) // Dark semi-transparent background
+	);
+
+	// Draw border
+	drawList->AddRect(
+		hoveredEntityWindowPos,
+		ImVec2(hoveredEntityWindowPos.x + hoveredEntityWindowSize, hoveredEntityWindowPos.y + windowHeight),
+		IM_COL32(100, 100, 100, 255),
+		3.0f, // Corner rounding
+		0,
+		2.0f  // Border thickness
+	);
+
+	// Draw title
+	drawList->AddText(
+		ImVec2(hoveredEntityWindowPos.x + 10, hoveredEntityWindowPos.y + 10),
+		IM_COL32(255, 255, 255, 255),
+		"Hovered Entity"
+	);
+
+	// Current text position
+	float currentY = hoveredEntityWindowPos.y + 35;
+	const float lineHeight = 15.0f;
+	const float textX = hoveredEntityWindowPos.x + 10;
+
+	// Display entity information
+	Node* node = dynamic_cast<Node*>(onHoverEntity);
+	if (node) {
+		// Entity ID
+		char idText[64];
+		sprintf_s(idText, "Id: %d", onHoverEntity->getId());
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
+		currentY += lineHeight;
+
+		// Position
+		TransformComponent* tr = &onHoverEntity->GetComponent<TransformComponent>();
+		char posText[128];
+		sprintf_s(posText, "Position: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), posText);
+		currentY += lineHeight;
+
+		// Size
+		char sizeText[128];
+		sprintf_s(sizeText, "Size: (%.2f, %.2f)", tr->size.x, tr->size.y);
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), sizeText);
+		currentY += lineHeight;
+
+		// Grid position
+		glm::vec3 cellBox = manager.grid->getCell(*onHoverEntity, manager.grid->getGridLevel())->boundingBox_origin;
+		char gridText[128];
+		sprintf_s(gridText, "Grid: (%.2f, %.2f)", cellBox.x, cellBox.y);
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), gridText);
+	}
+
+	Link* link = dynamic_cast<Link*>(onHoverEntity);
+	if (link) {
+		char idText[64];
+		sprintf_s(idText, "Link Id: %d", onHoverEntity->getId());
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
+	}
+
+	Empty* empty = dynamic_cast<Empty*>(onHoverEntity);
+	if (empty) {
+		// Entity ID
+		char idText[64];
+		sprintf_s(idText, "Empty Id: %d", onHoverEntity->getId());
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
+		currentY += lineHeight;
+
+		// Position
+		TransformComponent* tr = &onHoverEntity->GetComponent<TransformComponent>();
+		char posText[128];
+		sprintf_s(posText, "Position: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), posText);
+		currentY += lineHeight;
+
+		// Size
+		char sizeText[128];
+		sprintf_s(sizeText, "Size: (%.2f, %.2f)", tr->size.x, tr->size.y);
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), sizeText);
+		currentY += lineHeight;
+
+		// Grid position
+		glm::vec3 cellBox = manager.grid->getCell(*onHoverEntity, manager.grid->getGridLevel())->boundingBox_origin;
+		char gridText[128];
+		sprintf_s(gridText, "Grid: (%.2f, %.2f)", cellBox.x, cellBox.y);
+		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), gridText);
+	}
+
 }
 
 void EditorIMGUI::ShowEntityComponents(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager)

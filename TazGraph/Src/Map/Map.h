@@ -3,8 +3,15 @@
 #include <fstream>
 #include <sstream>
 
-#include "JsonParser/JsonParser.h"
+#include <JsonParser.h>
 #include "GECS/Core/GECSEntityTypes.h"
+
+#include "./Parsers/TextMapParser.h"
+#include "./Parsers/PythonMapParser.h"
+#include "./Parsers/GraphMLMapParser.h"
+#include "./Parsers/DOTMapParser.h"
+
+#include "./PathParsers/TextPathParser.h"
 
 #include <algorithm>
 #include <random>
@@ -18,16 +25,21 @@ public:
 	~Map();
 
 	void saveMapAsText(const char* fileName);
-	void ProcessFile(std::ifstream& mapFile, void(Map::* addNodeFunction)(Entity&, glm::vec3 mPosition), void(Map::* addLinkFunction)(Entity&));
-	void ProcessPythonFile(std::ifstream& mapFile, void(Map::* addNodeFunction)(Entity&, glm::vec3 mPosition), void(Map::* addLinkFunction)(Entity&));
-	void loadTextMap(const char* fileName);
 
-	void loadPythonMap(const char* fileName);
+	void loadMap(
+		const char* fileName,
+		std::function<void(Entity&, glm::vec3)> addNodeFunc,
+		std::function<void(Entity&)> addLinkFunc,
+		Threader* m_threadPool
+	);
+
+	void loadPaths(const char* fileName, std::function<void(Entity&, glm::vec3)> addNodeFunc, std::function<void(Entity&)> addLinkFunc, Threader* m_threadPool);
 
 	void AddDefaultNode(Entity& node, glm::vec3 mPosition);
 	void AddTreeNode(Entity& node, glm::vec3 mPosition);
 	void AddDefaultLink(Entity& node);
 	void AddTreeLink(Entity& link);
+	void AddPathLink(Entity& link);
 
 	Manager* manager;
 private:

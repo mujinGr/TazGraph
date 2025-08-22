@@ -18,7 +18,7 @@
     <ClCompile Include="Src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Graph.cpp">
+    <ClCompile Include="Src\Screens\GraphScene\Graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Map\Map.cpp">
@@ -27,7 +27,7 @@
     <ClCompile Include="Src\AssetManager\AssetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\MainMenuScreen\MainMenuScreen.cpp">
+    <ClCompile Include="Src\Screens\MainMenuScreen\MainMenuScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\App\App.cpp">
@@ -42,9 +42,42 @@
     <ClCompile Include="Src\EditorIMGUI\EditorLayoutUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Map\Parsers\PythonMapParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Map\Parsers\TextMapParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Map\Parsers\GraphMLMapParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Map\Parsers\DOTMapParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Minimap\Minimap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\OrientationBox\OrientationBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Map\PathParsers\TextPathParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Screens\GraphScene\GraphUpdate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Screens\GraphScene\GraphDraw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Screens\GraphScene\GraphUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Screens\GraphScene\GraphInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Graph.h">
+    <ClInclude Include="Src\Screens\GraphScene\Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Map\Map.h">
@@ -53,7 +86,7 @@
     <ClInclude Include="Src\AssetManager\AssetManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h">
+    <ClInclude Include="Src\Screens\MainMenuScreen\MainMenuScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\GECS\ScriptComponents.h">
@@ -72,6 +105,30 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\EditorIMGUI\EditorLayoutUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Map\IMapParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Map\Parsers\TextMapParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Map\Parsers\PythonMapParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Map\Parsers\GraphMLMapParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Map\Parsers\DOTMapParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Minimap\Minimap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\OrientationBox\OrientationBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Map\PathParsers\TextPathParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

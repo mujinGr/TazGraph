@@ -27,16 +27,16 @@
     <ClCompile Include="InputManager\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphScreen\IScene.cpp">
+    <ClCompile Include="AppScene\IScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphScreen\AppInterface.cpp">
+    <ClCompile Include="AppScene\AppInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphScreen\SceneList.cpp">
+    <ClCompile Include="AppScene\SceneList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphScreen\ScreenIndices.h">
+    <ClCompile Include="AppScene\ScreenIndices.h">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BaseFPSLimiter\BaseFPSLimiter.cpp">
@@ -114,6 +114,15 @@
     <ClCompile Include="Renderers\PlaneRenderers\PlaneRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\vendors\tinyxml2\tinyxml2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vendors\DotParser\DotParser\DotParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera2.5D\ICamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioEngine\AudioEngine.h">
@@ -140,13 +149,13 @@
     <ClInclude Include="InputManager\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphScreen\IScene.h">
+    <ClInclude Include="AppScene\IScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphScreen\AppInterface.h">
+    <ClInclude Include="AppScene\AppInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphScreen\SceneList.h">
+    <ClInclude Include="AppScene\SceneList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h">
@@ -245,9 +254,6 @@
     <ClInclude Include="DataManager\DataManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JsonParser\JsonParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AABB\AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -300,6 +306,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Renderers\PlaneRenderers\PlaneRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DorParser\DotParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GECS\Components\Empty\Basic\PortComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GECS\Components\Empty\Basic\PortSlotComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GECS\Components\Empty\Util\PathLinkerComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

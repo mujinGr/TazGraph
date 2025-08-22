@@ -4,7 +4,7 @@
 #include "TextureManager/TextureManager.h"
 #include "GECS/Core/GECSManager.h"
 #include <SDL2/SDL_ttf.h>
-#include "../Graph.h"
+#include "../Screens/GraphScene/Graph.h"
 
 struct PairHash {
 	template <class T1, class T2>

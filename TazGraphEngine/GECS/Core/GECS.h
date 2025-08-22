@@ -15,6 +15,8 @@
 #include "../../Renderers/PlaneRenderers/LightRenderer/LightRenderer.h"
 #include "../../Camera2.5D/CameraManager.h"
 #include "../../Window/Window.h"
+#include "../../ConsoleLogger.h"
+
 #include <optional>
 
 #define CULLING_OFFSET 100
@@ -91,7 +93,7 @@ template <typename T> inline ComponentID GetLinkComponentTypeID() noexcept
 }
 
 constexpr std::size_t maxComponents = 16;
-constexpr std::size_t maxGroups = 16;
+constexpr std::size_t maxGroups = 24;
 
 using ComponentBitSet = std::bitset<maxComponents>;
 using GroupBitSet = std::bitset<maxGroups>;
@@ -135,6 +137,16 @@ public:
 	LinkEntity* entity = nullptr;
 };
 
+enum NodePorts {
+	TOP = 0,
+	RIGHT = 1,
+	BOTTOM = 2,
+	LEFT = 3
+};
+
+enum LinkPorts {
+	ARROWHEAD = 0
+};
 
 class Entity
 {
@@ -154,7 +166,7 @@ protected:
 
 	Manager& manager;
 public:
-	std::unordered_map<std::string,EmptyEntity*> children;
+	std::vector<EmptyEntity*> children;
 
 	void setId(unsigned int m_id) { id = m_id; }
 	unsigned int getId() { return id; }

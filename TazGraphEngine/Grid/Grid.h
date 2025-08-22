@@ -30,6 +30,10 @@ public:
 		Outer2
 	};
 
+	std::vector<EmptyEntity*> visible_emptyEntities;
+	std::vector<NodeEntity*> visible_nodes;
+	std::vector<LinkEntity*> visible_links;
+
 	Grid(int width, int height, int depth, int cellSize);
 	~Grid();
 
@@ -62,6 +66,7 @@ public:
 
 	std::vector<Cell*> getIntersectedCameraCells(ICamera& camera);
 
+	// loops through the intrecepted cells and just get the entities
 	template <typename T>
 	std::vector<T*> getRevealedEntitiesInCameraCells() {
 		std::vector<T*> result;
@@ -71,6 +76,17 @@ public:
 				for (auto& entity : cell->nodes) {
 					if (!entity->isHidden()) {  // Check if the entity is visible
 						result.push_back(entity);
+
+						for (auto* port : entity->children) {
+							if (port && !port->isHidden()) {
+								visible_emptyEntities.push_back(port);
+
+								if (port->hasComponent<PortComponent>()) {
+									for (auto& portSlots : port->GetComponent<PortComponent>().portSlots)
+										visible_emptyEntities.push_back(portSlots);
+								}
+							}
+						}
 					}
 				}
 			}
@@ -109,6 +125,7 @@ public:
 
 	}
 
+	// loops through the intrecepted cells and just get the entities
 	template <typename T>
 	std::vector<T*> getEntitiesInCameraCells() {
 		std::vector<T*> result;
@@ -117,6 +134,25 @@ public:
 			for (auto& cell : _interceptedCells) {
 				result.insert(result.end(), cell->nodes.begin(), cell->nodes.end());
 			}
+
+			for (auto& cell : _interceptedCells) {
+				for (auto& entity : cell->nodes) {
+					if (!entity->isHidden()) {
+						// Also include children(ports) if they exist
+						for (auto* port : entity->children) {
+							if (port && !port->isHidden()) {
+								visible_emptyEntities.push_back(port);
+
+								if (port->hasComponent<PortComponent>()) {
+									for (auto& portSlots : port->GetComponent<PortComponent>().portSlots)
+										visible_emptyEntities.push_back(portSlots);
+								}
+							}
+						}
+					}
+				}
+			}
+
 		}
 		else if constexpr (std::is_same_v<T, EmptyEntity>) {
 			for (auto& cell : _interceptedCells) {
