@@ -4,25 +4,32 @@
 \Hypertarget{index_md__2mnt_2c_2Users_2lefte_2Mujin_2MastersThesis_2Taz_2TazGraph_2README}%
  
 
-Taz\+Graph is a real-\/time, extensible 3D graph visualization and editing tool powered by a custom Entity-\/\+Component System (GECS) and Open\+GL rendering.\hypertarget{index_autotoc_md11}{}\doxysection{\texorpdfstring{Getting Started}{Getting Started}}\label{index_autotoc_md11}
+Taz\+Graph is a modular, high-\/performance 3D graph editor built in C++ with Open\+GL, designed for efficient visualization and interaction with large-\/scale graph data.\hypertarget{index_autotoc_md10}{}\doxysection{\texorpdfstring{Getting Started}{Getting Started}}\label{index_autotoc_md10}
 create a build folder in root necessary programs\+: cmake, g++ WSL\+: {\ttfamily sudo apt-\/get install libsdl2-\/dev libsdl2-\/image-\/dev libsdl2-\/ttf-\/dev libsdl2-\/mixer-\/dev libglew-\/dev libglm-\/dev libopengl} if libopengl does not exist\+: {\ttfamily sudo apt install freeglut3-\/dev mesa-\/common-\/dev}
 
-Start by cloning the repository with {\ttfamily git clone -\/-\/recursive \href{https://carvgit.ics.forth.gr/kotsonas/tazgraph}{\texttt{ https\+://carvgit.\+ics.\+forth.\+gr/kotsonas/tazgraph}}}
+Start by cloning the repository with {\ttfamily git clone -\/-\/recursive \href{https://github.com/mujinGr/TazGraph.git}{\texttt{ https\+://github.\+com/mujin\+Gr/\+Taz\+Graph.\+git}}}
 
 If the repository was cloned non-\/recursively previously, use {\ttfamily git submodule update -\/-\/init} to clone the necessary submodules.
 
 In build/\+: \textbackslash{} {\ttfamily cmake -\/DCMAKE\+\_\+\+BUILD\+\_\+\+TYPE=Release ..} \textbackslash{} {\ttfamily make}
 
-in Taz\+Graph/\+Taz\+Graph/\+: {\ttfamily ../build/\+Taz\+Graph/\+Taz\+Graph}
+in Taz\+Graph/\+Taz\+Graph/\+: {\ttfamily ../build/\+Taz\+Graph/\+Taz\+Graph}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily N}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} where N is the number of threads to use
 
-For Windows\+: In root folder\+: {\ttfamily msbuild Taz\+Graph.\+sln /p\+:Configuration=Release /p\+:Platform=x64}
+{\bfseries{For Windows}}\+:\textbackslash{} In root folder\+: {\ttfamily msbuild Taz\+Graph.\+sln /p\+:Configuration=Release /p\+:Platform=x64}
 
-In Taz\+Graph/\+: {\ttfamily ../x64/\+Debug/\+Taz\+Graph.exe}\hypertarget{index_autotoc_md12}{}\doxysection{\texorpdfstring{Intro}{Intro}}\label{index_autotoc_md12}
-Taz\+Graph was developed as part of a master\textquotesingle{}s thesis to provide a performant and modular framework for interactive graph editing and exploration. It supports scene management, multithreaded rendering, and real-\/time updates, tailored for visual analysis, research, and rapid prototyping of graph algorithms.
+In Taz\+Graph/\+: {\ttfamily ../x64/\+Release/\+Taz\+Graph.exe}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily N}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} where N is the number of threads to use\hypertarget{index_autotoc_md11}{}\doxysection{\texorpdfstring{Intro}{Intro}}\label{index_autotoc_md11}
+Originally developed to support HPC simulation workflows, Taz\+Graph enables real-\/time rendering of over 10,000 nodes and 60,000 links on consumer-\/grade hardware. It provides a flexible and extensible interface for visualizing complex systems using intuitive node-\/link diagrams.
 
-Entities are grouped into custom groups (nodes, links, empty), and rendering is decoupled from logic using optimized renderer classes. Developers can extend the engine through custom loaders, renderers, and graph behaviors.
+Taz\+Graph is powered by a custom Entity-\/\+Component System (ECS) inspired by game engines. Entities (nodes, links, or empty) are modular, scriptable, and dynamically composed at runtime. The system supports multi-\/threaded batching, instanced rendering, and a 3D interactive workspace with support for multiple graphs and statistical overlays.
 
-The architecture draws inspiration from game engines, using ECS for flexibility and batching techniques for performance.\hypertarget{index_autotoc_md13}{}\doxysection{\texorpdfstring{Developer Guide\+: $<$a href="{}https\+://mujingr.\+github.\+io/\+Taz\+Graph/html/dev\+\_\+guide.\+html"{} $>$\+Doxy\+Dev\+Guide$<$/a$>$}{Developer Guide: <a href="https://mujingr.github.io/TazGraph/html/dev\_guide.html" >DoxyDevGuide</a>}}\label{index_autotoc_md13}
-Full Documentation\+: \href{https://mujingr.github.io/TazGraph/html/index.html}{\texttt{ Doxy\+Document}} \textbackslash{} Or download the pdf documentation\+: \href{docs/latex/refman.pdf}{\texttt{ PDF Documentation}}
+Unlike many existing graph tools that are either limited in scope or hard to extend, Taz\+Graph offers a lightweight, cross-\/platform platform ideal for rapid prototyping, HPC monitoring, and deep structural analysis.\hypertarget{index_autotoc_md12}{}\doxysubsubsection{\texorpdfstring{Built with\+:}{Built with:}}\label{index_autotoc_md12}
+
+\begin{DoxyItemize}
+\item C++ \& Open\+GL
+\item Im\+Gui \& Im\+Plot
+\item Multithreaded ECS
+\item Custom renderer batching pipeline
+\end{DoxyItemize}\hypertarget{index_autotoc_md13}{}\doxysection{\texorpdfstring{Developer Guide\+: $<$a href="{}https\+://mujingr.\+github.\+io/\+Taz\+Graph/html/dev\+\_\+guide.\+html"{} $>$\+Doxy\+Dev\+Guide$<$/a$>$}{Developer Guide: <a href="https://mujingr.github.io/TazGraph/html/dev\_guide.html" >DoxyDevGuide</a>}}\label{index_autotoc_md13}
+Full Documentation\+: \href{https://mujingr.github.io/TazGraph/html/index.html}{\texttt{ Doxy\+Document}} \textbackslash{} Or download the pdf documentation\+: \href{https://github.com/mujinGr/TazGraph/blob/docs/docs/latex/refman.pdf}{\texttt{ PDF Documentation}}
 
 \href{https://www.buymeacoffee.com/mujingr}{\texttt{ }} 

@@ -7,7 +7,7 @@ var searchData=
   ['animatormanager_4',['AnimatorManager',['../structAnimatorManager.html',1,'']]],
   ['app_5',['App',['../classApp.html',1,'']]],
   ['appinterface_6',['AppInterface',['../classAppInterface.html',1,'']]],
-  ['architecture_3a_7',['Core Architecture:',['../dev_guide.html#autotoc_md1',1,'']]],
+  ['architecture_3a_7',['Core Architecture:',['../dev_guide.html#autotoc_md0',1,'']]],
   ['assetmanager_8',['AssetManager',['../classAssetManager.html',1,'']]],
   ['audioengine_9',['AudioEngine',['../classAudioEngine.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['renderbatch_0',['renderBatch',['../classGraph.html#ad9b5ef26ca51bdc8013bb5a7a9518b08',1,'Graph']]]
+  ['parse_0',['parse',['../classTextMapParser.html#afcd3244feffeb316fc446e62ed4f50a4',1,'TextMapParser']]]
 ];

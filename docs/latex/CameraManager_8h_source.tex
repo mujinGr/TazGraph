@@ -42,17 +42,21 @@
 \DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configure\ your\ hudCamera\ as\ needed,\ usually\ orthographic\ with\ fixed\ positioning}}
 \DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ CameraManager::getInstance().addCamera(\textcolor{stringliteral}{"{}hud"{}},\ hudCamera);}
 \DoxyCodeLine{00040\ }
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ mainMenu\_mainCamera\ =\ std::make\_shared<PerspectiveCamera>();}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configure\ your\ mainCamera\ as\ needed}}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ CameraManager::getInstance().addCamera(\textcolor{stringliteral}{"{}mainMenu\_main"{}},\ mainMenu\_mainCamera);}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ minimapCamera\ =\ std::make\_shared<OrthoCamera>();}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configure\ your\ hudCamera\ as\ needed,\ usually\ orthographic\ with\ fixed\ positioning}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ CameraManager::getInstance().addCamera(\textcolor{stringliteral}{"{}minimap"{}},\ minimapCamera);}
 \DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ mainMenu\_hudCamera\ =\ std::make\_shared<OrthoCamera>();}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configure\ your\ hudCamera\ as\ needed,\ usually\ orthographic\ with\ fixed\ positioning}}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ CameraManager::getInstance().addCamera(\textcolor{stringliteral}{"{}mainMenu\_hud"{}},\ mainMenu\_hudCamera);}
-\DoxyCodeLine{00048\ \ \ \ \ \}}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00051\ \ \ \ \ std::unordered\_map<std::string,\ std::shared\_ptr<ICamera>>\ cameras;}
-\DoxyCodeLine{00052\ \};}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ mainMenu\_mainCamera\ =\ std::make\_shared<PerspectiveCamera>();}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configure\ your\ mainCamera\ as\ needed}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ CameraManager::getInstance().addCamera(\textcolor{stringliteral}{"{}mainMenu\_main"{}},\ mainMenu\_mainCamera);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ mainMenu\_hudCamera\ =\ std::make\_shared<OrthoCamera>();}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configure\ your\ hudCamera\ as\ needed,\ usually\ orthographic\ with\ fixed\ positioning}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ CameraManager::getInstance().addCamera(\textcolor{stringliteral}{"{}mainMenu\_hud"{}},\ mainMenu\_hudCamera);}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00055\ \ \ \ \ std::unordered\_map<std::string,\ std::shared\_ptr<ICamera>>\ cameras;}
+\DoxyCodeLine{00056\ \};}
 
 \end{DoxyCode}

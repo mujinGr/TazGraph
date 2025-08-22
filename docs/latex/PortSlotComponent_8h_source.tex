@@ -1,0 +1,61 @@
+\doxysection{Port\+Slot\+Component.\+h}
+\hypertarget{PortSlotComponent_8h_source}{}\label{PortSlotComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Basic/PortSlotComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Basic/PortSlotComponent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ todo\ this\ can\ be\ generally\ in\ flexbox}}
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPortSlotComponent}{PortSlotComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classComponent}{Component}}}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ transform\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classPortSlotComponent}{PortSlotComponent}}()}
+\DoxyCodeLine{00012\ \ \ \ \ \{}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{classPortSlotComponent}{\string~PortSlotComponent}}()\ \{}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ transform\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00022\ \ \ \ \ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ parentEntity\ =\ entity-\/>getParentEntity();}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!parentEntity\ ||\ !parentEntity-\/>hasComponent<\mbox{\hyperlink{classPortComponent}{PortComponent}}>())\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classPortComponent}{PortComponent}}\&\ parentPort\ =\ parentEntity-\/>GetComponent<\mbox{\hyperlink{classPortComponent}{PortComponent}}>();}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ our\ index\ in\ the\ parent's\ portSlots\ vector}}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ myIndex\ =\ parentPort.getSlotIndex(\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classEmptyEntity}{EmptyEntity}}*\textcolor{keyword}{>}(entity));}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myIndex\ ==\ -\/1)\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ and\ set\ our\ position}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ glm::vec3\ newPosition\ =\ parentPort.getSlotPosition(myIndex);}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ transform-\/>bodyCenter\ =\ newPosition;}
+\DoxyCodeLine{00041\ \ \ \ \ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ v\_index,\ \mbox{\hyperlink{classPlaneColorRenderer}{PlaneColorRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}PortSlotComponent"{}};}
+\DoxyCodeLine{00049\ \ \ \ \ \}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ ImGui::Separator();}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \};}
+
+\end{DoxyCode}

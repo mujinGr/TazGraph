@@ -34,6 +34,12 @@ void {\bfseries add\+In\+Link} (\mbox{\hyperlink{classLinkEntity}{Link\+Entity}}
 \Hypertarget{classNodeEntity_ac22bcaf4f44b0b6673e386a1ae4aa29b}\label{classNodeEntity_ac22bcaf4f44b0b6673e386a1ae4aa29b} 
 void {\bfseries add\+Out\+Link} (\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*}link)
 \item 
+\Hypertarget{classNodeEntity_a0039ae91f62b11b577ac29ab900f06f8}\label{classNodeEntity_a0039ae91f62b11b577ac29ab900f06f8} 
+void {\bfseries remove\+In\+Link} (\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*}link)
+\item 
+\Hypertarget{classNodeEntity_a20d45e41de0436e80e34678988717d5b}\label{classNodeEntity_a20d45e41de0436e80e34678988717d5b} 
+void {\bfseries remove\+Out\+Link} (\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*}link)
+\item 
 \Hypertarget{classNodeEntity_a73cffc8924a3b5be4b703bdb719b8108}\label{classNodeEntity_a73cffc8924a3b5be4b703bdb719b8108} 
 const std\+::vector$<$ \mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*} $>$ \& {\bfseries get\+In\+Links} () const
 \item 
@@ -45,6 +51,9 @@ virtual void {\bfseries add\+Ports} ()
 \item 
 \Hypertarget{classNodeEntity_a41e87c0b047e452296b19052511959a4}\label{classNodeEntity_a41e87c0b047e452296b19052511959a4} 
 virtual void {\bfseries remove\+Ports} ()
+\item 
+\Hypertarget{classNodeEntity_a865921d30f1665929a49b8b29e5b0f6e}\label{classNodeEntity_a865921d30f1665929a49b8b29e5b0f6e} 
+virtual void {\bfseries remove\+Slots} ()
 \item 
 \Hypertarget{classNodeEntity_a405da8050cd61c1cb9d79d94bfb171a7}\label{classNodeEntity_a405da8050cd61c1cb9d79d94bfb171a7} 
 virtual void {\bfseries update\+Ports} (float delta\+Time)
@@ -160,7 +169,7 @@ std\+::optional$<$ Component\+Bit\+Set $>$ {\bfseries node\+Component\+Bit\+Set}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classEntity}{Entity}}}
 \begin{DoxyCompactItemize}
 \item 
-std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries children}
+std\+::vector$<$ \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries children}
 \item 
 std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} $>$ $>$ {\bfseries components}
 \end{DoxyCompactItemize}

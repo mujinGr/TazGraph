@@ -1,4 +1,6 @@
 <map id="/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/Map" name="/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/Map">
-<area shape="rect" id="node1" href="dir_1ba743282c5e466a8f829d4034a8cc38.html" title="Map" alt="" coords="27,52,77,77"/>
-<area shape="rect" id="clust1" href="dir_3f423d6722606df6946b79f1f4f6c816.html" title="Src" alt="" coords="16,16,88,88"/>
+<area shape="rect" id="node2" href="dir_b3af8c62da71344752daaefc12ece450.html" title="Parsers" alt="" coords="160,63,229,88"/>
+<area shape="rect" id="node3" href="dir_715099dda727dbab5ac52aab341a2c11.html" title="PathParsers" alt="" coords="38,63,135,88"/>
+<area shape="rect" id="clust2" href="dir_1ba743282c5e466a8f829d4034a8cc38.html" alt="" coords="27,52,315,99"/>
+<area shape="rect" id="clust1" href="dir_3f423d6722606df6946b79f1f4f6c816.html" title="Src" alt="" coords="16,16,325,109"/>
 </map>

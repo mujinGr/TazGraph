@@ -48,11 +48,11 @@ virtual float {\bfseries get\+Scale} () const =0
 \Hypertarget{classICamera_a137e9dfb42662e0ca2629bfaf76c02ba}\label{classICamera_a137e9dfb42662e0ca2629bfaf76c02ba} 
 virtual glm\+::mat4 {\bfseries get\+Camera\+Matrix} () const =0
 \item 
+\Hypertarget{classICamera_af426af6c6c7d51329efe8c551f06d869}\label{classICamera_af426af6c6c7d51329efe8c551f06d869} 
+virtual glm\+::vec3 {\bfseries get\+Aim\+Pos} ()=0
+\item 
 \Hypertarget{classICamera_a13d0f8fcc335207ed0259b7a800c6508}\label{classICamera_a13d0f8fcc335207ed0259b7a800c6508} 
 virtual void {\bfseries set\+Scale} (float scale)=0
-\item 
-\Hypertarget{classICamera_a0062c98ccbf7a941df71ef20da3fe5e6}\label{classICamera_a0062c98ccbf7a941df71ef20da3fe5e6} 
-virtual bool {\bfseries is\+Point\+In\+Camera\+View} (const glm\+::vec4 point, float margin)=0
 \item 
 \Hypertarget{classICamera_a56e3b611673fce7c48775d101be606f2}\label{classICamera_a56e3b611673fce7c48775d101be606f2} 
 virtual void {\bfseries make\+Camera\+Dirty} ()=0
@@ -62,9 +62,79 @@ virtual bool {\bfseries has\+Changed} ()=0
 \item 
 \Hypertarget{classICamera_adb9c1eaf69f302b66e522f0804a16aa5}\label{classICamera_adb9c1eaf69f302b66e522f0804a16aa5} 
 virtual void {\bfseries refresh\+Camera} ()=0
+\item 
+\Hypertarget{classICamera_afb3fdecf8d738433c862124155b6c5cf}\label{classICamera_afb3fdecf8d738433c862124155b6c5cf} 
+void {\bfseries update\+Camera\+Orientation} ()
+\item 
+\Hypertarget{classICamera_a3a9d37f1c2b84dd2c2ebdf68b3a3bc65}\label{classICamera_a3a9d37f1c2b84dd2c2ebdf68b3a3bc65} 
+void {\bfseries set\+Orientation} (glm\+::vec3 eye, glm\+::vec3 target, glm\+::vec3 up)
+\item 
+\Hypertarget{classICamera_ac6623f8f05d130dae82aaa84e39b85a3}\label{classICamera_ac6623f8f05d130dae82aaa84e39b85a3} 
+bool {\bfseries is\+Point\+In\+Camera\+View} (const glm\+::vec4 point, float margin)
+\item 
+\Hypertarget{classICamera_a42823f177cfa0dc7ac8cca50d1ff3da1}\label{classICamera_a42823f177cfa0dc7ac8cca50d1ff3da1} 
+glm\+::vec3 {\bfseries cast\+Ray\+At} (const glm\+::vec2 \&screen\+Pos)
+\item 
+\Hypertarget{classICamera_ae92642713777ee1c7c7f42c1427a9b74}\label{classICamera_ae92642713777ee1c7c7f42c1427a9b74} 
+glm\+::vec3 {\bfseries get\+Point\+On\+Ray\+AtZ} (const glm\+::vec3 \&ray\+Origin, const glm\+::vec3 \&ray\+Direction, float desiredZ)
+\item 
+\Hypertarget{classICamera_a381987c1b8fa9c6c547a85c901319b84}\label{classICamera_a381987c1b8fa9c6c547a85c901319b84} 
+void {\bfseries set\+View\+Matrix} (glm\+::mat4 new\+View\+Matrix)
+\item 
+\Hypertarget{classICamera_ab84822b2ada047acccf4367250c55bc5}\label{classICamera_ab84822b2ada047acccf4367250c55bc5} 
+glm\+::mat4 {\bfseries get\+View\+Matrix} ()
+\item 
+\Hypertarget{classICamera_a9efb7212ae2c9070f7746329ccbf1a59}\label{classICamera_a9efb7212ae2c9070f7746329ccbf1a59} 
+void {\bfseries set\+Proj\+Matrix} (glm\+::mat4 new\+Proj\+Matrix)
+\item 
+\Hypertarget{classICamera_af1bb924318703a7efb56205d74fc2413}\label{classICamera_af1bb924318703a7efb56205d74fc2413} 
+glm\+::mat4 {\bfseries get\+Proj\+Matrix} ()
+\item 
+\Hypertarget{classICamera_aa2b72cc1ed7d882f186e3331b1d29cd6}\label{classICamera_aa2b72cc1ed7d882f186e3331b1d29cd6} 
+glm\+::vec3 {\bfseries get\+Up\+Dir} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classICamera_aaad363e288b9c71e40955016d53a238e}\label{classICamera_aaad363e288b9c71e40955016d53a238e} 
+int {\bfseries \+\_\+screen\+Width} = 800
+\item 
+\Hypertarget{classICamera_aacb35c6d4b096a5f9327532882593a89}\label{classICamera_aacb35c6d4b096a5f9327532882593a89} 
+int {\bfseries \+\_\+screen\+Height} = 640
+\item 
+\Hypertarget{classICamera_af1a9a6952500e0f965fe118d27499a71}\label{classICamera_af1a9a6952500e0f965fe118d27499a71} 
+glm\+::vec3 {\bfseries eye\+Pos} \{ 0,0,0 \}
+\item 
+\Hypertarget{classICamera_a0cc29f6fb6a49f48139cfe795658e809}\label{classICamera_a0cc29f6fb6a49f48139cfe795658e809} 
+glm\+::vec3 {\bfseries aim\+Pos} \{ 0,0,0 \}
+\item 
+\Hypertarget{classICamera_a61bff6b1a3f42ebfde0e3d406ac8fc48}\label{classICamera_a61bff6b1a3f42ebfde0e3d406ac8fc48} 
+glm\+::vec3 {\bfseries up\+Dir} \{ 0,-\/1,0 \}
+\item 
+\Hypertarget{classICamera_ac8322fb10508148ec24d73476bdaf60c}\label{classICamera_ac8322fb10508148ec24d73476bdaf60c} 
+float {\bfseries z\+Far} = 1000000.\+0f
+\item 
+\Hypertarget{classICamera_a7e645b0d28b818f4c3b4101576ecfda2}\label{classICamera_a7e645b0d28b818f4c3b4101576ecfda2} 
+View\+Mode {\bfseries current\+View\+Mode} = View\+Mode\+::\+Y\+\_\+\+UP
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classICamera_aebe6fdc0cd91b186de3685517c82e189}\label{classICamera_aebe6fdc0cd91b186de3685517c82e189} 
+glm\+::mat4 {\bfseries \+\_\+projection\+Matrix} = glm\+::mat4(1.\+0f)
+\item 
+\Hypertarget{classICamera_a15d1d747bc7d0c4403136a0829277daa}\label{classICamera_a15d1d747bc7d0c4403136a0829277daa} 
+glm\+::mat4 {\bfseries \+\_\+view\+Matrix} = glm\+::mat4(1.\+0f)
+\item 
+\Hypertarget{classICamera_a10111d35afb84000a4bcee77695066dd}\label{classICamera_a10111d35afb84000a4bcee77695066dd} 
+glm\+::mat4 {\bfseries \+\_\+camera\+Matrix} = glm\+::mat4(1.\+0f)
+\item 
+\Hypertarget{classICamera_a43cfaba1d2952cdfe66a966000401d56}\label{classICamera_a43cfaba1d2952cdfe66a966000401d56} 
+bool {\bfseries \+\_\+camera\+Change} = true
 \end{DoxyCompactItemize}
 
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Camera2.\+5\+D/ICamera.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Camera2.\+5\+D/ICamera.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Camera2.\+5\+D/ICamera.\+cpp\end{DoxyCompactItemize}

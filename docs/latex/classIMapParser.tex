@@ -1,0 +1,60 @@
+\doxysection{IMap\+Parser Class Reference}
+\hypertarget{classIMapParser}{}\label{classIMapParser}\index{IMapParser@{IMapParser}}
+
+
+Inheritance diagram for IMap\+Parser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classIMapParser__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for IMap\+Parser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{classIMapParser__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classIMapParser_aa6f2a44af1cce8bfc815b6842a194872}\label{classIMapParser_aa6f2a44af1cce8bfc815b6842a194872} 
+virtual void {\bfseries read\+File} (std\+::string m\+\_\+file\+Name)=0
+\item 
+virtual void \mbox{\hyperlink{classIMapParser_adccd8fe3156720a6d41f5e4a43d95b9a}{parse}} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$ add\+Node\+Func, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$ add\+Link\+Func)=0
+\item 
+\Hypertarget{classIMapParser_aacb2a1d64047ea8226bc52a2c0284dd3}\label{classIMapParser_aacb2a1d64047ea8226bc52a2c0284dd3} 
+virtual void {\bfseries close\+File} ()=0
+\item 
+\Hypertarget{classIMapParser_ad4fa6f2083d501f3fcd7654411cd4b90}\label{classIMapParser_ad4fa6f2083d501f3fcd7654411cd4b90} 
+void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mthreader)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classIMapParser_a0a07a1ad04d36e4f4147a2116a704521}\label{classIMapParser_a0a07a1ad04d36e4f4147a2116a704521} 
+\mbox{\hyperlink{structThreader}{Threader}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+threader} = nullptr
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classIMapParser_adccd8fe3156720a6d41f5e4a43d95b9a}\label{classIMapParser_adccd8fe3156720a6d41f5e4a43d95b9a} 
+\index{IMapParser@{IMapParser}!parse@{parse}}
+\index{parse@{parse}!IMapParser@{IMapParser}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily virtual void IMap\+Parser\+::parse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classManager}{Manager}} \&}]{manager,  }\item[{std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$}]{add\+Node\+Func,  }\item[{std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$}]{add\+Link\+Func }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classTextMapParser_afcd3244feffeb316fc446e62ed4f50a4}{Text\+Map\+Parser}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Map/IMap\+Parser.\+h\end{DoxyCompactItemize}

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vertex_0',['Vertex',['../structVertex.html',1,'']]]
+  ['window_0',['Window',['../classTazGraphEngine_1_1Window.html',1,'TazGraphEngine']]]
 ];

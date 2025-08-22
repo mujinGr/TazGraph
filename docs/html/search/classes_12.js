@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['uilabel_0',['UILabel',['../classUILabel.html',1,'']]]
+  ['vertex_0',['Vertex',['../structVertex.html',1,'']]]
 ];

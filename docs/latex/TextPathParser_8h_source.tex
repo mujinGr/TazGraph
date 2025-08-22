@@ -1,0 +1,25 @@
+\doxysection{Text\+Path\+Parser.\+h}
+\hypertarget{TextPathParser_8h_source}{}\label{TextPathParser_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/Map/PathParsers/TextPathParser.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/Map/PathParsers/TextPathParser.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}../IMapParser.h"{}}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTextPathParser}{TextPathParser}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIMapParser}{IMapParser}}\ \{}
+\DoxyCodeLine{00005\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00006\ \ \ \ \ \mbox{\hyperlink{classTextPathParser}{TextPathParser}}();}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keywordtype}{void}\ readFile(std::string\ m\_fileName)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{void}\ parse(}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}\&\ manager,}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3)>\ addNodeFunc,}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&)>\ addLinkFunc}
+\DoxyCodeLine{00013\ \ \ \ \ )\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ closeFile()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00018\ \ \ \ \ std::ifstream\ file;}
+\DoxyCodeLine{00019\ \};}
+
+\end{DoxyCode}

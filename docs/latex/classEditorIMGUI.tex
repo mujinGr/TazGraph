@@ -33,11 +33,20 @@ bool {\bfseries is\+Starting\+New} ()
 \Hypertarget{classEditorIMGUI_a4e8206061c8d8115ff02033f2076395d}\label{classEditorIMGUI_a4e8206061c8d8115ff02033f2076395d} 
 bool {\bfseries is\+Loading} ()
 \item 
+\Hypertarget{classEditorIMGUI_a261aa416890b3165b861980e14482f95}\label{classEditorIMGUI_a261aa416890b3165b861980e14482f95} 
+bool {\bfseries is\+Loading\+Path} ()
+\item 
 \Hypertarget{classEditorIMGUI_abad966d2dfc4341b29e26b342ced3487}\label{classEditorIMGUI_abad966d2dfc4341b29e26b342ced3487} 
 void {\bfseries set\+Loading} (bool loading)
 \item 
+\Hypertarget{classEditorIMGUI_a1426b131034e72e2eec4c77ef4f06eae}\label{classEditorIMGUI_a1426b131034e72e2eec4c77ef4f06eae} 
+void {\bfseries set\+Path\+Loading} (bool loading)
+\item 
 \Hypertarget{classEditorIMGUI_a664528b24b50ef0d61d0103f3d0b97a0}\label{classEditorIMGUI_a664528b24b50ef0d61d0103f3d0b97a0} 
 bool {\bfseries is\+Going\+Back} ()
+\item 
+\Hypertarget{classEditorIMGUI_ad1784e6cf47510b7af0ae84bd4ea79ba}\label{classEditorIMGUI_ad1784e6cf47510b7af0ae84bd4ea79ba} 
+std\+::string {\bfseries get\+Path\+Loading} ()
 \item 
 \Hypertarget{classEditorIMGUI_ad419af4ebcb7f52a914eca013a49a6d9}\label{classEditorIMGUI_ad419af4ebcb7f52a914eca013a49a6d9} 
 void {\bfseries Set\+Going\+Back} (bool going\+Back)
@@ -48,6 +57,9 @@ void {\bfseries update\+File\+Names\+In\+Assets} ()
 \Hypertarget{classEditorIMGUI_a44089bb95d3c01ee58022e9ebdf9ba61}\label{classEditorIMGUI_a44089bb95d3c01ee58022e9ebdf9ba61} 
 void {\bfseries update\+Polling\+File\+Names\+In\+Assets} ()
 \item 
+\Hypertarget{classEditorIMGUI_ac8eb57b8a82b227d632eecede072bd01}\label{classEditorIMGUI_ac8eb57b8a82b227d632eecede072bd01} 
+void {\bfseries update\+Path\+File\+Names\+In\+Assets} ()
+\item 
 \Hypertarget{classEditorIMGUI_af482258acd274c16a7a1582e566aca9d}\label{classEditorIMGUI_af482258acd274c16a7a1582e566aca9d} 
 bool \texorpdfstring{$\ast$}{*} {\bfseries get\+Dockspace\+Ref} ()
 \item 
@@ -57,8 +69,8 @@ void {\bfseries Menu\+Bar} ()
 \Hypertarget{classEditorIMGUI_a505edb7407d612a64ded126e9b7f845a}\label{classEditorIMGUI_a505edb7407d612a64ded126e9b7f845a} 
 bool {\bfseries is\+Mouse\+On\+Widget} (const std\+::string \&widget\+Name)
 \item 
-\Hypertarget{classEditorIMGUI_aaa9f577544fe4ab006af44a53f415ee0}\label{classEditorIMGUI_aaa9f577544fe4ab006af44a53f415ee0} 
-void {\bfseries Left\+Column\+UIElement} (bool \&render\+Debug, bool \&cluster\+Layout, glm\+::vec2 mouse\+Coords, glm\+::vec2 mouse\+Coords2, \mbox{\hyperlink{classManager}{Manager}} \&manager, \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}selected\+Entity, float(\&background\+Color)\mbox{[}4\mbox{]}, int cell\+\_\+size)
+\Hypertarget{classEditorIMGUI_ac56009faca83d4f50db9eef8e837c9f9}\label{classEditorIMGUI_ac56009faca83d4f50db9eef8e837c9f9} 
+void {\bfseries Left\+Column\+UIElement} (bool \&render\+Debug, bool \&cluster\+Layout, glm\+::vec2 mouse\+Coords, glm\+::vec2 mouse\+Coords2, \mbox{\hyperlink{classManager}{Manager}} \&manager, float(\&background\+Color)\mbox{[}4\mbox{]}, int cell\+\_\+size)
 \item 
 \Hypertarget{classEditorIMGUI_acb5f08b873011ae7d798fd5526c43839}\label{classEditorIMGUI_acb5f08b873011ae7d798fd5526c43839} 
 void {\bfseries Right\+Column\+UIElement} (\mbox{\hyperlink{classManager}{Manager}} \&manager, float \texorpdfstring{$\ast$}{*}node\+Radius)
@@ -87,8 +99,8 @@ void {\bfseries Show\+All\+Entities} (\mbox{\hyperlink{classManager}{Manager}} \
 \Hypertarget{classEditorIMGUI_acd2a163904e642bb91ae59ef3f10d919}\label{classEditorIMGUI_acd2a163904e642bb91ae59ef3f10d919} 
 void {\bfseries available\+Functions} ()
 \item 
-\Hypertarget{classEditorIMGUI_adc91cc629639a9adca8feab5f505334a}\label{classEditorIMGUI_adc91cc629639a9adca8feab5f505334a} 
-void {\bfseries Scene\+Viewport} (uint32\+\_\+t texture\+Id, Im\+Vec2 \&stored\+Window\+Pos, Im\+Vec2 \&stored\+Window\+Size)
+\Hypertarget{classEditorIMGUI_a92d726495f3da58968eba6a6f2f4f0fd}\label{classEditorIMGUI_a92d726495f3da58968eba6a6f2f4f0fd} 
+void {\bfseries Scene\+Viewport} (const \mbox{\hyperlink{classBaseFPSLimiter}{Base\+FPSLimiter}} \&base\+FPSLimiter, \mbox{\hyperlink{classManager}{Manager}} \&manager, \mbox{\hyperlink{classFramebuffer}{Framebuffer}} \&texture\+Id, \mbox{\hyperlink{classFramebuffer}{Framebuffer}} \&m\+\_\+minimap\+\_\+fb, Im\+Vec2 \&stored\+Window\+Pos, Im\+Vec2 \&stored\+Window\+Size)
 \item 
 \Hypertarget{classEditorIMGUI_a499b2ccc7b9d201031422ff0824f4062}\label{classEditorIMGUI_a499b2ccc7b9d201031422ff0824f4062} 
 void {\bfseries script\+Results\+Visualization} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::vector$<$ std\+::pair$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}, glm\+::vec3 $>$ $>$ \&m\+\_\+selected\+Entities)
@@ -101,6 +113,9 @@ void {\bfseries Show\+Function\+Execution\+Results} ()
 \item 
 \Hypertarget{classEditorIMGUI_ac81f47d28a4399a644a87d369590681c}\label{classEditorIMGUI_ac81f47d28a4399a644a87d369590681c} 
 void {\bfseries update\+Is\+Mouse\+In\+Second\+Column} ()
+\item 
+\Hypertarget{classEditorIMGUI_aef5fd24c4b5772ab139fbcee6c33ab30}\label{classEditorIMGUI_aef5fd24c4b5772ab139fbcee6c33ab30} 
+void {\bfseries show\+Hovered\+Entity} (\mbox{\hyperlink{classManager}{Manager}} \&manager, glm\+::vec2 mouse\+Pos, \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}on\+Hover\+Entity)
 \item 
 \Hypertarget{classEditorIMGUI_a4aa92af8d65c9e12c07621075e3773bd}\label{classEditorIMGUI_a4aa92af8d65c9e12c07621075e3773bd} 
 void {\bfseries Show\+Entity\+Components} (glm\+::vec2 mouse\+Pos, \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}displayed\+Entity, \mbox{\hyperlink{classManager}{Manager}} \&manager)

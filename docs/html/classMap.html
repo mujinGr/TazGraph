@@ -95,18 +95,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9fc37ced531d089641788cf8ef506588" id="r_a9fc37ced531d089641788cf8ef506588"><td class="memItemLeft" align="right" valign="top"><a id="a9fc37ced531d089641788cf8ef506588" name="a9fc37ced531d089641788cf8ef506588"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>saveMapAsText</b> (const char *fileName)</td></tr>
 <tr class="separator:a9fc37ced531d089641788cf8ef506588"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8676499be76ba3159bd023f70d4b01bc" id="r_a8676499be76ba3159bd023f70d4b01bc"><td class="memItemLeft" align="right" valign="top"><a id="a8676499be76ba3159bd023f70d4b01bc" name="a8676499be76ba3159bd023f70d4b01bc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ProcessFile</b> (std::ifstream &amp;mapFile, void(Map::*addNodeFunction)(<a class="el" href="classEntity.html">Entity</a> &amp;, glm::vec3 mPosition), void(Map::*addLinkFunction)(<a class="el" href="classEntity.html">Entity</a> &amp;))</td></tr>
-<tr class="separator:a8676499be76ba3159bd023f70d4b01bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13fc2063a4d8be980f2e7a726d63db90" id="r_a13fc2063a4d8be980f2e7a726d63db90"><td class="memItemLeft" align="right" valign="top"><a id="a13fc2063a4d8be980f2e7a726d63db90" name="a13fc2063a4d8be980f2e7a726d63db90"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ProcessPythonFile</b> (std::ifstream &amp;mapFile, void(Map::*addNodeFunction)(<a class="el" href="classEntity.html">Entity</a> &amp;, glm::vec3 mPosition), void(Map::*addLinkFunction)(<a class="el" href="classEntity.html">Entity</a> &amp;))</td></tr>
-<tr class="separator:a13fc2063a4d8be980f2e7a726d63db90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a823d825e50621abc6c809caa679659c6" id="r_a823d825e50621abc6c809caa679659c6"><td class="memItemLeft" align="right" valign="top"><a id="a823d825e50621abc6c809caa679659c6" name="a823d825e50621abc6c809caa679659c6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>loadTextMap</b> (const char *fileName)</td></tr>
-<tr class="separator:a823d825e50621abc6c809caa679659c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a599460caec191942e96a7c7fd4895fee" id="r_a599460caec191942e96a7c7fd4895fee"><td class="memItemLeft" align="right" valign="top"><a id="a599460caec191942e96a7c7fd4895fee" name="a599460caec191942e96a7c7fd4895fee"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>loadPythonMap</b> (const char *fileName)</td></tr>
-<tr class="separator:a599460caec191942e96a7c7fd4895fee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe0b65d8e3aa57592ee6171ce1425b36" id="r_afe0b65d8e3aa57592ee6171ce1425b36"><td class="memItemLeft" align="right" valign="top"><a id="afe0b65d8e3aa57592ee6171ce1425b36" name="afe0b65d8e3aa57592ee6171ce1425b36"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>loadMap</b> (const char *fileName, std::function&lt; void(<a class="el" href="classEntity.html">Entity</a> &amp;, glm::vec3)&gt; addNodeFunc, std::function&lt; void(<a class="el" href="classEntity.html">Entity</a> &amp;)&gt; addLinkFunc, <a class="el" href="structThreader.html">Threader</a> *m_threadPool)</td></tr>
+<tr class="separator:afe0b65d8e3aa57592ee6171ce1425b36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83871e657308b3ea5beabc26caabba9c" id="r_a83871e657308b3ea5beabc26caabba9c"><td class="memItemLeft" align="right" valign="top"><a id="a83871e657308b3ea5beabc26caabba9c" name="a83871e657308b3ea5beabc26caabba9c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>loadPaths</b> (const char *fileName, std::function&lt; void(<a class="el" href="classEntity.html">Entity</a> &amp;, glm::vec3)&gt; addNodeFunc, std::function&lt; void(<a class="el" href="classEntity.html">Entity</a> &amp;)&gt; addLinkFunc, <a class="el" href="structThreader.html">Threader</a> *m_threadPool)</td></tr>
+<tr class="separator:a83871e657308b3ea5beabc26caabba9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a547e0e99735e7e231da059bc2a639c70" id="r_a547e0e99735e7e231da059bc2a639c70"><td class="memItemLeft" align="right" valign="top"><a id="a547e0e99735e7e231da059bc2a639c70" name="a547e0e99735e7e231da059bc2a639c70"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>AddDefaultNode</b> (<a class="el" href="classEntity.html">Entity</a> &amp;node, glm::vec3 mPosition)</td></tr>
 <tr class="separator:a547e0e99735e7e231da059bc2a639c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,6 +113,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>AddDefaultLink</b> (<
 <tr class="memitem:a5c82e263bab5f413513f0e44009e0034" id="r_a5c82e263bab5f413513f0e44009e0034"><td class="memItemLeft" align="right" valign="top"><a id="a5c82e263bab5f413513f0e44009e0034" name="a5c82e263bab5f413513f0e44009e0034"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>AddTreeLink</b> (<a class="el" href="classEntity.html">Entity</a> &amp;link)</td></tr>
 <tr class="separator:a5c82e263bab5f413513f0e44009e0034"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada7e085325048b6e5cca688e1beabdcc" id="r_ada7e085325048b6e5cca688e1beabdcc"><td class="memItemLeft" align="right" valign="top"><a id="ada7e085325048b6e5cca688e1beabdcc" name="ada7e085325048b6e5cca688e1beabdcc"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>AddPathLink</b> (<a class="el" href="classEntity.html">Entity</a> &amp;link)</td></tr>
+<tr class="separator:ada7e085325048b6e5cca688e1beabdcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>

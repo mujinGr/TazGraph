@@ -35,6 +35,26 @@ void \mbox{\hyperlink{classOrthoCamera_a3e2e9bb0229301dd14893d7835533a24}{set\+P
 \item 
 void \mbox{\hyperlink{classOrthoCamera_aab08e05a3404707090c67d258df99b7e}{set\+Position\+\_\+Z}} (const float new\+Position) override
 \item 
+\Hypertarget{classOrthoCamera_a3b9520a99a56382ec8ebdc957fd815a5}\label{classOrthoCamera_a3b9520a99a56382ec8ebdc957fd815a5} 
+void {\bfseries move\+Position\+\_\+\+Hor} (const float step)
+\item 
+\Hypertarget{classOrthoCamera_ae44391d7f6e4a327d215805212593a10}\label{classOrthoCamera_ae44391d7f6e4a327d215805212593a10} 
+void {\bfseries move\+Position\+\_\+\+Vert} (const float step)
+\item 
+\Hypertarget{classOrthoCamera_aa29b284473ae74d55cc4f543de5aee04}\label{classOrthoCamera_aa29b284473ae74d55cc4f543de5aee04} 
+void {\bfseries move\+Position\+\_\+\+Forward} (const float step)
+\item 
+\Hypertarget{classOrthoCamera_ae55f9dafeeeb6a83dcf30c6158985939}\label{classOrthoCamera_ae55f9dafeeeb6a83dcf30c6158985939} 
+void {\bfseries set\+Aim\+Pos} (const glm\+::vec3 new\+Aim\+Pos)
+\item 
+\Hypertarget{classOrthoCamera_a8d4b615565d41fd053d7fc47cf36e640}\label{classOrthoCamera_a8d4b615565d41fd053d7fc47cf36e640} 
+void {\bfseries move\+Aim\+Pos} (glm\+::vec3 starting\+Aim\+Pos, const glm\+::vec2 distance)
+\item 
+\Hypertarget{classOrthoCamera_a3cdc6b66eca2169f4c82463cffcec375}\label{classOrthoCamera_a3cdc6b66eca2169f4c82463cffcec375} 
+glm\+::vec3 {\bfseries get\+Euler\+Angles\+From\+Direction} (glm\+::vec3 direction)
+\item 
+glm\+::vec3 \mbox{\hyperlink{classOrthoCamera_a06d0d81e72bfeec4080a734521b7a0de}{get\+Aim\+Pos}} () override
+\item 
 void \mbox{\hyperlink{classOrthoCamera_a7807f6ac2b1f3a4a87e7d095f45272fc}{set\+Scale}} (float new\+Scale) override
 \item 
 glm\+::vec3 \mbox{\hyperlink{classOrthoCamera_a6a75115ef89690845f3c4361b606b98c}{get\+Position}} () const override
@@ -50,13 +70,63 @@ SDL\+\_\+\+FRect \mbox{\hyperlink{classOrthoCamera_a3020a917cca25bed290cc01fd5ba
 \Hypertarget{classOrthoCamera_a2a7fa87226d1c77715565013da8dd9d5}\label{classOrthoCamera_a2a7fa87226d1c77715565013da8dd9d5} 
 void {\bfseries set\+Camera\+Matrix} (glm\+::mat4 new\+Matrix)
 \item 
-bool \mbox{\hyperlink{classOrthoCamera_a0f2acb82f53914901f8ece778af3e476}{is\+Point\+In\+Camera\+View}} (const glm\+::vec4 point, float margin)
-\item 
 bool \mbox{\hyperlink{classOrthoCamera_a92c29be391981be492b0ff9e8ebcfcf7}{has\+Changed}} () override
 \item 
 void \mbox{\hyperlink{classOrthoCamera_ae88c8712c577609ed770e336b479e31e}{make\+Camera\+Dirty}} () override
 \item 
 void \mbox{\hyperlink{classOrthoCamera_adf051110827649bc2aa0e9f897d4ffe5}{refresh\+Camera}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classICamera}{ICamera}}}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries update\+Camera\+Orientation} ()
+\item 
+void {\bfseries set\+Orientation} (glm\+::vec3 eye, glm\+::vec3 target, glm\+::vec3 up)
+\item 
+bool {\bfseries is\+Point\+In\+Camera\+View} (const glm\+::vec4 point, float margin)
+\item 
+glm\+::vec3 {\bfseries cast\+Ray\+At} (const glm\+::vec2 \&screen\+Pos)
+\item 
+glm\+::vec3 {\bfseries get\+Point\+On\+Ray\+AtZ} (const glm\+::vec3 \&ray\+Origin, const glm\+::vec3 \&ray\+Direction, float desiredZ)
+\item 
+void {\bfseries set\+View\+Matrix} (glm\+::mat4 new\+View\+Matrix)
+\item 
+glm\+::mat4 {\bfseries get\+View\+Matrix} ()
+\item 
+void {\bfseries set\+Proj\+Matrix} (glm\+::mat4 new\+Proj\+Matrix)
+\item 
+glm\+::mat4 {\bfseries get\+Proj\+Matrix} ()
+\item 
+glm\+::vec3 {\bfseries get\+Up\+Dir} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classICamera}{ICamera}}}
+\begin{DoxyCompactItemize}
+\item 
+int {\bfseries \+\_\+screen\+Width} = 800
+\item 
+int {\bfseries \+\_\+screen\+Height} = 640
+\item 
+glm\+::vec3 {\bfseries eye\+Pos} \{ 0,0,0 \}
+\item 
+glm\+::vec3 {\bfseries aim\+Pos} \{ 0,0,0 \}
+\item 
+glm\+::vec3 {\bfseries up\+Dir} \{ 0,-\/1,0 \}
+\item 
+float {\bfseries z\+Far} = 1000000.\+0f
+\item 
+View\+Mode {\bfseries current\+View\+Mode} = View\+Mode\+::\+Y\+\_\+\+UP
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classICamera}{ICamera}}}
+\begin{DoxyCompactItemize}
+\item 
+glm\+::mat4 {\bfseries \+\_\+projection\+Matrix} = glm\+::mat4(1.\+0f)
+\item 
+glm\+::mat4 {\bfseries \+\_\+view\+Matrix} = glm\+::mat4(1.\+0f)
+\item 
+glm\+::mat4 {\bfseries \+\_\+camera\+Matrix} = glm\+::mat4(1.\+0f)
+\item 
+bool {\bfseries \+\_\+camera\+Change} = true
 \end{DoxyCompactItemize}
 
 
@@ -66,6 +136,16 @@ void \mbox{\hyperlink{classOrthoCamera_adf051110827649bc2aa0e9f897d4ffe5}{refres
 \index{convertScreenToWorld@{convertScreenToWorld}!OrthoCamera@{OrthoCamera}}
 \doxysubsubsection{\texorpdfstring{convertScreenToWorld()}{convertScreenToWorld()}}
 {\footnotesize\ttfamily glm\+::vec2 Ortho\+Camera\+::convert\+Screen\+To\+World (\begin{DoxyParamCaption}\item[{glm\+::vec2}]{screen\+Coords }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classICamera}{ICamera}}.
+
+\Hypertarget{classOrthoCamera_a06d0d81e72bfeec4080a734521b7a0de}\label{classOrthoCamera_a06d0d81e72bfeec4080a734521b7a0de} 
+\index{OrthoCamera@{OrthoCamera}!getAimPos@{getAimPos}}
+\index{getAimPos@{getAimPos}!OrthoCamera@{OrthoCamera}}
+\doxysubsubsection{\texorpdfstring{getAimPos()}{getAimPos()}}
+{\footnotesize\ttfamily glm\+::vec3 Ortho\+Camera\+::get\+Aim\+Pos (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
@@ -136,16 +216,6 @@ Implements \mbox{\hyperlink{classICamera}{ICamera}}.
 \index{init@{init}!OrthoCamera@{OrthoCamera}}
 \doxysubsubsection{\texorpdfstring{init()}{init()}}
 {\footnotesize\ttfamily void Ortho\+Camera\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
-
-
-
-Implements \mbox{\hyperlink{classICamera}{ICamera}}.
-
-\Hypertarget{classOrthoCamera_a0f2acb82f53914901f8ece778af3e476}\label{classOrthoCamera_a0f2acb82f53914901f8ece778af3e476} 
-\index{OrthoCamera@{OrthoCamera}!isPointInCameraView@{isPointInCameraView}}
-\index{isPointInCameraView@{isPointInCameraView}!OrthoCamera@{OrthoCamera}}
-\doxysubsubsection{\texorpdfstring{isPointInCameraView()}{isPointInCameraView()}}
-{\footnotesize\ttfamily bool Ortho\+Camera\+::is\+Point\+In\+Camera\+View (\begin{DoxyParamCaption}\item[{const glm\+::vec4}]{point,  }\item[{float}]{margin }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
 

@@ -42,7 +42,9 @@ void \mbox{\hyperlink{classNode_a57053bfd7b137d4523dd4ea6abc50ca3}{destroy}} ()
 \item 
 void \mbox{\hyperlink{classNode_af477692661e4515dd7b6d054f0d72d13}{add\+Ports}} ()
 \item 
-void \mbox{\hyperlink{classNode_aef971b48522e5a282bcd6f789389751e}{remove\+Ports}} ()
+void \mbox{\hyperlink{classNode_a3e23c11334edd459543d9370ef4535cc}{remove\+Ports}} () override
+\item 
+void \mbox{\hyperlink{classNode_a94caeb49399c3f4c4db05183f8cf4d43}{remove\+Slots}} () override
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classNodeEntity}{Node\+Entity}}}
 \begin{DoxyCompactItemize}
@@ -56,6 +58,10 @@ void \mbox{\hyperlink{classNodeEntity_afe9e14258a6b4c8e8989befc8394c7a1}{remove\
 void {\bfseries add\+In\+Link} (\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*}link)
 \item 
 void {\bfseries add\+Out\+Link} (\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*}link)
+\item 
+void {\bfseries remove\+In\+Link} (\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*}link)
+\item 
+void {\bfseries remove\+Out\+Link} (\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*}link)
 \item 
 const std\+::vector$<$ \mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*} $>$ \& {\bfseries get\+In\+Links} () const
 \item 
@@ -135,7 +141,7 @@ bool {\bfseries has\+Component\+By\+Name} (const std\+::string \&component\+Name
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classEntity}{Entity}}}
 \begin{DoxyCompactItemize}
 \item 
-std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries children}
+std\+::vector$<$ \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries children}
 \item 
 std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} $>$ $>$ {\bfseries components}
 \end{DoxyCompactItemize}
@@ -233,11 +239,21 @@ Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
 
 Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
 
-\Hypertarget{classNode_aef971b48522e5a282bcd6f789389751e}\label{classNode_aef971b48522e5a282bcd6f789389751e} 
+\Hypertarget{classNode_a3e23c11334edd459543d9370ef4535cc}\label{classNode_a3e23c11334edd459543d9370ef4535cc} 
 \index{Node@{Node}!removePorts@{removePorts}}
 \index{removePorts@{removePorts}!Node@{Node}}
 \doxysubsubsection{\texorpdfstring{removePorts()}{removePorts()}}
-{\footnotesize\ttfamily void Node\+::remove\+Ports (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void Node\+::remove\+Ports (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classNodeEntity}{Node\+Entity}}.
+
+\Hypertarget{classNode_a94caeb49399c3f4c4db05183f8cf4d43}\label{classNode_a94caeb49399c3f4c4db05183f8cf4d43} 
+\index{Node@{Node}!removeSlots@{removeSlots}}
+\index{removeSlots@{removeSlots}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{removeSlots()}{removeSlots()}}
+{\footnotesize\ttfamily void Node\+::remove\+Slots (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 

@@ -1,0 +1,139 @@
+\doxysection{Port\+Component Class Reference}
+\hypertarget{classPortComponent}{}\label{classPortComponent}\index{PortComponent@{PortComponent}}
+
+
+Inheritance diagram for Port\+Component\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=177pt]{classPortComponent__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Port\+Component\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{classPortComponent__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classPortComponent_a9dfb3dd1ac2d7e0841a8a4802a7eae32}\label{classPortComponent_a9dfb3dd1ac2d7e0841a8a4802a7eae32} 
+{\bfseries Port\+Component} (bool m\+\_\+is\+Vertical)
+\item 
+void \mbox{\hyperlink{classPortComponent_a5fee996164da390b2c520ce3226caffa}{init}} () override
+\item 
+void \mbox{\hyperlink{classPortComponent_a9040dd8a7cc6ff4084ea73d88054d988}{update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{classPortComponent_a8554d0e8bbc043854ac3a9995ff686d3}{draw}} (size\+\_\+t v\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+std\+::string \mbox{\hyperlink{classPortComponent_aa33dc2dec0b88cf787ae4939973387ae}{Get\+Component\+Name}} () override
+\item 
+void \mbox{\hyperlink{classPortComponent_a40d740bd01734690e938b74ffd47e699}{show\+GUI}} () override
+\item 
+\Hypertarget{classPortComponent_a1594c40ada5176863395fc40fd5bac0e}\label{classPortComponent_a1594c40ada5176863395fc40fd5bac0e} 
+glm\+::vec3 {\bfseries get\+Slot\+Position} (size\+\_\+t slot\+Index) const
+\item 
+\Hypertarget{classPortComponent_a92856691433bfe5e71b7712929b82e67}\label{classPortComponent_a92856691433bfe5e71b7712929b82e67} 
+int {\bfseries get\+Slot\+Index} (\mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*}slot) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classPortComponent_a22a6a693791317f4e72c74fd022ddd95}\label{classPortComponent_a22a6a693791317f4e72c74fd022ddd95} 
+\mbox{\hyperlink{structColor}{Color}} {\bfseries color} = \{ 255, 255, 255, 255 \}
+\item 
+\Hypertarget{classPortComponent_a9e9f8aebd77fcb186712254cf3eae6e7}\label{classPortComponent_a9e9f8aebd77fcb186712254cf3eae6e7} 
+bool {\bfseries is\+Vertical} = false
+\item 
+\Hypertarget{classPortComponent_a5ab912aff3dbcaa3e9784da369df5128}\label{classPortComponent_a5ab912aff3dbcaa3e9784da369df5128} 
+std\+::vector$<$ \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries port\+Slots}
+\item 
+\Hypertarget{classPortComponent_a8258e9e205e278b4bd9abdb2342a137d}\label{classPortComponent_a8258e9e205e278b4bd9abdb2342a137d} 
+float {\bfseries slot\+Spacing} = 0.\+0f
+\item 
+\Hypertarget{classPortComponent_a9c4049ebdf7033a6505a8534392d87c1}\label{classPortComponent_a9c4049ebdf7033a6505a8534392d87c1} 
+\mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries entity} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+Component\+ID {\bfseries id} = 0u
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classPortComponent_a8554d0e8bbc043854ac3a9995ff686d3}\label{classPortComponent_a8554d0e8bbc043854ac3a9995ff686d3} 
+\index{PortComponent@{PortComponent}!draw@{draw}}
+\index{draw@{draw}!PortComponent@{PortComponent}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Port\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{v\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classPortComponent_aa33dc2dec0b88cf787ae4939973387ae}\label{classPortComponent_aa33dc2dec0b88cf787ae4939973387ae} 
+\index{PortComponent@{PortComponent}!GetComponentName@{GetComponentName}}
+\index{GetComponentName@{GetComponentName}!PortComponent@{PortComponent}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}}
+{\footnotesize\ttfamily std\+::string Port\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classPortComponent_a5fee996164da390b2c520ce3226caffa}\label{classPortComponent_a5fee996164da390b2c520ce3226caffa} 
+\index{PortComponent@{PortComponent}!init@{init}}
+\index{init@{init}!PortComponent@{PortComponent}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Port\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classPortComponent_a40d740bd01734690e938b74ffd47e699}\label{classPortComponent_a40d740bd01734690e938b74ffd47e699} 
+\index{PortComponent@{PortComponent}!showGUI@{showGUI}}
+\index{showGUI@{showGUI}!PortComponent@{PortComponent}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}}
+{\footnotesize\ttfamily void Port\+Component\+::show\+GUI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classPortComponent_a9040dd8a7cc6ff4084ea73d88054d988}\label{classPortComponent_a9040dd8a7cc6ff4084ea73d88054d988} 
+\index{PortComponent@{PortComponent}!update@{update}}
+\index{update@{update}!PortComponent@{PortComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Port\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Empty/\+Basic/Port\+Component.\+h\end{DoxyCompactItemize}

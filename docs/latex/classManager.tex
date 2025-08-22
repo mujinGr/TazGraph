@@ -11,16 +11,26 @@ enum {\bfseries group\+Labels} \+: std\+::size\+\_\+t \{ \newline
 , {\bfseries group\+Group\+Links\+\_\+0}
 , \newline
 {\bfseries group\+Group\+Links\+\_\+1}
+, {\bfseries group\+Path\+Links\+\_\+0}
+, {\bfseries group\+Path\+Links\+\_\+1}
+, {\bfseries group\+Path\+Links\+\_\+2}
+, \newline
+{\bfseries group\+Path\+Inner\+Links}
+, {\bfseries group\+Path\+Links\+Holder}
 , {\bfseries group\+Arrow\+Heads\+\_\+0}
 , {\bfseries group\+Nodes\+\_\+0}
-, {\bfseries group\+Group\+Nodes\+\_\+0}
 , \newline
-{\bfseries group\+Group\+Nodes\+\_\+1}
+{\bfseries group\+Group\+Nodes\+\_\+0}
+, {\bfseries group\+Group\+Nodes\+\_\+1}
+, {\bfseries group\+Minimap\+Nodes}
 , {\bfseries group\+Colliders}
-, {\bfseries group\+Empties}
-, {\bfseries group\+Sphere\+Empties}
 , \newline
-{\bfseries group\+Render\+Sprites}
+{\bfseries group\+Empties}
+, {\bfseries group\+Sphere\+Empties}
+, {\bfseries group\+Render\+Sprites}
+, {\bfseries group\+Ports}
+, \newline
+{\bfseries group\+Port\+Slots}
 , {\bfseries button\+Labels}
  \}
 \end{DoxyCompactItemize}
@@ -89,6 +99,9 @@ void {\bfseries remove\+All\+Entites} ()
 \Hypertarget{classManager_a28b2398f7ab5cdb7aabaa6037d6c84ce}\label{classManager_a28b2398f7ab5cdb7aabaa6037d6c84ce} 
 void {\bfseries remove\+All\+Entities\+From\+Group} (Group m\+Group)
 \item 
+\Hypertarget{classManager_ac24b51c4ba3cb3160ae04f09e893d2d9}\label{classManager_ac24b51c4ba3cb3160ae04f09e893d2d9} 
+void {\bfseries remove\+All\+Entities\+From\+Empty\+Group} (Group m\+Group)
+\item 
 \Hypertarget{classManager_abe47e3b02119cde9ced53ba018513117}\label{classManager_abe47e3b02119cde9ced53ba018513117} 
 void {\bfseries remove\+All\+Entities\+From\+Link\+Group} (Group m\+Group)
 \item 
@@ -119,13 +132,17 @@ bool {\bfseries arrowheads\+Enabled} = false
 \Hypertarget{classManager_ab95d9dabda4987fec0d44d38a5e85c1d}\label{classManager_ab95d9dabda4987fec0d44d38a5e85c1d} 
 bool {\bfseries last\+\_\+arrowheads\+Enabled} = false
 \item 
+\Hypertarget{classManager_ad68c2705e5ad7f013293017c25b63729}\label{classManager_ad68c2705e5ad7f013293017c25b63729} 
+bool {\bfseries update\+Inner\+Path\+Links} = false
+\item 
 \Hypertarget{classManager_a4c87bfd50acbc3bdf3afe77df4092f3c}\label{classManager_a4c87bfd50acbc3bdf3afe77df4092f3c} 
 std\+::unordered\+\_\+map$<$ std\+::string, std\+::vector$<$ std\+::string $>$ $>$ {\bfseries component\+Names}
 \item 
 \Hypertarget{classManager_a49bed531c87cc65f2dbfe00d6d1fa8d6}\label{classManager_a49bed531c87cc65f2dbfe00d6d1fa8d6} 
 std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classGrid}{Grid}} $>$ {\bfseries grid}
 \item 
-const std\+::unordered\+\_\+map$<$ Group, std\+::string $>$ \mbox{\hyperlink{classManager_a52c59a57eb3afe37d8eca027ddafe394}{group\+Names}}
+\Hypertarget{classManager_a52c59a57eb3afe37d8eca027ddafe394}\label{classManager_a52c59a57eb3afe37d8eca027ddafe394} 
+const std\+::unordered\+\_\+map$<$ Group, std\+::string $>$ {\bfseries group\+Names}
 \end{DoxyCompactItemize}
 
 
@@ -147,44 +164,6 @@ UPDATE
 FOR MAIN MENU
 
 CELL UPDATE
-
-\doxysubsection{Member Data Documentation}
-\Hypertarget{classManager_a52c59a57eb3afe37d8eca027ddafe394}\label{classManager_a52c59a57eb3afe37d8eca027ddafe394} 
-\index{Manager@{Manager}!groupNames@{groupNames}}
-\index{groupNames@{groupNames}!Manager@{Manager}}
-\doxysubsubsection{\texorpdfstring{groupNames}{groupNames}}
-{\footnotesize\ttfamily const std\+::unordered\+\_\+map$<$Group, std\+::string$>$ Manager\+::group\+Names}
-
-{\bfseries Initial value\+:}
-\begin{DoxyCode}{0}
-\DoxyCodeLine{=\ \{}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{groupBackgroundLayer,\ \textcolor{stringliteral}{"{}groupBackgroundLayer"{}}\ \},}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{panelBackground,\ \textcolor{stringliteral}{"{}panelBackground"{}}\},}
-\DoxyCodeLine{}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupLinks\_0,\textcolor{stringliteral}{"{}groupLinks\_0"{}}\ \},}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{groupGroupLinks\_0,\ \textcolor{stringliteral}{"{}groupGroupLinks\_0"{}}\},}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{groupGroupLinks\_1,\ \textcolor{stringliteral}{"{}groupGroupLinks\_1"{}}\},}
-\DoxyCodeLine{}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{groupArrowHeads\_0,\ \textcolor{stringliteral}{"{}groupArrowHeads\_0"{}}\},}
-\DoxyCodeLine{}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupNodes\_0,\textcolor{stringliteral}{"{}groupNodes\_0"{}}\ \},}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupGroupNodes\_0,\ \textcolor{stringliteral}{"{}groupGroupNodes\_0"{}}\},}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupGroupNodes\_1,\ \textcolor{stringliteral}{"{}groupGroupNodes\_1"{}}\},}
-\DoxyCodeLine{}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupEmpties,\textcolor{stringliteral}{"{}groupEmpties"{}}\ \},}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupSphereEmpties,\textcolor{stringliteral}{"{}groupSphereEmpties"{}}\ \},}
-\DoxyCodeLine{}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupColliders,\textcolor{stringliteral}{"{}groupColliders"{}}\ \},}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ groupRenderSprites,\textcolor{stringliteral}{"{}groupRenderSprites"{}}\ \},}
-\DoxyCodeLine{}
-\DoxyCodeLine{}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\ buttonLabels,\textcolor{stringliteral}{"{}buttonLabels"{}}\ \},}
-\DoxyCodeLine{\ \ \ \ \}}
-
-\end{DoxyCode}
-
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

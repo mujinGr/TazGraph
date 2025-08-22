@@ -1,0 +1,81 @@
+\doxysection{DOTMap\+Parser Class Reference}
+\hypertarget{classDOTMapParser}{}\label{classDOTMapParser}\index{DOTMapParser@{DOTMapParser}}
+
+
+Inheritance diagram for DOTMap\+Parser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=169pt]{classDOTMapParser__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for DOTMap\+Parser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=175pt]{classDOTMapParser__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classDOTMapParser_abd5680b0fe1c45a23015bbf3f9880e34}{read\+File}} (std\+::string m\+\_\+file\+Name) override
+\item 
+void \mbox{\hyperlink{classDOTMapParser_afe91d7d1da38e74488623606904d5e4b}{parse}} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$ add\+Node\+Func, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$ add\+Link\+Func) override
+\item 
+void \mbox{\hyperlink{classDOTMapParser_a75ff6c3d90b2be7af2ac74972763dd39}{close\+File}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mthreader)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structThreader}{Threader}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+threader} = nullptr
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classDOTMapParser_a75ff6c3d90b2be7af2ac74972763dd39}\label{classDOTMapParser_a75ff6c3d90b2be7af2ac74972763dd39} 
+\index{DOTMapParser@{DOTMapParser}!closeFile@{closeFile}}
+\index{closeFile@{closeFile}!DOTMapParser@{DOTMapParser}}
+\doxysubsubsection{\texorpdfstring{closeFile()}{closeFile()}}
+{\footnotesize\ttfamily void DOTMap\+Parser\+::close\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+
+\Hypertarget{classDOTMapParser_afe91d7d1da38e74488623606904d5e4b}\label{classDOTMapParser_afe91d7d1da38e74488623606904d5e4b} 
+\index{DOTMapParser@{DOTMapParser}!parse@{parse}}
+\index{parse@{parse}!DOTMapParser@{DOTMapParser}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily void DOTMap\+Parser\+::parse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classManager}{Manager}} \&}]{manager,  }\item[{std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$}]{add\+Node\+Func,  }\item[{std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$}]{add\+Link\+Func }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+
+\Hypertarget{classDOTMapParser_abd5680b0fe1c45a23015bbf3f9880e34}\label{classDOTMapParser_abd5680b0fe1c45a23015bbf3f9880e34} 
+\index{DOTMapParser@{DOTMapParser}!readFile@{readFile}}
+\index{readFile@{readFile}!DOTMapParser@{DOTMapParser}}
+\doxysubsubsection{\texorpdfstring{readFile()}{readFile()}}
+{\footnotesize\ttfamily void DOTMap\+Parser\+::read\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{m\+\_\+file\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Map/\+Parsers/DOTMap\+Parser.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Map/\+Parsers/DOTMap\+Parser.\+cpp\end{DoxyCompactItemize}

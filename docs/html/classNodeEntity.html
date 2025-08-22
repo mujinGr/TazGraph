@@ -128,6 +128,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>addInLink</b> (<a cla
 <tr class="memitem:ac22bcaf4f44b0b6673e386a1ae4aa29b" id="r_ac22bcaf4f44b0b6673e386a1ae4aa29b"><td class="memItemLeft" align="right" valign="top"><a id="ac22bcaf4f44b0b6673e386a1ae4aa29b" name="ac22bcaf4f44b0b6673e386a1ae4aa29b"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>addOutLink</b> (<a class="el" href="classLinkEntity.html">LinkEntity</a> *link)</td></tr>
 <tr class="separator:ac22bcaf4f44b0b6673e386a1ae4aa29b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0039ae91f62b11b577ac29ab900f06f8" id="r_a0039ae91f62b11b577ac29ab900f06f8"><td class="memItemLeft" align="right" valign="top"><a id="a0039ae91f62b11b577ac29ab900f06f8" name="a0039ae91f62b11b577ac29ab900f06f8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>removeInLink</b> (<a class="el" href="classLinkEntity.html">LinkEntity</a> *link)</td></tr>
+<tr class="separator:a0039ae91f62b11b577ac29ab900f06f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20d45e41de0436e80e34678988717d5b" id="r_a20d45e41de0436e80e34678988717d5b"><td class="memItemLeft" align="right" valign="top"><a id="a20d45e41de0436e80e34678988717d5b" name="a20d45e41de0436e80e34678988717d5b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>removeOutLink</b> (<a class="el" href="classLinkEntity.html">LinkEntity</a> *link)</td></tr>
+<tr class="separator:a20d45e41de0436e80e34678988717d5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73cffc8924a3b5be4b703bdb719b8108" id="r_a73cffc8924a3b5be4b703bdb719b8108"><td class="memItemLeft" align="right" valign="top"><a id="a73cffc8924a3b5be4b703bdb719b8108" name="a73cffc8924a3b5be4b703bdb719b8108"></a>
 const std::vector&lt; <a class="el" href="classLinkEntity.html">LinkEntity</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getInLinks</b> () const</td></tr>
 <tr class="separator:a73cffc8924a3b5be4b703bdb719b8108"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,6 +146,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>addPorts</b> 
 <tr class="memitem:a41e87c0b047e452296b19052511959a4" id="r_a41e87c0b047e452296b19052511959a4"><td class="memItemLeft" align="right" valign="top"><a id="a41e87c0b047e452296b19052511959a4" name="a41e87c0b047e452296b19052511959a4"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>removePorts</b> ()</td></tr>
 <tr class="separator:a41e87c0b047e452296b19052511959a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a865921d30f1665929a49b8b29e5b0f6e" id="r_a865921d30f1665929a49b8b29e5b0f6e"><td class="memItemLeft" align="right" valign="top"><a id="a865921d30f1665929a49b8b29e5b0f6e" name="a865921d30f1665929a49b8b29e5b0f6e"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>removeSlots</b> ()</td></tr>
+<tr class="separator:a865921d30f1665929a49b8b29e5b0f6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a405da8050cd61c1cb9d79d94bfb171a7" id="r_a405da8050cd61c1cb9d79d94bfb171a7"><td class="memItemLeft" align="right" valign="top"><a id="a405da8050cd61c1cb9d79d94bfb171a7" name="a405da8050cd61c1cb9d79d94bfb171a7"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>updatePorts</b> (float deltaTime)</td></tr>
 <tr class="separator:a405da8050cd61c1cb9d79d94bfb171a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -283,9 +292,9 @@ Additional Inherited Members</h2></td></tr>
 <a class="el" href="structCell.html">Cell</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ownerCell</b> = nullptr</td></tr>
 <tr class="separator:a20e023933db7352acd6f4b617be0e435 inherit pub_attribs_classCellEntity"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classEntity"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classEntity')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classEntity.html">Entity</a></td></tr>
-<tr class="memitem:ac7481b1ba50d9891db4b8d4cc82f15fd inherit pub_attribs_classEntity" id="r_ac7481b1ba50d9891db4b8d4cc82f15fd"><td class="memItemLeft" align="right" valign="top">
-std::unordered_map&lt; std::string, <a class="el" href="classEmptyEntity.html">EmptyEntity</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>children</b></td></tr>
-<tr class="separator:ac7481b1ba50d9891db4b8d4cc82f15fd inherit pub_attribs_classEntity"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa800eb74c349481944dd3da24b82fd99 inherit pub_attribs_classEntity" id="r_aa800eb74c349481944dd3da24b82fd99"><td class="memItemLeft" align="right" valign="top">
+std::vector&lt; <a class="el" href="classEmptyEntity.html">EmptyEntity</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>children</b></td></tr>
+<tr class="separator:aa800eb74c349481944dd3da24b82fd99 inherit pub_attribs_classEntity"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fbe7274bdcdeb1d10e51bdf7f35665b inherit pub_attribs_classEntity" id="r_a3fbe7274bdcdeb1d10e51bdf7f35665b"><td class="memItemLeft" align="right" valign="top">
 std::vector&lt; std::unique_ptr&lt; <a class="el" href="classBaseComponent.html">BaseComponent</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>components</b></td></tr>
 <tr class="separator:a3fbe7274bdcdeb1d10e51bdf7f35665b inherit pub_attribs_classEntity"><td class="memSeparator" colspan="2">&#160;</td></tr>

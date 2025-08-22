@@ -1,0 +1,81 @@
+\doxysection{Text\+Path\+Parser Class Reference}
+\hypertarget{classTextPathParser}{}\label{classTextPathParser}\index{TextPathParser@{TextPathParser}}
+
+
+Inheritance diagram for Text\+Path\+Parser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=168pt]{classTextPathParser__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Text\+Path\+Parser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=174pt]{classTextPathParser__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classTextPathParser_a648b16a6577b97d030e7db66755620c8}{read\+File}} (std\+::string m\+\_\+file\+Name) override
+\item 
+void \mbox{\hyperlink{classTextPathParser_a1a3ce131a9eb00173e6a064193bdc9dd}{parse}} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$ add\+Node\+Func, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$ add\+Link\+Func) override
+\item 
+void \mbox{\hyperlink{classTextPathParser_a6e4a7519bc612fcf5b90854defa3f806}{close\+File}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mthreader)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structThreader}{Threader}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+threader} = nullptr
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classTextPathParser_a6e4a7519bc612fcf5b90854defa3f806}\label{classTextPathParser_a6e4a7519bc612fcf5b90854defa3f806} 
+\index{TextPathParser@{TextPathParser}!closeFile@{closeFile}}
+\index{closeFile@{closeFile}!TextPathParser@{TextPathParser}}
+\doxysubsubsection{\texorpdfstring{closeFile()}{closeFile()}}
+{\footnotesize\ttfamily void Text\+Path\+Parser\+::close\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+
+\Hypertarget{classTextPathParser_a1a3ce131a9eb00173e6a064193bdc9dd}\label{classTextPathParser_a1a3ce131a9eb00173e6a064193bdc9dd} 
+\index{TextPathParser@{TextPathParser}!parse@{parse}}
+\index{parse@{parse}!TextPathParser@{TextPathParser}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily void Text\+Path\+Parser\+::parse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classManager}{Manager}} \&}]{manager,  }\item[{std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$}]{add\+Node\+Func,  }\item[{std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$}]{add\+Link\+Func }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+
+\Hypertarget{classTextPathParser_a648b16a6577b97d030e7db66755620c8}\label{classTextPathParser_a648b16a6577b97d030e7db66755620c8} 
+\index{TextPathParser@{TextPathParser}!readFile@{readFile}}
+\index{readFile@{readFile}!TextPathParser@{TextPathParser}}
+\doxysubsubsection{\texorpdfstring{readFile()}{readFile()}}
+{\footnotesize\ttfamily void Text\+Path\+Parser\+::read\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{m\+\_\+file\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Map/\+Path\+Parsers/Text\+Path\+Parser.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Map/\+Path\+Parsers/Text\+Path\+Parser.\+cpp\end{DoxyCompactItemize}
