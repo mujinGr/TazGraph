@@ -50,6 +50,43 @@ Unlike many existing graph tools that are either limited in scope or hard to ext
 - Multithreaded ECS
 - Custom renderer batching pipeline
 
+Built with performance and flexibility in mind, TazGraph integrates 
+real-time rendering, multithreading, and intuitive editing features 
+into a unified environment.
+
+#### Features:
+- 3D World  
+    - Nodes and links are placed in a fully interactive 3D environment.  
+    - Supports navigation, zooming, and smooth camera controls.  
+
+- Custom Renderers  
+    - Specialized rendering system optimized for batched drawing.  
+    - Supports instanced rendering and billboarded nodes.  
+    - Built from scratch on top of OpenGL for fine-grained control.  
+
+- Multithreading  
+    - Updates and vertex generation are processed in worker threads.  
+    - Rendering pipeline leverages parallelism for efficient draw calls.  
+    - Provides smooth interaction even with large-scale graphs.  
+
+- Path Links Integration  
+    - Graph links can represent paths with interpolation and curves.  
+    - Useful for network visualization, routing, and flow simulations.  
+
+- Multiple Editor  Tabs  
+    - Organize different graph projects in separate tabs.  
+    - Switch seamlessly between editing sessions.  
+    - Designed for multitasking and workflow efficiency.  
+
+- 3D Models with Lighting  
+  - Support for custom 3D assets embedded in the graph world.  
+  - Dynamic lighting with configurable material properties.  
+  - Enhances realism and provides richer context for visualization.  
+
+- Simulation Play  
+  - Interactive simulation mode for animating graph behavior.  
+  - Nodes and links respond to scripted or real-time logic.  
+  - Enables testing and demonstration of graph-based systems.  
 
 ## Developer Guide: [DoxyDevGuide](https://mujingr.github.io/TazGraph/html/dev_guide.html)
 
