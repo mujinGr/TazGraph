@@ -3,9 +3,11 @@
 
 ### Core Architecture:
 
-TazGraph uses a **custom ECS** where entities (such as nodes, links, and emptyEntities) are composed of components. Components are plain data-only structures, like `TransformComponent` and `PollingComponent`.
+TazGraph uses a **custom ECS** where entities (such as nodes, links, and emptyEntities) are composed of components. 
+Components are plain data-only structures, like `TransformComponent` and `PollingComponent`.
 
-The ECS is managed by **`GECSManager`**, which handles creation, removal, update, and drawing of entities. Entity processing is based on **groups** (`EntityGroups`) for rendering and update.
+The ECS is managed by **`GECSManager`**, which handles creation, removal, update, and drawing of entities. 
+Entity processing is based on **groups** (`EntityGroups`) for rendering and update.
 
 ### Scene System
 
@@ -16,7 +18,8 @@ There are two scenes implemented:
 
 Each scene controls its own logic, similar to a game state system. In the `Graph` Scene:
 - You can load **multiple graphs** in tabs, each saved in a **Manager**.
-- Developers **shouldn’t need to modify the core of graph engine logic** (TazGraphEngine/GECS/Core) — instead, use the main scene's update function (TazGraph/Src/Graph.cpp) to hook into behaviors like:
+- Developers **shouldn’t need to modify the core of graph engine logic** (TazGraphEngine/GECS/Core) instead, use 
+the main scene's update function (TazGraph/Src/Graph.cpp) to hook into behaviors like:
   - Grouping nodes
   - Flash-frame animations
   - UI interactions
@@ -27,7 +30,8 @@ All rendering logic is handled in `Graph::draw()`.
 
 #### 1. Shader Setup
 
-GLSL shader programs are loaded and set up using the resource manager. Uniforms (e.g. camera matrix, rotation) are passed before rendering:
+GLSL shader programs are loaded and set up using the resource manager. Uniforms (e.g. camera matrix, rotation) 
+are passed before rendering:
 
 ```cpp
 _resourceManager.setupShader(glsl_color, *main_camera2D);
@@ -50,7 +54,8 @@ Before batching begins, the renderers are prepared. This includes setting up int
 
 #### 3. Render Batching (Multithreaded)
 
-Entities are grouped and passed to the appropriate renderer via renderBatch. This uses multithreading to fill buffers (meshElements & meshArrays) efficiently.
+Entities are grouped and passed to the appropriate renderer via renderBatch. 
+This uses multithreading to fill buffers (meshElements & meshArrays) efficiently.
 
 ``` cpp
 renderBatch(
@@ -70,8 +75,10 @@ glsl_color.unuse();
 ```
 Repeat for each renderer (e.g. _LineRenderer, _PlaneModelRenderer, _LightRenderer) in your preferred draw order.
 
-<code style="color : limegreen">Not all Entity Components can draw with all renderers (e.g. Sprite Component is used to specifically draw for PlaneModelRenderer). 
-The draw function in the component indicates the renderers used: `void draw(size_t v_index, `<code style="color : red">PlaneModelRenderer</code>`&  batch, TazGraphEngine::Window& window)
+<code style="color : limegreen">Not all Entity Components can draw with all renderers 
+(e.g. Sprite Component is used to specifically draw for PlaneModelRenderer). 
+The draw function in the component indicates the renderers used: 
+`void draw(size_t v_index, `<code style="color : red">PlaneModelRenderer</code>`&  batch, TazGraphEngine::Window& window)
 	{
 	...
 	}
@@ -83,9 +90,11 @@ The draw function in the component indicates the renderers used: `void draw(size
 
 ### Custom Renderers
 
-Renderers in TazGraph are grouped by the attributes they support, which directly affects the shaders they use. This design makes rendering highly memory-efficient, but each renderer is tailored for a specific use case.
+Renderers in TazGraph are grouped by the attributes they support, which directly affects the shaders they use. 
+This design makes rendering highly memory-efficient, but each renderer is tailored for a specific use case.
 
-Each renderer sets a fixed number of per-vertex and per-instance attributes. For example, the `PlaneColorRenderer` expects shaders with the following layout:
+Each renderer sets a fixed number of per-vertex and per-instance attributes. 
+For example, the `PlaneColorRenderer` expects shaders with the following layout:
 
 ```
 layout (location = 0) in vec3 aPos; //vertex Pos
@@ -104,11 +113,15 @@ Currently, the engine includes the following specific renderers:
 - `LightRenderer` – for planes with lighting and shading
 - `LineRenderer` – for simple colored lines (typically used for links)
 
-To create a new renderer - for example, a **textured plane with shading** - you need to implement a new renderer class that matches the data layout and rendering logic required for that effect.
+To create a new renderer - for example, a **textured plane with shading** 
+- you need to implement a new renderer class that matches the data layout and rendering logic required for that effect.
 
-In the following folder: `TazGraphEngine/Renderers/PlaneRenderers/PlaneLitTextRenderer` use one of the existing renderers as a base, then write glsl shader to match the renderer under `TazGraph/Src/Shaders`, implement a `draw` function in a component that uses that renderer and then pass that renderer as argument for `renderBatch` in `Graph::draw()`.
+In the following folder: `TazGraphEngine/Renderers/PlaneRenderers/PlaneLitTextRenderer` 
+use one of the existing renderers as a base, then write glsl shader to match the renderer under `TazGraph/Src/Shaders`, 
+implement a `draw` function in a component that uses that renderer and then pass that renderer as argument for `renderBatch` in `Graph::draw()`.
 
 ### Graph Loaders (WIP)
 
-Currently TazGraph has the ability to process txt and python files with a specific format. Developers are able to implement their own processing of files, by creating more functions inside `TazGraph/Src/Map`
+Currently TazGraph has the ability to process txt and python files with a specific format. 
+Developers are able to implement their own processing of files, by creating more functions inside `TazGraph/Src/Map`
 */

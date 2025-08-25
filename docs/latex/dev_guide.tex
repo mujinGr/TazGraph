@@ -15,7 +15,7 @@ There are two scenes implemented\+:
 Each scene controls its own logic, similar to a game state system. In the {\ttfamily \doxylink{classGraph}{Graph}} Scene\+:
 \begin{DoxyItemize}
 \item You can load {\bfseries{multiple graphs}} in tabs, each saved in a {\bfseries{\doxylink{classManager}{Manager}}}.
-\item Developers {\bfseries{shouldn’t need to modify the core of graph engine logic}} (Taz\+Graph\+Engine/\+GECS/\+Core) — instead, use the main scene\textquotesingle{}s update function (Taz\+Graph/\+Src/\+Graph.\+cpp) to hook into behaviors like\+:
+\item Developers {\bfseries{shouldn’t need to modify the core of graph engine logic}} (Taz\+Graph\+Engine/\+GECS/\+Core) instead, use the main scene\textquotesingle{}s update function (Taz\+Graph/\+Src/\+Graph.\+cpp) to hook into behaviors like\+:
 \begin{DoxyItemize}
 \item Grouping nodes
 \item Flash-\/frame animations
@@ -97,7 +97,10 @@ Currently, the engine includes the following specific renderers\+:
 \item {\ttfamily \doxylink{classLineRenderer}{Line\+Renderer}} – for simple colored lines (typically used for links)
 \end{DoxyItemize}
 
-To create a new renderer -\/ for example, a {\bfseries{textured plane with shading}} -\/ you need to implement a new renderer class that matches the data layout and rendering logic required for that effect.
+To create a new renderer -\/ for example, a {\bfseries{textured plane with shading}}
+\begin{DoxyItemize}
+\item you need to implement a new renderer class that matches the data layout and rendering logic required for that effect.
+\end{DoxyItemize}
 
 In the following folder\+: {\ttfamily Taz\+Graph\+Engine/\+Renderers/\+Plane\+Renderers/\+Plane\+Lit\+Text\+Renderer} use one of the existing renderers as a base, then write glsl shader to match the renderer under {\ttfamily Taz\+Graph/\+Src/\+Shaders}, implement a {\ttfamily draw} function in a component that uses that renderer and then pass that renderer as argument for {\ttfamily render\+Batch} in {\ttfamily \doxylink{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893}{Graph\+::draw()}}.\hypertarget{dev_guide_autotoc_md8}{}\doxysubsubsection{\texorpdfstring{Graph Loaders (\+WIP)}{Graph Loaders (WIP)}}\label{dev_guide_autotoc_md8}
 Currently Taz\+Graph has the ability to process txt and python files with a specific format. Developers are able to implement their own processing of files, by creating more functions inside {\ttfamily Taz\+Graph/\+Src/\+Map} 

@@ -85,7 +85,7 @@ Scene System</h3>
 </ul>
 <p>Each scene controls its own logic, similar to a game state system. In the <code><a class="el" href="classGraph.html">Graph</a></code> Scene:</p><ul>
 <li>You can load <b>multiple graphs</b> in tabs, each saved in a <b><a class="el" href="classManager.html">Manager</a></b>.</li>
-<li>Developers <b>shouldn’t need to modify the core of graph engine logic</b> (TazGraphEngine/GECS/Core) — instead, use the main scene's update function (TazGraph/Src/Graph.cpp) to hook into behaviors like:<ul>
+<li>Developers <b>shouldn’t need to modify the core of graph engine logic</b> (TazGraphEngine/GECS/Core) instead, use the main scene's update function (TazGraph/Src/Graph.cpp) to hook into behaviors like:<ul>
 <li>Grouping nodes</li>
 <li>Flash-frame animations</li>
 <li>UI interactions</li>
@@ -148,7 +148,9 @@ Custom Renderers</h3>
 <li><code><a class="el" href="classLightRenderer.html">LightRenderer</a></code> – for planes with lighting and shading</li>
 <li><code><a class="el" href="classLineRenderer.html">LineRenderer</a></code> – for simple colored lines (typically used for links)</li>
 </ul>
-<p>To create a new renderer - for example, a <b>textured plane with shading</b> - you need to implement a new renderer class that matches the data layout and rendering logic required for that effect.</p>
+<p>To create a new renderer - for example, a <b>textured plane with shading</b></p><ul>
+<li>you need to implement a new renderer class that matches the data layout and rendering logic required for that effect.</li>
+</ul>
 <p>In the following folder: <code>TazGraphEngine/Renderers/PlaneRenderers/PlaneLitTextRenderer</code> use one of the existing renderers as a base, then write glsl shader to match the renderer under <code>TazGraph/Src/Shaders</code>, implement a <code>draw</code> function in a component that uses that renderer and then pass that renderer as argument for <code>renderBatch</code> in <code><a class="el" href="classGraph.html#ad16ce3c3a8dcd0c02c4fd9fca968c893">Graph::draw()</a></code>.</p>
 <h3><a class="anchor" id="autotoc_md8"></a>
 Graph Loaders (WIP)</h3>
