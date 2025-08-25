@@ -6,12 +6,20 @@
 #include <BaseFPSLimiter/BaseFPSLimiter.h>
 
 
+struct MinimapConfig {
+    uint32_t textureID;
+    ImVec2 viewportPos;
+    ImVec2 viewportSize;
+};
+
 class Minimap {
 public:
-    void Create(uint32_t m_textureID, const BaseFPSLimiter& baseFPSLimiter, Manager& manager, ImVec2 viewportPos, ImVec2 viewportSize);
+    void OnImGuiRender();
     void DrawCameraFrustumOnMinimap(ImVec2 minimapPos, float minimapSize);
     void DrawCameraIndicator(ImVec2 minimapPos, float minimapSize);
 
+    void setConfig(const MinimapConfig& cfg);
 private:
+    MinimapConfig config;
     float elapsed = 0.0f;
 };

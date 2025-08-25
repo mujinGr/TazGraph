@@ -172,9 +172,7 @@ void EditorIMGUI::LeftColumnUIElement(bool &renderDebug, bool &clusterLayout, gl
 		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
 	}
 
-	if (ImGui::SliderFloat("Rotate Around Z", &cameraRotationZ, 0.0f, 360.0f)) {
-		EditorLayoutUtils::rotateCamera(cameraRotationZ);
-	}
+	sliderRotate.OnImGuiRender();
 
 	const char* viewModeNames[] = { "Y-Up", "Z-Up" };
 
@@ -892,16 +890,26 @@ void EditorIMGUI::SceneViewport(
 	bool isHovered = ImGui::IsItemHovered();
 	ImGuizmo::Enable(isHovered);
 	
-	_minimap.Create(m_minimap_fb._framebufferTexture, baseFPSLimiter, manager, pos, viewportPanelSize);
+	_minimap.setConfig({
+	.textureID = m_minimap_fb._framebufferTexture,
+	.viewportPos = pos,
+	.viewportSize = viewportPanelSize
+		});
+	_minimap.OnImGuiRender();
 
-	_orientationBox.Create(pos, viewportPanelSize);
+	_orientationBox.setConfig({
+		.viewportPos = pos,
+		.viewportSize = viewportPanelSize
+	});
+	_orientationBox.OnImGuiRender();
 
 	ImGui::EndChild();
 }
 
 void EditorIMGUI::scriptResultsVisualization(Manager& manager, std::vector<std::pair<Entity*, glm::vec3>>& m_selectedEntities) {
 
-	_customFunctions.renderUI(manager, m_selectedEntities);
+	_customFunctions.setSelectedEntities(m_selectedEntities);
+	_customFunctions.OnImGuiRender();
 }
 
 std::string EditorIMGUI::SceneTabs(std::vector<std::string>& graphNames, std::string& currentActive) {

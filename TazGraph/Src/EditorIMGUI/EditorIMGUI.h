@@ -9,11 +9,11 @@
 #include "imguiComboAutoselect/imgui_combo_autoselect.h"
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
 
-#include "CustomFunctions/CustomFunctions.h"
-#include "Minimap/Minimap.h"
-#include "OrientationBox/OrientationBox.h"
+#include "Widgets/CustomFunctions/CustomFunctions.h"
+#include "Widgets/Minimap/Minimap.h"
+#include "Widgets/OrientationBox/OrientationBox.h"
 
-#include "./EditorLayoutUtils.h"
+#include "./Widgets/SliderRotateZ.h"
 
 #include <Renderers/FrameBuffer/Framebuffer.h>
 
@@ -39,7 +39,6 @@ private:
 	bool _isLoadingPath = false;
 	bool _goingBack = false;
 
-	CustomFunctions _customFunctions;
 	Minimap _minimap;
 	OrientationBox _orientationBox;
 
@@ -47,7 +46,9 @@ private:
 	bool _dockingEnabled = true;
 	int _lastEntityDisplayed = 0;
 public:
-	float cameraRotationZ = 0;
+	SliderRotateZ sliderRotate;
+	CustomFunctions _customFunctions;
+
 	int newNodesCount = 0;
 	int newLinksCount = 0;
 
