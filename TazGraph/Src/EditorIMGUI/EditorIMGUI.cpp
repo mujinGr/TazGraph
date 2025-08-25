@@ -904,9 +904,10 @@ void EditorIMGUI::scriptResultsVisualization(Manager& manager, std::vector<std::
 	_customFunctions.renderUI(manager, m_selectedEntities);
 }
 
-std::string EditorIMGUI::SceneTabs(const std::vector<std::string>& graphNames, std::string& currentActive) {
+std::string EditorIMGUI::SceneTabs(std::vector<std::string>& graphNames, std::string& currentActive) {
 	float childHeight = 30.0f;
-	
+	std::string tabToClose = "";
+
 	ImGui::BeginChild("Scene Tabs", ImVec2(0, childHeight), true, ImGuiWindowFlags_NoScrollbar);
 	
 
@@ -921,7 +922,22 @@ std::string EditorIMGUI::SceneTabs(const std::vector<std::string>& graphNames, s
 				ImGui::EndTabItem();
 			}
 			if (!open) {
-				// handle tab close if needed (e.g. mark for deletion)
+				tabToClose = name;
+
+				// If we're closing the currently active tab, switch to another one
+				if (currentActive == name && graphNames.size() > 1) {
+					// Find a different tab to make active
+					for (size_t j = 0; j < graphNames.size(); ++j) {
+						if (graphNames[j] != name) {
+							currentActive = graphNames[j];
+							break;
+						}
+					}
+				}
+				else if (graphNames.size() == 1) {
+					// If this is the last tab, clear the current active
+					currentActive = "";
+				}
 			}
 		}
 		ImGui::SameLine(ImGui::GetContentRegionAvail().x - 16);
@@ -953,8 +969,14 @@ std::string EditorIMGUI::SceneTabs(const std::vector<std::string>& graphNames, s
 
 	ImGui::EndChild();
 
+	if (!tabToClose.empty()) {
+		auto it = std::find(graphNames.begin(), graphNames.end(), tabToClose);
+		if (it != graphNames.end()) {
+			graphNames.erase(it);
+		}
+	}
 
-	return currentActive;
+	return tabToClose;
 }
 
 void EditorIMGUI::ShowFunctionExecutionResults() {

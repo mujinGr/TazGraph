@@ -42,9 +42,32 @@ void Graph::updateUI() {
 
 	std::string activeManagerKey = managerName;
 
-	std::string selectedTab = _editorImgui.SceneTabs(openTabs, activeManagerKey);
-	if (selectedTab != managerName) {
-		setManager(selectedTab);
+	std::string closedTab = _editorImgui.SceneTabs(openTabs, activeManagerKey);
+	if (!closedTab.empty()) {
+		auto managerIt = managers.find(closedTab);
+		if (managerIt != managers.end()) {
+			managers.erase(managerIt);
+
+			if (closedTab == managerName) {
+				if (!activeManagerKey.empty() &&
+					managers.find(activeManagerKey) != managers.end()) {
+					setManager(activeManagerKey);
+				}
+				else if (!managers.empty()) {
+					setManager(managers.begin()->first);
+				}
+				else {
+					managerName = "";
+				}
+			}
+		}
+	}
+	else if (activeManagerKey != managerName && !activeManagerKey.empty()) {
+		// Normal tab switching (no closure)
+		auto managerIt = managers.find(activeManagerKey);
+		if (managerIt != managers.end()) {
+			setManager(activeManagerKey);
+		}
 	}
 
 	_editorImgui.updateIsMouseInSecondColumn();
