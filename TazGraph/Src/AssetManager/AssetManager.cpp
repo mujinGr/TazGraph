@@ -1,20 +1,7 @@
 #include "AssetManager.h"
-#include "GECS/Components.h"
-#include "GECS/UtilComponents.h"
-#include "../GECS/ScriptComponents.h"
 
 #include <random>
 #include <unordered_set>
-
-
-AssetManager::AssetManager(Manager* man, InputManager& inputManager, TazGraphEngine::Window& window)
-	: manager(man), _inputManager(inputManager), _window(window) // todo make triggers manager
-{
-
-}
-
-AssetManager::~AssetManager()
-{}
 
 void AssetManager::CreateWorldMap(Entity& worldMap)
 {
@@ -71,7 +58,7 @@ void AssetManager::CreateGroupLink(Entity& groupLink, Grid::Level m_level) {
 	
 }
 
-void AssetManager::createGroupLayout(Grid::Level m_level) {
+void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 
 	for (const auto& cell : manager->grid->getCells(m_level)) {
 		int totalNodes = 0;
@@ -104,7 +91,7 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 		}
 		
 		centroid /= totalNodes;
-		CreateGroup(node, centroid, groupNodeSize, m_level);
+		AssetManager::CreateGroup(node, centroid, groupNodeSize, m_level);
 
 		if (manager->arrowheadsEnabled) {
 			manager->arrowheadsEnabled = false;
@@ -163,14 +150,14 @@ void AssetManager::createGroupLayout(Grid::Level m_level) {
 			// Add the link if it doesn't already exist
 			if (existingLinks.insert(linkKey).second) {
 				auto& group_link = manager->addEntity<Link>(parentFromId, parentToId);
-				CreateGroupLink(group_link, m_level);  // Customize appearance if needed
+				AssetManager::CreateGroupLink(group_link, m_level);  // Customize appearance if needed
 				manager->grid->addLink(&group_link, m_level);
 			}
 		}
 	}
 }
 
-void AssetManager::ungroupLayout(Grid::Level m_level) {
+void AssetManager::ungroupLayout(Manager* manager, Grid::Level m_level) {
 	// first destroy the group nodes
 	if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
 		for (auto& groupNode : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {

@@ -10,7 +10,6 @@
 #include "../../Map/Map.h"
 #include "GECS/Components.h"
 #include "../../GECS/ScriptComponents.h"
-#include "../../AssetManager/AssetManager.h"
 #include <sstream>
 #include <AppScene/AppInterface.h>
 #include <unordered_set>
@@ -144,7 +143,7 @@ void Graph::onEntry()
 
 	if (setManager(mapName)) {
 		auto& world_map(manager->addEntityNoId<Empty>());
-		_assetsManager->CreateWorldMap(world_map);
+		AssetManager::CreateWorldMap(world_map);
 
 		manager->resetEntityId();
 
@@ -203,7 +202,7 @@ bool Graph::setManager(std::string m_managerName)
 	bool managerIsNew = false;
 
 	if (m_managerName.empty()) {
-		_editorImgui.setNewMap(true);
+		DataManager::getInstance().setNewMap(true);
 		int counter = 1;
 		while (managers.find("Unnamed_" + std::to_string(counter) + ".txt") != managers.end()) {
 			counter++;
@@ -229,11 +228,6 @@ bool Graph::setManager(std::string m_managerName)
 		manager->grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
 		manager->setComponentNames();
 	}
-
-	if (!_assetsManager) {
-		_assetsManager = new AssetManager(manager, _app->_inputManager, _app->_window);
-	}
-	_assetsManager->manager = manager;
 
 	if (!map) {
 		Graph::map = new Map(*manager, 1, 32);

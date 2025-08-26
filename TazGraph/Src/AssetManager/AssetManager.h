@@ -2,9 +2,9 @@
 
 #include <string>
 #include "TextureManager/TextureManager.h"
-#include "GECS/Core/GECSManager.h"
+#include "../EditorIMGUI/EditorIMGUI.h"
+
 #include <SDL2/SDL_ttf.h>
-#include "../Screens/GraphScene/Graph.h"
 
 struct PairHash {
 	template <class T1, class T2>
@@ -14,17 +14,8 @@ struct PairHash {
 		return hash1 ^ (hash2 << 1);
 	}
 };
-class AssetManager //this class created when we added projectiles, based on this class other components changed
+namespace AssetManager //this class created when we added projectiles, based on this class other components changed
 {					//it just replaces the paths of textures with names
-public:
-
-	SDL_Color black = { 0, 0 ,0 ,255 };
-	SDL_Color white = { 255, 255 ,255 ,255 };
-	SDL_Color red = { 255, 0 ,0 ,255 };
-	SDL_Color green = { 0, 255 ,0 ,255 };
-
-	AssetManager(Manager* man, InputManager& inputManager, TazGraphEngine::Window& window);
-	~AssetManager();
 
 	//graphobjects
 	void CreateWorldMap(Entity& worldMap);
@@ -32,12 +23,7 @@ public:
 
 	void CreateGroupLink(Entity& groupLink, Grid::Level m_level);
 
-	void createGroupLayout(Grid::Level m_level);
+	void createGroupLayout(Manager* manager, Grid::Level m_level);
 
-	void ungroupLayout(Grid::Level m_level);
-
-	Manager* manager;
-private:
-	InputManager& _inputManager;
-	TazGraphEngine::Window& _window;
+	void ungroupLayout(Manager* manager, Grid::Level m_level);
 };

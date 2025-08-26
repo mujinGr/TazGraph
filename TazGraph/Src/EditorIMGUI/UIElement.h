@@ -3,8 +3,18 @@
 #include <imgui.h>
 #include <implot/implot.h>
 #include <glm/glm.hpp> 
+#include <ImGuizmo/ImGuizmo.h>
+#include <imguiComboAutoselect/imgui_combo_autoselect.h>
 #include <vector>
 #include <utility> 
+
+#include <BaseFPSLimiter/BaseFPSLimiter.h>
+#include <DataManager/DataManager.h>
+
+#include "GECS/Components.h"
+#include "GECS/UtilComponents.h"
+#include "GECS/Core/GECSManager.h"
+
 
 class UIElement {
 public:

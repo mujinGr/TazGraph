@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../UIElement.h"
+
 #include "GECS/Components.h"
 #include "GECS/UtilComponents.h"
 #include <ImGuizmo/ImGuizmo.h>
@@ -11,9 +13,9 @@ struct OrientationBoxConfig {
 };
 
 
-class OrientationBox {
+class OrientationBox : public UIElement {
 public:
-    void OnImGuiRender();
+    void OnImGuiRender() override;
     void UpdateCameraFromMatrix();
 
     void setConfig(const OrientationBoxConfig& cfg);

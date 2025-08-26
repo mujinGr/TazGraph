@@ -1,10 +1,10 @@
 #include "./Graph.h"
-#include "../../AssetManager/AssetManager.h"
 #include <AppScene/AppInterface.h>
 
 float nodeRadius = 1.0f;
 
 void Graph::updateUI() {
+	//todo do it like: graphEditorLayer.update(); graphEditorLayer.OnIMGUIRender();
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGui::SetNextWindowPos(viewport->Pos);
 	ImGui::SetNextWindowSize(viewport->Size);
@@ -29,7 +29,15 @@ void Graph::updateUI() {
 	_editorImgui.FPSCounter(getApp()->getFPSLimiter());
 	ImGui::BeginChild("Tab 1");
 
-	_editorImgui.LeftColumnUIElement(_renderDebug, _clusterLayout, _sceneMousePosition, _app->_inputManager.getMouseCoords(), *manager, _backgroundColor, CELL_SIZE);
+	_graphLeftPanel.setConfig({
+		.renderDebug = &_renderDebug,
+		.sceneMouseCoords = _sceneMousePosition,
+		.mouseCoords = _app->_inputManager.getMouseCoords(), 
+		.manager = manager
+		});
+
+	_graphLeftPanel.update();
+	_graphLeftPanel.OnImGuiRender();
 
 	ImGui::EndChild();
 
@@ -93,13 +101,13 @@ void Graph::updateUI() {
 
 	_editorImgui.scriptResultsVisualization(*manager, _selectedEntities);
 
-	if (_editorImgui.isSaving()) {
+	if (DataManager::getInstance().isSaving()) {
 		_editorImgui.SavingUI(map);
 	}
-	if (_editorImgui.isStartingNew()) {
+	if (DataManager::getInstance().isStartingNew()) {
 		_editorImgui.NewMapUI();
 
-		if (!_editorImgui.isStartingNew()) {
+		if (!DataManager::getInstance().isStartingNew()) {
 			std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 			float spacing = 120.0f; // Space between nodes
@@ -137,14 +145,14 @@ void Graph::updateUI() {
 			manager->aboutTo_updateActiveEntities();
 		}
 	}
-	if (_editorImgui.isLoading()) {
+	if (DataManager::getInstance().isLoading()) {
 		char* loadMapPath = _editorImgui.LoadingUI();
-		if (!_editorImgui.isLoading()) {
+		if (!DataManager::getInstance().isLoading()) {
 
 			if (setManager(std::string(loadMapPath)))
 			{
 				auto& world_map(manager->addEntityNoId<Empty>());
-				_assetsManager->CreateWorldMap(world_map);
+				AssetManager::CreateWorldMap(world_map);
 
 				map->loadMap(
 					loadMapPath,
@@ -155,10 +163,10 @@ void Graph::updateUI() {
 			}
 		}
 	}
-	if (_editorImgui.isLoadingPath()) {
-		_editorImgui.setPathLoading(false);
+	if (DataManager::getInstance().isLoadingPath()) {
+		DataManager::getInstance().setPathLoading(false);
 
-		std::string loadPathName = _editorImgui.getPathLoading();
+		std::string loadPathName = DataManager::getInstance().getPathLoading();
 
 		map->loadPaths(loadPathName.c_str(),
 			std::bind(&Map::AddDefaultNode, map, std::placeholders::_1, std::placeholders::_2),
@@ -169,9 +177,9 @@ void Graph::updateUI() {
 		main_camera2D->makeCameraDirty();
 		manager->aboutTo_updateActiveEntities();
 	}
-	if (_editorImgui.isGoingBack()) {
+	if (DataManager::getInstance().isGoingBack()) {
 		_currentState = SceneState::CHANGE_PREVIOUS;
-		_editorImgui.SetGoingBack(false);
+		DataManager::getInstance().SetGoingBack(false);
 	}
 
 

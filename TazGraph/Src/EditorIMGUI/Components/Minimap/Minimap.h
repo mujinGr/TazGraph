@@ -1,9 +1,8 @@
 #pragma once
 
-#include "GECS/Components.h"
-#include "GECS/UtilComponents.h"
-#include <ImGuizmo/ImGuizmo.h>
-#include <BaseFPSLimiter/BaseFPSLimiter.h>
+#include "../../UIElement.h"
+
+
 
 
 struct MinimapConfig {
@@ -12,9 +11,9 @@ struct MinimapConfig {
     ImVec2 viewportSize;
 };
 
-class Minimap {
+class Minimap : public UIElement {
 public:
-    void OnImGuiRender();
+    void OnImGuiRender() override;
     void DrawCameraFrustumOnMinimap(ImVec2 minimapPos, float minimapSize);
     void DrawCameraIndicator(ImVec2 minimapPos, float minimapSize);
 

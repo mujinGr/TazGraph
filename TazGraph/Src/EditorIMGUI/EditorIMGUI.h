@@ -4,16 +4,15 @@
 #include <algorithm>
 #include <vector>
 #include <string>
-#include <filesystem>
 #include "ImGuiInterface/ImGuiInterface.h"
 #include "imguiComboAutoselect/imgui_combo_autoselect.h"
 #include "BaseFPSLimiter/BaseFPSLimiter.h"
 
-#include "Widgets/CustomFunctions/CustomFunctions.h"
-#include "Widgets/Minimap/Minimap.h"
-#include "Widgets/OrientationBox/OrientationBox.h"
+#include "Components/CustomFunctions/CustomFunctions.h"
+#include "Components/Minimap/Minimap.h"
+#include "Components/OrientationBox/OrientationBox.h"
 
-#include "./Widgets/SliderRotateZ.h"
+#include "./Components/SliderRotateZ.h"
 
 #include <Renderers/FrameBuffer/Framebuffer.h>
 
@@ -22,23 +21,8 @@ namespace fs = std::filesystem;
 // it is to provide the ImgUI functions for the whole project
 class EditorIMGUI : public ImGuiInterface {
 private:
-	std::vector<std::string> _fileNames;
-	std::vector<std::string> _pollingFileNames;
-	std::vector<std::string> _pathsFileNames;
-	std::string _pathLoading;
-	ImGui::ComboAutoSelectData _data;
-	ImGui::ComboAutoSelectData _pathData;
-	int _currentOrientationIndex = 0;
 	int _currentLinksPathIndex = 0;
-
-	bool _filesLoaded = false;
-
-	bool _isSaving = false;
-	bool _isStartingNew = false;
-	bool _isLoading = false;
-	bool _isLoadingPath = false;
-	bool _goingBack = false;
-
+	
 	Minimap _minimap;
 	OrientationBox _orientationBox;
 
@@ -59,44 +43,19 @@ public:
 
 	bool isMouseInSecondColumn = false;
 
-
-	
-	int last_activeLayout = 0;
-	int activeLayout = 0;
-
 	EditorIMGUI();
 
 	~EditorIMGUI();
-
-	bool isSaving();
-	void setNewMap(bool startingNew);
-	bool isStartingNew();
-	bool isLoading();
-	bool isLoadingPath();
-	void setLoading(bool loading);
-	void setPathLoading(bool loading);
-	bool isGoingBack();
-	std::string getPathLoading();
-	void SetGoingBack(bool goingBack);
-
-	void updateFileNamesInAssets();
-
-	void updatePollingFileNamesInAssets();
-
-	void updatePathFileNamesInAssets();
 
 	bool* getDockspaceRef();
 	void MenuBar();
 
 	bool isMouseOnWidget(const std::string& widgetName);
-	void LeftColumnUIElement(bool& renderDebug, bool& clusterLayout, glm::vec2 mouseCoords, glm::vec2 mouseCoords2, Manager& manager, float(&backgroundColor)[4], int cell_size);
 	void RightColumnUIElement(Manager& manager, float* nodeRadius);
 	void FPSCounter(const BaseFPSLimiter& baseFPSLimiter);
-	void ReloadAccessibleFiles();
 	void SavingUI(Map* map);
 	void NewMapUI();
 	char* LoadingUI();
-	void MainMenuUI(std::function<void()> onStartSimulator, std::function<void()> onLoadSimulator, std::function<void()> onExitSimulator);
 	void ShowAllEntities(Manager& manager, float& m_nodeRadius);
 	void availableFunctions();
 	void SceneViewport(

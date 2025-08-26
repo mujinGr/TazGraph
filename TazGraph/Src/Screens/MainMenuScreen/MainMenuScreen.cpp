@@ -4,7 +4,6 @@
 #include "GECS/Components.h"
 #include "../../GECS/ScriptComponents.h"
 #include "Camera2.5D/CameraManager.h"
-#include "../../AssetManager/AssetManager.h"
 #include "AppScene/AppInterface.h"
 
 
@@ -46,8 +45,6 @@ void MainMenuScreen::onEntry()
 
 	_resourceManager.addGLSLProgram("texture");
 	_resourceManager.addGLSLProgram("color");
-
-	_assetsManager = new AssetManager(manager, _app->_inputManager, _app->_window);
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
@@ -129,7 +126,7 @@ void MainMenuScreen::update(float deltaTime)
 
 void MainMenuScreen::renderBatch(const std::vector<EmptyEntity*>& entities) {
 	for (const auto& entity : entities) {
-		entity->GetComponent<SpriteComponent>().draw(0, _PlaneModelRenderer, *Graph::_window);
+		entity->GetComponent<SpriteComponent>().draw(0, _PlaneModelRenderer, *_window);
 	}
 
 }
@@ -197,15 +194,19 @@ void MainMenuScreen::BeginRender() {
 }
 
 void MainMenuScreen::updateUI() {
-	_editorImgui.MainMenuUI(
-		[this]() { MainMenuScreen::onStartSimulator(); },
-		[this]() { MainMenuScreen::onLoadSimulator(); },
-		[this]() { MainMenuScreen::onExitSimulator(); }
-		);
+	_mainMenuPanel.setConfig({
+		   .onStartClicked = [this]() { MainMenuScreen::onStartSimulator(); },
+		   .onLoadClicked = [this]() { MainMenuScreen::onLoadSimulator(); },
+		   .onExitClicked = [this]() { MainMenuScreen::onExitSimulator(); }
+		});
 
-	if (_editorImgui.isLoading()) {
+	_mainMenuPanel.update();
+
+	_mainMenuPanel.OnImGuiRender();
+
+	if (DataManager::getInstance().isLoading()) {
 		char* loadMapPath = _editorImgui.LoadingUI();
-		if (!_editorImgui.isLoading() && !std::string(loadMapPath).empty()) {
+		if (!DataManager::getInstance().isLoading() && !std::string(loadMapPath).empty()) {
 			DataManager::getInstance().mapToLoad = loadMapPath;
 			_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 			_currentState = SceneState::CHANGE_NEXT;
@@ -230,7 +231,7 @@ bool MainMenuScreen::onResumeSimulator() {
 }
 
 bool MainMenuScreen::onLoadSimulator() {
-	_editorImgui.setLoading(true);
+	DataManager::getInstance().setLoading(true);
 	return true;
 }
 

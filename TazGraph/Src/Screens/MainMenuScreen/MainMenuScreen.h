@@ -21,8 +21,8 @@
 #include "AppScene/ScreenIndices.h"
 
 #include "../../EditorIMGUI/EditorIMGUI.h"
-
-class AssetManager;
+#include "../../EditorIMGUI/Components/MainMenuPanel/MainMenuPanel.h"
+#include "../../AssetManager/AssetManager.h"
 
 class MainMenuScreen : public IScene {
 public:
@@ -55,8 +55,6 @@ public:
 private:
     float _backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 
-    AssetManager* _assetsManager;
-
     void checkInput();
     bool onStartSimulator();
     bool onResumeSimulator();
@@ -73,4 +71,6 @@ private:
     int _prevSceneIndex = SCENE_INDEX_GRAPHPLAY;
 
     EditorIMGUI _editorImgui;
+
+    MainMenuPanel _mainMenuPanel;
 };

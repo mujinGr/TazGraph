@@ -26,9 +26,10 @@
 
 #include <chrono>
 #include <thread>
+#include "../../EditorIMGUI/Components/GraphLeftPanel/GraphLeftPanel.h"
+#include "../../AssetManager/AssetManager.h"
 
 class Map;
-class AssetManager;
 class SceneManager;
 class ColliderComponent;
 class TransformComponent;
@@ -104,8 +105,6 @@ private:
 	LineRenderer _LineRenderer;
 	LightRenderer _LightRenderer;
 
-	AssetManager* _assetsManager = nullptr;
-
 	ResourceManager _resourceManager;
 
 	std::vector<std::pair<Entity*, glm::vec3>> _selectedEntities;
@@ -120,6 +119,8 @@ private:
 	bool _firstLoop = true;
 
 	EditorIMGUI _editorImgui;
+
+	GraphLeftPanel _graphLeftPanel;
 
 	bool _showSaveWindow = false;
 

@@ -1,5 +1,4 @@
 #include "Graph.h"
-#include "../../AssetManager/AssetManager.h"
 #include <AppScene/AppInterface.h>
 
 void Graph::update(float deltaTime) //game objects updating
@@ -131,35 +130,6 @@ void Graph::update(float deltaTime) //game objects updating
 		}
 
 		manager->aboutTo_updateActiveEntities();
-
-	}
-
-	//! Group layout Change
-	if (_editorImgui.last_activeLayout < _editorImgui.activeLayout) {
-		_editorImgui.last_activeLayout += 1;
-
-		manager->grid->setGridLevel(static_cast<Grid::Level>(manager->grid->getGridLevel() + 1));
-
-		if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
-			_assetsManager->createGroupLayout(Grid::Level::Outer1);
-		}
-		else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
-			_assetsManager->createGroupLayout(Grid::Level::Outer2);
-		}
-	}
-
-	if (_editorImgui.last_activeLayout > _editorImgui.activeLayout) {
-		_editorImgui.last_activeLayout -= 1;
-
-		if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
-			_assetsManager->ungroupLayout(Grid::Level::Outer1);
-		}
-		else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
-			_assetsManager->ungroupLayout(Grid::Level::Outer2);
-		}
-
-		manager->grid->setGridLevel(static_cast<Grid::Level>(manager->grid->getGridLevel() - 1));
-
 
 	}
 
