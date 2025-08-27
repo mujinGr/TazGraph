@@ -42,7 +42,8 @@ protected:
 	virtual void checkInput();
 	virtual void update(float deltaTime);
 	virtual void draw();
-	virtual void updateUI();
+	virtual void updateUI(float deltaTime);
+	virtual void drawUI();
 
 	bool init();
 	bool initSystems();

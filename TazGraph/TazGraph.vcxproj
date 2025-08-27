@@ -192,6 +192,7 @@
     <ClInclude Include="Src\App\App.h" />
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\CustomFunctions\CustomFunctions.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\FPSCounter.h" />
     <ClInclude Include="Src\EditorIMGUI\EditorIMGUI.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphLeftPanel\GraphLeftPanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\GraphRightPanel.h" />

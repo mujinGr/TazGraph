@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GECS/Animators/AnimatorComponent.h"
-
+#include <Window/Window.h>
 
 class MainMenuBackground : public Component
 {
@@ -10,12 +10,19 @@ private:
 	SpriteComponent* sprite = nullptr;
 
 	float elapsedTime = 0.0f;
+
+	TazGraphEngine::Window* window = nullptr;
 public: // it is like it has init that creates Animator Component since it inherits it
 	
 
 	MainMenuBackground()
 	{
 
+	}
+
+	MainMenuBackground(TazGraphEngine::Window* m_window)
+	{
+		window = m_window;
 	}
 
 	~MainMenuBackground() {
@@ -28,12 +35,12 @@ public: // it is like it has init that creates Animator Component since it inher
 		if (!entity->hasComponent<TransformComponent>()) {
 			entity->addComponent<TransformComponent>(
 				glm::vec2(
-					-TextureManager::getInstance().Get_GLTexture("graphnetwork")->width / 2,
-					-TextureManager::getInstance().Get_GLTexture("graphnetwork")->height / 2
+					-window->getScreenWidth() / 2,
+					-window->getScreenHeight() / 2
 				), Layer::action,
 				glm::ivec2(
-					TextureManager::getInstance().Get_GLTexture("graphnetwork")->width,
-					TextureManager::getInstance().Get_GLTexture("graphnetwork")->height
+					window->getScreenWidth(),
+					window->getScreenHeight()
 				),
 				1.0f);
 		}
@@ -52,7 +59,7 @@ public: // it is like it has init that creates Animator Component since it inher
 		float frequency = 0.002f; // How fast the object moves up and down
 
 		// Calculate the new Y position
-		float newY = amplitude * sin(frequency * elapsedTime);
+		float newY = -amplitude + amplitude * sin(frequency * elapsedTime);
 
 		transform->position.z = newY;
 	}

@@ -1,6 +1,6 @@
 #include "GraphLeftPanel.h"
 
-void GraphLeftPanel::update() {
+void GraphLeftPanel::update(float deltaTime) {
 	if (last_activeLayout < activeLayout) {
 		last_activeLayout += 1;
 

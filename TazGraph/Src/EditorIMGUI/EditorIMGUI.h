@@ -36,9 +36,7 @@ public:
 	int newNodesCount = 0;
 	int newLinksCount = 0;
 
-	float interpolation = 0.0f;
-	float interpolation_speed = 0.01f;
-	bool interpolation_running = false;
+
 
 
 	bool isMouseInSecondColumn = false;
@@ -51,22 +49,15 @@ public:
 	void MenuBar();
 
 	bool isMouseOnWidget(const std::string& widgetName);
-	void RightColumnUIElement(Manager& manager, float* nodeRadius);
-	void FPSCounter(const BaseFPSLimiter& baseFPSLimiter);
 	void SavingUI(Map* map);
 	void NewMapUI();
 	char* LoadingUI();
-	void ShowAllEntities(Manager& manager, float& m_nodeRadius);
-	void availableFunctions();
 	void SceneViewport(
 		const BaseFPSLimiter& baseFPSLimiter,
 		Manager& manager,
 		Framebuffer& textureId, 
 		Framebuffer& m_minimap_fb,
 		ImVec2& storedWindowPos, ImVec2& storedWindowSize);
-	void scriptResultsVisualization(Manager& manager, std::vector<std::pair<Entity*, glm::vec3>>& m_selectedEntities);
-	std::string SceneTabs(std::vector<std::string>& graphNames, std::string& currentActive);
-	void ShowFunctionExecutionResults();
 	void updateIsMouseInSecondColumn();
 	void showHoveredEntity(Manager& manager, glm::vec2 mousePos, Entity* onHoverEntity);
 	void ShowEntityComponents(glm::vec2 mousePos, Entity* displayedEntity, Manager& manager);

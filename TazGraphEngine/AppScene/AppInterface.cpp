@@ -57,6 +57,7 @@ void AppInterface::run() {
 			Uint64 startUpdate = SDL_GetPerformanceCounter();
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
 			update(deltaTime);
+			updateUI(deltaTime);
 			Uint64 endUpdate = SDL_GetPerformanceCounter();
 			float updateTime = static_cast<float>(endUpdate - startUpdate) / freq * 1000.0f;
 
@@ -76,7 +77,7 @@ void AppInterface::run() {
 
 		}
 		Uint64 startUI = SDL_GetPerformanceCounter();
-		updateUI();
+		drawUI();
 		Uint64 endUI = SDL_GetPerformanceCounter();
 		float uiTime = static_cast<float>(endUI - startUI) / freq * 1000.0f;
 
@@ -233,12 +234,19 @@ void AppInterface::draw() {
 	}
 }
 
-void AppInterface::updateUI()
+void AppInterface::updateUI(float deltaTime)
+{
+	if (_currentScene && _currentScene->getState() == SceneState::RUNNING) {
+		_currentScene->updateUI(deltaTime);
+	}
+}
+
+void AppInterface::drawUI()
 {
 	// Start the Dear ImGui frame
 	_currentScene->BeginRender();
 	if (_currentScene && _currentScene->getState() == SceneState::RUNNING) {
-		_currentScene->updateUI();
+		_currentScene->drawUI();
 	}
 	// Rendering
 	_currentScene->EndRender();

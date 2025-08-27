@@ -46,7 +46,8 @@ public:
 	virtual void draw() = 0;
 
 	virtual void BeginRender() = 0;
-	virtual void updateUI() = 0;
+	virtual void updateUI(float deltaTime) = 0;
+	virtual void drawUI() = 0;
 	virtual void EndRender() = 0;
 
 	int getSceneIndex() const {

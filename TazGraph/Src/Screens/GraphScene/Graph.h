@@ -26,7 +26,10 @@
 
 #include <chrono>
 #include <thread>
+#include "../../EditorIMGUI/Components/FPSCounter.h"
+#include "../../EditorIMGUI/Components/GraphTopBar/GraphTopBar.h"
 #include "../../EditorIMGUI/Components/GraphLeftPanel/GraphLeftPanel.h"
+#include "../../EditorIMGUI/Components/GraphRightPanel/GraphRightPanel.h"
 #include "../../AssetManager/AssetManager.h"
 
 class Map;
@@ -63,7 +66,8 @@ public:
 	virtual void draw() override;
 
 	virtual void BeginRender() override;
-	virtual void updateUI() override;
+	virtual void updateUI(float deltaTime) override;
+	virtual void drawUI() override;
 	virtual void EndRender() override;
 
 
@@ -120,7 +124,10 @@ private:
 
 	EditorIMGUI _editorImgui;
 
+	FPSCounter _fpsCounter;
+	GraphTopBar _topBar;
 	GraphLeftPanel _graphLeftPanel;
+	GraphRightPanel _graphRightPanel;
 
 	bool _showSaveWindow = false;
 

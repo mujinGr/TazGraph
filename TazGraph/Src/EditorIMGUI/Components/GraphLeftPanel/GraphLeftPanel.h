@@ -27,7 +27,7 @@ private:
 public:
 	void setConfig(const GraphLeftConfig& cfg) { config = cfg; }
 
-	void update() override;
+	void update(float deltaTime) override;
 
 	void OnImGuiRender() override;
 };

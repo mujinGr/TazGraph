@@ -46,7 +46,8 @@ public:
     virtual void draw() override;
 
     virtual void BeginRender() override;
-    virtual void updateUI() override;
+    virtual void updateUI(float deltaTime) override;
+    virtual void drawUI() override;
     virtual void EndRender() override;
 
 

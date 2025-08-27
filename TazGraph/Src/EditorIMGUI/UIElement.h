@@ -20,7 +20,7 @@ class UIElement {
 public:
     UIElement() = default;
     virtual ~UIElement() = default;
-    virtual void update() {} //no need to implement
+    virtual void update(float deltaTime = 0.0f) {} //no need to implement
     virtual void OnImGuiRender() = 0; //must implement
 
 protected:

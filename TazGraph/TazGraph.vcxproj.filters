@@ -161,6 +161,9 @@
     <ClInclude Include="Src\EditorIMGUI\UIElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\FPSCounter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\Sprites\block_networkMiserable.png">

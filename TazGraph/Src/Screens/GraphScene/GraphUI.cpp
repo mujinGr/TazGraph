@@ -3,7 +3,15 @@
 
 float nodeRadius = 1.0f;
 
-void Graph::updateUI() {
+void Graph::updateUI(float deltaTime) {
+	_fpsCounter.update(deltaTime);
+	_topBar.update(deltaTime);
+	_graphLeftPanel.update(deltaTime);
+	_graphRightPanel.update(deltaTime);
+
+}
+
+void Graph::drawUI() {
 	//todo do it like: graphEditorLayer.update(); graphEditorLayer.OnIMGUIRender();
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGui::SetNextWindowPos(viewport->Pos);
@@ -26,7 +34,10 @@ void Graph::updateUI() {
 		initializedUIColumns = true; // Prevents reapplying widths
 	}
 
-	_editorImgui.FPSCounter(getApp()->getFPSLimiter());
+	_fpsCounter.setLimiter(getApp()->getFPSLimiter());
+
+	_fpsCounter.OnImGuiRender();
+
 	ImGui::BeginChild("Tab 1");
 
 	_graphLeftPanel.setConfig({
@@ -36,45 +47,54 @@ void Graph::updateUI() {
 		.manager = manager
 		});
 
-	_graphLeftPanel.update();
 	_graphLeftPanel.OnImGuiRender();
 
 	ImGui::EndChild();
 
 	ImGui::NextColumn();
 
-	std::vector<std::string> openTabs;
-	for (const auto& [name, _] : managers) {
-		openTabs.push_back(name);
-	}
+	//std::vector<std::string> openTabs;
+	//for (const auto& [name, _] : managers) {
+	//	openTabs.push_back(name);
+	//}
 
 	std::string activeManagerKey = managerName;
 
-	std::string closedTab = _editorImgui.SceneTabs(openTabs, activeManagerKey);
+	_topBar.setConfig(
+		{
+		.c_fpsLimiter = &getApp()->getFPSLimiter(),
+		.c_graphNames = &managers,
+		.c_currentActive = &managerName,
+		.c_manager = manager,
+		}
+	);
+	_topBar.OnImGuiRender();
+
+	std::string closedTab = _topBar.getTabToClose();
 	if (!closedTab.empty()) {
 		auto managerIt = managers.find(closedTab);
 		if (managerIt != managers.end()) {
 			managers.erase(managerIt);
 
-			if (closedTab == managerName) {
-				if (!activeManagerKey.empty() &&
-					managers.find(activeManagerKey) != managers.end()) {
-					setManager(activeManagerKey);
+			if (closedTab == activeManagerKey) {
+				if (!managerName.empty() &&
+					managers.find(managerName) != managers.end()) {
+					setManager(managerName);
 				}
 				else if (!managers.empty()) {
 					setManager(managers.begin()->first);
 				}
 				else {
-					managerName = "";
+					activeManagerKey = "";
 				}
 			}
 		}
 	}
-	else if (activeManagerKey != managerName && !activeManagerKey.empty()) {
+	else if (activeManagerKey != managerName && !managerName.empty()) {
 		// Normal tab switching (no closure)
-		auto managerIt = managers.find(activeManagerKey);
+		auto managerIt = managers.find(managerName);
 		if (managerIt != managers.end()) {
-			setManager(activeManagerKey);
+			setManager(managerName);
 		}
 	}
 
@@ -90,16 +110,17 @@ void Graph::updateUI() {
 	ImGui::NextColumn();
 	ImGui::BeginChild("Tab 2");
 
+	_graphRightPanel.setConfig({
+		.c_manager = manager,
+		.c_nodeRadius = &nodeRadius,
+		.c_selectedEntities = _selectedEntities
+		});
 
-	_editorImgui.RightColumnUIElement(*manager, &nodeRadius);
-
-
+	_graphRightPanel.OnImGuiRender();
+	
 	ImGui::EndChild();
 
 	ImGui::End();
-
-
-	_editorImgui.scriptResultsVisualization(*manager, _selectedEntities);
 
 	if (DataManager::getInstance().isSaving()) {
 		_editorImgui.SavingUI(map);

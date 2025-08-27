@@ -92,14 +92,14 @@ void MainMenuScreen::onEntry()
 	}
 
 	// Texture Loads
-	TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/block_networkMiserable.png");
+	TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/menuBg.png");
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 
 	if (!manager->grid)
 	{
 		manager->grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
 
-		Mainmenubackground.addComponent<MainMenuBackground>();
+		Mainmenubackground.addComponent<MainMenuBackground>(_window);
 		Mainmenubackground.addGroup(Manager::groupBackgroundLayer);
 		manager->grid->addEmpty(&Mainmenubackground, manager->grid->getGridLevel());
 	}
@@ -193,7 +193,11 @@ void MainMenuScreen::BeginRender() {
 	_editorImgui.BeginRender();
 }
 
-void MainMenuScreen::updateUI() {
+void MainMenuScreen::updateUI(float deltaTime) {
+
+}
+
+void MainMenuScreen::drawUI() {
 	_mainMenuPanel.setConfig({
 		   .onStartClicked = [this]() { MainMenuScreen::onStartSimulator(); },
 		   .onLoadClicked = [this]() { MainMenuScreen::onLoadSimulator(); },

@@ -10,7 +10,7 @@ public:
 	SliderRotateZ() = default;
 	~SliderRotateZ() override = default;
 
-	void update() override 
+	void update(float deltaTime) override 
 	{
 	
 	};
