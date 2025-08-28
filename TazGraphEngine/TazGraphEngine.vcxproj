@@ -236,16 +236,12 @@
     <ClInclude Include="GECS\Animators\AnimatorManager.h" />
     <ClInclude Include="GECS\Animators\MovingAnimation.h" />
     <ClInclude Include="GECS\Animators\MovingAnimatorComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Util\ButtonComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Util\ColliderComponent.h" />
     <ClInclude Include="GECS\Components.h" />
-    <ClInclude Include="GECS\Components\Empty\Util\KeyboardControllerComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Util\UILabel.h" />
     <ClInclude Include="GECS\Core\GECS.h" />
     <ClInclude Include="GECS\Core\GECSManager.h" />
     <ClInclude Include="GECS\Animators\FlashAnimation.h" />
     <ClInclude Include="GECS\Animators\FlashAnimatorComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Util\GridComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\Rectangle_w_Color.h" />
     <ClInclude Include="GECS\Components\Empty\Util\RigidBodyComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\SpriteComponent.h" />

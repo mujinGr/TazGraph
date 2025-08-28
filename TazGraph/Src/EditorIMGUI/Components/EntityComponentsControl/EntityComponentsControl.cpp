@@ -66,7 +66,14 @@ void EntityComponentsControlPanel::OnImGuiRender()
 			for (auto& c : config.manager->componentNames["Component"]) {
 				// Checkbox to add/remove component
 				bool hasComponent = config.displayedEntity->hasComponentByName(c);
+				auto it = componentNameToID.find(c);
+				if (it != componentNameToID.end()) {
+					ComponentID cid = it->second;
 
+					ImGui::Text("(ID: %u)", cid);
+					ImGui::SameLine();
+				}
+				
 				if (ImGui::Checkbox(c.c_str(), &hasComponent)) {
 					if (hasComponent) {
 						AddComponentByName(c, config.displayedEntity);
