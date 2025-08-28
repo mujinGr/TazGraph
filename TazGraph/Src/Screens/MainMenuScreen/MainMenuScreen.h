@@ -59,7 +59,6 @@ private:
     void checkInput();
     bool onStartSimulator();
     bool onResumeSimulator();
-    bool onLoadSimulator();
     void onExitSimulator();
 
     TazGraphEngine::Window* _window;

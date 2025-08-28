@@ -194,23 +194,24 @@ void MainMenuScreen::BeginRender() {
 }
 
 void MainMenuScreen::updateUI(float deltaTime) {
-
+	_mainMenuPanel.update(deltaTime);
 }
 
 void MainMenuScreen::drawUI() {
 	_mainMenuPanel.setConfig({
 		   .onStartClicked = [this]() { MainMenuScreen::onStartSimulator(); },
-		   .onLoadClicked = [this]() { MainMenuScreen::onLoadSimulator(); },
 		   .onExitClicked = [this]() { MainMenuScreen::onExitSimulator(); }
 		});
 
-	_mainMenuPanel.update();
 
 	_mainMenuPanel.OnImGuiRender();
 
-	if (DataManager::getInstance().isLoading()) {
-		char* loadMapPath = _editorImgui.LoadingUI();
-		if (!DataManager::getInstance().isLoading() && !std::string(loadMapPath).empty()) {
+	if (DataManager::getInstance().isLoading())
+	{
+		_mainMenuPanel.loadingUI.setConfig({});
+		_mainMenuPanel.loadingUI.OnImGuiRender();
+		char* loadMapPath = DataManager::getInstance().data.input;
+		if (strlen(loadMapPath) && !DataManager::getInstance().isLoading()) {
 			DataManager::getInstance().mapToLoad = loadMapPath;
 			_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 			_currentState = SceneState::CHANGE_NEXT;
@@ -231,11 +232,6 @@ bool MainMenuScreen::onStartSimulator() {
 bool MainMenuScreen::onResumeSimulator() {
 	_prevSceneIndex = SCENE_INDEX_GRAPHPLAY;
 	_currentState = SceneState::CHANGE_PREVIOUS;
-	return true;
-}
-
-bool MainMenuScreen::onLoadSimulator() {
-	DataManager::getInstance().setLoading(true);
 	return true;
 }
 

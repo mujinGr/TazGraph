@@ -23,7 +23,7 @@ void MainMenuPanel::OnImGuiRender()
 
 	ImGui::SetCursorPosX(buttonPosX);
 	if (ImGui::Button("Load", ImVec2(buttonWidth, buttonHeight))) {
-		config.onLoadClicked();
+		DataManager::getInstance().setLoading(true);
 	}
 
 	ImGui::Dummy(ImVec2(0.0f, buttonSpacing));

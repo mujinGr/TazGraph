@@ -1,6 +1,8 @@
 #include "GraphLeftPanel.h"
 
 void GraphLeftPanel::update(float deltaTime) {
+	sliderRotate.update(deltaTime);
+
 	if (last_activeLayout < activeLayout) {
 		last_activeLayout += 1;
 

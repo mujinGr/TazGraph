@@ -15,6 +15,8 @@
 #include "GECS/UtilComponents.h"
 #include "GECS/Core/GECSManager.h"
 
+#include <GECS/Core/GECSUtil.h>
+
 
 class UIElement {
 public:

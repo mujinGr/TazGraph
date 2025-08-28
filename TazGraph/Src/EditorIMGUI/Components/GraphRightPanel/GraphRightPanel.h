@@ -3,7 +3,7 @@
 #include "../../UIElement.h"
 
 #include "../SliderRotateZ.h"
-#include "../CustomFunctions/CustomFunctions.h"
+#include "./CustomFunctions/CustomFunctions.h"
 #include "../../../AssetManager/AssetManager.h"
 
 struct GraphRightConfig {

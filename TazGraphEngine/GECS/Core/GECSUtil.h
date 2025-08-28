@@ -78,7 +78,7 @@ static const std::unordered_map<std::string, std::function<BaseComponent* (Entit
 
 
 // Function to add a component by name
-void AddComponentByName(const std::string& componentName, Entity* entity) {
+static void AddComponentByName(const std::string& componentName, Entity* entity) {
     auto it = addComponentMap.find(componentName);
     if (it != addComponentMap.end()) {
         it->second(entity);
@@ -88,7 +88,7 @@ void AddComponentByName(const std::string& componentName, Entity* entity) {
 }
 
 // Function to remove a component by name
-void RemoveComponentByName(const std::string& componentName, Entity* entity) {
+static void RemoveComponentByName(const std::string& componentName, Entity* entity) {
     auto it = removeComponentMap.find(componentName);
     if (it != removeComponentMap.end()) {
         it->second(entity);
@@ -98,7 +98,7 @@ void RemoveComponentByName(const std::string& componentName, Entity* entity) {
 }
 
 // Function to get a component by name
-BaseComponent* getComponentByName(const std::string& componentName, Entity* entity) {
+static BaseComponent* getComponentByName(const std::string& componentName, Entity* entity) {
     auto it = getComponentMap.find(componentName);
     if (it != getComponentMap.end()) {
         return it->second(entity);

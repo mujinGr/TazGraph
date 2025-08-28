@@ -165,7 +165,15 @@
   <ItemGroup>
     <ClCompile Include="Src\App\App.cpp" />
     <ClCompile Include="Src\AssetManager\AssetManager.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\Components\CustomFunctions\CustomFunctions.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\EntityComponentsControl\EntityComponentsControl.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\HoverEntityPanel\HoverEntityPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\LoadingPanel\LoadingPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\MenuDropdown.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\LoadingUI\LoadingUI.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\NewMapUI\NewMapUI.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\SavingUI\SavingUI.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\SceneControl\SceneControl.cpp" />
     <ClCompile Include="Src\EditorIMGUI\EditorIMGUI.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphLeftPanel\GraphLeftPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\GraphRightPanel.cpp" />
@@ -191,8 +199,16 @@
   <ItemGroup>
     <ClInclude Include="Src\App\App.h" />
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
-    <ClInclude Include="Src\EditorIMGUI\Components\CustomFunctions\CustomFunctions.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\EntityComponentsControl\EntityComponentsControl.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\FPSCounter.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\HoverEntityPanel\HoverEntityPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\LoadingPanel\LoadingPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\MenuDropdown.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\LoadingUI\LoadingUI.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\NewMapUI\NewMapUI.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\SavingUI\SavingUI.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\SceneControl\SceneControl.h" />
     <ClInclude Include="Src\EditorIMGUI\EditorIMGUI.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphLeftPanel\GraphLeftPanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\GraphRightPanel.h" />

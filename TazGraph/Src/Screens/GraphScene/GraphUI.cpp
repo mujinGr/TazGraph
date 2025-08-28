@@ -4,11 +4,69 @@
 float nodeRadius = 1.0f;
 
 void Graph::updateUI(float deltaTime) {
+	
+	_menuDropdown.setConfig({});
+	_menuDropdown.update(deltaTime);
+	
 	_fpsCounter.update(deltaTime);
-	_topBar.update(deltaTime);
-	_graphLeftPanel.update(deltaTime);
-	_graphRightPanel.update(deltaTime);
 
+	_topBar.setConfig(
+		{
+		.c_fpsLimiter = &getApp()->getFPSLimiter(),
+		.c_graphNames = &managers,
+		.c_currentActive = &managerName,
+		.c_manager = manager,
+		}
+		);
+	_topBar.update(deltaTime);
+
+	_graphLeftPanel.setConfig({
+	.renderDebug = &_renderDebug,
+	.sceneMouseCoords = _sceneMousePosition,
+	.mouseCoords = _app->_inputManager.getMouseCoords(),
+	.manager = manager
+		});
+	_graphLeftPanel.update(deltaTime);
+	
+	_viewportPanel.setConfig({
+	.c_fb = &_framebuffer,
+	.c_minimap_fb = &_minimapFramebuffer,
+	.c_storedWindowPos = &_windowPos,
+	.c_storedWindowSize = &_windowSize
+		});
+	_viewportPanel.update(deltaTime);
+	
+	_graphRightPanel.setConfig({
+	.c_manager = manager,
+	.c_nodeRadius = &nodeRadius,
+	.c_selectedEntities = _selectedEntities
+		});
+	_graphRightPanel.update(deltaTime);
+	
+	_sceneControl.setConfig(
+		{
+			.c_mouseCoords = _savedMainViewportMousePosition,
+			.c_manager = manager
+		}
+	);
+	_sceneControl.update(deltaTime);
+
+	_entityComponentController.setConfig(
+		{
+		.mousePos = _savedMainViewportMousePosition, 
+		.displayedEntity = _displayedEntity,
+		.manager = manager
+		}
+	);
+	_entityComponentController.update(deltaTime);
+
+	_hoverEntityPanel.setConfig
+	({
+		.mousePos = _app->_inputManager.getMouseCoords(),
+		.hoveredEntity = _onHoverEntity,
+		.manager = manager
+		});
+	_hoverEntityPanel.update(deltaTime);
 }
 
 void Graph::drawUI() {
@@ -17,7 +75,8 @@ void Graph::drawUI() {
 	ImGui::SetNextWindowPos(viewport->Pos);
 	ImGui::SetNextWindowSize(viewport->Size);
 	ImGui::Begin("Main Window", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus);
-	_editorImgui.MenuBar();
+	
+	_menuDropdown.OnImGuiRender();
 
 	ImGui::Columns(3, "mycolumns");
 
@@ -40,13 +99,6 @@ void Graph::drawUI() {
 
 	ImGui::BeginChild("Tab 1");
 
-	_graphLeftPanel.setConfig({
-		.renderDebug = &_renderDebug,
-		.sceneMouseCoords = _sceneMousePosition,
-		.mouseCoords = _app->_inputManager.getMouseCoords(), 
-		.manager = manager
-		});
-
 	_graphLeftPanel.OnImGuiRender();
 
 	ImGui::EndChild();
@@ -60,14 +112,7 @@ void Graph::drawUI() {
 
 	std::string activeManagerKey = managerName;
 
-	_topBar.setConfig(
-		{
-		.c_fpsLimiter = &getApp()->getFPSLimiter(),
-		.c_graphNames = &managers,
-		.c_currentActive = &managerName,
-		.c_manager = manager,
-		}
-	);
+
 	_topBar.OnImGuiRender();
 
 	std::string closedTab = _topBar.getTabToClose();
@@ -98,23 +143,12 @@ void Graph::drawUI() {
 		}
 	}
 
-	_editorImgui.updateIsMouseInSecondColumn();
 
-	_editorImgui.SceneViewport(
-		getApp()->getFPSLimiter(),
-		*manager,
-		_framebuffer,
-		_minimapFramebuffer,
-		_windowPos, _windowSize);
+	_viewportPanel.OnImGuiRender();
 
 	ImGui::NextColumn();
 	ImGui::BeginChild("Tab 2");
 
-	_graphRightPanel.setConfig({
-		.c_manager = manager,
-		.c_nodeRadius = &nodeRadius,
-		.c_selectedEntities = _selectedEntities
-		});
 
 	_graphRightPanel.OnImGuiRender();
 	
@@ -123,21 +157,24 @@ void Graph::drawUI() {
 	ImGui::End();
 
 	if (DataManager::getInstance().isSaving()) {
-		_editorImgui.SavingUI(map);
+		_menuDropdown.savingUI.setConfig({
+			.c_map = map
+			});
+		_menuDropdown.savingUI.OnImGuiRender();
 	}
 	if (DataManager::getInstance().isStartingNew()) {
-		_editorImgui.NewMapUI();
+		_menuDropdown.newMapUI.OnImGuiRender();
 
 		if (!DataManager::getInstance().isStartingNew()) {
 			std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 			float spacing = 120.0f; // Space between nodes
 
-			float totalWidth = (_editorImgui.newNodesCount - 1) * spacing;
+			float totalWidth = (_menuDropdown.newMapUI.newNodesCount - 1) * spacing;
 			float startX = -totalWidth * 0.5f;
 			float y = 0.0f;
 
-			for (int i = 0; i < _editorImgui.newNodesCount; ++i) {
+			for (int i = 0; i < _menuDropdown.newMapUI.newNodesCount; ++i) {
 				auto& node = manager->addEntity<Node>();
 				glm::vec2 position = glm::vec2(startX + i * spacing, y);
 				node.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
@@ -148,7 +185,7 @@ void Graph::drawUI() {
 
 				manager->grid->addNode(&node, manager->grid->getGridLevel());
 			}
-			for (int i = 0; i < _editorImgui.newLinksCount; ++i) {
+			for (int i = 0; i < _menuDropdown.newMapUI.newLinksCount; ++i) {
 				auto& link = manager->addEntity<Link>(0, i + 1);
 				link.addComponent<Line_w_Color>();
 
@@ -166,9 +203,12 @@ void Graph::drawUI() {
 			manager->aboutTo_updateActiveEntities();
 		}
 	}
-	if (DataManager::getInstance().isLoading()) {
-		char* loadMapPath = _editorImgui.LoadingUI();
-		if (!DataManager::getInstance().isLoading()) {
+	if (DataManager::getInstance().isLoading())
+	{
+		_menuDropdown.loadingUI.setConfig({});
+		_menuDropdown.loadingUI.OnImGuiRender();
+		char* loadMapPath = DataManager::getInstance().data.input;
+		if (strlen(loadMapPath) && !DataManager::getInstance().isLoading()) {
 
 			if (setManager(std::string(loadMapPath)))
 			{
@@ -206,13 +246,13 @@ void Graph::drawUI() {
 
 	//glm::vec2 worldToVieport
 	if (manager) {
-		_editorImgui.ShowEntityComponents(_savedMainViewportMousePosition, _displayedEntity, *manager);
-		_editorImgui.showHoveredEntity(*manager, _app->_inputManager.getMouseCoords(), _onHoverEntity);
+		_entityComponentController.OnImGuiRender();
+		_hoverEntityPanel.OnImGuiRender();
 	}
 
-
 	if (manager && _sceneManagerActive) {
-		_editorImgui.ShowSceneControl(_savedMainViewportMousePosition, *manager);
+
+		_sceneControl.OnImGuiRender();
 	}
 	// this is going to be shown when right click on scene and no displayEntity shows
 
