@@ -8,6 +8,9 @@ public:
 	std::vector<LinkEntity*> innerLinks;
 	std::vector<LinkEntity*> pathLinks;
 
+	float width = 1.0f;   // default width
+	Color color = Color(0, 0, 0, 255); // default black
+
 	TransformComponent* transform = nullptr;
 
 	PathLinkerComponent()
@@ -34,6 +37,8 @@ public:
 	// Add a link to the path
 	void addLink(LinkEntity* link) {
 		if (link && std::find(pathLinks.begin(), pathLinks.end(), link) == pathLinks.end()) {
+			link->GetComponent<Line_w_Color>().setSrcColor(color);
+			link->GetComponent<Line_w_Color>().setDestColor(color);
 			pathLinks.push_back(link);
 		}
 	}
@@ -44,7 +49,7 @@ public:
 	}
 
 	std::string GetComponentName() override {
-		return "PortSlotComponent";
+		return "PathLinkerComponent";
 	}
 
 	void showGUI() override {

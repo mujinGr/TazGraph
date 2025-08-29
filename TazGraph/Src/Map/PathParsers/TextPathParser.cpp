@@ -36,11 +36,31 @@ void TextPathParser::parse(Manager& manager,
         std::vector<int> ids;
 
         auto& pathLinker = manager.addEntity<Empty>();
-        pathLinker.addComponent<PathLinkerComponent>();
+		auto& plc = pathLinker.addComponent<PathLinkerComponent>();
 
         while (std::getline(ss, token, '-')) {
             ids.push_back(std::stoi(token));
         }
+
+		// parse optional attributes
+		std::string attr;
+		while (std::getline(ss, attr, ';')) {
+			std::stringstream attrSS(attr);
+			std::string key, value;
+			if (std::getline(attrSS, key, '=')) {
+				if (std::getline(attrSS, value)) {
+					if (key.find("width") != std::string::npos) {
+						plc.width = std::stof(value);
+					}
+					else if (key.find("color") != std::string::npos) {
+						int r, g, b;
+						if (sscanf_s(value.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
+							plc.color = Color(r, g, b, 255);
+						}
+					}
+				}
+			}
+		}
 
         for (size_t i = 1; i < ids.size(); ++i) {
             int idA = ids[i - 1];
@@ -50,15 +70,13 @@ void TextPathParser::parse(Manager& manager,
 
             link.addGroup(Manager::groupPathLinks_0);
 
-            pathLinker.GetComponent<PathLinkerComponent>().addLink(&link);
+			addLinkFunc(link);
+            
+			pathLinker.GetComponent<PathLinkerComponent>().addLink(&link);
             pathLinker.addGroup(Manager::groupPathLinksHolder);
 
             linkEntities.push_back(&link);
         }
-    }
-
-    for (int i = 0; i < linkEntities.size(); i++) {
-        addLinkFunc(*linkEntities[i]);
     }
 
     for (auto& link : manager.getGroup<LinkEntity>(Manager::groupPathLinks_0)) {
@@ -66,10 +84,4 @@ void TextPathParser::parse(Manager& manager,
     }
     manager.updateInnerPathLinks = true;
 
-    //for (auto& link : manager.getGroup<LinkEntity>(Manager::groupPathLinks_1)) {
-    //    manager.grid->addLink(link, manager.grid->getGridLevel());
-    //}
-    //for (auto& link : manager.getGroup<LinkEntity>(Manager::groupPathLinks_2)) {
-    //    manager.grid->addLink(link, manager.grid->getGridLevel());
-    //}
 }

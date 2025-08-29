@@ -181,9 +181,8 @@ void LineRenderer::drawCircle(const glm::vec2& center, const Color& color, float
 }
 
 
-void LineRenderer::renderBatch(float lineWidth )
+void LineRenderer::renderBatch()
 {
-	glLineWidth(lineWidth);
 	glBindVertexArray(_vao);
 
 	for (int i = 0; i < _renderBatches.size(); i++) {
@@ -223,6 +222,14 @@ void LineRenderer::createRenderBatches() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
+void LineRenderer::createInstancesVBO() {
+	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
+
+	glEnableVertexAttribArray(1); // instance width
+	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(LineInstanceData), (void*)offsetof(LineInstanceData, width));
+	glVertexAttribDivisor(1, 1);
+}
+
 void LineRenderer::createVertexArray() {
 
 	//Set up buffers
@@ -239,6 +246,8 @@ void LineRenderer::createVertexArray() {
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, position));
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ColorVertex), (void*)offsetof(ColorVertex, color));
+
+	//createInstancesVBO();
 
 	glBindVertexArray(0); //! the buffers are bound withing the context of vao so when that is
 	//! unbinded all the other vbos are also unbinded

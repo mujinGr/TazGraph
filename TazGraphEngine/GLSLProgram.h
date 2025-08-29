@@ -281,6 +281,10 @@ struct TextureInstanceData : InstanceData {
 	UV uv = glm::vec2(0.0f);
 };
 
+struct LineInstanceData {
+	float width = 10.0f;
+};
+
 struct BaseRenderer {
 	size_t meshIndices = 0;
 	

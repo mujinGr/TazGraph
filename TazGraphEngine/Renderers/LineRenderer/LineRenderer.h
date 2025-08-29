@@ -175,7 +175,7 @@ void main() {
 	void drawCircle(const glm::vec2& center, const Color& color, float radius);
 
 	void initBatchSize();
-	void renderBatch(float lineWidth);
+	void renderBatch();
 	
 	void dispose();
 
@@ -187,7 +187,10 @@ void main() {
 
 private:
 	void createRenderBatches();
+	void createInstancesVBO();
 	void createVertexArray();
+
+	GLuint _vboInstances;
 
 	GLuint _vbo = 0, _vao = 0, _ibo = 0; //! ibo is what is going to store the integers for each 
 

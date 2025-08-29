@@ -202,7 +202,7 @@ void Graph::draw()
 
 
 		_LineRenderer.end();
-		_LineRenderer.renderBatch(main_camera2D->getScale() * 10.0f * (manager->grid->getGridLevel() + 1));
+		_LineRenderer.renderBatch();
 		glsl_lineColor.unuse();
 
 	}
@@ -287,7 +287,7 @@ void Graph::draw()
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
 	_LineRenderer.end();
-	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
+	_LineRenderer.renderBatch();
 	glsl_lineColor.unuse();
 
 	_resourceManager.setupShader(glsl_texture, *main_camera2D);
@@ -342,8 +342,11 @@ void Graph::draw()
 	pLocation = glsl_lineColor.getUniformLocation("lineWidth");
 	glUniform1f(pLocation, 5.0f);
 
+	pLocation = glsl_lineColor.getUniformLocation("viewportSize");
+	glUniform2f(pLocation, _window->getScreenWidth(), _window->getScreenHeight());
+
 	_LineRenderer.end();
-	_LineRenderer.renderBatch(main_camera2D->getScale() * 5.0f);
+	_LineRenderer.renderBatch();
 	glsl_lineColor.unuse();
 
 	_resourceManager.setupShader(glsl_color, *main_camera2D);
@@ -444,7 +447,7 @@ void Graph::draw()
 	glUniform1f(pLocation, 5.0f);
 
 	_LineRenderer.end();
-	_LineRenderer.renderBatch(main_camera2D->getCameraRect().x / main_camera2D->getCameraRect().y);
+	_LineRenderer.renderBatch();
 	glsl_lineColor.unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
