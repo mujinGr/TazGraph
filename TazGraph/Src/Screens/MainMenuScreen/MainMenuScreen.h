@@ -20,9 +20,10 @@
 
 #include "AppScene/ScreenIndices.h"
 
-#include "../../EditorIMGUI/EditorIMGUI.h"
+#include <ImGuiInterface/ImGuiInterface.h>
 
-class AssetManager;
+#include "../../EditorIMGUI/Components/MainMenuPanel/MainMenuPanel.h"
+#include "../../AssetManager/AssetManager.h"
 
 class MainMenuScreen : public IScene {
 public:
@@ -46,7 +47,8 @@ public:
     virtual void draw() override;
 
     virtual void BeginRender() override;
-    virtual void updateUI() override;
+    virtual void updateUI(float deltaTime) override;
+    virtual void drawUI() override;
     virtual void EndRender() override;
 
 
@@ -55,12 +57,9 @@ public:
 private:
     float _backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 
-    AssetManager* _assetsManager;
-
     void checkInput();
     bool onStartSimulator();
     bool onResumeSimulator();
-    bool onLoadSimulator();
     void onExitSimulator();
 
     TazGraphEngine::Window* _window;
@@ -72,5 +71,5 @@ private:
     int _nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
     int _prevSceneIndex = SCENE_INDEX_GRAPHPLAY;
 
-    EditorIMGUI _editorImgui;
+    MainMenuPanel _mainMenuPanel;
 };

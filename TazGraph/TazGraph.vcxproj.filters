@@ -33,13 +33,7 @@
     <ClCompile Include="Src\App\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\EditorIMGUI\EditorIMGUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\EditorIMGUI\CustomFunctions\CustomFunctions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\EditorIMGUI\EditorLayoutUtils.cpp">
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Map\Parsers\PythonMapParser.cpp">
@@ -54,10 +48,10 @@
     <ClCompile Include="Src\Map\Parsers\DOTMapParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\EditorIMGUI\Minimap\Minimap.cpp">
+    <ClCompile Include="Src\EditorIMGUI\Components\Minimap\Minimap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\EditorIMGUI\OrientationBox\OrientationBox.cpp">
+    <ClCompile Include="Src\EditorIMGUI\Components\OrientationBox\OrientationBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Map\PathParsers\TextPathParser.cpp">
@@ -73,6 +67,45 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Screens\GraphScene\GraphInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphLeftPanel\GraphLeftPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\GraphRightPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\ViewportPanel\ViewportPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphTopBar\GraphTopBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\MainMenuPanel\MainMenuPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\MenuDropdown.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\LoadingPanel\LoadingPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\LoadingUI\LoadingUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\NewMapUI\NewMapUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\SavingUI\SavingUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\SceneControl\SceneControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\EntityComponentsControl\EntityComponentsControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\HoverEntityPanel\HoverEntityPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,13 +131,7 @@
     <ClInclude Include="Src\App\App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\EditorIMGUI\EditorIMGUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\EditorIMGUI\CustomFunctions\CustomFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\EditorIMGUI\EditorLayoutUtils.h">
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Map\IMapParser.h">
@@ -122,13 +149,61 @@
     <ClInclude Include="Src\Map\Parsers\DOTMapParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\EditorIMGUI\Minimap\Minimap.h">
+    <ClInclude Include="Src\EditorIMGUI\Components\Minimap\Minimap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\EditorIMGUI\OrientationBox\OrientationBox.h">
+    <ClInclude Include="Src\EditorIMGUI\Components\OrientationBox\OrientationBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Map\PathParsers\TextPathParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphLeftPanel\GraphLeftPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\GraphRightPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\ViewportPanel\ViewportPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphTopBar\GraphTopBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\MainMenuPanel\MainMenuPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\SliderRotateZ.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\UIElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\FPSCounter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\MenuDropdown.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\LoadingPanel\LoadingPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\LoadingUI\LoadingUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\NewMapUI\NewMapUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\SavingUI\SavingUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\SceneControl\SceneControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\EntityComponentsControl\EntityComponentsControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\HoverEntityPanel\HoverEntityPanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

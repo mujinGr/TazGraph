@@ -1,15 +1,82 @@
 #include "./Graph.h"
-#include "../../AssetManager/AssetManager.h"
 #include <AppScene/AppInterface.h>
 
 float nodeRadius = 1.0f;
 
-void Graph::updateUI() {
+void Graph::updateUI(float deltaTime) {
+	
+	_menuDropdown.setConfig({});
+	_menuDropdown.update(deltaTime);
+	
+	_fpsCounter.update(deltaTime);
+
+	_topBar.setConfig(
+		{
+		.c_fpsLimiter = &getApp()->getFPSLimiter(),
+		.c_graphNames = &managers,
+		.c_currentActive = &managerName,
+		.c_manager = manager,
+		}
+		);
+	_topBar.update(deltaTime);
+
+	_graphLeftPanel.setConfig({
+	.renderDebug = &_renderDebug,
+	.sceneMouseCoords = _sceneMousePosition,
+	.mouseCoords = _app->_inputManager.getMouseCoords(),
+	.manager = manager
+		});
+	_graphLeftPanel.update(deltaTime);
+	
+	_viewportPanel.setConfig({
+	.c_fb = &_framebuffer,
+	.c_minimap_fb = &_minimapFramebuffer,
+	.c_storedWindowPos = &_windowPos,
+	.c_storedWindowSize = &_windowSize
+		});
+	_viewportPanel.update(deltaTime);
+	
+	_graphRightPanel.setConfig({
+	.c_manager = manager,
+	.c_nodeRadius = &nodeRadius,
+	.c_selectedEntities = _selectedEntities
+		});
+	_graphRightPanel.update(deltaTime);
+	
+	_sceneControl.setConfig(
+		{
+			.c_mouseCoords = _savedMainViewportMousePosition,
+			.c_manager = manager
+		}
+	);
+	_sceneControl.update(deltaTime);
+
+	_entityComponentController.setConfig(
+		{
+		.mousePos = _savedMainViewportMousePosition, 
+		.displayedEntity = _displayedEntity,
+		.manager = manager
+		}
+	);
+	_entityComponentController.update(deltaTime);
+
+	_hoverEntityPanel.setConfig
+	({
+		.mousePos = _app->_inputManager.getMouseCoords(),
+		.hoveredEntity = _onHoverEntity,
+		.manager = manager
+		});
+	_hoverEntityPanel.update(deltaTime);
+}
+
+void Graph::drawUI() {
+	//todo do it like: graphEditorLayer.update(); graphEditorLayer.OnIMGUIRender();
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGui::SetNextWindowPos(viewport->Pos);
 	ImGui::SetNextWindowSize(viewport->Size);
 	ImGui::Begin("Main Window", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus);
-	_editorImgui.MenuBar();
+	
+	_menuDropdown.OnImGuiRender();
 
 	ImGui::Columns(3, "mycolumns");
 
@@ -26,66 +93,88 @@ void Graph::updateUI() {
 		initializedUIColumns = true; // Prevents reapplying widths
 	}
 
-	_editorImgui.FPSCounter(getApp()->getFPSLimiter());
+	_fpsCounter.setLimiter(getApp()->getFPSLimiter());
+
+	_fpsCounter.OnImGuiRender();
+
 	ImGui::BeginChild("Tab 1");
 
-	_editorImgui.LeftColumnUIElement(_renderDebug, _clusterLayout, _sceneMousePosition, _app->_inputManager.getMouseCoords(), *manager, _backgroundColor, CELL_SIZE);
+	_graphLeftPanel.OnImGuiRender();
 
 	ImGui::EndChild();
 
 	ImGui::NextColumn();
 
-	std::vector<std::string> openTabs;
-	for (const auto& [name, _] : managers) {
-		openTabs.push_back(name);
-	}
+	//std::vector<std::string> openTabs;
+	//for (const auto& [name, _] : managers) {
+	//	openTabs.push_back(name);
+	//}
 
 	std::string activeManagerKey = managerName;
 
-	std::string selectedTab = _editorImgui.SceneTabs(openTabs, activeManagerKey);
-	if (selectedTab != managerName) {
-		setManager(selectedTab);
+
+	_topBar.OnImGuiRender();
+
+	std::string closedTab = _topBar.getTabToClose();
+	if (!closedTab.empty()) {
+		auto managerIt = managers.find(closedTab);
+		if (managerIt != managers.end()) {
+			managers.erase(managerIt);
+
+			if (closedTab == activeManagerKey) {
+				if (!managerName.empty() &&
+					managers.find(managerName) != managers.end()) {
+					setManager(managerName);
+				}
+				else if (!managers.empty()) {
+					setManager(managers.begin()->first);
+				}
+				else {
+					activeManagerKey = "";
+				}
+			}
+		}
+	}
+	else if (activeManagerKey != managerName && !managerName.empty()) {
+		// Normal tab switching (no closure)
+		auto managerIt = managers.find(managerName);
+		if (managerIt != managers.end()) {
+			setManager(managerName);
+		}
 	}
 
-	_editorImgui.updateIsMouseInSecondColumn();
 
-	_editorImgui.SceneViewport(
-		getApp()->getFPSLimiter(),
-		*manager,
-		_framebuffer,
-		_minimapFramebuffer,
-		_windowPos, _windowSize);
+	_viewportPanel.OnImGuiRender();
 
 	ImGui::NextColumn();
 	ImGui::BeginChild("Tab 2");
 
 
-	_editorImgui.RightColumnUIElement(*manager, &nodeRadius);
-
-
+	_graphRightPanel.OnImGuiRender();
+	
 	ImGui::EndChild();
 
 	ImGui::End();
 
-
-	_editorImgui.scriptResultsVisualization(*manager, _selectedEntities);
-
-	if (_editorImgui.isSaving()) {
-		_editorImgui.SavingUI(map);
+	if (DataManager::getInstance().isSaving()) {
+		_menuDropdown.savingUI.setConfig({
+			.c_map = map
+			});
+		_menuDropdown.savingUI.OnImGuiRender();
 	}
-	if (_editorImgui.isStartingNew()) {
-		_editorImgui.NewMapUI();
+	if (DataManager::getInstance().isStartingNew()) {
+		_menuDropdown.newMapUI.OnImGuiRender();
 
-		if (!_editorImgui.isStartingNew()) {
+		if (!DataManager::getInstance().isStartingNew()) {
 			std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 			float spacing = 120.0f; // Space between nodes
 
-			float totalWidth = (_editorImgui.newNodesCount - 1) * spacing;
+			float totalWidth = (_menuDropdown.newMapUI.newNodesCount - 1) * spacing;
 			float startX = -totalWidth * 0.5f;
 			float y = 0.0f;
 
-			for (int i = 0; i < _editorImgui.newNodesCount; ++i) {
+			for (int i = 0; i < _menuDropdown.newMapUI.newNodesCount; ++i) {
 				auto& node = manager->addEntity<Node>();
 				glm::vec2 position = glm::vec2(startX + i * spacing, y);
 				node.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
@@ -96,7 +185,7 @@ void Graph::updateUI() {
 
 				manager->grid->addNode(&node, manager->grid->getGridLevel());
 			}
-			for (int i = 0; i < _editorImgui.newLinksCount; ++i) {
+			for (int i = 0; i < _menuDropdown.newMapUI.newLinksCount; ++i) {
 				auto& link = manager->addEntity<Link>(0, i + 1);
 				link.addComponent<Line_w_Color>();
 
@@ -114,14 +203,17 @@ void Graph::updateUI() {
 			manager->aboutTo_updateActiveEntities();
 		}
 	}
-	if (_editorImgui.isLoading()) {
-		char* loadMapPath = _editorImgui.LoadingUI();
-		if (!_editorImgui.isLoading()) {
+	if (DataManager::getInstance().isLoading())
+	{
+		_menuDropdown.loadingUI.setConfig({});
+		_menuDropdown.loadingUI.OnImGuiRender();
+		char* loadMapPath = DataManager::getInstance().data.input;
+		if (strlen(loadMapPath) && !DataManager::getInstance().isLoading()) {
 
 			if (setManager(std::string(loadMapPath)))
 			{
 				auto& world_map(manager->addEntityNoId<Empty>());
-				_assetsManager->CreateWorldMap(world_map);
+				AssetManager::CreateWorldMap(world_map);
 
 				map->loadMap(
 					loadMapPath,
@@ -132,10 +224,10 @@ void Graph::updateUI() {
 			}
 		}
 	}
-	if (_editorImgui.isLoadingPath()) {
-		_editorImgui.setPathLoading(false);
+	if (DataManager::getInstance().isLoadingPath()) {
+		DataManager::getInstance().setPathLoading(false);
 
-		std::string loadPathName = _editorImgui.getPathLoading();
+		std::string loadPathName = DataManager::getInstance().getPathLoading();
 
 		map->loadPaths(loadPathName.c_str(),
 			std::bind(&Map::AddDefaultNode, map, std::placeholders::_1, std::placeholders::_2),
@@ -146,21 +238,21 @@ void Graph::updateUI() {
 		main_camera2D->makeCameraDirty();
 		manager->aboutTo_updateActiveEntities();
 	}
-	if (_editorImgui.isGoingBack()) {
+	if (DataManager::getInstance().isGoingBack()) {
 		_currentState = SceneState::CHANGE_PREVIOUS;
-		_editorImgui.SetGoingBack(false);
+		DataManager::getInstance().SetGoingBack(false);
 	}
 
 
 	//glm::vec2 worldToVieport
 	if (manager) {
-		_editorImgui.ShowEntityComponents(_savedMainViewportMousePosition, _displayedEntity, *manager);
-		_editorImgui.showHoveredEntity(*manager, _app->_inputManager.getMouseCoords(), _onHoverEntity);
+		_entityComponentController.OnImGuiRender();
+		_hoverEntityPanel.OnImGuiRender();
 	}
 
-
 	if (manager && _sceneManagerActive) {
-		_editorImgui.ShowSceneControl(_savedMainViewportMousePosition, *manager);
+
+		_sceneControl.OnImGuiRender();
 	}
 	// this is going to be shown when right click on scene and no displayEntity shows
 

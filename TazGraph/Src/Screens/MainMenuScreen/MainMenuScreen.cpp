@@ -4,7 +4,6 @@
 #include "GECS/Components.h"
 #include "../../GECS/ScriptComponents.h"
 #include "Camera2.5D/CameraManager.h"
-#include "../../AssetManager/AssetManager.h"
 #include "AppScene/AppInterface.h"
 
 
@@ -46,8 +45,6 @@ void MainMenuScreen::onEntry()
 
 	_resourceManager.addGLSLProgram("texture");
 	_resourceManager.addGLSLProgram("color");
-
-	_assetsManager = new AssetManager(manager, _app->_inputManager, _app->_window);
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
@@ -95,14 +92,14 @@ void MainMenuScreen::onEntry()
 	}
 
 	// Texture Loads
-	TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/block_networkMiserable.png");
+	TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/menuBg.png");
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 
 	if (!manager->grid)
 	{
 		manager->grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
 
-		Mainmenubackground.addComponent<MainMenuBackground>();
+		Mainmenubackground.addComponent<MainMenuBackground>(_window);
 		Mainmenubackground.addGroup(Manager::groupBackgroundLayer);
 		manager->grid->addEmpty(&Mainmenubackground, manager->grid->getGridLevel());
 	}
@@ -129,7 +126,7 @@ void MainMenuScreen::update(float deltaTime)
 
 void MainMenuScreen::renderBatch(const std::vector<EmptyEntity*>& entities) {
 	for (const auto& entity : entities) {
-		entity->GetComponent<SpriteComponent>().draw(0, _PlaneModelRenderer, *Graph::_window);
+		entity->GetComponent<SpriteComponent>().draw(0, _PlaneModelRenderer, *_window);
 	}
 
 }
@@ -193,19 +190,28 @@ void MainMenuScreen::checkInput() {
 }
 
 void MainMenuScreen::BeginRender() {
-	_editorImgui.BeginRender();
+	ImGuiInterface::BeginRender();
 }
 
-void MainMenuScreen::updateUI() {
-	_editorImgui.MainMenuUI(
-		[this]() { MainMenuScreen::onStartSimulator(); },
-		[this]() { MainMenuScreen::onLoadSimulator(); },
-		[this]() { MainMenuScreen::onExitSimulator(); }
-		);
+void MainMenuScreen::updateUI(float deltaTime) {
+	_mainMenuPanel.update(deltaTime);
+}
 
-	if (_editorImgui.isLoading()) {
-		char* loadMapPath = _editorImgui.LoadingUI();
-		if (!_editorImgui.isLoading() && !std::string(loadMapPath).empty()) {
+void MainMenuScreen::drawUI() {
+	_mainMenuPanel.setConfig({
+		   .onStartClicked = [this]() { MainMenuScreen::onStartSimulator(); },
+		   .onExitClicked = [this]() { MainMenuScreen::onExitSimulator(); }
+		});
+
+
+	_mainMenuPanel.OnImGuiRender();
+
+	if (DataManager::getInstance().isLoading())
+	{
+		_mainMenuPanel.loadingUI.setConfig({});
+		_mainMenuPanel.loadingUI.OnImGuiRender();
+		char* loadMapPath = DataManager::getInstance().data.input;
+		if (strlen(loadMapPath) && !DataManager::getInstance().isLoading()) {
 			DataManager::getInstance().mapToLoad = loadMapPath;
 			_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 			_currentState = SceneState::CHANGE_NEXT;
@@ -214,7 +220,7 @@ void MainMenuScreen::updateUI() {
 }
 
 void MainMenuScreen::EndRender() {
-	_editorImgui.EndRender();
+	ImGuiInterface::EndRender();
 }
 
 bool MainMenuScreen::onStartSimulator() {
@@ -226,11 +232,6 @@ bool MainMenuScreen::onStartSimulator() {
 bool MainMenuScreen::onResumeSimulator() {
 	_prevSceneIndex = SCENE_INDEX_GRAPHPLAY;
 	_currentState = SceneState::CHANGE_PREVIOUS;
-	return true;
-}
-
-bool MainMenuScreen::onLoadSimulator() {
-	_editorImgui.setLoading(true);
 	return true;
 }
 

@@ -22,13 +22,22 @@
 
 #include "AppScene/ScreenIndices.h"
 
-#include "../../EditorIMGUI/EditorIMGUI.h"
+#include <ImGuiInterface/ImGuiInterface.h>
 
 #include <chrono>
 #include <thread>
+#include "../../EditorIMGUI/Components/MenuDropdown/MenuDropdown.h"
+#include "../../EditorIMGUI/Components/FPSCounter.h"
+#include "../../EditorIMGUI/Components/GraphTopBar/GraphTopBar.h"
+#include "../../EditorIMGUI/Components/GraphLeftPanel/GraphLeftPanel.h"
+#include "../../EditorIMGUI/Components/ViewportPanel/ViewportPanel.h"
+#include "../../EditorIMGUI/Components/GraphRightPanel/GraphRightPanel.h"
+#include "../../AssetManager/AssetManager.h"
+#include "../../EditorIMGUI/Components/SceneControl/SceneControl.h"
+#include "../../EditorIMGUI/Components/EntityComponentsControl/EntityComponentsControl.h"
+#include "../../EditorIMGUI/Components/HoverEntityPanel/HoverEntityPanel.h"
 
 class Map;
-class AssetManager;
 class SceneManager;
 class ColliderComponent;
 class TransformComponent;
@@ -62,7 +71,8 @@ public:
 	virtual void draw() override;
 
 	virtual void BeginRender() override;
-	virtual void updateUI() override;
+	virtual void updateUI(float deltaTime) override;
+	virtual void drawUI() override;
 	virtual void EndRender() override;
 
 
@@ -104,8 +114,6 @@ private:
 	LineRenderer _LineRenderer;
 	LightRenderer _LightRenderer;
 
-	AssetManager* _assetsManager = nullptr;
-
 	ResourceManager _resourceManager;
 
 	std::vector<std::pair<Entity*, glm::vec3>> _selectedEntities;
@@ -119,9 +127,15 @@ private:
 	const float SCALE_SPEED = 0.1f;
 	bool _firstLoop = true;
 
-	EditorIMGUI _editorImgui;
-
-	bool _showSaveWindow = false;
+	MenuDropdownPanel _menuDropdown;
+	FPSCounter _fpsCounter;
+	GraphTopBar _topBar;
+	GraphLeftPanel _graphLeftPanel;
+	ViewportPanel _viewportPanel;
+	GraphRightPanel _graphRightPanel;
+	SceneControlPanel _sceneControl;
+	EntityComponentsControlPanel _entityComponentController;
+	HoverEntityPanel _hoverEntityPanel;
 
 	Framebuffer _framebuffer;
 	Framebuffer _minimapFramebuffer;

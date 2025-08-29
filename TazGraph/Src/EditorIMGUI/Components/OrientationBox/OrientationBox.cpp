@@ -1,14 +1,14 @@
 #include "./OrientationBox.h"
 
-void OrientationBox::Create(ImVec2 viewportPos, ImVec2 viewportSize) {
+void OrientationBox::OnImGuiRender() {
 
     const float orientationBoxSize = 200.0f; // Size of the minimap
     const float orientationBoxPadding = 10.0f;
 
     // Position minimap in top-right corner
     ImVec2 orientationBoxPos = ImVec2(
-        viewportPos.x + viewportSize.x - orientationBoxSize - orientationBoxPadding,
-        viewportPos.y + viewportSize.y - orientationBoxSize - orientationBoxPadding
+        config.viewportPos.x + config.viewportSize.x - orientationBoxSize - orientationBoxPadding,
+        config.viewportPos.y + config.viewportSize.y - orientationBoxSize - orientationBoxPadding
     );
 
     // Set ImGuizmo for minimap
@@ -84,4 +84,9 @@ void OrientationBox::UpdateCameraFromMatrix() {
     // Update camera
     main_camera2D->setPosition(newPosition);
     main_camera2D->setAimPos(glm::vec3(0.0f, 0.0f, 0.0f));
+}
+
+void OrientationBox::setConfig(const OrientationBoxConfig& cfg)
+{
+    config = cfg;
 }

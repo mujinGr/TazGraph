@@ -132,7 +132,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(SolutionDir)vendors/JSONParser_Mujin/include;$(IncludePath)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,7 +150,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -236,16 +236,12 @@
     <ClInclude Include="GECS\Animators\AnimatorManager.h" />
     <ClInclude Include="GECS\Animators\MovingAnimation.h" />
     <ClInclude Include="GECS\Animators\MovingAnimatorComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Util\ButtonComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Util\ColliderComponent.h" />
     <ClInclude Include="GECS\Components.h" />
-    <ClInclude Include="GECS\Components\Empty\Util\KeyboardControllerComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Util\UILabel.h" />
     <ClInclude Include="GECS\Core\GECS.h" />
     <ClInclude Include="GECS\Core\GECSManager.h" />
     <ClInclude Include="GECS\Animators\FlashAnimation.h" />
     <ClInclude Include="GECS\Animators\FlashAnimatorComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Util\GridComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\Rectangle_w_Color.h" />
     <ClInclude Include="GECS\Components\Empty\Util\RigidBodyComponent.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\SpriteComponent.h" />

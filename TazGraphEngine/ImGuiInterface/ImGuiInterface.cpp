@@ -1,20 +1,5 @@
 #include "ImGuiInterface.h"
 
-
-ImGuiInterface::ImGuiInterface() {
-}
-
-ImGuiInterface::~ImGuiInterface() {
-}
-
-//void ImGuiInterface::SetupImGui(SDL_Window sdlWindow, SDL_GLContext glContext) {
-//    ImGui::CreateContext();
-//    ImPlot::CreateContext();
-//    // Setup Platform/Renderer bindings
-//    ImGui_ImplSDL2_InitForOpenGL(sdlWindow, &glContext);
-//    ImGui_ImplOpenGL3_Init("#version 330"); // Or whatever GLSL version suits your needs
-//}
-
 void ImGuiInterface::BeginRender() {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
@@ -35,4 +20,23 @@ void ImGuiInterface::RenderUI() {
 void ImGuiInterface::EndRender() {
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+bool ImGuiInterface::isMouseOnWidget(const std::string& widgetName)
+{
+	ImGuiContext& g = *ImGui::GetCurrentContext(); // Get ImGui context
+
+	for (ImGuiWindow* window : g.Windows) {
+		if (window->Name == widgetName && !(window->Hidden || (window->Active == false))) {
+			ImVec2 widgetPos = window->Pos;
+			ImVec2 widgetSize = window->Size;
+
+			ImVec2 mousePos = ImGui::GetMousePos();
+
+			return (mousePos.x >= widgetPos.x && mousePos.x <= (widgetPos.x + widgetSize.x) &&
+				mousePos.y >= widgetPos.y && mousePos.y <= (widgetPos.y + widgetSize.y));
+		}
+	}
+
+	return false;
 }

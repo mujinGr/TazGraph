@@ -134,7 +134,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(SolutionDir)vendors/JSONParser_Mujin/include;$(IncludePath)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,7 +151,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -165,11 +165,22 @@
   <ItemGroup>
     <ClCompile Include="Src\App\App.cpp" />
     <ClCompile Include="Src\AssetManager\AssetManager.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\CustomFunctions\CustomFunctions.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\EditorIMGUI.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\EditorLayoutUtils.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\Minimap\Minimap.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\OrientationBox\OrientationBox.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\EntityComponentsControl\EntityComponentsControl.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\HoverEntityPanel\HoverEntityPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\LoadingPanel\LoadingPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\MenuDropdown.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\LoadingUI\LoadingUI.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\NewMapUI\NewMapUI.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\SavingUI\SavingUI.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\SceneControl\SceneControl.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphLeftPanel\GraphLeftPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\GraphRightPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphTopBar\GraphTopBar.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MainMenuPanel\MainMenuPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\ViewportPanel\ViewportPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\Minimap\Minimap.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\OrientationBox\OrientationBox.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\Graph.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\GraphDraw.cpp" />
@@ -187,11 +198,25 @@
   <ItemGroup>
     <ClInclude Include="Src\App\App.h" />
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
-    <ClInclude Include="Src\EditorIMGUI\CustomFunctions\CustomFunctions.h" />
-    <ClInclude Include="Src\EditorIMGUI\EditorIMGUI.h" />
-    <ClInclude Include="Src\EditorIMGUI\EditorLayoutUtils.h" />
-    <ClInclude Include="Src\EditorIMGUI\Minimap\Minimap.h" />
-    <ClInclude Include="Src\EditorIMGUI\OrientationBox\OrientationBox.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\EntityComponentsControl\EntityComponentsControl.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\FPSCounter.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\HoverEntityPanel\HoverEntityPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\LoadingPanel\LoadingPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\MenuDropdown.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\LoadingUI\LoadingUI.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\NewMapUI\NewMapUI.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\SavingUI\SavingUI.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\SceneControl\SceneControl.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphLeftPanel\GraphLeftPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\GraphRightPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphTopBar\GraphTopBar.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MainMenuPanel\MainMenuPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\ViewportPanel\ViewportPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\UIElement.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\Minimap\Minimap.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\OrientationBox\OrientationBox.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\SliderRotateZ.h" />
     <ClInclude Include="Src\GECS\Scripts\MainMenuBackground.h" />
     <ClInclude Include="Src\GECS\ScriptComponents.h" />
     <ClInclude Include="Src\Screens\GraphScene\Graph.h" />

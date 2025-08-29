@@ -1,0 +1,108 @@
+#include "GraphTopBar.h"
+
+void GraphTopBar::update(float deltaTime) {
+	if (interpolation_running) {
+		interpolation += interpolation_speed * deltaTime / config.c_fpsLimiter->fps;
+		if (interpolation >= 1.0f) {
+			interpolation = 0.0f;
+		}
+	}
+
+	//for all nodes and for all links, get interpolation and accordingly modify the animators?
+	if (interpolation_running) {
+
+		for (NodeEntity* node_entity : config.c_manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
+			if (node_entity->hasComponent<Rectangle_w_Color>()) {
+				node_entity->GetComponent<Rectangle_w_Color>().flash_animation.interpolation_a = interpolation;
+				node_entity->GetComponent<Rectangle_w_Color>().setFlashFrame();
+			}
+		}
+
+		for (LinkEntity* link_entity : config.c_manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
+			if (link_entity->hasComponent<Line_w_Color>()) {
+				link_entity->GetComponent<Line_w_Color>().flash_animation.interpolation_a = interpolation;
+				link_entity->GetComponent<Line_w_Color>().setFlashFrame();
+			}
+		}
+
+	}
+}
+
+void GraphTopBar::OnImGuiRender()
+{
+	std::vector<std::string> openTabs;
+	for (const auto& [name, manager] : *config.c_graphNames) {
+		openTabs.push_back(name);
+	}
+
+	float childHeight = 30.0f;
+	tabToClose = "";
+
+	ImGui::BeginChild("Scene Tabs", ImVec2(0, childHeight), true, ImGuiWindowFlags_NoScrollbar);
+
+
+	if (ImGui::BeginTabBar("SceneTabs", ImGuiTabBarFlags_AutoSelectNewTabs)) {
+		for (size_t i = 0; i < openTabs.size(); ++i) {
+			std::string name = openTabs[i];
+
+			bool open = true;
+
+			if (ImGui::BeginTabItem(name.c_str(), &open, ImGuiTabItemFlags_None)) {
+				if (config.c_currentActive) {
+					*config.c_currentActive = name;
+				}
+				ImGui::EndTabItem();
+			}
+			if (!open) {
+				tabToClose = name;
+
+				// If we're closing the currently active tab, switch to another one
+				if (config.c_currentActive && config.c_currentActive->compare(name) == 0 && config.c_graphNames->size() > 1) {
+					// Find a different tab to make active
+					for (const std::string& tabName : openTabs) {
+						if (tabName != name) {
+							*config.c_currentActive = tabName;
+							break;
+						}
+					}
+				}
+				else if (config.c_currentActive && config.c_graphNames->size() == 1) {
+					// If this is the last tab, clear the current active
+					config.c_currentActive->clear();
+				}
+			}
+		}
+		ImGui::SameLine(ImGui::GetContentRegionAvail().x - 16);
+		if (ImGui::ImageButton("play", static_cast<ImTextureID>(static_cast<intptr_t>(TextureManager::getInstance().Get_GLTexture("play-button")->id)), ImVec2(16, 16))) {
+			interpolation_running = !interpolation_running;
+		}
+
+		ImGui::EndTabBar();
+	}
+	ImGui::EndChild();
+	ImGui::BeginChild("Interpolation Slider", ImVec2(0, 40), true);
+	{
+		ImGui::Text("Interpolation");
+		ImGui::SameLine();
+		ImGui::SliderFloat("##interp", &interpolation, 0.0f, 1.0f, "%.2f");
+
+		// Optional: Add tooltip
+		if (ImGui::IsItemHovered()) {
+			ImGui::BeginTooltip();
+			ImGui::Text("Control interpolation");
+			ImGui::EndTooltip();
+		}
+		ImGui::SameLine();
+		ImGui::Text("Speed");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(100.0f);
+		ImGui::SliderFloat("##interp_speed", &interpolation_speed, 0.01f, 1.0f, "%.2f");
+	}
+
+	ImGui::EndChild();
+}
+
+
+std::string GraphTopBar::getTabToClose() {
+	return tabToClose;
+}

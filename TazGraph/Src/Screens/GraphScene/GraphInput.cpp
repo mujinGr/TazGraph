@@ -58,7 +58,7 @@ std::vector<Cell*> Graph::traversedCellsFromRay(
 
 void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int activateMode) {
 
-	if (!_editorImgui.isMouseInSecondColumn) {
+	if (!_viewportPanel.isMouseInSecondColumn) {
 		return;
 	}
 
@@ -415,7 +415,7 @@ void Graph::checkInput() {
 		switch (evnt.type)
 		{
 		case SDL_MOUSEWHEEL:
-			if (!_editorImgui.isMouseInSecondColumn || _displayedEntity) {
+			if (!_viewportPanel.isMouseInSecondColumn || _displayedEntity) {
 				return;
 			}
 			if (evnt.wheel.y > 0)
@@ -657,7 +657,7 @@ void Graph::checkInput() {
 			}
 		}
 		case SDL_MOUSEBUTTONDOWN:
-			if (!_editorImgui.isMouseInSecondColumn) {
+			if (!_viewportPanel.isMouseInSecondColumn) {
 				return;
 			}
 			if ((_app->_inputManager.isKeyDown(SDLK_RCTRL) || _app->_inputManager.isKeyDown(SDLK_LCTRL)) &&
@@ -693,7 +693,7 @@ void Graph::checkInput() {
 
 				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_RIGHT);
 
-				if (!_displayedEntity && _editorImgui.isMouseInSecondColumn) {
+				if (!_displayedEntity && _viewportPanel.isMouseInSecondColumn) {
 					_sceneManagerActive = true;
 				}
 

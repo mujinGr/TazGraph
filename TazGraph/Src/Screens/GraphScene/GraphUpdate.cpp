@@ -1,5 +1,4 @@
 #include "Graph.h"
-#include "../../AssetManager/AssetManager.h"
 #include <AppScene/AppInterface.h>
 
 void Graph::update(float deltaTime) //game objects updating
@@ -134,69 +133,14 @@ void Graph::update(float deltaTime) //game objects updating
 
 	}
 
-	//! Group layout Change
-	if (_editorImgui.last_activeLayout < _editorImgui.activeLayout) {
-		_editorImgui.last_activeLayout += 1;
-
-		manager->grid->setGridLevel(static_cast<Grid::Level>(manager->grid->getGridLevel() + 1));
-
-		if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
-			_assetsManager->createGroupLayout(Grid::Level::Outer1);
-		}
-		else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
-			_assetsManager->createGroupLayout(Grid::Level::Outer2);
-		}
-	}
-
-	if (_editorImgui.last_activeLayout > _editorImgui.activeLayout) {
-		_editorImgui.last_activeLayout -= 1;
-
-		if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
-			_assetsManager->ungroupLayout(Grid::Level::Outer1);
-		}
-		else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
-			_assetsManager->ungroupLayout(Grid::Level::Outer2);
-		}
-
-		manager->grid->setGridLevel(static_cast<Grid::Level>(manager->grid->getGridLevel() - 1));
-
-
-	}
-
-
-	if (_editorImgui.interpolation_running) {
-		_editorImgui.interpolation += _editorImgui.interpolation_speed * deltaTime / _app->getFPSLimiter().fps;
-		if (_editorImgui.interpolation >= 1.0f) {
-			_editorImgui.interpolation = 0.0f;
-		}
-	}
-
-	//for all nodes and for all links, get interpolation and accordingly modify the animators?
-	if (_editorImgui.interpolation_running) {
-
-		for (NodeEntity* node_entity : manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
-			if (node_entity->hasComponent<Rectangle_w_Color>()) {
-				node_entity->GetComponent<Rectangle_w_Color>().flash_animation.interpolation_a = _editorImgui.interpolation;
-				node_entity->GetComponent<Rectangle_w_Color>().setFlashFrame();
-			}
-		}
-
-		for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
-			if (link_entity->hasComponent<Line_w_Color>()) {
-				link_entity->GetComponent<Line_w_Color>().flash_animation.interpolation_a = _editorImgui.interpolation;
-				link_entity->GetComponent<Line_w_Color>().setFlashFrame();
-			}
-		}
-
-	}
 
 	// check input manager if left mouse is clicked, if yes and the mouse is not on the widget then nullify displayedEntity
 	if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT))
 	{
-		if (!_editorImgui.isMouseOnWidget("Node Display") &&
-			!_editorImgui.isMouseOnWidget("Link Display") &&
-			!_editorImgui.isMouseOnWidget("Empty Display") &&
-			!_editorImgui.isMouseOnWidget("Scene Manager")) {
+		if (!ImGuiInterface::isMouseOnWidget("Node Display") &&
+			!ImGuiInterface::isMouseOnWidget("Link Display") &&
+			!ImGuiInterface::isMouseOnWidget("Empty Display") &&
+			!ImGuiInterface::isMouseOnWidget("Scene Manager")) {
 			_displayedEntity = nullptr;
 			_sceneManagerActive = false;
 		}

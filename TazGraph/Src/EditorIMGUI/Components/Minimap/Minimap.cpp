@@ -1,14 +1,14 @@
 #include "./Minimap.h"
 
-void Minimap::Create(uint32_t m_textureID, const BaseFPSLimiter& baseFPSLimiter, Manager& manager, ImVec2 viewportPos, ImVec2 viewportSize) {
+void Minimap::OnImGuiRender() {
 
     const float minimapSize = 200.0f; // Size of the minimap
     const float minimapPadding = 10.0f;
 
     // Position minimap in top-right corner
     ImVec2 minimapPos = ImVec2(
-        viewportPos.x + viewportSize.x - minimapSize - minimapPadding,
-        viewportPos.y + minimapPadding
+        config.viewportPos.x + config.viewportSize.x - minimapSize - minimapPadding,
+        config.viewportPos.y + minimapPadding
     );
 
     // Set ImGuizmo for minimap
@@ -18,7 +18,7 @@ void Minimap::Create(uint32_t m_textureID, const BaseFPSLimiter& baseFPSLimiter,
     // Draw minimap background
     ImDrawList* drawList = ImGui::GetWindowDrawList();
     drawList->AddImage(
-        reinterpret_cast<void*>(static_cast<uintptr_t>(m_textureID)),
+        reinterpret_cast<void*>(static_cast<uintptr_t>(config.textureID)),
         minimapPos,
         ImVec2(minimapPos.x + minimapSize, minimapPos.y + minimapSize),
         ImVec2(0, 1),   // UV top-left
@@ -153,3 +153,9 @@ void Minimap::DrawCameraIndicator(ImVec2 minimapPos, float minimapSize)
         );
     }
 }
+
+void Minimap::setConfig(const MinimapConfig& cfg)
+{
+    config = cfg;
+}
+

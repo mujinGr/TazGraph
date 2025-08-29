@@ -185,16 +185,10 @@
     <ClInclude Include="GECS\Components\Empty\Util\RigidBodyComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Util\GridComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GECS\Animators\FlashAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Animators\FlashAnimation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Util\ButtonComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Animators\AnimatorManager.h">
@@ -231,12 +225,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiInterface\ImGuiInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Util\KeyboardControllerComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Util\UILabel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleLogger.h">

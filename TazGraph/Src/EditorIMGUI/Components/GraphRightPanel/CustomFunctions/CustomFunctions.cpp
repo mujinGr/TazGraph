@@ -1,9 +1,7 @@
 #include "CustomFunctions.h"
 #include <unordered_set>
 
-void CustomFunctions::renderUI(Manager& manager, std::vector<std::pair<Entity*, glm::vec3>>& m_selectedEntities)
-{
-
+void CustomFunctions::OnImGuiRender() {
 	ImVec2 initialPos = ImVec2(10, 10); // Top-left corner
 	ImVec2 initialSize = ImVec2(400, 200); // Default size
 
@@ -17,7 +15,7 @@ void CustomFunctions::renderUI(Manager& manager, std::vector<std::pair<Entity*, 
 			default_renderUI();
 			break;
 		case 1:
-			CalculateDegree(manager, m_selectedEntities);
+			CalculateDegree();
 			break;
 		case 2:
 			CalculateSignals();
@@ -38,14 +36,14 @@ void CustomFunctions::default_renderUI()
 	ImGui::Text("No results to be shown");
 }
 
-void CustomFunctions::CalculateDegree(Manager& manager, std::vector<std::pair<Entity*, glm::vec3>>& m_selectedEntities)
+void CustomFunctions::CalculateDegree()
 {
 	std::vector<int> plotOutLinks(4, 0);
 	std::unordered_set<NodeEntity*> currentDepthNodes;
 	std::unordered_set<NodeEntity*> nextDepthNodes;
 
 	// Add selected entities (only nodes) as depth 0
-	for (auto& pair : m_selectedEntities) {
+	for (auto& pair : *selectedEntities) {
 		if (auto* node = dynamic_cast<NodeEntity*>(pair.first)) {
 			currentDepthNodes.insert(node);
 		}
@@ -102,10 +100,9 @@ void CustomFunctions::CalculateSignals()
 		ImPlot::PlotLine("Sine", x, y1, 1000);
 		ImPlot::PlotLine("Cosine", x, y2, 1000);
 
-		ImPlot::EndPlot();
 	}
 
-	ImGui::End();
+	ImPlot::EndPlot();
 }
 
 void CustomFunctions::CalculateHeatMap()
@@ -126,8 +123,9 @@ void CustomFunctions::CalculateHeatMap()
 
 		ImPlot::PlotHeatmap("Heatmap", values, 50, 50);
 
-		ImPlot::EndPlot();
 	}
+	ImPlot::EndPlot();
+
 }
 
 void CustomFunctions::DrawCandlestickChart()
@@ -176,8 +174,11 @@ void CustomFunctions::DrawCandlestickChart()
 			ImPlot::PlotLine("##body", barX, barY, 2);
 		}
 
-		ImPlot::EndPlot();
 	}
+	ImPlot::EndPlot();
 
-	ImGui::End();
+}
+
+void CustomFunctions::setSelectedEntities(std::vector < std::pair<Entity*, glm::vec3 >>& m_selectedEntities) {
+	selectedEntities = &m_selectedEntities;
 }
