@@ -32,26 +32,25 @@
 \DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ to\ =\ \textcolor{keyword}{nullptr};}
 \DoxyCodeLine{00029\ \};}
 \DoxyCodeLine{00030\ }
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classIMapParser}{IMapParser}}\ \{}
-\DoxyCodeLine{00033\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classIMapParser}{\string~IMapParser}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ readFile(std::string\ m\_fileName)\ =\ 0;}
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ parse(}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}\&\ manager,}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3)>\ addNodeFunc,}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&)>\ addLinkFunc)\ =\ 0;}
-\DoxyCodeLine{00042\ }
-\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ closeFile()\ =\ 0;}
+\DoxyCodeLine{00041\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classIMapParser}{IMapParser}}\ \{}
+\DoxyCodeLine{00042\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classIMapParser}{\string~IMapParser}}()\ =\ \textcolor{keywordflow}{default};}
 \DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{structThreader}{Threader}}*\ \_threader\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00047\ }
-\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ setThreader(\mbox{\hyperlink{structThreader}{Threader}}\&\ mthreader)\ \{}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \_threader\ =\ \&mthreader;}
-\DoxyCodeLine{00050\ \ \ \ \ \}}
-\DoxyCodeLine{00051\ \};}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ readFile(std::string\ m\_fileName)\ =\ 0;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ parse(}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}\&\ manager,}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3)>\ addNodeFunc,}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&)>\ addLinkFunc)\ =\ 0;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ closeFile()\ =\ 0;}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{structThreader}{Threader}}*\ \_threader\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ setThreader(\mbox{\hyperlink{structThreader}{Threader}}\&\ mthreader)\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \_threader\ =\ \&mthreader;}
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ \};}
 
 \end{DoxyCode}

@@ -136,8 +136,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a303f6e25f9820636fc62819ffa3b9c68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8921ec111c7cc274a30ab824941e566b" id="r_a8921ec111c7cc274a30ab824941e566b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainMenuScreen.html#a8921ec111c7cc274a30ab824941e566b">BeginRender</a> () override</td></tr>
 <tr class="separator:a8921ec111c7cc274a30ab824941e566b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67db9cc15c07e64ef5d3cc5bc7612422" id="r_a67db9cc15c07e64ef5d3cc5bc7612422"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainMenuScreen.html#a67db9cc15c07e64ef5d3cc5bc7612422">updateUI</a> () override</td></tr>
-<tr class="separator:a67db9cc15c07e64ef5d3cc5bc7612422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50d41a84199e54247a3662bc45773ca7" id="r_a50d41a84199e54247a3662bc45773ca7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainMenuScreen.html#a50d41a84199e54247a3662bc45773ca7">updateUI</a> (float deltaTime) override</td></tr>
+<tr class="separator:a50d41a84199e54247a3662bc45773ca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a0e2c1fa8c8bb240d290330524ca365" id="r_a8a0e2c1fa8c8bb240d290330524ca365"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainMenuScreen.html#a8a0e2c1fa8c8bb240d290330524ca365">drawUI</a> () override</td></tr>
+<tr class="separator:a8a0e2c1fa8c8bb240d290330524ca365"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7c3e7b3c118d30afde8f54635e4c61f" id="r_ae7c3e7b3c118d30afde8f54635e4c61f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainMenuScreen.html#ae7c3e7b3c118d30afde8f54635e4c61f">EndRender</a> () override</td></tr>
 <tr class="separator:ae7c3e7b3c118d30afde8f54635e4c61f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad35134f90fadf517991ee14c0be8cb4a" id="r_ad35134f90fadf517991ee14c0be8cb4a"><td class="memItemLeft" align="right" valign="top"><a id="ad35134f90fadf517991ee14c0be8cb4a" name="ad35134f90fadf517991ee14c0be8cb4a"></a>
@@ -186,9 +188,6 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>managerName</b
 <tr class="memitem:a0af89e086924505ff24eea86f967fb10 inherit pro_attribs_classIScene" id="r_a0af89e086924505ff24eea86f967fb10"><td class="memItemLeft" align="right" valign="top">
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>_renderDebug</b> = false</td></tr>
 <tr class="separator:a0af89e086924505ff24eea86f967fb10 inherit pro_attribs_classIScene"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b1c784d43db44edf365b655b79e91a5 inherit pro_attribs_classIScene" id="r_a1b1c784d43db44edf365b655b79e91a5"><td class="memItemLeft" align="right" valign="top">
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>_clusterLayout</b> = false</td></tr>
-<tr class="separator:a1b1c784d43db44edf365b655b79e91a5 inherit pro_attribs_classIScene"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a8921ec111c7cc274a30ab824941e566b" name="a8921ec111c7cc274a30ab824941e566b"></a>
@@ -283,6 +282,33 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>_clusterLayout</b> = 
       <table class="memname">
         <tr>
           <td class="memname">void MainMenuScreen::draw </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classIScene.html">IScene</a>.</p>
+
+</div>
+</div>
+<a id="a8a0e2c1fa8c8bb240d290330524ca365" name="a8a0e2c1fa8c8bb240d290330524ca365"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a0e2c1fa8c8bb240d290330524ca365">&#9670;&#160;</a></span>drawUI()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MainMenuScreen::drawUI </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -462,8 +488,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>_clusterLayout</b> = 
 
 </div>
 </div>
-<a id="a67db9cc15c07e64ef5d3cc5bc7612422" name="a67db9cc15c07e64ef5d3cc5bc7612422"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67db9cc15c07e64ef5d3cc5bc7612422">&#9670;&#160;</a></span>updateUI()</h2>
+<a id="a50d41a84199e54247a3662bc45773ca7" name="a50d41a84199e54247a3662bc45773ca7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50d41a84199e54247a3662bc45773ca7">&#9670;&#160;</a></span>updateUI()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -474,7 +500,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>_clusterLayout</b> = 
         <tr>
           <td class="memname">void MainMenuScreen::updateUI </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>deltaTime</em></td><td>)</td>
           <td></td>
         </tr>
       </table>

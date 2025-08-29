@@ -107,6 +107,14 @@ void Map::loadPaths(
 
 }
 
+/**
+ * @ingroup mapLoading
+ * @brief Adds a default node to the ECS.
+ *
+ * Used as a callback by parsers to attach TransformComponent,
+ * Rectangle_w_Color, and RectangleFlashAnimatorComponent.
+ */
+
 void Map::AddDefaultNode(Entity &node, glm::vec3 mPosition)
 {
 	static int colorOffset = 0;

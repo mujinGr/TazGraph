@@ -42,7 +42,9 @@ virtual void \mbox{\hyperlink{classMainMenuScreen_a303f6e25f9820636fc62819ffa3b9
 \item 
 virtual void \mbox{\hyperlink{classMainMenuScreen_a8921ec111c7cc274a30ab824941e566b}{Begin\+Render}} () override
 \item 
-virtual void \mbox{\hyperlink{classMainMenuScreen_a67db9cc15c07e64ef5d3cc5bc7612422}{update\+UI}} () override
+virtual void \mbox{\hyperlink{classMainMenuScreen_a50d41a84199e54247a3662bc45773ca7}{update\+UI}} (float delta\+Time) override
+\item 
+virtual void \mbox{\hyperlink{classMainMenuScreen_a8a0e2c1fa8c8bb240d290330524ca365}{draw\+UI}} () override
 \item 
 virtual void \mbox{\hyperlink{classMainMenuScreen_ae7c3e7b3c118d30afde8f54635e4c61f}{End\+Render}} () override
 \item 
@@ -81,8 +83,6 @@ std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classManager}{Manag
 std\+::string {\bfseries manager\+Name} = "{}"{}
 \item 
 bool {\bfseries \+\_\+render\+Debug} = false
-\item 
-bool {\bfseries \+\_\+cluster\+Layout} = false
 \end{DoxyCompactItemize}
 
 
@@ -122,6 +122,16 @@ Implements \mbox{\hyperlink{classIScene}{IScene}}.
 \index{draw@{draw}!MainMenuScreen@{MainMenuScreen}}
 \doxysubsubsection{\texorpdfstring{draw()}{draw()}}
 {\footnotesize\ttfamily void Main\+Menu\+Screen\+::draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classMainMenuScreen_a8a0e2c1fa8c8bb240d290330524ca365}\label{classMainMenuScreen_a8a0e2c1fa8c8bb240d290330524ca365} 
+\index{MainMenuScreen@{MainMenuScreen}!drawUI@{drawUI}}
+\index{drawUI@{drawUI}!MainMenuScreen@{MainMenuScreen}}
+\doxysubsubsection{\texorpdfstring{drawUI()}{drawUI()}}
+{\footnotesize\ttfamily void Main\+Menu\+Screen\+::draw\+UI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
@@ -187,11 +197,11 @@ Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
 Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
-\Hypertarget{classMainMenuScreen_a67db9cc15c07e64ef5d3cc5bc7612422}\label{classMainMenuScreen_a67db9cc15c07e64ef5d3cc5bc7612422} 
+\Hypertarget{classMainMenuScreen_a50d41a84199e54247a3662bc45773ca7}\label{classMainMenuScreen_a50d41a84199e54247a3662bc45773ca7} 
 \index{MainMenuScreen@{MainMenuScreen}!updateUI@{updateUI}}
 \index{updateUI@{updateUI}!MainMenuScreen@{MainMenuScreen}}
 \doxysubsubsection{\texorpdfstring{updateUI()}{updateUI()}}
-{\footnotesize\ttfamily void Main\+Menu\+Screen\+::update\+UI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void Main\+Menu\+Screen\+::update\+UI (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 

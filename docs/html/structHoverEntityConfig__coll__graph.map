@@ -1,0 +1,8 @@
+<map id="HoverEntityConfig" name="HoverEntityConfig">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,181,145,207"/>
+<area shape="rect" id="Node000002" href="$classEntity.html" title=" " alt="" coords="123,93,183,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,131,88,183,84,179,131,127"/>
+<area shape="rect" id="Node000003" href="$classManager.html" title=" " alt="" coords="17,5,96,31"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="54,45,50,80,51,118,61,152,72,180,67,182,56,154,46,119,44,80,48,44"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="81,38,141,91,138,95,78,42"/>
+</map>

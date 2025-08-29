@@ -1,16 +1,33 @@
 \doxysection{Custom\+Functions Class Reference}
 \hypertarget{classCustomFunctions}{}\label{classCustomFunctions}\index{CustomFunctions@{CustomFunctions}}
+
+
+Inheritance diagram for Custom\+Functions\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{classCustomFunctions__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Custom\+Functions\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{classCustomFunctions__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classCustomFunctions_ab5ec96aa1ced01cf3886245a25445eed}\label{classCustomFunctions_ab5ec96aa1ced01cf3886245a25445eed} 
-void {\bfseries render\+UI} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::vector$<$ std\+::pair$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}, glm\+::vec3 $>$ $>$ \&m\+\_\+selected\+Entities)
+void \mbox{\hyperlink{classCustomFunctions_af334d952a0b0cfb1f3e090e084a0321b}{On\+Im\+Gui\+Render}} () override
 \item 
 \Hypertarget{classCustomFunctions_a8fd7f59b1a91519182d64f32f3db2cbc}\label{classCustomFunctions_a8fd7f59b1a91519182d64f32f3db2cbc} 
 void {\bfseries default\+\_\+render\+UI} ()
 \item 
-\Hypertarget{classCustomFunctions_aa6e918d8a1de14f8fdea3a409aa44973}\label{classCustomFunctions_aa6e918d8a1de14f8fdea3a409aa44973} 
-void {\bfseries Calculate\+Degree} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::vector$<$ std\+::pair$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}, glm\+::vec3 $>$ $>$ \&m\+\_\+selected\+Entities)
+\Hypertarget{classCustomFunctions_abefe6d936bb0a171345325b789ff269f}\label{classCustomFunctions_abefe6d936bb0a171345325b789ff269f} 
+void {\bfseries Calculate\+Degree} ()
 \item 
 \Hypertarget{classCustomFunctions_a6d27dd869a04e57ca27349b75b4c6ee1}\label{classCustomFunctions_a6d27dd869a04e57ca27349b75b4c6ee1} 
 void {\bfseries Calculate\+Signals} ()
@@ -20,6 +37,14 @@ void {\bfseries Calculate\+Heat\+Map} ()
 \item 
 \Hypertarget{classCustomFunctions_a21713565a2b31c12780f60ada699961a}\label{classCustomFunctions_a21713565a2b31c12780f60ada699961a} 
 void {\bfseries Draw\+Candlestick\+Chart} ()
+\item 
+\Hypertarget{classCustomFunctions_a59fd265934fc7a8a5ea01bc67e6abe99}\label{classCustomFunctions_a59fd265934fc7a8a5ea01bc67e6abe99} 
+void {\bfseries set\+Selected\+Entities} (std\+::vector$<$ std\+::pair$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}, glm\+::vec3 $>$ $>$ \&m\+\_\+selected\+Entities)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries update} (float delta\+Time=0.\+0f)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -30,9 +55,30 @@ bool {\bfseries is\+Script\+Results\+Open} = false
 \Hypertarget{classCustomFunctions_a2e4e9ef9445fed5873fd630378fbe42d}\label{classCustomFunctions_a2e4e9ef9445fed5873fd630378fbe42d} 
 int {\bfseries activated\+Script\+Shown} = 0
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries name}
+\item 
+bool {\bfseries visible} = true
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classCustomFunctions_af334d952a0b0cfb1f3e090e084a0321b}\label{classCustomFunctions_af334d952a0b0cfb1f3e090e084a0321b} 
+\index{CustomFunctions@{CustomFunctions}!OnImGuiRender@{OnImGuiRender}}
+\index{OnImGuiRender@{OnImGuiRender}!CustomFunctions@{CustomFunctions}}
+\doxysubsubsection{\texorpdfstring{OnImGuiRender()}{OnImGuiRender()}}
+{\footnotesize\ttfamily void Custom\+Functions\+::\+On\+Im\+Gui\+Render (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classUIElement}{UIElement}}.
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Custom\+Functions/Custom\+Functions.\+h\item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Custom\+Functions/Custom\+Functions.\+cpp\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Graph\+Right\+Panel/\+Custom\+Functions/Custom\+Functions.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Graph\+Right\+Panel/\+Custom\+Functions/Custom\+Functions.\+cpp\end{DoxyCompactItemize}

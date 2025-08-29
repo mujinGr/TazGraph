@@ -1,5 +1,50 @@
 \doxysection{Data\+Manager Class Reference}
 \hypertarget{classDataManager}{}\label{classDataManager}\index{DataManager@{DataManager}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classDataManager_aefd06b6ec638a4a21e323f356a72b0b8}\label{classDataManager_aefd06b6ec638a4a21e323f356a72b0b8} 
+void {\bfseries set\+Path\+Loading} (bool loading)
+\item 
+\Hypertarget{classDataManager_aa907e8586cc46304d415c2f3de430883}\label{classDataManager_aa907e8586cc46304d415c2f3de430883} 
+bool {\bfseries is\+Saving} ()
+\item 
+\Hypertarget{classDataManager_a0a701850447ca2fb505ca7927c490342}\label{classDataManager_a0a701850447ca2fb505ca7927c490342} 
+void {\bfseries set\+New\+Map} (bool m\+\_\+starting\+New)
+\item 
+\Hypertarget{classDataManager_a306c4ad8e9d6a23ed40d3ea0e0fdc02e}\label{classDataManager_a306c4ad8e9d6a23ed40d3ea0e0fdc02e} 
+void {\bfseries set\+Loading} (bool m\+\_\+loading)
+\item 
+\Hypertarget{classDataManager_a5d1f0639b45099111bb386acb64bf72d}\label{classDataManager_a5d1f0639b45099111bb386acb64bf72d} 
+bool {\bfseries is\+Starting\+New} ()
+\item 
+\Hypertarget{classDataManager_a017aa70028837893569637b71f2c70a9}\label{classDataManager_a017aa70028837893569637b71f2c70a9} 
+bool {\bfseries is\+Loading} ()
+\item 
+\Hypertarget{classDataManager_a566f2bb67f941c5c0194b7f6cc23adb1}\label{classDataManager_a566f2bb67f941c5c0194b7f6cc23adb1} 
+bool {\bfseries is\+Loading\+Path} ()
+\item 
+\Hypertarget{classDataManager_a3aab9f6d55a8d4dd4f164690187adf22}\label{classDataManager_a3aab9f6d55a8d4dd4f164690187adf22} 
+bool {\bfseries is\+Going\+Back} ()
+\item 
+\Hypertarget{classDataManager_ae29b0e27f15207596c59b806bc0bb69e}\label{classDataManager_ae29b0e27f15207596c59b806bc0bb69e} 
+std\+::string {\bfseries get\+Path\+Loading} ()
+\item 
+\Hypertarget{classDataManager_a136e346892df85d98acf3037b37fa117}\label{classDataManager_a136e346892df85d98acf3037b37fa117} 
+void {\bfseries Set\+Going\+Back} (bool m\+\_\+going\+Back)
+\item 
+\Hypertarget{classDataManager_a193648b11560a3e8c8321d8200415981}\label{classDataManager_a193648b11560a3e8c8321d8200415981} 
+void {\bfseries update\+File\+Names\+In\+Assets} ()
+\item 
+\Hypertarget{classDataManager_a82567747f5aeffe3baf3f63a0fd4e292}\label{classDataManager_a82567747f5aeffe3baf3f63a0fd4e292} 
+void {\bfseries update\+Polling\+File\+Names\+In\+Assets} ()
+\item 
+\Hypertarget{classDataManager_a1b7306c6918e8562160a4f4da4ab0b93}\label{classDataManager_a1b7306c6918e8562160a4f4da4ab0b93} 
+void {\bfseries update\+Path\+File\+Names\+In\+Assets} ()
+\item 
+\Hypertarget{classDataManager_a97ba336736bbb26b96dcd982625b7878}\label{classDataManager_a97ba336736bbb26b96dcd982625b7878} 
+void {\bfseries Reload\+Accessible\+Files} ()
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -9,8 +54,44 @@ static \mbox{\hyperlink{classDataManager}{Data\+Manager}} \& {\bfseries get\+Ins
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
+\Hypertarget{classDataManager_a8487b9bf0a58945f7828133c229e0a21}\label{classDataManager_a8487b9bf0a58945f7828133c229e0a21} 
+Im\+Gui\+::\+Combo\+Auto\+Select\+Data {\bfseries data}
+\item 
+\Hypertarget{classDataManager_a771c4f0784c9477c58436a054c571306}\label{classDataManager_a771c4f0784c9477c58436a054c571306} 
+Im\+Gui\+::\+Combo\+Auto\+Select\+Data {\bfseries path\+Data}
+\item 
 \Hypertarget{classDataManager_ad10aee447a284641f3a45deb4de03a18}\label{classDataManager_ad10aee447a284641f3a45deb4de03a18} 
 std\+::string {\bfseries map\+To\+Load}
+\item 
+\Hypertarget{classDataManager_a5ad4d001a5bc75e56038ae1fd0e39b7c}\label{classDataManager_a5ad4d001a5bc75e56038ae1fd0e39b7c} 
+std\+::vector$<$ std\+::string $>$ {\bfseries file\+Names}
+\item 
+\Hypertarget{classDataManager_aa1fcd8fcb9bb1b5eda071b068978492f}\label{classDataManager_aa1fcd8fcb9bb1b5eda071b068978492f} 
+std\+::vector$<$ std\+::string $>$ {\bfseries polling\+File\+Names}
+\item 
+\Hypertarget{classDataManager_af3fa99e19ee1e2c45d9e793fe513e63a}\label{classDataManager_af3fa99e19ee1e2c45d9e793fe513e63a} 
+std\+::vector$<$ std\+::string $>$ {\bfseries paths\+File\+Names}
+\item 
+\Hypertarget{classDataManager_a90cadd47645ec782e5205572387a05d0}\label{classDataManager_a90cadd47645ec782e5205572387a05d0} 
+std\+::string {\bfseries path\+Loading}
+\item 
+\Hypertarget{classDataManager_a75c4a8def4b2ee88529a0b07696ca1d2}\label{classDataManager_a75c4a8def4b2ee88529a0b07696ca1d2} 
+bool {\bfseries files\+Loaded} = false
+\item 
+\Hypertarget{classDataManager_a25bf8c5869358de870ed403cce11a23c}\label{classDataManager_a25bf8c5869358de870ed403cce11a23c} 
+bool {\bfseries saving} = false
+\item 
+\Hypertarget{classDataManager_a753e4204f486a9d98c88a9af7dcfae33}\label{classDataManager_a753e4204f486a9d98c88a9af7dcfae33} 
+bool {\bfseries starting\+New} = false
+\item 
+\Hypertarget{classDataManager_a2499a088bd8d478eac13bc135cdb7a78}\label{classDataManager_a2499a088bd8d478eac13bc135cdb7a78} 
+bool {\bfseries loading} = false
+\item 
+\Hypertarget{classDataManager_a9a55ad3b8669c9759426a778ba86fbb0}\label{classDataManager_a9a55ad3b8669c9759426a778ba86fbb0} 
+bool {\bfseries loading\+Path} = false
+\item 
+\Hypertarget{classDataManager_a15612e746be918e2e925a5b073889436}\label{classDataManager_a15612e746be918e2e925a5b073889436} 
+bool {\bfseries going\+Back} = false
 \end{DoxyCompactItemize}
 
 

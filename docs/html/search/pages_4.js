@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['integration_20guide_0',['Developer Integration Guide',['../dev_guide.html',1,'']]]
+  ['guide_0',['guide',['../dev_guide.html',1,'Developer Integration Guide'],['../docs_guide.html',1,'Docs Guide']]]
 ];

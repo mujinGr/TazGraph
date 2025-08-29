@@ -142,8 +142,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad16ce3c3a8dcd0c02c4fd9fca968c893"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad16f523501154381a0ee3f61b6aa93d1" id="r_ad16f523501154381a0ee3f61b6aa93d1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGraph.html#ad16f523501154381a0ee3f61b6aa93d1">BeginRender</a> () override</td></tr>
 <tr class="separator:ad16f523501154381a0ee3f61b6aa93d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82f2431e1c71eb67b2f878e144c6a012" id="r_a82f2431e1c71eb67b2f878e144c6a012"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGraph.html#a82f2431e1c71eb67b2f878e144c6a012">updateUI</a> () override</td></tr>
-<tr class="separator:a82f2431e1c71eb67b2f878e144c6a012"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a442aa25d44cbcb6baf10627fa15ce8d1" id="r_a442aa25d44cbcb6baf10627fa15ce8d1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGraph.html#a442aa25d44cbcb6baf10627fa15ce8d1">updateUI</a> (float deltaTime) override</td></tr>
+<tr class="separator:a442aa25d44cbcb6baf10627fa15ce8d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab20e69881f74fa2a0c6cc8936d3a8ffa" id="r_ab20e69881f74fa2a0c6cc8936d3a8ffa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGraph.html#ab20e69881f74fa2a0c6cc8936d3a8ffa">drawUI</a> () override</td></tr>
+<tr class="separator:ab20e69881f74fa2a0c6cc8936d3a8ffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f4232cac916943bedc8c9d23b9fed2a" id="r_a3f4232cac916943bedc8c9d23b9fed2a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGraph.html#a3f4232cac916943bedc8c9d23b9fed2a">EndRender</a> () override</td></tr>
 <tr class="separator:a3f4232cac916943bedc8c9d23b9fed2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9b5ef26ca51bdc8013bb5a7a9518b08" id="r_ad9b5ef26ca51bdc8013bb5a7a9518b08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGraph.html#ad9b5ef26ca51bdc8013bb5a7a9518b08">renderBatch</a> (const std::vector&lt; <a class="el" href="classLinkEntity.html">LinkEntity</a> * &gt; &amp;entities, <a class="el" href="classLineRenderer.html">LineRenderer</a> &amp;batch)</td></tr>
@@ -221,9 +223,6 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>managerName</b
 <tr class="memitem:a0af89e086924505ff24eea86f967fb10 inherit pro_attribs_classIScene" id="r_a0af89e086924505ff24eea86f967fb10"><td class="memItemLeft" align="right" valign="top">
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>_renderDebug</b> = false</td></tr>
 <tr class="separator:a0af89e086924505ff24eea86f967fb10 inherit pro_attribs_classIScene"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b1c784d43db44edf365b655b79e91a5 inherit pro_attribs_classIScene" id="r_a1b1c784d43db44edf365b655b79e91a5"><td class="memItemLeft" align="right" valign="top">
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>_clusterLayout</b> = false</td></tr>
-<tr class="separator:a1b1c784d43db44edf365b655b79e91a5 inherit pro_attribs_classIScene"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="ad16f523501154381a0ee3f61b6aa93d1" name="ad16f523501154381a0ee3f61b6aa93d1"></a>
@@ -336,6 +335,33 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>_clusterLayout</b> = 
 <p><a class="el" href="classLink.html">Link</a> Paths rendering &amp; Ports rendering</p>
 <p>this reduces a bit fps</p>
 <p>this reduces a bit fps</p>
+
+<p>Implements <a class="el" href="classIScene.html">IScene</a>.</p>
+
+</div>
+</div>
+<a id="ab20e69881f74fa2a0c6cc8936d3a8ffa" name="ab20e69881f74fa2a0c6cc8936d3a8ffa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab20e69881f74fa2a0c6cc8936d3a8ffa">&#9670;&#160;</a></span>drawUI()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Graph::drawUI </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 <p>Implements <a class="el" href="classIScene.html">IScene</a>.</p>
 
@@ -528,14 +554,13 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>_clusterLayout</b> = 
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Group layout Change</p>
 
 <p>Implements <a class="el" href="classIScene.html">IScene</a>.</p>
 
 </div>
 </div>
-<a id="a82f2431e1c71eb67b2f878e144c6a012" name="a82f2431e1c71eb67b2f878e144c6a012"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82f2431e1c71eb67b2f878e144c6a012">&#9670;&#160;</a></span>updateUI()</h2>
+<a id="a442aa25d44cbcb6baf10627fa15ce8d1" name="a442aa25d44cbcb6baf10627fa15ce8d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a442aa25d44cbcb6baf10627fa15ce8d1">&#9670;&#160;</a></span>updateUI()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -546,7 +571,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>_clusterLayout</b> = 
         <tr>
           <td class="memname">void Graph::updateUI </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>deltaTime</em></td><td>)</td>
           <td></td>
         </tr>
       </table>

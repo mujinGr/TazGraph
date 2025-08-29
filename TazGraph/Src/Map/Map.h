@@ -17,6 +17,14 @@
 #include <random>
 #include <ctime>
 
+/**
+ * @defgroup mapLoading Map Loading
+ * @brief Architecture and workflow for loading maps and paths.
+ *
+ * The map loading system separates file parsing from entity creation.
+ * Each parser derives from IMapParser and interacts with Map.cpp via callbacks.
+ */
+
 class Map
 {
 public:

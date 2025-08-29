@@ -138,16 +138,20 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onExit</b> ()
 <tr class="memitem:a884cbe2ab5a58b06e720028575f3cee1" id="r_a884cbe2ab5a58b06e720028575f3cee1"><td class="memItemLeft" align="right" valign="top"><a id="a884cbe2ab5a58b06e720028575f3cee1" name="a884cbe2ab5a58b06e720028575f3cee1"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>checkInput</b> ()=0</td></tr>
 <tr class="separator:a884cbe2ab5a58b06e720028575f3cee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d3d5c6baf101610ba91f74940d2486b" id="r_a2d3d5c6baf101610ba91f74940d2486b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIScene.html#a2d3d5c6baf101610ba91f74940d2486b">update</a> (float deltaTime)=0</td></tr>
+<tr class="memitem:a2d3d5c6baf101610ba91f74940d2486b" id="r_a2d3d5c6baf101610ba91f74940d2486b"><td class="memItemLeft" align="right" valign="top"><a id="a2d3d5c6baf101610ba91f74940d2486b" name="a2d3d5c6baf101610ba91f74940d2486b"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>update</b> (float deltaTime)=0</td></tr>
 <tr class="separator:a2d3d5c6baf101610ba91f74940d2486b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7031e45e0e7eb50554aedeb2295ceeb8" id="r_a7031e45e0e7eb50554aedeb2295ceeb8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIScene.html#a7031e45e0e7eb50554aedeb2295ceeb8">draw</a> ()=0</td></tr>
 <tr class="separator:a7031e45e0e7eb50554aedeb2295ceeb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bd5047493886fdb0c2a876e3506d317" id="r_a7bd5047493886fdb0c2a876e3506d317"><td class="memItemLeft" align="right" valign="top"><a id="a7bd5047493886fdb0c2a876e3506d317" name="a7bd5047493886fdb0c2a876e3506d317"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>BeginRender</b> ()=0</td></tr>
 <tr class="separator:a7bd5047493886fdb0c2a876e3506d317"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8009e20955b63bb573a6d9b9b210055d" id="r_a8009e20955b63bb573a6d9b9b210055d"><td class="memItemLeft" align="right" valign="top"><a id="a8009e20955b63bb573a6d9b9b210055d" name="a8009e20955b63bb573a6d9b9b210055d"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>updateUI</b> ()=0</td></tr>
-<tr class="separator:a8009e20955b63bb573a6d9b9b210055d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afff3c452f144c611bd77d1d888769c0d" id="r_afff3c452f144c611bd77d1d888769c0d"><td class="memItemLeft" align="right" valign="top"><a id="afff3c452f144c611bd77d1d888769c0d" name="afff3c452f144c611bd77d1d888769c0d"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>updateUI</b> (float deltaTime)=0</td></tr>
+<tr class="separator:afff3c452f144c611bd77d1d888769c0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9db86d1c0d55e7e1e0362ee70a2f63f2" id="r_a9db86d1c0d55e7e1e0362ee70a2f63f2"><td class="memItemLeft" align="right" valign="top"><a id="a9db86d1c0d55e7e1e0362ee70a2f63f2" name="a9db86d1c0d55e7e1e0362ee70a2f63f2"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>drawUI</b> ()=0</td></tr>
+<tr class="separator:a9db86d1c0d55e7e1e0362ee70a2f63f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abaa96aeb72f9e6f3fca46367c9d1a96f" id="r_abaa96aeb72f9e6f3fca46367c9d1a96f"><td class="memItemLeft" align="right" valign="top"><a id="abaa96aeb72f9e6f3fca46367c9d1a96f" name="abaa96aeb72f9e6f3fca46367c9d1a96f"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndRender</b> ()=0</td></tr>
 <tr class="separator:abaa96aeb72f9e6f3fca46367c9d1a96f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -192,9 +196,6 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>managerName</b
 <tr class="memitem:a0af89e086924505ff24eea86f967fb10" id="r_a0af89e086924505ff24eea86f967fb10"><td class="memItemLeft" align="right" valign="top"><a id="a0af89e086924505ff24eea86f967fb10" name="a0af89e086924505ff24eea86f967fb10"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>_renderDebug</b> = false</td></tr>
 <tr class="separator:a0af89e086924505ff24eea86f967fb10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b1c784d43db44edf365b655b79e91a5" id="r_a1b1c784d43db44edf365b655b79e91a5"><td class="memItemLeft" align="right" valign="top"><a id="a1b1c784d43db44edf365b655b79e91a5" name="a1b1c784d43db44edf365b655b79e91a5"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>_clusterLayout</b> = false</td></tr>
-<tr class="separator:a1b1c784d43db44edf365b655b79e91a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -227,34 +228,6 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>SceneList</b></td></
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="classGraph.html#ad16ce3c3a8dcd0c02c4fd9fca968c893">Graph</a>.</p>
-
-</div>
-</div>
-<a id="a2d3d5c6baf101610ba91f74940d2486b" name="a2d3d5c6baf101610ba91f74940d2486b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d3d5c6baf101610ba91f74940d2486b">&#9670;&#160;</a></span>update()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void IScene::update </td>
-          <td>(</td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>deltaTime</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="classGraph.html#a1650103e02a76aeba4243f1f02842fa8">Graph</a>.</p>
 
 </div>
 </div>

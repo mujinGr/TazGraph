@@ -15,19 +15,15 @@
 \DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../imguiComboAutoselect/imgui\_combo\_autoselect.h"{}}}
 \DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <ImGuizmo/ImGuizmo.h>}}
 \DoxyCodeLine{00013\ }
-\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classImGuiInterface}{ImGuiInterface}}\ \{}
-\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{classImGuiInterface}{ImGuiInterface}}();}
+\DoxyCodeLine{00014\ \textcolor{keyword}{namespace\ }ImGuiInterface\ \{}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ BeginRender();}
 \DoxyCodeLine{00017\ }
-\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classImGuiInterface}{\string~ImGuiInterface}}();}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ RenderUI();}
 \DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \ \ \ \ \textcolor{comment}{//void\ SetupImGui();}}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ EndRender();}
 \DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ BeginRender();}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ RenderUI();}
-\DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ EndRender();}
-\DoxyCodeLine{00027\ \};}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{bool}\ isMouseOnWidget(\textcolor{keyword}{const}\ std::string\&\ widgetName);}
+\DoxyCodeLine{00023\ \};}
 
 \end{DoxyCode}

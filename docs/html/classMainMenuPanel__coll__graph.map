@@ -1,0 +1,11 @@
+<map id="MainMenuPanel" name="MainMenuPanel">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,168,131,193"/>
+<area shape="rect" id="Node000002" href="$classUIElement.html" title=" " alt="" coords="23,5,113,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="44,41,27,59,14,81,12,93,14,104,34,139,57,166,53,169,29,143,10,106,6,93,10,79,23,56,40,38"/>
+<area shape="rect" id="Node000003" href="$classLoadingUI.html" title=" " alt="" coords="25,80,111,105"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="71,45,71,80,65,80,65,45"/>
+<area shape="rect" id="Node000004" href="$classNewMapUI.html" title=" " alt="" coords="136,80,229,105"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="99,36,166,78,163,82,97,40"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="71,119,71,167,65,167,65,119"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="169,118,142,146,99,170,97,166,138,142,165,115"/>
+</map>

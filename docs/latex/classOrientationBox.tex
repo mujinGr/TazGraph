@@ -1,17 +1,63 @@
 \doxysection{Orientation\+Box Class Reference}
 \hypertarget{classOrientationBox}{}\label{classOrientationBox}\index{OrientationBox@{OrientationBox}}
+
+
+Inheritance diagram for Orientation\+Box\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{classOrientationBox__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Orientation\+Box\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{classOrientationBox__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classOrientationBox_a79cab2496978beb5796e104d39a35e77}\label{classOrientationBox_a79cab2496978beb5796e104d39a35e77} 
-void {\bfseries Create} (Im\+Vec2 viewport\+Pos, Im\+Vec2 viewport\+Size)
+void \mbox{\hyperlink{classOrientationBox_ae83f4151507270aa9be756f772e6d5fc}{On\+Im\+Gui\+Render}} () override
 \item 
 \Hypertarget{classOrientationBox_ae872419089d398c7577005cbfd9f1472}\label{classOrientationBox_ae872419089d398c7577005cbfd9f1472} 
 void {\bfseries Update\+Camera\+From\+Matrix} ()
+\item 
+\Hypertarget{classOrientationBox_a105b93382a9f38c30a441cc03e849b1e}\label{classOrientationBox_a105b93382a9f38c30a441cc03e849b1e} 
+void {\bfseries set\+Config} (const \mbox{\hyperlink{structOrientationBoxConfig}{Orientation\+Box\+Config}} \&cfg)
 \end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries update} (float delta\+Time=0.\+0f)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries name}
+\item 
+bool {\bfseries visible} = true
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classOrientationBox_ae83f4151507270aa9be756f772e6d5fc}\label{classOrientationBox_ae83f4151507270aa9be756f772e6d5fc} 
+\index{OrientationBox@{OrientationBox}!OnImGuiRender@{OnImGuiRender}}
+\index{OnImGuiRender@{OnImGuiRender}!OrientationBox@{OrientationBox}}
+\doxysubsubsection{\texorpdfstring{OnImGuiRender()}{OnImGuiRender()}}
+{\footnotesize\ttfamily void Orientation\+Box\+::\+On\+Im\+Gui\+Render (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classUIElement}{UIElement}}.
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Orientation\+Box/Orientation\+Box.\+h\item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Orientation\+Box/Orientation\+Box.\+cpp\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Orientation\+Box/Orientation\+Box.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Orientation\+Box/Orientation\+Box.\+cpp\end{DoxyCompactItemize}

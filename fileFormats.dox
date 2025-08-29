@@ -1,0 +1,174 @@
+/**
+  @page fileFormats File Formats
+  @tableofcontents
+
+  This project supports multiple file formats for saving and loading graphs and paths.  
+  Each format has its own advantages depending on the use case.
+
+  see @ref mapLoading "Map Loading"
+
+  @section txtFormat .txt (Custom Plaintext Format)
+  <b>Structure</b>
+  - First line: total number of nodes (N).
+  - Next N lines: each node's ID and position `(x, y)`.
+  - Then: total number of links (M).
+  - Next M lines: each link's ID and references to its source and target node IDs.
+
+<b>Example</b>
+    @code
+Total number of nodes: 161
+1	-279 -318
+2	87 48
+3	234 -218
+4	90 30
+
+Total number of links: 2
+162	0	1
+163	1	2
+    @endcode
+
+  @section dotFormat .dot (Graphviz DOT)
+  The DOT format is widely supported by visualization tools such as Graphviz.  
+  It allows advanced layout options, clusters, and styling.
+
+  <b>Structure</b>
+  - `digraph G { ... }` defines a directed graph.
+  - `node [shape=...]` defines default node attributes.
+  - `subgraph cluster_X { ... }` allows grouping of nodes into clusters.
+  - Edges are defined with `->`.
+
+  <b>Example</b>
+  @code{.dot}
+  digraph G {
+    node [shape=rect];
+
+    subgraph cluster_0 {
+      style=filled;
+      color=lightgrey;
+      node [style=filled,color=white];
+      0 -> 1 -> 2 -> 3;
+      label = "Hello";
+    }
+
+    subgraph cluster_1 {
+      node [style=filled];
+      10 -> 11 -> 12 -> 13;
+      label = "World";
+      color=blue
+    }
+
+    100 -> 0;
+    100 -> 10;
+    1 -> 13;
+    12 -> 3;
+    3 -> 0;
+    3 -> 200;
+    13 -> 200;
+
+    100 [shape=Mdiamond];
+    200 [shape=Msquare];
+  }
+  @endcode
+
+  @section pyFormat .py (Python Dictionary Format)
+The `.py` format represents the graph as a nested Python dictionary.  
+  It contains metadata, nodes (with attributes), and edges (with attributes).  
+  This makes it both human-readable and directly usable in Python workflows.
+
+  <b>Structure</b>
+  - Top-level key: `"graph"`.
+  - `directed`: whether the graph is directed.
+  - `metadata`: arbitrary global metadata.
+  - `nodes`: dictionary of nodes keyed by ID, each with:
+    - `label`: display label.
+    - `metadata`: dictionary of attributes (hover text, size, colors, etc.).
+    - `x`, `y`: position coordinates.
+  - `edges`: list of edges, each with:
+    - `source`, `target`: node IDs.
+    - `label`: edge label.
+    - `metadata`: dictionary of edge attributes (id, size, etc.).
+
+<b>Example</b>
+  @code{.py}
+  network = {
+    'graph': {
+      'directed': True,
+      'metadata': {},
+      'nodes': {
+        0: { 'label': "H0:0:0", 'metadata': { 'hover': "H0:0:0\\nTopological NID: 0", 'border_size': 3,
+              'label_color': "black", 'color': "black", 'y': -2180, 'x': 19739, 'border_color': "black"}},
+        1: { 'label': "H0:0:1", 'metadata': { 'hover': "H0:0:1\\nTopological NID: 1", 'border_size': 3,
+              'label_color': "black", 'color': "black", 'y': -2180.05, 'x': 19879, 'border_color': "black"}},
+        2: { 'label': "H0:0:2", 'metadata': { 'hover': "H0:0:2\\nTopological NID: 2", 'border_size': 3,
+              'label_color': "black", 'color': "black", 'y': -2180.14, 'x': 20019, 'border_color': "black"}},
+      },
+      'edges': [
+        { 'source': 65536, 'target': 65568, 'label': "G0->1@0#0", 'metadata': { 'id': 0, 'size': 1}},
+        { 'source': 65536, 'target': 65568, 'label': "G0->1@0#1", 'metadata': { 'id': 1, 'size': 1}},
+        { 'source': 65536, 'target': 65600, 'label': "G0->2@0#0", 'metadata': { 'id': 2, 'size': 1}},
+      ]
+    }
+  }
+  @endcode
+
+  @section graphmlFormat .graphml (GraphML XML Format)
+  GraphML is an XML-based format standardized for graph representation.  
+  It is supported by many external tools (Gephi, yEd, NetworkX, etc.).  
+  Node and edge attributes are defined using `<key>` and `<data>` elements.
+
+  <b>Structure</b>
+  - Root element `<graphml>`.
+  - `<key>` definitions specify attributes (e.g., x, y for node positions).
+  - `<graph>` contains `<node>` and `<edge>` elements.
+  - Each `<node>` has an `id` and `<data>` for attributes.
+  - Each `<edge>` has an `id`, `source`, and `target`.
+
+  <b>Example</b>
+  @code{.xml}
+  <?xml version="1.0" encoding="UTF-8"?>
+  <graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+                               http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+
+  <!-- Define keys for node metadata -->
+  <key id="x" for="node" attr.name="x" attr.type="double"/>
+  <key id="y" for="node" attr.name="y" attr.type="double"/>
+
+    <graph id="G" edgedefault="undirected">
+      <!-- Nodes -->
+      <node id="0">
+        <data key="x">10.0</data>
+        <data key="y">20.0</data>
+      </node>
+      <node id="1">
+        <data key="x">30.0</data>
+        <data key="y">40.0</data>
+      </node>
+      <node id="2">
+        <data key="x">50.0</data>
+        <data key="y">60.0</data>
+      </node>
+
+      <!-- Edges -->
+      <edge id="3" source="0" target="1"/>
+      <edge id="4" source="1" target="2"/>
+    </graph>
+  </graphml>
+  @endcode
+
+  @section pathFormat Path Files (.txt)
+  Path files describe sequences of connected node IDs.  
+  Useful for seeing complete flow of data.
+
+  <b>Structure</b>
+  Each line defines a separate path, written as a series of IDs separated by `-`.
+
+  <b>Example</b>
+  @code
+  5-7-8
+  4-5-6
+  10-12-15
+  @endcode
+
+*/

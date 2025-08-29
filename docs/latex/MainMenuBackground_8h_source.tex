@@ -5,7 +5,7 @@
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00002\ }
 \DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}GECS/Animators/AnimatorComponent.h"{}}}
-\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <Window/Window.h>}}
 \DoxyCodeLine{00005\ }
 \DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMainMenuBackground}{MainMenuBackground}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classComponent}{Component}}}
 \DoxyCodeLine{00007\ \{}
@@ -14,56 +14,63 @@
 \DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}*\ sprite\ =\ \textcolor{keyword}{nullptr};}
 \DoxyCodeLine{00011\ }
 \DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{float}\ elapsedTime\ =\ 0.0f;}
-\DoxyCodeLine{00013\ \textcolor{keyword}{public}:\ \textcolor{comment}{//\ it\ is\ like\ it\ has\ init\ that\ creates\ Animator\ Component\ since\ it\ inherits\ it}}
-\DoxyCodeLine{00014\ \ \ \ \ }
-\DoxyCodeLine{00015\ }
-\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{classMainMenuBackground}{MainMenuBackground}}()}
-\DoxyCodeLine{00017\ \ \ \ \ \{}
-\DoxyCodeLine{00018\ }
-\DoxyCodeLine{00019\ \ \ \ \ \}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}*\ window\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:\ \textcolor{comment}{//\ it\ is\ like\ it\ has\ init\ that\ creates\ Animator\ Component\ since\ it\ inherits\ it}}
+\DoxyCodeLine{00016\ \ \ \ \ }
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classMainMenuBackground}{MainMenuBackground}}()}
+\DoxyCodeLine{00019\ \ \ \ \ \{}
 \DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{classMainMenuBackground}{\string~MainMenuBackground}}()\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \}}
 \DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \ \ \ \ \}}
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ std::shared\_ptr<PerspectiveCamera>\ main\_camera2D\ =\ std::dynamic\_pointer\_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera(\textcolor{stringliteral}{"{}mainMenu\_main"{}}));}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classMainMenuBackground}{MainMenuBackground}}(\mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}*\ m\_window)}
+\DoxyCodeLine{00024\ \ \ \ \ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ window\ =\ m\_window;}
+\DoxyCodeLine{00026\ \ \ \ \ \}}
 \DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity-\/>hasComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>())\ \{}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>\mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>(}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec2(}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/TextureManager::getInstance().Get\_GLTexture(\textcolor{stringliteral}{"{}graphnetwork"{}})-\/>width\ /\ 2,}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/TextureManager::getInstance().Get\_GLTexture(\textcolor{stringliteral}{"{}graphnetwork"{}})-\/>height\ /\ 2}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ),\ Layer::action,}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::ivec2(}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TextureManager::getInstance().Get\_GLTexture(\textcolor{stringliteral}{"{}graphnetwork"{}})-\/>width,}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TextureManager::getInstance().Get\_GLTexture(\textcolor{stringliteral}{"{}graphnetwork"{}})-\/>height}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ),}
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1.0f);}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity-\/>hasComponent<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>())\ \{}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>\mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>(\textcolor{stringliteral}{"{}graphnetwork"{}},\ \textcolor{keyword}{true});}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ transform\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ sprite\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>();}
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \ \ \ \ \}}
-\DoxyCodeLine{00047\ }
-\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ elapsedTime\ +=\ deltaTime;\ \textcolor{comment}{//\ Update\ the\ accumulated\ elapsed\ time}}
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ amplitude\ =\ 100.0f;\ \textcolor{comment}{//\ Maximum\ displacement\ along\ the\ Y\ axis}}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ frequency\ =\ 0.002f;\ \textcolor{comment}{//\ How\ fast\ the\ object\ moves\ up\ and\ down}}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ new\ Y\ position}}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ newY\ =\ amplitude\ *\ sin(frequency\ *\ elapsedTime);}
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{classMainMenuBackground}{\string~MainMenuBackground}}()\ \{}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ std::shared\_ptr<PerspectiveCamera>\ main\_camera2D\ =\ std::dynamic\_pointer\_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera(\textcolor{stringliteral}{"{}mainMenu\_main"{}}));}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity-\/>hasComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>())\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>\mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>(}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec2(}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/window-\/>getScreenWidth()\ /\ 2,}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/window-\/>getScreenHeight()\ /\ 2}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ),\ Layer::action,}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::ivec2(}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ window-\/>getScreenWidth(),}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ window-\/>getScreenHeight()}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1.0f);}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity-\/>hasComponent<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>())\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>\mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>(\textcolor{stringliteral}{"{}graphnetwork"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ transform\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ sprite\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>();}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override\ }\{}
 \DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ transform-\/>position.z\ =\ newY;}
-\DoxyCodeLine{00058\ \ \ \ \ \}}
-\DoxyCodeLine{00059\ }
-\DoxyCodeLine{00060\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}MainMenuBackground"{}};}
-\DoxyCodeLine{00062\ \ \ \ \ \}}
-\DoxyCodeLine{00063\ \};}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ elapsedTime\ +=\ deltaTime;\ \textcolor{comment}{//\ Update\ the\ accumulated\ elapsed\ time}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ amplitude\ =\ 100.0f;\ \textcolor{comment}{//\ Maximum\ displacement\ along\ the\ Y\ axis}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ frequency\ =\ 0.002f;\ \textcolor{comment}{//\ How\ fast\ the\ object\ moves\ up\ and\ down}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ new\ Y\ position}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ newY\ =\ -\/amplitude\ +\ amplitude\ *\ sin(frequency\ *\ elapsedTime);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ transform-\/>position.z\ =\ newY;}
+\DoxyCodeLine{00065\ \ \ \ \ \}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}MainMenuBackground"{}};}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ \};}
 
 \end{DoxyCode}

@@ -42,15 +42,19 @@ virtual void {\bfseries on\+Exit} ()=0
 \Hypertarget{classIScene_a884cbe2ab5a58b06e720028575f3cee1}\label{classIScene_a884cbe2ab5a58b06e720028575f3cee1} 
 virtual void {\bfseries check\+Input} ()=0
 \item 
-virtual void \mbox{\hyperlink{classIScene_a2d3d5c6baf101610ba91f74940d2486b}{update}} (float delta\+Time)=0
+\Hypertarget{classIScene_a2d3d5c6baf101610ba91f74940d2486b}\label{classIScene_a2d3d5c6baf101610ba91f74940d2486b} 
+virtual void {\bfseries update} (float delta\+Time)=0
 \item 
 virtual void \mbox{\hyperlink{classIScene_a7031e45e0e7eb50554aedeb2295ceeb8}{draw}} ()=0
 \item 
 \Hypertarget{classIScene_a7bd5047493886fdb0c2a876e3506d317}\label{classIScene_a7bd5047493886fdb0c2a876e3506d317} 
 virtual void {\bfseries Begin\+Render} ()=0
 \item 
-\Hypertarget{classIScene_a8009e20955b63bb573a6d9b9b210055d}\label{classIScene_a8009e20955b63bb573a6d9b9b210055d} 
-virtual void {\bfseries update\+UI} ()=0
+\Hypertarget{classIScene_afff3c452f144c611bd77d1d888769c0d}\label{classIScene_afff3c452f144c611bd77d1d888769c0d} 
+virtual void {\bfseries update\+UI} (float delta\+Time)=0
+\item 
+\Hypertarget{classIScene_a9db86d1c0d55e7e1e0362ee70a2f63f2}\label{classIScene_a9db86d1c0d55e7e1e0362ee70a2f63f2} 
+virtual void {\bfseries draw\+UI} ()=0
 \item 
 \Hypertarget{classIScene_abaa96aeb72f9e6f3fca46367c9d1a96f}\label{classIScene_abaa96aeb72f9e6f3fca46367c9d1a96f} 
 virtual void {\bfseries End\+Render} ()=0
@@ -95,9 +99,6 @@ std\+::string {\bfseries manager\+Name} = "{}"{}
 \item 
 \Hypertarget{classIScene_a0af89e086924505ff24eea86f967fb10}\label{classIScene_a0af89e086924505ff24eea86f967fb10} 
 bool {\bfseries \+\_\+render\+Debug} = false
-\item 
-\Hypertarget{classIScene_a1b1c784d43db44edf365b655b79e91a5}\label{classIScene_a1b1c784d43db44edf365b655b79e91a5} 
-bool {\bfseries \+\_\+cluster\+Layout} = false
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Friends}
 \begin{DoxyCompactItemize}
@@ -117,16 +118,6 @@ class {\bfseries Scene\+List}
 
 
 Implemented in \mbox{\hyperlink{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893}{Graph}}.
-
-\Hypertarget{classIScene_a2d3d5c6baf101610ba91f74940d2486b}\label{classIScene_a2d3d5c6baf101610ba91f74940d2486b} 
-\index{IScene@{IScene}!update@{update}}
-\index{update@{update}!IScene@{IScene}}
-\doxysubsubsection{\texorpdfstring{update()}{update()}}
-{\footnotesize\ttfamily virtual void IScene\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
-
-
-
-Implemented in \mbox{\hyperlink{classGraph_a1650103e02a76aeba4243f1f02842fa8}{Graph}}.
 
 
 

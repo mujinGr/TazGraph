@@ -73,15 +73,20 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classIMapParser-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">IMapParser Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+  <div class="headertitle"><div class="title">IMapParser Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__mapLoading.html">Map Loading</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Abstract base class for all map parsers.  
+ <a href="classIMapParser.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="IMapParser_8h_source.html">IMapParser.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for IMapParser:</div>
 <div class="dyncontent">
 <div class="center"><img src="classIMapParser__inherit__graph.png" border="0" usemap="#aIMapParser_inherit__map" alt="Inheritance graph"/></div>
 <map name="aIMapParser_inherit__map" id="aIMapParser_inherit__map">
-<area shape="rect" title=" " alt="" coords="340,5,435,31"/>
+<area shape="rect" title="Abstract base class for all map parsers." alt="" coords="340,5,435,31"/>
 <area shape="rect" href="classDOTMapParser.html" title=" " alt="" coords="5,79,124,104"/>
 <area shape="poly" title=" " alt="" coords="327,35,117,81,116,76,326,30"/>
 <area shape="rect" href="classGraphMLMapParser.html" title=" " alt="" coords="148,79,296,104"/>
@@ -99,7 +104,7 @@ Collaboration diagram for IMapParser:</div>
 <div class="dyncontent">
 <div class="center"><img src="classIMapParser__coll__graph.png" border="0" usemap="#aIMapParser_coll__map" alt="Collaboration graph"/></div>
 <map name="aIMapParser_coll__map" id="aIMapParser_coll__map">
-<area shape="rect" title=" " alt="" coords="5,181,100,207"/>
+<area shape="rect" title="Abstract base class for all map parsers." alt="" coords="5,181,100,207"/>
 <area shape="rect" href="structThreader.html" title=" " alt="" coords="13,93,93,119"/>
 <area shape="poly" title=" " alt="" coords="55,133,55,181,50,181,50,133"/>
 <area shape="rect" href="structTaskQueue.html" title=" " alt="" coords="6,5,99,31"/>
@@ -127,7 +132,11 @@ Public Attributes</h2></td></tr>
 <a class="el" href="structThreader.html">Threader</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_threader</b> = nullptr</td></tr>
 <tr class="separator:a0a07a1ad04d36e4f4147a2116a704521"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Abstract base class for all map parsers. </p>
+<p>Additionally, parsers can use a <a class="el" href="structThreader.html">Threader</a> to enhance performance with multithreaded parsing.</p>
+<p>(see <a class="el" href="fileFormats.html">Supported File Formats</a>) </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="adccd8fe3156720a6d41f5e4a43d95b9a" name="adccd8fe3156720a6d41f5e4a43d95b9a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adccd8fe3156720a6d41f5e4a43d95b9a">&#9670;&#160;</a></span>parse()</h2>
 

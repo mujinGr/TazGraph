@@ -21,35 +21,35 @@
 \DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <random>}}
 \DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <ctime>}}
 \DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMap}{Map}}}
-\DoxyCodeLine{00021\ \{}
-\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{classMap}{Map}}(\mbox{\hyperlink{classManager}{Manager}}\&\ m\_manager,\ \textcolor{keywordtype}{int}\ ms,\ \textcolor{keywordtype}{int}\ ns);}
-\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{classMap}{\string~Map}}();}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ saveMapAsText(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fileName);}
-\DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ loadMap(}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fileName,}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3)>\ addNodeFunc,}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&)>\ addLinkFunc,}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structThreader}{Threader}}*\ m\_threadPool}
-\DoxyCodeLine{00034\ \ \ \ \ );}
-\DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{void}\ loadPaths(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fileName,\ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3)>\ addNodeFunc,\ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&)>\ addLinkFunc,\ \mbox{\hyperlink{structThreader}{Threader}}*\ m\_threadPool);}
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ AddDefaultNode(\mbox{\hyperlink{classEntity}{Entity}}\&\ node,\ glm::vec3\ mPosition);}
-\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ AddTreeNode(\mbox{\hyperlink{classEntity}{Entity}}\&\ node,\ glm::vec3\ mPosition);}
-\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ AddDefaultLink(\mbox{\hyperlink{classEntity}{Entity}}\&\ node);}
-\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ AddTreeLink(\mbox{\hyperlink{classEntity}{Entity}}\&\ link);}
-\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ AddPathLink(\mbox{\hyperlink{classEntity}{Entity}}\&\ link);}
+\DoxyCodeLine{00028\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMap}{Map}}}
+\DoxyCodeLine{00029\ \{}
+\DoxyCodeLine{00030\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{classMap}{Map}}(\mbox{\hyperlink{classManager}{Manager}}\&\ m\_manager,\ \textcolor{keywordtype}{int}\ ms,\ \textcolor{keywordtype}{int}\ ns);}
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{classMap}{\string~Map}}();}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ saveMapAsText(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fileName);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ loadMap(}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fileName,}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3)>\ addNodeFunc,}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&)>\ addLinkFunc,}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structThreader}{Threader}}*\ m\_threadPool}
+\DoxyCodeLine{00042\ \ \ \ \ );}
 \DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ manager;}
-\DoxyCodeLine{00045\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{int}\ mapScale;}
-\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{int}\ nodeSize;}
-\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{int}\ scaledSize;}
-\DoxyCodeLine{00049\ \};}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ loadPaths(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fileName,\ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3)>\ addNodeFunc,\ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&)>\ addLinkFunc,\ \mbox{\hyperlink{structThreader}{Threader}}*\ m\_threadPool);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__mapLoading_ga547e0e99735e7e231da059bc2a639c70}{AddDefaultNode}}(\mbox{\hyperlink{classEntity}{Entity}}\&\ node,\ glm::vec3\ mPosition);}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ AddTreeNode(\mbox{\hyperlink{classEntity}{Entity}}\&\ node,\ glm::vec3\ mPosition);}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ AddDefaultLink(\mbox{\hyperlink{classEntity}{Entity}}\&\ node);}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ AddTreeLink(\mbox{\hyperlink{classEntity}{Entity}}\&\ link);}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ AddPathLink(\mbox{\hyperlink{classEntity}{Entity}}\&\ link);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ manager;}
+\DoxyCodeLine{00053\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{int}\ mapScale;}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{int}\ nodeSize;}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{int}\ scaledSize;}
+\DoxyCodeLine{00057\ \};}
 
 \end{DoxyCode}

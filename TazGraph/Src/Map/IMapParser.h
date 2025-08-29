@@ -28,6 +28,15 @@ struct DetailParsedLink {
 	NodeEntity* to = nullptr;
 };
 
+/**
+ * @ingroup mapLoading
+ * @brief Abstract base class for all map parsers.
+ *
+ * Additionally, parsers can use a @ref Threader "Threader" to enhance performance
+ * with multithreaded parsing.
+ * 
+ * (see @ref fileFormats "Supported File Formats")
+ */
 
 class IMapParser {
 public:

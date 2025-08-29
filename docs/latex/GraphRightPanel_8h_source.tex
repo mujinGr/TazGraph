@@ -1,0 +1,36 @@
+\doxysection{Graph\+Right\+Panel.\+h}
+\hypertarget{GraphRightPanel_8h_source}{}\label{GraphRightPanel_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/GraphRightPanel/GraphRightPanel.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/GraphRightPanel/GraphRightPanel.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../UIElement.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../SliderRotateZ.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}./CustomFunctions/CustomFunctions.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../../../AssetManager/AssetManager.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structGraphRightConfig}{GraphRightConfig}}\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ c\_manager;}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{float}*\ c\_nodeRadius;}
+\DoxyCodeLine{00012\ \ \ \ \ std::vector<std::pair<Entity*,\ glm::vec3>>\ c\_selectedEntities;}
+\DoxyCodeLine{00013\ \};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGraphRightPanel}{GraphRightPanel}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{structGraphRightConfig}{GraphRightConfig}}\ config;}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{classCustomFunctions}{CustomFunctions}}\ \_customFunctions;}
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structGraphRightConfig}{GraphRightConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ availableFunctions();}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ ShowAllEntities();}
+\DoxyCodeLine{00030\ \};}
+
+\end{DoxyCode}

@@ -1,20 +1,66 @@
 \doxysection{Minimap Class Reference}
 \hypertarget{classMinimap}{}\label{classMinimap}\index{Minimap@{Minimap}}
+
+
+Inheritance diagram for Minimap\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=148pt]{classMinimap__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Minimap\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=148pt]{classMinimap__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classMinimap_aa5c80a8ecbe7b8dc408138fa091594a8}\label{classMinimap_aa5c80a8ecbe7b8dc408138fa091594a8} 
-void {\bfseries Create} (uint32\+\_\+t m\+\_\+texture\+ID, const \mbox{\hyperlink{classBaseFPSLimiter}{Base\+FPSLimiter}} \&base\+FPSLimiter, \mbox{\hyperlink{classManager}{Manager}} \&manager, Im\+Vec2 viewport\+Pos, Im\+Vec2 viewport\+Size)
+void \mbox{\hyperlink{classMinimap_a8bf3c23144ef1b1af18eab898f906352}{On\+Im\+Gui\+Render}} () override
 \item 
 \Hypertarget{classMinimap_ad1dd0b80f1d0cdb1602d92c8128965d2}\label{classMinimap_ad1dd0b80f1d0cdb1602d92c8128965d2} 
 void {\bfseries Draw\+Camera\+Frustum\+On\+Minimap} (Im\+Vec2 minimap\+Pos, float minimap\+Size)
 \item 
 \Hypertarget{classMinimap_a7794fbcd47a1aa1193a99aa2424af7c1}\label{classMinimap_a7794fbcd47a1aa1193a99aa2424af7c1} 
 void {\bfseries Draw\+Camera\+Indicator} (Im\+Vec2 minimap\+Pos, float minimap\+Size)
+\item 
+\Hypertarget{classMinimap_ac0ea2ddba72fd63a0d37b01882bc8614}\label{classMinimap_ac0ea2ddba72fd63a0d37b01882bc8614} 
+void {\bfseries set\+Config} (const \mbox{\hyperlink{structMinimapConfig}{Minimap\+Config}} \&cfg)
 \end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries update} (float delta\+Time=0.\+0f)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries name}
+\item 
+bool {\bfseries visible} = true
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classMinimap_a8bf3c23144ef1b1af18eab898f906352}\label{classMinimap_a8bf3c23144ef1b1af18eab898f906352} 
+\index{Minimap@{Minimap}!OnImGuiRender@{OnImGuiRender}}
+\index{OnImGuiRender@{OnImGuiRender}!Minimap@{Minimap}}
+\doxysubsubsection{\texorpdfstring{OnImGuiRender()}{OnImGuiRender()}}
+{\footnotesize\ttfamily void Minimap\+::\+On\+Im\+Gui\+Render (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classUIElement}{UIElement}}.
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Minimap/Minimap.\+h\item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Minimap/Minimap.\+cpp\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Minimap/Minimap.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Minimap/Minimap.\+cpp\end{DoxyCompactItemize}

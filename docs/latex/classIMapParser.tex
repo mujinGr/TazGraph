@@ -2,6 +2,15 @@
 \hypertarget{classIMapParser}{}\label{classIMapParser}\index{IMapParser@{IMapParser}}
 
 
+Abstract base class for all map parsers.  
+
+
+
+
+{\ttfamily \#include $<$IMap\+Parser.\+h$>$}
+
+
+
 Inheritance diagram for IMap\+Parser\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -39,6 +48,13 @@ void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mt
 \mbox{\hyperlink{structThreader}{Threader}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+threader} = nullptr
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+Abstract base class for all map parsers. 
+
+Additionally, parsers can use a \doxylink{structThreader}{Threader} to enhance performance with multithreaded parsing.
+
+(see \doxysectlink{fileFormats}{Supported File Formats}{0}) 
 
 \doxysubsection{Member Function Documentation}
 \Hypertarget{classIMapParser_adccd8fe3156720a6d41f5e4a43d95b9a}\label{classIMapParser_adccd8fe3156720a6d41f5e4a43d95b9a} 

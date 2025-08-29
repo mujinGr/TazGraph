@@ -42,7 +42,9 @@ virtual void \mbox{\hyperlink{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893}{draw
 \item 
 virtual void \mbox{\hyperlink{classGraph_ad16f523501154381a0ee3f61b6aa93d1}{Begin\+Render}} () override
 \item 
-virtual void \mbox{\hyperlink{classGraph_a82f2431e1c71eb67b2f878e144c6a012}{update\+UI}} () override
+virtual void \mbox{\hyperlink{classGraph_a442aa25d44cbcb6baf10627fa15ce8d1}{update\+UI}} (float delta\+Time) override
+\item 
+virtual void \mbox{\hyperlink{classGraph_ab20e69881f74fa2a0c6cc8936d3a8ffa}{draw\+UI}} () override
 \item 
 virtual void \mbox{\hyperlink{classGraph_a3f4232cac916943bedc8c9d23b9fed2a}{End\+Render}} () override
 \item 
@@ -110,8 +112,6 @@ std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classManager}{Manag
 std\+::string {\bfseries manager\+Name} = "{}"{}
 \item 
 bool {\bfseries \+\_\+render\+Debug} = false
-\item 
-bool {\bfseries \+\_\+cluster\+Layout} = false
 \end{DoxyCompactItemize}
 
 
@@ -165,6 +165,16 @@ Light Renderer Init
 this reduces a bit fps
 
 this reduces a bit fps
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classGraph_ab20e69881f74fa2a0c6cc8936d3a8ffa}\label{classGraph_ab20e69881f74fa2a0c6cc8936d3a8ffa} 
+\index{Graph@{Graph}!drawUI@{drawUI}}
+\index{drawUI@{drawUI}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{drawUI()}{drawUI()}}
+{\footnotesize\ttfamily void Graph\+::draw\+UI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
 
 Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
@@ -230,15 +240,15 @@ activate threads near the end, where we have completed everything else\Hypertarg
 \doxysubsubsection{\texorpdfstring{update()}{update()}}
 {\footnotesize\ttfamily void Graph\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
-Group layout Change
+
 
 Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
-\Hypertarget{classGraph_a82f2431e1c71eb67b2f878e144c6a012}\label{classGraph_a82f2431e1c71eb67b2f878e144c6a012} 
+\Hypertarget{classGraph_a442aa25d44cbcb6baf10627fa15ce8d1}\label{classGraph_a442aa25d44cbcb6baf10627fa15ce8d1} 
 \index{Graph@{Graph}!updateUI@{updateUI}}
 \index{updateUI@{updateUI}!Graph@{Graph}}
 \doxysubsubsection{\texorpdfstring{updateUI()}{updateUI()}}
-{\footnotesize\ttfamily void Graph\+::update\+UI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void Graph\+::update\+UI (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 

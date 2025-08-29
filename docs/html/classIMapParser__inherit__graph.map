@@ -1,5 +1,5 @@
 <map id="IMapParser" name="IMapParser">
-<area shape="rect" id="Node000001" title=" " alt="" coords="340,5,435,31"/>
+<area shape="rect" id="Node000001" title="Abstract base class for all map parsers." alt="" coords="340,5,435,31"/>
 <area shape="rect" id="Node000002" href="$classDOTMapParser.html" title=" " alt="" coords="5,79,124,104"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="327,35,117,81,116,76,326,30"/>
 <area shape="rect" id="Node000003" href="$classGraphMLMapParser.html" title=" " alt="" coords="148,79,296,104"/>
