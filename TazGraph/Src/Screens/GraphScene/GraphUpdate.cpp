@@ -137,10 +137,10 @@ void Graph::update(float deltaTime) //game objects updating
 	// check input manager if left mouse is clicked, if yes and the mouse is not on the widget then nullify displayedEntity
 	if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT))
 	{
-		if (!_editorImgui.isMouseOnWidget("Node Display") &&
-			!_editorImgui.isMouseOnWidget("Link Display") &&
-			!_editorImgui.isMouseOnWidget("Empty Display") &&
-			!_editorImgui.isMouseOnWidget("Scene Manager")) {
+		if (!ImGuiInterface::isMouseOnWidget("Node Display") &&
+			!ImGuiInterface::isMouseOnWidget("Link Display") &&
+			!ImGuiInterface::isMouseOnWidget("Empty Display") &&
+			!ImGuiInterface::isMouseOnWidget("Scene Manager")) {
 			_displayedEntity = nullptr;
 			_sceneManagerActive = false;
 		}

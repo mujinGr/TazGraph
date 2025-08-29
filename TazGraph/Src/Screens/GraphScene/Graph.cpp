@@ -244,12 +244,12 @@ bool Graph::setManager(std::string m_managerName)
 
 
 void Graph::BeginRender() {
-	_editorImgui.BeginRender();
+	ImGuiInterface::BeginRender();
 }
 
 
 void Graph::EndRender() {
-	_editorImgui.EndRender();
+	ImGuiInterface::EndRender();
 }
 
 

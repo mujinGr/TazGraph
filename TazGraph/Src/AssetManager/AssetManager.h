@@ -2,7 +2,8 @@
 
 #include <string>
 #include "TextureManager/TextureManager.h"
-#include "../EditorIMGUI/EditorIMGUI.h"
+#include <GECS/Core/GECSEntityTypes.h>
+#include <ImGuiInterface/ImGuiInterface.h>
 
 #include <SDL2/SDL_ttf.h>
 

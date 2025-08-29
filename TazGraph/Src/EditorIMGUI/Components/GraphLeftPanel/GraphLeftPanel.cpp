@@ -305,7 +305,8 @@ void GraphLeftPanel::OnImGuiRender()
 			}
 			config.manager->removeAllEntitiesFromEmptyGroup(Manager::groupPathLinksHolder);
 
-			config.manager->removeAllEntitiesFromEmptyGroup(Manager::groupPathInnerLinks);
+			// remove related links
+			config.manager->removeAllEntitiesFromLinkGroup(Manager::groupPathInnerLinks);
 
 			config.manager->removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_0);
 			config.manager->removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_1);

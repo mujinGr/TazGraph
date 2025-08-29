@@ -190,7 +190,7 @@ void MainMenuScreen::checkInput() {
 }
 
 void MainMenuScreen::BeginRender() {
-	_editorImgui.BeginRender();
+	ImGuiInterface::BeginRender();
 }
 
 void MainMenuScreen::updateUI(float deltaTime) {
@@ -220,7 +220,7 @@ void MainMenuScreen::drawUI() {
 }
 
 void MainMenuScreen::EndRender() {
-	_editorImgui.EndRender();
+	ImGuiInterface::EndRender();
 }
 
 bool MainMenuScreen::onStartSimulator() {

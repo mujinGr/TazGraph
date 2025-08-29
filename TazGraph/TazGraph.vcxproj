@@ -174,7 +174,6 @@
     <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\NewMapUI\NewMapUI.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\SavingUI\SavingUI.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\SceneControl\SceneControl.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\EditorIMGUI.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphLeftPanel\GraphLeftPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\GraphRightPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphTopBar\GraphTopBar.cpp" />
@@ -209,7 +208,6 @@
     <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\NewMapUI\NewMapUI.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\SavingUI\SavingUI.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\SceneControl\SceneControl.h" />
-    <ClInclude Include="Src\EditorIMGUI\EditorIMGUI.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphLeftPanel\GraphLeftPanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\GraphRightPanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphTopBar\GraphTopBar.h" />

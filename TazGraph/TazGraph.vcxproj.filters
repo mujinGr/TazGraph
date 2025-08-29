@@ -33,9 +33,6 @@
     <ClCompile Include="Src\App\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\EditorIMGUI\EditorIMGUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -132,9 +129,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\App\App.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\EditorIMGUI\EditorIMGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.h">

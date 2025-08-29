@@ -20,7 +20,8 @@
 
 #include "AppScene/ScreenIndices.h"
 
-#include "../../EditorIMGUI/EditorIMGUI.h"
+#include <ImGuiInterface/ImGuiInterface.h>
+
 #include "../../EditorIMGUI/Components/MainMenuPanel/MainMenuPanel.h"
 #include "../../AssetManager/AssetManager.h"
 
@@ -69,8 +70,6 @@ private:
 
     int _nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
     int _prevSceneIndex = SCENE_INDEX_GRAPHPLAY;
-
-    EditorIMGUI _editorImgui;
 
     MainMenuPanel _mainMenuPanel;
 };

@@ -22,7 +22,7 @@
 
 #include "AppScene/ScreenIndices.h"
 
-#include "../../EditorIMGUI/EditorIMGUI.h"
+#include <ImGuiInterface/ImGuiInterface.h>
 
 #include <chrono>
 #include <thread>
@@ -127,8 +127,6 @@ private:
 	const float SCALE_SPEED = 0.1f;
 	bool _firstLoop = true;
 
-	EditorIMGUI _editorImgui;
-
 	MenuDropdownPanel _menuDropdown;
 	FPSCounter _fpsCounter;
 	GraphTopBar _topBar;
@@ -138,8 +136,6 @@ private:
 	SceneControlPanel _sceneControl;
 	EntityComponentsControlPanel _entityComponentController;
 	HoverEntityPanel _hoverEntityPanel;
-
-	bool _showSaveWindow = false;
 
 	Framebuffer _framebuffer;
 	Framebuffer _minimapFramebuffer;

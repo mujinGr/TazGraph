@@ -11,17 +11,13 @@
 #include "../imguiComboAutoselect/imgui_combo_autoselect.h"
 #include <ImGuizmo/ImGuizmo.h>
 
-class ImGuiInterface {
-public:
-    ImGuiInterface();
-
-    ~ImGuiInterface();
-
-    //void SetupImGui();
+namespace ImGuiInterface {
 
     void BeginRender();
 
     void RenderUI();
 
     void EndRender();
+
+    bool isMouseOnWidget(const std::string& widgetName);
 };
