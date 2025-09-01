@@ -1,12 +1,13 @@
 #version 430
 
+//layout (location = 0) in float instanceWidth;
+
 in vec3 vertexPosition; //vec3 is array of 3 floats
 in vec4 vertexColor;
 
-layout (location = 1) in float instanceWidth;
 
 out vec4 vs_color;
-out float vs_instanceWidth;
+//out float vs_instanceWidth;
 
 uniform mat4 u_ViewProjection;
 
@@ -15,5 +16,5 @@ void main() {
 
     vs_color = vertexColor;
 
-    vs_instanceWidth = instanceWidth;
+    //vs_instanceWidth = instanceWidth;
 }

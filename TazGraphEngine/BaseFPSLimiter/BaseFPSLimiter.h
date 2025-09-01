@@ -26,7 +26,7 @@ public:
 	Uint32 startTicks;
 
 	void setHistoryValue(float currentFPS);
-
+	int _currentFrame = 0;
 private:
 	void calculateFPS();
 

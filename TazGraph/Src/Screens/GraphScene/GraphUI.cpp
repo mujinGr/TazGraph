@@ -257,5 +257,4 @@ void Graph::drawUI() {
 	// this is going to be shown when right click on scene and no displayEntity shows
 
 
-	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
 }

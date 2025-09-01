@@ -26,7 +26,6 @@ void Graph::update(float deltaTime) //game objects updating
 		*/
 	if (_firstLoop) {
 		manager->updateFully(deltaTime);
-		_firstLoop = false;
 	}
 	else {
 		manager->update(deltaTime);

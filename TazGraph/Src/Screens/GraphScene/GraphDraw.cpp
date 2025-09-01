@@ -80,42 +80,17 @@ void Graph::draw()
 	GLSLProgram glsl_color = *_resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer = *_resourceManager.getGLSLProgram("framebuffer");
 
-
-	//todo TECHNIQUE TO USE FOR MINIMAP
-	//static float elapsed;
-	//
-	//elapsed = elapsed + getApp()->getFPSLimiter().frameTime / 1000.0f;
-
-	//if (elapsed < 10) {
-	//	_framebuffer.Unbind();
-
-	//	glClear(GL_COLOR_BUFFER_BIT);
-	//	return;
-	//}
-	//else {
-	//	elapsed = 0;
-	//}
-
 	_framebuffer.Bind();
 	////////////OPENGL USE
+	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
+
 	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glDisable(GL_LINE_SMOOTH);
-	glEnable(GL_MULTISAMPLE);
-
-	// Optional: better per-sample shading for sharp results on subpixel edges
-	glEnable(GL_SAMPLE_SHADING);
-	glMinSampleShading(1.0f);      // needs GL 4.0+
-
-	// If your fragment shader outputs alpha falloff (see #2),
-	// alpha-to-coverage helps:
-	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
 	// Blending for smooth edges (premultiplied or standard)
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -286,6 +261,9 @@ void Graph::draw()
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
+	pLocation = glsl_lineColor.getUniformLocation("lineWidth");
+	glUniform1f(pLocation, 5.0f);
+
 	_LineRenderer.end();
 	_LineRenderer.renderBatch();
 	glsl_lineColor.unuse();
@@ -422,7 +400,6 @@ void Graph::draw()
 		}
 	}
 
-	glEnable(GL_LINE_SMOOTH);//!this reduces a bit fps
 
 	float z = 0.0f;
 
@@ -463,23 +440,41 @@ void Graph::draw()
 
 	_framebuffer.Unbind();
 
-	static float elapsed = 0.0f;
-    elapsed += getApp()->getFPSLimiter().frameTime / 1000.0f;
+	minimapDraw();
 
-	if (elapsed < 10.0f && !_firstLoop) {
+	_firstLoop = false;
+
+}
+
+void Graph::minimapDraw() {
+
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
+	std::shared_ptr<OrthoCamera> minimap_camera2D =
+		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
+
+
+	GLSLProgram glsl_texture = *_resourceManager.getGLSLProgram("texture");
+	GLSLProgram glsl_light = *_resourceManager.getGLSLProgram("light");
+	GLSLProgram glsl_lineColor = *_resourceManager.getGLSLProgram("lineColor");
+	GLSLProgram glsl_color = *_resourceManager.getGLSLProgram("color");
+	GLSLProgram glsl_framebuffer = *_resourceManager.getGLSLProgram("framebuffer");
+
+	static float elapsed = 0.0f;
+	elapsed += getApp()->getFPSLimiter().frameTime / 1000.0f;
+
+	if (elapsed < 60.0f && getApp()->getFPSLimiter()._currentFrame > 2) {
 		return;
 	}
 	else
 	{
-        elapsed = 0.0f;
-    }
+		elapsed = 0.0f;
+	}
 
 	_minimapFramebuffer.Bind();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClearDepth(1.0);
-	glDepthFunc(GL_LESS);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_LINE_SMOOTH);
 
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -533,20 +528,17 @@ void Graph::draw()
 	minimap_camera2D->setProjMatrix(proj);
 
 	_resourceManager.setupShader(glsl_color, *minimap_camera2D);
-	pLocation = glsl_color.getUniformLocation("rotationMatrix");
+
+	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
 	_PlaneColorRenderer.end();
 	_PlaneColorRenderer.renderBatch(&glsl_color);
 	glsl_color.unuse();
 
 
-	glDepthMask(GL_FALSE);  // don’t write to depth buffer
-	glDisable(GL_DEPTH_TEST);
-
 	glDepthMask(GL_TRUE);
 	glEnable(GL_DEPTH_TEST);
 
-	glEnable(GL_LINE_SMOOTH);//!this reduces a bit fps
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
@@ -556,10 +548,7 @@ void Graph::draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	_minimapFramebuffer.Unbind();
-
-	glClear(GL_COLOR_BUFFER_BIT);
 }
-
 
 void Graph::drawHUD(const std::vector<NodeEntity*>& entities) {
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));

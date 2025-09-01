@@ -7,9 +7,9 @@ class OrthoCamera : public ICamera {
 public:
 
 
-	OrthoCamera() :
-		_scale(1.0f)
+	OrthoCamera()
 	{
+		_scale = 1.0f;
 		eyePos = glm::vec3(0.f, 0.f, -770.0f);
 		aimPos = glm::vec3(0.f, 0.f, 0.f);
 	}
@@ -53,27 +53,6 @@ public:
 
 
 		return screenCoords;
-	}
-
-	//setters
-	void setPosition(const glm::vec3 newPosition) override {
-		eyePos = newPosition;
-		_cameraChange = true;
-	}
-
-	void setPosition_X(const float newPosition) override {
-		eyePos.x = newPosition;
-		_cameraChange = true;
-	}
-
-	void setPosition_Y(const float newPosition) override {
-		eyePos.y = newPosition;
-		_cameraChange = true;
-	}
-
-	void setPosition_Z(const float newPosition) override {
-		eyePos.z = newPosition;
-		_cameraChange = true;
 	}
 
 	void movePosition_Hor(const float step) {
@@ -136,27 +115,8 @@ public:
 		return glm::vec3(glm::degrees(pitch), glm::degrees(yaw), glm::degrees(roll));
 	}
 
-	glm::vec3 getAimPos() override {
-		return aimPos;
-	}
-
-	void setScale(float newScale) override {
-		_scale = newScale;
-		_cameraChange = true;
-	}
 
 	//getters
-	glm::vec3 getPosition() const override {
-		return eyePos;
-	}
-
-	float getScale() const override {
-		return _scale;
-	}
-
-	glm::mat4 getCameraMatrix() const override {
-		return _cameraMatrix;
-	}
 
 	glm::ivec2 getCameraDimensions() const override {
 		glm::vec2 cameraDimensions = { _screenWidth, _screenHeight };
@@ -178,18 +138,4 @@ public:
 		_cameraChange = true;
 	}
 
-	bool hasChanged() override {
-		return _cameraChange;
-	}
-
-	void makeCameraDirty() override {
-		_cameraChange = true;
-	}
-
-	void refreshCamera() override {
-		_cameraChange = false;
-	}
-
-private:
-	float _scale;
 };

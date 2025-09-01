@@ -40,19 +40,19 @@ public:
     virtual SDL_FRect getCameraRect() const = 0;
 
     // Additional methods to expose camera2D.worldLocation properties as needed
-    virtual glm::vec3 getPosition() const = 0;
-    virtual void setPosition(const glm::vec3 newPosition) = 0;
-    virtual void setPosition_X(const float newPosition) = 0;
-    virtual void setPosition_Y(const float newPosition) = 0;
-    virtual void setPosition_Z(const float newPosition) = 0;
-    virtual float getScale() const = 0;
-    virtual glm::mat4 getCameraMatrix() const = 0;
-    virtual glm::vec3 getAimPos() = 0;
-    virtual void setScale(float scale) = 0;
+    glm::vec3 getPosition() const;
+    void setPosition(const glm::vec3 newPosition);
+    void setPosition_X(const float newPosition);
+    void setPosition_Y(const float newPosition);
+    void setPosition_Z(const float newPosition);
+    float getScale() const;
+    glm::mat4 getCameraMatrix() const;
+    glm::vec3 getAimPos();
+    void setScale(float scale);
 
-    virtual void makeCameraDirty() = 0;
-    virtual bool hasChanged() = 0;
-    virtual void refreshCamera() = 0;
+    void makeCameraDirty();
+    bool hasChanged();
+    void refreshCamera();
 
     void updateCameraOrientation();
 
@@ -80,5 +80,6 @@ protected:
     glm::mat4 _cameraMatrix = glm::mat4(1.0f);
 
 	bool _cameraChange = true;
+    float _scale; // decreases when zoom-out
 
 };

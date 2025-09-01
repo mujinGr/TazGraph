@@ -1,6 +1,71 @@
 #include "./ICamera.h"
 
 
+glm::vec3 ICamera::getPosition() const
+{
+	return eyePos;
+}
+
+void ICamera::setPosition(const glm::vec3 newPosition)
+{
+	eyePos = newPosition;
+	_cameraChange = true;
+}
+
+void ICamera::setPosition_X(const float newPosition)
+{
+	eyePos.x = newPosition;
+	_cameraChange = true;
+}
+
+void ICamera::setPosition_Y(const float newPosition)
+{
+	eyePos.y = newPosition;
+	_cameraChange = true;
+}
+
+void ICamera::setPosition_Z(const float newPosition)
+{
+	eyePos.z = newPosition;
+	_cameraChange = true;
+}
+
+float ICamera::getScale() const
+{
+	return _scale;
+}
+
+glm::mat4 ICamera::getCameraMatrix() const
+{
+	return _cameraMatrix;
+}
+
+glm::vec3 ICamera::getAimPos()
+{
+	return aimPos;
+}
+
+void ICamera::setScale(float scale)
+{
+	_scale = scale;
+	_cameraChange = true;
+}
+
+void ICamera::makeCameraDirty()
+{
+	_cameraChange = true;
+}
+
+bool ICamera::hasChanged()
+{
+	return _cameraChange;
+}
+
+void ICamera::refreshCamera()
+{
+	_cameraChange = false;
+}
+
 void ICamera::updateCameraOrientation() {
 	if (currentViewMode == ViewMode::Y_UP) {
 		upDir = glm::vec3(0.0f, -1.0f, 0.0f);
@@ -98,3 +163,4 @@ glm::mat4 ICamera::getProjMatrix() {
 glm::vec3 ICamera::getUpDir() {
 	return upDir;
 }
+

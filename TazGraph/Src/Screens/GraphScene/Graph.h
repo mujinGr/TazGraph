@@ -70,6 +70,8 @@ public:
 
 	virtual void draw() override;
 
+	void minimapDraw();
+
 	virtual void BeginRender() override;
 	virtual void updateUI(float deltaTime) override;
 	virtual void drawUI() override;

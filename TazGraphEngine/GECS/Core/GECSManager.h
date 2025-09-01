@@ -43,6 +43,8 @@ public:
 
 	std::unique_ptr<Grid> grid;
 
+	std::unique_ptr<Grid> minimap_grid;
+
 	Manager() {}
 
 	~Manager() { _threader = nullptr;  }
@@ -198,6 +200,7 @@ public:
 			
 			e->update(deltaTime);
 		}
+		update(deltaTime);
 	}
 
 	void refresh(ICamera* camera = nullptr)

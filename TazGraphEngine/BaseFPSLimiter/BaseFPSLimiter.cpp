@@ -43,22 +43,20 @@ void BaseFPSLimiter::calculateFPS() {
 
 	static Uint32 frameTimes[NUM_SAMPLES];
 
-	static int currentFrame = 0;
-
 	static Uint32 prevTicks = SDL_GetTicks();
 
 	Uint32 currentTicks = SDL_GetTicks();
 
 	frameTime = currentTicks - prevTicks;
-	frameTimes[currentFrame % NUM_SAMPLES] = frameTime;
+	frameTimes[_currentFrame % NUM_SAMPLES] = frameTime;
 
 	prevTicks = currentTicks;
 
 	int count;
 
-	currentFrame++;
-	if (currentFrame < NUM_SAMPLES) {
-		count = currentFrame;
+	_currentFrame++;
+	if (_currentFrame < NUM_SAMPLES) {
+		count = _currentFrame;
 	}
 	else {
 		count = NUM_SAMPLES;
