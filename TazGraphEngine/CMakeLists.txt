@@ -173,7 +173,7 @@ include_directories(${JSONPARSER_INCLUDE_DIR})
 set(DOTPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/DotParser/DotParser")
 include_directories(${DOTPARSER_INCLUDE_DIR})
 
-set(PYBIND11_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/pybind11/include/pybind11")
+set(PYBIND11_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/pybind11/include")
 include_directories(${PYBIND11_INCLUDE_DIR})
 #file(GLOB IMGUI_SOURCES ${PROJECT_NAME}/imgui/*.cpp)
 #target_sources(${PROJECT_NAME} PRIVATE ${IMGUI_SOURCES})

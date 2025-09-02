@@ -12,8 +12,8 @@ void PythonInterpreterPanel::OnImGuiRender()
 		// Here you would pass pythonBuffer to your interpreter
 		// For now just print to console
 		printf("Python input: %s\n", _pythonBuffer);
-		py::scoped_interpreter guard{};
-		py::exec("print('Hello from Python via pybind11')");
+		/*py::scoped_interpreter guard{};
+		py::exec("print('Hello from Python via pybind11')");*/
 	}
 
 	ImGui::SameLine();

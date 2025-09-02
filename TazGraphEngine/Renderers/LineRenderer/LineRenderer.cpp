@@ -84,13 +84,25 @@ void LineRenderer::initBatchSize()
 	_lines_indicesOffset = 0;
 	_rectangles_indicesOffset = _lineGlyphs_size * INDICES_LINE_OFFSET;
 	_boxes_indicesOffset = _lineGlyphs_size * INDICES_LINE_OFFSET + _squareGlyphs_size * INDICES_SQUARE_OFFSET;
+
+
+	_meshesElements[LINE_MESH_IDX].instances.resize(_lineGlyphs_size);
+	_meshesElements[LINE_MESH_IDX].meshIndices = INDICES_LINE_OFFSET;
+
+	_meshesElements[RECTANGLE_MESH_IDX].instances.resize(0);
+	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
+
+	_meshesElements[BOX_MESH_IDX].instances.resize(0);
+	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
+
+	_meshesElements[SPHERE_MESH_IDX].instances.resize(0);
 }
 
 // todo can be optimized, by having something like glyphs in planeModelRenederer where first you pass info in a vector and
 // todo on render pass that info in verts and indices
-void LineRenderer::drawLine(size_t v_index, const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor)
+void LineRenderer::drawLine(size_t v_index, const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor, const float width)
 {
-	LineGlyph lineGlyph = LineGlyph(srcPosition, destPosition, srcColor, destColor);
+	LineGlyph lineGlyph = LineGlyph(srcPosition, destPosition, srcColor, destColor, width);
 
 	size_t i_cg = _lines_indicesOffset + v_index * INDICES_LINE_OFFSET;
 	size_t verts_index = _lines_verticesOffset + v_index * LINE_OFFSET;
@@ -102,6 +114,7 @@ void LineRenderer::drawLine(size_t v_index, const glm::vec3 srcPosition, const g
 	_indices[i_cg++] = ++cv;
 	_vertices[verts_index] = lineGlyph.toV;
 
+	_meshesElements[LINE_MESH_IDX].instances[v_index] = LineInstanceData(srcPosition, destPosition, srcColor, destColor, width);
 }
 
 void LineRenderer::drawRectangle(size_t v_index, const glm::vec4& destRect, const Color& color, float angle, float zIndex)
@@ -193,6 +206,32 @@ void LineRenderer::renderBatch()
 			(void*)(_renderBatches[i].offset * sizeof(GLuint))
 		);
 	}
+
+	/////////////////
+
+	glBindVertexArray(_meshesElements[LINE_MESH_IDX].vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
+
+	glBufferData(GL_ARRAY_BUFFER, _meshesElements[LINE_MESH_IDX].instances.size() * sizeof(LineInstanceData), nullptr, GL_DYNAMIC_DRAW);
+
+	glBufferSubData(GL_ARRAY_BUFFER, 0,
+		_meshesElements[LINE_MESH_IDX].instances.size() * sizeof(LineInstanceData),
+		_meshesElements[LINE_MESH_IDX].instances.data());
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+
+	glDrawElementsInstanced(
+		GL_LINES,
+		_meshesElements[LINE_MESH_IDX].meshIndices,
+		GL_UNSIGNED_INT,
+		0,
+		_meshesElements[LINE_MESH_IDX].instances.size()
+	);
+
+	/////////////////
+
 	glBindVertexArray(0);
 }
 
@@ -222,15 +261,44 @@ void LineRenderer::createRenderBatches() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-//void LineRenderer::createInstancesVBO() {
-//	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
-//
-//	glEnableVertexAttribArray(1); // instance width
-//	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(LineInstanceData), (void*)offsetof(LineInstanceData, width));
-//	glVertexAttribDivisor(1, 1);
-//}
+void LineRenderer::createInstancesVBO() {
+	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
+
+	glEnableVertexAttribArray(0); // instance fromPos
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(LineInstanceData), (void*)offsetof(LineInstanceData, fromPos));
+	glVertexAttribDivisor(0, 1);
+
+	glEnableVertexAttribArray(1); // instance toPos
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(LineInstanceData), (void*)offsetof(LineInstanceData, toPos));
+	glVertexAttribDivisor(1, 1);
+
+	glEnableVertexAttribArray(2); // instance fromColor
+	glVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(LineInstanceData), (void*)offsetof(LineInstanceData, fromcolor));
+	glVertexAttribDivisor(2, 1);
+
+	glEnableVertexAttribArray(3); // instance toColor
+	glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(LineInstanceData), (void*)offsetof(LineInstanceData, tocolor));
+	glVertexAttribDivisor(3, 1);
+
+	glEnableVertexAttribArray(4); // instance width
+	glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(LineInstanceData), (void*)offsetof(LineInstanceData, width));
+	glVertexAttribDivisor(4, 1);
+}
 
 void LineRenderer::createVertexArray() {
+	_meshesElements.resize(TOTAL_MESHES);
+
+	for (int i = 0; i < _meshesElements.size(); i++) {
+		glGenVertexArrays(1, &_meshesElements[i].vao);
+		glGenBuffers(1, &_meshesElements[i].vbo);
+		glGenBuffers(1, &_meshesElements[i].ibo);
+	}
+
+	glGenBuffers(1, &_vboInstances);
+
+	glBindVertexArray(_meshesElements[LINE_MESH_IDX].vao);
+
+	createInstancesVBO();
 
 	//Set up buffers
 	glGenVertexArrays(1, &_vao);

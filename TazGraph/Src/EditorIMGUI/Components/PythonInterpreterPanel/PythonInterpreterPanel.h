@@ -2,10 +2,10 @@
 
 #include "../../UIElement.h"
 
-#include <pybind11/pybind11.h>
-#include <pybind11/embed.h>
+//#include <pybind11/pybind11.h>
+//#include <pybind11/embed.h>
 
-namespace py = pybind11;
+//namespace py = pybind11;
 
 struct PythonInterpreterConfig {
 };

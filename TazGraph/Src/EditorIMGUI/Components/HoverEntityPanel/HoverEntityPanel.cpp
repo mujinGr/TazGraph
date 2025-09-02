@@ -1,6 +1,6 @@
 #include "HoverEntityPanel.h"
 
-#ifdef defined(_WIN32) || defined(_WIN64)
+#ifdef _WIN32 || _WIN64
 #define safe_sprintf sprintf_s
 #else
 #define safe_sprintf sprintf

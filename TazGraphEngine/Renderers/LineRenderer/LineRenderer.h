@@ -27,7 +27,7 @@ class LineGlyph {
 	
 public:
 	LineGlyph() {};
-	LineGlyph(const glm::vec3& fromPosition, const glm::vec3& toPosition, const Color& srcColor, const Color& destColor)
+	LineGlyph(const glm::vec3& fromPosition, const glm::vec3& toPosition, const Color& srcColor, const Color& destColor, const float m_width)
 		{
 
 		fromV.color = srcColor;
@@ -35,10 +35,13 @@ public:
 
 		toV.color = destColor;
 		toV.setPosition(toPosition);
+
+		width = m_width;
 	};
 
 	ColorVertex fromV;
 	ColorVertex toV;
+	float width;
 };
 
 class SquareGlyph {
@@ -169,7 +172,7 @@ void main() {
 
 	void initBatchBoxes(size_t msize);
 
-	void drawLine(size_t v_index, const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor);
+	void drawLine(size_t v_index, const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor, const float width = 10.0f);
 	void drawRectangle(size_t v_index, const glm::vec4& destRect, const Color& color, float angle, float zIndex =0.0f);
 	void drawBox(size_t v_index, const glm::vec3& origin, const glm::vec3& size, const Color& color, float angle);
 	void drawCircle(const glm::vec2& center, const Color& color, float radius);
@@ -190,7 +193,12 @@ private:
 	void createInstancesVBO();
 	void createVertexArray();
 
+
+	//////////////
 	GLuint _vboInstances;
+
+	std::vector<LineMeshRenderer> _meshesElements;
+	//////////////
 
 	GLuint _vbo = 0, _vao = 0, _ibo = 0; //! ibo is what is going to store the integers for each 
 

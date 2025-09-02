@@ -26,6 +26,14 @@
 #define BOX_MESH_IDX 2
 #define SPHERE_MESH_IDX 3
 
+#define TOTAL_LINE_MESHES 4
+
+#define LINE_MESH_IDX 0
+#define LINE_RECTANGLE_MESH_IDX 1
+#define LINE_BOX_MESH_IDX 2
+#define LINE_SPHERE_MESH_IDX 3
+
+
 constexpr int INDICES_LINE_OFFSET = LINE_OFFSET;
 constexpr int INDICES_SQUARE_OFFSET = 2 * SQUARE_OFFSET;
 constexpr int INDICES_BOX_OFFSET = 3 * BOX_OFFSET;
@@ -282,6 +290,21 @@ struct TextureInstanceData : InstanceData {
 };
 
 struct LineInstanceData {
+	LineInstanceData(Position mfromPos, Position mtoPos, Color mfromcolor, Color mtocolor, float mwidth)
+		:  
+		fromPos(mfromPos),
+		toPos(mtoPos),
+		fromcolor(mfromcolor),
+		tocolor(mtocolor),
+		width(mwidth)
+	{}
+
+	~LineInstanceData() {}
+
+	Position fromPos = glm::vec3(0.0f);
+	Position toPos = glm::vec3(0.0f);
+	Color fromcolor = Color(255, 255, 255, 255);
+	Color tocolor = Color(255, 255, 255, 255);
 	float width = 10.0f;
 };
 
@@ -301,6 +324,10 @@ struct MeshRenderer : BaseRenderer {
 
 struct ColorMeshRenderer : BaseRenderer {
 	std::vector<ColorInstanceData> instances;
+};
+
+struct LineMeshRenderer : BaseRenderer {
+	std::vector<LineInstanceData> instances;
 };
 
 struct TextureMeshRenderer : BaseRenderer {
