@@ -2,6 +2,7 @@
 
 void MenuDropdownPanel::update(float deltaTime)
 {
+	pythonInterpreter.update();
 	loadingUI.update();
 	savingUI.update();
 	newMapUI.update();
@@ -25,7 +26,20 @@ void MenuDropdownPanel::OnImGuiRender()
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("Python Interpreter"))
+		{
+			pythonInterpreter.showPythonInterpreter = !pythonInterpreter.showPythonInterpreter;
+			ImGui::EndMenu();
+		}
+
 		ImGui::EndMenuBar();
 	}
 
+
+	if (pythonInterpreter.showPythonInterpreter)
+	{
+		pythonInterpreter.setConfig({});
+		pythonInterpreter.update();
+		pythonInterpreter.OnImGuiRender();
+	}
 }

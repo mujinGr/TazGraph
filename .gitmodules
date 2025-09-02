@@ -19,3 +19,6 @@
 [submodule "vendors/DotParser"]
 	path = vendors/DotParser
 	url = https://github.com/mujinGr/DotParser.git
+[submodule "vendors/pybind11"]
+	path = vendors/pybind11
+	url = https://github.com/pybind/pybind11.git

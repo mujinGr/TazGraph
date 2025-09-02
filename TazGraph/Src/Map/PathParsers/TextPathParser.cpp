@@ -1,5 +1,11 @@
 #include "./TextPathParser.h"
 
+#ifdef defined(_WIN32) || defined(_WIN64)
+#define safe_sscanf sscanf_s
+#else
+#define safe_sscanf sscanf
+#endif
+
 TextPathParser::TextPathParser() {}
 
 void TextPathParser::readFile(std::string m_fileName) {
@@ -54,7 +60,7 @@ void TextPathParser::parse(Manager& manager,
 					}
 					else if (key.find("color") != std::string::npos) {
 						int r, g, b;
-						if (sscanf_s(value.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
+						if (safe_sscanf(value.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
 							plc.color = Color(r, g, b, 255);
 						}
 					}

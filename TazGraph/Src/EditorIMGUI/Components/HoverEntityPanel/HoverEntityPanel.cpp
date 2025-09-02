@@ -1,5 +1,11 @@
 #include "HoverEntityPanel.h"
 
+#ifdef defined(_WIN32) || defined(_WIN64)
+#define safe_sprintf sprintf_s
+#else
+#define safe_sprintf sprintf
+#endif
+
 void HoverEntityPanel::OnImGuiRender()
 {
 	if (!config.hoveredEntity) return;
@@ -49,34 +55,34 @@ void HoverEntityPanel::OnImGuiRender()
 	if (node) {
 		// Entity ID
 		char idText[64];
-		sprintf_s(idText, "Id: %d", config.hoveredEntity->getId());
+		safe_sprintf(idText, "Id: %d", config.hoveredEntity->getId());
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
 		currentY += lineHeight;
 
 		// Position
 		TransformComponent* tr = &config.hoveredEntity->GetComponent<TransformComponent>();
 		char posText[128];
-		sprintf_s(posText, "Position: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
+		safe_sprintf(posText, "Position: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), posText);
 		currentY += lineHeight;
 
 		// Size
 		char sizeText[128];
-		sprintf_s(sizeText, "Size: (%.2f, %.2f)", tr->size.x, tr->size.y);
+		safe_sprintf(sizeText, "Size: (%.2f, %.2f)", tr->size.x, tr->size.y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), sizeText);
 		currentY += lineHeight;
 
 		// Grid position
 		glm::vec3 cellBox = config.manager->grid->getCell(*config.hoveredEntity, config.manager->grid->getGridLevel())->boundingBox_origin;
 		char gridText[128];
-		sprintf_s(gridText, "Grid: (%.2f, %.2f)", cellBox.x, cellBox.y);
+		safe_sprintf(gridText, "Grid: (%.2f, %.2f)", cellBox.x, cellBox.y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), gridText);
 	}
 
 	Link* link = dynamic_cast<Link*>(config.hoveredEntity);
 	if (link) {
 		char idText[64];
-		sprintf_s(idText, "Link Id: %d", config.hoveredEntity->getId());
+		safe_sprintf(idText, "Link Id: %d", config.hoveredEntity->getId());
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
 	}
 
@@ -84,27 +90,27 @@ void HoverEntityPanel::OnImGuiRender()
 	if (empty) {
 		// Entity ID
 		char idText[64];
-		sprintf_s(idText, "Empty Id: %d", config.hoveredEntity->getId());
+		safe_sprintf(idText, "Empty Id: %d", config.hoveredEntity->getId());
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
 		currentY += lineHeight;
 
 		// Position
 		TransformComponent* tr = &config.hoveredEntity->GetComponent<TransformComponent>();
 		char posText[128];
-		sprintf_s(posText, "Position: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
+		safe_sprintf(posText, "Position: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), posText);
 		currentY += lineHeight;
 
 		// Size
 		char sizeText[128];
-		sprintf_s(sizeText, "Size: (%.2f, %.2f)", tr->size.x, tr->size.y);
+		safe_sprintf(sizeText, "Size: (%.2f, %.2f)", tr->size.x, tr->size.y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), sizeText);
 		currentY += lineHeight;
 
 		// Grid position
 		glm::vec3 cellBox = config.manager->grid->getCell(*config.hoveredEntity, config.manager->grid->getGridLevel())->boundingBox_origin;
 		char gridText[128];
-		sprintf_s(gridText, "Grid: (%.2f, %.2f)", cellBox.x, cellBox.y);
+		safe_sprintf(gridText, "Grid: (%.2f, %.2f)", cellBox.x, cellBox.y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), gridText);
 	}
 

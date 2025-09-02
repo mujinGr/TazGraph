@@ -1,16 +1,17 @@
 set(PROJECT_NAME TazGraph)
 
+
+# Recursively find all header and source files in Components and all subdirectories
+file(GLOB_RECURSE EDITOR_COMPONENTS_HEADERS "Src/EditorIMGUI/Components/*.h")
+file(GLOB_RECURSE EDITOR_COMPONENTS_SOURCES "Src/EditorIMGUI/Components/*.cpp")
+
 ################################################################################
 # Source groups
 ################################################################################
 set(Header_Files
     "Src/App/App.h"
     "Src/AssetManager/AssetManager.h"
-    "Src/EditorIMGUI/EditorIMGUI.h"
-    "Src/EditorIMGUI/EditorLayoutUtils.h"
-    "Src/EditorIMGUI/CustomFunctions/CustomFunctions.h"
-    "Src/EditorIMGUI/Minimap/Minimap.h"
-    "Src/EditorIMGUI/OrientationBox/OrientationBox.h"
+    "Src/EditorIMGUI/UIElement.h"
     "Src/GECS/ScriptComponents.h"
     "Src/GECS/Scripts/MainMenuBackground.h"
     "Src/Screens/GraphScene/Graph.h"
@@ -22,17 +23,13 @@ set(Header_Files
     "Src/Map/Parsers/PythonMapParser.h"
     "Src/Map/Parsers/TextMapParser.h"
     "Src/Map/PathParsers/TextPathParser.h"
+    ${EDITOR_COMPONENTS_HEADERS}
 )
 source_group("Header Files" FILES ${Header_Files})
 
 set(Source_Files
     "Src/App/App.cpp"
     "Src/AssetManager/AssetManager.cpp"
-    "Src/EditorIMGUI/EditorIMGUI.cpp"
-    "Src/EditorIMGUI/EditorLayoutUtils.cpp"
-    "Src/EditorIMGUI/CustomFunctions/CustomFunctions.cpp"
-    "Src/EditorIMGUI/Minimap/Minimap.cpp"
-    "Src/EditorIMGUI/OrientationBox/OrientationBox.cpp"
     "Src/Screens/GraphScene/Graph.cpp"
     "Src/Screens/GraphScene/GraphDraw.cpp"
     "Src/Screens/GraphScene/GraphUI.cpp"
@@ -46,6 +43,7 @@ set(Source_Files
     "Src/Map/Parsers/PythonMapParser.cpp"
     "Src/Map/Parsers/TextMapParser.cpp"
     "Src/Map/PathParsers/TextPathParser.cpp"
+    ${EDITOR_COMPONENTS_SOURCES}
 )
 source_group("Source Files" FILES ${Source_Files})
 
@@ -70,6 +68,9 @@ include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
 # Find SDL2 core library
 find_package(SDL2_ttf REQUIRED)
 include_directories(${SDL2_TTF_INCLUDE_DIRS})
+
+find_package(Python3 REQUIRED COMPONENTS Development)
+include_directories(${Python3_INCLUDE_DIRS})
 
 # COPY FROM PROPERTIES IN MSVS
 set(VENDORS_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors")
@@ -100,6 +101,8 @@ include_directories(${JSONPARSER_INCLUDE_DIR})
 set(DOTPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/DotParser/DotParser")
 include_directories(${DOTPARSER_INCLUDE_DIR})
 
+set(PYBIND11_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/pybind11/include/pybind11")
+include_directories(${PYBIND11_INCLUDE_DIR})
 ################################################################################
 # Target
 ################################################################################
@@ -252,3 +255,4 @@ endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_IMAGE_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_ttf::SDL2_ttf)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${Python3_LIBRARIES})

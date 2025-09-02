@@ -222,13 +222,13 @@ void LineRenderer::createRenderBatches() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void LineRenderer::createInstancesVBO() {
-	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
-
-	glEnableVertexAttribArray(1); // instance width
-	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(LineInstanceData), (void*)offsetof(LineInstanceData, width));
-	glVertexAttribDivisor(1, 1);
-}
+//void LineRenderer::createInstancesVBO() {
+//	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
+//
+//	glEnableVertexAttribArray(1); // instance width
+//	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(LineInstanceData), (void*)offsetof(LineInstanceData, width));
+//	glVertexAttribDivisor(1, 1);
+//}
 
 void LineRenderer::createVertexArray() {
 

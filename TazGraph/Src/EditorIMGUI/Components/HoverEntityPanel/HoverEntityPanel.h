@@ -18,9 +18,6 @@ private:
 	HoverEntityConfig config;
 
 public:
-	LoadingUI loadingUI;
-	SavingUI savingUI;
-	NewMapUI newMapUI;
 	void setConfig(const HoverEntityConfig& cfg) { config = cfg; }
 	void OnImGuiRender() override;
 };

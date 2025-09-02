@@ -19,7 +19,6 @@ set(Header_Files
     "GECS/Animators/FlashAnimatorComponent.h"
     "GECS/Animators/LineAnimators/LineFlashAnimatorComponent.h"
     "GECS/Animators/RectangleAnimators/RectangleFlashAnimatorComponent.h"
-    "GECS/Components/Empty/Util/ButtonComponent.h"
     "GECS/Components/Empty/Util/ColliderComponent.h"
     "GECS/Components.h"
     "GECS/Core/GECS.h"
@@ -27,7 +26,6 @@ set(Header_Files
     "GECS/Core/CellEntity.h"
     "GECS/Core/GECSEntity.h"
     "GECS/Core/GECSEntityTypes.h"
-    "GECS/Components/Empty/Util/GridComponent.h"
     "GECS/Components/Empty/Basic/Rectangle_w_Color.h"
     "GECS/Components/Empty/Basic/BoxComponent.h"
     "GECS/Components/Empty/Basic/SphereComponent.h"
@@ -140,6 +138,10 @@ include_directories(${OPENGL_INCLUDE_DIR})
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS}) # LIBS added at end
 
+find_package(Python3 REQUIRED COMPONENTS Development)
+include_directories(${Python3_INCLUDE_DIRS})
+
+
 #set(GLEW_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/GL")
 #include_directories(${GLEW_INCLUDE_DIR})
 
@@ -171,6 +173,8 @@ include_directories(${JSONPARSER_INCLUDE_DIR})
 set(DOTPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/DotParser/DotParser")
 include_directories(${DOTPARSER_INCLUDE_DIR})
 
+set(PYBIND11_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/pybind11/include/pybind11")
+include_directories(${PYBIND11_INCLUDE_DIR})
 #file(GLOB IMGUI_SOURCES ${PROJECT_NAME}/imgui/*.cpp)
 #target_sources(${PROJECT_NAME} PRIVATE ${IMGUI_SOURCES})
 
@@ -306,6 +310,8 @@ message(STATUS "Linking SDL2_mixer with ${PROJECT_NAME} using ${SDL2_MIXER_LIBRA
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_image::SDL2_image)
 message(STATUS "Linking SDL2_image with ${PROJECT_NAME} using ${SDL2_IMAGE_LIBRARIES}")
 #target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE ${Python3_LIBRARIES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${GLEW_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENGL_LIBRARIES})
