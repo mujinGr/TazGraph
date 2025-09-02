@@ -97,7 +97,6 @@ public:
 
 private:
 	float _backgroundColor[4] = { 0.407f,0.384f,0.356f, 1.0f };
-	float _minimap_backgroundColor[4] = { 1.f,0.f,0.f, 1.0f };
 
 	std::vector<Cell*> traversedCellsFromRay(glm::vec3 rayOrigin,
 		glm::vec3 rayDirection,
@@ -147,6 +146,11 @@ private:
 
 	glm::vec2 _sceneMousePosition = {0.f,0.f};
 	glm::vec2 _savedMainViewportMousePosition = { 0.f,0.f };
+
+	// Minimap stuff
+	int currentX = 0, currentY = 0, currentZ = 0;
+	bool processingComplete = false;
+	bool needsRefresh = true;
 
 };
 

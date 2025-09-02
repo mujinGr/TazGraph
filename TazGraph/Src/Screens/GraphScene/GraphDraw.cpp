@@ -460,15 +460,104 @@ void Graph::minimapDraw() {
 	GLSLProgram glsl_color = *_resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer = *_resourceManager.getGLSLProgram("framebuffer");
 
+	const int GRID_WIDTH = manager->grid->getNumXCells();
+	const int GRID_HEIGHT = manager->grid->getNumYCells();
+	const int GRID_DEPTH = manager->grid->getNumZCells();
+
 	static float elapsed = 0.0f;
 	elapsed += getApp()->getFPSLimiter().frameTime / 1000.0f;
 
-	if (elapsed < 60.0f && getApp()->getFPSLimiter()._currentFrame > 2) {
-		return;
-	}
-	else
-	{
+	if (elapsed >= 60.0f && processingComplete) {
 		elapsed = 0.0f;
+		needsRefresh = true;
+		processingComplete = false;
+		currentX = ceil(-GRID_WIDTH / 2.0f);
+		currentY = ceil(-GRID_HEIGHT / 2.0f);
+		currentZ = ceil(-GRID_DEPTH / 2.0f);
+		// Clear all minimap nodes for fresh start
+		manager->removeAllEntitiesFromGroup(Manager::groupMinimapNodes);
+	}
+
+	// For first two frames (0 and 1), draw minimap normally with all nodes at once
+	if (_firstLoop) {
+		currentX = ceil(-GRID_WIDTH / 2.0f);
+		currentY = ceil(-GRID_HEIGHT / 2.0f);
+		currentZ = ceil(-GRID_DEPTH / 2.0f);
+		// Clear existing minimap nodes
+		manager->removeAllEntitiesFromGroup(Manager::groupMinimapNodes);
+
+		// Process all cells immediately
+		for (int z = ceil(-GRID_DEPTH / 2.0f); z <= ceil(GRID_DEPTH / 2.0f); z++) {
+			for (int y = ceil(-GRID_HEIGHT / 2.0f); y <= ceil(GRID_HEIGHT / 2.0f); y++) {
+				for (int x = ceil(-GRID_WIDTH / 2.0f); x <= ceil(GRID_WIDTH / 2.0f); x++) {
+					Cell* cell = manager->grid->getCell(x, y, z, Grid::Basic);
+					if (cell != nullptr) {
+						for (auto* node : cell->nodes) {
+							if (node != nullptr) {
+								auto& transform = node->GetComponent<TransformComponent>();
+
+								auto& mnode = manager->addEntity<Node>();
+								mnode.addGroup(Manager::groupMinimapNodes);
+
+								auto& mtrans = mnode.addComponent<TransformComponent>();
+								mtrans.bodyCenter.x = transform.bodyCenter.x;
+								mtrans.bodyCenter.y = transform.bodyCenter.y;
+								mtrans.size = transform.size * 10.0f;
+								mnode.addComponent<Rectangle_w_Color>();
+								mnode.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255));
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if (needsRefresh && !processingComplete) {
+		while (!processingComplete) {
+			// Get current cell
+			Cell* cell = manager->grid->getCell(currentX, currentY, currentZ, Grid::Basic);
+
+			if (cell != nullptr) {
+				// Process all nodes in this cell
+				for (auto* node : cell->nodes) {
+					if (node != nullptr) {
+						auto& transform = node->GetComponent<TransformComponent>();
+
+						// Create a new entity in the minimap group
+						auto& mnode = manager->addEntity<Node>();
+						mnode.addGroup(Manager::groupMinimapNodes);
+
+						// Copy/scale transform
+						auto& mtrans = mnode.addComponent<TransformComponent>();
+						mtrans.bodyCenter.x = transform.bodyCenter.x;
+						mtrans.bodyCenter.y = transform.bodyCenter.y;
+						mtrans.size = transform.size * 10.0f; // enlarge only on minimap
+						mnode.addComponent<Rectangle_w_Color>();
+						mnode.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255));
+					}
+				}
+			}
+
+			// Move to next cell
+			currentX++;
+			if (currentX > ceil(GRID_WIDTH / 2.0f)) {
+				currentX = ceil(-GRID_WIDTH / 2.0f);
+				currentY++;
+				if (currentY > ceil(GRID_HEIGHT / 2.0f)) {
+					currentY = ceil(-GRID_HEIGHT / 2.0f);
+					currentZ++;
+					if (currentZ > ceil(GRID_DEPTH / 2.0f)) {
+						// We've processed all cells
+						processingComplete = true;
+						needsRefresh = false;
+						currentX = ceil(-GRID_WIDTH / 2.0f);
+						currentY = ceil(-GRID_HEIGHT / 2.0f);
+						currentZ = ceil(-GRID_DEPTH / 2.0f); // Reset for next cycle
+					}
+				}
+			}
+		}
 	}
 
 	_minimapFramebuffer.Bind();
@@ -480,27 +569,7 @@ void Graph::minimapDraw() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-	auto& nodes = manager->getGroup<NodeEntity>(Manager::groupNodes_0);
-
-	manager->removeAllEntitiesFromGroup(Manager::groupMinimapNodes);
-
-	for (auto& node : nodes) {
-		auto& transform = node->GetComponent<TransformComponent>();
-		auto& color = node->GetComponent<Rectangle_w_Color>();
-
-		// Create a new entity in the minimap group
-		auto& mnode = manager->addEntity<Node>();
-		mnode.addGroup(Manager::groupMinimapNodes);
-
-		//// Copy/scale transform
-		auto& mtrans = mnode.addComponent<TransformComponent>();
-
-		mtrans.bodyCenter.x = transform.bodyCenter.x;
-		mtrans.bodyCenter.y = transform.bodyCenter.y;
-		mtrans.size = transform.size * 10.0f; // enlarge only on minimap
-		mnode.addComponent<Rectangle_w_Color>();
-		mnode.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255));
-	}
+	
 
 	_PlaneColorRenderer.begin();
 	_PlaneColorRenderer.initQuadBatch(

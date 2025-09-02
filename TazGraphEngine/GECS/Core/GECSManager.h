@@ -43,8 +43,6 @@ public:
 
 	std::unique_ptr<Grid> grid;
 
-	std::unique_ptr<Grid> minimap_grid;
-
 	Manager() {}
 
 	~Manager() { _threader = nullptr;  }

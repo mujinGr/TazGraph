@@ -47,7 +47,7 @@ void Graph::destroy() {
 
 void Graph::onEntry()
 {
-	getApp()->getFPSLimiter()._currentFrame = 0;
+	getApp()->getFPSLimiter().currentFrame = 0;
 	std::string mapName = DataManager::getInstance().mapToLoad;
 
 	/////////////////////////////////////////////
