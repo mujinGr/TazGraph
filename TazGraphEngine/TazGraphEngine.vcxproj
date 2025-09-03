@@ -196,7 +196,7 @@
     <ClCompile Include="InputManager\InputManager.cpp" />
     <ClCompile Include="PNG_Letters.cpp" />
     <ClCompile Include="Renderers\PlaneRenderers\PlaneColorRenderer\PlaneColorRenderer.cpp" />
-    <ClCompile Include="Renderers\PlaneRenderers\PlaneRenderer.cpp" />
+    <ClCompile Include="Renderers\Renderer.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Renderers\PlaneRenderers\PlaneModelRenderer\PlaneModelRenderer.cpp" />
     <ClCompile Include="TextureManager\TextureManager.cpp" />
@@ -257,7 +257,7 @@
     <ClInclude Include="picoPNG.h" />
     <ClInclude Include="PNG_Letters.h" />
     <ClInclude Include="Renderers\PlaneRenderers\PlaneColorRenderer\PlaneColorRenderer.h" />
-    <ClInclude Include="Renderers\PlaneRenderers\PlaneRenderer.h" />
+    <ClInclude Include="Renderers\Renderer.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
     <ClInclude Include="Renderers\PlaneRenderers\PlaneModelRenderer\PlaneModelRenderer.h" />
     <ClInclude Include="TextureManager\TextureManager.h" />

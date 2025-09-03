@@ -120,9 +120,9 @@ void Graph::draw()
 
 		std::vector<Cell*> intercectedCells = manager->grid->getIntersectedCameraCells(*main_camera2D);
 
-		_LineRenderer.initBatchSquares(4);
+		_LineRenderer.initQuadBatch(4);
 
-		_LineRenderer.initBatchBoxes(
+		_LineRenderer.initBoxBatch(
 			intercectedCells.size() +
 			manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
 			manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
@@ -187,7 +187,7 @@ void Graph::draw()
 	_PlaneModelRenderer.begin();
 	_LightRenderer.begin();
 	//! Line Renderer Init
-	_LineRenderer.initBatchLines(
+	_LineRenderer.initLineBatch(
 		manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0).size() +
 		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0).size() +
 		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size()
@@ -261,9 +261,6 @@ void Graph::draw()
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
-	pLocation = glsl_lineColor.getUniformLocation("lineWidth");
-	glUniform1f(pLocation, 5.0f);
-
 	_LineRenderer.end();
 	_LineRenderer.renderBatch();
 	glsl_lineColor.unuse();
@@ -285,7 +282,7 @@ void Graph::draw()
 	_LineRenderer.begin();
 	_PlaneColorRenderer.begin();
 
-	_LineRenderer.initBatchLines(
+	_LineRenderer.initLineBatch(
 		manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks_0).size() +
 		manager->getVisibleGroup<LinkEntity>(Manager::groupPathInnerLinks).size()
 	);
@@ -317,9 +314,6 @@ void Graph::draw()
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
-	pLocation = glsl_lineColor.getUniformLocation("lineWidth");
-	glUniform1f(pLocation, 5.0f);
-
 	pLocation = glsl_lineColor.getUniformLocation("viewportSize");
 	glUniform2f(pLocation, _window->getScreenWidth(), _window->getScreenHeight());
 
@@ -350,11 +344,11 @@ void Graph::draw()
 
 	linkCount += 2 * AXIS_CELLS + 2;
 
-	_LineRenderer.initBatchLines(
+	_LineRenderer.initLineBatch(
 		linkCount
 		//+1
 	);
-	_LineRenderer.initBatchBoxes(
+	_LineRenderer.initBoxBatch(
 		nodeCount
 	);
 
@@ -419,9 +413,6 @@ void Graph::draw()
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
-
-	pLocation = glsl_lineColor.getUniformLocation("lineWidth");
-	glUniform1f(pLocation, 5.0f);
 
 	_LineRenderer.end();
 	_LineRenderer.renderBatch();

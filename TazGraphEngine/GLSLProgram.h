@@ -40,6 +40,14 @@ constexpr int INDICES_BOX_OFFSET = 3 * BOX_OFFSET;
 
 constexpr int ARRAY_BOX_OFFSET = 36;
 
+static ColorVertex lineVertices[2]{
+	{ glm::vec3(0.0f, 0.0f, 0.0f),		Color(255,255,255,255)  },
+	{ glm::vec3(100.0f,100.0f,100.0f),	Color(255,0,0,255)}
+};
+
+static GLuint lineIndices[2] = {
+	0, 1
+};
 
 static Position triangleVertices[3] = {
 	{  0.0f,  0.5f, 0.0f }, // Top
@@ -290,12 +298,13 @@ struct TextureInstanceData : InstanceData {
 };
 
 struct LineInstanceData {
+	LineInstanceData() {}
 	LineInstanceData(Position mfromPos, Position mtoPos, Color mfromcolor, Color mtocolor, float mwidth)
 		:  
 		fromPos(mfromPos),
 		toPos(mtoPos),
-		fromcolor(mfromcolor),
-		tocolor(mtocolor),
+		fromColor(mfromcolor),
+		toColor(mtocolor),
 		width(mwidth)
 	{}
 
@@ -303,8 +312,9 @@ struct LineInstanceData {
 
 	Position fromPos = glm::vec3(0.0f);
 	Position toPos = glm::vec3(0.0f);
-	Color fromcolor = Color(255, 255, 255, 255);
-	Color tocolor = Color(255, 255, 255, 255);
+	Color fromColor = Color(255, 255, 255, 255);
+	Color toColor = Color(255, 255, 255, 255);
+
 	float width = 10.0f;
 };
 

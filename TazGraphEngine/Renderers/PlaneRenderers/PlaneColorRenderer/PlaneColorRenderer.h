@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "../../../GLSLProgram.h"
-#include "../PlaneRenderer.h"
+#include "../../Renderer.h"
 
 // init --_
 //		 `-->begin() 
@@ -16,7 +16,7 @@
 //		 |--> end() 
 //		 `--> renderBatch() 
 
-class PlaneColorRenderer : public PlaneRenderer {
+class PlaneColorRenderer : public Taz::Renderer {
 public:
 	PlaneColorRenderer();
 	~PlaneColorRenderer();

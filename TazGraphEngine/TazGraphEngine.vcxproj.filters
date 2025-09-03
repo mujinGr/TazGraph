@@ -111,7 +111,7 @@
     <ClCompile Include="..\vendors\ImGuizmo\ImGuizmo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderers\PlaneRenderers\PlaneRenderer.cpp">
+    <ClCompile Include="Renderers\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\vendors\tinyxml2\tinyxml2.cpp">
@@ -293,7 +293,7 @@
     <ClInclude Include="GECS\Components\Empty\Basic\SphereComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderers\PlaneRenderers\PlaneRenderer.h">
+    <ClInclude Include="Renderers\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DorParser\DotParser.h">

@@ -5,12 +5,11 @@
 layout(lines) in;
 layout(triangle_strip, max_vertices = 4) out;
 
-//in float vs_instanceWidth[];
+in vec4 vs_color[2];      // From vertex shader
+in float vs_instanceWidth[2];
 
-in vec4 vs_color[];      // From vertex shader
 out vec4 v_color;        // To fragment shader
 
-uniform float lineWidth = 10.0;    // Base line width in world units
 uniform vec2 viewportSize = vec2(800.0, 600.0);
 
 void main() {
@@ -32,12 +31,12 @@ void main() {
     #if WORLD_SPACE_MODE 
         // 3D perspective: width decreases with distance (larger w = farther)
         // Convert world-space width to clip-space width
-        width0 = lineWidth / start.w * viewportSize.y * 0.5;  // Perspective scaling
-        width1 = lineWidth / end.w * viewportSize.y * 0.5;
+        width0 = vs_instanceWidth[0] / start.w * viewportSize.y * 0.5;  // Perspective scaling
+        width1 = vs_instanceWidth[1]/ end.w * viewportSize.y * 0.5;
     #else
         // 2D screen-space: constant pixel width
-        width0 = lineWidth;
-        width1 = lineWidth;
+        width0 = vs_instanceWidth[0];
+        width1 = vs_instanceWidth[1];
     #endif
     
     // NDC to screen space

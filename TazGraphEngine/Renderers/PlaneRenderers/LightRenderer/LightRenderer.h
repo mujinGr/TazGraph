@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "../../../GLSLProgram.h"
-#include "../PlaneRenderer.h"
+#include "../../Renderer.h"
 
 
 // init --_
@@ -17,7 +17,7 @@
 //		 |--> end() 
 //		 `--> renderBatch() 
 
-class LightRenderer : public PlaneRenderer{
+class LightRenderer : public Taz::Renderer {
 public:
 	LightRenderer();
 	~LightRenderer();

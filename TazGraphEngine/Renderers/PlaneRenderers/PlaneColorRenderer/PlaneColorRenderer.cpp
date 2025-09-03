@@ -14,7 +14,7 @@ void PlaneColorRenderer::init() {
 
 void PlaneColorRenderer::begin() {
 
-	PlaneRenderer::begin();
+	Taz::Renderer::begin();
 
 	for (auto& mesh : _meshesArrays) {
 		mesh.instances.clear();
@@ -24,7 +24,7 @@ void PlaneColorRenderer::begin() {
 	}
 }
 void PlaneColorRenderer::end() {
-	PlaneRenderer::end();
+	Taz::Renderer::end();
 }
 
 void PlaneColorRenderer::initBatchSize()
@@ -42,7 +42,7 @@ void PlaneColorRenderer::initBatchSize()
 
 	_meshesElements[TRIANGLE_MESH_IDX].instances.resize(0);
 
-	_meshesElements[RECTANGLE_MESH_IDX].instances.resize(_glyphs_size);
+	_meshesElements[RECTANGLE_MESH_IDX].instances.resize(_rectangleGlyphs_size);
 	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
 	
 	_meshesElements[BOX_MESH_IDX].instances.resize(_boxGlyphs_size);

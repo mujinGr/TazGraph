@@ -7,7 +7,7 @@
 
 #include "../../../Vertex.h"
 #include "../../../GLSLProgram.h"
-#include "../PlaneRenderer.h"
+#include "../../Renderer.h"
 
 // init --_
 //		 `-->begin() 
@@ -18,7 +18,7 @@
 //		 |--> end() 
 //		 `--> renderBatch() 
 
-class PlaneModelRenderer : public PlaneRenderer {
+class PlaneModelRenderer : public Taz::Renderer {
 public:
 	PlaneModelRenderer();
 	~PlaneModelRenderer();
