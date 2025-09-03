@@ -46,8 +46,14 @@ void main() {
 	void initBatchSize();
 
 	void drawLine(size_t v_index, const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor);
-	void drawRectangle(size_t v_index, const glm::vec4& destRect, const Color& color, float angle, float zIndex =0.0f);
-	void drawBox(size_t v_index, const glm::vec3& origin, const glm::vec3& size, const Color& color, float angle);
+	void drawRectangle(size_t v_index, const glm::vec2& rectSize,
+		const glm::vec3& bodyCenter,
+		const glm::vec3& mRotation,
+		const Color& color);
+	void drawBox(size_t v_index, const glm::vec2& rectSize,
+		const glm::vec3& bodyCenter,
+		const glm::vec3& mRotation,
+		const Color& color);
 	void drawCircle(const glm::vec2& center, const Color& color, float radius);
 
 	void renderBatch();
@@ -65,4 +71,5 @@ private:
 	void createVertexArray();
 
 	std::vector<LineMeshRenderer> _meshesArrays;
+	std::vector<WireframeMeshRenderer> _meshesElements;
 };

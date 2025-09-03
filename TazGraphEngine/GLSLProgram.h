@@ -40,15 +40,6 @@ constexpr int INDICES_BOX_OFFSET = 3 * BOX_OFFSET;
 
 constexpr int ARRAY_BOX_OFFSET = 36;
 
-static ColorVertex lineVertices[2]{
-	{ glm::vec3(0.0f, 0.0f, 0.0f),		Color(255,255,255,255)  },
-	{ glm::vec3(100.0f,100.0f,100.0f),	Color(255,0,0,255)}
-};
-
-static GLuint lineIndices[2] = {
-	0, 1
-};
-
 static Position triangleVertices[3] = {
 	{  0.0f,  0.5f, 0.0f }, // Top
 	{ -0.5f, -0.5f, 0.0f }, // Bottom Left
@@ -83,6 +74,14 @@ static TextureVertex tex_quadVertices[4] = {
 static GLuint quadIndices[6] = {
 	0, 1, 2,
 	2, 3, 0
+};
+
+
+unsigned int quadWireframeIndices[] = {
+	0, 1,  // bottom edge
+	1, 2,  // right edge
+	2, 3,  // top edge
+	3, 0   // left edge
 };
 
 static Position cubeVertices[8] = {
@@ -157,6 +156,15 @@ static GLuint cubeIndices[36] = {
 	// Top face (vertices 20-23)
 	20,21,22,
 	22,23,20
+};
+
+unsigned int cubeWireframeIndices[] = {
+	// back face
+	0, 1, 1, 2, 2, 3, 3, 0,
+	// front face
+	4, 5, 5, 6, 6, 7, 7, 4,
+	// connecting edges
+	0, 4, 1, 5, 2, 6, 3, 7
 };
 
 
@@ -318,6 +326,19 @@ struct LineInstanceData {
 	float width = 10.0f;
 };
 
+struct WireframeInstanceData : ColorInstanceData {
+	WireframeInstanceData() {}
+	WireframeInstanceData(glm::vec3 mSize, Position mBodyCenter, Rotation mRotation, Color mColor, float mwidth)
+		: ColorInstanceData(mSize, mBodyCenter, mRotation, mColor), width(mwidth)
+	{
+
+	}
+
+	~WireframeInstanceData() {}
+
+	float width = 10.0f;
+};
+
 struct BaseRenderer {
 	size_t meshIndices = 0;
 	
@@ -338,6 +359,10 @@ struct ColorMeshRenderer : BaseRenderer {
 
 struct LineMeshRenderer : BaseRenderer {
 	std::vector<LineInstanceData> instances;
+};
+
+struct WireframeMeshRenderer : BaseRenderer {
+	std::vector<WireframeInstanceData> instances;
 };
 
 struct TextureMeshRenderer : BaseRenderer {
