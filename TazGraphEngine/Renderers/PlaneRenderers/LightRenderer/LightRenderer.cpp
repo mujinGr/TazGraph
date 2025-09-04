@@ -291,6 +291,10 @@ void LightRenderer::dispose()
 		glDeleteVertexArrays(1, &mesh.vao);
 	}
 
+	for (auto& mesh : _meshesArrays) {
+		glDeleteBuffers(1, &mesh.vbo);
+		glDeleteBuffers(1, &mesh.ibo);
+	}
 	for (auto& mesh : _meshesElements) {
 		glDeleteBuffers(1, &mesh.vbo);
 		glDeleteBuffers(1, &mesh.ibo);

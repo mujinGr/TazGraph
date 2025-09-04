@@ -77,6 +77,7 @@ void Graph::draw()
 	GLSLProgram glsl_texture = *_resourceManager.getGLSLProgram("texture");
 	GLSLProgram glsl_light = *_resourceManager.getGLSLProgram("light");
 	GLSLProgram glsl_lineColor = *_resourceManager.getGLSLProgram("lineColor");
+	GLSLProgram glsl_wireframeColor = *_resourceManager.getGLSLProgram("wireframeColor");
 	GLSLProgram glsl_color = *_resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer = *_resourceManager.getGLSLProgram("framebuffer");
 
@@ -112,7 +113,7 @@ void Graph::draw()
 	// Debug Rendering
 	if (_renderDebug) {
 		_LineRenderer.begin();
-		_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
+		_resourceManager.setupShader(glsl_wireframeColor, *main_camera2D);
 
 		/*GLint viewportLoc = glsl_lineColor.getUniformLocation("_viewport");
 		glUniform4f(viewportLoc, 0.0f, 0.0f, 800.0f, 640.0f);*/
@@ -134,19 +135,19 @@ void Graph::draw()
 
 		size_t v_index = 0;
 
-		_LineRenderer.drawRectangle(v_index++, glm::vec4(-ROW_CELL_SIZE / 2, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		_LineRenderer.drawRectangle(v_index++, glm::vec4(0, -COLUMN_CELL_SIZE / 2, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		_LineRenderer.drawRectangle(v_index++, glm::vec4(-ROW_CELL_SIZE / 2, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
-		_LineRenderer.drawRectangle(v_index++, glm::vec4(0, 0, ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), Color(255, 0, 255, 255), 0.0f, 0.0f);
+		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), Color(255, 0, 255, 255));
+		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), Color(255, 0, 255, 255));
+		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), Color(255, 0, 255, 255));
+		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), Color(255, 0, 255, 255));
 
 
 		size_t box_v_index = 0;
 
 		for (const auto& cell : intercectedCells) {
-			glm::vec3 cellBox_org(cell->boundingBox_origin.x, cell->boundingBox_origin.y, cell->boundingBox_origin.z);
+			glm::vec3 cellBox_center(cell->boundingBox_center.x, cell->boundingBox_center.y, cell->boundingBox_center.z);
 			glm::vec3 cellBox_size(cell->boundingBox_size.x, cell->boundingBox_size.y, cell->boundingBox_size.z);
 
-			_LineRenderer.drawBox(box_v_index++, cellBox_org, cellBox_size, Color(0, 255, 0, 20), 0.0f);  // Drawing each cell in red for visibility
+			_LineRenderer.drawBox(box_v_index++, cellBox_size, cellBox_center, Color(0, 255, 0, 20));  // Drawing each cell in red for visibility
 		}
 
 		for (auto& group : {
@@ -163,10 +164,10 @@ void Graph::draw()
 				{
 					TransformComponent* tr = &entity->GetComponent<TransformComponent>();
 
-					glm::vec3 nodeBox_org(tr->getPosition().x, tr->getPosition().y, tr->getPosition().z);
+					glm::vec3 nodeBox_org(tr->bodyCenter);
 					glm::vec3 nodeBox_size(tr->size.x, tr->size.y, tr->size.z);
 
-					_LineRenderer.drawBox(box_v_index++, nodeBox_org, nodeBox_size, Color(255, 255, 255, 255), 0.0f);  // Drawing each cell in red for visibility
+					_LineRenderer.drawBox(box_v_index++, nodeBox_size, nodeBox_org, Color(255, 255, 255, 255));  // Drawing each cell in red for visibility
 
 					//_LineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
 					//break;
@@ -177,8 +178,8 @@ void Graph::draw()
 
 
 		_LineRenderer.end();
-		_LineRenderer.renderBatch();
-		glsl_lineColor.unuse();
+		_LineRenderer.renderElementsBatch();
+		glsl_wireframeColor.unuse();
 
 	}
 
@@ -369,15 +370,15 @@ void Graph::draw()
 					TransformComponent* tr = &_selectedEntities[i].first->GetComponent<TransformComponent>();
 
 					glm::vec4 destRect;
-					destRect.x = tr->getPosition().x;
-					destRect.y = tr->getPosition().y;
+					destRect.x = tr->bodyCenter.x;
+					destRect.y = tr->bodyCenter.y;
 					destRect.z = tr->size.x;
 					destRect.w = tr->size.y;
 
-					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->getPosition().z);
+					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->bodyCenter.z);
 					glm::vec3 nodeBox_size(destRect.z, destRect.w, tr->size.z);
 
-					_LineRenderer.drawBox(boxIndex++, nodeBox_org, nodeBox_size, Color(255, 255, 0, 100), 0.0f); //todo add angle for drawRectangle
+					_LineRenderer.drawBox(boxIndex++, nodeBox_size, nodeBox_org, Color(255, 255, 0, 100)); //todo add angle for drawRectangle
 				}
 			}
 			else if (link) {
@@ -387,7 +388,7 @@ void Graph::draw()
 					glm::vec3 startP = lWc->entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform();
 					glm::vec3 endP = lWc->entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform();
 
-					_LineRenderer.drawLine(lineIndex++, startP, endP, Color(255, 255, 0, 100), Color(255, 255, 0, 100));
+					_LineRenderer.drawLine(lineIndex++, startP, endP, Color(255, 255, 0, 100), Color(255, 255, 0, 100), 20.0f);
 
 				}
 			}
@@ -417,6 +418,12 @@ void Graph::draw()
 	_LineRenderer.end();
 	_LineRenderer.renderBatch();
 	glsl_lineColor.unuse();
+
+	_resourceManager.setupShader(glsl_wireframeColor, *main_camera2D);
+
+	_LineRenderer.end();
+	_LineRenderer.renderElementsBatch();
+	glsl_wireframeColor.unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 

@@ -107,7 +107,10 @@ void PlaneColorRenderer::renderBatch(GLSLProgram* glsl_program) {
 
 		glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
-		glBufferData(GL_ARRAY_BUFFER, _meshesElements[i].instances.size() * sizeof(ColorInstanceData), nullptr, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER,
+			_meshesElements[i].instances.size() * sizeof(ColorInstanceData),
+			nullptr,
+			GL_DYNAMIC_DRAW);
 
 		glBufferSubData(GL_ARRAY_BUFFER, 0,
 			_meshesElements[i].instances.size() * sizeof(ColorInstanceData),
@@ -276,6 +279,10 @@ void PlaneColorRenderer::dispose()
 		glDeleteVertexArrays(1, &mesh.vao);
 	}
 
+	for (auto& mesh : _meshesArrays) {
+		glDeleteBuffers(1, &mesh.vbo);
+		glDeleteBuffers(1, &mesh.ibo);
+	}
 	for (auto& mesh : _meshesElements) {
 		glDeleteBuffers(1, &mesh.vbo);
 		glDeleteBuffers(1, &mesh.ibo);

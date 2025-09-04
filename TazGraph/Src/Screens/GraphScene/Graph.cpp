@@ -62,6 +62,7 @@ void Graph::onEntry()
 	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 
 	_resourceManager.addGLSLProgram("lineColor");
+	_resourceManager.addGLSLProgram("wireframeColor");
 
 	main_camera2D->init(); // Assuming a screen resolution of 800x600
 	main_camera2D->setPosition_X(main_camera2D->getPosition().x /*+ glm::vec2(
@@ -122,6 +123,9 @@ void Graph::onEntry()
 		_resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexPosition");
 		_resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexColor");
 
+		_resourceManager.getGLSLProgram("wireframeColor")->compileAndLinkShaders("Src/Shaders/wireFrameColorShading.vert", "Src/Shaders/wireFrameColorShading.gs", "Src/Shaders/wireFrameColorShading.frag");
+		_resourceManager.getGLSLProgram("wireframeColor")->addAttribute("vertexPosition");
+		_resourceManager.getGLSLProgram("wireframeColor")->addAttribute("vertexColor");
 
 		Graph::_LineRenderer.init();
 		generateSphereMesh(

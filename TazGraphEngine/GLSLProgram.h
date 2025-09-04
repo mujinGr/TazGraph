@@ -77,7 +77,7 @@ static GLuint quadIndices[6] = {
 };
 
 
-unsigned int quadWireframeIndices[] = {
+static GLuint quadWireframeIndices[] = {
 	0, 1,  // bottom edge
 	1, 2,  // right edge
 	2, 3,  // top edge
@@ -158,7 +158,7 @@ static GLuint cubeIndices[36] = {
 	22,23,20
 };
 
-unsigned int cubeWireframeIndices[] = {
+static GLuint cubeWireframeIndices[] = {
 	// back face
 	0, 1, 1, 2, 2, 3, 3, 0,
 	// front face
@@ -329,6 +329,11 @@ struct LineInstanceData {
 struct WireframeInstanceData : ColorInstanceData {
 	WireframeInstanceData() {}
 	WireframeInstanceData(glm::vec3 mSize, Position mBodyCenter, Rotation mRotation, Color mColor, float mwidth)
+		: ColorInstanceData(mSize, mBodyCenter, mRotation, mColor), width(mwidth)
+	{
+
+	}
+	WireframeInstanceData(glm::vec2 mSize, Position mBodyCenter, Rotation mRotation, Color mColor, float mwidth)
 		: ColorInstanceData(mSize, mBodyCenter, mRotation, mColor), width(mwidth)
 	{
 

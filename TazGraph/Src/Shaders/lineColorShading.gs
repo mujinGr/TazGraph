@@ -32,7 +32,7 @@ void main() {
         // 3D perspective: width decreases with distance (larger w = farther)
         // Convert world-space width to clip-space width
         width0 = vs_instanceWidth[0] / start.w * viewportSize.y * 0.5;  // Perspective scaling
-        width1 = vs_instanceWidth[1]/ end.w * viewportSize.y * 0.5;
+        width1 = vs_instanceWidth[1] / end.w * viewportSize.y * 0.5;
     #else
         // 2D screen-space: constant pixel width
         width0 = vs_instanceWidth[0];
