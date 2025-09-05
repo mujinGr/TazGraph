@@ -308,9 +308,7 @@ void GraphLeftPanel::OnImGuiRender()
 			// remove related links
 			config.manager->removeAllEntitiesFromLinkGroup(Manager::groupPathInnerLinks);
 
-			config.manager->removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_0);
-			config.manager->removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_1);
-			config.manager->removeAllEntitiesFromLinkGroup(Manager::groupPathLinks_2);
+			config.manager->removeAllEntitiesFromLinkGroup(Manager::groupPathLinks);
 		}
 		else {
 			DataManager::getInstance().pathLoading = DataManager::getInstance().pathData.input;

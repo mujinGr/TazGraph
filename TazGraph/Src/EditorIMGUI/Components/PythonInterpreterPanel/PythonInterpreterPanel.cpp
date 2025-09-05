@@ -36,7 +36,7 @@ void PythonInterpreterPanel::OnImGuiRender()
 	ImGui::SameLine();
 	if (ImGui::Button("Clear"))
 	{
-		_pythonBuffer[0] = '\0';
+		//_pythonBuffer[0] = '\0';
 		_outputText.clear();
 	}
 

@@ -284,7 +284,7 @@ void Graph::draw()
 	_PlaneColorRenderer.begin();
 
 	_LineRenderer.initLineBatch(
-		manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks_0).size() +
+		manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks).size() +
 		manager->getVisibleGroup<LinkEntity>(Manager::groupPathInnerLinks).size()
 	);
 	_PlaneColorRenderer.initQuadBatch(
@@ -296,7 +296,7 @@ void Graph::draw()
 	_PlaneColorRenderer.initBatchSize();
 
 	std::vector<LinkEntity*> allPathLinks;
-	auto& pathlinks = manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks_0);
+	auto& pathlinks = manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks);
 	auto& innerLinks = manager->getVisibleGroup<LinkEntity>(Manager::groupPathInnerLinks);
 
 	allPathLinks.insert(allPathLinks.end(), pathlinks.begin(), pathlinks.end());

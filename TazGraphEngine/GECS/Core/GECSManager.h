@@ -400,9 +400,7 @@ public:
 		groupGroupLinks_0,
 		groupGroupLinks_1,
 
-		groupPathLinks_0,
-		groupPathLinks_1,
-		groupPathLinks_2,
+		groupPathLinks,
 
 		groupPathInnerLinks,
 
@@ -439,9 +437,7 @@ public:
 		{groupGroupLinks_0, "groupGroupLinks_0"},
 		{groupGroupLinks_1, "groupGroupLinks_1"},
 		
-		{groupPathLinks_0, "groupPathLinks_0"},
-		{groupPathLinks_1, "groupPathLinks_1"},
-		{groupPathLinks_2, "groupPathLinks_2"},
+		{groupPathLinks, "groupPathLinks"},
 		
 		{groupPathInnerLinks, "groupPathInnerLinks"},
 

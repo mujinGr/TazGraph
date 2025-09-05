@@ -38,35 +38,32 @@ void TextPathParser::parse(Manager& manager,
 
     for (const std::string& line : linkLines) {
         std::stringstream ss(line);
-        std::string token;
+
+        std::string idsPart, colorPart;
+        float width = 1.0f;
+
+        ss >> idsPart >> colorPart >> width;
+
+        // Parse IDs (split by '-')
         std::vector<int> ids;
+        std::stringstream idStream(idsPart);
+        std::string token;
+        while (std::getline(idStream, token, '-')) {
+            ids.push_back(std::stoi(token));
+        }
 
         auto& pathLinker = manager.addEntity<Empty>();
 		auto& plc = pathLinker.addComponent<PathLinkerComponent>();
 
-        while (std::getline(ss, token, '-')) {
-            ids.push_back(std::stoi(token));
+		// parse optional attributes
+        if (colorPart.size() == 7 && colorPart[0] == '#') {
+            int r = std::stoi(colorPart.substr(1, 2), nullptr, 16);
+            int g = std::stoi(colorPart.substr(3, 2), nullptr, 16);
+            int b = std::stoi(colorPart.substr(5, 2), nullptr, 16);
+            plc.color = Color(r, g, b, 255);
         }
 
-		// parse optional attributes
-		std::string attr;
-		while (std::getline(ss, attr, ';')) {
-			std::stringstream attrSS(attr);
-			std::string key, value;
-			if (std::getline(attrSS, key, '=')) {
-				if (std::getline(attrSS, value)) {
-					if (key.find("width") != std::string::npos) {
-						plc.width = std::stof(value);
-					}
-					else if (key.find("color") != std::string::npos) {
-						int r, g, b;
-						if (safe_sscanf(value.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
-							plc.color = Color(r, g, b, 255);
-						}
-					}
-				}
-			}
-		}
+        plc.width = width;
 
         for (size_t i = 1; i < ids.size(); ++i) {
             int idA = ids[i - 1];
@@ -74,7 +71,7 @@ void TextPathParser::parse(Manager& manager,
 
             auto& link = manager.addEntity<Link>(idA, idB);
 
-            link.addGroup(Manager::groupPathLinks_0);
+            link.addGroup(Manager::groupPathLinks);
 
 			addLinkFunc(link);
             
@@ -85,7 +82,7 @@ void TextPathParser::parse(Manager& manager,
         }
     }
 
-    for (auto& link : manager.getGroup<LinkEntity>(Manager::groupPathLinks_0)) {
+    for (auto& link : manager.getGroup<LinkEntity>(Manager::groupPathLinks)) {
         manager.grid->addLink(link, manager.grid->getGridLevel());
     }
     manager.updateInnerPathLinks = true;

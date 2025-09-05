@@ -39,6 +39,7 @@ public:
 		if (link && std::find(pathLinks.begin(), pathLinks.end(), link) == pathLinks.end()) {
 			link->GetComponent<Line_w_Color>().setSrcColor(color);
 			link->GetComponent<Line_w_Color>().setDestColor(color);
+			link->GetComponent<Line_w_Color>().width = width;
 			pathLinks.push_back(link);
 		}
 	}

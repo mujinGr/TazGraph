@@ -13,6 +13,8 @@ public:
 
 	FlashAnimation flash_animation;
 
+	float width = 5.0f;
+
 	Line_w_Color()
 	{
 
@@ -34,7 +36,7 @@ public:
 		glm::vec3 fromNodeCenter = entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform();
 		glm::vec3 toNodeCenter = entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform();
 
-		batch.drawLine(v_index, fromNodeCenter, toNodeCenter, src_color, dest_color);
+		batch.drawLine(v_index, fromNodeCenter, toNodeCenter, src_color, dest_color, width);
 	}
 	
 	void drawWithPorts(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
@@ -60,7 +62,7 @@ public:
 		glm::vec3 fromConnectionPoint = fromPortComp.portSlots[entity->fromSlotIndex]->GetComponent<TransformComponent>().getCenterTransform();
 		glm::vec3 toConnectionPoint = toPortComp.portSlots[entity->toSlotIndex]->GetComponent<TransformComponent>().getCenterTransform();
 
-		batch.drawLine(v_index, fromConnectionPoint, toConnectionPoint, src_color, dest_color);
+		batch.drawLine(v_index, fromConnectionPoint, toConnectionPoint, src_color, dest_color, width);
 	}
 
 	void setSrcColor(Color clr) {

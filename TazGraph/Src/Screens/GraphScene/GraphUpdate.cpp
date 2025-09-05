@@ -72,7 +72,7 @@ void Graph::update(float deltaTime) //game objects updating
 
 		if (manager->arrowheadsEnabled) {
 
-			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupPathLinks_0))
+			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupPathLinks))
 			{
 				link->updateConnectedPorts();
 			}
@@ -94,7 +94,7 @@ void Graph::update(float deltaTime) //game objects updating
 				link->removeArrowHead();
 			}
 
-			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupPathLinks_0)) {
+			for (auto& link : manager->getGroup<LinkEntity>(Manager::groupPathLinks)) {
 				link->resetPorts();
 				link->removeArrowHead();
 			}
