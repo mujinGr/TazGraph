@@ -4,8 +4,7 @@
 
 class FPSCounter : public UIElement {
 private:
-	float cameraRotationZ = 0;
-	const BaseFPSLimiter* baseFPSLimiter;
+	const BaseFPSLimiter* baseFPSLimiter = nullptr;
 
 public:
 	FPSCounter() = default;

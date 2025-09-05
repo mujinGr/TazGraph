@@ -347,11 +347,11 @@ struct WireframeInstanceData : ColorInstanceData {
 struct BaseRenderer {
 	size_t meshIndices = 0;
 	
-	GLuint vao;
+	GLuint vao = 0;
 
 	//for static draws
-	GLuint vbo; 
-	GLuint ibo;
+	GLuint vbo = 0; 
+	GLuint ibo = 0;
 };
 
 struct MeshRenderer : BaseRenderer {

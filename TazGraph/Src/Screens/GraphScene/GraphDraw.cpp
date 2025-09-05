@@ -462,6 +462,14 @@ void Graph::minimapDraw() {
 	const int GRID_HEIGHT = manager->grid->getNumYCells();
 	const int GRID_DEPTH = manager->grid->getNumZCells();
 
+	const int Min_WIDTH_CELL =	(-GRID_WIDTH + 1) / 2;
+	const int Min_HEIGHT_CELL = (-GRID_HEIGHT + 1) / 2;
+	const int Min_DEPTH_CELL =	(-GRID_DEPTH + 1) / 2;
+
+	const int Max_WIDTH_CELL =	(GRID_WIDTH + 1) / 2;
+	const int Max_HEIGHT_CELL = (GRID_HEIGHT + 1) / 2;
+	const int Max_DEPTH_CELL =	(GRID_DEPTH + 1) / 2;
+
 	static float elapsed = 0.0f;
 	elapsed += getApp()->getFPSLimiter().frameTime / 1000.0f;
 
@@ -469,25 +477,25 @@ void Graph::minimapDraw() {
 		elapsed = 0.0f;
 		needsRefresh = true;
 		processingComplete = false;
-		currentX = ceil(-GRID_WIDTH / 2.0f);
-		currentY = ceil(-GRID_HEIGHT / 2.0f);
-		currentZ = ceil(-GRID_DEPTH / 2.0f);
+		currentX = Min_WIDTH_CELL;
+		currentY = Min_HEIGHT_CELL;
+		currentZ = Min_DEPTH_CELL;
 		// Clear all minimap nodes for fresh start
 		manager->removeAllEntitiesFromGroup(Manager::groupMinimapNodes);
 	}
 
 	// For first two frames (0 and 1), draw minimap normally with all nodes at once
 	if (_firstLoop) {
-		currentX = ceil(-GRID_WIDTH / 2.0f);
-		currentY = ceil(-GRID_HEIGHT / 2.0f);
-		currentZ = ceil(-GRID_DEPTH / 2.0f);
+		currentX = Min_WIDTH_CELL;
+		currentY = Min_HEIGHT_CELL;
+		currentZ = Min_DEPTH_CELL;
 		// Clear existing minimap nodes
 		manager->removeAllEntitiesFromGroup(Manager::groupMinimapNodes);
 
 		// Process all cells immediately
-		for (int z = ceil(-GRID_DEPTH / 2.0f); z <= ceil(GRID_DEPTH / 2.0f); z++) {
-			for (int y = ceil(-GRID_HEIGHT / 2.0f); y <= ceil(GRID_HEIGHT / 2.0f); y++) {
-				for (int x = ceil(-GRID_WIDTH / 2.0f); x <= ceil(GRID_WIDTH / 2.0f); x++) {
+		for (int z = Min_DEPTH_CELL; z <= Max_DEPTH_CELL; z++) {
+			for (int y = Min_HEIGHT_CELL; y <= Max_HEIGHT_CELL; y++) {
+				for (int x = Min_WIDTH_CELL; x <= Max_WIDTH_CELL; x++) {
 					Cell* cell = manager->grid->getCell(x, y, z, Grid::Basic);
 					if (cell != nullptr) {
 						for (auto* node : cell->nodes) {
@@ -540,18 +548,18 @@ void Graph::minimapDraw() {
 			// Move to next cell
 			currentX++;
 			if (currentX > ceil(GRID_WIDTH / 2.0f)) {
-				currentX = ceil(-GRID_WIDTH / 2.0f);
+				currentX = Min_WIDTH_CELL;
 				currentY++;
 				if (currentY > ceil(GRID_HEIGHT / 2.0f)) {
-					currentY = ceil(-GRID_HEIGHT / 2.0f);
+					currentY = Min_HEIGHT_CELL;
 					currentZ++;
 					if (currentZ > ceil(GRID_DEPTH / 2.0f)) {
 						// We've processed all cells
 						processingComplete = true;
 						needsRefresh = false;
-						currentX = ceil(-GRID_WIDTH / 2.0f);
-						currentY = ceil(-GRID_HEIGHT / 2.0f);
-						currentZ = ceil(-GRID_DEPTH / 2.0f); // Reset for next cycle
+						currentX = Min_WIDTH_CELL;
+						currentY = Min_HEIGHT_CELL;
+						currentZ = Min_DEPTH_CELL; // Reset for next cycle
 					}
 				}
 			}

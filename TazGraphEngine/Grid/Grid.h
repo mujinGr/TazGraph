@@ -17,8 +17,8 @@ constexpr int DEPTH_CELL_SIZE = DEPTH_AXIS_CELLS * CELL_SIZE;
 
 
 struct GridLevelData {
-	float numXCells, numYCells, numZCells;
-	float startX, endX, startY, endY, startZ, endZ;
+	int numXCells, numYCells, numZCells = 0;
+	int startX, endX, startY, endY, startZ, endZ = 0;
 	float cameraMargin = 0.0f;
 };
 

@@ -52,6 +52,24 @@ void TextPathParser::parse(Manager& manager,
             ids.push_back(std::stoi(token));
         }
 
+        // Check each entity and collect missing IDs
+        std::vector<int> missingIds;
+        for (int id : ids) {
+            if (!manager.hasEntity(id)) {
+                missingIds.push_back(id);
+            }
+        }
+
+        if (!missingIds.empty()) {
+            std::cerr << "Error in line: " << line << std::endl;
+            std::cerr << "Missing entities with IDs: ";
+            for (int missingId : missingIds) {
+                std::cerr << missingId << " ";
+            }
+            std::cerr << std::endl;
+            continue; // Skip to next line
+        }
+
         auto& pathLinker = manager.addEntity<Empty>();
 		auto& plc = pathLinker.addComponent<PathLinkerComponent>();
 

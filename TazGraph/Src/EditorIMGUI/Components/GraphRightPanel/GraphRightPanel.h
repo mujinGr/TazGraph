@@ -27,4 +27,6 @@ public:
 
 	void availableFunctions();
 	void ShowAllEntities();
+	template<typename TVec>
+	static void DrawEntityJumpList(const char* labelId, TVec& vec);
 };

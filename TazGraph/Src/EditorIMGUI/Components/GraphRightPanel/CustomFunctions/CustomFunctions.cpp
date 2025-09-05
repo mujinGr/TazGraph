@@ -60,7 +60,7 @@ void CustomFunctions::CalculateDegree()
 					nextDepthNodes.insert(target);
 				}
 			}
-			outlinkCount += node->getOutLinks().size();
+			outlinkCount += (int)node->getOutLinks().size();
 		}
 
 		plotOutLinks[depth] = outlinkCount;

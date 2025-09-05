@@ -332,6 +332,13 @@ public:
 		return nullptr;
 	}
 
+	bool hasEntity(unsigned int mId) {
+		if (getEntityFromId(mId) == nullptr) {
+			return false;
+		}
+		return true;
+	}
+
 	void clearAllEntities() {
 		for (auto& group : groupedNodeEntities) {
 			group.clear();

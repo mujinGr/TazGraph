@@ -179,9 +179,11 @@
     <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\GraphRightPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphTopBar\GraphTopBar.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MainMenuPanel\MainMenuPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\templates\ImGuiPanel\ImGuiPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\ViewportPanel\ViewportPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\Minimap\Minimap.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\OrientationBox\OrientationBox.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\WarningPanel\WarningPanel.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\Graph.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\GraphDraw.cpp" />
@@ -214,7 +216,9 @@
     <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\GraphRightPanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphTopBar\GraphTopBar.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MainMenuPanel\MainMenuPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\templates\ImGuiPanel\ImGuiPanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\ViewportPanel\ViewportPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\WarningPanel\WarningPanel.h" />
     <ClInclude Include="Src\EditorIMGUI\UIElement.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\Minimap\Minimap.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\OrientationBox\OrientationBox.h" />

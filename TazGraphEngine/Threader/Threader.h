@@ -94,9 +94,9 @@ struct Threader {
             threads.emplace_back(t_queue, i);
     }
 
-    void parallel(int num_obj, std::function<void(int start, int end)>&& callback) {
+    void parallel(size_t num_obj, std::function<void(int start, int end)>&& callback) {
         if (num_obj == 0) return;
-        int slice_size = num_obj / num_threads;
+        int slice_size = (int)num_obj / num_threads;
         for (int i = 0; i < num_threads; i++) {
             int start = i * slice_size;
             int end = start + slice_size;
@@ -104,7 +104,7 @@ struct Threader {
         }
         if (slice_size * num_threads < num_obj) {
             int start = slice_size * num_threads;
-            callback(start, num_obj);
+            callback(start, (int)num_obj);
         }
         //todo this may be done only at specific times
         t_queue.waitUntilDone();

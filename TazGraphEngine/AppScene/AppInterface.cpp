@@ -134,8 +134,8 @@ void AppInterface::onSDLEvent(SDL_Event& evnt) {
 		switch (evnt.window.event) {
 		case SDL_WINDOWEVENT_SIZE_CHANGED:
 		case SDL_WINDOWEVENT_RESIZED:
-			float newWidth = evnt.window.data1;
-			float newHeight = evnt.window.data2;
+			int newWidth = evnt.window.data1;
+			int newHeight = evnt.window.data2;
 			// Handle window resizing, update viewport or other necessary elements
 			_window.setScreenWidth(newWidth);
 			_window.setScreenHeight(newHeight);
@@ -175,7 +175,7 @@ bool AppInterface::init() {
 }
 
 bool AppInterface::initSystems() {
-	_window.create("TazGraph", 800.0f, 640.0f, 1.0f, TazGraphEngine::VISIBLE);
+	_window.create("TazGraph", 800, 640, 1.0f, TazGraphEngine::VISIBLE);
 	return true;
 }
 

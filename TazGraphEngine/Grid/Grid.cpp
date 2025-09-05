@@ -24,9 +24,9 @@ void Grid::init(int width, int height, int depth, int cellSize)
 	_width = width, _height = height, _cellSize = cellSize;
 	_depth = 4 * cellSize;
 
-	_numXCells = ceil((float)_width / _cellSize);
-	_numYCells = ceil((float)_height / _cellSize);
-	_numZCells = ceil((float)_depth / _cellSize);
+	_numXCells = (_width + 1)/ _cellSize;
+	_numYCells = (_height + 1) / _cellSize;
+	_numZCells = (_depth + 1) / _cellSize;
 
 
 	createCells(Level::Basic);
@@ -43,16 +43,16 @@ void Grid::createCells(Grid::Level m_level) {
 	
 	// push Grid Data
 	GridLevelData data;
-	data.numXCells = ceil((float)_numXCells / cellsGroupSize);
-	data.numYCells = ceil((float)_numYCells / cellsGroupSize);
-	data.numZCells = ceil((float)_numZCells / cellsGroupSize);
+	data.numXCells = (_numXCells + 1) / cellsGroupSize;
+	data.numYCells = (_numYCells + 1) / cellsGroupSize;
+	data.numZCells = (_numZCells + 1) / cellsGroupSize;
 
-	data.startX =	ceil(-(data.numXCells / 2.0f)); // add one in order to take floor of division
-	data.endX	=	ceil((data.numXCells) / 2.0f) - 1;
-	data.startY =	ceil(-(data.numYCells / 2.0f));
-	data.endY	=	ceil((data.numYCells) / 2.0f) - 1;
-	data.startZ =	ceil(-(data.numZCells / 2.0f));
-	data.endZ	=	ceil((data.numZCells) / 2.0f) - 1;
+	data.startX =	(	(-data.numXCells	+ 1) / 2); // add one in order to take floor of division
+	data.endX	=	(	(data.numXCells		+ 1) / 2) - 1;
+	data.startY =	(	(-data.numYCells	+ 1) / 2);
+	data.endY	=	(	(data.numYCells		+ 1) / 2) - 1;
+	data.startZ =	(	(-data.numZCells	+ 1) / 2);
+	data.endZ	=	(	(data.numZCells		+ 1) / 2) - 1;
 
 	gridLevelsData[m_level] = data;
 
