@@ -1,10 +1,14 @@
 #pragma once
 
 
-#include "../../UIElement.h"
+#include "../../../UIElement.h"
 
-#include "../Minimap/Minimap.h"
-#include "../OrientationBox/OrientationBox.h"
+#include "Minimap/Minimap.h"
+#include "OrientationBox/OrientationBox.h"
+#include "SceneControl/SceneControl.h"
+#include "HoverEntityPanel/HoverEntityPanel.h"
+#include "../../EntityComponentsControl/EntityComponentsControl.h"
+
 #include <Renderers/FrameBuffer/Framebuffer.h>
 
 struct ViewportPanelConfig {
@@ -17,13 +21,18 @@ struct ViewportPanelConfig {
 class ViewportPanel : public UIElement
 {
 private:
-	Minimap _minimap;
-	OrientationBox _orientationBox;
-
-
 	ViewportPanelConfig config;
 
 public:
+
+	ViewportPanel() {
+		addUIComponent<Minimap>();
+		addUIComponent<OrientationBox>();
+		addUIComponent<SceneControlPanel>();
+		addUIComponent<HoverEntityPanel>();
+		addUIComponent<EntityComponentsControlPanel>();
+	}
+
 	bool isMouseInSecondColumn = false;
 
 	void update(float deltaTime) override;

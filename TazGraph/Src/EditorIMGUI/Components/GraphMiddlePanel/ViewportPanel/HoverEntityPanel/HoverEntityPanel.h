@@ -1,10 +1,10 @@
 #pragma once
 
 
-#include "../../UIElement.h"
-#include "../MenuSceneControllers/NewMapUI/NewMapUI.h"
-#include "../MenuSceneControllers/SavingUI/SavingUI.h"
-#include "../MenuSceneControllers/LoadingUI/LoadingUI.h"
+#include "../../../../UIElement.h"
+#include "../../../MenuSceneControllers/NewMapUI/NewMapUI.h"
+#include "../../../MenuSceneControllers/SavingUI/SavingUI.h"
+#include "../../../MenuSceneControllers/LoadingUI/LoadingUI.h"
 
 struct HoverEntityConfig {
 	glm::vec2 mousePos;

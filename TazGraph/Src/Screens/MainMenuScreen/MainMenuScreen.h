@@ -22,7 +22,7 @@
 
 #include <ImGuiInterface/ImGuiInterface.h>
 
-#include "../../EditorIMGUI/Components/MainMenuPanel/MainMenuPanel.h"
+#include "../../EditorIMGUI/MainMenuEditorLayer/MainMenuEditorLayer.h"
 #include "../../AssetManager/AssetManager.h"
 
 class MainMenuScreen : public IScene {
@@ -71,5 +71,5 @@ private:
     int _nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
     int _prevSceneIndex = SCENE_INDEX_GRAPHPLAY;
 
-    MainMenuPanel _mainMenuPanel;
+    MainMenuEditorLayer _mainMenuLayer;
 };

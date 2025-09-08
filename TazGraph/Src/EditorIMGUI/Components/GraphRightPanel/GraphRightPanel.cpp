@@ -32,11 +32,9 @@ void GraphRightPanel::OnImGuiRender()
 
 	// Show results in ImGui
 
-	ImGui::BeginHorizontal("test", ImVec2(100,100), 100.0f);
 	ImGui::Text("Nodes: %d", nodeCount);
 	ImGui::Text("Empties: %d", emptyCount);
 	ImGui::Text("Links: %d", linkCount);
-	ImGui::EndHorizontal();
 
 	ImGui::NewLine();
 
@@ -60,31 +58,31 @@ void GraphRightPanel::OnImGuiRender()
 	}
 
 	// popup window
-	_customFunctions.setSelectedEntities(config.c_selectedEntities);
-	_customFunctions.update();
-	_customFunctions.OnImGuiRender();
+	UIElement::getUIComponent<CustomFunctions>()->setSelectedEntities(config.c_selectedEntities);
+	UIElement::getUIComponent<CustomFunctions>()->update();
+	UIElement::getUIComponent<CustomFunctions>()->OnImGuiRender();
 }
 
 void GraphRightPanel::availableFunctions() {
 
 	if (ImGui::Button("Calculate Degree Of Selected Entities")) {
-		_customFunctions.activatedScriptShown = 1;
-		_customFunctions.isScriptResultsOpen = true;
+		UIElement::getUIComponent<CustomFunctions>()->activatedScriptShown = 1;
+		UIElement::getUIComponent<CustomFunctions>()->isScriptResultsOpen = true;
 	}
 
 	if (ImGui::Button("Do Signals")) {
-		_customFunctions.activatedScriptShown = 2;
-		_customFunctions.isScriptResultsOpen = true;
+		UIElement::getUIComponent<CustomFunctions>()->activatedScriptShown = 2;
+		UIElement::getUIComponent<CustomFunctions>()->isScriptResultsOpen = true;
 	}
 
 	if (ImGui::Button("Do HeatMap")) {
-		_customFunctions.activatedScriptShown = 3;
-		_customFunctions.isScriptResultsOpen = true;
+		UIElement::getUIComponent<CustomFunctions>()->activatedScriptShown = 3;
+		UIElement::getUIComponent<CustomFunctions>()->isScriptResultsOpen = true;
 	}
 
 	if (ImGui::Button("Do CandleStick")) {
-		_customFunctions.activatedScriptShown = 4;
-		_customFunctions.isScriptResultsOpen = true;
+		UIElement::getUIComponent<CustomFunctions>()->activatedScriptShown = 4;
+		UIElement::getUIComponent<CustomFunctions>()->isScriptResultsOpen = true;
 	}
 
 }

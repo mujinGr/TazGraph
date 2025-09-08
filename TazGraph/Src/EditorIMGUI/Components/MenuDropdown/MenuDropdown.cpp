@@ -1,13 +1,5 @@
 #include "MenuDropdown.h"
 
-void MenuDropdownPanel::update(float deltaTime)
-{
-	pythonInterpreter.update();
-	loadingUI.update();
-	savingUI.update();
-	newMapUI.update();
-}
-
 void MenuDropdownPanel::OnImGuiRender()
 {
 	if (ImGui::BeginMenuBar())
@@ -31,6 +23,21 @@ void MenuDropdownPanel::OnImGuiRender()
 			pythonInterpreter.showPythonInterpreter = !pythonInterpreter.showPythonInterpreter;
 			ImGui::EndMenu();
 		}
+
+		if (ImGui::BeginMenu("Window"))
+		{
+			if (ImGui::MenuItem("Camera")) {
+
+			}
+			if (ImGui::MenuItem("FPS Counter")) {
+
+			}
+			if (ImGui::MenuItem("Visible Entities Table")) {
+
+			}
+			ImGui::EndMenu();
+		}
+
 
 		ImGui::EndMenuBar();
 	}

@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "../../UIElement.h"
+#include "../../../../UIElement.h"
 
 struct SceneControlConfig {
 	glm::vec2 c_mouseCoords;

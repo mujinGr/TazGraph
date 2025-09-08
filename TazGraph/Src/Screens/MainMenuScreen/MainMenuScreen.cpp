@@ -194,22 +194,22 @@ void MainMenuScreen::BeginRender() {
 }
 
 void MainMenuScreen::updateUI(float deltaTime) {
-	_mainMenuPanel.update(deltaTime);
+	_mainMenuLayer.update(deltaTime);
 }
 
 void MainMenuScreen::drawUI() {
-	_mainMenuPanel.setConfig({
+	_mainMenuLayer.setConfig({
 		   .onStartClicked = [this]() { MainMenuScreen::onStartSimulator(); },
 		   .onExitClicked = [this]() { MainMenuScreen::onExitSimulator(); }
 		});
 
 
-	_mainMenuPanel.OnImGuiRender();
+	_mainMenuLayer.OnImGuiRender();
 
 	if (DataManager::getInstance().isLoading())
 	{
-		_mainMenuPanel.loadingUI.setConfig({});
-		_mainMenuPanel.loadingUI.OnImGuiRender();
+		_mainMenuLayer.getSubcomponent<LoadingUI>()->setConfig({});
+		_mainMenuLayer.getSubcomponent<LoadingUI>()->OnImGuiRender();
 		char* loadMapPath = DataManager::getInstance().data.input;
 		if (strlen(loadMapPath) && !DataManager::getInstance().isLoading()) {
 			DataManager::getInstance().mapToLoad = loadMapPath;

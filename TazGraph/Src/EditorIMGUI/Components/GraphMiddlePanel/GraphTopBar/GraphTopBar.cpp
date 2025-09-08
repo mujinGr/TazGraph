@@ -1,6 +1,8 @@
 #include "GraphTopBar.h"
 
 void GraphTopBar::update(float deltaTime) {
+	UIElement::update(deltaTime);
+
 	if (interpolation_running) {
 		interpolation += interpolation_speed * deltaTime / config.c_fpsLimiter->fps;
 		if (interpolation >= 1.0f) {

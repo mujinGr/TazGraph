@@ -2,7 +2,6 @@
 
 #include "../../UIElement.h"
 
-#include "../SliderRotateZ.h"
 #include "../../../AssetManager/AssetManager.h"
 
 struct GraphLeftConfig {
@@ -15,12 +14,8 @@ struct GraphLeftConfig {
 class GraphLeftPanel : public UIElement
 {
 private:
-	SliderRotateZ sliderRotate;
-
 	bool _clusterLayout = false;
 	GraphLeftConfig config;
-
-	int _currentOrientationIndex = 0;
 
 	int last_activeLayout = 0;
 	int activeLayout = 0;

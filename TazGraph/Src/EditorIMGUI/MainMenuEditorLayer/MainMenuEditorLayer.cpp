@@ -1,6 +1,6 @@
-#include "MainMenuPanel.h"
+#include "MainMenuEditorLayer.h"
 
-void MainMenuPanel::OnImGuiRender()
+void MainMenuEditorLayer::OnImGuiRender()
 {
 	float windowWidth = 200; // Increased window width
 	float windowHeight = 200;

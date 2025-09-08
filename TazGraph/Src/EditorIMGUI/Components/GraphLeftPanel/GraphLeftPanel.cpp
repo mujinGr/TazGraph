@@ -1,7 +1,7 @@
 #include "GraphLeftPanel.h"
 
 void GraphLeftPanel::update(float deltaTime) {
-	sliderRotate.update(deltaTime);
+	UIElement::update(deltaTime);
 
 	if (last_activeLayout < activeLayout) {
 		last_activeLayout += 1;
@@ -41,46 +41,7 @@ void GraphLeftPanel::OnImGuiRender()
 
 	ImGui::Separator();
 
-	ImGui::Text("Camera:");
-
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-
-	ImGui::Text("Rect: {x: %f, y: %f, w: %f, h: %f}", main_camera2D->getCameraRect().x, main_camera2D->getCameraRect().y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
-
-	if (ImGui::SliderFloat3("Eye Position", &main_camera2D->eyePos[0], -1000.0f, 1000.0f)) {
-		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
-	}
-	if (ImGui::SliderFloat3("Aim Position", &main_camera2D->aimPos[0], -1000.0f, 1000.0f)) {
-		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
-	}
-	if (ImGui::SliderFloat3("Up Direction", &main_camera2D->upDir[0], -1000.0f, 1000.0f)) {
-		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
-	}
-
-	sliderRotate.OnImGuiRender();
-
-	const char* viewModeNames[] = { "Y-Up", "Z-Up" };
-
-	if (ImGui::Combo("Orientation", &_currentOrientationIndex, viewModeNames, IM_ARRAYSIZE(viewModeNames))) {
-		ViewMode newMode = static_cast<ViewMode>(_currentOrientationIndex);
-		main_camera2D->currentViewMode = newMode;
-
-		glm::vec3 eyePos = main_camera2D->getPosition();
-
-		if (newMode == ViewMode::Y_UP) {
-			//main_camera2D->upDir = glm::vec3(0, -1, 0);
-			main_camera2D->setAimPos(glm::vec3(eyePos.x, eyePos.y, eyePos.z + 1.0f));
-		}
-		else if (newMode == ViewMode::Z_UP) {
-			//main_camera2D->upDir = glm::vec3(0, 0, -1);
-			main_camera2D->setAimPos(glm::vec3(eyePos.x, eyePos.y + 1.0f, eyePos.z));
-		}
-
-	}
-
-	if (ImGui::Button("Reset")) {
-		main_camera2D->resetCameraPosition();
-	}
+	
 
 	ImGui::Separator();
 	// Change color based on the debug mode state
@@ -319,63 +280,7 @@ void GraphLeftPanel::OnImGuiRender()
 
 	ImGui::Separator();
 
-	if (ImGui::BeginTable("GroupsTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
-		ImGui::TableSetupColumn("Group Name", ImGuiTableColumnFlags_WidthStretch);
-		ImGui::TableSetupColumn("Entity Count", ImGuiTableColumnFlags_WidthFixed, 100.0f);
-		ImGui::TableHeadersRow();
-
-		int totalEntities = 0;
-		for (std::size_t managerGroup = Manager::groupBackgroundLayer; managerGroup != Manager::buttonLabels + 1; ++managerGroup) {
-			ImGui::TableNextRow();
-			ImGui::TableSetColumnIndex(0);
-			ImGui::Text("%s", config.manager->getGroupName(managerGroup).c_str());
-			ImGui::TableSetColumnIndex(1);
-			int groupSize = config.manager->getVisibleGroup<EmptyEntity>(managerGroup).size() + config.manager->getVisibleGroup<NodeEntity>(managerGroup).size() + config.manager->getVisibleGroup<LinkEntity>(managerGroup).size();
-			ImGui::Text("%d", groupSize);
-
-			totalEntities += groupSize;
-		}
-
-		ImGui::TableNextRow();
-		ImGui::TableSetColumnIndex(0);
-		ImGui::Text("Total Visible Entities");
-		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("%d", totalEntities);
-
-		ImGui::EndTable();
-	}
-
-	if (ImGui::BeginTable("GroupsTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
-		ImGui::TableSetupColumn("Vectors", ImGuiTableColumnFlags_WidthStretch);
-		ImGui::TableSetupColumn("Size()", ImGuiTableColumnFlags_WidthFixed, 100.0f);
-		ImGui::TableHeadersRow();
-
-		ImGui::TableNextRow();
-		ImGui::TableSetColumnIndex(0);
-		ImGui::Text("entities");
-		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("%zu", config.manager->getEntities().size());
-
-		ImGui::TableNextRow();
-		ImGui::TableSetColumnIndex(0);
-		ImGui::Text("visible empty entities");
-		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("%zu", config.manager->getVisible<EmptyEntity>().size());
-
-		ImGui::TableNextRow();
-		ImGui::TableSetColumnIndex(0);
-		ImGui::Text("visible nodes");
-		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("%zu", config.manager->getVisible<NodeEntity>().size());
-
-		ImGui::TableNextRow();
-		ImGui::TableSetColumnIndex(0);
-		ImGui::Text("visible links");
-		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("%zu", config.manager->getVisible<LinkEntity>().size());
-
-		ImGui::EndTable();
-	}
+	
 
 	ImGui::Text("Grid Size: %u", config.manager->grid->getCellSize());
 

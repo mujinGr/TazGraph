@@ -9,7 +9,9 @@ void ViewportPanel::OnImGuiRender()
 {
 	updateIsMouseInSecondColumn();
 
-	ImGui::BeginChild("Viewport",ImVec2(0.0f, 400.0f), ImGuiChildFlags_ResizeY);
+	ImVec2 middleColumn = ImGui::GetContentRegionAvail();
+
+	ImGui::BeginChild("Viewport",ImVec2(0.0f, middleColumn.y - 100.0f), ImGuiChildFlags_ResizeY);
 
 	ImVec2 pos = ImGui::GetCursorScreenPos();
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
@@ -55,18 +57,18 @@ void ViewportPanel::OnImGuiRender()
 	bool isHovered = ImGui::IsItemHovered();
 	ImGuizmo::Enable(isHovered);
 
-	_minimap.setConfig({
+	UIElement::getUIComponent<Minimap>()->setConfig({
 	.textureID = config.c_minimap_fb->_framebufferTexture,
 	.viewportPos = pos,
 	.viewportSize = viewportPanelSize
 		});
-	_minimap.OnImGuiRender();
+	UIElement::getUIComponent<Minimap>()->OnImGuiRender();
 
-	_orientationBox.setConfig({
+	UIElement::getUIComponent<OrientationBox>()->setConfig({
 		.viewportPos = pos,
 		.viewportSize = viewportPanelSize
 		});
-	_orientationBox.OnImGuiRender();
+	UIElement::getUIComponent<OrientationBox>()->OnImGuiRender();
 
 	ImGui::EndChild();
 }

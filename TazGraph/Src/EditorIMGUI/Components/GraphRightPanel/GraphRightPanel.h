@@ -2,7 +2,6 @@
 
 #include "../../UIElement.h"
 
-#include "../SliderRotateZ.h"
 #include "./CustomFunctions/CustomFunctions.h"
 #include "../../../AssetManager/AssetManager.h"
 
@@ -16,9 +15,12 @@ class GraphRightPanel : public UIElement
 {
 private:
 	GraphRightConfig config;
-
-	CustomFunctions _customFunctions;
 public:
+
+	GraphRightPanel() {
+		addUIComponent<CustomFunctions>();
+	}
+
 	void setConfig(const GraphRightConfig& cfg) { config = cfg; }
 
 	void update(float deltaTime) override;

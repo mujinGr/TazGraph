@@ -26,16 +26,8 @@
 
 #include <chrono>
 #include <thread>
-#include "../../EditorIMGUI/Components/MenuDropdown/MenuDropdown.h"
-#include "../../EditorIMGUI/Components/FPSCounter.h"
-#include "../../EditorIMGUI/Components/GraphTopBar/GraphTopBar.h"
-#include "../../EditorIMGUI/Components/GraphLeftPanel/GraphLeftPanel.h"
-#include "../../EditorIMGUI/Components/ViewportPanel/ViewportPanel.h"
-#include "../../EditorIMGUI/Components/GraphRightPanel/GraphRightPanel.h"
 #include "../../AssetManager/AssetManager.h"
-#include "../../EditorIMGUI/Components/SceneControl/SceneControl.h"
-#include "../../EditorIMGUI/Components/EntityComponentsControl/EntityComponentsControl.h"
-#include "../../EditorIMGUI/Components/HoverEntityPanel/HoverEntityPanel.h"
+#include "../../EditorIMGUI/GraphEditorLayer/GraphEditorLayer.h"
 
 class Map;
 class SceneManager;
@@ -128,15 +120,7 @@ private:
 	const float SCALE_SPEED = 0.1f;
 	bool _firstLoop = true;
 
-	MenuDropdownPanel _menuDropdown;
-	FPSCounter _fpsCounter;
-	GraphTopBar _topBar;
-	GraphLeftPanel _graphLeftPanel;
-	ViewportPanel _viewportPanel;
-	GraphRightPanel _graphRightPanel;
-	SceneControlPanel _sceneControl;
-	EntityComponentsControlPanel _entityComponentController;
-	HoverEntityPanel _hoverEntityPanel;
+	GraphEditorLayer _graphEditorLayer;
 
 	Framebuffer _framebuffer;
 	Framebuffer _minimapFramebuffer;
