@@ -22,3 +22,6 @@
 [submodule "vendors/pybind11"]
 	path = vendors/pybind11
 	url = https://github.com/pybind/pybind11.git
+[submodule "vendors/ImGuiComboAutoselect"]
+	path = vendors/ImGuiComboAutoselect
+	url = https://github.com/mujinGr/ImGuiComboAutoselect.git

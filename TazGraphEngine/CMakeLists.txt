@@ -70,7 +70,7 @@ set(Source_Files
     "Grid/Grid.cpp"
     "ImGuiInterface/ImGuiInterface.cpp"
     "../vendors/imgui/imgui.cpp"
-    "../vendors/imguiComboAutoselect/imgui_combo_autoselect.cpp"
+    "../vendors/ImGuiComboAutoselect/imgui_combo_autoselect.cpp"
     "../vendors/imgui/imgui_demo.cpp"
     "../vendors/imgui/imgui_draw.cpp"
     "../vendors/imgui/backends/imgui_impl_opengl3.cpp"

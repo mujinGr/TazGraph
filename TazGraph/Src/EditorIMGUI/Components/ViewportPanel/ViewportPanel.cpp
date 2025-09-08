@@ -9,7 +9,7 @@ void ViewportPanel::OnImGuiRender()
 {
 	updateIsMouseInSecondColumn();
 
-	ImGui::BeginChild("Viewport");
+	ImGui::BeginChild("Viewport",ImVec2(0.0f, 400.0f), ImGuiChildFlags_ResizeY);
 
 	ImVec2 pos = ImGui::GetCursorScreenPos();
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();

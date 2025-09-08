@@ -5,7 +5,7 @@
 #include <string>
 #include <filesystem>
 
-#include <imguiComboAutoselect/imgui_combo_autoselect.h>
+#include <ImGuiComboAutoselect/imgui_combo_autoselect.h>
 
 namespace fs = std::filesystem;
 

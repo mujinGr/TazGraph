@@ -31,11 +31,17 @@ void GraphRightPanel::OnImGuiRender()
 	}
 
 	// Show results in ImGui
+
+	ImGui::BeginHorizontal("test", ImVec2(100,100), 100.0f);
 	ImGui::Text("Nodes: %d", nodeCount);
 	ImGui::Text("Empties: %d", emptyCount);
 	ImGui::Text("Links: %d", linkCount);
+	ImGui::EndHorizontal();
 
 	ImGui::NewLine();
+
+	ImGui::Separator();
+
 	ImGui::NewLine();
 
 	if (ImGui::BeginTabBar("RightPanelTabs", ImGuiTabBarFlags_AutoSelectNewTabs)) {
