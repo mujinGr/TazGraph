@@ -2,6 +2,8 @@
 
 void VisibleEntitiesPanel::OnImGuiRender()
 {
+	ImGui::Begin("VisibleEntities", &showVisibleEntities);
+
 	if (ImGui::BeginTable("GroupsTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
 		ImGui::TableSetupColumn("Group Name", ImGuiTableColumnFlags_WidthStretch);
 		ImGui::TableSetupColumn("Entity Count", ImGuiTableColumnFlags_WidthFixed, 100.0f);
@@ -59,4 +61,6 @@ void VisibleEntitiesPanel::OnImGuiRender()
 
 		ImGui::EndTable();
 	}
+
+	ImGui::End();
 }

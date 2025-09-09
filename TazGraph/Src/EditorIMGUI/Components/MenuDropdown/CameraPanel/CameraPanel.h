@@ -14,6 +14,7 @@ private:
 	int _currentOrientationIndex = 0;
 	CameraPanelConfig   config;
 public:
+	bool showCameraPanel = false;
 	CameraPanel() {
 		addUIComponent<SliderRotateZ>();
 	}

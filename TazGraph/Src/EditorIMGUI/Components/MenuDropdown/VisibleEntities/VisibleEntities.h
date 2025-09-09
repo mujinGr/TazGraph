@@ -12,7 +12,7 @@ class VisibleEntitiesPanel : public UIElement
 private:
 	VisibleEntitiesConfig config;
 public:
+	bool showVisibleEntities = false;
 	void setConfig(const VisibleEntitiesConfig& cfg) { config = cfg; }
-	void update(float deltaTime) override;
 	void OnImGuiRender() override;
 };

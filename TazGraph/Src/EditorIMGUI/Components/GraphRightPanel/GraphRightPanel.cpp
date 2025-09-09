@@ -58,31 +58,31 @@ void GraphRightPanel::OnImGuiRender()
 	}
 
 	// popup window
-	UIElement::getUIComponent<CustomFunctions>()->setSelectedEntities(config.c_selectedEntities);
-	UIElement::getUIComponent<CustomFunctions>()->update();
-	UIElement::getUIComponent<CustomFunctions>()->OnImGuiRender();
+	getSubcomponent<CustomFunctions>()->setSelectedEntities(config.c_selectedEntities);
+	getSubcomponent<CustomFunctions>()->update();
+	getSubcomponent<CustomFunctions>()->OnImGuiRender();
 }
 
 void GraphRightPanel::availableFunctions() {
 
 	if (ImGui::Button("Calculate Degree Of Selected Entities")) {
-		UIElement::getUIComponent<CustomFunctions>()->activatedScriptShown = 1;
-		UIElement::getUIComponent<CustomFunctions>()->isScriptResultsOpen = true;
+		getSubcomponent<CustomFunctions>()->activatedScriptShown = 1;
+		getSubcomponent<CustomFunctions>()->isScriptResultsOpen = true;
 	}
 
 	if (ImGui::Button("Do Signals")) {
-		UIElement::getUIComponent<CustomFunctions>()->activatedScriptShown = 2;
-		UIElement::getUIComponent<CustomFunctions>()->isScriptResultsOpen = true;
+		getSubcomponent<CustomFunctions>()->activatedScriptShown = 2;
+		getSubcomponent<CustomFunctions>()->isScriptResultsOpen = true;
 	}
 
 	if (ImGui::Button("Do HeatMap")) {
-		UIElement::getUIComponent<CustomFunctions>()->activatedScriptShown = 3;
-		UIElement::getUIComponent<CustomFunctions>()->isScriptResultsOpen = true;
+		getSubcomponent<CustomFunctions>()->activatedScriptShown = 3;
+		getSubcomponent<CustomFunctions>()->isScriptResultsOpen = true;
 	}
 
 	if (ImGui::Button("Do CandleStick")) {
-		UIElement::getUIComponent<CustomFunctions>()->activatedScriptShown = 4;
-		UIElement::getUIComponent<CustomFunctions>()->isScriptResultsOpen = true;
+		getSubcomponent<CustomFunctions>()->activatedScriptShown = 4;
+		getSubcomponent<CustomFunctions>()->isScriptResultsOpen = true;
 	}
 
 }

@@ -111,7 +111,7 @@ void Graph::draw()
 	_PlaneModelRenderer.renderBatch();*/
 
 	// Debug Rendering
-	if (_renderDebug) {
+	if (renderDebug) {
 		_LineRenderer.begin();
 		_resourceManager.setupShader(glsl_wireframeColor, *main_camera2D);
 

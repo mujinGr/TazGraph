@@ -4,45 +4,8 @@
 float nodeRadius = 1.0f;
 
 void Graph::updateUI(float deltaTime) {
-	
+
 	_graphEditorLayer.update(deltaTime);
-
-	//_graphEditorLayer.getSubcomponent<MenuDropdownPanel>()->setConfig({});
-	//_graphEditorLayer.getSubcomponent<MenuDropdownPanel>()->update(deltaTime);
-	//
-	///*_topBar.setConfig(
-	//	{
-	//	.c_fpsLimiter = &getApp()->getFPSLimiter(),
-	//	.c_graphNames = &managers,
-	//	.c_currentActive = &managerName,
-	//	.c_manager = manager,
-	//	}
-	//	);*/
-
-	///*_graphLeftPanel.setConfig({
-	//.renderDebug = &_renderDebug,
-	//.sceneMouseCoords = _sceneMousePosition,
-	//.mouseCoords = _app->_inputManager.getMouseCoords(),
-	//.manager = manager
-	//	});*/
-	//_graphLeftPanel.update(deltaTime);
-	//
-	//_graphMiddlePanel.setConfig({});
-	//_graphMiddlePanel.update(deltaTime);
-	//
-	//_graphRightPanel.setConfig({
-	//.c_manager = manager,
-	//.c_nodeRadius = &nodeRadius,
-	//.c_selectedEntities = _selectedEntities
-	//	});
-	//_graphRightPanel.update(deltaTime);
-	//
-	///*_sceneControl.setConfig(
-	//	{
-	//		.c_mouseCoords = _savedMainViewportMousePosition,
-	//		.c_manager = manager
-	//	}
-	//);*/
 
 	///*_entityComponentController.setConfig(
 	//	{
@@ -67,7 +30,8 @@ void Graph::drawUI() {
 	ImGui::SetNextWindowPos(viewport->Pos);
 	ImGui::SetNextWindowSize(viewport->Size);
 	ImGui::Begin("Main Window", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus);
-	
+
+	_graphEditorLayer.getSubcomponent<MenuDropdownPanel>()->setConfig({ .scene = this });
 	_graphEditorLayer.getSubcomponent<MenuDropdownPanel>()->OnImGuiRender();
 
 	ImGui::Columns(3, "mycolumns");
@@ -91,64 +55,46 @@ void Graph::drawUI() {
 
 	ImGui::BeginChild("Tab 1");
 
+	_graphEditorLayer.getSubcomponent<GraphLeftPanel>()->setConfig({
+		.scene = this,
+		.sceneMouseCoords = _sceneMousePosition,
+		.mouseCoords = _app->_inputManager.getMouseCoords(),
+		});
 	_graphEditorLayer.getSubcomponent<GraphLeftPanel>()->OnImGuiRender();
 
 	ImGui::EndChild();
 
 	ImGui::NextColumn();
 
+	_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->setConfig(
+		{
+			.scene = this,
+			.setManager = std::bind(&IScene::setManager, this, std::placeholders::_1),
+			.c_framebuffer = &_framebuffer,
+			.c_minimapFramebuffer = &_minimapFramebuffer,
+			.c_windowPos = &_windowPos,
+			.c_windowSize = &_windowSize
+		}
+	);
+	_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->OnImGuiRender();
+
 	//std::vector<std::string> openTabs;
 	//for (const auto& [name, _] : managers) {
 	//	openTabs.push_back(name);
 	//}
 
-	std::string activeManagerKey = managerName;
-
-
-	_topBar.OnImGuiRender();
-
-	std::string closedTab = _topBar.getTabToClose();
-	if (!closedTab.empty()) {
-		auto managerIt = managers.find(closedTab);
-		if (managerIt != managers.end()) {
-			managers.erase(managerIt);
-
-			if (closedTab == activeManagerKey) {
-				if (!managerName.empty() &&
-					managers.find(managerName) != managers.end()) {
-					setManager(managerName);
-				}
-				else if (!managers.empty()) {
-					setManager(managers.begin()->first);
-				}
-				else {
-					activeManagerKey = "";
-				}
-			}
-		}
-	}
-	else if (activeManagerKey != managerName && !managerName.empty()) {
-		// Normal tab switching (no closure)
-		auto managerIt = managers.find(managerName);
-		if (managerIt != managers.end()) {
-			setManager(managerName);
-		}
-	}
-
-
-	_viewportPanel.OnImGuiRender();
-
-	ImGui::BeginChild("TEstTest");
-
-	ImGui::Text("LMAO");
-
-	ImGui::EndChild();
-
 	ImGui::NextColumn();
 	ImGui::BeginChild("Tab 2");
 
+	_graphEditorLayer.getSubcomponent<GraphRightPanel>()->setConfig(
+		{
+			.c_manager = manager,
+			.c_nodeRadius = &nodeRadius,
+			.c_selectedEntities = _selectedEntities
+		}
+	);
 	_graphEditorLayer.getSubcomponent<GraphRightPanel>()->OnImGuiRender();
-	
+
 	ImGui::EndChild();
 
 	ImGui::End();
@@ -157,7 +103,7 @@ void Graph::drawUI() {
 		_graphEditorLayer.getSubcomponent<MenuDropdownPanel>()->
 			getSubcomponent<SavingUI>()->setConfig({
 			.c_map = map
-			});
+				});
 		_graphEditorLayer.getSubcomponent<MenuDropdownPanel>()->
 			getSubcomponent<SavingUI>()->
 			OnImGuiRender();
@@ -176,7 +122,7 @@ void Graph::drawUI() {
 			float startX = -totalWidth * 0.5f;
 			float y = 0.0f;
 
-			for (int i = 0; i < _graphEditorLayer.getSubcomponent<MenuDropdownPanel>()->newMapUI.newNodesCount; ++i) {
+			for (int i = 0; i < _graphEditorLayer.getSubcomponent<MenuDropdownPanel>()->getSubcomponent<NewMapUI>()->newNodesCount; ++i) {
 				auto& node = manager->addEntity<Node>();
 				glm::vec2 position = glm::vec2(startX + i * spacing, y);
 				node.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
@@ -187,7 +133,7 @@ void Graph::drawUI() {
 
 				manager->grid->addNode(&node, manager->grid->getGridLevel());
 			}
-			for (int i = 0; i < _graphEditorLayer.getSubcomponent<MenuDropdownPanel>()->newMapUI.newLinksCount; ++i) {
+			for (int i = 0; i < _graphEditorLayer.getSubcomponent<MenuDropdownPanel>()->getSubcomponent<NewMapUI>()->newLinksCount; ++i) {
 				auto& link = manager->addEntity<Link>(0, i + 1);
 				link.addComponent<Line_w_Color>();
 
@@ -248,13 +194,40 @@ void Graph::drawUI() {
 
 	//glm::vec2 worldToVieport
 	if (manager) {
-		_entityComponentController.OnImGuiRender();
-		_hoverEntityPanel.OnImGuiRender();
+		_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
+			getSubcomponent<EntityComponentsControlPanel>()->
+			setConfig({
+
+			.mousePos = _savedMainViewportMousePosition,
+			.displayedEntity = _displayedEntity,
+			.manager = manager
+				});
+		_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
+			getSubcomponent<EntityComponentsControlPanel>()->
+			OnImGuiRender();
+
+		_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
+			getSubcomponent<HoverEntityPanel>()->
+			setConfig({
+			.mousePos = _app->_inputManager.getMouseCoords(),
+			.hoveredEntity = _onHoverEntity,
+			.manager = manager
+				});
+		_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
+			getSubcomponent<HoverEntityPanel>()->
+			OnImGuiRender();
 	}
 
 	if (manager && _sceneManagerActive) {
-
-		_sceneControl.OnImGuiRender();
+		_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
+			getSubcomponent<SceneControlPanel>()->
+			setConfig({
+			.c_mouseCoords = _savedMainViewportMousePosition,
+			.c_manager = manager
+				});
+		_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
+			getSubcomponent<SceneControlPanel>()->
+			OnImGuiRender();
 	}
 	// this is going to be shown when right click on scene and no displayEntity shows
 

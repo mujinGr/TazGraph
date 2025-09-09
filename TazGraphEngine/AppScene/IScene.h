@@ -74,16 +74,17 @@ public:
 		}
 	};
 
-protected:
-	SceneState _currentState = SceneState::NONE;
-	AppInterface* _app = nullptr;
-	int _sceneIndex = -1;
-
 	std::unordered_map<std::string, Manager*> managers = {
 	};
 
 	Manager* manager = nullptr;
 	std::string managerName = "";
 
-	bool _renderDebug = false;
+	bool renderDebug = false;
+
+protected:
+	SceneState _currentState = SceneState::NONE;
+	AppInterface* _app = nullptr;
+	int _sceneIndex = -1;
+
 };

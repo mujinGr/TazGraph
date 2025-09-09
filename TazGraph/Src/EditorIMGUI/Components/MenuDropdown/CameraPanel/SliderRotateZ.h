@@ -10,12 +10,7 @@ public:
 	SliderRotateZ() = default;
 	~SliderRotateZ() override = default;
 
-	void update(float deltaTime) override 
-	{
-	
-	};
-
-	void OnImGuiRender() override 
+	void OnImGuiRender() override
 	{
 		if (ImGui::SliderFloat("Rotate Around Z", &cameraRotationZ, 0.0f, 360.0f)) {
 			rotateCamera(cameraRotationZ);

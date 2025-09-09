@@ -43,9 +43,9 @@ void Grid::createCells(Grid::Level m_level) {
 	
 	// push Grid Data
 	GridLevelData data;
-	data.numXCells = (_numXCells + 1) / cellsGroupSize;
-	data.numYCells = (_numYCells + 1) / cellsGroupSize;
-	data.numZCells = (_numZCells + 1) / cellsGroupSize;
+	data.numXCells = (_numXCells + cellsGroupSize - 1) / cellsGroupSize;
+	data.numYCells = (_numYCells + cellsGroupSize - 1) / cellsGroupSize;
+	data.numZCells = (_numZCells + cellsGroupSize - 1) / cellsGroupSize;
 
 	data.startX =	(	(-data.numXCells	+ 1) / 2); // add one in order to take floor of division
 	data.endX	=	(	(data.numXCells		+ 1) / 2) - 1;

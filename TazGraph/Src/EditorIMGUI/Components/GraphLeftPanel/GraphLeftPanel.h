@@ -5,10 +5,9 @@
 #include "../../../AssetManager/AssetManager.h"
 
 struct GraphLeftConfig {
-	bool* renderDebug;
+	IScene* scene;
 	glm::vec2 sceneMouseCoords;
 	glm::vec2 mouseCoords;
-	Manager* manager = nullptr;
 };
 
 class GraphLeftPanel : public UIElement

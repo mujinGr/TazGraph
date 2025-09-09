@@ -1,10 +1,5 @@
 #include "ViewportPanel.h"
 
-void ViewportPanel::update(float deltaTime)
-{
-
-}
-
 void ViewportPanel::OnImGuiRender()
 {
 	updateIsMouseInSecondColumn();
@@ -57,18 +52,18 @@ void ViewportPanel::OnImGuiRender()
 	bool isHovered = ImGui::IsItemHovered();
 	ImGuizmo::Enable(isHovered);
 
-	UIElement::getUIComponent<Minimap>()->setConfig({
+	getSubcomponent<Minimap>()->setConfig({
 	.textureID = config.c_minimap_fb->_framebufferTexture,
 	.viewportPos = pos,
 	.viewportSize = viewportPanelSize
 		});
-	UIElement::getUIComponent<Minimap>()->OnImGuiRender();
+	getSubcomponent<Minimap>()->OnImGuiRender();
 
-	UIElement::getUIComponent<OrientationBox>()->setConfig({
+	getSubcomponent<OrientationBox>()->setConfig({
 		.viewportPos = pos,
 		.viewportSize = viewportPanelSize
 		});
-	UIElement::getUIComponent<OrientationBox>()->OnImGuiRender();
+	getSubcomponent<OrientationBox>()->OnImGuiRender();
 
 	ImGui::EndChild();
 }

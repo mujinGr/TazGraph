@@ -35,7 +35,6 @@ public:
 
 	bool isMouseInSecondColumn = false;
 
-	void update(float deltaTime) override;
 	void setConfig(const ViewportPanelConfig& cfg) { config = cfg; }
 	void OnImGuiRender() override;
 	void updateIsMouseInSecondColumn();

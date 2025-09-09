@@ -7,6 +7,7 @@ void CameraPanel::update(float deltaTime)
 
 void CameraPanel::OnImGuiRender()
 {
+	ImGui::Begin("CameraPanel", &showCameraPanel);
 	ImGui::Text("Camera:");
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
@@ -42,7 +43,11 @@ void CameraPanel::OnImGuiRender()
 
 	}
 
+	getSubcomponent<SliderRotateZ>()->OnImGuiRender();
+
 	if (ImGui::Button("Reset")) {
 		main_camera2D->resetCameraPosition();
 	}
+
+	ImGui::End();
 }

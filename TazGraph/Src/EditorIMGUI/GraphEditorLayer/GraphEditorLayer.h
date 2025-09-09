@@ -23,10 +23,8 @@ public:
 		addUIComponent<GraphLeftPanel>();
 		addUIComponent<GraphMiddlePanel>();
 		addUIComponent<GraphRightPanel>();
-		addUIComponent<EntityComponentsControlPanel>();
 	}
 
 	void setConfig(const GraphEditorLayerConfig& cfg) { config = cfg; }
-	void update(float deltaTime) override;
 	void OnImGuiRender() override;
 };

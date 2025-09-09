@@ -1,14 +1,9 @@
 #pragma once
 
 #include "../../../UIElement.h"
-#include <AppScene/AppInterface.h>
 
 struct GraphTopConfig {
-	BaseFPSLimiter* c_fpsLimiter;
-	std::unordered_map<std::string, Manager*>* c_graphNames = {
-	};
-	std::string* c_currentActive;
-	Manager* c_manager;
+	IScene* scene;
 };
 
 class GraphTopBar : public UIElement

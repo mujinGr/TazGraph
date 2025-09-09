@@ -20,6 +20,5 @@ public:
 	}
 
 	void setConfig(const MainMenuEditorLayerConfig& cfg) { config = cfg; }
-	void update(float deltaTime) override;
 	void OnImGuiRender() override;
 };

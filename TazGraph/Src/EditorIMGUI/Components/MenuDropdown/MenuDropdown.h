@@ -12,7 +12,7 @@
 #include "FPSCounter.h"
 
 struct MenuDropdownConfig {
-
+	IScene* scene;
 };
 
 class MenuDropdownPanel : public UIElement
@@ -20,19 +20,17 @@ class MenuDropdownPanel : public UIElement
 private:
 	MenuDropdownConfig config;
 public:
-	PythonInterpreterPanel pythonInterpreter;
-
 	MenuDropdownPanel()
 	{
 		addUIComponent<LoadingUI>();
 		addUIComponent<SavingUI>();
 		addUIComponent<NewMapUI>();
+		addUIComponent<PythonInterpreterPanel>();
 		addUIComponent<CameraPanel>();
 		addUIComponent<VisibleEntitiesPanel>();
 		addUIComponent<FPSCounter>();
 	}
 
 	void setConfig(const MenuDropdownConfig& cfg) { config = cfg; }
-	void update(float deltaTime) override;
 	void OnImGuiRender() override;
 };

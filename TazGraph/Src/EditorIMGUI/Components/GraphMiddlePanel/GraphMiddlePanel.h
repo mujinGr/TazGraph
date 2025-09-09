@@ -7,14 +7,18 @@
 #include "GraphTopBar/GraphTopBar.h"
 
 struct GraphMiddlePanelConfig {
-
+	IScene* scene;
+	std::function<void(std::string m_managerName)> setManager;
+	Framebuffer* c_framebuffer;
+	Framebuffer* c_minimapFramebuffer;
+	ImVec2* c_windowPos;
+	ImVec2* c_windowSize;
 };
 
 class GraphMiddlePanel : public UIElement
 {
-private:
-	GraphMiddlePanelConfig  config;
 public:
+	GraphMiddlePanelConfig  config;
 
 	GraphMiddlePanel() {
 		addUIComponent<GraphTopBar>();
@@ -22,6 +26,5 @@ public:
 	}
 
 	void setConfig(const GraphMiddlePanelConfig& cfg) { config = cfg; }
-	void update(float deltaTime) override;
 	void OnImGuiRender() override;
 };

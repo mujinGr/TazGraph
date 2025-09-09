@@ -7,12 +7,14 @@ private:
 	const BaseFPSLimiter* baseFPSLimiter = nullptr;
 
 public:
+	bool showFPS = false;
+
 	FPSCounter() = default;
 	~FPSCounter() override = default;
 
 	void OnImGuiRender() override
 	{
-		ImGui::Begin("Performance");
+		ImGui::Begin("Performance", &showFPS);
 		ImGui::Text("FPS: %f", baseFPSLimiter->fps);
 		if (ImPlot::BeginPlot("FPS Plot")) {
 			int plot_count = std::min(baseFPSLimiter->fps_history_count,
