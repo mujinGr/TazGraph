@@ -21,16 +21,16 @@ void AssetManager::CreateGroup(Entity& groupNode, glm::vec3 centerGroup, float g
 {
 	if (m_level == Grid::Level::Outer1)
 	{
-		groupNode.addComponent<TransformComponent>(glm::vec3(centerGroup.x - groupNodeSize / 2,
-			centerGroup.y - groupNodeSize / 2, centerGroup.z - groupNodeSize / 2), Layer::action, glm::vec3(groupNodeSize), 1);
+		groupNode.addComponent<TransformComponent>(glm::vec3(centerGroup.x,
+			centerGroup.y, centerGroup.z), Layer::action, glm::vec3(groupNodeSize), 1);
 		groupNode.addComponent<Rectangle_w_Color>();
 		groupNode.GetComponent<Rectangle_w_Color>().color = Color(0, 155, 155, 255);
 
-		groupNode.addGroup( Manager::groupGroupNodes_0 );
+		groupNode.addGroup(Manager::groupGroupNodes_0);
 	}
 	else if (m_level == Grid::Level::Outer2) {
-		groupNode.addComponent<TransformComponent>(glm::vec2(centerGroup.x - groupNodeSize / 2,
-			centerGroup.y - groupNodeSize / 2), Layer::action, glm::vec3(groupNodeSize), 1);
+		groupNode.addComponent<TransformComponent>(glm::vec2(centerGroup.x,
+			centerGroup.y), Layer::action, glm::vec3(groupNodeSize), 1);
 		groupNode.addComponent<Rectangle_w_Color>();
 		groupNode.GetComponent<Rectangle_w_Color>().color = Color(155, 155, 155, 255);
 
@@ -48,14 +48,14 @@ void AssetManager::CreateGroupLink(Entity& groupLink, Grid::Level m_level) {
 
 		groupLink.addGroup(Manager::groupGroupLinks_0);
 	}
-	else if(m_level == Grid::Level::Outer2){
+	else if (m_level == Grid::Level::Outer2) {
 		groupLink.addComponent<Line_w_Color>();
 		groupLink.GetComponent<Line_w_Color>().setSrcColor(Color(255, 0, 0, 255));
 		groupLink.GetComponent<Line_w_Color>().setDestColor(Color(0, 255, 0, 255));
 
 		groupLink.addGroup(Manager::groupGroupLinks_1);
 	}
-	
+
 }
 
 void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
@@ -81,7 +81,7 @@ void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 		for (const auto& childCell : cell.children) {
 			for (auto& entity : childCell->nodes) {
 				if (!entity->isHidden()) {
-					glm::vec3 node_position = entity->GetComponent<TransformComponent>().getCenterTransform();
+					glm::vec3 node_position = entity->GetComponent<TransformComponent>().getPosition();
 					centroid += node_position;
 
 					entity->setParentEntity(&node);
@@ -89,7 +89,7 @@ void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 				}
 			}
 		}
-		
+
 		centroid /= totalNodes;
 		AssetManager::CreateGroup(node, centroid, groupNodeSize, m_level);
 
@@ -103,7 +103,10 @@ void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 		{
 			for (auto& entity : childCell->nodes) {
 				if (entity->isHidden()) {
-					glm::vec2 relativePosition = entity->GetComponent<TransformComponent>().getPosition() - node.GetComponent<TransformComponent>().getCenterTransform();
+					glm::vec2 relativePosition =
+						entity->GetComponent<TransformComponent>().getPosition() -
+						node.GetComponent<TransformComponent>().getPosition();
+
 					entity->GetComponent<TransformComponent>().setPosition_X(relativePosition.x);
 					entity->GetComponent<TransformComponent>().setPosition_Y(relativePosition.y);
 				}
@@ -116,13 +119,13 @@ void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 				link->hide();
 			}
 		}
-		
+
 
 	}
 
 	auto child_links = (m_level == Grid::Level::Outer1) ?
 		manager->getGroup<LinkEntity>(Manager::groupLinks_0) : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_0);
-	
+
 	std::unordered_set<std::pair<int, int>, PairHash> existingLinks;
 
 	for (const auto& c_link : child_links) {
@@ -175,7 +178,7 @@ void AssetManager::ungroupLayout(Manager* manager, Grid::Level m_level) {
 			link->destroy();
 		}
 	}
-	
+
 	Manager::groupLabels label = (m_level == Grid::Level::Outer1) ? Manager::groupNodes_0 : Manager::groupGroupNodes_0;
 	Manager::groupLabels link_label = (m_level == Grid::Level::Outer1) ? Manager::groupLinks_0 : Manager::groupGroupLinks_0;
 
@@ -189,13 +192,13 @@ void AssetManager::ungroupLayout(Manager* manager, Grid::Level m_level) {
 			// ! update the nodes' position based on the parent position
 			TransformComponent* parent_tr = &entity->getParentEntity()->GetComponent<TransformComponent>();
 
-			glm::vec2 absolutePosition = entity->GetComponent<TransformComponent>().getPosition() + parent_tr->getCenterTransform();
+			glm::vec2 absolutePosition = entity->GetComponent<TransformComponent>().getPosition() + parent_tr->getPosition();
 			entity->GetComponent<TransformComponent>().setPosition_X(absolutePosition.x);
 			entity->GetComponent<TransformComponent>().setPosition_Y(absolutePosition.y);
 
 			entity->setParentEntity(nullptr);
 			entity->reveal();
-			
+
 		}
 	}
 	for (auto& link : manager->getGroup<LinkEntity>(link_label)) {

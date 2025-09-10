@@ -85,14 +85,14 @@ static GLuint quadWireframeIndices[] = {
 };
 
 static Position cubeVertices[8] = {
-	{ -0.5f, -0.5f, -0.5f }, 
-	{  0.5f, -0.5f, -0.5f }, 
-	{  0.5f,  0.5f, -0.5f }, 
-	{ -0.5f,  0.5f, -0.5f }, 
-	{ -0.5f, -0.5f,  0.5f }, 
+	{ -0.5f, -0.5f, -0.5f },
+	{  0.5f, -0.5f, -0.5f },
+	{  0.5f,  0.5f, -0.5f },
+	{ -0.5f,  0.5f, -0.5f },
+	{ -0.5f, -0.5f,  0.5f },
 	{  0.5f, -0.5f,  0.5f },
-	{  0.5f,  0.5f,  0.5f }, 
-	{ -0.5f,  0.5f,  0.5f }  
+	{  0.5f,  0.5f,  0.5f },
+	{ -0.5f,  0.5f,  0.5f }
 };
 
 static LightVertex light_cubeVertices[24] = {
@@ -258,14 +258,14 @@ struct InstanceData {
 	InstanceData() {}
 	InstanceData(glm::vec3 mSize, Position mBodyCenter, Rotation mRotation) :
 		size(mSize),
-		bodyCenter(mBodyCenter),
+		position(mBodyCenter),
 		rotation(mRotation)
 	{
 	}
 
 	InstanceData(glm::vec2 mSize, Position mBodyCenter, Rotation mRotation) :
 		size(glm::vec3(mSize, 0.0f)),
-		bodyCenter(mBodyCenter),
+		position(mBodyCenter),
 		rotation(mRotation)
 	{
 	}
@@ -273,7 +273,7 @@ struct InstanceData {
 	~InstanceData() {}
 
 	Size size = glm::vec3(0.0f);
-	Position bodyCenter = glm::vec3(0.0f);
+	Position position = glm::vec3(0.0f);
 	Rotation rotation = glm::vec3(0.0f);
 };
 
@@ -308,13 +308,14 @@ struct TextureInstanceData : InstanceData {
 struct LineInstanceData {
 	LineInstanceData() {}
 	LineInstanceData(Position mfromPos, Position mtoPos, Color mfromcolor, Color mtocolor, float mwidth)
-		:  
+		:
 		fromPos(mfromPos),
 		toPos(mtoPos),
 		fromColor(mfromcolor),
 		toColor(mtocolor),
 		width(mwidth)
-	{}
+	{
+	}
 
 	~LineInstanceData() {}
 
@@ -346,11 +347,11 @@ struct WireframeInstanceData : ColorInstanceData {
 
 struct BaseRenderer {
 	size_t meshIndices = 0;
-	
+
 	GLuint vao = 0;
 
 	//for static draws
-	GLuint vbo = 0; 
+	GLuint vbo = 0;
 	GLuint ibo = 0;
 };
 
@@ -452,7 +453,7 @@ public:
 	}
 
 	void dispose() {
-		if(_programID != 0) glDeleteProgram(_programID);
+		if (_programID != 0) glDeleteProgram(_programID);
 	}
 
 	GLuint getProgramID() {

@@ -35,8 +35,7 @@ public: // it is like it has init that creates Animator Component since it inher
 		if (!entity->hasComponent<TransformComponent>()) {
 			entity->addComponent<TransformComponent>(
 				glm::vec2(
-					-window->getScreenWidth() / 2,
-					-window->getScreenHeight() / 2
+					0
 				), Layer::action,
 				glm::ivec2(
 					window->getScreenWidth(),

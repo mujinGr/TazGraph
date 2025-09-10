@@ -38,8 +38,8 @@ public:
 			}
 		}
 	}
-	
-	
+
+
 
 	void imgui_print() override {
 		glm::vec2 position = this->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
@@ -53,16 +53,16 @@ public:
 	}
 };
 
-class Node: public NodeEntity {
+class Node : public NodeEntity {
 private:
-	
+
 
 	std::vector<std::string> messageLog;
 public:
 
 	Node(Manager& mManager) : NodeEntity(mManager) {
 
-		
+
 	}
 
 	void addGroup(Group mGroup) override {
@@ -106,7 +106,7 @@ public:
 				portSlots->update(deltaTime);
 			}
 		}
-		
+
 		m_position = glm::vec3(0.0f, -tr->size.y / 2.0f, 0.0f);
 
 		if (children[NodePorts::TOP]) {
@@ -116,7 +116,7 @@ public:
 				portSlots->update(deltaTime);
 			}
 		}
-		
+
 		m_position = glm::vec3(0.0f, tr->size.y / 2.0f, 0.0f);
 
 		if (children[NodePorts::BOTTOM]) {
@@ -128,7 +128,7 @@ public:
 		}
 	}
 
-	void cellUpdate() override{
+	void cellUpdate() override {
 		if (this->ownerCell) {
 			updatePorts(0.0f);
 			//this->GetComponent<TransformComponent>().update(0.0f);
@@ -137,7 +137,7 @@ public:
 				std::scoped_lock lock(manager.movedNodesMutex);
 				removeEntity();
 				manager.grid->addNode(this, newCell);
-					
+
 				manager.movedNodes.push_back(this);
 			}
 			for (auto& link : inLinks) {
@@ -149,7 +149,7 @@ public:
 		}
 	}
 
-	void addMessage(std::string mMessage) override{
+	void addMessage(std::string mMessage) override {
 		messageLog.push_back(mMessage);
 	}
 
@@ -176,7 +176,7 @@ public:
 	void imgui_display() override {
 		ImGui::Text("Display Info Here Node");
 	}
-	
+
 	void destroy() {
 		Entity::destroy();
 		manager.aboutTo_updateActiveEntities();
@@ -199,16 +199,16 @@ public:
 		leftPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children[NodePorts::LEFT] = &leftPort;
 		children[NodePorts::LEFT]->setParentEntity(this);
-		children[NodePorts::LEFT]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
+		children[NodePorts::LEFT]->GetComponent<TransformComponent>().position = tr->position + m_position;
 		children[NodePorts::LEFT]->addComponent<PortComponent>(true);
 
 		auto& rightPort = getManager()->addEntityNoId<Empty>();
 		rightPort.addGroup(Manager::groupPorts);
-		m_position = glm::vec3(tr->size.x / 2 , 0.0f, 0.0f);
+		m_position = glm::vec3(tr->size.x / 2, 0.0f, 0.0f);
 		rightPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children[NodePorts::RIGHT] = &rightPort;
 		children[NodePorts::RIGHT]->setParentEntity(this);
-		children[NodePorts::RIGHT]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
+		children[NodePorts::RIGHT]->GetComponent<TransformComponent>().position = tr->position + m_position;
 		children[NodePorts::RIGHT]->addComponent<PortComponent>(true);
 
 		// Initialize top port
@@ -218,7 +218,7 @@ public:
 		topPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children[NodePorts::TOP] = &topPort;
 		children[NodePorts::TOP]->setParentEntity(this);
-		children[NodePorts::TOP]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
+		children[NodePorts::TOP]->GetComponent<TransformComponent>().position = tr->position + m_position;
 		children[NodePorts::TOP]->addComponent<PortComponent>(false);
 
 		// Initialize bottom port
@@ -228,18 +228,18 @@ public:
 		bottomPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children[NodePorts::BOTTOM] = &bottomPort;
 		children[NodePorts::BOTTOM]->setParentEntity(this);
-		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().bodyCenter = tr->bodyCenter + m_position;
+		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().position = tr->position + m_position;
 		children[NodePorts::BOTTOM]->addComponent<PortComponent>(false);
-		
-	/*	auto& testSlot = getManager()->addEntityNoId<Empty>();
-		testSlot.addGroup(Manager::groupPortSlots);
-		testSlot.addComponent<TransformComponent>(m_position, glm::vec3(3), 1.0f);
-		testSlot.addComponent<Rectangle_w_Color>();
-		testSlot.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255));
-		testSlot.addComponent<PortSlotComponent>();
-		testSlot.setParentEntity(children[NodePorts::BOTTOM]);
-		children[NodePorts::BOTTOM]->GetComponent<PortComponent>().
-			portSlots.push_back(&testSlot);*/
+
+		/*	auto& testSlot = getManager()->addEntityNoId<Empty>();
+			testSlot.addGroup(Manager::groupPortSlots);
+			testSlot.addComponent<TransformComponent>(m_position, glm::vec3(3), 1.0f);
+			testSlot.addComponent<Rectangle_w_Color>();
+			testSlot.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255));
+			testSlot.addComponent<PortSlotComponent>();
+			testSlot.setParentEntity(children[NodePorts::BOTTOM]);
+			children[NodePorts::BOTTOM]->GetComponent<PortComponent>().
+				portSlots.push_back(&testSlot);*/
 
 	}
 
@@ -275,7 +275,7 @@ public:
 class Link : public LinkEntity {
 private:
 
-	
+
 
 public:
 
@@ -312,7 +312,7 @@ public:
 		toId = to->getId();
 	}
 
-	Link(Manager& mManager, 
+	Link(Manager& mManager,
 		unsigned int mfromId, unsigned int mtoId,
 		NodeEntity* mfrom, NodeEntity* mto
 	)
@@ -348,8 +348,8 @@ public:
 	void update(float deltaTime) override
 	{
 		Entity::update(deltaTime);
-		
-		
+
+
 	}
 
 	void cellUpdate() override {
@@ -371,7 +371,7 @@ public:
 				manager.grid->addLink(this, manager.grid->getGridLevel());
 			}
 		}
-		
+
 	}
 
 	void updateArrowHeads() override {
@@ -386,33 +386,31 @@ public:
 			TransformComponent* toPortTR = ch_tr;
 			TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
 
-			glm::vec3 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
+			glm::vec3 direction = toPortTR->getPosition() - fromPortTR->getPosition();
 
 			glm::vec3 unitDirection = glm::normalize(direction);
 			float offset = 10.0f;
 
-			glm::vec3 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
+			glm::vec3 arrowHeadPos = toPortTR->getPosition() - unitDirection * offset;
 
 			// Calculate the angle in radians, and convert it to degrees
 			float angleRadians = -atan2(direction.y, direction.x);
 			float angleDegrees = glm::degrees(angleRadians);
 
-			glm::ivec3 arrowSize(10, 20, 0);
-			glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
 
-			glm::vec3 newArrowHeadPosition = arrowHeadPos - (farrowSize / 2.0f);
+			glm::vec3 newArrowHeadPosition = arrowHeadPos;
 			children[LinkPorts::ARROWHEAD]->GetComponent<TransformComponent>().position = newArrowHeadPosition;
 
 			children[LinkPorts::ARROWHEAD]->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleRadians + glm::half_pi<float>()));
 		}
 	}
 
-	void updateConnectedPorts() override{
+	void updateConnectedPorts() override {
 		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
 		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
 
-		int newFromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
-		int newToPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());
+		int newFromPort = getBestPortForConnection(fromTR->getPosition(), toTR->getPosition());
+		int newToPort = getBestPortForConnection(toTR->getPosition(), fromTR->getPosition());
 
 		fromSlotIndex = assignSlotIndex(from, newFromPort, fromPort, fromSlotIndex);
 		toSlotIndex = assignSlotIndex(to, newToPort, toPort, toSlotIndex);
@@ -425,19 +423,19 @@ public:
 		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
 		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
 
-		fromPort = getBestPortForConnection(fromTR->getCenterTransform(), toTR->getCenterTransform());
-		toPort = getBestPortForConnection(toTR->getCenterTransform(), fromTR->getCenterTransform());
+		fromPort = getBestPortForConnection(fromTR->getPosition(), toTR->getPosition());
+		toPort = getBestPortForConnection(toTR->getPosition(), fromTR->getPosition());
 
 		TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
 		TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
 
-		glm::vec3 direction = toPortTR->getCenterTransform() - fromPortTR->getCenterTransform();
+		glm::vec3 direction = toPortTR->getPosition() - fromPortTR->getPosition();
 
 		glm::vec3 unitDirection = glm::normalize(direction);
 		float offset = 10.0f;
 
-		glm::vec3 arrowHeadPos = toPortTR->getCenterTransform() - unitDirection * offset;
-		
+		glm::vec3 arrowHeadPos = toPortTR->getPosition() - unitDirection * offset;
+
 		auto& temp_arrowHead = getManager()->addEntityNoId<Empty>();
 
 		// Calculate the angle in radians, and convert it to degrees
@@ -446,7 +444,7 @@ public:
 
 		glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
 
-		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos - (farrowSize /2.0f), farrowSize, 1);
+		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos, farrowSize, 1);
 		temp_arrowHead.addComponent<Triangle_w_Color>();
 		temp_arrowHead.GetComponent<Triangle_w_Color>().color = Color(0, 0, 0, 255);
 
@@ -521,7 +519,7 @@ public:
 			newSlot.addGroup(Manager::groupPortSlots);
 			TransformComponent& portTransform = newPortEntity->GetComponent<TransformComponent>();
 			newSlot.addComponent<TransformComponent>(
-				portTransform.bodyCenter,
+				portTransform.position,
 				glm::vec3(3),
 				1.0f
 			);
@@ -558,8 +556,8 @@ public:
 	}
 
 	void imgui_print() override {
-		glm::vec2 fromNodePosition = this->getFromNode()->GetComponent<TransformComponent>().getCenterTransform();
-		glm::vec2 toNodePosition = this->getToNode()->GetComponent<TransformComponent>().getCenterTransform();
+		glm::vec2 fromNodePosition = this->getFromNode()->GetComponent<TransformComponent>().getPosition();
+		glm::vec2 toNodePosition = this->getToNode()->GetComponent<TransformComponent>().getPosition();
 
 		ImGui::Text("From Node Position: (%.2f, %.2f)", fromNodePosition.x, fromNodePosition.y);
 		ImGui::Text("To Node Position: (%.2f, %.2f)", toNodePosition.x, toNodePosition.y);

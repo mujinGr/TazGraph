@@ -53,7 +53,8 @@ void GraphMiddlePanel::OnImGuiRender()
 
 	ImGui::BeginChild("TEstTest");
 
-	ImGui::Text("LMAO");
+	getSubcomponent<PythonInterpreterPanel>()->setConfig({});
+	getSubcomponent<PythonInterpreterPanel>()->OnImGuiRender();
 
 	ImGui::EndChild();
 }

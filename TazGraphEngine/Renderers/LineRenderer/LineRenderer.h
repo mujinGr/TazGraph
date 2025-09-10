@@ -39,7 +39,7 @@ void main() {
 	~LineRenderer();
 
 	void init();
-	
+
 	void begin();
 	void end();
 
@@ -50,12 +50,12 @@ void main() {
 		const Color& srcColor, const Color& destColor,
 		const float width = 5.0f);
 	void drawRectangle(size_t v_index, const glm::vec2& rectSize,
-		const glm::vec3& bodyCenter,
+		const glm::vec3& position,
 		const Color& color,
 		const glm::vec3& mRotation = glm::vec3(0),
 		const float width = 5.0f);
 	void drawBox(size_t v_index, const glm::vec3& rectSize,
-		const glm::vec3& bodyCenter,
+		const glm::vec3& position,
 		const Color& color,
 		const glm::vec3& mRotation = glm::vec3(0),
 		const float width = 5.0f);
@@ -64,7 +64,7 @@ void main() {
 	void renderBatch();
 
 	void renderElementsBatch();
-	
+
 	void dispose();
 
 	int box_edgePairs[12][2] = {

@@ -164,12 +164,12 @@ void Graph::draw()
 				{
 					TransformComponent* tr = &entity->GetComponent<TransformComponent>();
 
-					glm::vec3 nodeBox_org(tr->bodyCenter);
+					glm::vec3 nodeBox_org(tr->position);
 					glm::vec3 nodeBox_size(tr->size.x, tr->size.y, tr->size.z);
 
 					_LineRenderer.drawBox(box_v_index++, nodeBox_size, nodeBox_org, Color(255, 255, 255, 255));  // Drawing each cell in red for visibility
 
-					//_LineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
+					//_LineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getPosition().x);
 					//break;
 				}
 
@@ -370,12 +370,12 @@ void Graph::draw()
 					TransformComponent* tr = &_selectedEntities[i].first->GetComponent<TransformComponent>();
 
 					glm::vec4 destRect;
-					destRect.x = tr->bodyCenter.x;
-					destRect.y = tr->bodyCenter.y;
+					destRect.x = tr->position.x;
+					destRect.y = tr->position.y;
 					destRect.z = tr->size.x;
 					destRect.w = tr->size.y;
 
-					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->bodyCenter.z);
+					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->position.z);
 					glm::vec3 nodeBox_size(destRect.z, destRect.w, tr->size.z);
 
 					_LineRenderer.drawBox(boxIndex++, nodeBox_size, nodeBox_org, Color(255, 255, 0, 100)); //todo add angle for drawRectangle
@@ -385,8 +385,8 @@ void Graph::draw()
 				if (_selectedEntities[i].first->hasComponent<Line_w_Color>()) {
 					Line_w_Color* lWc = &_selectedEntities[i].first->GetComponent<Line_w_Color>();
 
-					glm::vec3 startP = lWc->entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform();
-					glm::vec3 endP = lWc->entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform();
+					glm::vec3 startP = lWc->entity->getFromNode()->GetComponent<TransformComponent>().getPosition();
+					glm::vec3 endP = lWc->entity->getToNode()->GetComponent<TransformComponent>().getPosition();
 
 					_LineRenderer.drawLine(lineIndex++, startP, endP, Color(255, 255, 0, 100), Color(255, 255, 0, 100), 20.0f);
 
@@ -462,13 +462,13 @@ void Graph::minimapDraw() {
 	const int GRID_HEIGHT = manager->grid->getNumYCells();
 	const int GRID_DEPTH = manager->grid->getNumZCells();
 
-	const int Min_WIDTH_CELL =	(-GRID_WIDTH + 1) / 2;
+	const int Min_WIDTH_CELL = (-GRID_WIDTH + 1) / 2;
 	const int Min_HEIGHT_CELL = (-GRID_HEIGHT + 1) / 2;
-	const int Min_DEPTH_CELL =	(-GRID_DEPTH + 1) / 2;
+	const int Min_DEPTH_CELL = (-GRID_DEPTH + 1) / 2;
 
-	const int Max_WIDTH_CELL =	(GRID_WIDTH + 1) / 2;
+	const int Max_WIDTH_CELL = (GRID_WIDTH + 1) / 2;
 	const int Max_HEIGHT_CELL = (GRID_HEIGHT + 1) / 2;
-	const int Max_DEPTH_CELL =	(GRID_DEPTH + 1) / 2;
+	const int Max_DEPTH_CELL = (GRID_DEPTH + 1) / 2;
 
 	static float elapsed = 0.0f;
 	elapsed += getApp()->getFPSLimiter().frameTime / 1000.0f;
@@ -506,8 +506,8 @@ void Graph::minimapDraw() {
 								mnode.addGroup(Manager::groupMinimapNodes);
 
 								auto& mtrans = mnode.addComponent<TransformComponent>();
-								mtrans.bodyCenter.x = transform.bodyCenter.x;
-								mtrans.bodyCenter.y = transform.bodyCenter.y;
+								mtrans.position.x = transform.position.x;
+								mtrans.position.y = transform.position.y;
 								mtrans.size = transform.size * 10.0f;
 								mnode.addComponent<Rectangle_w_Color>();
 								mnode.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255));
@@ -536,8 +536,8 @@ void Graph::minimapDraw() {
 
 						// Copy/scale transform
 						auto& mtrans = mnode.addComponent<TransformComponent>();
-						mtrans.bodyCenter.x = transform.bodyCenter.x;
-						mtrans.bodyCenter.y = transform.bodyCenter.y;
+						mtrans.position.x = transform.position.x;
+						mtrans.position.y = transform.position.y;
 						mtrans.size = transform.size * 10.0f; // enlarge only on minimap
 						mnode.addComponent<Rectangle_w_Color>();
 						mnode.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255));
@@ -575,7 +575,7 @@ void Graph::minimapDraw() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-	
+
 
 	_PlaneColorRenderer.begin();
 	_PlaneColorRenderer.initQuadBatch(

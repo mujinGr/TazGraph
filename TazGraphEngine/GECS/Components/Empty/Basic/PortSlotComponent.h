@@ -37,7 +37,7 @@ public:
 
 		// Calculate and set our position
 		glm::vec3 newPosition = parentPort.getSlotPosition(myIndex);
-		transform->bodyCenter = newPosition;
+		transform->position = newPosition;
 	}
 
 	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {

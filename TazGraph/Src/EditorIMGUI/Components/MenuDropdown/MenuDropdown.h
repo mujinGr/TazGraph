@@ -25,7 +25,6 @@ public:
 		addUIComponent<LoadingUI>();
 		addUIComponent<SavingUI>();
 		addUIComponent<NewMapUI>();
-		addUIComponent<PythonInterpreterPanel>();
 		addUIComponent<CameraPanel>();
 		addUIComponent<VisibleEntitiesPanel>();
 		addUIComponent<FPSCounter>();

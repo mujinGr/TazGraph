@@ -33,12 +33,12 @@ public:
 	void draw(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
 		//float tempScreenScale = window.getScale();
 
-		glm::vec3 fromNodeCenter = entity->getFromNode()->GetComponent<TransformComponent>().getCenterTransform();
-		glm::vec3 toNodeCenter = entity->getToNode()->GetComponent<TransformComponent>().getCenterTransform();
+		glm::vec3 fromNodeCenter = entity->getFromNode()->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 toNodeCenter = entity->getToNode()->GetComponent<TransformComponent>().getPosition();
 
 		batch.drawLine(v_index, fromNodeCenter, toNodeCenter, src_color, dest_color, width);
 	}
-	
+
 	void drawWithPorts(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
 		//float tempScreenScale = window.getScale();
 
@@ -56,11 +56,11 @@ public:
 		PortComponent& toPortComp = toPortEntity->GetComponent<PortComponent>();
 
 		if ((entity->fromSlotIndex >= fromPortComp.portSlots.size())
-			 || (entity->toSlotIndex >= toPortComp.portSlots.size())) {
+			|| (entity->toSlotIndex >= toPortComp.portSlots.size())) {
 			return;
 		}
-		glm::vec3 fromConnectionPoint = fromPortComp.portSlots[entity->fromSlotIndex]->GetComponent<TransformComponent>().getCenterTransform();
-		glm::vec3 toConnectionPoint = toPortComp.portSlots[entity->toSlotIndex]->GetComponent<TransformComponent>().getCenterTransform();
+		glm::vec3 fromConnectionPoint = fromPortComp.portSlots[entity->fromSlotIndex]->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 toConnectionPoint = toPortComp.portSlots[entity->toSlotIndex]->GetComponent<TransformComponent>().getPosition();
 
 		batch.drawLine(v_index, fromConnectionPoint, toConnectionPoint, src_color, dest_color, width);
 	}
@@ -82,7 +82,7 @@ public:
 
 	void setFlashFrame() {
 		float t = this->flash_animation.interpolation_a;
-		
+
 		if (t < 0.33f) {
 			this->src_color = Color::fromVec4(glm::mix(default_src_color.toVec4(), this->flash_animation.flashColor.toVec4(), 3 * t));
 		}
@@ -94,7 +94,7 @@ public:
 			this->dest_color = Color::fromVec4(glm::mix(this->flash_animation.flashColor.toVec4(), default_dest_color.toVec4(), std::min((3 * (t - 0.66f)), 1.0f)));
 		}
 		// Smooth transition using lerp (linear interpolation)
-		
+
 	}
 
 	std::string GetComponentName() override {

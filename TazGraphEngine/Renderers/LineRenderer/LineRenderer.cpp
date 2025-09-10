@@ -68,21 +68,21 @@ void LineRenderer::drawLine(size_t v_index, const glm::vec3 srcPosition, const g
 }
 
 void LineRenderer::drawRectangle(size_t v_index, const glm::vec2& rectSize,
-	const glm::vec3& bodyCenter,
+	const glm::vec3& position,
 	const Color& color,
 	const glm::vec3& mRotation,
-	const float width )
+	const float width)
 {
-	_meshesElements[LINE_RECTANGLE_MESH_IDX].instances[v_index] = WireframeInstanceData(rectSize, bodyCenter, mRotation, color, width);
+	_meshesElements[LINE_RECTANGLE_MESH_IDX].instances[v_index] = WireframeInstanceData(rectSize, position, mRotation, color, width);
 }
 
 void LineRenderer::drawBox(size_t v_index, const glm::vec3& rectSize,
-	const glm::vec3& bodyCenter,
+	const glm::vec3& position,
 	const Color& color,
-	const glm::vec3& mRotation ,
+	const glm::vec3& mRotation,
 	const float width)
 {
-	_meshesElements[LINE_BOX_MESH_IDX].instances[v_index] = WireframeInstanceData(rectSize, bodyCenter, mRotation, color, width);
+	_meshesElements[LINE_BOX_MESH_IDX].instances[v_index] = WireframeInstanceData(rectSize, position, mRotation, color, width);
 
 }
 void LineRenderer::drawCircle(const glm::vec2& center, const Color& color, float radius)
@@ -189,7 +189,7 @@ void LineRenderer::createWireframeInstancesVBO() {
 	glVertexAttribDivisor(1, 1);
 
 	glEnableVertexAttribArray(2); // instance Body Center
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(WireframeInstanceData), (void*)offsetof(WireframeInstanceData, bodyCenter));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(WireframeInstanceData), (void*)offsetof(WireframeInstanceData, position));
 	glVertexAttribDivisor(2, 1);
 
 	glEnableVertexAttribArray(3); // instance Color

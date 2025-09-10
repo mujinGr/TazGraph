@@ -48,7 +48,7 @@ public:
 	}
 
 	void collisionPhysics() {
-		glm::vec3 nodePosition = transform->bodyCenter;
+		glm::vec3 nodePosition = transform->getPosition();
 		glm::vec3 nodeHalfSize = 0.5f * transform->size;
 
 		for (Group group : _groupChecks) {
@@ -70,7 +70,7 @@ public:
 					//continue;
 				}
 
-				glm::vec3 otherPosition = other->GetComponent<TransformComponent>().bodyCenter;
+				glm::vec3 otherPosition = other->GetComponent<TransformComponent>().getPosition();
 				glm::vec3 otherHalfSize = 0.5f * other->GetComponent<TransformComponent>().size;
 
 				glm::vec3 delta = nodePosition - otherPosition;

@@ -55,13 +55,13 @@ void PlaneModelRenderer::drawTriangle(
 void PlaneModelRenderer::draw(
 	size_t v_index,
 	const glm::vec2& rectSize,
-	const glm::vec3& bodyCenter,
+	const glm::vec3& position,
 	const glm::vec3& mRotation,
 	const glm::vec4& uvRect,
 	GLuint texture
 ) {
 
-	_meshesElements[RECTANGLE_MESH_IDX].instances[v_index] = TextureInstanceData(rectSize, bodyCenter, mRotation, texture);
+	_meshesElements[RECTANGLE_MESH_IDX].instances[v_index] = TextureInstanceData(rectSize, position, mRotation, texture);
 }
 
 void PlaneModelRenderer::renderBatch(GLSLProgram* glsl_program) {
@@ -72,7 +72,7 @@ void PlaneModelRenderer::renderBatch(GLSLProgram* glsl_program) {
 
 
 	for (int i = 0; i < _meshesElements[RECTANGLE_MESH_IDX].instances.size(); i++) {
-		
+
 		glBindTexture(GL_TEXTURE_2D, _meshesElements[RECTANGLE_MESH_IDX].instances[i].texture);
 
 		glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
@@ -101,7 +101,7 @@ void PlaneModelRenderer::createInstancesVBO() {
 	glVertexAttribDivisor(0, 1);
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(TextureInstanceData), (void*)offsetof(TextureInstanceData, bodyCenter));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(TextureInstanceData), (void*)offsetof(TextureInstanceData, position));
 	glVertexAttribDivisor(1, 1);
 
 	glEnableVertexAttribArray(2); // instance rotation

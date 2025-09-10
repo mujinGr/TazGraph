@@ -1,7 +1,7 @@
 #include "LightRenderer.h"
 #include <algorithm>
 
-LightRenderer::LightRenderer(){
+LightRenderer::LightRenderer() {
 
 }
 
@@ -56,12 +56,12 @@ void LightRenderer::initBatchSize()
 
 void LightRenderer::drawTriangle(
 	size_t v_index,
-	const glm::vec3& bodyCenter,
+	const glm::vec3& position,
 	const glm::vec3& cpuRotation,
 	const Color& color
 ) {
 	glm::vec2 size = glm::vec2(10.0f);
-	_meshesArrays[TRIANGLE_MESH_IDX].instances[v_index] = ColorInstanceData(size, bodyCenter, cpuRotation, color);
+	_meshesArrays[TRIANGLE_MESH_IDX].instances[v_index] = ColorInstanceData(size, position, cpuRotation, color);
 }
 
 // we can generalize the renderer for multiple kinds of meshes (triangle made instead of planes) by creating
@@ -72,29 +72,29 @@ void LightRenderer::drawTriangle(
 void LightRenderer::draw(
 	size_t v_index,
 	const glm::vec2& rectSize,
-	const glm::vec3& bodyCenter,
+	const glm::vec3& position,
 	const glm::vec3& mRotation,
 	const Color& color) {
-	_meshesElements[RECTANGLE_MESH_IDX].instances[v_index] = ColorInstanceData(rectSize, bodyCenter, mRotation, color);
+	_meshesElements[RECTANGLE_MESH_IDX].instances[v_index] = ColorInstanceData(rectSize, position, mRotation, color);
 }
 
 void LightRenderer::drawBox(
 	size_t v_index,
 	const glm::vec3& boxSize,
-	const glm::vec3& bodyCenter,
+	const glm::vec3& position,
 	const glm::vec3& mRotation,
 	const Color& color) {
-	_meshesElements[BOX_MESH_IDX].instances[v_index] = ColorInstanceData(boxSize, bodyCenter, mRotation, color);
+	_meshesElements[BOX_MESH_IDX].instances[v_index] = ColorInstanceData(boxSize, position, mRotation, color);
 }
 
 void LightRenderer::drawSphere(
 	size_t v_index,
 	const glm::vec3& sphereSize,
-	const glm::vec3& bodyCenter,
+	const glm::vec3& position,
 	const glm::vec3& mRotation,
 	const Color& color)
 {
-	_meshesElements[SPHERE_MESH_IDX].instances[v_index] = ColorInstanceData(sphereSize, bodyCenter, mRotation, color);
+	_meshesElements[SPHERE_MESH_IDX].instances[v_index] = ColorInstanceData(sphereSize, position, mRotation, color);
 }
 
 void LightRenderer::renderBatch(GLSLProgram* glsl_program) {
@@ -163,7 +163,7 @@ void LightRenderer::createInstancesVBO() {
 	glVertexAttribDivisor(2, 1);
 
 	glEnableVertexAttribArray(3); // instance center
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(ColorInstanceData), (void*)offsetof(ColorInstanceData, bodyCenter));
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(ColorInstanceData), (void*)offsetof(ColorInstanceData, position));
 	glVertexAttribDivisor(3, 1);
 
 	glEnableVertexAttribArray(4); // instance rotation

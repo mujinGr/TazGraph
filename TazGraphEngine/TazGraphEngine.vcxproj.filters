@@ -308,5 +308,11 @@
     <ClInclude Include="GECS\Components\Empty\Util\PathLinkerComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Window\PlatformDetection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\Base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -25,8 +25,8 @@ public:
 		NodeEntity* a = entity->getFromNode();
 		NodeEntity* b = entity->getToNode();
 
-		glm::vec3 posA = a->GetComponent<TransformComponent>().bodyCenter;
-		glm::vec3 posB = b->GetComponent<TransformComponent>().bodyCenter;
+		glm::vec3 posA = a->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 posB = b->GetComponent<TransformComponent>().getPosition();
 
 		glm::vec3 delta = posB - posA;
 		glm::vec3 attraction = delta * springStrength;

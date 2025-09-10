@@ -5,6 +5,7 @@
 
 #include "ViewportPanel/ViewportPanel.h"
 #include "GraphTopBar/GraphTopBar.h"
+#include "../PythonInterpreterPanel/PythonInterpreterPanel.h"
 
 struct GraphMiddlePanelConfig {
 	IScene* scene;
@@ -23,6 +24,7 @@ public:
 	GraphMiddlePanel() {
 		addUIComponent<GraphTopBar>();
 		addUIComponent<ViewportPanel>();
+		addUIComponent<PythonInterpreterPanel>();
 	}
 
 	void setConfig(const GraphMiddlePanelConfig& cfg) { config = cfg; }

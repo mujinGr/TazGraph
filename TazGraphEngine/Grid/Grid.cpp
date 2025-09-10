@@ -24,7 +24,7 @@ void Grid::init(int width, int height, int depth, int cellSize)
 	_width = width, _height = height, _cellSize = cellSize;
 	_depth = 4 * cellSize;
 
-	_numXCells = (_width + 1)/ _cellSize;
+	_numXCells = (_width + 1) / _cellSize;
 	_numYCells = (_height + 1) / _cellSize;
 	_numZCells = (_depth + 1) / _cellSize;
 
@@ -40,28 +40,28 @@ void Grid::init(int width, int height, int depth, int cellSize)
 
 void Grid::createCells(Grid::Level m_level) {
 	int cellsGroupSize = gridLevels[m_level];
-	
+
 	// push Grid Data
 	GridLevelData data;
 	data.numXCells = (_numXCells + cellsGroupSize - 1) / cellsGroupSize;
 	data.numYCells = (_numYCells + cellsGroupSize - 1) / cellsGroupSize;
 	data.numZCells = (_numZCells + cellsGroupSize - 1) / cellsGroupSize;
 
-	data.startX =	(	(-data.numXCells	+ 1) / 2); // add one in order to take floor of division
-	data.endX	=	(	(data.numXCells		+ 1) / 2) - 1;
-	data.startY =	(	(-data.numYCells	+ 1) / 2);
-	data.endY	=	(	(data.numYCells		+ 1) / 2) - 1;
-	data.startZ =	(	(-data.numZCells	+ 1) / 2);
-	data.endZ	=	(	(data.numZCells		+ 1) / 2) - 1;
+	data.startX = ((-data.numXCells + 1) / 2); // add one in order to take floor of division
+	data.endX = ((data.numXCells + 1) / 2) - 1;
+	data.startY = ((-data.numYCells + 1) / 2);
+	data.endY = ((data.numYCells + 1) / 2) - 1;
+	data.startZ = ((-data.numZCells + 1) / 2);
+	data.endZ = ((data.numZCells + 1) / 2) - 1;
 
 	gridLevelsData[m_level] = data;
 
-	std::vector<Cell>& currentCells =	(m_level == Level::Basic) ? _cells :
+	std::vector<Cell>& currentCells = (m_level == Level::Basic) ? _cells :
 		(m_level == Level::Outer1) ? _parentCells :
 		_superParentCells;
 
 	std::vector<Cell> emptyCells;
-	std::vector<Cell>& childCells =		(m_level == Level::Outer1) ? _cells :
+	std::vector<Cell>& childCells = (m_level == Level::Outer1) ? _cells :
 		(m_level == Level::Outer2) ? _parentCells :
 		emptyCells;
 
@@ -71,7 +71,7 @@ void Grid::createCells(Grid::Level m_level) {
 	for (int pz = gridLevelsData[m_level].startZ; pz <= gridLevelsData[m_level].endZ; pz++) {
 		for (int py = gridLevelsData[m_level].startY; py <= gridLevelsData[m_level].endY; py++) {
 			for (int px = gridLevelsData[m_level].startX; px <= gridLevelsData[m_level].endX; px++) {
-				int parentIndex = 
+				int parentIndex =
 					((pz - gridLevelsData[m_level].startZ) * gridLevelsData[m_level].numYCells * gridLevelsData[m_level].numXCells) +
 					((py - gridLevelsData[m_level].startY) * gridLevelsData[m_level].numXCells) +
 					(px - gridLevelsData[m_level].startX); // we dont want negative numbers thats why add the -startXY
@@ -80,7 +80,7 @@ void Grid::createCells(Grid::Level m_level) {
 
 				cell.boundingBox_origin.x = px * cellsGroupSize * _cellSize;
 				cell.boundingBox_origin.y = py * cellsGroupSize * _cellSize;
-				if(gridLevelsData[m_level].endZ != gridLevelsData[m_level].startZ)
+				if (gridLevelsData[m_level].endZ != gridLevelsData[m_level].startZ)
 					cell.boundingBox_origin.z = pz * cellsGroupSize * _cellSize;
 				else
 					cell.boundingBox_origin.z = (pz - 0.5f) * cellsGroupSize * _cellSize;
@@ -136,7 +136,7 @@ void Grid::createCells(Grid::Level m_level) {
 void Grid::addLink(LinkEntity* link, Grid::Level m_level)
 {
 	std::vector<Cell*> cells = getLinkCells(*link, m_level);
-	
+
 	addLink(link, cells);
 }
 
@@ -144,12 +144,12 @@ std::vector<Cell*> Grid::getLinkCells(const LinkEntity& link, Grid::Level m_leve
 	std::vector<Cell*> intersectedCells;
 	std::unordered_set<Cell*> uniqueCells;
 
-	float x0 = link.getFromNode()->GetComponent<TransformComponent>().getCenterTransform().x;
-	float y0 = link.getFromNode()->GetComponent<TransformComponent>().getCenterTransform().y;
+	float x0 = link.getFromNode()->GetComponent<TransformComponent>().getPosition().x;
+	float y0 = link.getFromNode()->GetComponent<TransformComponent>().getPosition().y;
 	float z0 = link.getFromNode()->GetComponent<TransformComponent>().getPosition().z;
 
-	float x1 = link.getToNode()->GetComponent<TransformComponent>().getCenterTransform().x;
-	float y1 = link.getToNode()->GetComponent<TransformComponent>().getCenterTransform().y;
+	float x1 = link.getToNode()->GetComponent<TransformComponent>().getPosition().x;
+	float y1 = link.getToNode()->GetComponent<TransformComponent>().getPosition().y;
 	float z1 = link.getToNode()->GetComponent<TransformComponent>().getPosition().z;
 
 	float dx = x1 - x0;
@@ -167,11 +167,11 @@ std::vector<Cell*> Grid::getLinkCells(const LinkEntity& link, Grid::Level m_leve
 
 	for (int i = 0; i <= steps; i++) {
 		Cell* currentCell = getCell(
-			(int)(std::floor(x0 /  (_cellSize * gridLevels[m_level]))),
+			(int)(std::floor(x0 / (_cellSize * gridLevels[m_level]))),
 			(int)(std::floor(y0 / (_cellSize * gridLevels[m_level]))),
 			(int)(std::floor(z0 / (_cellSize * gridLevels[m_level]))),
-			m_level );
-		if (uniqueCells.insert(currentCell).second) { 
+			m_level);
+		if (uniqueCells.insert(currentCell).second) {
 			intersectedCells.push_back(currentCell);
 		}
 		x0 += xIncrement;
@@ -184,7 +184,7 @@ std::vector<Cell*> Grid::getLinkCells(const LinkEntity& link, Grid::Level m_leve
 		(int)(std::floor(z1 / (_cellSize * gridLevels[m_level]))),
 		m_level);
 
-	if (uniqueCells.insert(currentCell).second) { 
+	if (uniqueCells.insert(currentCell).second) {
 		intersectedCells.push_back(currentCell);
 	}
 
@@ -247,10 +247,10 @@ Cell* Grid::getCell(int x, int y, int z, Grid::Level m_level)
 
 Cell* Grid::getCell(const Entity& entity, Grid::Level m_level)
 {
-	auto pos = entity.GetComponent<TransformComponent>().getCenterTransform();
+	auto pos = entity.GetComponent<TransformComponent>().getPosition();
 
-	int cellX = (int)(std::floor((pos.x) / (_cellSize * gridLevels[m_level]) ));
-	int cellY = (int)(std::floor((pos.y) / (_cellSize * gridLevels[m_level]) ));
+	int cellX = (int)(std::floor((pos.x) / (_cellSize * gridLevels[m_level])));
+	int cellY = (int)(std::floor((pos.y) / (_cellSize * gridLevels[m_level])));
 	int cellZ = (int)(std::floor((pos.z) / (_cellSize * gridLevels[m_level])));
 
 	return getCell(cellX, cellY, cellZ, m_level);
@@ -303,7 +303,7 @@ std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity, Grid::Level m_le
 }
 
 std::vector<Cell>& Grid::getCells(Grid::Level m_level) {
-	if(m_level == Grid::Level::Basic)
+	if (m_level == Grid::Level::Basic)
 		return _cells;
 	else if (m_level == Grid::Level::Outer1)
 		return _parentCells;
@@ -319,7 +319,7 @@ int Grid::getNumYCells() {
 	return _numYCells;
 }
 
-int Grid::getNumZCells(){
+int Grid::getNumZCells() {
 	return _numZCells;
 }
 

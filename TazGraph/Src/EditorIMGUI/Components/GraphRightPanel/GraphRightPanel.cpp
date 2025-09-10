@@ -20,7 +20,7 @@ void GraphRightPanel::OnImGuiRender()
 		// Count EmptyEntities
 		auto& empties = config.c_manager->getGroup<EmptyEntity>(group);
 		emptyCount += static_cast<int>(empties.size());
-	
+
 		// Count NodeEntities
 		auto& nodes = config.c_manager->getGroup<NodeEntity>(group);
 		nodeCount += static_cast<int>(nodes.size());
@@ -43,12 +43,12 @@ void GraphRightPanel::OnImGuiRender()
 	ImGui::NewLine();
 
 	if (ImGui::BeginTabBar("RightPanelTabs", ImGuiTabBarFlags_AutoSelectNewTabs)) {
-		
+
 		if (ImGui::BeginTabItem("ECS Groups")) {
 			ShowAllEntities();
 			ImGui::EndTabItem();
 		}
-		
+
 		if (ImGui::BeginTabItem("Statistics")) {
 			availableFunctions();
 			ImGui::EndTabItem();
@@ -88,7 +88,7 @@ void GraphRightPanel::availableFunctions() {
 }
 
 template <typename TVec>
-static void GraphRightPanel::DrawEntityJumpList(const char* labelId, TVec& vec) {
+void GraphRightPanel::DrawEntityJumpList(const char* labelId, TVec& vec) {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 	if (ImGui::TreeNode(labelId)) {
@@ -97,8 +97,8 @@ static void GraphRightPanel::DrawEntityJumpList(const char* labelId, TVec& vec) 
 			if (ImGui::TreeNode(nodeLabel.c_str())) {
 				std::string btn = "Go to##" + std::to_string(e->getId());
 				if (ImGui::Button(btn.c_str())) {
-					if (e->hasComponent<TransformComponent>()) {
-						auto& tr = e->GetComponent<TransformComponent>();
+					if (e->template hasComponent<TransformComponent>()) { // because clang doesnt know what type vec is
+						auto& tr = e->template GetComponent<TransformComponent>();
 						main_camera2D->setPosition_X(tr.getPosition().x);
 						main_camera2D->setPosition_Y(tr.getPosition().y);
 						main_camera2D->setAimPos(glm::vec3(main_camera2D->eyePos.x, main_camera2D->eyePos.y, main_camera2D->eyePos.z + 1.0f));

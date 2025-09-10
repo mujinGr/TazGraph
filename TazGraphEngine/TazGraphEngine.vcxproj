@@ -264,6 +264,8 @@
     <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h" />
     <ClInclude Include="Threader\Threader.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="Window\Base.h" />
+    <ClInclude Include="Window\PlatformDetection.h" />
     <ClInclude Include="Window\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -139,7 +139,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 					for (const auto& [entity, _] : _selectedEntities) {
 						Node* nodeEntity = dynamic_cast<Node*>(entity);
 						if (nodeEntity) {
-							glm::vec3 relativePos = nodeEntity->GetComponent<TransformComponent>().getCenterTransform() - t;
+							glm::vec3 relativePos = nodeEntity->GetComponent<TransformComponent>().getPosition() - t;
 							updatedSelection.emplace_back(entity, relativePos);
 						}
 						else {
@@ -148,7 +148,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 					}
 
 					if (it == _selectedEntities.end()) {
-						glm::vec3 newNodeRelativePos = node->GetComponent<TransformComponent>().getCenterTransform() - t;
+						glm::vec3 newNodeRelativePos = node->GetComponent<TransformComponent>().getPosition() - t;
 						updatedSelection.emplace_back(node, newNodeRelativePos);
 					}
 
@@ -224,7 +224,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 					for (const auto& [entity, _] : _selectedEntities) {
 						Empty* emptyEntity = dynamic_cast<Empty*>(entity);
 						if (emptyEntity) {
-							glm::vec3 relativePos = emptyEntity->GetComponent<TransformComponent>().getCenterTransform() - t;
+							glm::vec3 relativePos = emptyEntity->GetComponent<TransformComponent>().getPosition() - t;
 							updatedSelection.emplace_back(entity, relativePos);
 						}
 						else {
@@ -233,7 +233,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 					}
 
 					if (it == _selectedEntities.end()) {
-						glm::vec3 newEmptyRelativePos = empty->GetComponent<TransformComponent>().getCenterTransform() - t;
+						glm::vec3 newEmptyRelativePos = empty->GetComponent<TransformComponent>().getPosition() - t;
 						updatedSelection.emplace_back(empty, newEmptyRelativePos);
 					}
 
@@ -345,8 +345,8 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 		for (auto& link : trav_cell->links) {
 			glm::vec3 t;
 			if (rayIntersectsLineSegment(rayOrigin, rayDirection,
-				link->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(),
-				link->getToNode()->GetComponent<TransformComponent>().getCenterTransform(),
+				link->getFromNode()->GetComponent<TransformComponent>().getPosition(),
+				link->getToNode()->GetComponent<TransformComponent>().getPosition(),
 				t, minT, maxT, sphereRad)) {
 
 				// Check if this link is part of a path and select accordingly
@@ -369,8 +369,8 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			if (!link) continue;
 
 			if (rayIntersectsLineSegment(rayOrigin, rayDirection,
-				link->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(),
-				link->getToNode()->GetComponent<TransformComponent>().getCenterTransform(),
+				link->getFromNode()->GetComponent<TransformComponent>().getPosition(),
+				link->getToNode()->GetComponent<TransformComponent>().getPosition(),
 				t, minT, maxT, sphereRad)) {
 
 				hitAny = true;
@@ -446,25 +446,30 @@ void Graph::checkInput() {
 			if (_displayedEntity) {
 				return;
 			}
-			if (_app->_inputManager.isKeyDown(SDLK_e)) {
-				main_camera2D->movePosition_Forward(manager->grid->getCellSize());
-			}
-			if (_app->_inputManager.isKeyDown(SDLK_r)) {
-				main_camera2D->movePosition_Forward(-manager->grid->getCellSize());
-			}
-			if (_app->_inputManager.isKeyDown(SDLK_w)) {
-				main_camera2D->movePosition_Vert(manager->grid->getCellSize() + 10.0f);
+			if (_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->
+				getSubcomponent<ViewportPanel>()->
+				isMouseInSecondColumn) {
 
-			}
-			if (_app->_inputManager.isKeyDown(SDLK_s)) {
-				main_camera2D->movePosition_Vert(-manager->grid->getCellSize() - 10.0f);
+				if (_app->_inputManager.isKeyDown(SDLK_e)) {
+					main_camera2D->movePosition_Forward(manager->grid->getCellSize());
+				}
+				if (_app->_inputManager.isKeyDown(SDLK_r)) {
+					main_camera2D->movePosition_Forward(-manager->grid->getCellSize());
+				}
+				if (_app->_inputManager.isKeyDown(SDLK_w)) {
+					main_camera2D->movePosition_Vert(manager->grid->getCellSize() + 10.0f);
 
-			}
-			if (_app->_inputManager.isKeyDown(SDLK_a)) {
-				main_camera2D->movePosition_Hor(-manager->grid->getCellSize() - 10.0f);
-			}
-			if (_app->_inputManager.isKeyDown(SDLK_d)) {
-				main_camera2D->movePosition_Hor(manager->grid->getCellSize() + 10.0f);
+				}
+				if (_app->_inputManager.isKeyDown(SDLK_s)) {
+					main_camera2D->movePosition_Vert(-manager->grid->getCellSize() - 10.0f);
+
+				}
+				if (_app->_inputManager.isKeyDown(SDLK_a)) {
+					main_camera2D->movePosition_Hor(-manager->grid->getCellSize() - 10.0f);
+				}
+				if (_app->_inputManager.isKeyDown(SDLK_d)) {
+					main_camera2D->movePosition_Hor(manager->grid->getCellSize() + 10.0f);
+				}
 			}
 
 		case SDL_MOUSEMOTION:
@@ -626,12 +631,12 @@ void Graph::checkInput() {
 				for (const auto& [entity, _] : _selectedEntities) {
 					Node* nodeEntity = dynamic_cast<Node*>(entity);
 					if (nodeEntity) {
-						center += nodeEntity->GetComponent<TransformComponent>().getCenterTransform();
+						center += nodeEntity->GetComponent<TransformComponent>().getPosition();
 						nodeEntitiesSize++;
 					}
 					Empty* emptyEntity = dynamic_cast<Empty*>(entity);
 					if (emptyEntity) {
-						center += emptyEntity->GetComponent<TransformComponent>().getCenterTransform();
+						center += emptyEntity->GetComponent<TransformComponent>().getPosition();
 						nodeEntitiesSize++;
 					}
 				}

@@ -26,7 +26,7 @@ void GraphLeftPanel::update(float deltaTime) {
 			AssetManager::ungroupLayout(config.scene->manager, Grid::Level::Outer2);
 		}
 
-		config.scene->manager->grid->setGridLevel(static_cast<Grid::Level>(config.scene->manager->grid->getGridLevel() - 1));
+		config.scene->manager->grid->setGridLevel(static_cast<Grid::Level>(last_activeLayout));
 	}
 }
 
@@ -41,7 +41,7 @@ void GraphLeftPanel::OnImGuiRender()
 
 	ImGui::Separator();
 
-	
+
 
 	ImGui::Separator();
 	// Change color based on the debug mode state
@@ -85,9 +85,89 @@ void GraphLeftPanel::OnImGuiRender()
 
 	ImGui::Separator();
 
-	ImGui::Text("Choose Layout:");
 
-	if (ImGui::Button("Circular", ImVec2(120, 30))) {
+
+	ImGui::Text("Grid Size: %u", config.scene->manager->grid->getCellSize());
+
+
+	ImGui::Separator();
+
+
+	ImGui::Text("Scene/Screen Coords: {x: %f, y: %f}", config.sceneMouseCoords.x, config.sceneMouseCoords.y);
+	ImGui::Text("MainViewport Coords: {x: %f, y: %f}", config.mouseCoords.x, config.mouseCoords.y);
+
+
+	ImGui::Separator();
+
+	DataManager::getInstance().pathData.SetSelectData(std::move(DataManager::getInstance().pathsFileNames));
+
+	if (ImGui::ComboAutoSelect("Choose Links Path File", DataManager::getInstance().pathData)) {
+		std::string resetIndex = ">Reset";
+		if (strcmp(DataManager::getInstance().pathData.input, resetIndex.c_str()) == 0) {
+
+			for (auto& pathHolder : config.scene->manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
+				auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
+
+				for (auto* link : pathLinks) {
+					NodeEntity* from = link->getFromNode();
+					NodeEntity* to = link->getToNode();
+
+					if (from) {
+						from->removeOutLink(link);
+						from->removeSlots(); // if slots are per-link
+					}
+					if (to) {
+						to->removeInLink(link);
+						to->removeSlots();
+					}
+
+					link->removeArrowHead();
+					link->resetPorts();
+				}
+			}
+			config.scene->manager->removeAllEntitiesFromEmptyGroup(Manager::groupPathLinksHolder);
+
+			// remove related links
+			config.scene->manager->removeAllEntitiesFromLinkGroup(Manager::groupPathInnerLinks);
+
+			config.scene->manager->removeAllEntitiesFromLinkGroup(Manager::groupPathLinks);
+		}
+		else {
+			DataManager::getInstance().pathLoading = DataManager::getInstance().pathData.input;
+			DataManager::getInstance().setPathLoading(true);
+		}
+
+	}
+
+	ImGui::Separator();
+
+	if (ImGui::BeginTabBar("LeftPanelTabs", ImGuiTabBarFlags_AutoSelectNewTabs)) {
+
+		if (ImGui::BeginTabItem("Layout")) {
+
+			ImGui::EndTabItem();
+		}
+
+		ImGui::EndTabBar();
+	}
+
+	ChooseLayoutPanel();
+
+}
+
+
+void GraphLeftPanel::ChooseLayoutPanel() {
+	ImVec4 activeColor = ImVec4(0.2f, 0.7f, 0.2f, 1.0f);
+	ImVec4 inactiveColor = ImVec4(0.7f, 0.2f, 0.2f, 1.0f);
+
+	ImVec4 defaultColor = ImVec4(0.0f, 0.5f, 1.0f, 1.0f);
+
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10.0f);
+	ImGui::Text("Circular");
+
+	ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - 24);
+
+	if (ImGui::ImageButton("Circular", static_cast<ImTextureID>(static_cast<intptr_t>(TextureManager::getInstance().Get_GLTexture("play-button")->id)), ImVec2(16, 16))) {
 
 		auto& nodes = config.scene->manager->getGroup<NodeEntity>(Manager::groupNodes_0);
 		if (nodes.empty()) return;
@@ -172,6 +252,12 @@ void GraphLeftPanel::OnImGuiRender()
 		}
 	}
 
+	ImGui::Separator();
+
+	ImGui::Text("Cluster");
+
+	ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - 24);
+
 	if (_clusterLayout) {
 		ImGui::PushStyleColor(ImGuiCol_Button, activeColor);  // Green for ON
 	}
@@ -179,7 +265,7 @@ void GraphLeftPanel::OnImGuiRender()
 		ImGui::PushStyleColor(ImGuiCol_Button, inactiveColor);  // Red for OFF
 	}
 
-	if (ImGui::Button(_clusterLayout ? "Disable Cluster" : "Cluster", ImVec2(120, 30))) {
+	if (ImGui::ImageButton("Cluster", static_cast<ImTextureID>(static_cast<intptr_t>(TextureManager::getInstance().Get_GLTexture("play-button")->id)), ImVec2(16, 16))) {
 
 		auto clusterGroupLayout = [&](Group nodeGroup, Group linkGroup)
 			{
@@ -229,64 +315,6 @@ void GraphLeftPanel::OnImGuiRender()
 
 	}
 	ImGui::PopStyleColor(1);
-
-	ImGui::Separator();
-
-	DataManager::getInstance().pathData.SetSelectData(std::move(DataManager::getInstance().pathsFileNames));
-
-	if (ImGui::ComboAutoSelect("Choose Links Path File", DataManager::getInstance().pathData)) {
-		std::string resetIndex = ">Reset";
-		if (strcmp(DataManager::getInstance().pathData.input, resetIndex.c_str()) == 0) {
-
-			for (auto& pathHolder : config.scene->manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
-				auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
-
-				for (auto* link : pathLinks) {
-					NodeEntity* from = link->getFromNode();
-					NodeEntity* to = link->getToNode();
-
-					if (from) {
-						from->removeOutLink(link);
-						from->removeSlots(); // if slots are per-link
-					}
-					if (to) {
-						to->removeInLink(link);
-						to->removeSlots();
-					}
-
-					link->removeArrowHead();
-					link->resetPorts();
-				}
-			}
-			config.scene->manager->removeAllEntitiesFromEmptyGroup(Manager::groupPathLinksHolder);
-
-			// remove related links
-			config.scene->manager->removeAllEntitiesFromLinkGroup(Manager::groupPathInnerLinks);
-
-			config.scene->manager->removeAllEntitiesFromLinkGroup(Manager::groupPathLinks);
-		}
-		else {
-			DataManager::getInstance().pathLoading = DataManager::getInstance().pathData.input;
-			DataManager::getInstance().setPathLoading(true);
-		}
-
-	}
-
-	ImGui::Separator();
-
-	
-
-	ImGui::Text("Grid Size: %u", config.scene->manager->grid->getCellSize());
-
-
-	ImGui::Separator();
-
-
-	ImGui::Text("Scene/Screen Coords: {x: %f, y: %f}", config.sceneMouseCoords.x, config.sceneMouseCoords.y);
-	ImGui::Text("MainViewport Coords: {x: %f, y: %f}", config.mouseCoords.x, config.mouseCoords.y);
-
-
-
-
+	ImGui::PopStyleVar();
 	ImGui::EndChild();
 }

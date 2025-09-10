@@ -8,43 +8,12 @@ file(GLOB_RECURSE EDITOR_COMPONENTS_SOURCES "Src/EditorIMGUI/Components/*.cpp")
 ################################################################################
 # Source groups
 ################################################################################
-set(Header_Files
-    "Src/App/App.h"
-    "Src/AssetManager/AssetManager.h"
-    "Src/EditorIMGUI/UIElement.h"
-    "Src/GECS/ScriptComponents.h"
-    "Src/GECS/Scripts/MainMenuBackground.h"
-    "Src/Screens/GraphScene/Graph.h"
-    "Src/Screens/MainMenuScreen/MainMenuScreen.h"
-    "Src/Map/IMapParser.h"
-    "Src/Map/Map.h"
-    "Src/Map/Parsers/DOTMapParser.h"
-    "Src/Map/Parsers/GraphMLMapParser.h"
-    "Src/Map/Parsers/PythonMapParser.h"
-    "Src/Map/Parsers/TextMapParser.h"
-    "Src/Map/PathParsers/TextPathParser.h"
-    ${EDITOR_COMPONENTS_HEADERS}
-)
-source_group("Header Files" FILES ${Header_Files})
+# Grab all .h and .cpp files recursively from Src/
+file(GLOB_RECURSE Header_Files "Src/*.h")
+file(GLOB_RECURSE Source_Files "Src/*.cpp")
 
-set(Source_Files
-    "Src/App/App.cpp"
-    "Src/AssetManager/AssetManager.cpp"
-    "Src/Screens/GraphScene/Graph.cpp"
-    "Src/Screens/GraphScene/GraphDraw.cpp"
-    "Src/Screens/GraphScene/GraphUI.cpp"
-    "Src/Screens/GraphScene/GraphUpdate.cpp"
-    "Src/Screens/GraphScene/GraphInput.cpp"
-    "Src/main.cpp"
-    "Src/Screens/MainMenuScreen/MainMenuScreen.cpp"
-    "Src/Map/Map.cpp"
-    "Src/Map/Parsers/DOTMapParser.cpp"
-    "Src/Map/Parsers/GraphMLMapParser.cpp"
-    "Src/Map/Parsers/PythonMapParser.cpp"
-    "Src/Map/Parsers/TextMapParser.cpp"
-    "Src/Map/PathParsers/TextPathParser.cpp"
-    ${EDITOR_COMPONENTS_SOURCES}
-)
+# Organize headers in IDE (Visual Studio, Xcode, etc.)
+source_group("Header Files" FILES ${Header_Files})
 source_group("Source Files" FILES ${Source_Files})
 
 set(ALL_FILES

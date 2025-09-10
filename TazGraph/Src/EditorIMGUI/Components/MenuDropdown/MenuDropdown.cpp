@@ -18,12 +18,6 @@ void MenuDropdownPanel::OnImGuiRender()
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Python Interpreter"))
-		{
-			getSubcomponent<PythonInterpreterPanel>()->showPythonInterpreter = !getSubcomponent<PythonInterpreterPanel>()->showPythonInterpreter;
-			ImGui::EndMenu();
-		}
-
 		if (ImGui::BeginMenu("Window"))
 		{
 			if (ImGui::MenuItem("Camera")) {
@@ -45,12 +39,6 @@ void MenuDropdownPanel::OnImGuiRender()
 		ImGui::EndMenuBar();
 	}
 
-
-	if (getSubcomponent<PythonInterpreterPanel>()->showPythonInterpreter)
-	{
-		getSubcomponent<PythonInterpreterPanel>()->setConfig({});
-		getSubcomponent<PythonInterpreterPanel>()->OnImGuiRender();
-	}
 
 	if (getSubcomponent<CameraPanel>()->showCameraPanel) {
 		getSubcomponent<CameraPanel>()->setConfig({});

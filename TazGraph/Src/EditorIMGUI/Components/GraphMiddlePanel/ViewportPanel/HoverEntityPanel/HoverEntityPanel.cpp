@@ -1,11 +1,5 @@
 #include "HoverEntityPanel.h"
 
-#ifdef _WIN32 || _WIN64
-#define safe_sprintf sprintf_s
-#else
-#define safe_sprintf sprintf
-#endif
-
 void HoverEntityPanel::OnImGuiRender()
 {
 	if (!config.hoveredEntity) return;

@@ -33,12 +33,12 @@ public:
 	//void draw(size_t v_index, PlaneModelRenderer&  batch, TazGraphEngine::Window& window) {
 	//	glm::vec3 pos((float)destRect.x, (float)destRect.y, transform->getPosition().z);
 	//	glm::vec2 size = glm::vec2((float)destRect.w, (float)destRect.h);
-	//	batch.draw(v_index, pos, size, transform->rotation, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, transform->bodyCenter, color); // 0 is for texture
+	//	batch.draw(v_index, pos, size, transform->rotation, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, transform->getPosition(), color); // 0 is for texture
 	//}
 
 	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {
 		glm::vec2 size((float)transform->size.x, (float)transform->size.y);
-		batch.draw(v_index, size, transform->bodyCenter, transform->rotation, color);
+		batch.draw(v_index, size, transform->getPosition(), transform->rotation, color);
 	}
 
 	void setColor(Color clr) {
@@ -54,7 +54,7 @@ public:
 	void setFlashFrame() {
 		float t = this->flash_animation.interpolation_a;
 		this->color = Color::fromVec4(glm::mix(default_color.toVec4(), this->flash_animation.flashColor.toVec4(), t));
-		
+
 
 	}
 
@@ -67,7 +67,7 @@ public:
 		ImGui::Separator();
 
 		ImVec4 a_color = ImVec4(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
-		if(ImGui::ColorPicker4("Color", (float*)&a_color)) {
+		if (ImGui::ColorPicker4("Color", (float*)&a_color)) {
 			Color newColor = {
 					   (GLubyte)(a_color.x * 255),
 					   (GLubyte)(a_color.y * 255),

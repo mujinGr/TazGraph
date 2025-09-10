@@ -13,6 +13,17 @@ struct GraphLeftConfig {
 class GraphLeftPanel : public UIElement
 {
 private:
+
+	enum class LayoutState {
+		Idle,
+		ProcessingCircular,
+		ProcessingCluster
+	};
+	LayoutState _currentLayoutState = LayoutState::Idle;
+
+	bool _clusterLayoutEnabled = false;
+	bool _circularLayoutProcessing = false;
+
 	bool _clusterLayout = false;
 	GraphLeftConfig config;
 
@@ -24,4 +35,5 @@ public:
 	void update(float deltaTime) override;
 
 	void OnImGuiRender() override;
+	void ChooseLayoutPanel();
 };

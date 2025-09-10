@@ -18,6 +18,14 @@ private:
 	std::string _outputText;
 public:
 	bool showPythonInterpreter = false;
-	void setConfig(const PythonInterpreterConfig& cfg) { config = cfg; }
+
+	void init_api(py::module_& m);
+
+	void setConfig(const PythonInterpreterConfig& cfg) { 
+		
+
+		config = cfg; 
+	
+	}
 	void OnImGuiRender() override;
 };

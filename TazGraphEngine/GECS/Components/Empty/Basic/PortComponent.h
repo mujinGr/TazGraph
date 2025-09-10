@@ -53,7 +53,7 @@ public:
 
 	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {
 		glm::vec2 size(1, 1);
-		batch.draw(v_index, size, transform->bodyCenter, transform->rotation, color);
+		batch.draw(v_index, size, transform->getPosition(), transform->rotation, color);
 	}
 
 	std::string GetComponentName() override {
@@ -80,10 +80,10 @@ public:
 	glm::vec3 getSlotPosition(size_t slotIndex) const {
 		if (slotIndex >= portSlots.size()) {
 			TazGraphEngine::ConsoleLogger::error("Port Slot index wrong");
-			return transform->bodyCenter;
+			return transform->getPosition();
 		}
 
-		glm::vec3 basePos = transform->bodyCenter;
+		glm::vec3 basePos = transform->getPosition();
 		glm::vec3 offset(0.0f);
 
 		if (!isVertical) {

@@ -39,11 +39,11 @@ public:
 
 	void draw(size_t v_index,
 		const glm::vec2& rectSize,
-		const glm::vec3& bodyCenter,
+		const glm::vec3& position,
 		const glm::vec3& mRotation,
 		const glm::vec4& uvRect,
 		GLuint texture
-		);
+	);
 
 	void renderBatch(GLSLProgram* glsl_program);
 
@@ -51,7 +51,7 @@ public:
 private:
 	void createInstancesVBO();
 	void createVertexArray();
-	
+
 	std::vector<TextureMeshRenderer> _meshesElements;
 
 };
