@@ -18,7 +18,7 @@ public:
 	// difference between this and from the lectures is that in lectures it uses seperate animator for each animation
 
 	SpriteComponent* sprite = nullptr;
-	std::string textureid;
+	std::string textureid = "";
 	std::string animationName = "";
 	timestamp resumeTime = 0;
 
@@ -43,12 +43,13 @@ public:
 	{
 		if (!entity->hasComponent<SpriteComponent>())
 		{
-			entity->addComponent<SpriteComponent>(textureid);
+			textureid.empty() ?
+				entity->addComponent<SpriteComponent>() :
+				entity->addComponent<SpriteComponent>(textureid);
 		}
 		sprite = &entity->GetComponent<SpriteComponent>();
 
 		Play("P1Idle"); //onStart
-		sprite->setTex(textureid);
 	}
 
 	void update(float deltaTime) override //onAction
@@ -63,7 +64,7 @@ public:
 		sprite->setCurrFrame();
 	}
 
-	void draw(size_t e_index, PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override
+	void draw(size_t e_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window) override
 	{
 		//sprite->draw(batch);
 	}
@@ -74,8 +75,8 @@ public:
 		animationName = animName;
 		sprite->SetAnimation(animManager.animations[animName].indexX, animManager.animations[animName].indexY,
 			animManager.animations[animName].total_frames, animManager.animations[animName].speed,
-			animManager.animations[animName].type, 
-			reps ? reps : animManager.animations[animName].reps );
+			animManager.animations[animName].type,
+			reps ? reps : animManager.animations[animName].reps);
 	}
 
 	void resetAnimation() {
