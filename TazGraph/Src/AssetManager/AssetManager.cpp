@@ -11,7 +11,7 @@ void AssetManager::CreateWorldMap(Entity& worldMap)
 			TextureManager::getInstance().Get_GLTexture("worldMap")->height
 		),
 		1.0f);
-	worldMap.addComponent<SpriteComponent>("worldMap", false);
+	worldMap.addComponent<SpriteComponent>("worldMap");
 	worldMap.addComponent<TransformComponent>(glm::vec2(200.0f, 320.0f), Manager::groupBackgroundLayer, glm::ivec2(4, 4), 1);
 	worldMap.addComponent<SpriteComponent>();
 	worldMap.addGroup(Manager::panelBackground);

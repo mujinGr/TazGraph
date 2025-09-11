@@ -49,140 +49,47 @@ void EntityComponentsControlPanel::OnImGuiRender()
 		}
 		ImGui::Separator();
 
-		std::unordered_map<std::string, size_t> componentOrder;
-		size_t index = 0;
-		for (const auto& pair : addComponentMap) {
-			componentOrder[pair.first] = index++;
-		}
-
-		for (auto& [key, nameVec] : config.manager->componentNames) {
-			std::sort(nameVec.begin(), nameVec.end(), [&](const std::string& a, const std::string& b) {
-				return componentOrder[a] < componentOrder[b];
+		auto sortComponentsByID = [](const std::vector<std::string>& componentNames) {
+			std::vector<std::pair<ComponentID, std::string>> sorted;
+			for (const auto& name : componentNames) {
+				auto it = componentNameToID.find(name);
+				if (it != componentNameToID.end()) {
+					sorted.emplace_back(it->second, name);
+				}
+			}
+			std::sort(sorted.begin(), sorted.end(),
+				[](const auto& a, const auto& b) {
+					return a.first < b.first;
 				});
-		}
+
+			std::vector<std::string> result;
+			for (const auto& [id, name] : sorted) {
+				result.push_back(name);
+			}
+			return result;
+			};
+
 
 		if (node)
 		{
-			for (auto& c : config.manager->componentNames["Component"]) {
-				// Checkbox to add/remove component
-				bool hasComponent = config.displayedEntity->hasComponentByName(c);
-				auto it = componentNameToID.find(c);
-				if (it != componentNameToID.end()) {
-					ComponentID cid = it->second;
-
-					ImGui::Text("(ID: %u)", cid);
-					ImGui::SameLine();
-				}
-				
-				if (ImGui::Checkbox(c.c_str(), &hasComponent)) {
-					if (hasComponent) {
-						AddComponentByName(c, config.displayedEntity);
-					}
-					else {
-						RemoveComponentByName(c, config.displayedEntity);
-					}
-				}
-
-				if (hasComponent) {
-					if (ImGui::TreeNode((c + " Properties").c_str())) {
-
-						if (c == "SpriteComponent") {
-							std::string tempStr = config.displayedEntity->GetComponent<SpriteComponent>().texture_name;
-							getComponentByName(c, config.displayedEntity)->showGUI();
-							ImGui::TreePop();
-
-							if (tempStr != config.displayedEntity->GetComponent<SpriteComponent>().texture_name) {
-								config.displayedEntity->getManager()->refresh(main_camera2D.get());
-							}
-
-						}
-						else {
-							getComponentByName(c, config.displayedEntity)->showGUI();
-							ImGui::TreePop();
-						}
-					}
-				}
+			for (auto& c : sortComponentsByID(config.manager->componentNames["Component"])) {
+				ComponentCheckbox(c);
 			}
-			for (auto& c : config.manager->componentNames["NodeComponent"]) {
-				// Checkbox to add/remove component
-				bool hasComponent = config.displayedEntity->hasComponentByName(c);
-
-				if (ImGui::Checkbox(c.c_str(), &hasComponent)) {
-					if (hasComponent) {
-						AddComponentByName(c, config.displayedEntity);
-					}
-					else {
-						RemoveComponentByName(c, config.displayedEntity);
-					}
-				}
-
-				if (hasComponent) {
-					if (ImGui::TreeNode((c + " Properties").c_str())) {
-						getComponentByName(c, config.displayedEntity)->showGUI();
-						ImGui::TreePop();
-					}
-				}
+			ImGui::Separator();
+			for (auto& c : sortComponentsByID(config.manager->componentNames["NodeComponent"])) {
+				ComponentCheckbox(c);
 			}
 		}
-
 
 		else if (link) {
-			for (auto& c : config.manager->componentNames["LinkComponent"]) {
-				// Checkbox to add/remove component
-				bool hasComponent = config.displayedEntity->hasComponentByName(c);
-
-				if (ImGui::Checkbox(c.c_str(), &hasComponent)) {
-					if (hasComponent) {
-						AddComponentByName(c, config.displayedEntity);
-					}
-					else {
-						RemoveComponentByName(c, config.displayedEntity);
-					}
-				}
-
-				if (hasComponent) {
-					if (ImGui::TreeNode((c + " Properties").c_str())) {
-						getComponentByName(c, config.displayedEntity)->showGUI();
-						ImGui::TreePop();
-					}
-				}
+			for (auto& c : sortComponentsByID(config.manager->componentNames["LinkComponent"])) {
+				ComponentCheckbox(c);
 			}
 		}
 
-
 		else if (empty) {
-			for (auto& c : config.manager->componentNames["Component"]) {
-				// Checkbox to add/remove component
-				bool hasComponent = config.displayedEntity->hasComponentByName(c);
-
-				if (ImGui::Checkbox(c.c_str(), &hasComponent)) {
-					if (hasComponent) {
-						AddComponentByName(c, config.displayedEntity);
-					}
-					else {
-						RemoveComponentByName(c, config.displayedEntity);
-					}
-				}
-
-				if (hasComponent) {
-					if (ImGui::TreeNode((c + " Properties").c_str())) {
-
-						if (c == "SpriteComponent") {
-							std::string tempStr = config.displayedEntity->GetComponent<SpriteComponent>().texture_name;
-							getComponentByName(c, config.displayedEntity)->showGUI();
-							ImGui::TreePop();
-
-							if (tempStr != config.displayedEntity->GetComponent<SpriteComponent>().texture_name) {
-								config.displayedEntity->getManager()->refresh(main_camera2D.get());
-							}
-
-						}
-						else {
-							getComponentByName(c, config.displayedEntity)->showGUI();
-							ImGui::TreePop();
-						}
-					}
-				}
+			for (auto& c : sortComponentsByID(config.manager->componentNames["Component"])) {
+				ComponentCheckbox(c);
 			}
 		}
 	}
@@ -202,4 +109,32 @@ void EntityComponentsControlPanel::StartPollingComponent(Entity* entity, const s
 
 	entity->GetComponent<PollingComponent>().StartPolling(fileName, 10.0f);
 
+}
+
+void EntityComponentsControlPanel::ComponentCheckbox(std::string c) {
+	bool hasComponent = config.displayedEntity->hasComponentByName(c);
+
+	auto it = componentNameToID.find(c);
+	if (it != componentNameToID.end()) {
+		ComponentID cid = it->second;
+
+		ImGui::Text("(ID: %u)", cid);
+		ImGui::SameLine();
+	}
+
+	if (ImGui::Checkbox(c.c_str(), &hasComponent)) {
+		if (hasComponent) {
+			AddComponentByName(c, config.displayedEntity);
+		}
+		else {
+			RemoveComponentByName(c, config.displayedEntity);
+		}
+	}
+
+	if (hasComponent) {
+		if (ImGui::TreeNode((c + " Properties").c_str())) {
+			getComponentByName(c, config.displayedEntity)->showGUI();
+			ImGui::TreePop();
+		}
+	}
 }

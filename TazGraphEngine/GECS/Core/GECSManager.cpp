@@ -196,7 +196,7 @@ void Manager::scanComponentNames(const std::string& folderPath) {
 					std::string className = match[1].str();
 					std::string baseClass = match[2].str();
 
-					if (baseClass == "Component") {
+					if (baseClass == "Component" || baseClass == "AnimatorComponent") {
 						componentNames["Component"].push_back(className);
 					}
 					else if (baseClass == "NodeComponent") {

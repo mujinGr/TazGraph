@@ -8,7 +8,7 @@
 #include "../../../../TextureManager/TextureManager.h"
 
 
-class ColliderComponent : public NodeComponent //collider -> transform
+class ColliderComponent : public Component //collider -> transform
 {
 private:
 	Manager* _manager = nullptr;
@@ -43,8 +43,8 @@ public:
 
 	void update(float deltaTime) override
 	{
-		
-		
+
+
 	}
 
 	void collisionPhysics() {
@@ -56,11 +56,15 @@ public:
 
 			for (Entity* other : adjacentEntities) {
 
-				auto areEntitiesLinked = [&](NodeEntity* main, Entity* other)
+				auto areEntitiesLinked = [&](Entity* main, Entity* other)
 					{
-						for (auto& i : main->getOutLinks()) {
-							if (i->getToNode() == other) {
-								return true;
+						NodeEntity* mainNode = dynamic_cast<NodeEntity*>(main);
+						if (mainNode)
+						{
+							for (auto& i : mainNode->getOutLinks()) {
+								if (i->getToNode() == other) {
+									return true;
+								}
 							}
 						}
 						return false;
@@ -86,7 +90,7 @@ public:
 	}
 
 
-	void draw(size_t e_index, PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override
+	void draw(size_t e_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window) override
 	{
 	}
 

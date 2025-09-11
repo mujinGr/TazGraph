@@ -13,7 +13,7 @@ private:
 
 	TazGraphEngine::Window* window = nullptr;
 public: // it is like it has init that creates Animator Component since it inherits it
-	
+
 
 	MainMenuBackground()
 	{
@@ -44,7 +44,7 @@ public: // it is like it has init that creates Animator Component since it inher
 				1.0f);
 		}
 		if (!entity->hasComponent<SpriteComponent>()) {
-			entity->addComponent<SpriteComponent>("graphnetwork", true);
+			entity->addComponent<SpriteComponent>("graphnetwork");
 		}
 		transform = &entity->GetComponent<TransformComponent>();
 		sprite = &entity->GetComponent<SpriteComponent>();

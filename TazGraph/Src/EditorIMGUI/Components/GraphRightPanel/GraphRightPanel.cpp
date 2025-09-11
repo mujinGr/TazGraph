@@ -17,6 +17,7 @@ void GraphRightPanel::OnImGuiRender()
 		group <= Manager::buttonLabels;
 		group++)
 	{
+		if (group == Manager::groupMinimapNodes) continue;
 		// Count EmptyEntities
 		auto& empties = config.c_manager->getGroup<EmptyEntity>(group);
 		emptyCount += static_cast<int>(empties.size());

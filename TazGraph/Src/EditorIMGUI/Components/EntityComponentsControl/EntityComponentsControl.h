@@ -3,8 +3,8 @@
 #include "../../UIElement.h"
 
 struct EntityComponentsConfig {
-	glm::vec2 mousePos = glm::vec2(0); 
-	Entity* displayedEntity = nullptr; 
+	glm::vec2 mousePos = glm::vec2(0);
+	Entity* displayedEntity = nullptr;
 	Manager* manager = nullptr;
 };
 
@@ -19,4 +19,5 @@ public:
 	void setConfig(const EntityComponentsConfig& cfg) { config = cfg; }
 	void OnImGuiRender() override;
 	void StartPollingComponent(Entity* entity, const std::string& fileName);
+	void ComponentCheckbox(std::string c);
 };

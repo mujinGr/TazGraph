@@ -16,8 +16,7 @@
 class SpriteComponent : public Component //sprite -> transform
 {
 private:
-	const GLTexture *gl_texture = nullptr;
-	bool _isMainMenu = false;
+	const GLTexture* gl_texture = nullptr;
 
 public:
 	std::string texture_name = "";
@@ -25,13 +24,16 @@ public:
 	Color color = { 255, 255, 255, 255 };
 
 	TransformComponent* transform = nullptr;
-	SDL_FRect srcRect = {0,0,0,0};
+	SDL_FRect srcRect = { 0,0,0,0 };
 
 	Animation animation;
 	MovingAnimation moving_animation;
 	FlashAnimation flash_animation;
-	
+
 	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
+
+
+	int currentItem = 0;
 
 	SpriteComponent() = default;
 	SpriteComponent(std::string id)
@@ -42,12 +44,6 @@ public:
 	{
 		default_color = clr;
 		color = clr;
-	}
-
-	SpriteComponent(std::string id, bool isMainMenu)
-	{
-		_isMainMenu = isMainMenu;
-		setTex(id);
 	}
 
 	~SpriteComponent()
@@ -69,7 +65,7 @@ public:
 			entity->addComponent<TransformComponent>();
 		}
 		transform = &entity->GetComponent<TransformComponent>();
-		
+
 		srcRect.x = srcRect.y = 0;
 		srcRect.w = transform->size.x;
 		srcRect.h = transform->size.y;
@@ -80,7 +76,7 @@ public:
 	{
 	}
 
-	void draw(size_t v_index, PlaneModelRenderer&  batch, TazGraphEngine::Window& window)
+	void draw(size_t v_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window)
 	{
 		if (gl_texture == NULL)
 		{
@@ -111,7 +107,7 @@ public:
 		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
 
 		batch.draw(v_index, size, transform->getPosition(), transform->rotation, uv, gl_texture->id);
-		
+
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
@@ -137,7 +133,7 @@ public:
 	}
 
 	void setCurrFrame() {
-		this->srcRect.x = (this->animation.indexX * this->transform->size.x) /* init */ + ( this->srcRect.w * animation.cur_frame_index/* curframe from total frams */);
+		this->srcRect.x = (this->animation.indexX * this->transform->size.x) /* init */ + (this->srcRect.w * animation.cur_frame_index/* curframe from total frams */);
 		this->srcRect.y = this->animation.indexY * this->transform->size.y;
 	}
 
@@ -178,7 +174,6 @@ public:
 		// Get the list of texture names
 		std::vector<std::string> textureNames = TextureManager::getInstance().Get_GLTextureNames();
 
-		static int currentItem = 0;
 		if (!textureNames.empty()) {
 			std::vector<const char*> items;
 			for (const std::string& name : textureNames)

@@ -252,6 +252,12 @@ void Graph::draw()
 	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), _LightRenderer);
 
 
+
+	_resourceManager.setupShader(glsl_texture, *main_camera2D);
+	_PlaneModelRenderer.end();
+	_PlaneModelRenderer.renderBatch(_resourceManager.getGLSLProgram("texture"));
+	glsl_texture.unuse();
+
 	_resourceManager.setupShader(glsl_color, *main_camera2D);
 	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
@@ -265,11 +271,6 @@ void Graph::draw()
 	_LineRenderer.end();
 	_LineRenderer.renderBatch();
 	glsl_lineColor.unuse();
-
-	_resourceManager.setupShader(glsl_texture, *main_camera2D);
-	_PlaneModelRenderer.end();
-	_PlaneModelRenderer.renderBatch(_resourceManager.getGLSLProgram("texture"));
-	glsl_texture.unuse();
 
 	_resourceManager.setupShader(glsl_light, *main_camera2D);
 	_LightRenderer.end();
