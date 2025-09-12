@@ -49,7 +49,7 @@ public:
 		return "SpringComponent";
 	}
 
-	void showGUI() override {
+	void showGUI(std::vector<BaseComponent*> otherComponents = {}) override {
 		ImGui::Separator();
 
 		ImGui::Text("SpringComponent");

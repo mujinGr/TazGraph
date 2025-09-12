@@ -72,6 +72,10 @@ into a unified environment.
 - 3D Models with Lighting  
 - Simulation Play  
 
+![alt text](TazGraph/assets/Sprites/Screenshot_9.png)
+![alt text](TazGraph/assets/Sprites/Screenshot_1.png) 
+![alt text](TazGraph/assets/Sprites/Screenshot_2.png)
+
 ## Developer Guide: [DoxyDevGuide](https://mujingr.github.io/TazGraph/html/dev_guide.html)
 
 Full Documentation:

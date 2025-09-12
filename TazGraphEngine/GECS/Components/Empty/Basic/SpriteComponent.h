@@ -168,7 +168,7 @@ public:
 		return "SpriteComponent";
 	}
 
-	void showGUI() override {
+	void showGUI(std::vector<BaseComponent*> otherComponents = {}) override {
 		ImGui::Separator();
 
 		// Get the list of texture names

@@ -53,7 +53,7 @@ public:
 		return "PathLinkerComponent";
 	}
 
-	void showGUI() override {
+	void showGUI(std::vector<BaseComponent*> otherComponents = {}) override {
 		ImGui::Separator();
 	}
 

@@ -103,6 +103,7 @@ using ComponentArray = std::array<BaseComponent*, maxComponents>;
 class BaseComponent
 {
 public:
+	bool modifyPosition = false;
 
 	ComponentID id = 0u;
 
@@ -115,7 +116,7 @@ public:
 
 	virtual std::string GetComponentName() { return ""; };
 
-	virtual void showGUI() {
+	virtual void showGUI(std::vector<BaseComponent*> otherComponents = {}) {
 		ImGui::Text("MyComponent Properties:");
 	};
 
@@ -184,13 +185,13 @@ public:
 	}
 
 	std::vector<std::unique_ptr<BaseComponent>> components; //create 2 arrays, this is for the concurrent access
-	
+
 	Entity(Manager& mManager) : manager(mManager) {}
 	virtual ~Entity() {}
 
 	virtual void update(float deltaTime)
 	{
-		
+
 		for (auto& c : components) {
 			c->update(deltaTime); // start from which was added first
 		}
@@ -202,7 +203,7 @@ public:
 
 	void draw(size_t e_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window)
 	{
-		for (auto& c : components) { 
+		for (auto& c : components) {
 			c->draw(e_index, batch, window);
 		}
 	}
@@ -225,7 +226,8 @@ public:
 		}
 	}
 	bool isActive() { return active; }
-	virtual void destroy() { active = false;
+	virtual void destroy() {
+		active = false;
 	} // destroy happens relative to the group referencing
 
 	bool hasGroup(Group mGroup)
@@ -280,7 +282,7 @@ public:
 		else {
 			std::unique_ptr<Component> uPtr{ c };
 			components.emplace_back(std::move(uPtr));
-			
+
 			setComponentEntity(c);
 			componentArray[GetComponentTypeID<T>()] = c;
 			componentBitSet[GetComponentTypeID<T>()] = true;
@@ -290,8 +292,8 @@ public:
 			c->init();
 			return *c;
 		}
-		
-		
+
+
 	}
 
 	template <typename T>
@@ -380,7 +382,7 @@ public:
 		return false;
 	}
 
-	
+
 
 	// for when wanting to add new entities from components
 	Manager* getManager() {

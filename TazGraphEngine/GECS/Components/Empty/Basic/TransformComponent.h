@@ -18,6 +18,7 @@ public:
 
 	int speed = 1;
 
+
 	TransformComponent()
 	{
 	}
@@ -143,12 +144,23 @@ public:
 		return "TransformComponent";
 	}
 
-	void showGUI() override {
+	void showGUI(std::vector<BaseComponent*> otherComponents = {}) override {
 		ImGui::Separator();
 
 		// Position Controls
 		ImGui::Text("Position:");
 		ImGui::SliderFloat3("##position", &position.x, -1000.0f, 1000.0f);
+
+		if (ImGui::Button("Apply Position to All##transform_pos")) {
+			modifyPosition = true;
+		}
+		if (modifyPosition && !otherComponents.empty()) {
+			for (auto* comp : otherComponents) {
+				if (auto* other = dynamic_cast<TransformComponent*>(comp)) {
+					other->position = position;
+				}
+			}
+		}
 
 		// Size Controls
 		ImGui::Text("Size:");

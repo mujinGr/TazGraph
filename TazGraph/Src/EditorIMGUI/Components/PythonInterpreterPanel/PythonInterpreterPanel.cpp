@@ -23,6 +23,17 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 		return node.getId(); // return something to Python
 		});
 
+	m.def("addLink", [&manager](float x, float y, float z) {
+		auto& node(manager.addEntity<Node>());
+
+		node.addGroup(Manager::groupNodes_0);
+		AssetManager::AddDefaultNode(node, glm::vec3(x, y, z));
+
+		manager.grid->addNode(&node, manager.grid->getGridLevel());
+
+		return node.getId(); // return something to Python
+		});
+
 }
 
 void PythonInterpreterPanel::OnImGuiRender()

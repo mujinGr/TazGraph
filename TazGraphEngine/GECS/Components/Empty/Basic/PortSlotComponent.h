@@ -48,7 +48,7 @@ public:
 		return "PortSlotComponent";
 	}
 
-	void showGUI() override {
+	void showGUI(std::vector<BaseComponent*> otherComponents = {}) override {
 		ImGui::Separator();
 	}
 

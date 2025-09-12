@@ -101,7 +101,7 @@ public:
 		return "Line_w_Color";
 	}
 
-	void showGUI() override {
+	void showGUI(std::vector<BaseComponent*> otherComponents = {}) override {
 		ImGui::Separator();
 
 		ImVec4 a_color = ImVec4(src_color.r / 255.0f, src_color.g / 255.0f, src_color.b / 255.0f, src_color.a / 255.0f);
