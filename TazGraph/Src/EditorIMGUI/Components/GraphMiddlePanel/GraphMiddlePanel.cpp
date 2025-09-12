@@ -53,7 +53,7 @@ void GraphMiddlePanel::OnImGuiRender()
 
 	ImGui::BeginChild("TEstTest");
 
-	getSubcomponent<PythonInterpreterPanel>()->setConfig({});
+	getSubcomponent<PythonInterpreterPanel>()->setConfig({ .scene = config.scene });
 	getSubcomponent<PythonInterpreterPanel>()->OnImGuiRender();
 
 	ImGui::EndChild();

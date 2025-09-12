@@ -35,12 +35,6 @@ public:
 
 	void loadPaths(const char* fileName, std::function<void(Entity&, glm::vec3)> addNodeFunc, std::function<void(Entity&)> addLinkFunc, Threader* m_threadPool);
 
-	void AddDefaultNode(Entity& node, glm::vec3 mPosition);
-	void AddTreeNode(Entity& node, glm::vec3 mPosition);
-	void AddDefaultLink(Entity& node);
-	void AddTreeLink(Entity& link);
-	void AddPathLink(Entity& link);
-
 	Manager* manager;
 private:
 	int mapScale;

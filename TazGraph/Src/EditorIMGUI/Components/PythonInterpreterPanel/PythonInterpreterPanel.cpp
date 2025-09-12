@@ -1,18 +1,26 @@
 #include "PythonInterpreterPanel.h"
 
-void PythonInterpreterPanel::init_api(py::module_& m)
+
+static std::unique_ptr<py::scoped_interpreter> pythonRuntime;
+
+PythonInterpreterPanel::PythonInterpreterPanel()
+{
+	if (!pythonRuntime)
+		pythonRuntime = std::make_unique<py::scoped_interpreter>();
+}
+
+void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 {
 	// Example: expose addNode
-	m.def("addNode", [](Manager& manager, float x, float y, float z) {
-		//auto& node(manager.addEntity<Node>());
+	m.def("addNode", [&manager](float x, float y, float z) {
+		auto& node(manager.addEntity<Node>());
 
-		//node.addGroup(Manager::groupNodes_0);
+		node.addGroup(Manager::groupNodes_0);
+		AssetManager::AddDefaultNode(node, glm::vec3(x,y,z));
 
-		//node.addComponent<TransformComponent>(glm::vec3(x, y, z), Layer::action, glm::vec3(10.0f), 1.0f);
-		/*node.addComponent<Rectangle_w_Color>();
-		node.GetComponent<Rectangle_w_Color>().setColor(Color(0, 200, 224, 255));*/
+		manager.grid->addNode(&node, manager.grid->getGridLevel());
 
-		//return &node;
+		return node.getId(); // return something to Python
 		});
 
 }
@@ -42,12 +50,17 @@ void PythonInterpreterPanel::OnImGuiRender()
 		{
 			safe_putenv("PYTHONHOME=C:\\Users\\lefte\\AppData\\Local\\Programs\\Python\\Python313");
 			try {
-				py::scoped_interpreter guard{};
 				py::exec(R"(
                     import sys
                     from io import StringIO
                     sys.stdout = StringIO()
                 )");
+
+				py::module_ userapi = py::module_::create_extension_module("tazpyapi", nullptr, new PyModuleDef{});
+				init_api(userapi, *config.scene->manager);
+				py::module_::import("sys").attr("modules")["tazpyapi"] = userapi;
+
+				py::globals()["addNode"] = userapi.attr("addNode");
 				py::exec(_pythonBuffer);
 				py::object output = py::eval("sys.stdout.getvalue()");
 				_outputText = output.cast<std::string>();

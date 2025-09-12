@@ -7,6 +7,8 @@
 
 #include <SDL2/SDL_ttf.h>
 
+#include <GECS/UtilComponents.h>
+
 struct PairHash {
 	template <class T1, class T2>
 	std::size_t operator()(const std::pair<T1, T2>& p) const {
@@ -27,4 +29,9 @@ namespace AssetManager //this class created when we added projectiles, based on 
 	void createGroupLayout(Manager* manager, Grid::Level m_level);
 
 	void ungroupLayout(Manager* manager, Grid::Level m_level);
+	void AddDefaultNode(Entity& node, glm::vec3 mPosition);
+	void AddTreeNode(Entity& node, glm::vec3 mPosition);
+	void AddDefaultLink(Entity& link);
+	void AddTreeLink(Entity& link);
+	void AddPathLink(Entity& link);
 };

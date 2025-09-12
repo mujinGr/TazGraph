@@ -8,6 +8,7 @@
 namespace py = pybind11;
 
 struct PythonInterpreterConfig {
+	IScene* scene;
 };
 
 class PythonInterpreterPanel : public UIElement
@@ -18,8 +19,8 @@ private:
 	std::string _outputText;
 public:
 	bool showPythonInterpreter = false;
-
-	void init_api(py::module_& m);
+	PythonInterpreterPanel();
+	void init_api(py::module_& m, Manager& manager);
 
 	void setConfig(const PythonInterpreterConfig& cfg) { 
 		

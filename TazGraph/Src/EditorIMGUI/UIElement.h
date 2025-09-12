@@ -20,6 +20,7 @@
 #include <AppScene/IScene.h>
 #include <AppScene/AppInterface.h>
 
+#include "../AssetManager/AssetManager.h"
 
 class UIElement {
 public:

@@ -165,8 +165,8 @@ void Graph::drawUI() {
 
 				map->loadMap(
 					loadMapPath,
-					std::bind(&Map::AddDefaultNode, map, std::placeholders::_1, std::placeholders::_2),
-					std::bind(&Map::AddDefaultLink, map, std::placeholders::_1),
+					std::bind(&AssetManager::AddDefaultNode, std::placeholders::_1, std::placeholders::_2),
+					std::bind(&AssetManager::AddDefaultLink, std::placeholders::_1),
 					&_app->threadPool
 				);
 			}
@@ -178,8 +178,8 @@ void Graph::drawUI() {
 		std::string loadPathName = DataManager::getInstance().getPathLoading();
 
 		map->loadPaths(loadPathName.c_str(),
-			std::bind(&Map::AddDefaultNode, map, std::placeholders::_1, std::placeholders::_2),
-			std::bind(&Map::AddPathLink, map, std::placeholders::_1),
+			std::bind(&AssetManager::AddDefaultNode, std::placeholders::_1, std::placeholders::_2),
+			std::bind(&AssetManager::AddPathLink, std::placeholders::_1),
 			nullptr);
 		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 

@@ -20,7 +20,7 @@ TazGraphEngine::Window* Graph::_window = nullptr;
 
 
 Graph::Graph(TazGraphEngine::Window* window)
-{ 
+{
 	_window = window;
 	_sceneIndex = SCENE_INDEX_GRAPHPLAY;
 }
@@ -154,8 +154,8 @@ void Graph::onEntry()
 
 		map->loadMap(
 			DataManager::getInstance().mapToLoad.c_str(),
-			std::bind(&Map::AddDefaultNode, map, std::placeholders::_1, std::placeholders::_2),
-			std::bind(&Map::AddDefaultLink, map, std::placeholders::_1),
+			std::bind(&AssetManager::AddDefaultNode, std::placeholders::_1, std::placeholders::_2),
+			std::bind(&AssetManager::AddDefaultLink, std::placeholders::_1),
 			&_app->threadPool
 		);
 

@@ -205,3 +205,58 @@ void AssetManager::ungroupLayout(Manager* manager, Grid::Level m_level) {
 		link->reveal();
 	}
 }
+
+void AssetManager::AddDefaultNode(Entity& node, glm::vec3 mPosition)
+{
+	static int colorOffset = 0;
+	colorOffset = (colorOffset + 2) % 256; // Vary color slightly each time
+
+	//create Node function
+	node.addComponent<TransformComponent>(mPosition, glm::vec3(10.0f), 1);
+	node.addComponent<Rectangle_w_Color>();
+	node.GetComponent<Rectangle_w_Color>().setColor(Color(0, colorOffset, 224, 255));
+
+	node.addComponent<RectangleFlashAnimatorComponent>();
+}
+
+void AssetManager::AddTreeNode(Entity& node, glm::vec3 mPosition)
+{
+	static int colorOffset = 0;
+	colorOffset = (colorOffset + 2) % 256; // Vary color slightly each time
+
+	//create Node function
+	node.addComponent<TransformComponent>(mPosition, glm::vec3(10.0f), 1);
+	node.addComponent<Rectangle_w_Color>();
+	node.GetComponent<Rectangle_w_Color>().setColor(Color(0, colorOffset, 224, 255));
+
+	node.addComponent<RectangleFlashAnimatorComponent>();
+	node.addComponent<PollingComponent>();
+}
+
+void AssetManager::AddDefaultLink(Entity& link)
+{
+	link.addComponent<Line_w_Color>();
+
+	link.GetComponent<Line_w_Color>().setSrcColor(Color(255, 40, 0, 255));
+	link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
+
+	link.addComponent<LineFlashAnimatorComponent>();
+}
+
+void AssetManager::AddTreeLink(Entity& link)
+{
+	link.addComponent<Line_w_Color>();
+
+	link.GetComponent<Line_w_Color>().setSrcColor(Color(40, 255, 0, 255));
+	link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
+
+	link.addComponent<LineFlashAnimatorComponent>();
+}
+
+void AssetManager::AddPathLink(Entity& link)
+{
+	link.addComponent<Line_w_Color>();
+
+	link.GetComponent<Line_w_Color>().setSrcColor(Color(0, 0, 255, 255));
+	link.GetComponent<Line_w_Color>().setDestColor(Color(40, 0, 255, 255));
+}
