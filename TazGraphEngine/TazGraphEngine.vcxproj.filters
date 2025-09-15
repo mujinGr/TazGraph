@@ -314,5 +314,8 @@
     <ClInclude Include="Window\Base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AABB\SelectionFrustum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

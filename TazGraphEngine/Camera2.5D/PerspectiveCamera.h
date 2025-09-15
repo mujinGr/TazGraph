@@ -3,7 +3,7 @@
 #include "ICamera.h"
 
 
-class PerspectiveCamera : public ICamera{
+class PerspectiveCamera : public ICamera {
 public:
 	glm::vec3 panningAimPos{ 0,0,0 };
 
@@ -13,7 +13,7 @@ public:
 
 	PerspectiveCamera()
 	{
-		_scale =1.0f;
+		_scale = 1.0f;
 		eyePos = glm::vec3(0.f, 0.f, -770.0f);
 		aimPos = glm::vec3(0.f, 0.f, 0.f);
 	}
@@ -43,22 +43,7 @@ public:
 			_cameraMatrix = _projectionMatrix * _viewMatrix;
 
 		}
-		
-	}
 
-	glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) const override {
-		SDL_FRect cameraRect = getCameraRect();
-
-		glm::vec2 worldCoords;
-
-		worldCoords = screenCoords;
-		worldCoords /= _scale;
-
-		worldCoords.x = worldCoords.x + cameraRect.x;
-		worldCoords.y = worldCoords.y + cameraRect.y;
-
-
-		return worldCoords;
 	}
 
 	void movePosition_Hor(const float step) {
@@ -97,7 +82,7 @@ public:
 		aimPos = startingAimPos;
 		const float sensitivity = 0.005f;
 
-		float yaw = distance.x * sensitivity;  
+		float yaw = distance.x * sensitivity;
 		float pitch = distance.y * sensitivity;
 
 		glm::vec3 direction = glm::normalize(aimPos - eyePos);
@@ -145,8 +130,8 @@ public:
 		float cameraWidth = getCameraDimensions().x / getScale();
 		float cameraHeight = getCameraDimensions().y / getScale();
 
-		float cameraX = eyePos.x - cameraWidth / 2.0f ;
-		float cameraY = eyePos.y - cameraHeight / 2.0f ;
+		float cameraX = eyePos.x - cameraWidth / 2.0f;
+		float cameraY = eyePos.y - cameraHeight / 2.0f;
 
 		SDL_FRect cameraRect = { cameraX , cameraY , cameraWidth, cameraHeight };
 		return cameraRect;
@@ -160,10 +145,10 @@ public:
 		_scale = 1.0f;
 
 		eyePos = glm::vec3(0.f, 0.f, -770.0f);
-		aimPos = glm::vec3( 0,0,0 );
-		
+		aimPos = glm::vec3(0, 0, 0);
+
 		currentViewMode = ViewMode::Y_UP;
-		upDir = glm::vec3( 0,-1,0 );
+		upDir = glm::vec3(0, -1, 0);
 
 		init();
 

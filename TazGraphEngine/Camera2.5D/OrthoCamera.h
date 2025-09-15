@@ -20,7 +20,7 @@ public:
 
 	void init() override {
 
-		_projectionMatrix = glm::ortho(0.0f, (float)_screenWidth, 0.0f, (float)_screenHeight );
+		_projectionMatrix = glm::ortho(0.0f, (float)_screenWidth, 0.0f, (float)_screenHeight);
 
 		updateCameraOrientation();
 
@@ -38,21 +38,6 @@ public:
 
 			_cameraMatrix = _projectionMatrix * _viewMatrix;
 		}
-	}
-
-
-	glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) const override {
-		//Make 0 the center
-		screenCoords -= glm::vec2(_screenWidth / 2, _screenHeight / 2);
-		//Scale coordinates
-		screenCoords /= _scale;
-		screenCoords += glm::vec2(_screenWidth / 2, _screenHeight / 2);
-		//Translate with the camera2D.worldLocation position
-		screenCoords.x += eyePos.x;
-		screenCoords.y += eyePos.y;
-
-
-		return screenCoords;
 	}
 
 	void movePosition_Hor(const float step) {

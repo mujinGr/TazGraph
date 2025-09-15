@@ -1,5 +1,25 @@
 #include "./ICamera.h"
 
+glm::vec3 ICamera::convertScreenToWorld(glm::vec2 screenCoords, float depth) {
+	SDL_FRect camRect = getCameraRect();
+
+	glm::vec4 viewport = glm::vec4(
+		camRect.x,
+		camRect.y,
+		camRect.w,
+		camRect.h
+	);
+
+	// Convert 2D screen + depth to 3D world
+	glm::vec3 screenPos = glm::vec3(screenCoords.x, screenCoords.y, depth);
+
+	glm::mat4 view = getViewMatrix();
+	glm::mat4 proj = getProjMatrix();
+
+	glm::vec3 worldPos = glm::unProject(screenPos, view, proj, viewport);
+
+	return worldPos;
+}
 
 glm::vec3 ICamera::getPosition() const
 {
