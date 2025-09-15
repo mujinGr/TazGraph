@@ -73,7 +73,9 @@ void Graph::drawUI() {
 			.c_framebuffer = &_framebuffer,
 			.c_minimapFramebuffer = &_minimapFramebuffer,
 			.c_windowPos = &_windowPos,
-			.c_windowSize = &_windowSize
+			.c_windowSize = &_windowSize,
+			.startPos = _selectionStartPos,
+			.currPos = _selectionCurrentPos
 		}
 	);
 	_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->OnImGuiRender();

@@ -1,11 +1,6 @@
 #include "Graph.h"
 #include <AppScene/AppInterface.h>
 
-glm::vec3 pointAtZ0;
-
-// Get point on the ray at z = -100
-glm::vec3 pointAtO;
-
 std::vector<Cell*> Graph::traversedCellsFromRay(
 	glm::vec3 rayOrigin,
 	glm::vec3 rayDirection,
@@ -414,12 +409,16 @@ void Graph::checkInput() {
 		glm::vec3 rayOrigin = main_camera2D->getPosition(); // Camera position
 		glm::vec3 rayDirection = main_camera2D->castRayAt(mouseCoordsVec); // Ray direction
 
+		if (!_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->
+			getSubcomponent<ViewportPanel>()->
+			isMouseInSecondColumn) {
+			return;
+		}
+
 		switch (evnt.type)
 		{
 		case SDL_MOUSEWHEEL:
-			if (!_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->
-				getSubcomponent<ViewportPanel>()->
-				isMouseInSecondColumn || _displayedEntity) {
+			if (_displayedEntity) {
 				return;
 			}
 			if (evnt.wheel.y > 0)
@@ -446,31 +445,28 @@ void Graph::checkInput() {
 			if (_displayedEntity) {
 				return;
 			}
-			if (_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->
-				getSubcomponent<ViewportPanel>()->
-				isMouseInSecondColumn) {
 
-				if (_app->_inputManager.isKeyDown(SDLK_e)) {
-					main_camera2D->movePosition_Forward(manager->grid->getCellSize());
-				}
-				if (_app->_inputManager.isKeyDown(SDLK_r)) {
-					main_camera2D->movePosition_Forward(-manager->grid->getCellSize());
-				}
-				if (_app->_inputManager.isKeyDown(SDLK_w)) {
-					main_camera2D->movePosition_Vert(manager->grid->getCellSize() + 10.0f);
-
-				}
-				if (_app->_inputManager.isKeyDown(SDLK_s)) {
-					main_camera2D->movePosition_Vert(-manager->grid->getCellSize() - 10.0f);
-
-				}
-				if (_app->_inputManager.isKeyDown(SDLK_a)) {
-					main_camera2D->movePosition_Hor(-manager->grid->getCellSize() - 10.0f);
-				}
-				if (_app->_inputManager.isKeyDown(SDLK_d)) {
-					main_camera2D->movePosition_Hor(manager->grid->getCellSize() + 10.0f);
-				}
+			if (_app->_inputManager.isKeyDown(SDLK_e)) {
+				main_camera2D->movePosition_Forward(manager->grid->getCellSize());
 			}
+			if (_app->_inputManager.isKeyDown(SDLK_r)) {
+				main_camera2D->movePosition_Forward(-manager->grid->getCellSize());
+			}
+			if (_app->_inputManager.isKeyDown(SDLK_w)) {
+				main_camera2D->movePosition_Vert(manager->grid->getCellSize() + 10.0f);
+
+			}
+			if (_app->_inputManager.isKeyDown(SDLK_s)) {
+				main_camera2D->movePosition_Vert(-manager->grid->getCellSize() - 10.0f);
+
+			}
+			if (_app->_inputManager.isKeyDown(SDLK_a)) {
+				main_camera2D->movePosition_Hor(-manager->grid->getCellSize() - 10.0f);
+			}
+			if (_app->_inputManager.isKeyDown(SDLK_d)) {
+				main_camera2D->movePosition_Hor(manager->grid->getCellSize() + 10.0f);
+			}
+			break;
 
 		case SDL_MOUSEMOTION:
 		{
@@ -664,34 +660,36 @@ void Graph::checkInput() {
 				glm::vec3 delta = glm::vec3(_app->_inputManager.calculatePanningDelta(mouseCoordsVec), 0.0f);
 				main_camera2D->moveAimPos(main_camera2D->getPanningAimPos(), delta);
 			}
-		}
-		case SDL_MOUSEBUTTONDOWN:
-			if (!_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->
-				getSubcomponent<ViewportPanel>()->isMouseInSecondColumn) {
-				return;
+
+			if (_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
+				Uint32 currentTime = SDL_GetTicks();
+
+				if (currentTime - _holdStartTime >= HOLD_TIME_FOR_SELECTION) {
+
+					if (!_isDraggingSelectionBox)
+					{
+						_selectionStartPos = _app->_inputManager.getMouseCoords();
+						_selectionCurrentPos = _app->_inputManager.getMouseCoords();
+						_isDraggingSelectionBox = true;
+					}
+					else {
+						_selectionCurrentPos = _app->_inputManager.getMouseCoords();
+					}
+				}
 			}
+		}
+		break;
+		case SDL_MOUSEBUTTONDOWN:
+		{
 			if ((_app->_inputManager.isKeyDown(SDLK_RCTRL) || _app->_inputManager.isKeyDown(SDLK_LCTRL)) &&
 				_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT) &&
 				!_selectedEntities.empty()
 				) {
 				selectEntityFromRay(rayOrigin, rayDirection, CTRLD_LEFT_CLICK);
 
-				// Get point on the ray at z = 0
-				pointAtZ0 = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, 0.0f);
-
-				// Get point on the ray at z = -100
-				pointAtO = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, rayOrigin.z);
-
 			}
-			else if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) { // this is for selection and moving around nodes
-				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_LEFT);
-
-				// Get point on the ray at z = 0
-				pointAtZ0 = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, 0.0f);
-
-				// Get point on the ray at z = -100
-				pointAtO = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, rayOrigin.z);
-
+			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) { // this is for selection and moving around nodes
+				_holdStartTime = SDL_GetTicks();
 			}
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
@@ -703,25 +701,22 @@ void Graph::checkInput() {
 
 				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_RIGHT);
 
-				if (!_displayedEntity && _graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->
-					getSubcomponent<ViewportPanel>()->isMouseInSecondColumn) {
+				if (!_displayedEntity) {
 					_sceneManagerActive = true;
 				}
 
 				_savedMainViewportMousePosition = _app->_inputManager.getMouseCoords();
 			}
+
+		}
+		break;
 		case SDL_MOUSEBUTTONUP:
 			if (!_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
 				//_selectedEntities = nullptr;
+				_isDraggingSelectionBox = false;
+				_selectionStartPos = glm::vec2(0);
+				_selectionCurrentPos = glm::vec2(0);
 			}
 		}
-
-		if (_app->_inputManager.isKeyPressed(SDLK_p)) {
-			//onPauseGraph();
-		}
-
-
-
-
 	}
 }

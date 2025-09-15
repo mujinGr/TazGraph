@@ -47,7 +47,9 @@ void GraphMiddlePanel::OnImGuiRender()
 		.c_fb = config.c_framebuffer,
 		.c_minimap_fb = config.c_minimapFramebuffer,
 		.c_storedWindowPos = config.c_windowPos,
-		.c_storedWindowSize = config.c_windowSize
+		.c_storedWindowSize = config.c_windowSize,
+		.startPos = config.startPos,
+		.currPos = config.currPos,
 		});
 	getSubcomponent<ViewportPanel>()->OnImGuiRender();
 

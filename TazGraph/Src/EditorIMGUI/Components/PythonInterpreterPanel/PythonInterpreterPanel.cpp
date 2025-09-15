@@ -62,10 +62,10 @@ void PythonInterpreterPanel::OnImGuiRender()
 			safe_putenv("PYTHONHOME=C:\\Users\\lefte\\AppData\\Local\\Programs\\Python\\Python313");
 			try {
 				py::exec(R"(
-                    import sys
-                    from io import StringIO
-                    sys.stdout = StringIO()
-                )");
+					import sys
+					from io import StringIO
+					sys.stdout = StringIO()
+				)");
 
 				py::module_ userapi = py::module_::create_extension_module("tazpyapi", nullptr, new PyModuleDef{});
 				init_api(userapi, *config.scene->manager);
@@ -75,6 +75,8 @@ void PythonInterpreterPanel::OnImGuiRender()
 				py::exec(_pythonBuffer);
 				py::object output = py::eval("sys.stdout.getvalue()");
 				_outputText = output.cast<std::string>();
+
+				config.scene->manager->aboutTo_updateActiveEntities();
 			}
 			catch (const std::exception& e) {
 				_outputText = std::string("Python error: ") + e.what();

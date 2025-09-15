@@ -14,6 +14,8 @@ struct GraphMiddlePanelConfig {
 	Framebuffer* c_minimapFramebuffer;
 	ImVec2* c_windowPos;
 	ImVec2* c_windowSize;
+	glm::vec2 startPos;
+	glm::vec2 currPos;
 };
 
 class GraphMiddlePanel : public UIElement

@@ -38,6 +38,7 @@ class TransformComponent;
 
 #define ON_HOVER 0
 #define CTRLD_LEFT_CLICK -1
+#define HOLD_TIME_FOR_SELECTION 1000
 
 class Graph : public IScene {
 
@@ -113,7 +114,14 @@ private:
 	Entity* _displayedEntity = nullptr;
 	bool _sceneManagerActive = false;
 	Entity* _onHoverEntity = nullptr;
-	
+
+	Uint32 _holdStartTime = 0;
+
+	bool _isDraggingSelectionBox = false;
+
+	glm::vec2 _selectionStartPos = glm::vec2(0);
+	glm::vec2 _selectionCurrentPos = glm::vec2(0);
+
 	int _nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 	int _prevSceneIndex = SCENE_INDEX_MAIN_MENU;
 
@@ -128,7 +136,7 @@ private:
 	ImVec2 _windowPos;
 	ImVec2 _windowSize;
 
-	glm::vec2 _sceneMousePosition = {0.f,0.f};
+	glm::vec2 _sceneMousePosition = { 0.f,0.f };
 	glm::vec2 _savedMainViewportMousePosition = { 0.f,0.f };
 
 	// Minimap stuff
