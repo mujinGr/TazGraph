@@ -619,7 +619,7 @@ void Graph::checkInput() {
 			if (_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
 				Uint32 currentTime = SDL_GetTicks();
 
-				
+
 				if (!_selectedEntities.empty() && !_isDraggingSelectionBox) {
 					glm::vec3 pointAtCenterAxis = glm::vec3(0.0f);
 
@@ -755,7 +755,7 @@ void Graph::performFrustumSelection() {
 template<typename EntityType>
 void Graph::selectEntitiesInFrustum(int groupId, const SelectionFrustum& frustum) {
 	for (EntityType* entity : manager->getGroup<EntityType>(groupId)) {
-		glm::vec3 centerPoint = entity->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 centerPoint = entity->template GetComponent<TransformComponent>().getPosition();
 		if (isPointInFrustum(centerPoint, frustum)) {
 			auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
 				[entity](const std::pair<Entity*, glm::vec3>& pair) {

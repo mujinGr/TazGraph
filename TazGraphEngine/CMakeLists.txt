@@ -12,6 +12,19 @@ file(GLOB_RECURSE Header_Files
 )
 file(GLOB_RECURSE Source_Files 
 "../TazGraphEngine/*.cpp"
+ "../vendors/imgui/imgui.cpp"
+"../vendors/ImGuiComboAutoselect/imgui_combo_autoselect.cpp"
+"../vendors/imgui/imgui_demo.cpp"
+"../vendors/imgui/imgui_draw.cpp"
+"../vendors/imgui/backends/imgui_impl_opengl3.cpp"
+"../vendors/imgui/backends/imgui_impl_sdl2.cpp"
+"../vendors/imgui/imgui_tables.cpp"
+"../vendors/imgui/imgui_widgets.cpp"
+"../vendors/implot/implot.cpp"
+"../vendors/implot/implot_items.cpp"
+"../vendors/ImGuizmo/ImGuizmo.cpp"
+"../vendors/tinyxml2/tinyxml2.cpp"
+"../vendors/DotParser/DotParser/DotParser.cpp"
 )
 
 # Organize headers in IDE (Visual Studio, Xcode, etc.)
