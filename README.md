@@ -30,6 +30,8 @@ If the repository was cloned non-recursively previously, use `git submodule upda
 ### Build 
 `mkdir build`
 \
+`cd build`
+\
 `cmake -DCMAKE_BUILD_TYPE=Release ..`
 \
 `make`
