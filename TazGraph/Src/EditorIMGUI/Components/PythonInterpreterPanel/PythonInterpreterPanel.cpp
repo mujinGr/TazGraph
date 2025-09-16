@@ -16,7 +16,7 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 		auto& node(manager.addEntity<Node>());
 
 		node.addGroup(Manager::groupNodes_0);
-		AssetManager::AddDefaultNode(node, glm::vec3(x,y,z));
+		AssetManager::AddDefaultNode(node, glm::vec3(x, y, z));
 
 		manager.grid->addNode(&node, manager.grid->getGridLevel());
 
@@ -39,7 +39,13 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 void PythonInterpreterPanel::OnImGuiRender()
 {
 	ImGui::BeginChild("Python Interpreter");
-	// Create a 2-column table: input (left), output (right)
+
+
+	if (ImGui::Button(isCollapsed ? "Expand" : "Collapse", buttonSize)) {
+		isCollapsed = !isCollapsed;
+	}
+
+
 	if (ImGui::BeginTable("PythonIO", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_BordersInnerV))
 	{
 		// ===== LEFT COLUMN: Input =====
@@ -62,10 +68,10 @@ void PythonInterpreterPanel::OnImGuiRender()
 			safe_putenv("PYTHONHOME=C:\\Users\\lefte\\AppData\\Local\\Programs\\Python\\Python313");
 			try {
 				py::exec(R"(
-					import sys
-					from io import StringIO
-					sys.stdout = StringIO()
-				)");
+				import sys
+				from io import StringIO
+				sys.stdout = StringIO()
+			)");
 
 				py::module_ userapi = py::module_::create_extension_module("tazpyapi", nullptr, new PyModuleDef{});
 				init_api(userapi, *config.scene->manager);
@@ -96,6 +102,5 @@ void PythonInterpreterPanel::OnImGuiRender()
 
 		ImGui::EndTable();
 	}
-
 	ImGui::EndChild();
 }

@@ -42,7 +42,21 @@ void GraphMiddlePanel::OnImGuiRender()
 			config.setManager(config.scene->managerName);
 		}
 	}
+	float viewportHeight = ImGui::GetContentRegionAvail().y;
+	if (!getSubcomponent<PythonInterpreterPanel>()->isCollapsed) {
+		viewportHeight *= 0.6f;
+	}
+	static bool wasPythonPanelCollapsed = false;
+	bool isPythonPanelCollapsed = getSubcomponent<PythonInterpreterPanel>()->isCollapsed;
+	ImGuiChildFlags flags = ImGuiChildFlags_ResizeY;
 
+	if (wasPythonPanelCollapsed != isPythonPanelCollapsed) {
+		// Panel state changed, force the new size
+		flags = 0; // Remove resize flag temporarily
+		wasPythonPanelCollapsed = isPythonPanelCollapsed;
+	}
+
+	ImGui::BeginChild("Viewport", ImVec2(0.0f, viewportHeight - getSubcomponent<PythonInterpreterPanel>()->buttonSize.y), flags);
 	getSubcomponent<ViewportPanel>()->setConfig({
 		.c_fb = config.c_framebuffer,
 		.c_minimap_fb = config.c_minimapFramebuffer,
@@ -52,11 +66,10 @@ void GraphMiddlePanel::OnImGuiRender()
 		.currPos = config.currPos,
 		});
 	getSubcomponent<ViewportPanel>()->OnImGuiRender();
+	ImGui::EndChild();
 
-	ImGui::BeginChild("TEstTest");
 
 	getSubcomponent<PythonInterpreterPanel>()->setConfig({ .scene = config.scene });
 	getSubcomponent<PythonInterpreterPanel>()->OnImGuiRender();
 
-	ImGui::EndChild();
 }
