@@ -3,11 +3,6 @@
 void GraphMiddlePanel::OnImGuiRender()
 {
 	std::string activeManagerKey = config.scene->managerName;
-	//	
-	//	
-	//	
-	//	
-	//	}
 	getSubcomponent<GraphTopBar>()->setConfig(
 		{
 			.scene = config.scene

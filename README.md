@@ -27,7 +27,8 @@ Start by cloning the repository with
 
 If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
 
-In build/:
+### Build 
+`mkdir build`
 \
 `cmake -DCMAKE_BUILD_TYPE=Release ..`
 \
