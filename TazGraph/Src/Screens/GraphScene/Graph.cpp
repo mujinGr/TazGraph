@@ -196,12 +196,6 @@ void Graph::onExit() {
 }
 
 
-glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-
-	return main_camera2D->convertScreenToWorld(screenCoords);
-}
-
 bool Graph::setManager(std::string m_managerName)
 {
 	bool managerIsNew = false;

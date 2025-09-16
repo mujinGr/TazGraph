@@ -10,11 +10,6 @@ void HighlightBox::OnImGuiRender()
 	ImVec2 p2(config.currPos.x, config.currPos.y);
 
 
-	std::cout << "start" << std::endl;
-	std::cout << p1.x << p1.y << std::endl;
-	std::cout << p2.x << p2.y << std::endl;
-
-
 	// Ensure p1 is top-left and p2 is bottom-right
 	ImVec2 topLeft(std::min(p1.x, p2.x), std::min(p1.y, p2.y));
 	ImVec2 bottomRight(std::max(p1.x, p2.x), std::max(p1.y, p2.y));

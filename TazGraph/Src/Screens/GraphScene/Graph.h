@@ -100,6 +100,7 @@ private:
 	bool setManager(std::string m_managerName);
 
 	void checkInput();
+	void performFrustumSelection();
 	bool onPauseGraph();
 
 	PlaneModelRenderer _PlaneModelRenderer;
@@ -122,6 +123,9 @@ private:
 	glm::vec2 _selectionStartPos = glm::vec2(0);
 	glm::vec2 _selectionCurrentPos = glm::vec2(0);
 
+	glm::vec2 _selectionWindowStartPos = glm::vec2(0);
+	glm::vec2 _selectionWindowCurrentPos = glm::vec2(0);
+
 	int _nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 	int _prevSceneIndex = SCENE_INDEX_MAIN_MENU;
 
@@ -143,6 +147,9 @@ private:
 	int currentX = 0, currentY = 0, currentZ = 0;
 	bool processingComplete = false;
 	bool needsRefresh = true;
+
+	template<typename EntityType>
+	void selectEntitiesInFrustum(int groupId, const SelectionFrustum& frustum);
 
 };
 

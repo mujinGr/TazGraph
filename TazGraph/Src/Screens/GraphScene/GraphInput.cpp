@@ -53,12 +53,6 @@ std::vector<Cell*> Graph::traversedCellsFromRay(
 
 void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int activateMode) {
 
-	if (!_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->
-		getSubcomponent<ViewportPanel>()->
-		isMouseInSecondColumn) {
-		return;
-	}
-
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 	std::vector<Cell*> trav_cells = traversedCellsFromRay(rayOrigin, rayDirection, 10000.0f);
@@ -616,45 +610,6 @@ void Graph::checkInput() {
 				}
 			}
 
-			if (_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT) && !_selectedEntities.empty()) {
-
-
-				glm::vec3 pointAtCenterAxis = glm::vec3(0.0f);
-
-				glm::vec3 center(0.0f);
-				int nodeEntitiesSize = 0;
-
-				for (const auto& [entity, _] : _selectedEntities) {
-					Node* nodeEntity = dynamic_cast<Node*>(entity);
-					if (nodeEntity) {
-						center += nodeEntity->GetComponent<TransformComponent>().getPosition();
-						nodeEntitiesSize++;
-					}
-					Empty* emptyEntity = dynamic_cast<Empty*>(entity);
-					if (emptyEntity) {
-						center += emptyEntity->GetComponent<TransformComponent>().getPosition();
-						nodeEntitiesSize++;
-					}
-				}
-
-				center /= nodeEntitiesSize;  // Include new node
-
-				pointAtCenterAxis = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, center.z);
-
-				for (const auto& [entity, relativePos] : _selectedEntities) {
-					Node* nodeEntity = dynamic_cast<Node*>(entity);
-					if (nodeEntity) {
-						entity->GetComponent<TransformComponent>().setPosition_X(pointAtCenterAxis.x + relativePos.x);
-						entity->GetComponent<TransformComponent>().setPosition_Y(pointAtCenterAxis.y + relativePos.y);
-					}
-					Empty* emptyEntity = dynamic_cast<Empty*>(entity);
-					if (emptyEntity) {
-						entity->GetComponent<TransformComponent>().setPosition_X(pointAtCenterAxis.x + relativePos.x);
-						entity->GetComponent<TransformComponent>().setPosition_Y(pointAtCenterAxis.y + relativePos.y);
-					}
-				}
-			}
-
 			if (_app->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
 				// Calculate new camera position based on the mouse movement
 				glm::vec3 delta = glm::vec3(_app->_inputManager.calculatePanningDelta(mouseCoordsVec), 0.0f);
@@ -664,16 +619,60 @@ void Graph::checkInput() {
 			if (_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
 				Uint32 currentTime = SDL_GetTicks();
 
-				if (currentTime - _holdStartTime >= HOLD_TIME_FOR_SELECTION) {
+				
+				if (!_selectedEntities.empty() && !_isDraggingSelectionBox) {
+					glm::vec3 pointAtCenterAxis = glm::vec3(0.0f);
+
+					glm::vec3 center(0.0f);
+					int nodeEntitiesSize = 0;
+
+					for (const auto& [entity, _] : _selectedEntities) {
+						Node* nodeEntity = dynamic_cast<Node*>(entity);
+						if (nodeEntity) {
+							center += nodeEntity->GetComponent<TransformComponent>().getPosition();
+							nodeEntitiesSize++;
+						}
+						Empty* emptyEntity = dynamic_cast<Empty*>(entity);
+						if (emptyEntity) {
+							center += emptyEntity->GetComponent<TransformComponent>().getPosition();
+							nodeEntitiesSize++;
+						}
+					}
+
+					center /= nodeEntitiesSize;  // Include new node
+
+					pointAtCenterAxis = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, center.z);
+
+					for (const auto& [entity, relativePos] : _selectedEntities) {
+						Node* nodeEntity = dynamic_cast<Node*>(entity);
+						if (nodeEntity) {
+							entity->GetComponent<TransformComponent>().setPosition_X(pointAtCenterAxis.x + relativePos.x);
+							entity->GetComponent<TransformComponent>().setPosition_Y(pointAtCenterAxis.y + relativePos.y);
+						}
+						Empty* emptyEntity = dynamic_cast<Empty*>(entity);
+						if (emptyEntity) {
+							entity->GetComponent<TransformComponent>().setPosition_X(pointAtCenterAxis.x + relativePos.x);
+							entity->GetComponent<TransformComponent>().setPosition_Y(pointAtCenterAxis.y + relativePos.y);
+						}
+					}
+				}
+				else if (currentTime - _holdStartTime >= HOLD_TIME_FOR_SELECTION) {
 
 					if (!_isDraggingSelectionBox)
 					{
-						_selectionStartPos = _app->_inputManager.getMouseCoords();
-						_selectionCurrentPos = _app->_inputManager.getMouseCoords();
+						_selectionStartPos = mouseCoordsVec;
+						_selectionCurrentPos = mouseCoordsVec;
+
+						_selectionWindowStartPos = _app->_inputManager.getMouseCoords();
+						_selectionWindowCurrentPos = _app->_inputManager.getMouseCoords();
+
 						_isDraggingSelectionBox = true;
 					}
 					else {
-						_selectionCurrentPos = _app->_inputManager.getMouseCoords();
+						_selectionCurrentPos = mouseCoordsVec;
+						_selectionWindowCurrentPos = _app->_inputManager.getMouseCoords();
+
+						performFrustumSelection();
 					}
 				}
 			}
@@ -690,6 +689,7 @@ void Graph::checkInput() {
 			}
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) { // this is for selection and moving around nodes
 				_holdStartTime = SDL_GetTicks();
+				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_LEFT);
 			}
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
@@ -716,6 +716,54 @@ void Graph::checkInput() {
 				_isDraggingSelectionBox = false;
 				_selectionStartPos = glm::vec2(0);
 				_selectionCurrentPos = glm::vec2(0);
+
+				_selectionWindowStartPos = glm::vec2(0);
+				_selectionWindowCurrentPos = glm::vec2(0);
+			}
+		}
+	}
+}
+
+void Graph::performFrustumSelection() {
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	if (!_isDraggingSelectionBox) return;
+
+	// Create frustum from selection box
+	SelectionFrustum frustum;
+	bool isValid = frustum.createFromSelectionBox(_selectionStartPos, _selectionCurrentPos, main_camera2D.get());
+
+	if (isValid) {
+		_selectedEntities.clear();
+		// Select entities based on current grid level
+		switch (manager->grid->getGridLevel()) {
+		case Grid::Level::Basic:
+			selectEntitiesInFrustum<NodeEntity>(Manager::groupNodes_0, frustum);
+			break;
+
+		case Grid::Level::Outer1:
+			selectEntitiesInFrustum<NodeEntity>(Manager::groupGroupNodes_0, frustum);
+			break;
+
+		case Grid::Level::Outer2:
+			selectEntitiesInFrustum<NodeEntity>(Manager::groupGroupNodes_1, frustum);
+			break;
+		}
+	}
+}
+
+template<typename EntityType>
+void Graph::selectEntitiesInFrustum(int groupId, const SelectionFrustum& frustum) {
+	for (EntityType* entity : manager->getGroup<EntityType>(groupId)) {
+		glm::vec3 centerPoint = entity->GetComponent<TransformComponent>().getPosition();
+		if (isPointInFrustum(centerPoint, frustum)) {
+			auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
+				[entity](const std::pair<Entity*, glm::vec3>& pair) {
+					return pair.first == entity;
+				});
+
+			if (it == _selectedEntities.end()) {
+				_selectedEntities.emplace_back(entity, centerPoint); // Store entity and its position
 			}
 		}
 	}

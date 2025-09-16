@@ -8,7 +8,7 @@ struct SelectionFrustum {
 	glm::vec4 planes[6]; // left, right, bottom, top, near, far
 
 	// Create frustum from screen-space selection box
-	void createFromSelectionBox(const glm::vec2& startPos, const glm::vec2& endPos,
+	bool createFromSelectionBox(const glm::vec2& startPos, const glm::vec2& endPos,
 		ICamera* camera, float nearZ = -1000.0f, float farZ = 1000.0f) {
 		// Ensure min/max order
 		glm::vec2 minPos = glm::min(startPos, endPos);
@@ -16,14 +16,14 @@ struct SelectionFrustum {
 
 		// Convert screen coordinates to world coordinates at different Z depths
 		glm::vec3 nearBottomLeft = camera->convertScreenToWorld(glm::vec2(minPos.x, maxPos.y), nearZ);
-		glm::vec3 nearBottomRight = camera->convertScreenToWorld(glm::vec3(maxPos.x, maxPos.y, nearZ));
-		glm::vec3 nearTopLeft = camera->convertScreenToWorld(glm::vec3(minPos.x, minPos.y, nearZ));
-		glm::vec3 nearTopRight = camera->convertScreenToWorld(glm::vec3(maxPos.x, minPos.y, nearZ));
+		glm::vec3 nearBottomRight = camera->convertScreenToWorld(glm::vec2(maxPos.x, maxPos.y), nearZ);
+		glm::vec3 nearTopLeft = camera->convertScreenToWorld(glm::vec2(minPos.x, minPos.y), nearZ);
+		glm::vec3 nearTopRight = camera->convertScreenToWorld(glm::vec2(maxPos.x, minPos.y), nearZ);
 
-		glm::vec3 farBottomLeft = camera->convertScreenToWorld(glm::vec3(minPos.x, maxPos.y, farZ));
-		glm::vec3 farBottomRight = camera->convertScreenToWorld(glm::vec3(maxPos.x, maxPos.y, farZ));
-		glm::vec3 farTopLeft = camera->convertScreenToWorld(glm::vec3(minPos.x, minPos.y, farZ));
-		glm::vec3 farTopRight = camera->convertScreenToWorld(glm::vec3(maxPos.x, minPos.y, farZ));
+		glm::vec3 farBottomLeft = camera->convertScreenToWorld(glm::vec2(minPos.x, maxPos.y), farZ);
+		glm::vec3 farBottomRight = camera->convertScreenToWorld(glm::vec2(maxPos.x, maxPos.y), farZ);
+		glm::vec3 farTopLeft = camera->convertScreenToWorld(glm::vec2(minPos.x, minPos.y), farZ);
+		glm::vec3 farTopRight = camera->convertScreenToWorld(glm::vec2(maxPos.x, minPos.y), farZ);
 
 		// Store corners
 		corners[0] = nearBottomLeft;
@@ -48,6 +48,16 @@ struct SelectionFrustum {
 		planes[4] = calculatePlane(nearTopLeft, nearTopRight, nearBottomRight);
 		// Far plane
 		planes[5] = calculatePlane(farTopRight, farTopLeft, farBottomLeft);
+
+		bool isValid = true;
+		for (int i = 0; i < 6; ++i) {
+			if (glm::any(glm::isnan(glm::vec3(planes[i]))) || std::isnan(planes[i].w)) {
+				isValid = false;
+				break;
+			}
+		}
+
+		return isValid;
 	}
 
 private:
