@@ -7,9 +7,8 @@
 #include "../../../MenuSceneControllers/LoadingUI/LoadingUI.h"
 
 struct HoverEntityConfig {
-	glm::vec2 mousePos;
+	IScene* scene;
 	Entity* hoveredEntity;
-	Manager* manager;
 };
 
 class HoverEntityPanel : public UIElement

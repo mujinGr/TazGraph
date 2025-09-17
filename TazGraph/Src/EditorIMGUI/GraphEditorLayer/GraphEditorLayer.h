@@ -7,10 +7,16 @@
 #include "../Components/GraphLeftPanel/GraphLeftPanel.h"
 #include "../Components/GraphMiddlePanel/GraphMiddlePanel.h"
 #include "../Components/GraphRightPanel/GraphRightPanel.h"
+#include <Renderers/FrameBuffer/Framebuffer.h>
 
 
 struct GraphEditorLayerConfig {
+	IScene* scene;
+	glm::vec2 _viewportMousePosition;
+	std::function<void(std::string m_managerName)> setManager;
 
+	Framebuffer* viewportFramebuffer;
+	Framebuffer* minimapFramebuffer;
 };
 
 class GraphEditorLayer : public UIElement

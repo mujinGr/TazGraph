@@ -2,13 +2,15 @@
 
 void HoverEntityPanel::OnImGuiRender()
 {
+	glm::vec2 mousePos = config.scene->getApp()->_inputManager.getMouseCoords();
+
 	if (!config.hoveredEntity) return;
 
 	const float hoveredEntityWindowSize = 220.0f;
 	const float windowHeight = 120.0f; // Adjust height based on content
 
 	// Position window near mouse cursor
-	ImVec2 hoveredEntityWindowPos = ImVec2(config.mousePos.x + 10, config.mousePos.y - windowHeight);
+	ImVec2 hoveredEntityWindowPos = ImVec2(mousePos.x + 10, mousePos.y - windowHeight);
 
 	// Set up ImGuizmo for drawing
 
@@ -67,7 +69,7 @@ void HoverEntityPanel::OnImGuiRender()
 		currentY += lineHeight;
 
 		// Grid position
-		glm::vec3 cellBox = config.manager->grid->getCell(*config.hoveredEntity, config.manager->grid->getGridLevel())->boundingBox_origin;
+		glm::vec3 cellBox = config.scene->manager->grid->getCell(*config.hoveredEntity, config.scene->manager->grid->getGridLevel())->boundingBox_origin;
 		char gridText[128];
 		safe_sprintf(gridText, "Grid: (%.2f, %.2f)", cellBox.x, cellBox.y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), gridText);
@@ -102,7 +104,7 @@ void HoverEntityPanel::OnImGuiRender()
 		currentY += lineHeight;
 
 		// Grid position
-		glm::vec3 cellBox = config.manager->grid->getCell(*config.hoveredEntity, config.manager->grid->getGridLevel())->boundingBox_origin;
+		glm::vec3 cellBox = config.scene->manager->grid->getCell(*config.hoveredEntity, config.scene->manager->grid->getGridLevel())->boundingBox_origin;
 		char gridText[128];
 		safe_sprintf(gridText, "Grid: (%.2f, %.2f)", cellBox.x, cellBox.y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), gridText);

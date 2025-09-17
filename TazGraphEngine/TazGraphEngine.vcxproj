@@ -229,6 +229,7 @@
     <ClInclude Include="GECS\Core\GECSUtil.h" />
     <ClInclude Include="GECS\UtilComponents.h" />
     <ClInclude Include="GECS\Core\GECSEntityTypes.h" />
+    <ClInclude Include="ImGuiText.h" />
     <ClInclude Include="Renderers\FrameBuffer\Framebuffer.h" />
     <ClInclude Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.h" />
     <ClInclude Include="Renderers\LineRenderer\LineRenderer.h" />

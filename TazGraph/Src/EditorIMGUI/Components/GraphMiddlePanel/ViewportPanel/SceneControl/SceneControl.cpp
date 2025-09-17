@@ -9,11 +9,11 @@ void SceneControlPanel::OnImGuiRender()
 	static int sceneMan_nodeID1 = -1, sceneMan_nodeID2 = -1;
 	static std::string errorMessage = "";
 
-	ImGui::SetNextWindowPos(ImVec2(config.c_mouseCoords.x, config.c_mouseCoords.y), ImGuiCond_Always, ImVec2(0, 0));
+	ImGui::SetNextWindowPos(ImVec2(savedMousePos.x, savedMousePos.y), ImGuiCond_Always, ImVec2(0, 0));
 
 	if (ImGui::Begin(windowTitle.c_str())) {
 		if (ImGui::Button("Create Empty - Box")) {
-			auto& empty(config.c_manager->addEntityNoId<Empty>());
+			auto& empty(config.scene->manager->addEntityNoId<Empty>());
 
 			glm::vec2 position(0, 0);
 
@@ -21,28 +21,28 @@ void SceneControlPanel::OnImGuiRender()
 
 			empty.addComponent<BoxComponent>();
 
-			config.c_manager->grid->addEmpty(&empty, config.c_manager->grid->getGridLevel());
+			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
 			empty.addGroup(Manager::groupEmpties);
-			config.c_manager->aboutTo_updateActiveEntities();
+			config.scene->manager->aboutTo_updateActiveEntities();
 			// todo here we also have choose shape option
 		}
 
 		if (ImGui::Button("Create Empty - Plane")) {
-			auto& empty(config.c_manager->addEntityNoId<Empty>());
+			auto& empty(config.scene->manager->addEntityNoId<Empty>());
 
 			//empty.addGroup(config.c_manager::groupNodes_0);
 			// todo here we also have choose shape option
 		}
 
 		if (ImGui::Button("Create Empty - Triangle")) {
-			auto& empty(config.c_manager->addEntityNoId<Empty>());
+			auto& empty(config.scene->manager->addEntityNoId<Empty>());
 
 			//empty.addGroup(config.c_manager::groupNodes_0);
 			// todo here we also have choose shape option
 		}
 
 		if (ImGui::Button("Create Empty - Sphere")) {
-			auto& empty(config.c_manager->addEntityNoId<Empty>());
+			auto& empty(config.scene->manager->addEntityNoId<Empty>());
 
 			glm::vec2 position(0, 0);
 
@@ -50,15 +50,15 @@ void SceneControlPanel::OnImGuiRender()
 
 			empty.addComponent<SphereComponent>();
 
-			config.c_manager->grid->addEmpty(&empty, config.c_manager->grid->getGridLevel());
+			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
 			empty.addGroup(Manager::groupSphereEmpties);
-			config.c_manager->aboutTo_updateActiveEntities();
+			config.scene->manager->aboutTo_updateActiveEntities();
 		}
 
 		ImGui::Separator();
 
 		if (ImGui::Button("Create Node Entity")) {
-			auto& node(config.c_manager->addEntityNoId<Node>());
+			auto& node(config.scene->manager->addEntityNoId<Node>());
 
 			glm::vec2 position(0, 0);
 
@@ -69,9 +69,9 @@ void SceneControlPanel::OnImGuiRender()
 			node.GetComponent<TransformComponent>().update(0.0f); // update children positions
 
 
-			config.c_manager->grid->addNode(&node, config.c_manager->grid->getGridLevel());
+			config.scene->manager->grid->addNode(&node, config.scene->manager->grid->getGridLevel());
 			node.addGroup(Manager::groupNodes_0);
-			config.c_manager->aboutTo_updateActiveEntities();
+			config.scene->manager->aboutTo_updateActiveEntities();
 		}
 
 		ImGui::Separator();
@@ -81,8 +81,8 @@ void SceneControlPanel::OnImGuiRender()
 
 		if (ImGui::Button("Create Link Entity")) {
 			// Check if both nodes exist before creating the link
-			if (config.c_manager->getEntityFromId(sceneMan_nodeID1) && config.c_manager->getEntityFromId(sceneMan_nodeID2)) {
-				auto& link(config.c_manager->addEntityNoId<Link>(sceneMan_nodeID1, sceneMan_nodeID2));
+			if (config.scene->manager->getEntityFromId(sceneMan_nodeID1) && config.scene->manager->getEntityFromId(sceneMan_nodeID2)) {
+				auto& link(config.scene->manager->addEntityNoId<Link>(sceneMan_nodeID1, sceneMan_nodeID2));
 
 
 				link.addComponent<Line_w_Color>();
@@ -94,8 +94,8 @@ void SceneControlPanel::OnImGuiRender()
 
 
 				link.addGroup(Manager::groupLinks_0);
-				config.c_manager->grid->addLink(&link, config.c_manager->grid->getGridLevel());
-				config.c_manager->aboutTo_updateActiveEntities();
+				config.scene->manager->grid->addLink(&link, config.scene->manager->grid->getGridLevel());
+				config.scene->manager->aboutTo_updateActiveEntities();
 				errorMessage = ""; // Clear error if successful
 			}
 			else {

@@ -6,6 +6,7 @@
 #include <ImGuiInterface/ImGuiInterface.h>
 
 #include <SDL2/SDL_ttf.h>
+#include <ImGuiText.h>
 
 #include <GECS/UtilComponents.h>
 

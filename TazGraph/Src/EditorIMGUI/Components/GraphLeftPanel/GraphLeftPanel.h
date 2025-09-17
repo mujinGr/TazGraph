@@ -7,7 +7,6 @@
 struct GraphLeftConfig {
 	IScene* scene;
 	glm::vec2 sceneMouseCoords;
-	glm::vec2 mouseCoords;
 };
 
 class GraphLeftPanel : public UIElement

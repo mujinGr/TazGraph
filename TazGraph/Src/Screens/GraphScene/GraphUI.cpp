@@ -1,15 +1,13 @@
 #include "./Graph.h"
 #include <AppScene/AppInterface.h>
 
-float nodeRadius = 1.0f;
-
 void Graph::updateUI(float deltaTime) {
 
 	_graphEditorLayer.update(deltaTime);
 
 	///*_entityComponentController.setConfig(
 	//	{
-	//	.mousePos = _savedMainViewportMousePosition, 
+	//	.mousePos = _mainWindowMousePos, 
 	//	.displayedEntity = _displayedEntity,
 	//	.manager = manager
 	//	}
@@ -57,10 +55,16 @@ void Graph::drawUI() {
 
 	_graphEditorLayer.getSubcomponent<GraphLeftPanel>()->setConfig({
 		.scene = this,
-		.sceneMouseCoords = _sceneMousePosition,
-		.mouseCoords = _app->_inputManager.getMouseCoords(),
+		.sceneMouseCoords = _viewportMousePosition,
 		});
 	_graphEditorLayer.getSubcomponent<GraphLeftPanel>()->OnImGuiRender();
+
+	ImGui::SameLine();
+
+	bool leftColumnExpanded = false;
+	if (ImGui::SmallButton(leftColumnExpanded ? "<<" : ">>")) {
+		leftColumnExpanded = !leftColumnExpanded;
+	}
 
 	ImGui::EndChild();
 
@@ -70,10 +74,10 @@ void Graph::drawUI() {
 		{
 			.scene = this,
 			.setManager = std::bind(&IScene::setManager, this, std::placeholders::_1),
-			.c_framebuffer = &_framebuffer,
+			.c_framebuffer = &_viewportFramebuffer,
 			.c_minimapFramebuffer = &_minimapFramebuffer,
-			.c_windowPos = &_windowPos,
-			.c_windowSize = &_windowSize,
+			.c_windowPos = &_viewportPos,
+			.c_windowSize = &_viewportSize,
 			.startPos = _selectionWindowStartPos,
 			.currPos = _selectionWindowCurrentPos
 		}
@@ -90,8 +94,7 @@ void Graph::drawUI() {
 
 	_graphEditorLayer.getSubcomponent<GraphRightPanel>()->setConfig(
 		{
-			.c_manager = manager,
-			.c_nodeRadius = &nodeRadius,
+			.scene = this,
 			.c_selectedEntities = _selectedEntities
 		}
 	);
@@ -189,7 +192,7 @@ void Graph::drawUI() {
 		manager->aboutTo_updateActiveEntities();
 	}
 	if (DataManager::getInstance().isGoingBack()) {
-		_currentState = SceneState::CHANGE_PREVIOUS;
+		currentState = SceneState::CHANGE_PREVIOUS;
 		DataManager::getInstance().SetGoingBack(false);
 	}
 
@@ -199,10 +202,8 @@ void Graph::drawUI() {
 		_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
 			getSubcomponent<EntityComponentsControlPanel>()->
 			setConfig({
-
-			.mousePos = _savedMainViewportMousePosition,
+			.scene = this,
 			.displayedEntity = _displayedEntity,
-			.manager = manager
 				});
 		_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
 			getSubcomponent<EntityComponentsControlPanel>()->
@@ -211,9 +212,8 @@ void Graph::drawUI() {
 		_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
 			getSubcomponent<HoverEntityPanel>()->
 			setConfig({
-			.mousePos = _app->_inputManager.getMouseCoords(),
+			.scene = this,
 			.hoveredEntity = _onHoverEntity,
-			.manager = manager
 				});
 		_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
 			getSubcomponent<HoverEntityPanel>()->
@@ -224,8 +224,7 @@ void Graph::drawUI() {
 		_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
 			getSubcomponent<SceneControlPanel>()->
 			setConfig({
-			.c_mouseCoords = _savedMainViewportMousePosition,
-			.c_manager = manager
+			.scene = this
 				});
 		_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
 			getSubcomponent<SceneControlPanel>()->

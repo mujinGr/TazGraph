@@ -41,7 +41,7 @@ void GraphLeftPanel::OnImGuiRender()
 
 	ImGui::Separator();
 
-
+	glm::vec2 mousePos = config.scene->getApp()->_inputManager.getMouseCoords();
 
 	ImGui::Separator();
 	// Change color based on the debug mode state
@@ -94,7 +94,7 @@ void GraphLeftPanel::OnImGuiRender()
 
 
 	ImGui::Text("Scene/Screen Coords: {x: %f, y: %f}", config.sceneMouseCoords.x, config.sceneMouseCoords.y);
-	ImGui::Text("MainViewport Coords: {x: %f, y: %f}", config.mouseCoords.x, config.mouseCoords.y);
+	ImGui::Text("MainViewport Coords: {x: %f, y: %f}", mousePos.x, mousePos.y);
 
 
 	ImGui::Separator();

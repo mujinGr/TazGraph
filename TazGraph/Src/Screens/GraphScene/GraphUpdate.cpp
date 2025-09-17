@@ -7,8 +7,6 @@ void Graph::update(float deltaTime) //game objects updating
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 
-	glm::vec2 mouseCoordsVec = _sceneMousePosition;
-
 	main_camera2D->update();
 	hud_camera2D->update();
 	minimap_camera2D->update();
@@ -143,6 +141,13 @@ void Graph::update(float deltaTime) //game objects updating
 			_displayedEntity = nullptr;
 			_sceneManagerActive = false;
 		}
+	}
+
+	if (_app->_inputManager.isKeyPressed(SDL_BUTTON_RIGHT))
+	{
+		_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->
+			getSubcomponent<ViewportPanel>()->
+			getSubcomponent<SceneControlPanel>()->savedMousePos = getApp()->_inputManager.getMouseCoords();
 	}
 
 }

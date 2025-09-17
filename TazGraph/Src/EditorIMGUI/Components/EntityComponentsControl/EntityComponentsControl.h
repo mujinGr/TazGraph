@@ -3,9 +3,8 @@
 #include "../../UIElement.h"
 
 struct EntityComponentsConfig {
-	glm::vec2 mousePos = glm::vec2(0);
+	IScene* scene;
 	Entity* displayedEntity = nullptr;
-	Manager* manager = nullptr;
 };
 
 class EntityComponentsControlPanel : public UIElement

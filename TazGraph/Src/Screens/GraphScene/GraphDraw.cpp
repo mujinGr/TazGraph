@@ -81,7 +81,7 @@ void Graph::draw()
 	GLSLProgram glsl_color = *_resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer = *_resourceManager.getGLSLProgram("framebuffer");
 
-	_framebuffer.Bind();
+	_viewportFramebuffer.Bind();
 	////////////OPENGL USE
 	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
 
@@ -437,7 +437,7 @@ void Graph::draw()
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	_framebuffer.Unbind();
+	_viewportFramebuffer.Unbind();
 
 	minimapDraw();
 

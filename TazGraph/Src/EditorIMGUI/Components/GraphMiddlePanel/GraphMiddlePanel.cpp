@@ -39,7 +39,7 @@ void GraphMiddlePanel::OnImGuiRender()
 	}
 	float viewportHeight = ImGui::GetContentRegionAvail().y;
 	if (!getSubcomponent<PythonInterpreterPanel>()->isCollapsed) {
-		viewportHeight *= 0.6f;
+		viewportHeight *= 0.55f;
 	}
 	static bool wasPythonPanelCollapsed = false;
 	bool isPythonPanelCollapsed = getSubcomponent<PythonInterpreterPanel>()->isCollapsed;
@@ -52,6 +52,11 @@ void GraphMiddlePanel::OnImGuiRender()
 	}
 
 	ImGui::BeginChild("Viewport", ImVec2(0.0f, viewportHeight - getSubcomponent<PythonInterpreterPanel>()->buttonSize.y), flags);
+
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	TazGraphEngine::drawTextAtWorldPositionPerspective(glm::vec3(0), "asdasd", glm::vec4(1.0f), main_camera2D.get());
+
 	getSubcomponent<ViewportPanel>()->setConfig({
 		.c_fb = config.c_framebuffer,
 		.c_minimap_fb = config.c_minimapFramebuffer,

@@ -26,12 +26,23 @@ void EntityComponentsControlPanel::OnImGuiRender()
 
 	int currentId = config.displayedEntity->getId();
 
+	glm::vec2 moysePos = config.scene->getApp()->_inputManager.getMouseCoords();
+
 	if (currentId != _lastEntityDisplayed) {
-		ImGui::SetNextWindowPos(ImVec2(config.mousePos.x, config.mousePos.y), ImGuiCond_Always);
+		ImGui::SetNextWindowPos(ImVec2(moysePos.x, moysePos.y), ImGuiCond_Always);
 		_lastEntityDisplayed = currentId;
 	}
 
 	if (ImGui::Begin(windowTitle.c_str())) {
+
+		if (ImGui::CollapsingHeader("Script"))
+		{
+			ImGui::BeginChild("Python Interpreter");
+
+			ImGui::EndChild();
+			ImGui::Text("1");
+		}
+
 		config.displayedEntity->imgui_print();
 
 		if (node) {
@@ -72,23 +83,23 @@ void EntityComponentsControlPanel::OnImGuiRender()
 
 		if (node)
 		{
-			for (auto& c : sortComponentsByID(config.manager->componentNames["Component"])) {
+			for (auto& c : sortComponentsByID(config.scene->manager->componentNames["Component"])) {
 				ComponentCheckbox(c);
 			}
 			ImGui::Separator();
-			for (auto& c : sortComponentsByID(config.manager->componentNames["NodeComponent"])) {
+			for (auto& c : sortComponentsByID(config.scene->manager->componentNames["NodeComponent"])) {
 				ComponentCheckbox(c);
 			}
 		}
 
 		else if (link) {
-			for (auto& c : sortComponentsByID(config.manager->componentNames["LinkComponent"])) {
+			for (auto& c : sortComponentsByID(config.scene->manager->componentNames["LinkComponent"])) {
 				ComponentCheckbox(c);
 			}
 		}
 
 		else if (empty) {
-			for (auto& c : sortComponentsByID(config.manager->componentNames["Component"])) {
+			for (auto& c : sortComponentsByID(config.scene->manager->componentNames["Component"])) {
 				ComponentCheckbox(c);
 			}
 		}

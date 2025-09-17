@@ -398,10 +398,10 @@ void Graph::checkInput() {
 		ImGui_ImplSDL2_ProcessEvent(&evnt);
 		_app->onSDLEvent(evnt);
 
-		glm::vec2 mouseCoordsVec = _sceneMousePosition; // in graph we have another variable for the worldCoords of mouse
+		glm::vec2 mouseCoordsVec = _viewportMousePosition; // in graph we have another variable for the worldCoords of mouse
 
 		glm::vec3 rayOrigin = main_camera2D->getPosition(); // Camera position
-		glm::vec3 rayDirection = main_camera2D->castRayAt(mouseCoordsVec); // Ray direction
+		glm::vec3 rayDirection = main_camera2D->castRayAt(_viewportMousePosition); // Ray direction
 
 		if (!_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->
 			getSubcomponent<ViewportPanel>()->
@@ -464,25 +464,17 @@ void Graph::checkInput() {
 
 		case SDL_MOUSEMOTION:
 		{
-			ImVec2 mainViewportSize = ImGui::GetMainViewport()->Size;
-
-			glm::vec2 ogMouseCoordsVec = _app->_inputManager.getMouseCoords();
-
-			glm::vec2 viewportSize(mainViewportSize.x, mainViewportSize.y);
-
-			glm::vec2 windowPos(_windowPos.x, _windowPos.y);
+			glm::vec2 viewportPos(_viewportPos.x, _viewportPos.y);
 			glm::vec2 windowDimension(_window->getScreenWidth(), _window->getScreenHeight());
-			glm::vec2 windowSize(_windowSize.x, _windowSize.y);
+			glm::vec2 viewportSize(_viewportSize.x, _viewportSize.y);
 
-			glm::vec2 getCameraMousePos = _app->_inputManager.convertWindowToCameraCoords(
-				ogMouseCoordsVec,
-				viewportSize,
+
+			_viewportMousePosition = _app->_inputManager.convertWindowToViewportCoords(
 				windowDimension,
-				windowPos, windowSize,
+				viewportPos,
+				viewportSize,
 				*main_camera2D
 			);
-
-			_sceneMousePosition = getCameraMousePos;
 
 			bool wasHoveringEntity = _onHoverEntity ? true : false;
 
@@ -612,7 +604,7 @@ void Graph::checkInput() {
 
 			if (_app->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
 				// Calculate new camera position based on the mouse movement
-				glm::vec3 delta = glm::vec3(_app->_inputManager.calculatePanningDelta(mouseCoordsVec), 0.0f);
+				glm::vec3 delta = glm::vec3(_app->_inputManager.calculatePanningDelta(_viewportMousePosition), 0.0f);
 				main_camera2D->moveAimPos(main_camera2D->getPanningAimPos(), delta);
 			}
 
@@ -660,8 +652,8 @@ void Graph::checkInput() {
 
 					if (!_isDraggingSelectionBox)
 					{
-						_selectionStartPos = mouseCoordsVec;
-						_selectionCurrentPos = mouseCoordsVec;
+						_selectionStartPos = _viewportMousePosition;
+						_selectionCurrentPos = _viewportMousePosition;
 
 						_selectionWindowStartPos = _app->_inputManager.getMouseCoords();
 						_selectionWindowCurrentPos = _app->_inputManager.getMouseCoords();
@@ -669,7 +661,7 @@ void Graph::checkInput() {
 						_isDraggingSelectionBox = true;
 					}
 					else {
-						_selectionCurrentPos = mouseCoordsVec;
+						_selectionCurrentPos = _viewportMousePosition;
 						_selectionWindowCurrentPos = _app->_inputManager.getMouseCoords();
 
 						performFrustumSelection();
@@ -693,11 +685,11 @@ void Graph::checkInput() {
 			}
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
-				_app->_inputManager.setPanningPoint(mouseCoordsVec);
+				_app->_inputManager.setPanningPoint(_viewportMousePosition);
 				main_camera2D->setPanningAimPos(main_camera2D->getAimPos());
 			}
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
-				std::cout << "right-clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
+				std::cout << "right-clicked at: " << _viewportMousePosition.x << " - " << _viewportMousePosition.y << std::endl;
 
 				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_RIGHT);
 
@@ -705,7 +697,6 @@ void Graph::checkInput() {
 					_sceneManagerActive = true;
 				}
 
-				_savedMainViewportMousePosition = _app->_inputManager.getMouseCoords();
 			}
 
 		}

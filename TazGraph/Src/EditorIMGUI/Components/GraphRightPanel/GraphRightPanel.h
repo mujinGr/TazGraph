@@ -6,8 +6,7 @@
 #include "../../../AssetManager/AssetManager.h"
 
 struct GraphRightConfig {
-	Manager* c_manager;
-	float* c_nodeRadius;
+	IScene* scene;
 	std::vector<std::pair<Entity*, glm::vec3>> c_selectedEntities;
 };
 

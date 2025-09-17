@@ -54,10 +54,10 @@ public:
 		return _sceneIndex;
 	}
 	void setRunning() {
-		_currentState = SceneState::RUNNING;
+		currentState = SceneState::RUNNING;
 	}
 
-	SceneState getState() const { return _currentState; }
+	SceneState getState() const { return currentState; }
 
 	void setParentApp(AppInterface* app) { _app = app; }
 
@@ -82,8 +82,8 @@ public:
 
 	bool renderDebug = false;
 
+	SceneState currentState = SceneState::NONE;
 protected:
-	SceneState _currentState = SceneState::NONE;
 	AppInterface* _app = nullptr;
 	int _sceneIndex = -1;
 

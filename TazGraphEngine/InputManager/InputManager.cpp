@@ -9,105 +9,106 @@ InputManager::~InputManager() {
 }
 
 void InputManager::update() {
-    //Loop through keyMap and copy to prevKeyMap
-    for (auto& it : _keyMap) {
-        _prevKeyMap[it.first] = it.second;
-    }
+	//Loop through keyMap and copy to prevKeyMap
+	for (auto& it : _keyMap) {
+		_prevKeyMap[it.first] = it.second;
+	}
 }
 
 void InputManager::pressKey(unsigned int keyID) {
-    _keyMap[keyID] = true;
+	_keyMap[keyID] = true;
 }
 
 void InputManager::releaseKey(unsigned int keyID) {
-    _keyMap[keyID] = false;
+	_keyMap[keyID] = false;
 }
 
 bool InputManager::isKeyDown(unsigned int keyID) {
-    auto it = _keyMap.find(keyID);
-    if (it != _keyMap.end()) {
-        return it->second;
-    }
-    else {
-        return false;
-    }
+	auto it = _keyMap.find(keyID);
+	if (it != _keyMap.end()) {
+		return it->second;
+	}
+	else {
+		return false;
+	}
 }
 
 bool InputManager::isKeyPressed(unsigned int keyID) {
-    if ((isKeyDown(keyID) == true) && (wasKeyDown(keyID) == false)) {
-        return true;
-    }
-    return false;
+	if ((isKeyDown(keyID) == true) && (wasKeyDown(keyID) == false)) {
+		return true;
+	}
+	return false;
 }
 
 bool InputManager::wasKeyDown(unsigned int keyID) {
-    auto it = _prevKeyMap.find(keyID);
-    if (it != _prevKeyMap.end()) {
-        return it->second;
-    }
-    else {
-        return false;
-    }
+	auto it = _prevKeyMap.find(keyID);
+	if (it != _prevKeyMap.end()) {
+		return it->second;
+	}
+	else {
+		return false;
+	}
 }
 
 bool InputManager::checkMouseCollision(glm::vec2 position, glm::ivec2 tr_size) {
-    if (_mouseCoords.x > position.x && _mouseCoords.x < position.x + tr_size.x &&
-        _mouseCoords.y > position.y && _mouseCoords.y < position.y + tr_size.y) {
-        return true;
-    }
-    return false;
+	if (_mouseCoords.x > position.x && _mouseCoords.x < position.x + tr_size.x &&
+		_mouseCoords.y > position.y && _mouseCoords.y < position.y + tr_size.y) {
+		return true;
+	}
+	return false;
 }
 
 void InputManager::setMouseCoords(float x, float y) {
-    _mouseCoords.x = x;
-    _mouseCoords.y = y;
+	_mouseCoords.x = x;
+	_mouseCoords.y = y;
 }
 
 glm::vec2 InputManager::getMouseCoords() const {
-    return _mouseCoords;
+	return _mouseCoords;
 }
 
-void InputManager::setPanningPoint(glm::vec2 position)
+void InputManager::setPanningPoint(const glm::vec2 position)
 {
-    _panningPoint = position;
+	_panningPoint = position;
 }
 
 glm::vec2 InputManager::calculatePanningDelta(glm::vec2 position)
 {
-    glm::vec2 deltaMotion = position - _panningPoint;
-    return deltaMotion;
+	glm::vec2 deltaMotion = position - _panningPoint;
+	return deltaMotion;
 }
 
-void InputManager::setObjectRelativePos(glm::vec2 relativeObjectPos) 
+void InputManager::setObjectRelativePos(glm::vec2 relativeObjectPos)
 {
-    _relativeObjectPos = relativeObjectPos;
+	_relativeObjectPos = relativeObjectPos;
 }
 
 glm::vec2 InputManager::getObjectRelativePos()
 {
-    return _relativeObjectPos;
+	return _relativeObjectPos;
 }
 
-glm::vec2 InputManager::convertWindowToCameraCoords(glm::vec2 mousePos,
-    glm::vec2 viewportSize,
-    glm::vec2 windowDimensions,
-    const glm::vec2& windowPos, const glm::vec2& windowSize,
-    const ICamera& camera
+glm::vec2 InputManager::convertWindowToViewportCoords(
+	const glm::vec2 windowDimensions,
+	const glm::vec2& viewportPos,
+	const glm::vec2 viewportSize,
+	const ICamera& camera
 ) {
-    
-    glm::vec2 cameraDimensions = camera.getCameraDimensions();
+	glm::vec2 viewportMousePos = _mouseCoords;
 
-    float scale_CToV_X = viewportSize.x / cameraDimensions.x ;
-    float scale_CToV_Y = viewportSize.y / cameraDimensions.y ;
+	glm::vec2 cameraDimensions = camera.getCameraDimensions();
 
-    glm::vec2 interMouseCoord(
-        mousePos.x * cameraDimensions.x / windowDimensions.x,
-        mousePos.y * cameraDimensions.y / windowDimensions.y);
+	float scale_CToV_X = windowDimensions.x / cameraDimensions.x;
+	float scale_CToV_Y = windowDimensions.y / cameraDimensions.y;
 
-    mousePos.x = ((interMouseCoord.x * scale_CToV_X) - windowPos.x) * cameraDimensions.x / windowSize.x;
-    mousePos.y = ((interMouseCoord.y * scale_CToV_Y) - windowPos.y) * cameraDimensions.y / windowSize.y;
-    glm::vec2 resultMousePos(mousePos.x, mousePos.y);
-    return resultMousePos;
+	glm::vec2 interMouseCoord(
+		viewportMousePos.x * cameraDimensions.x / windowDimensions.x,
+		viewportMousePos.y * cameraDimensions.y / windowDimensions.y);
+
+	viewportMousePos.x = ((interMouseCoord.x * scale_CToV_X) - viewportPos.x) * cameraDimensions.x / viewportSize.x;
+	viewportMousePos.y = ((interMouseCoord.y * scale_CToV_Y) - viewportPos.y) * cameraDimensions.y / viewportSize.y;
+	glm::vec2 resultMousePos(viewportMousePos.x, viewportMousePos.y);
+	return resultMousePos;
 }
 
 //glm::vec2 InputManager::convertCameraToWindowCoords(glm::vec2 mousePos,

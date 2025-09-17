@@ -109,7 +109,7 @@ void MainMenuScreen::onEntry()
 
 void MainMenuScreen::onExit()
 {
-	
+
 }
 
 void MainMenuScreen::update(float deltaTime)
@@ -154,10 +154,10 @@ void MainMenuScreen::draw()
 	renderBatch(mainmenubackground);
 
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), *main_camera2D);
-	
+
 	_PlaneModelRenderer.end();
 	_PlaneModelRenderer.renderBatch(_resourceManager.getGLSLProgram("texture"));
-	
+
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//drawHUD();
 	_resourceManager.getGLSLProgram("texture")->unuse();
@@ -175,9 +175,9 @@ void MainMenuScreen::checkInput() {
 
 		switch (evnt.type)
 		{
-			case SDL_MOUSEMOTION:
-				glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
-				_app->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
+		case SDL_MOUSEMOTION:
+			glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
+			_app->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
 		}
 
 		if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
@@ -214,7 +214,7 @@ void MainMenuScreen::drawUI() {
 		if (strlen(loadMapPath) && !DataManager::getInstance().isLoading()) {
 			DataManager::getInstance().mapToLoad = loadMapPath;
 			_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
-			_currentState = SceneState::CHANGE_NEXT;
+			currentState = SceneState::CHANGE_NEXT;
 		}
 	}
 }
@@ -225,13 +225,13 @@ void MainMenuScreen::EndRender() {
 
 bool MainMenuScreen::onStartSimulator() {
 	_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
-	_currentState = SceneState::CHANGE_NEXT;
+	currentState = SceneState::CHANGE_NEXT;
 	return true;
 }
 
 bool MainMenuScreen::onResumeSimulator() {
 	_prevSceneIndex = SCENE_INDEX_GRAPHPLAY;
-	_currentState = SceneState::CHANGE_PREVIOUS;
+	currentState = SceneState::CHANGE_PREVIOUS;
 	return true;
 }
 

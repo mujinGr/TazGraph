@@ -19,15 +19,15 @@ void GraphRightPanel::OnImGuiRender()
 	{
 		if (group == Manager::groupMinimapNodes) continue;
 		// Count EmptyEntities
-		auto& empties = config.c_manager->getGroup<EmptyEntity>(group);
+		auto& empties = config.scene->manager->getGroup<EmptyEntity>(group);
 		emptyCount += static_cast<int>(empties.size());
 
 		// Count NodeEntities
-		auto& nodes = config.c_manager->getGroup<NodeEntity>(group);
+		auto& nodes = config.scene->manager->getGroup<NodeEntity>(group);
 		nodeCount += static_cast<int>(nodes.size());
 
 		// Count LinkEntities
-		auto& links = config.c_manager->getGroup<LinkEntity>(group);
+		auto& links = config.scene->manager->getGroup<LinkEntity>(group);
 		linkCount += static_cast<int>(links.size());
 	}
 
@@ -120,12 +120,12 @@ void GraphRightPanel::ShowAllEntities() {
 	float size = 10;
 
 	for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels + 1; group++) {
-		std::string s = config.c_manager->getGroupName(group);
+		std::string s = config.scene->manager->getGroupName(group);
 
 		if (ImGui::CollapsingHeader(s.c_str())) {
-			auto& nodeVec = config.c_manager->getGroup<NodeEntity>(group);
-			auto& linkVec = config.c_manager->getGroup<LinkEntity>(group);
-			auto& emptyVec = config.c_manager->getGroup<EmptyEntity>(group);
+			auto& nodeVec = config.scene->manager->getGroup<NodeEntity>(group);
+			auto& linkVec = config.scene->manager->getGroup<LinkEntity>(group);
+			auto& emptyVec = config.scene->manager->getGroup<EmptyEntity>(group);
 
 			// ---------- NODE GROUP ----------
 			if (!nodeVec.empty()) {
@@ -187,7 +187,7 @@ void GraphRightPanel::DrawBulkComponentControls(const std::vector<EntityType*>& 
 
 	ImGui::Text("%s Components:", componentCategory.c_str());
 
-	for (const auto& componentName : sortComponentsByID(config.c_manager->componentNames[componentCategory])) {
+	for (const auto& componentName : sortComponentsByID(config.scene->manager->componentNames[componentCategory])) {
 		// Count how many entities have this component
 		int entitiesWithComponent = 0;
 

@@ -134,14 +134,13 @@ private:
 
 	GraphEditorLayer _graphEditorLayer;
 
-	Framebuffer _framebuffer;
+	Framebuffer _viewportFramebuffer;
 	Framebuffer _minimapFramebuffer;
 
-	ImVec2 _windowPos;
-	ImVec2 _windowSize;
+	ImVec2 _viewportPos;
+	ImVec2 _viewportSize;
 
-	glm::vec2 _sceneMousePosition = { 0.f,0.f };
-	glm::vec2 _savedMainViewportMousePosition = { 0.f,0.f };
+	glm::vec2 _viewportMousePosition = { 0.f,0.f };
 
 	// Minimap stuff
 	int currentX = 0, currentY = 0, currentZ = 0;

@@ -41,7 +41,7 @@ void PythonInterpreterPanel::OnImGuiRender()
 	ImGui::BeginChild("Python Interpreter");
 
 
-	if (ImGui::Button(isCollapsed ? "Expand" : "Collapse", buttonSize)) {
+	if (ImGui::Button(isCollapsed ? "^" : "-", buttonSize)) {
 		isCollapsed = !isCollapsed;
 	}
 
