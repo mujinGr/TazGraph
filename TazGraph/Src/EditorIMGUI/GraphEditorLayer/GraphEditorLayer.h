@@ -39,8 +39,17 @@ class GraphEditorLayer : public UIElement
 private:
 	GraphEditorLayerConfig  config;
 public:
-	bool leftColumnExpanded = true;
-	bool rightColumnExpanded = true;
+
+	enum COL_STATE {
+		COLLAPSED,
+		EXPANDED
+	};
+
+	COL_STATE leftColumnState = COL_STATE::EXPANDED;
+	COL_STATE last_leftColumnState = COL_STATE::EXPANDED;
+
+	COL_STATE rightColumnState = COL_STATE::EXPANDED;
+	COL_STATE last_rightColumnState = COL_STATE::EXPANDED;
 
 	GraphEditorLayer() {
 		addUIComponent<MenuDropdownPanel>();

@@ -16,9 +16,9 @@ void GraphEditorLayer::OnImGuiRender()
 	ImGui::Columns(3, "mycolumns");
 
 	static bool initializedUIColumns = false; // Flag to ensure widths are set only once
+	ImGuiIO& io = ImGui::GetIO();
+	ImVec2 whole_content_size = io.DisplaySize;
 	if (!initializedUIColumns) {
-		ImGuiIO& io = ImGui::GetIO();
-		ImVec2 whole_content_size = io.DisplaySize;
 
 		ImGui::SetColumnWidth(0, whole_content_size.x * 0.2f);
 		ImGui::SetColumnWidth(1, whole_content_size.x * 0.6f);
@@ -27,18 +27,34 @@ void GraphEditorLayer::OnImGuiRender()
 		initializedUIColumns = true; // Prevents reapplying widths
 	}
 
-	float buttonWidth = ImGui::CalcTextSize(">>").x + ImGui::GetStyle().FramePadding.x * 2.0f;
+	float buttonWidth = ImGui::CalcTextSize(">>").x + ImGui::GetStyle().FramePadding.x * 8.0f;
 
-	//if (!leftColumnExpanded)
-	//{
-	//	ImGui::SetColumnWidth(0, buttonWidth + 4.0f); // for example
-	//}
+	if (leftColumnState == COL_STATE::COLLAPSED)
+	{
+		float colSave = ImGui::GetColumnWidth(2);
+
+		ImGui::SetColumnWidth(0, buttonWidth + 4.0f); // for example
+		ImGui::SetColumnWidth(2, colSave); // for example
+	}
+	else if (last_leftColumnState == COL_STATE::COLLAPSED && leftColumnState == COL_STATE::EXPANDED)
+	{
+		ImGui::SetColumnWidth(0, whole_content_size.x * 0.2f); // for example
+	}
+
+	if (rightColumnState == COL_STATE::COLLAPSED)
+	{
+		ImGui::SetColumnWidth(2, buttonWidth + 4.0f); // for example
+	}
+	else if (last_rightColumnState == COL_STATE::COLLAPSED && rightColumnState == COL_STATE::EXPANDED)
+	{
+		ImGui::SetColumnWidth(2, whole_content_size.x * 0.2f); // for example
+	}
 
 	ImGui::BeginChild("Tab 1");
 
 	if (ImGui::BeginTable("LeftPanelTable", 2, ImGuiTableFlags_SizingFixedFit))
 	{
-		if (leftColumnExpanded)
+		if (leftColumnState == COL_STATE::EXPANDED)
 			ImGui::TableSetupColumn("LeftPanel", ImGuiTableColumnFlags_WidthStretch);
 		else
 			ImGui::TableSetupColumn("LeftPanel", ImGuiTableColumnFlags_WidthFixed, 0.0f);
@@ -46,7 +62,7 @@ void GraphEditorLayer::OnImGuiRender()
 		ImGui::TableSetupColumn("ButtonColumn", ImGuiTableColumnFlags_WidthFixed, buttonWidth);
 		ImGui::TableNextColumn();
 
-		if (leftColumnExpanded)
+		if (leftColumnState == COL_STATE::EXPANDED)
 		{
 			getSubcomponent<GraphLeftPanel>()->setConfig({
 				.scene = config.scene,
@@ -57,8 +73,8 @@ void GraphEditorLayer::OnImGuiRender()
 		ImGui::TableNextColumn();
 
 
-		if (ImGui::Button(leftColumnExpanded ? "<<" : ">>"))
-			leftColumnExpanded = !leftColumnExpanded;
+		if (ImGui::Button(leftColumnState == COL_STATE::EXPANDED ? "<<" : ">>"))
+			leftColumnState = leftColumnState == COL_STATE::EXPANDED ? COL_STATE::COLLAPSED : COL_STATE::EXPANDED;
 
 		ImGui::EndTable();
 	}
@@ -94,7 +110,7 @@ void GraphEditorLayer::OnImGuiRender()
 		float buttonWidth = ImGui::CalcTextSize(">>").x + ImGui::GetStyle().FramePadding.x * 2.0f;
 		ImGui::TableSetupColumn("ButtonColumn", ImGuiTableColumnFlags_WidthFixed, buttonWidth);
 
-		if (rightColumnExpanded)
+		if (rightColumnState == COL_STATE::EXPANDED)
 			ImGui::TableSetupColumn("RightPanel", ImGuiTableColumnFlags_WidthStretch);
 		else
 			ImGui::TableSetupColumn("RightPanel", ImGuiTableColumnFlags_WidthFixed, 0.0f);
@@ -102,20 +118,20 @@ void GraphEditorLayer::OnImGuiRender()
 		ImGui::TableNextColumn();
 
 
-		if (ImGui::Button(rightColumnExpanded ? "<<" : ">>"))
-			rightColumnExpanded = !rightColumnExpanded;
+		if (ImGui::Button(rightColumnState ? "<<" : ">>"))
+			rightColumnState = rightColumnState == COL_STATE::EXPANDED ? COL_STATE::COLLAPSED : COL_STATE::EXPANDED;
 		ImGui::TableNextColumn();
 
-		getSubcomponent<GraphRightPanel>()->setConfig(
-			{
-				.scene = config.scene,
-				.c_selectedEntities = *config.selectedEntities
-			}
-		);
-		getSubcomponent<GraphRightPanel>()->OnImGuiRender();
+		if (rightColumnState) {
+			getSubcomponent<GraphRightPanel>()->setConfig(
+				{
+					.scene = config.scene,
+					.c_selectedEntities = *config.selectedEntities
+				}
+			);
+			getSubcomponent<GraphRightPanel>()->OnImGuiRender();
+		}
 		ImGui::EndTable();
-
-
 
 	}
 	ImGui::EndChild();
