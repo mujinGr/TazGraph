@@ -3,6 +3,7 @@
 #include "../Renderers/LineRenderer/LineRenderer.h"
 #include "../DataManager/DataManager.h"
 
+#include "AppInterface.h"
 
 #include "../GECS/Core/GECSManager.h"
 
@@ -63,7 +64,7 @@ public:
 
 	AppInterface* getApp() const { return _app; }
 
-	void setManager(std::string m_managerName) {
+	virtual bool setManager(std::string m_managerName) {
 		if (!m_managerName.empty()) {
 			auto it = managers.find(m_managerName);
 			if (it == managers.end()) {
@@ -72,6 +73,7 @@ public:
 			manager = managers[m_managerName];
 			managerName = m_managerName;
 		}
+		return false;
 	};
 
 	std::unordered_map<std::string, Manager*> managers = {

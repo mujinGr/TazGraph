@@ -13,16 +13,17 @@ void GraphEditorLayer::OnImGuiRender()
 	getSubcomponent<MenuDropdownPanel>()->setConfig({ .scene = config.scene });
 	getSubcomponent<MenuDropdownPanel>()->OnImGuiRender();
 
-	ImGui::Columns(3, "mycolumns");
+	ImGui::BeginTable("MainLayoutTable", 3,
+		ImGuiTableFlags_Resizable | ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_NoSavedSettings);
 
 	static bool initializedUIColumns = false; // Flag to ensure widths are set only once
 	if (!initializedUIColumns) {
 		ImGuiIO& io = ImGui::GetIO();
 		ImVec2 whole_content_size = io.DisplaySize;
 
-		ImGui::SetColumnWidth(0, whole_content_size.x * 0.2f);
-		ImGui::SetColumnWidth(1, whole_content_size.x * 0.6f);
-		ImGui::SetColumnWidth(2, whole_content_size.x * 0.2f);
+		ImGui::TableSetupColumn("Left", ImGuiTableColumnFlags_WidthFixed, whole_content_size.x * 0.2f);
+		ImGui::TableSetupColumn("Mid", ImGuiTableColumnFlags_WidthFixed, whole_content_size.x * 0.6f);
+		ImGui::TableSetupColumn("Right", ImGuiTableColumnFlags_WidthFixed, whole_content_size.x * 0.2f);
 
 		initializedUIColumns = true; // Prevents reapplying widths
 	}
@@ -33,6 +34,7 @@ void GraphEditorLayer::OnImGuiRender()
 	//{
 	//	ImGui::SetColumnWidth(0, buttonWidth + 4.0f); // for example
 	//}
+	ImGui::TableNextColumn();
 
 	ImGui::BeginChild("Tab 1");
 
@@ -64,7 +66,7 @@ void GraphEditorLayer::OnImGuiRender()
 	}
 	ImGui::EndChild();
 
-	ImGui::NextColumn();
+	ImGui::TableNextColumn();
 
 	getSubcomponent<GraphMiddlePanel>()->setConfig(
 		{
@@ -85,7 +87,7 @@ void GraphEditorLayer::OnImGuiRender()
 	//	openTabs.push_back(name);
 	//}
 
-	ImGui::NextColumn();
+	ImGui::TableNextColumn();
 	ImGui::BeginChild("Tab 2");
 
 
@@ -120,6 +122,7 @@ void GraphEditorLayer::OnImGuiRender()
 	}
 	ImGui::EndChild();
 
+	ImGui::EndTable();
 	ImGui::End();
 
 	if (DataManager::getInstance().isSaving()) {

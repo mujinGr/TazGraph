@@ -9,11 +9,10 @@
 
 struct GraphMiddlePanelConfig {
 	IScene* scene;
-	std::function<void(std::string m_managerName)> setManager;
 	Framebuffer* c_framebuffer;
 	Framebuffer* c_minimapFramebuffer;
-	ImVec2* c_windowPos;
-	ImVec2* c_windowSize;
+	ImVec2* c_viewportPos;
+	ImVec2* c_viewportSize;
 	glm::vec2 startPos;
 	glm::vec2 currPos;
 };

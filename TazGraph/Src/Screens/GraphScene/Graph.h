@@ -97,7 +97,7 @@ private:
 
 	void selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int activateMode);
 
-	bool setManager(std::string m_managerName);
+	bool setManager(std::string m_managerName) override;
 
 	void checkInput();
 	void performFrustumSelection();

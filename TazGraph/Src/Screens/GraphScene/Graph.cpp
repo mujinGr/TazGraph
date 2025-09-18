@@ -11,7 +11,6 @@
 #include "GECS/Components.h"
 #include "../../GECS/ScriptComponents.h"
 #include <sstream>
-#include <AppScene/AppInterface.h>
 #include <unordered_set>
 
 #undef main

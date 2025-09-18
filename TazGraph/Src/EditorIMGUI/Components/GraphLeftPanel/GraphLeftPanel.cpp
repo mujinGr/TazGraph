@@ -39,11 +39,8 @@ void GraphLeftPanel::OnImGuiRender()
 
 	ImVec4 defaultColor = ImVec4(0.0f, 0.5f, 1.0f, 1.0f);
 
-	ImGui::Separator();
-
 	glm::vec2 mousePos = config.scene->getApp()->_inputManager.getMouseCoords();
 
-	ImGui::Separator();
 	// Change color based on the debug mode state
 	if (config.scene->renderDebug) {
 		ImGui::PushStyleColor(ImGuiCol_Button, activeColor);  // Green for ON
@@ -152,6 +149,7 @@ void GraphLeftPanel::OnImGuiRender()
 	}
 
 	ChooseLayoutPanel();
+	ImGui::EndChild();
 
 }
 
@@ -316,5 +314,4 @@ void GraphLeftPanel::ChooseLayoutPanel() {
 	}
 	ImGui::PopStyleColor(1);
 	ImGui::PopStyleVar();
-	ImGui::EndChild();
 }

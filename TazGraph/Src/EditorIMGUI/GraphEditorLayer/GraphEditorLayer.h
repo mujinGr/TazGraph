@@ -8,15 +8,30 @@
 #include "../Components/GraphMiddlePanel/GraphMiddlePanel.h"
 #include "../Components/GraphRightPanel/GraphRightPanel.h"
 #include <Renderers/FrameBuffer/Framebuffer.h>
-
+#include "../../Map/Map.h"
 
 struct GraphEditorLayerConfig {
 	IScene* scene;
-	glm::vec2 _viewportMousePosition;
-	std::function<void(std::string m_managerName)> setManager;
+	glm::vec2 viewportMousePosition;
 
-	Framebuffer* viewportFramebuffer;
-	Framebuffer* minimapFramebuffer;
+	Framebuffer* viewportFramebuffer = nullptr;
+	Framebuffer* minimapFramebuffer = nullptr;
+
+	ImVec2* viewportPos;
+	ImVec2* viewportSize;
+
+	glm::vec2 selectionWindowStartPos = glm::vec2(0);
+	glm::vec2 selectionWindowCurrentPos = glm::vec2(0);
+
+	std::vector<std::pair<Entity*, glm::vec3>>* selectedEntities;
+
+	Map* map = nullptr;
+
+	Entity* onHoverEntity = nullptr;
+	Entity* displayedEntity = nullptr;
+
+	bool sceneManagerActive = false;
+
 };
 
 class GraphEditorLayer : public UIElement
@@ -24,6 +39,9 @@ class GraphEditorLayer : public UIElement
 private:
 	GraphEditorLayerConfig  config;
 public:
+	bool leftColumnExpanded = true;
+	bool rightColumnExpanded = true;
+
 	GraphEditorLayer() {
 		addUIComponent<MenuDropdownPanel>();
 		addUIComponent<GraphLeftPanel>();

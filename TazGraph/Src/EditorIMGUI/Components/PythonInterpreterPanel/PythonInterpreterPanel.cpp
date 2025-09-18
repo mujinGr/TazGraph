@@ -38,14 +38,74 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 
 void PythonInterpreterPanel::OnImGuiRender()
 {
-	ImGui::BeginChild("Python Interpreter");
-
-
-	if (ImGui::Button(isCollapsed ? "^" : "-", buttonSize)) {
-		isCollapsed = !isCollapsed;
+	if (last_state == console_state::Collapsed && state == console_state::Expanded)
+	{
+		ImGui::SetNextWindowSize(ImVec2(config.viewportSize->x, pythonConsoleHeight));
+		ImGui::SetNextWindowPos(ImVec2(config.viewportPos->x, config.viewportPos->y + config.viewportSize->y - pythonConsoleHeight));
+	}
+	if (last_state == console_state::Expanded && state == console_state::Collapsed)
+	{
+		ImGui::SetNextWindowSize(ImVec2(config.viewportSize->x, titleBarRect.GetHeight()));
+		ImGui::SetNextWindowPos(ImVec2(config.viewportPos->x, config.viewportPos->y + config.viewportSize->y - titleBarRect.GetHeight()));
 	}
 
+	if (state == console_state::Expanded) {
 
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(4.f, 4.f));
+		ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 0.9f);
+
+		ImGui::Begin("Python Interpreter", nullptr, flags);
+
+		innerTable();
+
+		setFlags();
+
+		ImGui::End();
+
+		ImGui::PopStyleVar(2);
+
+	}
+	else if (state == console_state::Collapsed) {
+		ImGui::Begin("Python Interpreter", nullptr, flags);
+
+		innerTable();
+
+		setFlags();
+
+		ImGui::End();
+	}
+}
+
+void PythonInterpreterPanel::setFlags() {
+	last_state = state;
+
+	if (ImGui::IsWindowCollapsed()) {
+		flags |= ImGuiWindowFlags_NoMove;
+		state = console_state::Collapsed;
+	}
+	else { // ---Expanded
+
+		flags |= ImGuiWindowFlags_NoResize;
+
+		state = console_state::Expanded;
+
+		titleBarRect = ImGui::GetCurrentWindow()->TitleBarRect();
+
+		float collisionPadding = 5.0f;
+
+		ImVec2 min = ImVec2(titleBarRect.Min.x - collisionPadding, titleBarRect.Min.y - collisionPadding);
+		ImVec2 max = ImVec2(titleBarRect.Max.x + collisionPadding, titleBarRect.Max.y + collisionPadding);
+		ImVec2 mouse = ImGui::GetMousePos();
+
+		if (mouse.x + collisionPadding > min.x && mouse.x < max.x && mouse.y > min.y && mouse.y < max.y)
+		{
+			flags = ImGuiChildFlags_ResizeY | ImGuiWindowFlags_NoMove;
+		}
+	}
+
+}
+
+void PythonInterpreterPanel::innerTable() {
 	if (ImGui::BeginTable("PythonIO", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_BordersInnerV))
 	{
 		// ===== LEFT COLUMN: Input =====
@@ -102,5 +162,4 @@ void PythonInterpreterPanel::OnImGuiRender()
 
 		ImGui::EndTable();
 	}
-	ImGui::EndChild();
 }

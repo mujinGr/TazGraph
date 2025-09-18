@@ -9,6 +9,8 @@ namespace py = pybind11;
 
 struct PythonInterpreterConfig {
 	IScene* scene;
+	ImVec2* viewportPos;
+	ImVec2* viewportSize;
 };
 
 class PythonInterpreterPanel : public UIElement
@@ -17,10 +19,22 @@ private:
 	PythonInterpreterConfig  config;
 	char _pythonBuffer[1024] = "";
 	std::string _outputText;
+
+	enum console_state {
+		Collapsed,
+		Expanded
+	};
+
+	console_state state = console_state::Collapsed;
+	console_state last_state = console_state::Collapsed;
 public:
-	ImVec2 buttonSize = ImVec2(100.0f, 30.0f);
-	bool isCollapsed = false;
-	bool showPythonInterpreter = false;
+
+	float pythonConsoleHeight = 400.0f;
+
+	ImRect titleBarRect;
+
+	ImGuiChildFlags flags = ImGuiChildFlags_ResizeY;
+
 	PythonInterpreterPanel();
 	void init_api(py::module_& m, Manager& manager);
 
@@ -31,4 +45,6 @@ public:
 
 	}
 	void OnImGuiRender() override;
+	void setFlags();
+	void innerTable();
 };
