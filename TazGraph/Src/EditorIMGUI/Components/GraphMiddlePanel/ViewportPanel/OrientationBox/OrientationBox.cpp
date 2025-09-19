@@ -2,13 +2,13 @@
 
 void OrientationBox::OnImGuiRender() {
 
-    const float orientationBoxSize = 200.0f; // Size of the minimap
+    const float orientationBoxSize = 100.0f; // Size of the minimap
     const float orientationBoxPadding = 10.0f;
 
     // Position minimap in top-right corner
     ImVec2 orientationBoxPos = ImVec2(
-        config.viewportPos.x + config.viewportSize.x - orientationBoxSize - orientationBoxPadding,
-        config.viewportPos.y + config.viewportSize.y - orientationBoxSize - orientationBoxPadding
+        config.viewportPos.x + orientationBoxPadding,
+        config.viewportPos.y + orientationBoxPadding
     );
 
     // Set ImGuizmo for minimap
@@ -35,7 +35,7 @@ void OrientationBox::OnImGuiRender() {
     drawList->AddText(
         ImVec2(orientationBoxPos.x + 5, orientationBoxPos.y + 5),
         IM_COL32(255, 255, 255, 255),
-        "Orientation Box"
+        "Orientation"
     );
 
 

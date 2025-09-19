@@ -38,12 +38,17 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 
 void PythonInterpreterPanel::OnImGuiRender()
 {
+	if (/*last_state == console_state::Collapsed &&*/ state == console_state::Expanded)
+	{
+		ImGui::SetNextWindowSize(ImVec2(config.viewportSize->x, ImGui::FindWindowByName("Python Interpreter")->Size.y));
+		ImGui::SetNextWindowPos(ImVec2(config.viewportPos->x, config.viewportPos->y + config.viewportSize->y - ImGui::FindWindowByName("Python Interpreter")->Size.y));
+	}
 	if (last_state == console_state::Collapsed && state == console_state::Expanded)
 	{
-		ImGui::SetNextWindowSize(ImVec2(config.viewportSize->x, pythonConsoleHeight));
-		ImGui::SetNextWindowPos(ImVec2(config.viewportPos->x, config.viewportPos->y + config.viewportSize->y - pythonConsoleHeight));
+		ImGui::SetNextWindowSize(ImVec2(config.viewportSize->x, default_pythonConsoleHeight));
+		ImGui::SetNextWindowPos(ImVec2(config.viewportPos->x, config.viewportPos->y + config.viewportSize->y - default_pythonConsoleHeight));
 	}
-	if (last_state == console_state::Expanded && state == console_state::Collapsed)
+	if (/*last_state == console_state::Expanded && */state == console_state::Collapsed)
 	{
 		ImGui::SetNextWindowSize(ImVec2(config.viewportSize->x, titleBarRect.GetHeight()));
 		ImGui::SetNextWindowPos(ImVec2(config.viewportPos->x, config.viewportPos->y + config.viewportSize->y - titleBarRect.GetHeight()));
@@ -52,7 +57,7 @@ void PythonInterpreterPanel::OnImGuiRender()
 	if (state == console_state::Expanded) {
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(4.f, 4.f));
-		ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 0.9f);
+		ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 0.8f);
 
 		ImGui::Begin("Python Interpreter", nullptr, flags);
 

@@ -29,7 +29,7 @@ private:
 	console_state last_state = console_state::Collapsed;
 public:
 
-	float pythonConsoleHeight = 400.0f;
+	float default_pythonConsoleHeight = 400.0f;
 
 	ImRect titleBarRect;
 

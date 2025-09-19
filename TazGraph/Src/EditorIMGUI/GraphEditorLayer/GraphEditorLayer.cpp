@@ -13,131 +13,146 @@ void GraphEditorLayer::OnImGuiRender()
 	getSubcomponent<MenuDropdownPanel>()->setConfig({ .scene = config.scene });
 	getSubcomponent<MenuDropdownPanel>()->OnImGuiRender();
 
-	ImGui::Columns(3, "mycolumns");
+	static bool initializedUIColumns = false;
 
-	static bool initializedUIColumns = false; // Flag to ensure widths are set only once
-	ImGuiIO& io = ImGui::GetIO();
-	ImVec2 whole_content_size = io.DisplaySize;
-	if (!initializedUIColumns) {
 
-		ImGui::SetColumnWidth(0, whole_content_size.x * 0.2f);
-		ImGui::SetColumnWidth(1, whole_content_size.x * 0.6f);
-		ImGui::SetColumnWidth(2, whole_content_size.x * 0.2f);
+	ImGuiTableFlags flagsTable = ImGuiTableFlags_BordersInnerV;
+	if (initializedUIColumns)
+		flagsTable |= ImGuiTableFlags_Resizable;
 
-		initializedUIColumns = true; // Prevents reapplying widths
-	}
+	ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+	float buttonWidth = ImGui::CalcTextSize(">>").x + ImGui::GetStyle().FramePadding.x * 2.0f;
 
-	float buttonWidth = ImGui::CalcTextSize(">>").x + ImGui::GetStyle().FramePadding.x * 8.0f;
+	// --- Decide widths based on states ---
+	float leftWidth, middleWidth, rightWidth;
+
+	leftWidth = viewportSize.x * 0.2f;
+	middleWidth = -1.0f; // Stretch column
+	rightWidth = viewportSize.x * 0.2f;
+
+	initializedUIColumns = true;
 
 	if (leftColumnState == COL_STATE::COLLAPSED)
 	{
-		float colSave = ImGui::GetColumnWidth(2);
-
-		ImGui::SetColumnWidth(0, buttonWidth + 4.0f); // for example
-		ImGui::SetColumnWidth(2, colSave); // for example
+		initializedUIColumns = false;
+		leftWidth = buttonWidth + 32.0f;
 	}
 	else if (last_leftColumnState == COL_STATE::COLLAPSED && leftColumnState == COL_STATE::EXPANDED)
 	{
-		ImGui::SetColumnWidth(0, whole_content_size.x * 0.2f); // for example
+		leftWidth = viewportSize.x * 0.25f;
 	}
 
 	if (rightColumnState == COL_STATE::COLLAPSED)
 	{
-		ImGui::SetColumnWidth(2, buttonWidth + 4.0f); // for example
+		initializedUIColumns = false;
+		rightWidth = buttonWidth + 32.0f;
 	}
 	else if (last_rightColumnState == COL_STATE::COLLAPSED && rightColumnState == COL_STATE::EXPANDED)
 	{
-		ImGui::SetColumnWidth(2, whole_content_size.x * 0.2f); // for example
+		rightWidth = viewportSize.x * 0.25f;
 	}
 
-	ImGui::BeginChild("Tab 1");
-
-	if (ImGui::BeginTable("LeftPanelTable", 2, ImGuiTableFlags_SizingFixedFit))
+	// --- Build table ---
+	if (ImGui::BeginTable("mainColumns", 3, flagsTable))
 	{
-		if (leftColumnState == COL_STATE::EXPANDED)
-			ImGui::TableSetupColumn("LeftPanel", ImGuiTableColumnFlags_WidthStretch);
-		else
-			ImGui::TableSetupColumn("LeftPanel", ImGuiTableColumnFlags_WidthFixed, 0.0f);
+		ImGui::TableSetupColumn("LeftCol", ImGuiTableColumnFlags_WidthFixed, leftWidth);
+		ImGui::TableSetupColumn("MiddleCol", ImGuiTableColumnFlags_WidthStretch, middleWidth);
+		ImGui::TableSetupColumn("RightCol", ImGuiTableColumnFlags_WidthFixed, rightWidth);
 
-		ImGui::TableSetupColumn("ButtonColumn", ImGuiTableColumnFlags_WidthFixed, buttonWidth);
 		ImGui::TableNextColumn();
+		ImGui::BeginChild("Tab 1");
 
-		if (leftColumnState == COL_STATE::EXPANDED)
+		if (ImGui::BeginTable("LeftPanelTable", 2, ImGuiTableFlags_SizingFixedFit))
 		{
-			getSubcomponent<GraphLeftPanel>()->setConfig({
-				.scene = config.scene,
-				.sceneMouseCoords = viewportMousePos,
-				});
-			getSubcomponent<GraphLeftPanel>()->OnImGuiRender();
-		}
-		ImGui::TableNextColumn();
+			if (leftColumnState == COL_STATE::EXPANDED) {
+				ImGui::TableSetupColumn("LeftPanel", ImGuiTableColumnFlags_WidthStretch);
+			}
+			else {
+				ImGui::TableSetupColumn("LeftPanel", ImGuiTableColumnFlags_WidthFixed, 0.0f);
+			}
+			ImGui::TableSetupColumn("ButtonColumn", ImGuiTableColumnFlags_WidthFixed, buttonWidth);
+			ImGui::TableNextColumn();
 
-
-		if (ImGui::Button(leftColumnState == COL_STATE::EXPANDED ? "<<" : ">>"))
-			leftColumnState = leftColumnState == COL_STATE::EXPANDED ? COL_STATE::COLLAPSED : COL_STATE::EXPANDED;
-
-		ImGui::EndTable();
-	}
-	ImGui::EndChild();
-
-	ImGui::NextColumn();
-
-	getSubcomponent<GraphMiddlePanel>()->setConfig(
-		{
-			.scene = config.scene,
-			.c_framebuffer = config.viewportFramebuffer,
-			.c_minimapFramebuffer = config.minimapFramebuffer,
-
-			.c_viewportPos = config.viewportPos,
-			.c_viewportSize = config.viewportSize,
-			.startPos = config.selectionWindowStartPos,
-			.currPos = config.selectionWindowCurrentPos
-		}
-	);
-	getSubcomponent<GraphMiddlePanel>()->OnImGuiRender();
-
-	//std::vector<std::string> openTabs;
-	//for (const auto& [name, _] : managers) {
-	//	openTabs.push_back(name);
-	//}
-
-	ImGui::NextColumn();
-	ImGui::BeginChild("Tab 2");
-
-
-	if (ImGui::BeginTable("RightPanelTable", 2, ImGuiTableFlags_SizingFixedFit))
-	{
-		float buttonWidth = ImGui::CalcTextSize(">>").x + ImGui::GetStyle().FramePadding.x * 2.0f;
-		ImGui::TableSetupColumn("ButtonColumn", ImGuiTableColumnFlags_WidthFixed, buttonWidth);
-
-		if (rightColumnState == COL_STATE::EXPANDED)
-			ImGui::TableSetupColumn("RightPanel", ImGuiTableColumnFlags_WidthStretch);
-		else
-			ImGui::TableSetupColumn("RightPanel", ImGuiTableColumnFlags_WidthFixed, 0.0f);
-
-		ImGui::TableNextColumn();
-
-
-		if (ImGui::Button(rightColumnState ? "<<" : ">>"))
-			rightColumnState = rightColumnState == COL_STATE::EXPANDED ? COL_STATE::COLLAPSED : COL_STATE::EXPANDED;
-		ImGui::TableNextColumn();
-
-		if (rightColumnState) {
-			getSubcomponent<GraphRightPanel>()->setConfig(
-				{
+			if (leftColumnState == COL_STATE::EXPANDED)
+			{
+				getSubcomponent<GraphLeftPanel>()->setConfig({
 					.scene = config.scene,
-					.c_selectedEntities = *config.selectedEntities
-				}
-			);
-			getSubcomponent<GraphRightPanel>()->OnImGuiRender();
+					.sceneMouseCoords = viewportMousePos,
+					});
+				getSubcomponent<GraphLeftPanel>()->OnImGuiRender();
+			}
+			ImGui::TableNextColumn();
+
+			ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5);
+			if (ImGui::Button(leftColumnState == COL_STATE::EXPANDED ? "<<" : ">>", ImVec2(buttonWidth, buttonWidth)))
+				leftColumnState = leftColumnState == COL_STATE::EXPANDED ? COL_STATE::COLLAPSED : COL_STATE::EXPANDED;
+			ImGui::PopStyleVar();
+
+			ImGui::EndTable();
 		}
+		ImGui::EndChild();
+
+		ImGui::TableNextColumn();
+
+		getSubcomponent<GraphMiddlePanel>()->setConfig(
+			{
+				.scene = config.scene,
+				.c_framebuffer = config.viewportFramebuffer,
+				.c_minimapFramebuffer = config.minimapFramebuffer,
+
+				.c_viewportPos = config.viewportPos,
+				.c_viewportSize = config.viewportSize,
+				.startPos = config.selectionWindowStartPos,
+				.currPos = config.selectionWindowCurrentPos
+			}
+		);
+		getSubcomponent<GraphMiddlePanel>()->OnImGuiRender();
+
+
+		ImGui::TableNextColumn();
+
+		ImGui::BeginChild("Tab 2");
+		if (ImGui::BeginTable("RightPanelTable", 2, ImGuiTableFlags_SizingFixedFit))
+		{
+
+			if (rightColumnState == COL_STATE::EXPANDED)
+			{
+				ImGui::TableSetupColumn("ButtonColumn", ImGuiTableColumnFlags_WidthFixed, buttonWidth);
+				ImGui::TableSetupColumn("RightPanel", ImGuiTableColumnFlags_WidthStretch);
+			}
+			else
+			{
+				ImGui::TableSetupColumn("ButtonColumn", ImGuiTableColumnFlags_WidthFixed, buttonWidth * 2.0f);
+				ImGui::TableSetupColumn("RightPanel", ImGuiTableColumnFlags_WidthFixed, 0.0f);
+			}
+			ImGui::TableNextColumn();
+
+			if (rightColumnState == COL_STATE::COLLAPSED)
+				ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 16.0f);
+
+			ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5);
+			if (ImGui::Button(rightColumnState ? ">>" : "<<", ImVec2(buttonWidth, buttonWidth)))
+				rightColumnState = rightColumnState == COL_STATE::EXPANDED ? COL_STATE::COLLAPSED : COL_STATE::EXPANDED;
+			ImGui::TableNextColumn();
+			ImGui::PopStyleVar();
+
+
+			if (rightColumnState) {
+				getSubcomponent<GraphRightPanel>()->setConfig(
+					{
+						.scene = config.scene,
+						.c_selectedEntities = *config.selectedEntities
+					}
+				);
+				getSubcomponent<GraphRightPanel>()->OnImGuiRender();
+			}
+			ImGui::EndTable();
+
+		}
+		ImGui::EndChild();
+
 		ImGui::EndTable();
-
 	}
-	ImGui::EndChild();
-
-	ImGui::End();
-
 	if (DataManager::getInstance().isSaving()) {
 		getSubcomponent<MenuDropdownPanel>()->
 			getSubcomponent<SavingUI>()->setConfig({
@@ -264,4 +279,6 @@ void GraphEditorLayer::OnImGuiRender()
 			getSubcomponent<SceneControlPanel>()->
 			OnImGuiRender();
 	}
+
+	ImGui::End();
 }
