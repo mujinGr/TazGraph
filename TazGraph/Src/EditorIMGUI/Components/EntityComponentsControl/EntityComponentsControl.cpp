@@ -37,10 +37,11 @@ void EntityComponentsControlPanel::OnImGuiRender()
 
 		if (ImGui::CollapsingHeader("Script"))
 		{
-			ImGui::BeginChild("Python Interpreter");
+			getSubcomponent<PythonInterpreterPanel>()->setConfig({
 
-			ImGui::EndChild();
-			ImGui::Text("1");
+				});
+
+			getSubcomponent<PythonInterpreterPanel>()->OnImGuiRender2();
 		}
 
 		config.displayedEntity->imgui_print();

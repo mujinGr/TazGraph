@@ -33,7 +33,9 @@ public:
 
 	ImRect titleBarRect;
 
-	ImGuiChildFlags flags = ImGuiChildFlags_ResizeY;
+	bool init = true;
+
+	ImGuiChildFlags flags = ImGuiChildFlags_ResizeY | ImGuiWindowFlags_NoSavedSettings;
 
 	PythonInterpreterPanel();
 	void init_api(py::module_& m, Manager& manager);
@@ -45,6 +47,8 @@ public:
 
 	}
 	void OnImGuiRender() override;
+	void OnImGuiRender2();
+
 	void setFlags();
 	void innerTable();
 };

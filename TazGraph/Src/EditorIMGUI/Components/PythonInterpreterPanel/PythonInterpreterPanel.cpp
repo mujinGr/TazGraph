@@ -38,7 +38,7 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 
 void PythonInterpreterPanel::OnImGuiRender()
 {
-	if (/*last_state == console_state::Collapsed &&*/ state == console_state::Expanded)
+	if (ImGui::FindWindowByName("Python Interpreter") && state == console_state::Expanded)
 	{
 		ImGui::SetNextWindowSize(ImVec2(config.viewportSize->x, ImGui::FindWindowByName("Python Interpreter")->Size.y));
 		ImGui::SetNextWindowPos(ImVec2(config.viewportPos->x, config.viewportPos->y + config.viewportSize->y - ImGui::FindWindowByName("Python Interpreter")->Size.y));
@@ -48,7 +48,7 @@ void PythonInterpreterPanel::OnImGuiRender()
 		ImGui::SetNextWindowSize(ImVec2(config.viewportSize->x, default_pythonConsoleHeight));
 		ImGui::SetNextWindowPos(ImVec2(config.viewportPos->x, config.viewportPos->y + config.viewportSize->y - default_pythonConsoleHeight));
 	}
-	if (/*last_state == console_state::Expanded && */state == console_state::Collapsed)
+	if (ImGui::FindWindowByName("Python Interpreter") && state == console_state::Collapsed)
 	{
 		ImGui::SetNextWindowSize(ImVec2(config.viewportSize->x, titleBarRect.GetHeight()));
 		ImGui::SetNextWindowPos(ImVec2(config.viewportPos->x, config.viewportPos->y + config.viewportSize->y - titleBarRect.GetHeight()));
@@ -73,6 +73,11 @@ void PythonInterpreterPanel::OnImGuiRender()
 	else if (state == console_state::Collapsed) {
 		ImGui::Begin("Python Interpreter", nullptr, flags);
 
+		if (init) {
+			ImGui::SetWindowCollapsed(ImGui::GetCurrentWindow());
+
+			init = false;
+		}
 		innerTable();
 
 		setFlags();
@@ -81,11 +86,73 @@ void PythonInterpreterPanel::OnImGuiRender()
 	}
 }
 
+void PythonInterpreterPanel::OnImGuiRender2() {
+
+	ImGui::BeginChild("Python Interpreter");
+	ImGuiChildFlags flags = ImGuiChildFlags_ResizeY;
+
+	ImGui::BeginChild("Python Input", ImVec2(0.0f, 200.0f), flags);
+	ImGui::Text("Python Script");
+
+	float originalScale = ImGui::GetFont()->Scale;
+	ImGui::GetFont()->Scale = 1.5f;
+	ImGui::PushFont(ImGui::GetFont());
+
+	ImGui::InputTextMultiline("##pythonInput",
+		_pythonBuffer, IM_ARRAYSIZE(_pythonBuffer),
+		ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 10 * 1.5f));
+
+	ImGui::PopFont();
+	ImGui::GetFont()->Scale = originalScale;
+
+	if (ImGui::Button("Run"))
+	{
+		safe_putenv("PYTHONHOME=C:\\Users\\lefte\\AppData\\Local\\Programs\\Python\\Python313");
+		try {
+			py::exec(R"(
+				import sys
+				from io import StringIO
+				sys.stdout = StringIO()
+			)");
+
+			py::module_ userapi = py::module_::create_extension_module("tazpyapi", nullptr, new PyModuleDef{});
+			init_api(userapi, *config.scene->manager);
+			py::module_::import("sys").attr("modules")["tazpyapi"] = userapi;
+
+			py::globals()["addNode"] = userapi.attr("addNode");
+			py::exec(_pythonBuffer);
+			py::object output = py::eval("sys.stdout.getvalue()");
+			_outputText = output.cast<std::string>();
+
+			config.scene->manager->aboutTo_updateActiveEntities();
+		}
+		catch (const std::exception& e) {
+			_outputText = std::string("Python error: ") + e.what();
+		}
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Clear")) {
+		_outputText.clear();
+	}
+	ImGui::EndChild();
+
+
+	ImGui::BeginChild("Python Output");
+	ImGui::Text("Output:");
+	ImGui::BeginChild("OutputChild", ImVec2(0, 0), true);
+	ImGui::TextWrapped("%s", _outputText.c_str());
+	ImGui::EndChild();
+	ImGui::EndChild();
+
+
+	ImGui::EndChild();
+}
+
 void PythonInterpreterPanel::setFlags() {
 	last_state = state;
 
 	if (ImGui::IsWindowCollapsed()) {
-		flags |= ImGuiWindowFlags_NoMove;
+		flags |= ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
 		state = console_state::Collapsed;
 	}
 	else { // ---Expanded
@@ -104,7 +171,7 @@ void PythonInterpreterPanel::setFlags() {
 
 		if (mouse.x + collisionPadding > min.x && mouse.x < max.x && mouse.y > min.y && mouse.y < max.y)
 		{
-			flags = ImGuiChildFlags_ResizeY | ImGuiWindowFlags_NoMove;
+			flags = ImGuiChildFlags_ResizeY | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
 		}
 	}
 

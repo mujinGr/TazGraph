@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../UIElement.h"
+#include "../PythonInterpreterPanel/PythonInterpreterPanel.h"
 
 struct EntityComponentsConfig {
 	IScene* scene;
@@ -15,6 +16,10 @@ private:
 	int _lastEntityDisplayed = 0;
 
 public:
+	EntityComponentsControlPanel() {
+		addUIComponent<PythonInterpreterPanel>();
+	}
+
 	void setConfig(const EntityComponentsConfig& cfg) { config = cfg; }
 	void OnImGuiRender() override;
 	void StartPollingComponent(Entity* entity, const std::string& fileName);

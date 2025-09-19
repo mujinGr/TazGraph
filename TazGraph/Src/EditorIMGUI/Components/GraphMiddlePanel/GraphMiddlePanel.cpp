@@ -38,23 +38,23 @@ void GraphMiddlePanel::OnImGuiRender()
 		}
 	}
 
-	ImGui::BeginChild("Viewport");
+	if (ImGui::BeginChild("Viewport")) {
+		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-	
-	TazGraphEngine::drawTextAtWorldPositionPerspective(glm::vec3(0), "asdasd", glm::vec4(1.0f), main_camera2D.get());
+		TazGraphEngine::drawTextAtWorldPositionPerspective(glm::vec3(100.0f), "asdasd", glm::vec4(1.0f), main_camera2D.get());
 
-	getSubcomponent<ViewportPanel>()->setConfig({
-		.c_fb = config.c_framebuffer,
-		.c_minimap_fb = config.c_minimapFramebuffer,
-		.c_storedWindowPos = config.c_viewportPos,
-		.c_storedWindowSize = config.c_viewportSize,
-		.startPos = config.startPos,
-		.currPos = config.currPos,
-		});
-	getSubcomponent<ViewportPanel>()->OnImGuiRender();
-	ImGui::EndChild();
+		getSubcomponent<ViewportPanel>()->setConfig({
+			.c_fb = config.c_framebuffer,
+			.c_minimap_fb = config.c_minimapFramebuffer,
+			.c_storedWindowPos = config.c_viewportPos,
+			.c_storedWindowSize = config.c_viewportSize,
+			.startPos = config.startPos,
+			.currPos = config.currPos,
+			});
+		getSubcomponent<ViewportPanel>()->OnImGuiRender();
 
+		ImGui::EndChild();
+	}
 	getSubcomponent<PythonInterpreterPanel>()->setConfig(
 		{
 			.scene = config.scene,
