@@ -27,7 +27,7 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		
+
 	}
 
 	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {
@@ -72,11 +72,10 @@ public:
 			if (!prevToNode || !currFromNode)
 				continue;
 
-			int prevToPortIndex = prevLink->toPort;
-			int currFromPortIndex = currLink->fromPort;
+			EntityID prevToPortIndex = prevLink->toPort;
+			EntityID currFromPortIndex = currLink->fromPort;
 
-			if (prevToPortIndex < 0 || currFromPortIndex < 0)
-				continue;
+
 
 			// Create the inner link connecting prevLink's toPort to currLink's fromPort
 			auto& newInnerLink = entity->getManager()->addEntity<Link>(
@@ -97,7 +96,7 @@ public:
 	void removeInnerLinks() {
 		for (auto* innerLink : innerLinks) {
 			if (!innerLink) continue;
-			
+
 			innerLink->destroy();
 		}
 		innerLinks.clear();

@@ -30,7 +30,7 @@ public:
 		}
 	}
 
-	void removeEntity() override{
+	void removeEntity() override {
 		ownerCell->emptyEntities.erase(
 			std::remove(this->ownerCell->emptyEntities.begin(), this->ownerCell->emptyEntities.end(),
 				this),
@@ -49,7 +49,6 @@ public:
 	NodeEntity(Manager& mManager) : EmptyEntity(mManager) {
 		nodeComponentArray.emplace();
 		nodeComponentBitSet.emplace();
-		children.resize(4, nullptr);
 
 	}
 	void setComponentEntity(NodeComponent* c) override {
@@ -106,52 +105,47 @@ public:
 
 class LinkEntity : public MultiCellEntity {
 protected:
-	unsigned int fromId = 0;
-	unsigned int toId = 0;
+	EntityID fromId = 0;
+	EntityID toId = 0;
 
 	NodeEntity* from = nullptr;
 	NodeEntity* to = nullptr;
 
 public:
-	int fromPort = -1;
-	int toPort = -1;
+	EntityID fromPort = -1;
+	EntityID toPort = -1;
 	int fromSlotIndex = -1;
 	int toSlotIndex = -1;
 
 	LinkEntity(Manager& mManager) : MultiCellEntity(mManager) {
-		children.resize(1, nullptr);
 
 	}
 
-	LinkEntity(Manager& mManager, unsigned int mfromId, unsigned int mtoId)
+	LinkEntity(Manager& mManager, EntityID mfromId, EntityID mtoId)
 		: MultiCellEntity(mManager), fromId(mfromId), toId(mtoId) {
-		children.resize(1, nullptr);
 
 	}
 
 	LinkEntity(Manager& mManager, NodeEntity* mfrom, NodeEntity* mto)
 		: MultiCellEntity(mManager), from(mfrom), to(mto) {
-		children.resize(1, nullptr);
 
 	}
 
-	LinkEntity(Manager& mManager, 
-		unsigned int mfromId, unsigned int mtoId,
+	LinkEntity(Manager& mManager,
+		EntityID mfromId, EntityID mtoId,
 		NodeEntity* mfrom, NodeEntity* mto)
-		: MultiCellEntity(mManager), 
-		fromId(mfromId), toId(mtoId), 
+		: MultiCellEntity(mManager),
+		fromId(mfromId), toId(mtoId),
 		from(mfrom), to(mto) {
-		children.resize(1, nullptr);
 
 	}
 
 	LinkEntity(
 		Manager& mManager,
 		NodeEntity* mfrom, NodeEntity* mto,
-		int m_fromPort, int m_toPort, int m_fromSlot, int m_toSlot )
+		EntityID m_fromPort, EntityID m_toPort, int m_fromSlot, int m_toSlot)
 		: MultiCellEntity(mManager), from(mfrom), to(mto)
 	{
-		children.resize(1, nullptr);
 		fromPort = m_fromPort;
 		toPort = m_toPort;
 		fromSlotIndex = m_fromSlot;

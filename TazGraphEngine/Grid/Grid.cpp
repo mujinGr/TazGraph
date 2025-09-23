@@ -376,11 +376,11 @@ int Grid::getLevelCellScale(Level level) {
 }
 
 std::vector<LinkEntity*> Grid::getLinksInCameraCells() {
-	std::unordered_map<unsigned int, LinkEntity*> uniqueEntities;
+	std::unordered_map<EntityID, LinkEntity*> uniqueEntities;
 
 	for (auto& cell : _interceptedCells) {
 		for (auto& link : cell->links) {
-			unsigned int linkId = link->getId();
+			EntityID linkId = link->getId();
 
 			if (uniqueEntities.find(linkId) == uniqueEntities.end()) {
 				uniqueEntities[linkId] = link;

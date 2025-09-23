@@ -14,7 +14,7 @@ void GraphRightPanel::OnImGuiRender()
 	int linkCount = 0;
 
 	for (std::size_t group = Manager::groupBackgroundLayer;
-		group <= Manager::buttonLabels;
+		group <= Manager::textLabels;
 		group++)
 	{
 		if (group == Manager::groupMinimapNodes) continue;
@@ -94,8 +94,8 @@ void GraphRightPanel::DrawEntityJumpList(const char* labelId, TVec& vec) {
 
 	if (ImGui::TreeNode(labelId)) {
 		for (auto* e : vec) {
-			std::string nodeLabel = "Entity ID: " + std::to_string(e->getId());
-			std::string btn = "Go to##" + std::to_string(e->getId());
+			std::string nodeLabel = "Entity ID: " + EntityIDUtils::toString(e->getId());
+			std::string btn = "Go to##" + EntityIDUtils::toString(e->getId());
 			if (ImGui::Button(btn.c_str())) {
 				if (e->template hasComponent<TransformComponent>()) { // because clang doesnt know what type vec is
 					auto& tr = e->template GetComponent<TransformComponent>();
@@ -119,7 +119,7 @@ void GraphRightPanel::ShowAllEntities() {
 	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 	float size = 10;
 
-	for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels + 1; group++) {
+	for (std::size_t group = Manager::groupBackgroundLayer; group <= Manager::textLabels; group++) {
 		std::string s = config.scene->manager->getGroupName(group);
 
 		if (ImGui::CollapsingHeader(s.c_str())) {

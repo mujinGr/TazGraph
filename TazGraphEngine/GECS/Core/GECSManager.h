@@ -23,7 +23,7 @@ private:
 	std::array<std::vector<LinkEntity*>, maxGroups> groupedLinkEntities;
 
 
-	
+
 	std::array<std::vector<EmptyEntity*>, maxGroups> visible_groupedEmptyEntities;
 	std::array<std::vector<NodeEntity*>, maxGroups> visible_groupedNodeEntities;
 	std::array<std::vector<LinkEntity*>, maxGroups> visible_groupedLinkEntities;
@@ -33,6 +33,8 @@ public:
 
 	std::vector<NodeEntity*> movedNodes;
 	std::mutex movedNodesMutex;
+
+	bool idTextEnabled = false;
 
 	bool arrowheadsEnabled = false;
 	bool last_arrowheadsEnabled = false;
@@ -45,7 +47,7 @@ public:
 
 	Manager() {}
 
-	~Manager() { _threader = nullptr;  }
+	~Manager() { _threader = nullptr; }
 
 	void setThreader(Threader& mthreader) {
 		_threader = &mthreader;
@@ -54,7 +56,7 @@ public:
 	void update(float deltaTime = 1.0f)
 	{
 		//! THREADER CHECK
-		
+
 		if (_threader && !_threader->t_queue.shuttingDown) {
 
 			//! CELL UPDATE
@@ -115,7 +117,7 @@ public:
 				}
 				});
 
-			
+
 			_threader->parallel(grid->visible_nodes.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
 					if (grid->visible_nodes[i] && grid->visible_nodes[i]->isActive()) {
@@ -125,7 +127,7 @@ public:
 
 				});
 
-			
+
 			_threader->parallel(grid->visible_links.size(), [&](int start, int end) {
 
 				for (int i = start; i < end; i++) {
@@ -134,7 +136,7 @@ public:
 					}
 				}
 				});
-				
+
 		}
 
 		//! FOR MAIN MENU
@@ -179,7 +181,7 @@ public:
 
 				}
 			}
-			
+
 
 			for (auto& e : grid->visible_links) {
 				if (!e || !e->isActive()) continue;
@@ -193,9 +195,9 @@ public:
 	void updateFully(float deltaTime = 1.0f)
 	{
 		// the links are updating once since after first update we check wether the nodes are aligned with the ownerCells
-		for (auto& e : entities) { 
+		for (auto& e : entities) {
 			if (!e || !e->isActive()) continue;
-			
+
 			e->update(deltaTime);
 		}
 		update(deltaTime);
@@ -219,7 +221,7 @@ public:
 			updateActiveEntities();
 			updateVisibleEntities();
 		}
-				
+
 	}
 
 	void aboutTo_updateActiveEntities() {
@@ -323,7 +325,7 @@ public:
 		lastEntityId = 0;
 	}
 
-	Entity* getEntityFromId(unsigned int mId) {
+	Entity* getEntityFromId(EntityID mId) {
 		for (auto& entity : entities) {
 			if (entity->getId() == mId && entity->isActive()) {
 				return &*entity;
@@ -332,7 +334,7 @@ public:
 		return nullptr;
 	}
 
-	bool hasEntity(unsigned int mId) {
+	bool hasEntity(EntityID mId) {
 		if (getEntityFromId(mId) == nullptr) {
 			return false;
 		}
@@ -350,7 +352,7 @@ public:
 	}
 
 	void removeAllEntites() {
-		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels; group++) {
+		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::textLabels; group++) {
 			removeAllEntitiesFromGroup(group);
 			removeAllEntitiesFromLinkGroup(group);
 		}
@@ -387,12 +389,12 @@ public:
 
 		for (Cell* adjCell : adjacentCells) {
 			for (auto& neighbor : adjCell->nodes) {
-				if (neighbor->hasGroup(group) && (neighbor != mainEntity) ) { 
+				if (neighbor->hasGroup(group) && (neighbor != mainEntity)) {
 					nearbyEntities.push_back(neighbor);
 				}
 			}
 		}
-		
+
 		return nearbyEntities;
 	}
 
@@ -427,12 +429,12 @@ public:
 		groupSphereEmpties,
 
 		groupRenderSprites,
-		
+
 		groupPorts,
 		groupPortSlots,
 
 		//fore
-		buttonLabels,
+		textLabels,
 	};
 
 	const std::unordered_map<Group, std::string> groupNames = {
@@ -443,9 +445,9 @@ public:
 		{ groupLinks_0,"groupLinks_0" },
 		{groupGroupLinks_0, "groupGroupLinks_0"},
 		{groupGroupLinks_1, "groupGroupLinks_1"},
-		
+
 		{groupPathLinks, "groupPathLinks"},
-		
+
 		{groupPathInnerLinks, "groupPathInnerLinks"},
 
 		{groupPathLinksHolder, "groupPathLinksHolder"},
@@ -455,7 +457,7 @@ public:
 		{ groupNodes_0,"groupNodes_0" },
 		{ groupGroupNodes_0, "groupGroupNodes_0"},
 		{ groupGroupNodes_1, "groupGroupNodes_1"},
-		
+
 		{ groupMinimapNodes,"groupMinimapNodes" },
 
 		{ groupEmpties,"groupEmpties" },
@@ -467,7 +469,7 @@ public:
 		{ groupPortSlots,"groupPortSlots" },
 
 		//fore
-		{ buttonLabels,"buttonLabels" },
+		{ textLabels,"textLabels" },
 	};
 
 	std::string getGroupName(Group mGroup) const;

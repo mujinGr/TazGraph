@@ -126,7 +126,7 @@ void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 	auto child_links = (m_level == Grid::Level::Outer1) ?
 		manager->getGroup<LinkEntity>(Manager::groupLinks_0) : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_0);
 
-	std::unordered_set<std::pair<int, int>, PairHash> existingLinks;
+	std::unordered_set<std::pair<EntityID, EntityID>, PairHash> existingLinks;
 
 	for (const auto& c_link : child_links) {
 		if (c_link->isHidden()) {
@@ -144,8 +144,8 @@ void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 			}
 
 			// Create a unique key for the link (sorted to avoid duplicates like A-B vs B-A)
-			int parentFromId = fromParent->getId();
-			int parentToId = toParent->getId();
+			EntityID parentFromId = fromParent->getId();
+			EntityID parentToId = toParent->getId();
 			auto linkKey = (parentFromId < parentToId) ?
 				std::make_pair(parentFromId, parentToId) :
 				std::make_pair(parentToId, parentFromId);

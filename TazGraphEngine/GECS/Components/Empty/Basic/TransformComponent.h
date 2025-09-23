@@ -8,6 +8,7 @@ public:
 	glm::vec3 velocity = glm::vec3(0);
 	glm::vec3 rotation = { 0.0f,0.0f,0.0f };
 	glm::vec3 position = glm::vec3(0);
+	glm::vec3 local_position = glm::vec3(0);
 	glm::vec3 size = glm::vec3(0);
 
 	glm::vec3 last_position = glm::vec3(0);
@@ -85,7 +86,7 @@ public:
 				return;
 			}
 
-			position = parentTR->getPosition() + position;
+			position = parentTR->getPosition() + local_position;
 
 		}
 
@@ -108,6 +109,19 @@ public:
 		//todo dont update the children on every iteration
 		// todo do this for component when needed		
 
+	}
+
+	void initChild(float deltaTime) {
+		if (entity->getParentEntity()
+			&& (dynamic_cast<NodeEntity*>(entity->getParentEntity())
+				|| dynamic_cast<EmptyEntity*>(entity->getParentEntity())))
+		{
+			Entity* parent = entity->getParentEntity();
+			TransformComponent* parentTR = &parent->GetComponent<TransformComponent>();
+
+			entity->GetComponent<TransformComponent>().position = parentTR->getPosition() + entity->GetComponent<TransformComponent>().local_position;
+
+		}
 	}
 
 	glm::vec3 getSizeCenter() {

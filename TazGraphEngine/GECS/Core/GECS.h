@@ -18,6 +18,7 @@
 #include "../../ConsoleLogger.h"
 
 #include <optional>
+#include <variant>
 
 #define CULLING_OFFSET 100
 
@@ -149,10 +150,35 @@ enum LinkPorts {
 	ARROWHEAD = 0
 };
 
+using EntityID = std::variant<int, std::string>;
+
+namespace EntityIDUtils {
+
+	template<typename>
+	struct always_false : std::false_type {};
+
+
+	inline std::string toString(const EntityID& id) {
+		return std::visit([](auto&& v) -> std::string {
+			using T = std::decay_t<decltype(v)>;
+			if constexpr (std::is_same_v<T, int>) {
+				return std::to_string(v);
+			}
+			else if constexpr (std::is_same_v<T, std::string>) {
+				return v;
+			}
+			else {
+				static_assert(always_false<T>::value, "Unhandled type in EntityID");
+				return {}; // satisfies compiler
+			}
+			}, id);
+	}
+}
+
 class Entity
 {
 private:
-	unsigned int id = 0;
+	EntityID id = 0;
 
 	bool active = true; // false if about to delete
 	bool hidden = false; // true if not do updates
@@ -167,10 +193,10 @@ protected:
 
 	Manager& manager;
 public:
-	std::vector<EmptyEntity*> children;
+	std::map < EntityID, EmptyEntity*> children;
 
-	void setId(unsigned int m_id) { id = m_id; }
-	unsigned int getId() { return id; }
+	void setId(EntityID m_id) { id = m_id; }
+	EntityID getId() { return id; }
 
 	void hide() {
 		hidden = true;

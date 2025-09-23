@@ -33,24 +33,24 @@ void Map::saveMapAsText(const char* fileName) {
 
 	file << "Total number of nodes: " << nodes.size() << "\n";
 
-	for (auto& entity : nodes) { 
-		
+	for (auto& entity : nodes) {
+
 		if (entity->hasComponent<TransformComponent>()) {
 			TransformComponent& tc = entity->GetComponent<TransformComponent>();
-			file << entity->getId() << "\t"; // id is the index in the vector of entities
-			file <<  tc.getPosition().x << " " << tc.getPosition().y << "\t";
+			file << EntityIDUtils::toString(entity->getId()) << "\t"; // id is the index in the vector of entities
+			file << tc.getPosition().x << " " << tc.getPosition().y << "\t";
 			file << tc.size.x << "x" << tc.size.y << "\n";
 		}
 	}
 
 	file << "\n";
-	
+
 	file << "Total number of links: " << links.size() << "\n";
 
 	for (auto& entity : links) {
-		file << entity->getId() << "\t";
-		file << entity->getFromNode()->getId() << "\t";
-		file << entity->getToNode()->getId() << "\n";
+		file << EntityIDUtils::toString(entity->getId()) << "\t";
+		file << EntityIDUtils::toString(entity->getFromNode()->getId()) << "\t";
+		file << EntityIDUtils::toString(entity->getToNode()->getId()) << "\n";
 	}
 
 	file.close();
@@ -98,9 +98,9 @@ void Map::loadPaths(
 	std::string text = "assets/Paths/" + std::string(fileName);
 
 	std::unique_ptr<IMapParser> processor;
-	
+
 	processor = std::make_unique<TextPathParser>();
-	
+
 	processor->readFile(text);
 	processor->parse(*manager, addNodeFunc, addLinkFunc);
 	processor->closeFile();

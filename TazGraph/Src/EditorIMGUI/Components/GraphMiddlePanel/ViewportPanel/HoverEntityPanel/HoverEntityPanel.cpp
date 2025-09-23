@@ -51,7 +51,7 @@ void HoverEntityPanel::OnImGuiRender()
 	if (node) {
 		// Entity ID
 		char idText[64];
-		safe_sprintf(idText, "Id: %d", config.hoveredEntity->getId());
+		safe_sprintf(idText, "Id: %s", EntityIDUtils::toString(config.hoveredEntity->getId()).c_str());
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
 		currentY += lineHeight;
 
@@ -78,7 +78,7 @@ void HoverEntityPanel::OnImGuiRender()
 	Link* link = dynamic_cast<Link*>(config.hoveredEntity);
 	if (link) {
 		char idText[64];
-		safe_sprintf(idText, "Link Id: %d", config.hoveredEntity->getId());
+		safe_sprintf(idText, "Link Id: %s", EntityIDUtils::toString(config.hoveredEntity->getId()).c_str());
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
 	}
 
@@ -86,7 +86,7 @@ void HoverEntityPanel::OnImGuiRender()
 	if (empty) {
 		// Entity ID
 		char idText[64];
-		safe_sprintf(idText, "Empty Id: %d", config.hoveredEntity->getId());
+		safe_sprintf(idText, "Empty Id: %s", EntityIDUtils::toString(config.hoveredEntity->getId()).c_str());
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
 		currentY += lineHeight;
 

@@ -10,7 +10,7 @@ void VisibleEntitiesPanel::OnImGuiRender()
 		ImGui::TableHeadersRow();
 
 		int totalEntities = 0;
-		for (std::size_t managerGroup = Manager::groupBackgroundLayer; managerGroup != Manager::buttonLabels + 1; ++managerGroup) {
+		for (std::size_t managerGroup = Manager::groupBackgroundLayer; managerGroup <= Manager::textLabels; ++managerGroup) {
 			ImGui::TableNextRow();
 			ImGui::TableSetColumnIndex(0);
 			ImGui::Text("%s", config.manager->getGroupName(managerGroup).c_str());

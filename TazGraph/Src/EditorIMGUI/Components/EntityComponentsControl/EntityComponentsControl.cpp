@@ -24,7 +24,7 @@ void EntityComponentsControlPanel::OnImGuiRender()
 		windowTitle = "Empty Display";
 	}
 
-	int currentId = config.displayedEntity->getId();
+	EntityID currentId = config.displayedEntity->getId();
 
 	glm::vec2 moysePos = config.scene->getApp()->_inputManager.getMouseCoords();
 

@@ -52,7 +52,38 @@ void GraphLeftPanel::OnImGuiRender()
 	if (ImGui::Button("Enable Debug Mode")) {
 		config.scene->renderDebug = !config.scene->renderDebug;  // Toggle the state
 	}
+	ImGui::PopStyleColor(1);
 
+	if (config.scene->manager->idTextEnabled) {
+		ImGui::PushStyleColor(ImGuiCol_Button, activeColor);  // Green for ON
+	}
+	else {
+		ImGui::PushStyleColor(ImGuiCol_Button, inactiveColor);  // Red for OFF
+	}
+	// Button toggles the debug mode
+	if (ImGui::Button(config.scene->manager->idTextEnabled ? "Disable Id Labels" : "Enable Id Labels")) {
+		config.scene->manager->idTextEnabled = !config.scene->manager->idTextEnabled;
+
+		if (config.scene->manager->idTextEnabled) {
+			//create empty entities(textLabels) that will attach on node entities
+			for (auto& node : config.scene->manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
+				auto& textLabel = config.scene->manager->addEntity<Empty>();
+
+				textLabel.addGroup(Manager::textLabels);
+
+				textLabel.addComponent<TransformComponent>(0.0f);
+				textLabel.GetComponent<TransformComponent>().local_position = glm::vec3(0);
+				node->children["label"] = &textLabel;
+				node->children["label"]->setParentEntity(node);
+				node->children["label"]->GetComponent<TransformComponent>().initChild(0.0f);
+			}
+		}
+		else if (!config.scene->manager->idTextEnabled) {
+			//destroy empty entities(textLabels) 
+			config.scene->manager->removeAllEntitiesFromEmptyGroup(Manager::textLabels);
+		}
+		config.scene->manager->aboutTo_updateActiveEntities();
+	}
 	ImGui::PopStyleColor(1);
 
 	ImGui::Separator();

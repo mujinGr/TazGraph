@@ -77,12 +77,12 @@ public:
 					if (!entity->isHidden()) {  // Check if the entity is visible
 						result.push_back(entity);
 
-						for (auto* port : entity->children) {
-							if (port && !port->isHidden()) {
-								visible_emptyEntities.push_back(port);
+						for (auto& port : entity->children) {
+							if (port.second && !port.second->isHidden()) {
+								visible_emptyEntities.push_back(port.second);
 
-								if (port->hasComponent<PortComponent>()) {
-									for (auto& portSlots : port->GetComponent<PortComponent>().portSlots)
+								if (port.second->hasComponent<PortComponent>()) {
+									for (auto& portSlots : port.second->GetComponent<PortComponent>().portSlots)
 										visible_emptyEntities.push_back(portSlots);
 								}
 							}
@@ -139,12 +139,12 @@ public:
 				for (auto& entity : cell->nodes) {
 					if (!entity->isHidden()) {
 						// Also include children(ports) if they exist
-						for (auto* port : entity->children) {
-							if (port && !port->isHidden()) {
-								visible_emptyEntities.push_back(port);
+						for (auto& port : entity->children) {
+							if (port.second && !port.second->isHidden()) {
+								visible_emptyEntities.push_back(port.second);
 
-								if (port->hasComponent<PortComponent>()) {
-									for (auto& portSlots : port->GetComponent<PortComponent>().portSlots)
+								if (port.second->hasComponent<PortComponent>()) {
+									for (auto& portSlots : port.second->GetComponent<PortComponent>().portSlots)
 										visible_emptyEntities.push_back(portSlots);
 								}
 							}
@@ -178,7 +178,7 @@ public:
 	int getLevelCellScale(Level level);
 private:
 	std::vector<Cell*> _interceptedCells;
-	
+
 	std::vector<Cell> _cells;
 	std::vector<Cell> _parentCells;
 	std::vector<Cell> _superParentCells;
@@ -195,7 +195,7 @@ private:
 
 	// can change between different scenes/managers
 	std::map<Level, GridLevelData> gridLevelsData;
-	
+
 	std::map<Level, int> gridLevels = {
 		{Level::Basic,  1},
 		{Level::Outer1, 2},

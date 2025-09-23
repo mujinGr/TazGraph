@@ -87,41 +87,25 @@ public:
 
 		TransformComponent* tr = &GetComponent<TransformComponent>();
 
-		glm::vec3 m_position = glm::vec3(-tr->size.x / 2, 0.0f, 0.0f);
-
 		if (children[NodePorts::LEFT]) {
-			children[NodePorts::LEFT]->GetComponent<TransformComponent>().position = m_position;
-			children[NodePorts::LEFT]->update(deltaTime);
 			for (auto& portSlots : children[NodePorts::LEFT]->GetComponent<PortComponent>().portSlots) {
 				portSlots->update(deltaTime);
 			}
 		}
 
-		m_position = glm::vec3(tr->size.x / 2, 0.0f, 0.0f);
-
 		if (children[NodePorts::RIGHT]) {
-			children[NodePorts::RIGHT]->GetComponent<TransformComponent>().position = m_position;
-			children[NodePorts::RIGHT]->update(deltaTime);
 			for (auto& portSlots : children[NodePorts::RIGHT]->GetComponent<PortComponent>().portSlots) {
 				portSlots->update(deltaTime);
 			}
 		}
 
-		m_position = glm::vec3(0.0f, -tr->size.y / 2.0f, 0.0f);
-
 		if (children[NodePorts::TOP]) {
-			children[NodePorts::TOP]->GetComponent<TransformComponent>().position = m_position;
-			children[NodePorts::TOP]->update(deltaTime);
 			for (auto& portSlots : children[NodePorts::TOP]->GetComponent<PortComponent>().portSlots) {
 				portSlots->update(deltaTime);
 			}
 		}
 
-		m_position = glm::vec3(0.0f, tr->size.y / 2.0f, 0.0f);
-
 		if (children[NodePorts::BOTTOM]) {
-			children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().position = m_position;
-			children[NodePorts::BOTTOM]->update(deltaTime);
 			for (auto& portSlots : children[NodePorts::BOTTOM]->GetComponent<PortComponent>().portSlots) {
 				portSlots->update(deltaTime);
 			}
@@ -184,7 +168,7 @@ public:
 
 	void addPorts() {
 		bool hasChildren = std::all_of(children.begin(), children.end(),
-			[](auto* c) { return c != nullptr; });
+			[](auto& pair) { return pair.second != nullptr; });
 
 		if (hasChildren) {
 			TazGraphEngine::ConsoleLogger::error("Node already has 4 children!");
@@ -199,8 +183,10 @@ public:
 		leftPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children[NodePorts::LEFT] = &leftPort;
 		children[NodePorts::LEFT]->setParentEntity(this);
-		children[NodePorts::LEFT]->GetComponent<TransformComponent>().position = tr->position + m_position;
+		children[NodePorts::LEFT]->GetComponent<TransformComponent>().local_position = m_position;
+		children[NodePorts::LEFT]->GetComponent<TransformComponent>().initChild(0.0f);
 		children[NodePorts::LEFT]->addComponent<PortComponent>(true);
+		children[NodePorts::LEFT]->update(0.0f);
 
 		auto& rightPort = getManager()->addEntityNoId<Empty>();
 		rightPort.addGroup(Manager::groupPorts);
@@ -208,8 +194,10 @@ public:
 		rightPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children[NodePorts::RIGHT] = &rightPort;
 		children[NodePorts::RIGHT]->setParentEntity(this);
-		children[NodePorts::RIGHT]->GetComponent<TransformComponent>().position = tr->position + m_position;
+		children[NodePorts::RIGHT]->GetComponent<TransformComponent>().local_position = m_position;
+		children[NodePorts::RIGHT]->GetComponent<TransformComponent>().initChild(0.0f);
 		children[NodePorts::RIGHT]->addComponent<PortComponent>(true);
+		children[NodePorts::RIGHT]->update(0.0f);
 
 		// Initialize top port
 		auto& topPort = getManager()->addEntityNoId<Empty>();
@@ -218,8 +206,10 @@ public:
 		topPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children[NodePorts::TOP] = &topPort;
 		children[NodePorts::TOP]->setParentEntity(this);
-		children[NodePorts::TOP]->GetComponent<TransformComponent>().position = tr->position + m_position;
+		children[NodePorts::TOP]->GetComponent<TransformComponent>().local_position = m_position;
+		children[NodePorts::TOP]->GetComponent<TransformComponent>().initChild(0.0f);
 		children[NodePorts::TOP]->addComponent<PortComponent>(false);
+		children[NodePorts::TOP]->update(0.0f);
 
 		// Initialize bottom port
 		auto& bottomPort = getManager()->addEntityNoId<Empty>();
@@ -228,8 +218,10 @@ public:
 		bottomPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
 		children[NodePorts::BOTTOM] = &bottomPort;
 		children[NodePorts::BOTTOM]->setParentEntity(this);
-		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().position = tr->position + m_position;
+		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().local_position = m_position;
+		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().initChild(0.0f);
 		children[NodePorts::BOTTOM]->addComponent<PortComponent>(false);
+		children[NodePorts::BOTTOM]->update(0.0f);
 
 		/*	auto& testSlot = getManager()->addEntityNoId<Empty>();
 			testSlot.addGroup(Manager::groupPortSlots);
@@ -285,7 +277,7 @@ public:
 	Link(Manager& mManager) : LinkEntity(mManager) {
 	}
 
-	Link(Manager& mManager, unsigned int mfromId, unsigned int mtoId)
+	Link(Manager& mManager, EntityID mfromId, EntityID mtoId)
 		: LinkEntity(mManager, mfromId, mtoId)
 	{
 		from = dynamic_cast<NodeEntity*>(mManager.getEntityFromId(fromId));
@@ -313,7 +305,7 @@ public:
 	}
 
 	Link(Manager& mManager,
-		unsigned int mfromId, unsigned int mtoId,
+		EntityID mfromId, EntityID mtoId,
 		NodeEntity* mfrom, NodeEntity* mto
 	)
 		: LinkEntity(mManager,
@@ -326,7 +318,7 @@ public:
 	Link(
 		Manager& mManager,
 		NodeEntity* mfrom, NodeEntity* mto,
-		int m_fromPort, int m_toPort, int m_fromSlot, int m_toSlot
+		EntityID m_fromPort, EntityID m_toPort, int m_fromSlot, int m_toSlot
 	)
 		: LinkEntity(mManager,
 			mfrom, mto,
@@ -485,9 +477,9 @@ public:
 		}
 	}
 
-	int assignSlotIndex(NodeEntity* node, int newPort, int oldPort, int oldSlotIndex) {
+	int assignSlotIndex(NodeEntity* node, EntityID newPort, EntityID oldPort, int oldSlotIndex) {
 		// If port changed, remove link from old port's slots
-		if (oldPort != -1 && oldPort != newPort && oldPort < (int)node->children.size()) {
+		if (std::get<int>(oldPort) != -1 && oldPort != newPort && std::get<int>(oldPort) < (int)node->children.size()) {
 			Entity* oldPortEntity = node->children[oldPort];
 			if (oldPortEntity && oldPortEntity->hasComponent<PortComponent>()) {
 				auto& oldSlots = oldPortEntity->GetComponent<PortComponent>().portSlots;
@@ -504,7 +496,7 @@ public:
 		}
 
 		if (oldPort != newPort) {
-			if (newPort < 0 || newPort >= (int)node->children.size()) {
+			if (std::get<int>(newPort) < 0 || std::get<int>(newPort) >= (int)node->children.size()) {
 				return -1; // Invalid port
 			}
 
@@ -537,7 +529,7 @@ public:
 		return oldSlotIndex;
 	}
 
-	void updateLinksSlotIndices(NodeEntity* node, int portIndex, int removedSlotIndex) {
+	void updateLinksSlotIndices(NodeEntity* node, EntityID portIndex, int removedSlotIndex) {
 		for (auto& linkEntity : node->getOutLinks()) {
 
 			if (linkEntity->fromPort == portIndex &&

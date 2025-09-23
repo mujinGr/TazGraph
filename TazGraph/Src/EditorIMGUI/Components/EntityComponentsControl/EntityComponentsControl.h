@@ -13,7 +13,7 @@ class EntityComponentsControlPanel : public UIElement
 private:
 	EntityComponentsConfig config;
 
-	int _lastEntityDisplayed = 0;
+	EntityID _lastEntityDisplayed = 0;
 
 public:
 	EntityComponentsControlPanel() {
