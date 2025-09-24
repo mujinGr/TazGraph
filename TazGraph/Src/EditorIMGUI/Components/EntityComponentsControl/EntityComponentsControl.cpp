@@ -38,7 +38,7 @@ void EntityComponentsControlPanel::OnImGuiRender()
 		if (ImGui::CollapsingHeader("Script"))
 		{
 			getSubcomponent<PythonInterpreterPanel>()->setConfig({
-
+				.scene = config.scene,
 				});
 
 			getSubcomponent<PythonInterpreterPanel>()->OnImGuiRender2();

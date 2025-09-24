@@ -31,13 +31,15 @@ public:
 	virtual void update() = 0;
 
 	// Converts screen coordinates to world coordinates
-	glm::vec3 convertScreenToWorld(glm::vec2 screenCoords, float depth = 0.0f);
+	glm::vec3 convertScreenToWorldPlane(glm::vec2 screenCoords, float depth = 0.0f);
 
 	// Returns the dimensions of the camera2D.worldLocation's view
 	virtual glm::ivec2 getCameraDimensions() const = 0;
 
 	// Returns the SDL_Rect representing the camera2D.worldLocation's viewport
 	virtual SDL_FRect getCameraRect() const = 0;
+
+	glm::vec3 convertScreenToWorldDistance(glm::vec2 screenCoords, float depth);
 
 	// Additional methods to expose camera2D.worldLocation properties as needed
 	glm::vec3 getPosition() const;

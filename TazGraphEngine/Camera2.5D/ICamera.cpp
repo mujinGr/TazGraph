@@ -1,6 +1,6 @@
 #include "./ICamera.h"
 
-glm::vec3 ICamera::convertScreenToWorld(glm::vec2 screenCoords, float depth) {
+glm::vec3 ICamera::convertScreenToWorldPlane(glm::vec2 screenCoords, float depth) {
 	glm::vec3 rayOrigin = getPosition();
 
 	// Get ray direction from screen
@@ -8,6 +8,16 @@ glm::vec3 ICamera::convertScreenToWorld(glm::vec2 screenCoords, float depth) {
 
 	// Get point where ray hits desired Z
 	return getPointOnRayAtZ(rayOrigin, rayDir, depth);
+}
+
+glm::vec3 ICamera::convertScreenToWorldDistance(glm::vec2 screenCoords, float distanceFromCamera) {
+	glm::vec3 rayOrigin = getPosition();
+
+	// Get ray direction from screen
+	glm::vec3 rayDir = castRayAt(screenCoords);
+
+	// Get point where ray hits desired Z
+	return rayOrigin + rayDir * distanceFromCamera;
 }
 
 glm::vec3 ICamera::getPosition() const

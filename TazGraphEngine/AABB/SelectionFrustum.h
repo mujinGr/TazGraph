@@ -9,21 +9,21 @@ struct SelectionFrustum {
 
 	// Create frustum from screen-space selection box
 	bool createFromSelectionBox(const glm::vec2& startPos, const glm::vec2& endPos,
-		ICamera* camera, float nearZ = -1000.0f, float farZ = 1000.0f) {
+		ICamera* camera, float nearZ = 100.0f, float farZ = 10000.0f) {
 		// Ensure min/max order
 		glm::vec2 minPos = glm::min(startPos, endPos);
 		glm::vec2 maxPos = glm::max(startPos, endPos);
 
 		// Convert screen coordinates to world coordinates at different Z depths
-		glm::vec3 nearBottomLeft = camera->convertScreenToWorld(glm::vec2(minPos.x, maxPos.y), nearZ);
-		glm::vec3 nearBottomRight = camera->convertScreenToWorld(glm::vec2(maxPos.x, maxPos.y), nearZ);
-		glm::vec3 nearTopLeft = camera->convertScreenToWorld(glm::vec2(minPos.x, minPos.y), nearZ);
-		glm::vec3 nearTopRight = camera->convertScreenToWorld(glm::vec2(maxPos.x, minPos.y), nearZ);
+		glm::vec3 nearBottomLeft = camera->convertScreenToWorldDistance(glm::vec2(minPos.x, maxPos.y), nearZ);
+		glm::vec3 nearBottomRight = camera->convertScreenToWorldDistance(glm::vec2(maxPos.x, maxPos.y), nearZ);
+		glm::vec3 nearTopLeft = camera->convertScreenToWorldDistance(glm::vec2(minPos.x, minPos.y), nearZ);
+		glm::vec3 nearTopRight = camera->convertScreenToWorldDistance(glm::vec2(maxPos.x, minPos.y), nearZ);
 
-		glm::vec3 farBottomLeft = camera->convertScreenToWorld(glm::vec2(minPos.x, maxPos.y), farZ);
-		glm::vec3 farBottomRight = camera->convertScreenToWorld(glm::vec2(maxPos.x, maxPos.y), farZ);
-		glm::vec3 farTopLeft = camera->convertScreenToWorld(glm::vec2(minPos.x, minPos.y), farZ);
-		glm::vec3 farTopRight = camera->convertScreenToWorld(glm::vec2(maxPos.x, minPos.y), farZ);
+		glm::vec3 farBottomLeft = camera->convertScreenToWorldDistance(glm::vec2(minPos.x, maxPos.y), farZ);
+		glm::vec3 farBottomRight = camera->convertScreenToWorldDistance(glm::vec2(maxPos.x, maxPos.y), farZ);
+		glm::vec3 farTopLeft = camera->convertScreenToWorldDistance(glm::vec2(minPos.x, minPos.y), farZ);
+		glm::vec3 farTopRight = camera->convertScreenToWorldDistance(glm::vec2(maxPos.x, minPos.y), farZ);
 
 		// Store corners
 		corners[0] = nearBottomLeft;
