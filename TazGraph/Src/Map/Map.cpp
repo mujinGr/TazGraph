@@ -75,8 +75,12 @@ void Map::loadMap(
 	else if (text.find(".dot") != std::string::npos) {
 		processor = std::make_unique<DOTMapParser>();
 	}
-	else {
+	else if (text.find(".txt") != std::string::npos) {
 		processor = std::make_unique<TextMapParser>();
+	}
+	else {
+		manager->removeAllEntites();
+		return;
 	}
 
 	manager->removeAllEntites();
