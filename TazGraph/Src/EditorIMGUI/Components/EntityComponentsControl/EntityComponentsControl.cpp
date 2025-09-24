@@ -34,8 +34,32 @@ void EntityComponentsControlPanel::OnImGuiRender()
 	}
 
 	if (ImGui::Begin(windowTitle.c_str())) {
+		bool hasComponent = config.displayedEntity->hasComponent<EmptyPythonCodeComponent>();
 
-		if (ImGui::CollapsingHeader("Script"))
+		if (ImGui::Checkbox("EmptyPythonCodeComponent", &hasComponent)) {
+			if (hasComponent) {
+				if (empty || node) {
+					config.displayedEntity->addComponent<EmptyPythonCodeComponent>();
+				}
+				else if (link) {
+					config.displayedEntity->addComponent<LinkPythonCodeComponent>();
+
+				}
+
+			}
+			else {
+				if (empty || node) {
+					config.displayedEntity->removeComponent<EmptyPythonCodeComponent>();
+				}
+				else if (link) {
+					config.displayedEntity->removeComponent<LinkPythonCodeComponent>();
+
+				}
+			}
+		}
+		
+		
+		if (hasComponent && ImGui::CollapsingHeader("Script"))
 		{
 			getSubcomponent<PythonInterpreterPanel>()->setConfig({
 				.scene = config.scene,

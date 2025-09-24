@@ -2,6 +2,10 @@
 
 #include "./Core/GECSEntity.h"
 
+#include "./Components/PythonCodeComponent.h"
+#include "./Components/Empty/Basic/EmptyPythonCodeComponent.h"
+#include "./Components/Link/Basic/LinkPythonCodeComponent.h"
+
 #include "./Components/Empty/Basic/TransformComponent.h"
 #include "./Components/Empty/Basic/SpriteComponent.h"
 #include "./Components/Empty/Basic/Triangle_w_Color.h"

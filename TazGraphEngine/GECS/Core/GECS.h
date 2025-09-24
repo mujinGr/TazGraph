@@ -93,7 +93,7 @@ template <typename T> inline ComponentID GetLinkComponentTypeID() noexcept
 	return typeID;
 }
 
-constexpr std::size_t maxComponents = 16;
+constexpr std::size_t maxComponents = 24;
 constexpr std::size_t maxGroups = 24;
 
 using ComponentBitSet = std::bitset<maxComponents>;

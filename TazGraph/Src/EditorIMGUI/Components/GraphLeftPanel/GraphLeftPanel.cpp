@@ -81,6 +81,12 @@ void GraphLeftPanel::OnImGuiRender()
 		else if (!config.scene->manager->idTextEnabled) {
 			//destroy empty entities(textLabels) 
 			config.scene->manager->removeAllEntitiesFromEmptyGroup(Manager::textLabels);
+
+			for (auto& label : config.scene->manager->getGroup<EmptyEntity>(Manager::textLabels)) {
+				auto& node = *label->getParentEntity();
+
+				node.children.erase("label");
+			}
 		}
 		config.scene->manager->aboutTo_updateActiveEntities();
 	}

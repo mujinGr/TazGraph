@@ -33,12 +33,20 @@ public:
 
 	ImRect titleBarRect;
 
+	float intervalSec = 1.0f;
+	double lastExecTime = 0.0;
+	bool autoUpdate = false;
+
+	bool inputActive = false;
+
 	bool init = true;
 
 	ImGuiChildFlags flags = ImGuiChildFlags_ResizeY | ImGuiWindowFlags_NoSavedSettings;
 
 	PythonInterpreterPanel();
 	void init_api(py::module_& m, Manager& manager);
+
+	void update(float deltaTime) override;
 
 	void setConfig(const PythonInterpreterConfig& cfg) {
 
@@ -51,4 +59,5 @@ public:
 
 	void setFlags();
 	void innerTable();
+	void runScript();
 };

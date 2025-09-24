@@ -73,4 +73,10 @@ void GraphMiddlePanel::OnImGuiRender()
 	);
 	getSubcomponent<PythonInterpreterPanel>()->OnImGuiRender();
 
+
+	if (getSubcomponent<PythonInterpreterPanel>()->inputActive) {
+		getSubcomponent<ViewportPanel>()->isMouseInSecondColumn = false;
+	}
+
+
 }

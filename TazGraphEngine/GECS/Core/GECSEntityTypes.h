@@ -244,7 +244,7 @@ public:
 					slot->destroy();
 				}
 				children[portName]->GetComponent<PortComponent>().portSlots.clear();
-				children[portName] = nullptr;
+				children.erase(portName);
 			}
 		}
 	}
