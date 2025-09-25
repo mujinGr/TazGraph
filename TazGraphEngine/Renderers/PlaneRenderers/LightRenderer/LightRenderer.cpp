@@ -58,7 +58,7 @@ void LightRenderer::drawTriangle(
 	size_t v_index,
 	const glm::vec3& position,
 	const glm::vec3& cpuRotation,
-	const Color& color
+	const TazColor& color
 ) {
 	glm::vec2 size = glm::vec2(10.0f);
 	_meshesArrays[TRIANGLE_MESH_IDX].instances[v_index] = ColorInstanceData(size, position, cpuRotation, color);
@@ -74,7 +74,7 @@ void LightRenderer::draw(
 	const glm::vec2& rectSize,
 	const glm::vec3& position,
 	const glm::vec3& mRotation,
-	const Color& color) {
+	const TazColor& color) {
 	_meshesElements[RECTANGLE_MESH_IDX].instances[v_index] = ColorInstanceData(rectSize, position, mRotation, color);
 }
 
@@ -83,7 +83,7 @@ void LightRenderer::drawBox(
 	const glm::vec3& boxSize,
 	const glm::vec3& position,
 	const glm::vec3& mRotation,
-	const Color& color) {
+	const TazColor& color) {
 	_meshesElements[BOX_MESH_IDX].instances[v_index] = ColorInstanceData(boxSize, position, mRotation, color);
 }
 
@@ -92,7 +92,7 @@ void LightRenderer::drawSphere(
 	const glm::vec3& sphereSize,
 	const glm::vec3& position,
 	const glm::vec3& mRotation,
-	const Color& color)
+	const TazColor& color)
 {
 	_meshesElements[SPHERE_MESH_IDX].instances[v_index] = ColorInstanceData(sphereSize, position, mRotation, color);
 }
@@ -201,10 +201,10 @@ void LightRenderer::createVertexArray() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0); // aPos
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(LightVertex), (void*)offsetof(LightVertex, position));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TazLightVertex), (void*)offsetof(TazLightVertex, position));
 
 	glEnableVertexAttribArray(1); // aNormal
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(LightVertex), (void*)offsetof(LightVertex, normal));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(TazLightVertex), (void*)offsetof(TazLightVertex, normal));
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndices), quadIndices, GL_STATIC_DRAW);
@@ -216,10 +216,10 @@ void LightRenderer::createVertexArray() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(light_cubeVertices), light_cubeVertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0); // aPos
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(LightVertex), (void*)offsetof(LightVertex, position));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TazLightVertex), (void*)offsetof(TazLightVertex, position));
 
 	glEnableVertexAttribArray(1); // aNormal
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(LightVertex), (void*)offsetof(LightVertex, normal));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(TazLightVertex), (void*)offsetof(TazLightVertex, normal));
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[BOX_MESH_IDX].ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
@@ -228,13 +228,13 @@ void LightRenderer::createVertexArray() {
 	glBindVertexArray(_meshesElements[SPHERE_MESH_IDX].vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[SPHERE_MESH_IDX].vbo);
-	glBufferData(GL_ARRAY_BUFFER, sphereVertices.size() * sizeof(LightVertex), sphereVertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sphereVertices.size() * sizeof(TazLightVertex), sphereVertices.data(), GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0); // aPos
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(LightVertex), (void*)offsetof(LightVertex, position));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TazLightVertex), (void*)offsetof(TazLightVertex, position));
 
 	glEnableVertexAttribArray(1); // aNormal
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(LightVertex), (void*)offsetof(LightVertex, normal));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(TazLightVertex), (void*)offsetof(TazLightVertex, normal));
 
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[SPHERE_MESH_IDX].ibo);
@@ -249,10 +249,10 @@ void LightRenderer::createVertexArray() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0); // aPos
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(LightVertex), (void*)offsetof(LightVertex, position));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TazLightVertex), (void*)offsetof(TazLightVertex, position));
 
 	glEnableVertexAttribArray(1); // aNormal
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(LightVertex), (void*)offsetof(LightVertex, normal));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(TazLightVertex), (void*)offsetof(TazLightVertex, normal));
 
 
 	glGenBuffers(1, &_vboInstances);

@@ -58,7 +58,7 @@ void PlaneColorRenderer::drawTriangle(
 	size_t v_index,
 	const glm::vec3& position,
 	const glm::vec3& cpuRotation,
-	const Color& color
+	const TazColor& color
 ) {
 	glm::vec2 size = glm::vec2(10.0f);
 	_meshesArrays[TRIANGLE_MESH_IDX].instances[v_index] = ColorInstanceData(size, position, cpuRotation, color);
@@ -74,7 +74,7 @@ void PlaneColorRenderer::draw(
 	const glm::vec2& rectSize,
 	const glm::vec3& position,
 	const glm::vec3& mRotation,
-	const Color& color) {
+	const TazColor& color) {
 	_meshesElements[RECTANGLE_MESH_IDX].instances[v_index] = ColorInstanceData(rectSize, position, mRotation, color);
 }
 
@@ -83,7 +83,7 @@ void PlaneColorRenderer::drawBox(
 	const glm::vec3& boxSize,
 	const glm::vec3& position,
 	const glm::vec3& mRotation,
-	const Color& color) {
+	const TazColor& color) {
 	_meshesElements[BOX_MESH_IDX].instances[v_index] = ColorInstanceData(boxSize, position, mRotation, color);
 }
 
@@ -92,7 +92,7 @@ void PlaneColorRenderer::drawSphere(
 	const glm::vec3& sphereSize,
 	const glm::vec3& position,
 	const glm::vec3& mRotation,
-	const Color& color)
+	const TazColor& color)
 {
 	_meshesElements[SPHERE_MESH_IDX].instances[v_index] = ColorInstanceData(sphereSize, position, mRotation, color);
 }
@@ -203,7 +203,7 @@ void PlaneColorRenderer::createVertexArray() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0); // aPos
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TazPosition), (void*)0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndices), quadIndices, GL_STATIC_DRAW);
@@ -215,7 +215,7 @@ void PlaneColorRenderer::createVertexArray() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0); // aPos
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TazPosition), (void*)0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[BOX_MESH_IDX].ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
@@ -224,10 +224,10 @@ void PlaneColorRenderer::createVertexArray() {
 	glBindVertexArray(_meshesElements[SPHERE_MESH_IDX].vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[SPHERE_MESH_IDX].vbo);
-	glBufferData(GL_ARRAY_BUFFER, sphereVertices.size() * sizeof(Position), sphereVertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sphereVertices.size() * sizeof(TazPosition), sphereVertices.data(), GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0); // aPos
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TazPosition), (void*)0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[SPHERE_MESH_IDX].ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphereIndices.size() * sizeof(GLuint), sphereIndices.data(), GL_STATIC_DRAW);
@@ -240,7 +240,7 @@ void PlaneColorRenderer::createVertexArray() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TazPosition), (void*)0);
 
 
 	glGenBuffers(1, &_vboInstances);

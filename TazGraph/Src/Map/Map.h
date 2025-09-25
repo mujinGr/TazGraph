@@ -10,6 +10,7 @@
 #include "./Parsers/PythonMapParser.h"
 #include "./Parsers/GraphMLMapParser.h"
 #include "./Parsers/DOTMapParser.h"
+#include "./Parsers/SimDumpMapParser.h"
 
 #include "./PathParsers/TextPathParser.h"
 

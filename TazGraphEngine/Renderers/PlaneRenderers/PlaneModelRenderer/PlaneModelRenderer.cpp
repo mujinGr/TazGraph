@@ -144,10 +144,10 @@ void PlaneModelRenderer::createVertexArray() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(tex_quadVertices), tex_quadVertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(3); // aPos
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, position));
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(TazTexVertex), (void*)offsetof(TazTexVertex, position));
 
 	glEnableVertexAttribArray(4); // aUV
-	glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, sizeof(TextureVertex), (void*)offsetof(TextureVertex, uv));
+	glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, sizeof(TazTexVertex), (void*)offsetof(TazTexVertex, uv));
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndices), quadIndices, GL_STATIC_DRAW);

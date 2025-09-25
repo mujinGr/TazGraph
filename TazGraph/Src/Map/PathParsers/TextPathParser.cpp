@@ -72,7 +72,7 @@ void TextPathParser::parse(Manager& manager,
 			int r = std::stoi(colorPart.substr(1, 2), nullptr, 16);
 			int g = std::stoi(colorPart.substr(3, 2), nullptr, 16);
 			int b = std::stoi(colorPart.substr(5, 2), nullptr, 16);
-			plc.color = Color(r, g, b, 255);
+			plc.color = TazColor(r, g, b, 255);
 		}
 
 		plc.width = width;

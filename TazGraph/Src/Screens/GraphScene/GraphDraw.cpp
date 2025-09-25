@@ -135,10 +135,10 @@ void Graph::draw()
 
 		size_t v_index = 0;
 
-		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), Color(255, 0, 255, 255));
-		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), Color(255, 0, 255, 255));
-		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), Color(255, 0, 255, 255));
-		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), Color(255, 0, 255, 255));
+		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
+		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
+		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
+		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
 
 
 		size_t box_v_index = 0;
@@ -147,7 +147,7 @@ void Graph::draw()
 			glm::vec3 cellBox_center(cell->boundingBox_center.x, cell->boundingBox_center.y, cell->boundingBox_center.z);
 			glm::vec3 cellBox_size(cell->boundingBox_size.x, cell->boundingBox_size.y, cell->boundingBox_size.z);
 
-			_LineRenderer.drawBox(box_v_index++, cellBox_size, cellBox_center, Color(0, 255, 0, 20));  // Drawing each cell in red for visibility
+			_LineRenderer.drawBox(box_v_index++, cellBox_size, cellBox_center, TazColor(0, 255, 0, 20));  // Drawing each cell in red for visibility
 		}
 
 		for (auto& group : {
@@ -167,9 +167,9 @@ void Graph::draw()
 					glm::vec3 nodeBox_org(tr->position);
 					glm::vec3 nodeBox_size(tr->size.x, tr->size.y, tr->size.z);
 
-					_LineRenderer.drawBox(box_v_index++, nodeBox_size, nodeBox_org, Color(255, 255, 255, 255));  // Drawing each cell in red for visibility
+					_LineRenderer.drawBox(box_v_index++, nodeBox_size, nodeBox_org, TazColor(255, 255, 255, 255));  // Drawing each cell in red for visibility
 
-					//_LineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getPosition().x);
+					//_LineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), TazColor(255, 255, 255, 255), tr->getPosition().x);
 					//break;
 				}
 
@@ -193,7 +193,7 @@ void Graph::draw()
 		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0).size() +
 		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size()
 	);
-	//! Color Renderer Init
+	//! TazColor Renderer Init
 	_PlaneColorRenderer.initQuadBatch(
 		manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
 		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
@@ -379,7 +379,7 @@ void Graph::draw()
 					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->position.z);
 					glm::vec3 nodeBox_size(destRect.z, destRect.w, tr->size.z);
 
-					_LineRenderer.drawBox(boxIndex++, nodeBox_size, nodeBox_org, Color(255, 255, 0, 100)); //todo add angle for drawRectangle
+					_LineRenderer.drawBox(boxIndex++, nodeBox_size, nodeBox_org, TazColor(255, 255, 0, 100)); //todo add angle for drawRectangle
 				}
 			}
 			else if (link) {
@@ -389,7 +389,7 @@ void Graph::draw()
 					glm::vec3 startP = lWc->entity->getFromNode()->GetComponent<TransformComponent>().getPosition();
 					glm::vec3 endP = lWc->entity->getToNode()->GetComponent<TransformComponent>().getPosition();
 
-					_LineRenderer.drawLine(lineIndex++, startP, endP, Color(255, 255, 0, 100), Color(255, 255, 0, 100), 20.0f);
+					_LineRenderer.drawLine(lineIndex++, startP, endP, TazColor(255, 255, 0, 100), TazColor(255, 255, 0, 100), 20.0f);
 
 				}
 			}
@@ -403,15 +403,15 @@ void Graph::draw()
 		// Vertical lines (constant X, varying Y)
 		glm::vec3 startV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), -AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);
 		glm::vec3 endV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);
-		_LineRenderer.drawLine(lineIndex++, startV, endV, Color(255, 255, 255, 64), Color(255, 255, 255, 64));
+		_LineRenderer.drawLine(lineIndex++, startV, endV, TazColor(255, 255, 255, 64), TazColor(255, 255, 255, 64));
 
 		// Horizontal lines (constant Y, varying X)
 		glm::vec3 startH(-AXIS_CELLS / 2.0f * manager->grid->getCellSize(), (i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), z);
 		glm::vec3 endH(AXIS_CELLS / 2.0f * manager->grid->getCellSize(), (i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), z);
-		_LineRenderer.drawLine(lineIndex++, startH, endH, Color(255, 255, 255, 64), Color(255, 255, 255, 64));
+		_LineRenderer.drawLine(lineIndex++, startH, endH, TazColor(255, 255, 255, 64), TazColor(255, 255, 255, 64));
 	}
 
-	//_LineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, Color(0, 0, 0, 255), Color(0, 0, 255, 255));
+	//_LineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, TazColor(0, 0, 0, 255), TazColor(0, 0, 255, 255));
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
@@ -511,7 +511,7 @@ void Graph::minimapDraw() {
 								mtrans.position.y = transform.position.y;
 								mtrans.size = transform.size * 10.0f;
 								mnode.addComponent<Rectangle_w_Color>();
-								mnode.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255));
+								mnode.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, 250, 0, 255));
 							}
 						}
 					}
@@ -541,7 +541,7 @@ void Graph::minimapDraw() {
 						mtrans.position.y = transform.position.y;
 						mtrans.size = transform.size * 10.0f; // enlarge only on minimap
 						mnode.addComponent<Rectangle_w_Color>();
-						mnode.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255));
+						mnode.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, 250, 0, 255));
 					}
 				}
 			}

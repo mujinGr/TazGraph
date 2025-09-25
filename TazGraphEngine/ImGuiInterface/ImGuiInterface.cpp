@@ -1,25 +1,25 @@
 #include "ImGuiInterface.h"
 
 void ImGuiInterface::BeginRender() {
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame();
-    ImGui::NewFrame();
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
 }
 
 void ImGuiInterface::RenderUI() {
-    ImGui::Begin("Example Window");
+	ImGui::Begin("Example Window");
 
-    ImGui::Text("Hello, world!");
-    if (ImGui::Button("Click me!")) {
-        std::cout << "Button clicked!" << std::endl;
-    }
+	ImGui::Text("Hello, world!");
+	if (ImGui::Button("Click me!")) {
+		std::cout << "Button clicked!" << std::endl;
+	}
 
-    ImGui::End();
+	ImGui::End();
 }
 
 void ImGuiInterface::EndRender() {
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 bool ImGuiInterface::isMouseOnWidget(const std::string& widgetName)

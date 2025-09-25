@@ -78,6 +78,9 @@ void Map::loadMap(
 	else if (text.find(".txt") != std::string::npos) {
 		processor = std::make_unique<TextMapParser>();
 	}
+	else if (text.find(".simdmp") != std::string::npos) {
+		processor = std::make_unique<SimDumpMapParser>();
+	}
 	else {
 		manager->removeAllEntites();
 		return;

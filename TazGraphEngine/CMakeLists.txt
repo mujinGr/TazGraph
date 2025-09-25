@@ -1,6 +1,9 @@
 message("\nInside TazGraphEngine Cmake...\n")
 
 set(PROJECT_NAME TazGraphEngine)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -z noexGGECStack")
 ################################################################################
 # Source groups
@@ -25,6 +28,7 @@ file(GLOB_RECURSE Source_Files
 "../vendors/ImGuizmo/ImGuizmo.cpp"
 "../vendors/tinyxml2/tinyxml2.cpp"
 "../vendors/DotParser/DotParser/DotParser.cpp"
+"../vendors/simdump/*.cpp"
 )
 
 # Organize headers in IDE (Visual Studio, Xcode, etc.)
@@ -110,6 +114,9 @@ include_directories(${DOTPARSER_INCLUDE_DIR})
 
 set(PYBIND11_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/pybind11/include")
 include_directories(${PYBIND11_INCLUDE_DIR})
+
+set(DOTPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/simdump/include")
+include_directories(${DOTPARSER_INCLUDE_DIR})
 #file(GLOB IMGUI_SOURCES ${PROJECT_NAME}/imgui/*.cpp)
 #target_sources(${PROJECT_NAME} PRIVATE ${IMGUI_SOURCES})
 

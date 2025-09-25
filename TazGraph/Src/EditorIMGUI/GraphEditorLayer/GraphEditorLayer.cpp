@@ -181,7 +181,7 @@ void GraphEditorLayer::OnImGuiRender()
 				glm::vec2 position = glm::vec2(startX + i * spacing, y);
 				node.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
 				node.addComponent<Rectangle_w_Color>();
-				node.GetComponent<Rectangle_w_Color>().color = Color(0, 0, 224, 255);
+				node.GetComponent<Rectangle_w_Color>().color = TazColor(0, 0, 224, 255);
 
 				node.addGroup(Manager::groupNodes_0);
 
@@ -191,8 +191,8 @@ void GraphEditorLayer::OnImGuiRender()
 				auto& link = manager->addEntity<Link>(0, i + 1);
 				link.addComponent<Line_w_Color>();
 
-				link.GetComponent<Line_w_Color>().setSrcColor(Color(255, 40, 0, 255));
-				link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
+				link.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 40, 0, 255));
+				link.GetComponent<Line_w_Color>().setDestColor(TazColor(40, 255, 0, 255));
 
 				link.addComponent<LineFlashAnimatorComponent>();
 

@@ -43,7 +43,7 @@ public:
 
 	void imgui_print() override {
 		glm::vec2 position = this->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
-		ImGui::Text("Position: (%.2f, %.2f)", position.x, position.y);
+		ImGui::Text("TazPosition: (%.2f, %.2f)", position.x, position.y);
 	}
 
 	void destroy() {
@@ -139,7 +139,7 @@ public:
 
 	void imgui_print() override {
 		glm::vec2 position = this->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
-		ImGui::Text("Position: (%.2f, %.2f)", position.x, position.y);
+		ImGui::Text("TazPosition: (%.2f, %.2f)", position.x, position.y);
 
 
 		if (ImGui::BeginTable("GroupsTable", 1, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
@@ -227,7 +227,7 @@ public:
 			testSlot.addGroup(Manager::groupPortSlots);
 			testSlot.addComponent<TransformComponent>(m_position, glm::vec3(3), 1.0f);
 			testSlot.addComponent<Rectangle_w_Color>();
-			testSlot.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255));
+			testSlot.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, 250, 0, 255));
 			testSlot.addComponent<PortSlotComponent>();
 			testSlot.setParentEntity(children[NodePorts::BOTTOM]);
 			children[NodePorts::BOTTOM]->GetComponent<PortComponent>().
@@ -272,7 +272,7 @@ private:
 public:
 
 
-	Color color = {};
+	TazColor color = {};
 
 	Link(Manager& mManager) : LinkEntity(mManager) {
 	}
@@ -438,7 +438,7 @@ public:
 
 		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos, farrowSize, 1);
 		temp_arrowHead.addComponent<Triangle_w_Color>();
-		temp_arrowHead.GetComponent<Triangle_w_Color>().color = Color(0, 0, 0, 255);
+		temp_arrowHead.GetComponent<Triangle_w_Color>().color = TazColor(0, 0, 0, 255);
 
 		temp_arrowHead.GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleRadians + glm::half_pi<float>()));
 
@@ -516,7 +516,7 @@ public:
 				1.0f
 			);
 			newSlot.addComponent<Rectangle_w_Color>();
-			newSlot.GetComponent<Rectangle_w_Color>().setColor(Color(0, 250, 0, 255)); // Green for connected
+			newSlot.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, 250, 0, 255)); // Green for connected
 			newSlot.addComponent<PortSlotComponent>();
 			// Store reference to the link (you might want to add this field to PortSlotComponent)
 			// newSlot.GetComponent<PortSlotComponent>().linkedEntity = link;
@@ -551,8 +551,8 @@ public:
 		glm::vec2 fromNodePosition = this->getFromNode()->GetComponent<TransformComponent>().getPosition();
 		glm::vec2 toNodePosition = this->getToNode()->GetComponent<TransformComponent>().getPosition();
 
-		ImGui::Text("From Node Position: (%.2f, %.2f)", fromNodePosition.x, fromNodePosition.y);
-		ImGui::Text("To Node Position: (%.2f, %.2f)", toNodePosition.x, toNodePosition.y);
+		ImGui::Text("From Node TazPosition: (%.2f, %.2f)", fromNodePosition.x, fromNodePosition.y);
+		ImGui::Text("To Node TazPosition: (%.2f, %.2f)", toNodePosition.x, toNodePosition.y);
 
 		ImGui::Text("Bounding boxes of intercepted cells:");
 

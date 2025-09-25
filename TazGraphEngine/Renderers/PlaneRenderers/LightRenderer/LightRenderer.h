@@ -31,32 +31,32 @@ public:
 
 	void drawTriangle(size_t v_index,
 		const glm::vec3& depth,
-		const glm::vec3& cpuRotation, const Color& color);
+		const glm::vec3& cpuRotation, const TazColor& color);
 
 	void draw(size_t v_index,
 		const glm::vec2& rectSize,
 		const glm::vec3& position,
 		const glm::vec3& mRotation,
-		const Color& color);
+		const TazColor& color);
 
 	void drawBox(size_t v_index,
 		const glm::vec3& boxSize,
 		const glm::vec3& position,
 		const glm::vec3& mRotation,
-		const Color& color);
+		const TazColor& color);
 
 	void drawSphere(size_t v_index,
 		const glm::vec3& sphereSize,
 		const glm::vec3& position,
 		const glm::vec3& mRotation,
-		const Color& color);
+		const TazColor& color);
 
 
 	void renderBatch(GLSLProgram* glsl_program);
 
 	void dispose();
 
-	std::vector<LightVertex> sphereVertices = {
+	std::vector<TazLightVertex> sphereVertices = {
 		// Generated vertices will go here
 	};
 

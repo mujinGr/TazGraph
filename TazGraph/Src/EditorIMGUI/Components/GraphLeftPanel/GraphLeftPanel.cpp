@@ -121,7 +121,7 @@ void GraphLeftPanel::OnImGuiRender()
 
 
 
-	ImGui::Text("Grid Size: %u", config.scene->manager->grid->getCellSize());
+	ImGui::Text("Grid TazSize: %u", config.scene->manager->grid->getCellSize());
 
 
 	ImGui::Separator();

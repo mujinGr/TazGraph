@@ -6,7 +6,7 @@
 class PortComponent : public Component
 {
 public:
-	Color color = { 255, 255, 255, 255 };
+	TazColor color = { 255, 255, 255, 255 };
 
 	bool isVertical = false;
 
@@ -64,8 +64,8 @@ public:
 		ImGui::Separator();
 
 		ImVec4 a_color = ImVec4(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
-		if (ImGui::ColorPicker4("Color", (float*)&a_color)) {
-			Color newColor = {
+		if (ImGui::ColorPicker4("TazColor", (float*)&a_color)) {
+			TazColor newColor = {
 					   (GLubyte)(a_color.x * 255),
 					   (GLubyte)(a_color.y * 255),
 					   (GLubyte)(a_color.z * 255),

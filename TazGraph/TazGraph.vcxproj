@@ -132,7 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/JSONParser_Mujin/include;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/simdump/include;$(SolutionDir)vendors/JSONParser_Mujin/include;$(IncludePath)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -152,7 +152,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/pybind11/include;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/simdump/include;$(SolutionDir)vendors/pybind11/include;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -189,6 +189,7 @@
     <ClCompile Include="Src\EditorIMGUI\Components\WarningPanel\WarningPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\GraphEditorLayer\GraphEditorLayer.cpp" />
     <ClCompile Include="Src\EditorIMGUI\MainMenuEditorLayer\MainMenuEditorLayer.cpp" />
+    <ClCompile Include="Src\Map\Parsers\SimDumpMapParser.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\Graph.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\GraphDraw.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\CameraPanel\SliderRotateZ.h" />
     <ClInclude Include="Src\GECS\Scripts\MainMenuBackground.h" />
     <ClInclude Include="Src\GECS\ScriptComponents.h" />
+    <ClInclude Include="Src\Map\Parsers\SimDumpMapParser.h" />
     <ClInclude Include="Src\Screens\GraphScene\Graph.h" />
     <ClInclude Include="Src\Screens\MainMenuScreen\MainMenuScreen.h" />
     <ClInclude Include="Src\Map\Parsers\DOTMapParser.h" />

@@ -131,7 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/JSONParser_Mujin/include;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/simdump/include;$(SolutionDir)vendors/JSONParser_Mujin/include;$(IncludePath)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -151,7 +151,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/pybind11/include;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/simdump/include;$(SolutionDir)vendors/pybind11/include;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -166,6 +166,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\vendors\simdump\example.cpp" />
+    <ClCompile Include="..\vendors\simdump\src\datatypes.cpp" />
+    <ClCompile Include="..\vendors\simdump\src\filereader.cpp" />
+    <ClCompile Include="..\vendors\simdump\src\filewriter.cpp" />
     <ClCompile Include="AudioEngine\AudioEngine.cpp" />
     <ClCompile Include="Camera2.5D\ICamera.cpp" />
     <ClCompile Include="Camera2.5D\OrthoCamera.h" />

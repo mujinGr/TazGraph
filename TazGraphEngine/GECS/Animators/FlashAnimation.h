@@ -19,7 +19,7 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 	std::map<FlashState, float> speeds;
 
 	FlashState currentSpeedIndex = FlashState::FLASH_OUT;
-	Color flashColor = Color(255,255,255,255);
+	TazColor flashColor = TazColor(255, 255, 255, 255);
 
 	FlashAnimation() : Animation()
 	{
@@ -27,7 +27,7 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 	}
 	// ix,iy is initial position (destX, destY), f is total frames to move, s is the speed to move frames, type as in animation, dx,dy distance to move
 	FlashAnimation(int ix, int iy, size_t f, float s, const std::string _type,
-		const std::vector<float>& flashTimes, Color flashC, int _reps = 0) : Animation(ix, iy, f, s, _type) // Animation frames look the next number of frames from the index
+		const std::vector<float>& flashTimes, TazColor flashC, int _reps = 0) : Animation(ix, iy, f, s, _type) // Animation frames look the next number of frames from the index
 	{
 		speeds[FlashState::FLASH_OUT] = flashTimes[0];
 		speeds[FlashState::EASE_IN] = flashTimes[1];
@@ -38,7 +38,7 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 	}
 
 	FlashAnimation(int ix, int iy, size_t f, float s, const animType _type,
-		const std::vector<float>& flashTimes, Color flashC, int _reps = 0) : Animation(ix, iy, f, s, _type) // Animation frames look the next number of frames from the index
+		const std::vector<float>& flashTimes, TazColor flashC, int _reps = 0) : Animation(ix, iy, f, s, _type) // Animation frames look the next number of frames from the index
 	{
 		speeds[FlashState::FLASH_OUT] = flashTimes[0];
 		speeds[FlashState::EASE_IN] = flashTimes[1];
@@ -70,10 +70,10 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 		}
 		switch (type) {
 		case Animation::animType::ANIMTYPE_BACK_FORTH:
-			
+
 			cur_frame_index_f += speed * deltaTime;
 			cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
-				
+
 			if (cur_frame_index >= NUM_BACK_FORTH_STATES) {
 				times_played++;
 				resetFrameIndex();
@@ -99,7 +99,7 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 			// Check if the frame index has changed
 			if (prev_frame_index != cur_frame_index) {
 				frame_times_played = 1;
-				if(	static_cast<int>(currentSpeedIndex) % NUM_LOOP_STATES < NUM_LOOP_STATES)
+				if (static_cast<int>(currentSpeedIndex) % NUM_LOOP_STATES < NUM_LOOP_STATES)
 					currentSpeedIndex = static_cast<FlashState>(static_cast<int>(currentSpeedIndex) % NUM_LOOP_STATES);
 			}
 			else {

@@ -5,9 +5,9 @@
 class Rectangle_w_Color : public Component
 {
 public:
-	Color default_color = { 255, 255, 255, 255 };
+	TazColor default_color = { 255, 255, 255, 255 };
 
-	Color color = { 255, 255, 255, 255 };
+	TazColor color = { 255, 255, 255, 255 };
 
 	TransformComponent* transform = nullptr;
 
@@ -41,19 +41,19 @@ public:
 		batch.draw(v_index, size, transform->getPosition(), transform->rotation, color);
 	}
 
-	void setColor(Color clr) {
+	void setColor(TazColor clr) {
 		default_color = clr;
 		color = clr;
 	}
 
-	void SetFlashAnimation(int idX, int idY, size_t fr, float sp, const Animation::animType type, const std::vector<float>& flashTimes, Color flashC, int reps = 0)
+	void SetFlashAnimation(int idX, int idY, size_t fr, float sp, const Animation::animType type, const std::vector<float>& flashTimes, TazColor flashC, int reps = 0)
 	{
 		flash_animation = FlashAnimation(idX, idY, fr, sp, type, flashTimes, flashC, reps);
 	}
 
 	void setFlashFrame() {
 		float t = this->flash_animation.interpolation_a;
-		this->color = Color::fromVec4(glm::mix(default_color.toVec4(), this->flash_animation.flashColor.toVec4(), t));
+		this->color = TazColor::fromVec4(glm::mix(default_color.toVec4(), this->flash_animation.flashColor.toVec4(), t));
 
 
 	}
@@ -67,8 +67,8 @@ public:
 		ImGui::Separator();
 
 		ImVec4 a_color = ImVec4(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
-		if (ImGui::ColorPicker4("Color", (float*)&a_color)) {
-			Color newColor = {
+		if (ImGui::ColorPicker4("TazColor", (float*)&a_color)) {
+			TazColor newColor = {
 					   (GLubyte)(a_color.x * 255),
 					   (GLubyte)(a_color.y * 255),
 					   (GLubyte)(a_color.z * 255),

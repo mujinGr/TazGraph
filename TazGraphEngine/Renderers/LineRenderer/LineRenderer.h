@@ -47,19 +47,19 @@ void main() {
 
 	void drawLine(size_t v_index,
 		const glm::vec3 srcPosition, const glm::vec3 destPosition,
-		const Color& srcColor, const Color& destColor,
+		const TazColor& srcColor, const TazColor& destColor,
 		const float width = 5.0f);
 	void drawRectangle(size_t v_index, const glm::vec2& rectSize,
 		const glm::vec3& position,
-		const Color& color,
+		const TazColor& color,
 		const glm::vec3& mRotation = glm::vec3(0),
 		const float width = 5.0f);
 	void drawBox(size_t v_index, const glm::vec3& rectSize,
 		const glm::vec3& position,
-		const Color& color,
+		const TazColor& color,
 		const glm::vec3& mRotation = glm::vec3(0),
 		const float width = 5.0f);
-	void drawCircle(const glm::vec2& center, const Color& color, float radius);
+	void drawCircle(const glm::vec2& center, const TazColor& color, float radius);
 
 	void renderBatch();
 

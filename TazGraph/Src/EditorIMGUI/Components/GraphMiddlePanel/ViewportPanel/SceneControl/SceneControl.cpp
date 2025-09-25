@@ -64,7 +64,7 @@ void SceneControlPanel::OnImGuiRender()
 
 			node.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
 			node.addComponent<Rectangle_w_Color>();
-			node.GetComponent<Rectangle_w_Color>().color = Color(150, 150, 150, 255);
+			node.GetComponent<Rectangle_w_Color>().color = TazColor(150, 150, 150, 255);
 
 			node.GetComponent<TransformComponent>().update(0.0f); // update children positions
 
@@ -87,8 +87,8 @@ void SceneControlPanel::OnImGuiRender()
 
 				link.addComponent<Line_w_Color>();
 
-				link.GetComponent<Line_w_Color>().setSrcColor(Color(255, 40, 0, 255));
-				link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
+				link.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 40, 0, 255));
+				link.GetComponent<Line_w_Color>().setDestColor(TazColor(40, 255, 0, 255));
 
 				link.addComponent<LineFlashAnimatorComponent>();
 

@@ -31,7 +31,7 @@ void GraphMiddlePanel::OnImGuiRender()
 		}
 	}
 	else if (activeManagerKey != config.scene->managerName && !config.scene->managerName.empty()) {
-		// Normal tab switching (no closure)
+		// TazNormal tab switching (no closure)
 		auto managerIt = config.scene->managers.find(config.scene->managerName);
 		if (managerIt != config.scene->managers.end()) {
 			config.scene->setManager(config.scene->managerName);

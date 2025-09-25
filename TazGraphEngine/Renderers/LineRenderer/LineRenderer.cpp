@@ -62,14 +62,14 @@ void LineRenderer::initBatchSize()
 
 // todo can be optimized, by having something like glyphs in planeModelRenederer where first you pass info in a vector and
 // todo on render pass that info in verts and indices
-void LineRenderer::drawLine(size_t v_index, const glm::vec3 srcPosition, const glm::vec3 destPosition, const Color& srcColor, const Color& destColor, const float width)
+void LineRenderer::drawLine(size_t v_index, const glm::vec3 srcPosition, const glm::vec3 destPosition, const TazColor& srcColor, const TazColor& destColor, const float width)
 {
 	_meshesArrays[LINE_MESH_IDX].instances[v_index] = LineInstanceData(srcPosition, destPosition, srcColor, destColor, width);
 }
 
 void LineRenderer::drawRectangle(size_t v_index, const glm::vec2& rectSize,
 	const glm::vec3& position,
-	const Color& color,
+	const TazColor& color,
 	const glm::vec3& mRotation,
 	const float width)
 {
@@ -78,14 +78,14 @@ void LineRenderer::drawRectangle(size_t v_index, const glm::vec2& rectSize,
 
 void LineRenderer::drawBox(size_t v_index, const glm::vec3& rectSize,
 	const glm::vec3& position,
-	const Color& color,
+	const TazColor& color,
 	const glm::vec3& mRotation,
 	const float width)
 {
 	_meshesElements[LINE_BOX_MESH_IDX].instances[v_index] = WireframeInstanceData(rectSize, position, mRotation, color, width);
 
 }
-void LineRenderer::drawCircle(const glm::vec2& center, const Color& color, float radius)
+void LineRenderer::drawCircle(const glm::vec2& center, const TazColor& color, float radius)
 {
 }
 
@@ -184,7 +184,7 @@ void LineRenderer::createInstancesVBO() {
 void LineRenderer::createWireframeInstancesVBO() {
 	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
-	glEnableVertexAttribArray(1); // instance Size
+	glEnableVertexAttribArray(1); // instance TazSize
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(WireframeInstanceData), (void*)offsetof(WireframeInstanceData, size));
 	glVertexAttribDivisor(1, 1);
 
@@ -192,11 +192,11 @@ void LineRenderer::createWireframeInstancesVBO() {
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(WireframeInstanceData), (void*)offsetof(WireframeInstanceData, position));
 	glVertexAttribDivisor(2, 1);
 
-	glEnableVertexAttribArray(3); // instance Color
+	glEnableVertexAttribArray(3); // instance TazColor
 	glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(WireframeInstanceData), (void*)offsetof(WireframeInstanceData, color));
 	glVertexAttribDivisor(3, 1);
 
-	glEnableVertexAttribArray(4); // instance Rotation
+	glEnableVertexAttribArray(4); // instance TazRotation
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(WireframeInstanceData), (void*)offsetof(WireframeInstanceData, rotation));
 	glVertexAttribDivisor(4, 1);
 
@@ -228,7 +228,7 @@ void LineRenderer::createVertexArray() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0); // aPos
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TazPosition), (void*)0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[RECTANGLE_MESH_IDX].ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadWireframeIndices), quadWireframeIndices, GL_STATIC_DRAW);
@@ -240,7 +240,7 @@ void LineRenderer::createVertexArray() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0); // aPos
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Position), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TazPosition), (void*)0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[BOX_MESH_IDX].ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeWireframeIndices), cubeWireframeIndices, GL_STATIC_DRAW);

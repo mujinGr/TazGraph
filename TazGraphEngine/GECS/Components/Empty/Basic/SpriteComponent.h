@@ -20,8 +20,8 @@ private:
 
 public:
 	std::string texture_name = "";
-	Color default_color = { 255, 255, 255, 255 };
-	Color color = { 255, 255, 255, 255 };
+	TazColor default_color = { 255, 255, 255, 255 };
+	TazColor color = { 255, 255, 255, 255 };
 
 	TransformComponent* transform = nullptr;
 	SDL_FRect srcRect = { 0,0,0,0 };
@@ -40,7 +40,7 @@ public:
 	{
 		setTex(id);
 	}
-	SpriteComponent(Color clr)
+	SpriteComponent(TazColor clr)
 	{
 		default_color = clr;
 		color = clr;
@@ -127,7 +127,7 @@ public:
 		moving_animation = MovingAnimation(idX, idY, fr, sp, type, _positions, _zIndices, _rotations, reps); // dx,dy needs to be vector, if yes then dont need int dx dy
 	}
 
-	void SetFlashAnimation(int idX, int idY, size_t fr, float sp, const Animation::animType type, const std::vector<float>& flashTimes, Color flashC, int reps = 0)
+	void SetFlashAnimation(int idX, int idY, size_t fr, float sp, const Animation::animType type, const std::vector<float>& flashTimes, TazColor flashC, int reps = 0)
 	{
 		flash_animation = FlashAnimation(idX, idY, fr, sp, type, flashTimes, flashC, reps);
 	}

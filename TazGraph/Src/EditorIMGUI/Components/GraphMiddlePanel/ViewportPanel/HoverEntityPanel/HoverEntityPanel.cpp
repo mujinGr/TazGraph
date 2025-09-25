@@ -9,7 +9,7 @@ void HoverEntityPanel::OnImGuiRender()
 	const float hoveredEntityWindowSize = 220.0f;
 	const float windowHeight = 120.0f; // Adjust height based on content
 
-	// Position window near mouse cursor
+	// TazPosition window near mouse cursor
 	ImVec2 hoveredEntityWindowPos = ImVec2(mousePos.x + 10, mousePos.y - windowHeight);
 
 	// Set up ImGuizmo for drawing
@@ -55,16 +55,16 @@ void HoverEntityPanel::OnImGuiRender()
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
 		currentY += lineHeight;
 
-		// Position
+		// TazPosition
 		TransformComponent* tr = &config.hoveredEntity->GetComponent<TransformComponent>();
 		char posText[128];
-		safe_sprintf(posText, "Position: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
+		safe_sprintf(posText, "TazPosition: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), posText);
 		currentY += lineHeight;
 
-		// Size
+		// TazSize
 		char sizeText[128];
-		safe_sprintf(sizeText, "Size: (%.2f, %.2f)", tr->size.x, tr->size.y);
+		safe_sprintf(sizeText, "TazSize: (%.2f, %.2f)", tr->size.x, tr->size.y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), sizeText);
 		currentY += lineHeight;
 
@@ -90,16 +90,16 @@ void HoverEntityPanel::OnImGuiRender()
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
 		currentY += lineHeight;
 
-		// Position
+		// TazPosition
 		TransformComponent* tr = &config.hoveredEntity->GetComponent<TransformComponent>();
 		char posText[128];
-		safe_sprintf(posText, "Position: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
+		safe_sprintf(posText, "TazPosition: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), posText);
 		currentY += lineHeight;
 
-		// Size
+		// TazSize
 		char sizeText[128];
-		safe_sprintf(sizeText, "Size: (%.2f, %.2f)", tr->size.x, tr->size.y);
+		safe_sprintf(sizeText, "TazSize: (%.2f, %.2f)", tr->size.x, tr->size.y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), sizeText);
 		currentY += lineHeight;
 

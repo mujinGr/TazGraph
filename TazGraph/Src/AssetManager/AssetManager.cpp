@@ -24,7 +24,7 @@ void AssetManager::CreateGroup(Entity& groupNode, glm::vec3 centerGroup, float g
 		groupNode.addComponent<TransformComponent>(glm::vec3(centerGroup.x,
 			centerGroup.y, centerGroup.z), Layer::action, glm::vec3(groupNodeSize), 1);
 		groupNode.addComponent<Rectangle_w_Color>();
-		groupNode.GetComponent<Rectangle_w_Color>().color = Color(0, 155, 155, 255);
+		groupNode.GetComponent<Rectangle_w_Color>().color = TazColor(0, 155, 155, 255);
 
 		groupNode.addGroup(Manager::groupGroupNodes_0);
 	}
@@ -32,7 +32,7 @@ void AssetManager::CreateGroup(Entity& groupNode, glm::vec3 centerGroup, float g
 		groupNode.addComponent<TransformComponent>(glm::vec2(centerGroup.x,
 			centerGroup.y), Layer::action, glm::vec3(groupNodeSize), 1);
 		groupNode.addComponent<Rectangle_w_Color>();
-		groupNode.GetComponent<Rectangle_w_Color>().color = Color(155, 155, 155, 255);
+		groupNode.GetComponent<Rectangle_w_Color>().color = TazColor(155, 155, 155, 255);
 
 		groupNode.addGroup(Manager::groupGroupNodes_1);
 
@@ -43,15 +43,15 @@ void AssetManager::CreateGroupLink(Entity& groupLink, Grid::Level m_level) {
 	if (m_level == Grid::Level::Outer1)
 	{
 		groupLink.addComponent<Line_w_Color>();
-		groupLink.GetComponent<Line_w_Color>().setSrcColor(Color(255, 255, 0, 255));
-		groupLink.GetComponent<Line_w_Color>().setDestColor(Color(255, 0, 0, 255));
+		groupLink.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 0, 255));
+		groupLink.GetComponent<Line_w_Color>().setDestColor(TazColor(255, 0, 0, 255));
 
 		groupLink.addGroup(Manager::groupGroupLinks_0);
 	}
 	else if (m_level == Grid::Level::Outer2) {
 		groupLink.addComponent<Line_w_Color>();
-		groupLink.GetComponent<Line_w_Color>().setSrcColor(Color(255, 0, 0, 255));
-		groupLink.GetComponent<Line_w_Color>().setDestColor(Color(0, 255, 0, 255));
+		groupLink.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 0, 0, 255));
+		groupLink.GetComponent<Line_w_Color>().setDestColor(TazColor(0, 255, 0, 255));
 
 		groupLink.addGroup(Manager::groupGroupLinks_1);
 	}
@@ -214,7 +214,7 @@ void AssetManager::AddDefaultNode(Entity& node, glm::vec3 mPosition)
 	//create Node function
 	node.addComponent<TransformComponent>(mPosition, glm::vec3(10.0f), 1);
 	node.addComponent<Rectangle_w_Color>();
-	node.GetComponent<Rectangle_w_Color>().setColor(Color(0, colorOffset, 224, 255));
+	node.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, colorOffset, 224, 255));
 
 	node.addComponent<RectangleFlashAnimatorComponent>();
 }
@@ -227,7 +227,7 @@ void AssetManager::AddTreeNode(Entity& node, glm::vec3 mPosition)
 	//create Node function
 	node.addComponent<TransformComponent>(mPosition, glm::vec3(10.0f), 1);
 	node.addComponent<Rectangle_w_Color>();
-	node.GetComponent<Rectangle_w_Color>().setColor(Color(0, colorOffset, 224, 255));
+	node.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, colorOffset, 224, 255));
 
 	node.addComponent<RectangleFlashAnimatorComponent>();
 	node.addComponent<PollingComponent>();
@@ -237,8 +237,8 @@ void AssetManager::AddDefaultLink(Entity& link)
 {
 	link.addComponent<Line_w_Color>();
 
-	link.GetComponent<Line_w_Color>().setSrcColor(Color(255, 40, 0, 255));
-	link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
+	link.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 40, 0, 255));
+	link.GetComponent<Line_w_Color>().setDestColor(TazColor(40, 255, 0, 255));
 
 	link.addComponent<LineFlashAnimatorComponent>();
 }
@@ -247,8 +247,8 @@ void AssetManager::AddTreeLink(Entity& link)
 {
 	link.addComponent<Line_w_Color>();
 
-	link.GetComponent<Line_w_Color>().setSrcColor(Color(40, 255, 0, 255));
-	link.GetComponent<Line_w_Color>().setDestColor(Color(40, 255, 0, 255));
+	link.GetComponent<Line_w_Color>().setSrcColor(TazColor(40, 255, 0, 255));
+	link.GetComponent<Line_w_Color>().setDestColor(TazColor(40, 255, 0, 255));
 
 	link.addComponent<LineFlashAnimatorComponent>();
 }
@@ -257,6 +257,6 @@ void AssetManager::AddPathLink(Entity& link)
 {
 	link.addComponent<Line_w_Color>();
 
-	link.GetComponent<Line_w_Color>().setSrcColor(Color(0, 0, 255, 255));
-	link.GetComponent<Line_w_Color>().setDestColor(Color(40, 0, 255, 255));
+	link.GetComponent<Line_w_Color>().setSrcColor(TazColor(0, 0, 255, 255));
+	link.GetComponent<Line_w_Color>().setDestColor(TazColor(40, 0, 255, 255));
 }

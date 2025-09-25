@@ -9,7 +9,7 @@ public:
 	std::vector<LinkEntity*> pathLinks;
 
 	float width = 1.0f;   // default width
-	Color color = Color(0, 0, 0, 255); // default black
+	TazColor color = TazColor(0, 0, 0, 255); // default black
 
 	TransformComponent* transform = nullptr;
 

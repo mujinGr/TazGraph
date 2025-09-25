@@ -1,6 +1,7 @@
 set(PROJECT_NAME TazGraph)
 
-
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Recursively find all header and source files in Components and all subdirectories
 file(GLOB_RECURSE EDITOR_COMPONENTS_HEADERS "Src/EditorIMGUI/Components/*.h")
 file(GLOB_RECURSE EDITOR_COMPONENTS_SOURCES "Src/EditorIMGUI/Components/*.cpp")
@@ -72,6 +73,9 @@ include_directories(${DOTPARSER_INCLUDE_DIR})
 
 set(PYBIND11_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/pybind11/include")
 include_directories(${PYBIND11_INCLUDE_DIR})
+
+set(DOTPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/simdump/include")
+include_directories(${DOTPARSER_INCLUDE_DIR})
 ################################################################################
 # Target
 ################################################################################

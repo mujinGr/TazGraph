@@ -40,7 +40,7 @@ constexpr int INDICES_BOX_OFFSET = 3 * BOX_OFFSET;
 
 constexpr int ARRAY_BOX_OFFSET = 36;
 
-static Position triangleVertices[3] = {
+static TazPosition triangleVertices[3] = {
 	{  0.0f,  0.5f, 0.0f }, // Top
 	{ -0.5f, -0.5f, 0.0f }, // Bottom Left
 	{  0.5f, -0.5f, 0.0f }  // Bottom Right
@@ -50,21 +50,21 @@ static GLuint triangleIndices[3] = {
 	0, 1, 2
 };
 
-static Position quadVertices[4] = {
+static TazPosition quadVertices[4] = {
 	{	-0.5f,  0.5f,	0.0f	},
 	{	-0.5f,  -0.5f,	0.0f	},
 	{	0.5f,   -0.5f,	0.0f	},
 	{	0.5f,   0.5f,	0.0f	}
 };
 
-static UV uv_quadVertices[4] = {
+static TazUV uv_quadVertices[4] = {
 	{0.0f, 0.0f},
 	{1.0f, 0.0f},
 	{1.0f, 1.0f},
 	{0.0f, 1.0f}
 };
 
-static TextureVertex tex_quadVertices[4] = {
+static TazTexVertex tex_quadVertices[4] = {
 	{ glm::vec3(-0.5f,  0.5f, 0.0f),  glm::vec2(0.0f, 1.0f) }, // top-left
 	{ glm::vec3(-0.5f, -0.5f, 0.0f),  glm::vec2(0.0f, 0.0f) }, // bottom-left
 	{ glm::vec3(0.5f, -0.5f, 0.0f),  glm::vec2(1.0f, 0.0f) }, // bottom-right
@@ -84,7 +84,7 @@ static GLuint quadWireframeIndices[] = {
 	3, 0   // left edge
 };
 
-static Position cubeVertices[8] = {
+static TazPosition cubeVertices[8] = {
 	{ -0.5f, -0.5f, -0.5f },
 	{  0.5f, -0.5f, -0.5f },
 	{  0.5f,  0.5f, -0.5f },
@@ -95,7 +95,7 @@ static Position cubeVertices[8] = {
 	{ -0.5f,  0.5f,  0.5f }
 };
 
-static LightVertex light_cubeVertices[24] = {
+static TazLightVertex light_cubeVertices[24] = {
 	// Front face
 	{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 0.0f, -1.0f) },
 	{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec3(0.0f, 0.0f, -1.0f) },
@@ -168,7 +168,7 @@ static GLuint cubeWireframeIndices[] = {
 };
 
 
-static void generateSphereMesh(std::vector<Position>& vertices, std::vector<GLuint>& indices,
+static void generateSphereMesh(std::vector<TazPosition>& vertices, std::vector<GLuint>& indices,
 	float radius = 1.0f, unsigned int sectorCount = 36, unsigned int stackCount = 18) {
 	const float PI = 3.14159265359f;
 
@@ -210,7 +210,7 @@ static void generateSphereMesh(std::vector<Position>& vertices, std::vector<GLui
 	}
 }
 
-static void generateSphereMesh(std::vector<LightVertex>& vertices, std::vector<GLuint>& indices,
+static void generateSphereMesh(std::vector<TazLightVertex>& vertices, std::vector<GLuint>& indices,
 	float radius = 1.0f, unsigned int sectorCount = 36, unsigned int stackCount = 18) {
 	const float PI = 3.14159265359f;
 
@@ -256,14 +256,14 @@ static void generateSphereMesh(std::vector<LightVertex>& vertices, std::vector<G
 struct InstanceData {
 
 	InstanceData() {}
-	InstanceData(glm::vec3 mSize, Position mBodyCenter, Rotation mRotation) :
+	InstanceData(glm::vec3 mSize, TazPosition mBodyCenter, TazRotation mRotation) :
 		size(mSize),
 		position(mBodyCenter),
 		rotation(mRotation)
 	{
 	}
 
-	InstanceData(glm::vec2 mSize, Position mBodyCenter, Rotation mRotation) :
+	InstanceData(glm::vec2 mSize, TazPosition mBodyCenter, TazRotation mRotation) :
 		size(glm::vec3(mSize, 0.0f)),
 		position(mBodyCenter),
 		rotation(mRotation)
@@ -272,42 +272,42 @@ struct InstanceData {
 
 	~InstanceData() {}
 
-	Size size = glm::vec3(0.0f);
-	Position position = glm::vec3(0.0f);
-	Rotation rotation = glm::vec3(0.0f);
+	TazSize size = glm::vec3(0.0f);
+	TazPosition position = glm::vec3(0.0f);
+	TazRotation rotation = glm::vec3(0.0f);
 };
 
 
 struct ColorInstanceData : InstanceData {
 
 	ColorInstanceData() {}
-	ColorInstanceData(glm::vec3 mSize, Position mBodyCenter, Rotation mRotation, Color mColor) : InstanceData(mSize, mBodyCenter, mRotation), color(mColor) {
+	ColorInstanceData(glm::vec3 mSize, TazPosition mBodyCenter, TazRotation mRotation, TazColor mColor) : InstanceData(mSize, mBodyCenter, mRotation), color(mColor) {
 	}
-	ColorInstanceData(glm::vec2 mSize, Position mBodyCenter, Rotation mRotation, Color mColor) : InstanceData(mSize, mBodyCenter, mRotation), color(mColor) {
+	ColorInstanceData(glm::vec2 mSize, TazPosition mBodyCenter, TazRotation mRotation, TazColor mColor) : InstanceData(mSize, mBodyCenter, mRotation), color(mColor) {
 	}
 
 	~ColorInstanceData() {};
 
-	Color color = Color(255, 255, 255, 255);
+	TazColor color = TazColor(255, 255, 255, 255);
 };
 
 struct TextureInstanceData : InstanceData {
 
 	TextureInstanceData() {}
-	TextureInstanceData(glm::vec3 mSize, Position mBodyCenter, Rotation mRotation, GLuint Texture) : InstanceData(mSize, mBodyCenter, mRotation), texture(Texture) {
+	TextureInstanceData(glm::vec3 mSize, TazPosition mBodyCenter, TazRotation mRotation, GLuint Texture) : InstanceData(mSize, mBodyCenter, mRotation), texture(Texture) {
 	}
-	TextureInstanceData(glm::vec2 mSize, Position mBodyCenter, Rotation mRotation, GLuint Texture) : InstanceData(mSize, mBodyCenter, mRotation), texture(Texture) {
+	TextureInstanceData(glm::vec2 mSize, TazPosition mBodyCenter, TazRotation mRotation, GLuint Texture) : InstanceData(mSize, mBodyCenter, mRotation), texture(Texture) {
 	}
 
 	~TextureInstanceData() {};
 
 	GLuint texture = 0;
-	UV uv = glm::vec2(0.0f);
+	TazUV uv = glm::vec2(0.0f);
 };
 
 struct LineInstanceData {
 	LineInstanceData() {}
-	LineInstanceData(Position mfromPos, Position mtoPos, Color mfromcolor, Color mtocolor, float mwidth)
+	LineInstanceData(TazPosition mfromPos, TazPosition mtoPos, TazColor mfromcolor, TazColor mtocolor, float mwidth)
 		:
 		fromPos(mfromPos),
 		toPos(mtoPos),
@@ -319,22 +319,22 @@ struct LineInstanceData {
 
 	~LineInstanceData() {}
 
-	Position fromPos = glm::vec3(0.0f);
-	Position toPos = glm::vec3(0.0f);
-	Color fromColor = Color(255, 255, 255, 255);
-	Color toColor = Color(255, 255, 255, 255);
+	TazPosition fromPos = glm::vec3(0.0f);
+	TazPosition toPos = glm::vec3(0.0f);
+	TazColor fromColor = TazColor(255, 255, 255, 255);
+	TazColor toColor = TazColor(255, 255, 255, 255);
 
 	float width = 10.0f;
 };
 
 struct WireframeInstanceData : ColorInstanceData {
 	WireframeInstanceData() {}
-	WireframeInstanceData(glm::vec3 mSize, Position mBodyCenter, Rotation mRotation, Color mColor, float mwidth)
+	WireframeInstanceData(glm::vec3 mSize, TazPosition mBodyCenter, TazRotation mRotation, TazColor mColor, float mwidth)
 		: ColorInstanceData(mSize, mBodyCenter, mRotation, mColor), width(mwidth)
 	{
 
 	}
-	WireframeInstanceData(glm::vec2 mSize, Position mBodyCenter, Rotation mRotation, Color mColor, float mwidth)
+	WireframeInstanceData(glm::vec2 mSize, TazPosition mBodyCenter, TazRotation mRotation, TazColor mColor, float mwidth)
 		: ColorInstanceData(mSize, mBodyCenter, mRotation, mColor), width(mwidth)
 	{
 

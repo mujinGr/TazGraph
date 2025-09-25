@@ -161,11 +161,11 @@ public:
 	void showGUI(std::vector<BaseComponent*> otherComponents = {}) override {
 		ImGui::Separator();
 
-		// Position Controls
-		ImGui::Text("Position:");
+		// TazPosition Controls
+		ImGui::Text("TazPosition:");
 		ImGui::SliderFloat3("##position", &position.x, -1000.0f, 1000.0f);
 
-		if (ImGui::Button("Apply Position to All##transform_pos")) {
+		if (ImGui::Button("Apply TazPosition to All##transform_pos")) {
 			modifyPosition = true;
 		}
 		if (modifyPosition && !otherComponents.empty()) {
@@ -176,12 +176,12 @@ public:
 			}
 		}
 
-		// Size Controls
-		ImGui::Text("Size:");
+		// TazSize Controls
+		ImGui::Text("TazSize:");
 		ImGui::SliderFloat3("##size", &size.x, 1.0f, 100.0f);
 
-		// Rotation Controls
-		ImGui::Text("Rotation:");
+		// TazRotation Controls
+		ImGui::Text("TazRotation:");
 		ImGui::SliderFloat3("##rotation", glm::value_ptr(rotation), -180.0f, 180.0f);
 
 		ImGui::Text("Scale:");

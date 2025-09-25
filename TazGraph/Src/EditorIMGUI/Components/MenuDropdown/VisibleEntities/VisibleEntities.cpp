@@ -32,7 +32,7 @@ void VisibleEntitiesPanel::OnImGuiRender()
 
 	if (ImGui::BeginTable("GroupsTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
 		ImGui::TableSetupColumn("Vectors", ImGuiTableColumnFlags_WidthStretch);
-		ImGui::TableSetupColumn("Size()", ImGuiTableColumnFlags_WidthFixed, 100.0f);
+		ImGui::TableSetupColumn("TazSize()", ImGuiTableColumnFlags_WidthFixed, 100.0f);
 		ImGui::TableHeadersRow();
 
 		ImGui::TableNextRow();

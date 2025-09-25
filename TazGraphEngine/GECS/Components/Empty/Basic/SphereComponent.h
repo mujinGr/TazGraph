@@ -5,7 +5,7 @@
 class SphereComponent : public Component
 {
 public:
-	Color color = { 255, 255, 255, 255 };
+	TazColor color = { 255, 255, 255, 255 };
 
 	TransformComponent* transform = nullptr;
 
