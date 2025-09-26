@@ -25,7 +25,7 @@ public:
 	Map(Manager& m_manager, int ms, int ns);
 	~Map();
 
-	void saveMapAsText(const char* fileName);
+	void saveMap(const char* fileName);
 
 	void loadMap(
 		const char* fileName,

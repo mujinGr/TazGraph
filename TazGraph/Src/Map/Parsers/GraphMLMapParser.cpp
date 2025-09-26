@@ -11,6 +11,10 @@ void GraphMLMapParser::readFile(std::string m_fileName) {
 	}
 }
 
+void GraphMLMapParser::writeFile(std::string m_fileName, Manager& manager)
+{
+}
+
 void GraphMLMapParser::closeFile() {
 
 }
@@ -80,7 +84,7 @@ void GraphMLMapParser::parse(Manager& manager,
 		}
 	}
 
-	
+
 	for (auto& node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
 		manager.grid->addNode(node, manager.grid->getGridLevel());
 	}

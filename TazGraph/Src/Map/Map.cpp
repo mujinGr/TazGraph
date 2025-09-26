@@ -17,43 +17,32 @@ Map::~Map()
 }
 
 
-void Map::saveMapAsText(const char* fileName) {
-
-	auto& nodes(manager->getGroup<NodeEntity>(Manager::groupNodes_0));
-	auto& links(manager->getGroup<LinkEntity>(Manager::groupLinks_0));
-
+void Map::saveMap(const char* fileName) {
 
 	std::string text = "assets/Maps/" + std::string(fileName);
-	std::ofstream file(text);
 
-	if (!file.is_open()) {
-		std::cerr << "Failed to open file for writing: " << text << std::endl;
+	std::unique_ptr<IMapParser> processor;
+	if (text.find(".py") != std::string::npos) {
+		processor = std::make_unique<PythonMapParser>();
+	}
+	else if (text.find(".graphml") != std::string::npos) {
+		processor = std::make_unique<GraphMLMapParser>();
+	}
+	else if (text.find(".dot") != std::string::npos) {
+		processor = std::make_unique<DOTMapParser>();
+	}
+	else if (text.find(".txt") != std::string::npos) {
+		processor = std::make_unique<TextMapParser>();
+	}
+	else if (text.find(".simdmp") != std::string::npos) {
+		processor = std::make_unique<SimDumpMapParser>();
+	}
+	else {
+		manager->removeAllEntites();
 		return;
 	}
 
-	file << "Total number of nodes: " << nodes.size() << "\n";
-
-	for (auto& entity : nodes) {
-
-		if (entity->hasComponent<TransformComponent>()) {
-			TransformComponent& tc = entity->GetComponent<TransformComponent>();
-			file << EntityIDUtils::toString(entity->getId()) << "\t"; // id is the index in the vector of entities
-			file << tc.getPosition().x << " " << tc.getPosition().y << "\t";
-			file << tc.size.x << "x" << tc.size.y << "\n";
-		}
-	}
-
-	file << "\n";
-
-	file << "Total number of links: " << links.size() << "\n";
-
-	for (auto& entity : links) {
-		file << EntityIDUtils::toString(entity->getId()) << "\t";
-		file << EntityIDUtils::toString(entity->getFromNode()->getId()) << "\t";
-		file << EntityIDUtils::toString(entity->getToNode()->getId()) << "\n";
-	}
-
-	file.close();
+	processor->writeFile(text, *manager);
 }
 
 

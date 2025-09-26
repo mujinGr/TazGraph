@@ -12,6 +12,76 @@ void SimDumpMapParser::readFile(std::string m_fileName) {
 	}
 }
 
+void SimDumpMapParser::writeFile(std::string m_fileName, Manager& manager)
+{
+	sim_dump::FileWriter writer(m_fileName);
+
+	// ===== Write Nodes =====
+	auto& nodes(manager.getGroup<NodeEntity>(Manager::groupNodes_0));
+	std::unordered_map<EntityID, UInt32> nodeIdMap; // map ECS ID -> writer ID
+	nodeIdMap.reserve(nodes.size());
+
+	for (auto& entity : nodes) {
+		if (!entity->hasComponent<TransformComponent>())
+			continue;
+
+		auto& tc = entity->GetComponent<TransformComponent>();
+		glm::vec3 pos = tc.getPosition();
+
+		// Scale could be used as width/size, or default to 1.0f
+		float width = tc.size.x;
+
+		// For now assign a default color, or pull from a ColorComponent if you have one
+		Color color(200, 200, 200, 255);
+
+		UInt32 nodeIdx = writer.add_node(pos.x, pos.y, width, color);
+		nodeIdMap[entity->getId()] = nodeIdx;
+	}
+
+	// ===== Write Links =====
+	auto& links(manager.getGroup<LinkEntity>(Manager::groupLinks_0));
+	std::unordered_map<EntityID, UInt32> linkIdMap;
+	linkIdMap.reserve(links.size());
+
+	for (auto& entity : links) {
+		auto* fromNode = entity->getFromNode();
+		auto* toNode = entity->getToNode();
+		if (!fromNode || !toNode) continue;
+
+		UInt32 fromIdx = nodeIdMap[fromNode->getId()];
+		UInt32 toIdx = nodeIdMap[toNode->getId()];
+
+		// Default width & color, or pull from components
+		float width = 1.0f;
+		Color color(128, 128, 128, 255);
+
+		UInt32 linkIdx = writer.add_link(fromIdx, toIdx, width, color);
+		linkIdMap[entity->getId()] = linkIdx;
+	}
+
+	// ===== First step =====
+	writer.advance_step(1.0); // timestamp = 1.0 (or 0.0 if you want "initial")
+
+	// Optional: if you want to serialize paths or dynamic updates, do it here.
+	// Example: add a single path covering all links
+	if (!linkIdMap.empty()) {
+		std::vector<UInt32> pathLinks;
+		for (auto& [eid, lid] : linkIdMap) {
+			pathLinks.push_back(lid);
+		}
+		writer.add_path(pathLinks, 2.0f, Color(255, 255, 0, 255));
+	}
+
+	// ===== Further steps (if you want incremental simulation changes) =====
+	// Example: apply some dummy modifications
+	writer.advance_step(2.0);
+	if (!nodeIdMap.empty()) {
+		auto firstNode = nodeIdMap.begin()->second;
+		writer.change_node_position(firstNode, 5.0f, 5.0f);
+		writer.change_color(EntityType::NODE, firstNode, Color(255, 0, 0, 255));
+	}
+}
+
 void SimDumpMapParser::closeFile() {
 	file.close();
 }
@@ -29,8 +99,8 @@ void SimDumpMapParser::parse(Manager& manager,
 	glm::vec2 maxPos(FLT_MIN);
 
 	for (auto it = reader.get_node_iterator(); it != reader.get_node_end(); ++it) {
-		float x = it->x / 1000.0f;
-		float y = it->y / 1000.0f;
+		float x = it->x;
+		float y = it->y;
 
 		parsedNodes.push_back({ 0, glm::vec3(x, y, 0.0f) });
 

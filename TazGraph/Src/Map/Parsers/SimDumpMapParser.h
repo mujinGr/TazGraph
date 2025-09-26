@@ -2,6 +2,7 @@
 
 #include "../IMapParser.h"
 #include "simdump/include/sim_dump/filereader.h"
+#include "simdump/include/sim_dump/filewriter.h"
 
 using namespace sim_dump;
 
@@ -9,6 +10,8 @@ class SimDumpMapParser : public IMapParser {
 public:
 	SimDumpMapParser();
 	void readFile(std::string m_fileName) override;
+
+	void writeFile(std::string m_fileName, Manager& manager) override;
 
 	void parse(
 		Manager& manager,

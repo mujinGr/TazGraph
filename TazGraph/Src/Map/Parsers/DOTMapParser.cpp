@@ -7,6 +7,10 @@ void DOTMapParser::readFile(std::string m_fileName) {
 
 }
 
+void DOTMapParser::writeFile(std::string m_fileName, Manager& manager)
+{
+}
+
 void DOTMapParser::closeFile() {
 	file.close();
 }

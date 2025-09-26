@@ -11,6 +11,44 @@ void TextMapParser::readFile(std::string m_fileName) {
 	}
 }
 
+void TextMapParser::writeFile(std::string m_fileName, Manager& manager)
+{
+
+	auto& nodes(manager.getGroup<NodeEntity>(Manager::groupNodes_0));
+	auto& links(manager.getGroup<LinkEntity>(Manager::groupLinks_0));
+
+	std::ofstream file(m_fileName);
+
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file for writing: " << m_fileName << std::endl;
+		return;
+	}
+
+	file << "Total number of nodes: " << nodes.size() << "\n";
+
+	for (auto& entity : nodes) {
+
+		if (entity->hasComponent<TransformComponent>()) {
+			TransformComponent& tc = entity->GetComponent<TransformComponent>();
+			file << EntityIDUtils::toString(entity->getId()) << "\t"; // id is the index in the vector of entities
+			file << tc.getPosition().x << " " << tc.getPosition().y << "\t";
+			file << tc.size.x << "x" << tc.size.y << "\n";
+		}
+	}
+
+	file << "\n";
+
+	file << "Total number of links: " << links.size() << "\n";
+
+	for (auto& entity : links) {
+		file << EntityIDUtils::toString(entity->getId()) << "\t";
+		file << EntityIDUtils::toString(entity->getFromNode()->getId()) << "\t";
+		file << EntityIDUtils::toString(entity->getToNode()->getId()) << "\n";
+	}
+
+	file.close();
+}
+
 void TextMapParser::closeFile() {
 	file.close();
 }

@@ -11,6 +11,10 @@ void TextPathParser::readFile(std::string m_fileName) {
 	}
 }
 
+void TextPathParser::writeFile(std::string m_fileName, Manager& manager)
+{
+}
+
 void TextPathParser::closeFile() {
 	file.close();
 }

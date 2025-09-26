@@ -12,13 +12,17 @@ void PythonMapParser::readFile(std::string m_fileName) {
 	}
 }
 
+void PythonMapParser::writeFile(std::string m_fileName, Manager& manager)
+{
+}
+
 void PythonMapParser::closeFile() {
 	file.close();
 }
 
 void PythonMapParser::parse(Manager& manager,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
-	std::function<void(Entity&)> addLinkFunc) 
+	std::function<void(Entity&)> addLinkFunc)
 {
 
 	JsonParser fileParser(file);
@@ -54,7 +58,7 @@ void PythonMapParser::parse(Manager& manager,
 		_threader->parallel(nodeEntries.size(), [&](int start, int end) {
 			glm::vec2 local_minPos(FLT_MAX);
 			glm::vec2 local_maxPos(FLT_MIN);
-			
+
 			for (int i = start; i < end; i++) {
 				int nodeId = std::stoi(nodeEntries[i].first);
 				auto& nodeInfo = *nodeEntries[i].second;
@@ -123,7 +127,7 @@ void PythonMapParser::parse(Manager& manager,
 
 	for (const auto& parsedLink : parsedLinks) {
 		auto& link = manager.addEntity<Link>(
-			parsedLink.fromId, parsedLink.toId, 
+			parsedLink.fromId, parsedLink.toId,
 			parsedLink.from, parsedLink.to);
 
 		parsedLink.from->addOutLink(&link);

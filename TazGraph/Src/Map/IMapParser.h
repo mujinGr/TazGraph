@@ -34,6 +34,8 @@ public:
 	virtual ~IMapParser() = default;
 
 	virtual void readFile(std::string m_fileName) = 0;
+	
+	virtual void writeFile(std::string m_fileName, Manager& manager) = 0;
 
 	virtual void parse(
 		Manager& manager,
