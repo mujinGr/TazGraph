@@ -171,6 +171,10 @@ void SimDumpMapParser::parse(Manager& manager,
 		manager.grid->addLink(link, manager.grid->getGridLevel());
 	}
 
+	reader.next();
+	SimDumpPathParser pathParser;
+	pathParser.parse(manager, reader, addNodeFunc, addLinkFunc);
+
 	// --- Camera setup ---
 	std::shared_ptr<PerspectiveCamera> main_camera2D =
 		std::dynamic_pointer_cast<PerspectiveCamera>(

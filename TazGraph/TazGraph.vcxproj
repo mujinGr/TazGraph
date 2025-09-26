@@ -190,6 +190,7 @@
     <ClCompile Include="Src\EditorIMGUI\GraphEditorLayer\GraphEditorLayer.cpp" />
     <ClCompile Include="Src\EditorIMGUI\MainMenuEditorLayer\MainMenuEditorLayer.cpp" />
     <ClCompile Include="Src\Map\Parsers\SimDumpMapParser.cpp" />
+    <ClCompile Include="Src\Map\PathParsers\SimDumpPathParser.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\Graph.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\GraphDraw.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="Src\GECS\Scripts\MainMenuBackground.h" />
     <ClInclude Include="Src\GECS\ScriptComponents.h" />
     <ClInclude Include="Src\Map\Parsers\SimDumpMapParser.h" />
+    <ClInclude Include="Src\Map\PathParsers\SimDumpPathParser.h" />
     <ClInclude Include="Src\Screens\GraphScene\Graph.h" />
     <ClInclude Include="Src\Screens\MainMenuScreen\MainMenuScreen.h" />
     <ClInclude Include="Src\Map\Parsers\DOTMapParser.h" />
