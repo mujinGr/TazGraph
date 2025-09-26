@@ -6,7 +6,7 @@
 #include <SDL2/SDL_image.h>
 #include <GL/glew.h>
 #include <GLSLProgram.h>
-#include <ResourceManager/ResourceManager.h>
+#include <Renderers/ResourceManager/ResourceManager.h>
 #undef main
 #include <iostream>
 #include <vector>

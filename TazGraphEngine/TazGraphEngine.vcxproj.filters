@@ -60,7 +60,7 @@
     <ClCompile Include="Camera2.5D\OrthoCamera.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceManager\ResourceManager.cpp">
+    <ClCompile Include="Renderers\ResourceManager\ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ImGuiInterface\ImGuiInterface.cpp">
@@ -233,7 +233,7 @@
     <ClInclude Include="Renderers\LineRenderer\LineRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager\ResourceManager.h">
+    <ClInclude Include="Renderers\ResourceManager\ResourceManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiInterface\ImGuiInterface.h">
@@ -342,6 +342,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GECS\Components\Link\Basic\LinkPythonCodeComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GECS\Core\SimulationStep.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

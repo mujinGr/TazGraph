@@ -3,8 +3,19 @@
 void GraphTopBar::update(float deltaTime) {
 	UIElement::update(deltaTime);
 
+	Manager* manager = config.scene->manager;
+
 	if (interpolation_running) {
 		interpolation += interpolation_speed * deltaTime / config.scene->getApp()->getFPSLimiter().fps;
+
+		// here, get interpolation and manager steps intervals
+		if (interpolation >= manager->steps[0].timestamp) {
+			// if step done, then apply step (function at GECS)
+			// where it will change the color/size/pos of entities
+
+			manager->applyStep(manager->steps[0]);
+		}
+
 		if (autoInterpolate && interpolation >= 1.0f) {
 			interpolation = 0.0f;
 		}
@@ -32,7 +43,7 @@ void GraphTopBar::update(float deltaTime) {
 
 void GraphTopBar::OnImGuiRender()
 {
-	
+
 	std::vector<std::string> openTabs;
 	for (const auto& [name, manager] : config.scene->managers) {
 		openTabs.push_back(name);

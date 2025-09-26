@@ -24,6 +24,5 @@ public:
 	void closeFile() override;
 
 private:
-	std::ifstream file;
 	std::string fileName;
 };

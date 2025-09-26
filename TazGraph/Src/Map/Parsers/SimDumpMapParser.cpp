@@ -3,13 +3,6 @@
 SimDumpMapParser::SimDumpMapParser() {}
 
 void SimDumpMapParser::readFile(std::string m_fileName) {
-	file.open(m_fileName);
-	fileName = m_fileName;
-
-	if (!file.is_open()) {
-		std::cerr << "Failed to open file for reading: " << m_fileName << std::endl;
-		return;
-	}
 }
 
 void SimDumpMapParser::writeFile(std::string m_fileName, Manager& manager)
@@ -83,7 +76,6 @@ void SimDumpMapParser::writeFile(std::string m_fileName, Manager& manager)
 }
 
 void SimDumpMapParser::closeFile() {
-	file.close();
 }
 
 void SimDumpMapParser::parse(Manager& manager,

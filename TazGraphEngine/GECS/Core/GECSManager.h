@@ -4,6 +4,9 @@
 #include "../../Grid/Grid.h"
 
 #include "../../Threader/Threader.h"
+
+#include "./SimulationStep.h"
+
 #include <regex>
 #include <filesystem>
 
@@ -30,6 +33,7 @@ private:
 
 	bool _update_active_entities = false;
 public:
+	std::vector<SimulationStep> steps;
 
 	std::vector<NodeEntity*> movedNodes;
 	std::mutex movedNodesMutex;
@@ -477,4 +481,6 @@ public:
 	void scanComponentNames(const std::string& folderPath);
 
 	void setComponentNames();
+
+	void applyStep(const SimulationStep& step);
 };
