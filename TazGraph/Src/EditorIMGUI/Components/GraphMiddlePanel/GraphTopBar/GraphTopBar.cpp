@@ -5,7 +5,7 @@ void GraphTopBar::update(float deltaTime) {
 
 	if (interpolation_running) {
 		interpolation += interpolation_speed * deltaTime / config.scene->getApp()->getFPSLimiter().fps;
-		if (interpolation >= 1.0f) {
+		if (autoInterpolate && interpolation >= 1.0f) {
 			interpolation = 0.0f;
 		}
 	}
@@ -100,6 +100,9 @@ void GraphTopBar::OnImGuiRender()
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(100.0f);
 		ImGui::SliderFloat("##interp_speed", &interpolation_speed, 0.01f, 1.0f, "%.2f");
+		ImGui::SameLine();
+		ImGui::Checkbox("Auto", &autoInterpolate);
+
 	}
 
 	ImGui::EndChild();

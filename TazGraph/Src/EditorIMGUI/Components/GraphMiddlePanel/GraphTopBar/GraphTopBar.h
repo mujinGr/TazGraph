@@ -13,6 +13,8 @@ private:
 
 	float interpolation = 0.0f;
 	float interpolation_speed = 0.01f;
+	
+	bool autoInterpolate = false;
 
 	std::string currentActive;
 

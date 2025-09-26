@@ -120,7 +120,7 @@ void SimDumpMapParser::parse(Manager& manager,
 		parsedLinks.push_back({ 0, fromNode, toNode });
 	}
 
-	// --- Create node entities ---
+	//  === INITIAL CREATION OF NODES ===
 	std::vector<Entity*> nodeEntities;
 	nodeEntities.reserve(parsedNodes.size());
 
@@ -138,7 +138,7 @@ void SimDumpMapParser::parse(Manager& manager,
 			});
 	}
 
-	// --- Create link entities ---
+	//  === INITIAL CREATION OF LINKS ===
 	std::vector<Entity*> linkEntities;
 	linkEntities.reserve(parsedLinks.size());
 
@@ -171,9 +171,49 @@ void SimDumpMapParser::parse(Manager& manager,
 		manager.grid->addLink(link, manager.grid->getGridLevel());
 	}
 
-	reader.next();
-	SimDumpPathParser pathParser;
-	pathParser.parse(manager, reader, addNodeFunc, addLinkFunc);
+	// === STEP LOOP ===
+	bool has_next = true;
+	while (has_next) {
+		// Apply incremental updates (color/width/pos)
+		for (auto& node : nodeEntities) {
+			auto pos = reader.get_node_position((sim_dump::UInt32)std::get<int>(node->getId()));
+			auto color = reader.get_entity_color(EntityType::NODE, (sim_dump::UInt32)std::get<int>(node->getId()));
+			float size = reader.get_entity_width(EntityType::NODE, (sim_dump::UInt32)std::get<int>(node->getId()));
+
+			if (node && node->hasComponent<TransformComponent>()) {
+				auto& tc = node->GetComponent<TransformComponent>();
+				tc.position = glm::vec3(pos.first, pos.second, 0.0f);
+				tc.size = glm::vec3(size * 10.0f, size * 10.0f, 0);
+			}
+			if (node && node->hasComponent<Rectangle_w_Color>()) {
+				node->GetComponent<Rectangle_w_Color>().color =
+					TazColor(color.r, color.g, color.b, color.alpha);
+			}
+		}
+		int i = 0;
+		for (auto& link : linkEntities) {
+
+			auto color = reader.get_entity_color(EntityType::LINK, i);
+			float width = reader.get_entity_width(EntityType::LINK, i);
+
+			if (link && link->hasComponent<Line_w_Color>()) {
+				link->GetComponent<Line_w_Color>().src_color =
+					TazColor(color.r, color.g, color.b, color.alpha);
+				link->GetComponent<Line_w_Color>().dest_color =
+					TazColor(color.r, color.g, color.b, color.alpha);
+
+				link->GetComponent<Line_w_Color>().width = width;
+			}
+			i++;
+		}
+
+		// Handle paths using a dedicated parser
+		SimDumpPathParser pathParser;
+		pathParser.parse(manager, reader, addNodeFunc, addLinkFunc);
+
+		// Move to next step
+		has_next = reader.next();
+	}
 
 	// --- Camera setup ---
 	std::shared_ptr<PerspectiveCamera> main_camera2D =
