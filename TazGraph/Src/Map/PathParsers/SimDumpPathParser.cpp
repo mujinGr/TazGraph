@@ -22,6 +22,8 @@ void SimDumpPathParser::parse(Manager& manager,
 
 void SimDumpPathParser::parse(Manager& manager,
 	sim_dump::FileReader& reader,
+	std::vector<NodeEntity*>& nodeEntities,
+	std::vector<LinkEntity*>& linkEntities,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
 	std::function<void(Entity&)> addLinkFunc)
 {
@@ -64,9 +66,10 @@ void SimDumpPathParser::parse(Manager& manager,
 		plc.width = pathData.width;
 
 		// Create link entities for the path
-		for (size_t i = 1; i < pathData.links.size(); ++i) {
-			sim_dump::UInt32 idA = pathData.links[i - 1];
-			sim_dump::UInt32 idB = pathData.links[i];
+		for (size_t i = 0; i < pathData.links.size(); ++i) {
+
+			sim_dump::UInt32 idA = std::get<int>(linkEntities[i]->getFromNode()->getId());
+			sim_dump::UInt32 idB = std::get<int>(linkEntities[i]->getToNode()->getId());
 
 			// create ECS link
 			auto& link = manager.addEntity<Link>((int)idA, (int)idB);

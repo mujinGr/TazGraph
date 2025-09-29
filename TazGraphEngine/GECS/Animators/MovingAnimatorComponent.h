@@ -35,7 +35,7 @@ public:
 		}
 		sprite = &entity->GetComponent<SpriteComponent>();
 
-		Play("Default");	
+		Play("Default");
 		sprite->setTex(textureid);
 	}
 
@@ -46,9 +46,6 @@ public:
 			sprite->moving_animation.times_played = 0;
 			resetAnimation();
 		}
-
-		sprite->transform->setPosition_X(sprite->transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
-		sprite->transform->setPosition_Y(sprite->transform->getPosition().y);
 
 		sprite->moving_animation.advanceFrame(deltaTime);
 		if (sprite->moving_animation.positions.size() == 1) {

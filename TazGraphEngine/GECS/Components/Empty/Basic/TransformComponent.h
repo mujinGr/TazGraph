@@ -9,6 +9,7 @@ public:
 	glm::vec3 rotation = { 0.0f,0.0f,0.0f };
 	glm::vec3 position = glm::vec3(0);
 	glm::vec3 local_position = glm::vec3(0);
+	glm::vec3 local_normal_position = glm::vec3(0);
 	glm::vec3 size = glm::vec3(0);
 
 	glm::vec3 last_position = glm::vec3(0);
@@ -85,8 +86,12 @@ public:
 				) {
 				return;
 			}
-
-			position = parentTR->getPosition() + local_position;
+			if (!glm::all(glm::equal(local_normal_position, glm::vec3(0.0f)))) {
+				position = parentTR->getPosition() + local_normal_position * parentTR->size / 2.0f;
+			}
+			else {
+				position = parentTR->getPosition() + local_position;
+			}
 
 		}
 
@@ -119,7 +124,12 @@ public:
 			Entity* parent = entity->getParentEntity();
 			TransformComponent* parentTR = &parent->GetComponent<TransformComponent>();
 
-			entity->GetComponent<TransformComponent>().position = parentTR->getPosition() + entity->GetComponent<TransformComponent>().local_position;
+			if (!glm::all(glm::equal(local_normal_position, glm::vec3(0.0f)))) {
+				position = parentTR->getPosition() + local_normal_position * parentTR->size / 2.0f;
+			}
+			else {
+				position = parentTR->getPosition() + local_position;
+			}
 
 		}
 	}

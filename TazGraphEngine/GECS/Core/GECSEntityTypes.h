@@ -179,22 +179,22 @@ public:
 
 		auto& leftPort = getManager()->addEntityNoId<Empty>();
 		leftPort.addGroup(Manager::groupPorts);
-		glm::vec3 m_position = glm::vec3(-tr->size.x / 2, 0.0f, 0.0f);
-		leftPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
+		glm::vec3 m_position = glm::vec3(-1.0f, 0.0f, 0.0f);
+		leftPort.addComponent<TransformComponent>(glm::vec3(0), glm::vec3(0), 1.0f);
 		children[NodePorts::LEFT] = &leftPort;
 		children[NodePorts::LEFT]->setParentEntity(this);
-		children[NodePorts::LEFT]->GetComponent<TransformComponent>().local_position = m_position;
+		children[NodePorts::LEFT]->GetComponent<TransformComponent>().local_normal_position = m_position;
 		children[NodePorts::LEFT]->GetComponent<TransformComponent>().initChild(0.0f);
 		children[NodePorts::LEFT]->addComponent<PortComponent>(true);
 		children[NodePorts::LEFT]->update(0.0f);
 
 		auto& rightPort = getManager()->addEntityNoId<Empty>();
 		rightPort.addGroup(Manager::groupPorts);
-		m_position = glm::vec3(tr->size.x / 2, 0.0f, 0.0f);
-		rightPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
+		m_position = glm::vec3(1.0f, 0.0f, 0.0f);
+		rightPort.addComponent<TransformComponent>(glm::vec3(0), glm::vec3(0), 1.0f);
 		children[NodePorts::RIGHT] = &rightPort;
 		children[NodePorts::RIGHT]->setParentEntity(this);
-		children[NodePorts::RIGHT]->GetComponent<TransformComponent>().local_position = m_position;
+		children[NodePorts::RIGHT]->GetComponent<TransformComponent>().local_normal_position = m_position;
 		children[NodePorts::RIGHT]->GetComponent<TransformComponent>().initChild(0.0f);
 		children[NodePorts::RIGHT]->addComponent<PortComponent>(true);
 		children[NodePorts::RIGHT]->update(0.0f);
@@ -202,11 +202,11 @@ public:
 		// Initialize top port
 		auto& topPort = getManager()->addEntityNoId<Empty>();
 		topPort.addGroup(Manager::groupPorts);
-		m_position = glm::vec3(0.0f, -tr->size.y / 2.0f, 0.0f);
-		topPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
+		m_position = glm::vec3(0.0f, -1.0f, 0.0f);
+		topPort.addComponent<TransformComponent>(glm::vec3(0), glm::vec3(0), 1.0f);
 		children[NodePorts::TOP] = &topPort;
 		children[NodePorts::TOP]->setParentEntity(this);
-		children[NodePorts::TOP]->GetComponent<TransformComponent>().local_position = m_position;
+		children[NodePorts::TOP]->GetComponent<TransformComponent>().local_normal_position = m_position;
 		children[NodePorts::TOP]->GetComponent<TransformComponent>().initChild(0.0f);
 		children[NodePorts::TOP]->addComponent<PortComponent>(false);
 		children[NodePorts::TOP]->update(0.0f);
@@ -214,11 +214,11 @@ public:
 		// Initialize bottom port
 		auto& bottomPort = getManager()->addEntityNoId<Empty>();
 		bottomPort.addGroup(Manager::groupPorts);
-		m_position = glm::vec3(0.0f, tr->size.y / 2.0f, 0.0f);
-		bottomPort.addComponent<TransformComponent>(m_position, glm::vec3(0), 1.0f);
+		m_position = glm::vec3(0.0f, 1.0f, 0.0f);
+		bottomPort.addComponent<TransformComponent>(glm::vec3(0), glm::vec3(0), 1.0f);
 		children[NodePorts::BOTTOM] = &bottomPort;
 		children[NodePorts::BOTTOM]->setParentEntity(this);
-		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().local_position = m_position;
+		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().local_normal_position = m_position;
 		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().initChild(0.0f);
 		children[NodePorts::BOTTOM]->addComponent<PortComponent>(false);
 		children[NodePorts::BOTTOM]->update(0.0f);

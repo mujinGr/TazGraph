@@ -158,13 +158,16 @@ public:
 		}
 
 		// Paths (example)
-		//for (auto& pathHolder : manager.getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
+		for (auto& pathHolder : manager.getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
 
-		//	if (pathHolder && pathHolder->hasComponent<PathLinkerComponent>()) {
-		//		auto& plc = pathHolder->GetComponent<PathLinkerComponent>();
-		//		plc.color = manager.steps[transitionToStep].paths.at(0).first; // use at when the variable is not modified
-		//		plc.width = manager.steps[transitionToStep].paths.at(0).second;
-		//	}
-		//}
+			if (pathHolder && pathHolder->hasComponent<PathLinkerComponent>()) {
+				auto& plc = pathHolder->GetComponent<PathLinkerComponent>();
+
+				if (!manager.steps[transitionToStep].paths.empty()) {
+					plc.color = manager.steps[transitionToStep].paths.at(0).first; // use at when the variable is not modified
+					plc.width = manager.steps[transitionToStep].paths.at(0).second;
+				}
+			}
+		}
 	}
 };

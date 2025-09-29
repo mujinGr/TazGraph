@@ -247,11 +247,18 @@ void SimDumpMapParser::createSteps(
 			auto color = reader.get_entity_color(EntityType::PATH, i);
 			float width = reader.get_entity_width(EntityType::PATH, i);
 
-			step.paths[i] = { TazColor(color.r, color.g, color.b, color.alpha), width };
+			step.paths[i] = {
+				TazColor(color.r, color.g, color.b, color.alpha),
+				width
+			};
 		}
 
 		SimDumpPathParser pathParser;
-		pathParser.parse(manager, reader, addNodeFunc, addLinkFunc);
+		pathParser.parse(manager, reader,
+			nodeEntities, 
+			linkEntities,
+			addNodeFunc, 
+			addLinkFunc);
 
 		manager.steps.push_back(std::move(step));
 	} while (reader.next());

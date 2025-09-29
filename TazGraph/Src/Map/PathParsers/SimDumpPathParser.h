@@ -18,6 +18,8 @@ public:
 
 	void parse(Manager& manager,
 		sim_dump::FileReader& reader,
+		std::vector<NodeEntity*>& nodeEntities,
+		std::vector<LinkEntity*>& linkEntities,
 		std::function<void(Entity&, glm::vec3)> addNodeFunc,
 		std::function<void(Entity&)> addLinkFunc);
 

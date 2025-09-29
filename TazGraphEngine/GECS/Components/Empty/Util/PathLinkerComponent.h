@@ -9,7 +9,9 @@ public:
 	std::vector<LinkEntity*> pathLinks;
 
 	float width = 1.0f;   // default width
+	float last_width = 1.0f;   // default width
 	TazColor color = TazColor(0, 0, 0, 255); // default black
+	TazColor last_color = TazColor(0, 0, 0, 255); // default black
 
 	TransformComponent* transform = nullptr;
 
@@ -28,6 +30,15 @@ public:
 
 	void update(float deltaTime) override {
 
+		if (last_width != width || color != last_color) {
+			for (auto& pathLink : pathLinks) {
+				pathLink->GetComponent<Line_w_Color>().setSrcColor(color);
+				pathLink->GetComponent<Line_w_Color>().setDestColor(color);
+				pathLink->GetComponent<Line_w_Color>().width = width;
+			}
+			last_width = width;
+			last_color = color;
+		}
 	}
 
 	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {
