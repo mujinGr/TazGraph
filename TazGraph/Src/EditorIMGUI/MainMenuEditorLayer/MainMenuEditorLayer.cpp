@@ -3,9 +3,9 @@
 void MainMenuEditorLayer::OnImGuiRender()
 {
 	float windowWidth = 200; // Increased window width
-	float windowHeight = 200;
+	float windowHeight = 220;
 	float buttonWidth = 180;  // Define a larger button width
-	float buttonHeight = 50;  // Define a larger button height
+	float buttonHeight = 30;  // Define a larger button height
 
 	ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x * 0.5f, ImGui::GetIO().DisplaySize.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
 	ImGui::SetNextWindowSize(ImVec2(windowWidth, windowHeight));  // Set the size of the window as needed
@@ -28,6 +28,22 @@ void MainMenuEditorLayer::OnImGuiRender()
 
 	ImGui::Dummy(ImVec2(0.0f, buttonSpacing));
 
+	ImGui::SetCursorPosX(buttonPosX);
+	ImVec4 activeColor = ImVec4(0.2f, 0.7f, 0.2f, 1.0f);
+	ImGui::PushStyleColor(ImGuiCol_Button, activeColor);
+
+	if (ImGui::Button("Join Graph", ImVec2(buttonWidth, buttonHeight))) {
+	}
+
+	ImGui::Dummy(ImVec2(0.0f, buttonSpacing));
+
+	ImGui::SetCursorPosX(buttonPosX);
+	if (ImGui::Button("Host Graph", ImVec2(buttonWidth, buttonHeight))) {
+	}
+
+	ImGui::Dummy(ImVec2(0.0f, buttonSpacing));
+
+	ImGui::PopStyleColor(1);
 	ImGui::SetCursorPosX(buttonPosX);
 	if (ImGui::Button("Exit", ImVec2(buttonWidth, buttonHeight))) {
 		config.onExitClicked();
