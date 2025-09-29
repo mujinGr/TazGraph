@@ -177,12 +177,8 @@ void PythonMapParser::parse(Manager& manager,
 
 	float zFromHeight = (maxPos.y - minPos.y) / 2.0f / (std::tan(glm::radians(45.0f) / 2.0f) * aspect);
 
-#if defined(_WIN32) || defined(_WIN64)
-	float requiredZ = std::max(zFromHeight, zFromWidth);
-#else
-	float requiredZ = std::max(zFromHeight, zFromWidth);
+	float requiredZ = std::max({ 1000.0f,  zFromHeight, zFromWidth });
 
-#endif
 
 	main_camera2D->setPosition_Z(-requiredZ);
 

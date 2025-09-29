@@ -174,10 +174,10 @@ void Graph::onEntry()
 	_viewportFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
 	_minimapFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
 
-	std::string rectInterpolation_str = "RectInterpolation";
+	/*std::string rectInterpolation_str = "RectInterpolation";
 	for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
 		node_entity->GetComponent<RectangleFlashAnimatorComponent>().Play(rectInterpolation_str);
-	}
+	}*/
 
 
 	//ImGuiIO& io = ImGui::GetIO();

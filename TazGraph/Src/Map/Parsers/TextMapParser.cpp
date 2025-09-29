@@ -55,7 +55,7 @@ void TextMapParser::closeFile() {
 
 void TextMapParser::parse(Manager& manager,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
-	std::function<void(Entity&)> addLinkFunc) 
+	std::function<void(Entity&)> addLinkFunc)
 {
 	std::string line;
 	std::getline(file, line); // for first line
@@ -80,7 +80,7 @@ void TextMapParser::parse(Manager& manager,
 		glm::vec2 max;
 	};
 
-	std::vector<MinMax> localExtremes(_threader->num_threads, 
+	std::vector<MinMax> localExtremes(_threader->num_threads,
 		{ glm::vec2(FLT_MAX), glm::vec2(FLT_MIN) });
 
 	glm::vec2 minPos(FLT_MAX);
@@ -97,7 +97,7 @@ void TextMapParser::parse(Manager& manager,
 				float x, y;
 				nodeLine >> id >> x >> y;
 
-				parsedNodes[i] = { id, glm::vec3(x, y, 0)};
+				parsedNodes[i] = { id, glm::vec3(x, y, 0) };
 
 				// Update local min/max
 				local_minPos.x = std::min(local_minPos.x, x);
@@ -107,7 +107,7 @@ void TextMapParser::parse(Manager& manager,
 			}
 			int threadID = (start * _threader->num_threads) / nodeLines.size();
 			localExtremes[threadID] = { local_minPos, local_maxPos };
-		});
+			});
 	}
 
 	for (const auto& mm : localExtremes) {
@@ -128,7 +128,7 @@ void TextMapParser::parse(Manager& manager,
 
 				parsedLinks[i] = { id, fromNodeId, toNodeId };
 			}
-		});
+			});
 	}
 
 	std::vector<Entity*> nodeEntities;
@@ -148,7 +148,7 @@ void TextMapParser::parse(Manager& manager,
 			for (int i = start; i < end; i++) {
 				addNodeFunc(*nodeEntities[i], parsedNodes[i].pos);
 			}
-		});
+			});
 	}
 
 	std::vector<Entity*> linkEntities;
@@ -156,7 +156,7 @@ void TextMapParser::parse(Manager& manager,
 
 	for (const auto& parsedLink : parsedLinks) {
 		auto& link = manager.addEntity<Link>(parsedLink.fromId, parsedLink.toId);
-		
+
 		link.addGroup(Manager::groupLinks_0);
 
 		linkEntities.push_back(&link);
@@ -199,12 +199,7 @@ void TextMapParser::parse(Manager& manager,
 
 	float zFromHeight = height / 2.0f / (std::tan(glm::radians(45.0f) / 2.0f) * aspect);
 
-#if defined(_WIN32) || defined(_WIN64)
-	float requiredZ = std::max(zFromHeight, zFromWidth);
-#else
-	float requiredZ = std::max(zFromHeight, zFromWidth);
-
-#endif
+	float requiredZ = std::max({ 1000.0f,  zFromHeight, zFromWidth });
 
 	main_camera2D->setPosition_Z(-requiredZ);
 

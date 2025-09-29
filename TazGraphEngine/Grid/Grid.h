@@ -1,7 +1,6 @@
 #pragma once
 #include "../GECS/Core/GECSEntity.h"
 #include "../GECS/Components.h"
-#include "../GECS/UtilComponents.h"
 
 #include "../AABB/AABB.h"
 

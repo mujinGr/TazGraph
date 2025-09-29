@@ -3,42 +3,53 @@
 void GraphTopBar::update(float deltaTime) {
 	UIElement::update(deltaTime);
 
+	if (!config.scene) return; // not yet initialized by scene
 	Manager* manager = config.scene->manager;
 
 	if (interpolation_running) {
 		interpolation += interpolation_speed * deltaTime / config.scene->getApp()->getFPSLimiter().fps;
 
 		// here, get interpolation and manager steps intervals
-		if (interpolation >= manager->steps[0].timestamp) {
+		if (interpolation >= manager->steps[current_simulation_step].timestamp) {
 			// if step done, then apply step (function at GECS)
 			// where it will change the color/size/pos of entities
 
-			manager->applyStep(manager->steps[0]);
+			DataManager::getInstance().applyStep(*manager, current_simulation_step);
+
+			current_simulation_step++;
 		}
 
-		if (autoInterpolate && interpolation >= 1.0f) {
-			interpolation = 0.0f;
+		if (interpolation >= manager->steps.back().timestamp) {
+			if (autoInterpolate) {
+				interpolation = 0.0f;
+			}
+			else {
+				interpolation_running = false;
+				interpolation = manager->steps.back().timestamp;
+			}
+
+			current_simulation_step = 0;
 		}
 	}
 
 	//for all nodes and for all links, get interpolation and accordingly modify the animators?
-	if (interpolation_running) {
+	//if (interpolation_running) {
 
-		for (NodeEntity* node_entity : config.scene->manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
-			if (node_entity->hasComponent<Rectangle_w_Color>()) {
-				node_entity->GetComponent<Rectangle_w_Color>().flash_animation.interpolation_a = interpolation;
-				node_entity->GetComponent<Rectangle_w_Color>().setFlashFrame();
-			}
-		}
+	//	for (NodeEntity* node_entity : config.scene->manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
+	//		if (node_entity->hasComponent<Rectangle_w_Color>()) {
+	//			node_entity->GetComponent<Rectangle_w_Color>().flash_animation.interpolation_a = interpolation;
+	//			node_entity->GetComponent<Rectangle_w_Color>().setFlashFrame();
+	//		}
+	//	}
 
-		for (LinkEntity* link_entity : config.scene->manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
-			if (link_entity->hasComponent<Line_w_Color>()) {
-				link_entity->GetComponent<Line_w_Color>().flash_animation.interpolation_a = interpolation;
-				link_entity->GetComponent<Line_w_Color>().setFlashFrame();
-			}
-		}
+	//	for (LinkEntity* link_entity : config.scene->manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
+	//		if (link_entity->hasComponent<Line_w_Color>()) {
+	//			link_entity->GetComponent<Line_w_Color>().flash_animation.interpolation_a = interpolation;
+	//			link_entity->GetComponent<Line_w_Color>().setFlashFrame();
+	//		}
+	//	}
 
-	}
+	//}
 }
 
 void GraphTopBar::OnImGuiRender()
@@ -96,9 +107,11 @@ void GraphTopBar::OnImGuiRender()
 	ImGui::EndChild();
 	ImGui::BeginChild("Interpolation Slider", ImVec2(0, 40), true);
 	{
+		Manager* manager = config.scene->manager;
+
 		ImGui::Text("Interpolation");
 		ImGui::SameLine();
-		ImGui::SliderFloat("##interp", &interpolation, 0.0f, 1.0f, "%.2f");
+		ImGui::SliderFloat("##interp", &interpolation, 0.0f, manager->steps.back().timestamp, "%.2f");
 
 		// Optional: Add tooltip
 		if (ImGui::IsItemHovered()) {

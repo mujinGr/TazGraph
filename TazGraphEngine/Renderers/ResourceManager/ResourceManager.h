@@ -5,8 +5,8 @@
 #include <vector>
 #include <string>
 
-#include "../GLSLProgram.h"
-#include "../GECS/Core/GECS.h"
+#include "../../GLSLProgram.h"
+#include "../../GECS/Core/GECS.h"
 
 class ResourceManager
 {

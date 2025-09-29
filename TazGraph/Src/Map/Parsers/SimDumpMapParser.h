@@ -24,5 +24,16 @@ public:
 	void closeFile() override;
 
 private:
+	void createSteps(sim_dump::FileReader& reader, Manager& manager,
+		std::vector<NodeEntity*>& nodeEntities,
+		std::vector<LinkEntity*>& linkEntities,
+		std::function<void(Entity&, glm::vec3)> addNodeFunc,
+		std::function<void(Entity&)> addLinkFunc);
+
 	std::string fileName;
+	std::ifstream file;
+
+	std::vector<ParsedNode> parsedNodes;
+	std::vector<ParsedLink> parsedLinks;
+
 };

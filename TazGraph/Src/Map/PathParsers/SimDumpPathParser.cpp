@@ -47,6 +47,9 @@ void SimDumpPathParser::parse(Manager& manager,
 			continue;
 		}
 
+
+		//todo links show literally the link ids of the ones parsed and not the node ids
+		if (pathData.links.size() < 2) continue;
 		// Create a path linker entity
 		auto& pathLinker = manager.addEntity<Empty>();
 		auto& plc = pathLinker.addComponent<PathLinkerComponent>();

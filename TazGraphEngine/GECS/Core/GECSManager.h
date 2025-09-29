@@ -481,6 +481,4 @@ public:
 	void scanComponentNames(const std::string& folderPath);
 
 	void setComponentNames();
-
-	void applyStep(const SimulationStep& step);
 };

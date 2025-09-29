@@ -3,6 +3,13 @@
 SimDumpMapParser::SimDumpMapParser() {}
 
 void SimDumpMapParser::readFile(std::string m_fileName) {
+	file.open(m_fileName);
+	fileName = m_fileName;
+
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file for reading: " << m_fileName << std::endl;
+		return;
+	}
 }
 
 void SimDumpMapParser::writeFile(std::string m_fileName, Manager& manager)
@@ -76,6 +83,7 @@ void SimDumpMapParser::writeFile(std::string m_fileName, Manager& manager)
 }
 
 void SimDumpMapParser::closeFile() {
+	file.close();
 }
 
 void SimDumpMapParser::parse(Manager& manager,
@@ -86,7 +94,6 @@ void SimDumpMapParser::parse(Manager& manager,
 	assert(reader.is_file_valid());
 
 	// --- Collect nodes ---
-	std::vector<ParsedNode> parsedNodes;
 	glm::vec2 minPos(FLT_MAX);
 	glm::vec2 maxPos(FLT_MIN);
 
@@ -104,7 +111,6 @@ void SimDumpMapParser::parse(Manager& manager,
 	}
 
 	// --- Collect links ---
-	std::vector<ParsedLink> parsedLinks;
 	for (auto it = reader.get_link_iterator(); it != reader.get_link_end(); ++it) {
 		int fromNode = it->src_id;
 		int toNode = it->dst_id;
@@ -113,40 +119,12 @@ void SimDumpMapParser::parse(Manager& manager,
 	}
 
 	//  === INITIAL CREATION OF NODES ===
-	std::vector<Entity*> nodeEntities;
-	nodeEntities.reserve(parsedNodes.size());
+	std::vector<NodeEntity*> nodeEntities;
+	std::vector<LinkEntity*> linkEntities;
 
-	for (const auto& parsedNode : parsedNodes) {
-		auto& node = manager.addEntity<Node>();
-		node.addGroup(Manager::groupNodes_0);
-		nodeEntities.push_back(&node);
-	}
 
-	if (_threader) {
-		_threader->parallel(nodeEntities.size(), [&](int start, int end) {
-			for (int i = start; i < end; i++) {
-				addNodeFunc(*nodeEntities[i], parsedNodes[i].pos);
-			}
-			});
-	}
+	createSteps(reader, manager, nodeEntities, linkEntities, addNodeFunc, addLinkFunc);
 
-	//  === INITIAL CREATION OF LINKS ===
-	std::vector<Entity*> linkEntities;
-	linkEntities.reserve(parsedLinks.size());
-
-	for (const auto& parsedLink : parsedLinks) {
-		auto& link = manager.addEntity<Link>(parsedLink.fromId, parsedLink.toId);
-		link.addGroup(Manager::groupLinks_0);
-		linkEntities.push_back(&link);
-	}
-
-	if (_threader) {
-		_threader->parallel(linkEntities.size(), [&](int start, int end) {
-			for (int i = start; i < end; i++) {
-				addLinkFunc(*linkEntities[i]);
-			}
-			});
-	}
 
 	// --- Grid setup ---
 	float width = maxPos.x - minPos.x;
@@ -163,49 +141,6 @@ void SimDumpMapParser::parse(Manager& manager,
 		manager.grid->addLink(link, manager.grid->getGridLevel());
 	}
 
-	// === STEP LOOP ===
-	bool has_next = true;
-	while (has_next) {
-		// Apply incremental updates (color/width/pos)
-		for (auto& node : nodeEntities) {
-			auto pos = reader.get_node_position((sim_dump::UInt32)std::get<int>(node->getId()));
-			auto color = reader.get_entity_color(EntityType::NODE, (sim_dump::UInt32)std::get<int>(node->getId()));
-			float size = reader.get_entity_width(EntityType::NODE, (sim_dump::UInt32)std::get<int>(node->getId()));
-
-			if (node && node->hasComponent<TransformComponent>()) {
-				auto& tc = node->GetComponent<TransformComponent>();
-				tc.position = glm::vec3(pos.first, pos.second, 0.0f);
-				tc.size = glm::vec3(size * 10.0f, size * 10.0f, 0);
-			}
-			if (node && node->hasComponent<Rectangle_w_Color>()) {
-				node->GetComponent<Rectangle_w_Color>().color =
-					TazColor(color.r, color.g, color.b, color.alpha);
-			}
-		}
-		int i = 0;
-		for (auto& link : linkEntities) {
-
-			auto color = reader.get_entity_color(EntityType::LINK, i);
-			float width = reader.get_entity_width(EntityType::LINK, i);
-
-			if (link && link->hasComponent<Line_w_Color>()) {
-				link->GetComponent<Line_w_Color>().src_color =
-					TazColor(color.r, color.g, color.b, color.alpha);
-				link->GetComponent<Line_w_Color>().dest_color =
-					TazColor(color.r, color.g, color.b, color.alpha);
-
-				link->GetComponent<Line_w_Color>().width = width;
-			}
-			i++;
-		}
-
-		// Handle paths using a dedicated parser
-		SimDumpPathParser pathParser;
-		pathParser.parse(manager, reader, addNodeFunc, addLinkFunc);
-
-		// Move to next step
-		has_next = reader.next();
-	}
 
 	// --- Camera setup ---
 	std::shared_ptr<PerspectiveCamera> main_camera2D =
@@ -221,7 +156,7 @@ void SimDumpMapParser::parse(Manager& manager,
 	float zFromWidth = width / 2.0f / (std::tan(glm::radians(45.0f) / 2.0f) * aspect);
 	float zFromHeight = height / 2.0f / (std::tan(glm::radians(45.0f) / 2.0f) * aspect);
 
-	float requiredZ = std::max(zFromHeight, zFromWidth);
+	float requiredZ = std::max({ 1000.0f,  zFromHeight, zFromWidth });
 	main_camera2D->setPosition_Z(-requiredZ);
 
 	main_camera2D->setAimPos(glm::vec3(
@@ -229,4 +164,95 @@ void SimDumpMapParser::parse(Manager& manager,
 		main_camera2D->eyePos.y,
 		main_camera2D->eyePos.z + 1.0f
 	));
+}
+
+void SimDumpMapParser::createSteps(
+	sim_dump::FileReader& reader,
+	Manager& manager,
+	std::vector<NodeEntity*>& nodeEntities,
+	std::vector<LinkEntity*>& linkEntities,
+	std::function<void(Entity&, glm::vec3)> addNodeFunc,
+	std::function<void(Entity&)> addLinkFunc) {
+
+	// Create all nodes ONCE before the loop
+	for (UInt32 i = 0; i < reader.get_node_count(); i++) {
+		auto& node = manager.addEntity<Node>();
+		node.addGroup(Manager::groupNodes_0);
+		nodeEntities.push_back(&node);
+	}
+
+	// Create all links ONCE before the loop  
+	for (auto it = reader.get_link_iterator(); it != reader.get_link_end(); ++it) {
+		auto& link = manager.addEntity<Link>((int)it->src_id, (int)it->dst_id);
+		link.addGroup(Manager::groupLinks_0);
+		linkEntities.push_back(&link);
+	}
+
+	if (_threader) {
+		_threader->parallel(nodeEntities.size(), [&](int start, int end) {
+			for (int i = start; i < end; i++) {
+				addNodeFunc(*nodeEntities[i], parsedNodes[i].pos);
+			}
+			});
+	}
+
+	if (_threader) {
+		_threader->parallel(linkEntities.size(), [&](int start, int end) {
+			for (int i = start; i < end; i++) {
+				addLinkFunc(*linkEntities[i]);
+			}
+			});
+	}
+
+	do {
+		SimulationStep step;
+		step.step_index = reader.get_current_step_index();
+		step.timestamp = reader.get_current_timestamp();
+
+		// nodes
+		step.nodes.resize(reader.get_node_count());
+
+		for (UInt32 i = 0; i < reader.get_node_count(); i++) {
+			auto pos = reader.get_node_position(i);
+			auto color = reader.get_entity_color(EntityType::NODE, i);
+			float size = reader.get_entity_width(EntityType::NODE, i);
+
+			step.nodes[i].second.position = glm::vec3(pos.first, pos.second, 0.0f);
+			step.nodes[i].second.color = TazColor(color.r, color.g, color.b, color.alpha);
+			step.nodes[i].second.size = glm::vec3(size);
+
+			step.nodes[i].first = nodeEntities[i];
+		}
+
+		// links
+		step.links.resize(reader.get_link_count());
+
+		Uint32 i = 0;
+
+		for (auto it = reader.get_link_iterator(); it != reader.get_link_end(); ++it) {
+			auto color = reader.get_entity_color(EntityType::LINK, i);
+			float width = reader.get_entity_width(EntityType::LINK, i);
+
+			step.links[i].second.fromColor = TazColor(color.r, color.g, color.b, color.alpha);
+			step.links[i].second.toColor = TazColor(color.r, color.g, color.b, color.alpha);
+			step.links[i].second.width = width;
+
+			step.links[i].first = linkEntities[i];
+
+			i++;
+		}
+
+		// paths
+		for (UInt32 i = 0; i < reader.get_path_count(); i++) {
+			auto color = reader.get_entity_color(EntityType::PATH, i);
+			float width = reader.get_entity_width(EntityType::PATH, i);
+
+			step.paths[i] = { TazColor(color.r, color.g, color.b, color.alpha), width };
+		}
+
+		SimDumpPathParser pathParser;
+		pathParser.parse(manager, reader, addNodeFunc, addLinkFunc);
+
+		manager.steps.push_back(std::move(step));
+	} while (reader.next());
 }
