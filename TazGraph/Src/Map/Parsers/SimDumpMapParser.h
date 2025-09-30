@@ -33,7 +33,7 @@ private:
 	std::string fileName;
 	std::ifstream file;
 
-	std::vector<ParsedNode> parsedNodes;
+	std::vector<SimulationStep::TazSimulationNode> parsedNodes;
 	std::vector<ParsedLink> parsedLinks;
 
 };

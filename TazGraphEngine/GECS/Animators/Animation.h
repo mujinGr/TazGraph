@@ -11,8 +11,11 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 		ANIMTYPE_BACK_FORTH = 3  // iterate from index=0 to maxframe and back again. keeps holding the first image afterwards.
 	} animType;
 
-	int indexX = 0; // initial position
+	int indexX = 0; // initial position in source texture
 	int indexY = 0;
+
+
+
 	size_t total_frames = 0;
 	float speed = 1.0f;
 	animType type = animType::ANIMTYPE_NONE;
@@ -66,7 +69,8 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 			cur_frame_index_f += speed * deltaTime;
 			cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 
-			// Check if the frame index has changed
+			// Check if the frame index has changed - indicates how long we have
+			// stayed on the same frame
 			if (prev_frame_index != cur_frame_index) {
 				frame_times_played = 1;
 			}
@@ -76,7 +80,6 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 
 			if (cur_frame_index > total_frames - 1) //essentially when we see that now we reach a frame out of total frames we reset it
 			{
-				resetFrameIndex();
 				times_played++;
 				if (reps && times_played >= reps) {
 					finished = true;

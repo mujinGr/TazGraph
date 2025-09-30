@@ -40,6 +40,8 @@ public:
 
 	void update(float deltaTime) override
 	{
+		if (animationName == "Default") return;
+
 		if (sprite->flash_animation.hasFinished()) { // playing again animation
 			sprite->flash_animation.finished = false;
 			sprite->flash_animation.times_played = 0;
@@ -50,7 +52,7 @@ public:
 		sprite->setFlashFrame();
 	}
 
-	void draw(size_t e_index, PlaneModelRenderer&  batch, TazGraphEngine::Window& window) override
+	void draw(size_t e_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window) override
 	{
 		//sprite->draw(batch);
 	}
@@ -70,6 +72,8 @@ public:
 	}
 
 	void resetAnimation() {
+		sprite->animation.resetFrameIndex();
+
 		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = "Default";
 		sprite->SetFlashAnimation(

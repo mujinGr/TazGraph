@@ -54,6 +54,8 @@ public:
 
 	void update(float deltaTime) override //onAction
 	{
+		if (animationName == "Default") return;
+
 		if (sprite->animation.hasFinished()) { // playing again animation
 			sprite->animation.finished = false;
 			sprite->animation.times_played = 0;
@@ -80,6 +82,8 @@ public:
 	}
 
 	void resetAnimation() {
+		sprite->flash_animation.resetFrameIndex();
+
 		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = "P1Idle";
 		sprite->SetAnimation(

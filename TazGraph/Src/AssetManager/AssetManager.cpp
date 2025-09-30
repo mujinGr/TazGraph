@@ -260,3 +260,20 @@ void AssetManager::AddPathLink(Entity& link)
 	link.GetComponent<Line_w_Color>().setSrcColor(TazColor(0, 0, 255, 255));
 	link.GetComponent<Line_w_Color>().setDestColor(TazColor(40, 0, 255, 255));
 }
+
+void AssetManager::AddSimulationNode(Entity& node, glm::vec3 pos = glm::vec3(0))
+{
+	node.addComponent<RectangleFlashAnimatorComponent>();
+	node.addComponent<MovingAnimatorComponent>();
+	node.GetComponent<MovingAnimatorComponent>().Play("Test", glm::vec3(5.0f, 5.0f, 0.0f));
+}
+
+void AssetManager::AddSimulationLink(Entity& link)
+{
+	link.addComponent<Line_w_Color>();
+
+	link.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 40, 0, 255));
+	link.GetComponent<Line_w_Color>().setDestColor(TazColor(40, 255, 0, 255));
+
+	link.addComponent<LineFlashAnimatorComponent>();
+}

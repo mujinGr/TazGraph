@@ -11,82 +11,44 @@ public:
 	// have a vector for the positions
 	// when given only dx and dy then add that to the same vector as first element
 	// sprite will check bool if it is about continious 
-	std::vector<glm::vec2> positions;  // Stores the positions for the animation
-	std::vector<int> zIndices;         // zIndex for each position
-	std::vector<int> rotations;
+	
+	glm::vec3 startingPosition = glm::vec3(0);
+	glm::vec3 dest_position = glm::vec3(0);  // Stores the positions for the animation
+	glm::vec3 dest_rotation = glm::vec3(0);
 
 	MovingAnimation() : Animation()
 	{
 
 	}
 	// ix,iy is initial position (destX, destY), f is total frames to move, s is the speed to move frames, type as in animation, dx,dy distance to move
-	MovingAnimation(int ix, int iy, int f, float s, const std::string _type, int dx, int dy, int _reps = 0) : Animation(ix, iy, f, s, _type) // Animation frames look the next number of frames from the index
+	MovingAnimation(glm::vec3 m_startPos, int f, float s, const std::string _type, glm::vec3 m_dest_pos, int _reps = 0) 
+		: Animation(0, 0, f, s, _type) // Animation frames look the next number of frames from the index
 	{
-		positions.clear();
-		zIndices.clear();
-		rotations.clear();
-
-		glm::vec2 distanceXY(dx, dy);
-		positions.push_back(distanceXY);
-		zIndices.push_back(0);
-		rotations.push_back(0);
+		startingPosition = m_startPos;
+		dest_position = m_dest_pos;
 
 		reps = _reps;
 	}
 
-	MovingAnimation(int ix, int iy, int f, float s, const animType _type, int dx, int dy, int _reps = 0) : Animation(ix, iy, f, s, _type) // Animation frames look the next number of frames from the index
+	MovingAnimation(glm::vec3 m_startPos, int f, float s, const animType _type, glm::vec3 m_dest_pos, int _reps = 0)
+		: Animation(0, 0, f, s, _type) // Animation frames look the next number of frames from the index
 	{
-		positions.clear();
-		zIndices.clear();
-		rotations.clear();
+		startingPosition = m_startPos;
 
-		glm::vec2 distanceXY(dx, dy);
-		positions.push_back(distanceXY);
-		zIndices.push_back(0);
-		rotations.push_back(0);
+		dest_position = m_dest_pos;
 		
 		reps = _reps;
 	}
 
 	MovingAnimation(
-		int ix, int iy, int f, float s, const std::string _type, const std::vector<glm::vec2>& _positions, const std::vector<int>& _zIndices, const std::vector<int>& _rotations, int _reps = 0) // Animation frames look the next number of frames from the index
+		glm::vec3 m_startPos, size_t f, float s, const animType _type, glm::vec3 m_dest_pos, glm::vec3 m_dest_rotation, int _reps = 0)
+		: Animation(0, 0, f, s, _type)// Animation frames look the next number of frames from the index
 	{
-		positions.clear();
-		zIndices.clear();
-		rotations.clear();
+		startingPosition = m_startPos;
 
-		positions = _positions;
-		zIndices = _zIndices;
-		rotations = _rotations;
-
-		Animation(ix, iy, positions.size(), s, _type);
+		dest_position = m_dest_pos;
+		dest_rotation = m_dest_rotation;
 
 		reps = _reps;
-		validateVectors();
-	}
-
-	MovingAnimation(
-		int ix, int iy, size_t f, float s, const animType _type, const std::vector<glm::vec2>& _positions, const std::vector<int>& _zIndices, const std::vector<int>& _rotations, int _reps = 0)  // Animation frames look the next number of frames from the index
-	{
-		positions.clear();
-		zIndices.clear();
-		rotations.clear();
-
-		positions = _positions;
-		zIndices = _zIndices;
-		rotations = _rotations;
-
-		Animation(ix, iy, positions.size(), s, _type);
-
-		reps = _reps;
-		validateVectors();
-	}
-
-private:
-	void validateVectors() const {
-		// Ensure all vectors are of the same length to prevent indexing errors
-		if (positions.size() != zIndices.size() || positions.size() != rotations.size()) {
-			throw std::invalid_argument("All vectors (positions, zIndices, rotations) must have the same length.");
-		}
 	}
 };

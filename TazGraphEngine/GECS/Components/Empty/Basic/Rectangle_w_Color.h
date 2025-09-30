@@ -54,8 +54,6 @@ public:
 	void setFlashFrame() {
 		float t = this->flash_animation.interpolation_a;
 		this->color = TazColor::fromVec4(glm::mix(default_color.toVec4(), this->flash_animation.flashColor.toVec4(), t));
-
-
 	}
 
 

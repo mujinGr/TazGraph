@@ -2,6 +2,8 @@
 #include "GECS/Components.h"
 #include "GECS/UtilComponents.h"
 #include "../GECS/ScriptComponents.h"
+
+#include "../AssetManager/AssetManager.h"
 #include <iostream>
 #include <limits>
 
@@ -69,6 +71,15 @@ void Map::loadMap(
 	}
 	else if (text.find(".simdmp") != std::string::npos) {
 		processor = std::make_unique<SimDumpMapParser>();
+
+		manager->removeAllEntites();
+
+		processor->setThreader(*m_threadPool);
+
+		processor->readFile(text);
+		processor->parse(*manager, AssetManager::AddSimulationNode, AssetManager::AddSimulationLink);
+		processor->closeFile();
+		return;
 	}
 	else {
 		manager->removeAllEntites();

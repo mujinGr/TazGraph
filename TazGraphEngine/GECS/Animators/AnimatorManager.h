@@ -14,7 +14,8 @@ public:
 	std::map<std::string, FlashAnimation> flash_animations;
 
 	AnimatorManager()
-	{}
+	{
+	}
 
 	static AnimatorManager& getInstance() {
 		static AnimatorManager instance;
@@ -27,9 +28,11 @@ public:
 
 		animations.emplace("Default", defaultAnimation);
 
-		MovingAnimation defaultMoveAnimation = MovingAnimation(0, 0, 0, 0.0, "looped", 0, 0);
-		
+		MovingAnimation defaultMoveAnimation = MovingAnimation(glm::vec3(0), 0, 0, "looped", glm::vec3(0));
+		MovingAnimation testMoveAnimation = MovingAnimation(glm::vec3(0), 20, 0.1f, "play_n_times", glm::vec3(5.0f, 5.0f, 0.0f), 1);
+
 		moving_animations.emplace("Default", defaultMoveAnimation);
+		moving_animations.emplace("Test", testMoveAnimation);
 
 		FlashAnimation defaultFlashAnimation = FlashAnimation(0, 0, 3, 0.0f, "looped", { 0.2f, 1.0f, 0.2f, 1.0f }, { 255,255,255,255 });
 		FlashAnimation lineTransferFlashAnimation = FlashAnimation(0, 0, 3, 0.01f, "play_n_times", { 0.01f, 0.01f, 0.00f, 0.01f }, { 255,255,255,255 }, 1);

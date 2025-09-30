@@ -5,19 +5,15 @@
 #include <map>
 #include "Animation.h"
 #include "AnimatorManager.h"
-// TODO: in comparison to AnimatorComponent, here we also have access to sprite so create functions like SetDx,SetDy,SetRepsOfMove,SetDelayOfMove, IsForeverRepeatedMove
 
-class MovingAnimatorComponent : public AnimatorComponent //Animator -> Sprite -> Transform 
+class MovingAnimatorComponent : public Component //Animator -> Sprite -> Transform 
 {					//! also we use MovingAnimator instead of simple Animator so that entities use less memory and we use it to entities that have triggers that change their animation
 public:
 	//std::map<const char*, Animation> animations; //Animator Manager
+	TransformComponent* transform = nullptr;
+	std::string animationName = "";
 
-	MovingAnimatorComponent() : AnimatorComponent()
-	{
-
-	}
-
-	MovingAnimatorComponent(std::string id) : AnimatorComponent(id)
+	MovingAnimatorComponent()
 	{
 
 	}
@@ -29,31 +25,30 @@ public:
 
 	void init() override
 	{
-		if (!entity->hasComponent<SpriteComponent>())
+		if (!entity->hasComponent<TransformComponent>())
 		{
-			entity->addComponent<SpriteComponent>(textureid);
+			entity->addComponent<TransformComponent>();
 		}
-		sprite = &entity->GetComponent<SpriteComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
 
 		Play("Default");
-		sprite->setTex(textureid);
 	}
 
 	void update(float deltaTime) override
 	{
-		if (sprite->moving_animation.hasFinished()) { // playing again animation
-			sprite->moving_animation.finished = false;
-			sprite->moving_animation.times_played = 0;
+		if (animationName == "Default") return;
+
+		if (transform->moving_animation.hasFinished()) { // playing again animation
+			transform->moving_animation.finished = false;
+			transform->moving_animation.times_played = 0;
 			resetAnimation();
 		}
 
-		sprite->moving_animation.advanceFrame(deltaTime);
-		if (sprite->moving_animation.positions.size() == 1) {
-			sprite->setMoveFrame();
-		}
-		else {
-			sprite->setSpecificMoveFrame();
-		}
+		transform->moving_animation.advanceFrame(deltaTime);
+
+
+		transform->setMoveFrame();
+
 	}
 
 	void draw(size_t e_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window) override
@@ -65,33 +60,43 @@ public:
 	{
 		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = animName;
-		sprite->SetMovingAnimation(
-			animManager.moving_animations[animationName].indexX, animManager.moving_animations[animationName].indexY,
+		transform->SetMovingAnimation(
+			transform->getPosition(),
 			animManager.moving_animations[animationName].total_frames, animManager.moving_animations[animationName].speed,
 			animManager.moving_animations[animationName].type,
-			animManager.moving_animations[animationName].positions, animManager.moving_animations[animationName].zIndices, animManager.moving_animations[animationName].rotations, // here needs to be vector
+			animManager.moving_animations[animationName].dest_position, animManager.moving_animations[animationName].dest_rotation, // here needs to be vector
+			reps ? reps : animManager.moving_animations[animationName].reps
+		);
+	}
+
+	void Play(const char* animName, glm::vec3 m_dest_posistion, int reps = 0)
+	{
+		AnimatorManager& animManager = AnimatorManager::getInstance();
+		animationName = animName;
+		transform->SetMovingAnimation(
+			transform->getPosition(),
+			animManager.moving_animations[animationName].total_frames, animManager.moving_animations[animationName].speed,
+			animManager.moving_animations[animationName].type,
+			m_dest_posistion, animManager.moving_animations[animationName].dest_rotation, // here needs to be vector
 			reps ? reps : animManager.moving_animations[animationName].reps
 		);
 	}
 
 	void resetAnimation() {
+		transform->moving_animation.resetFrameIndex();
+
 		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = "Default";
-		sprite->SetMovingAnimation(
-			animManager.moving_animations[animationName].indexX, animManager.moving_animations[animationName].indexY,
+		transform->SetMovingAnimation(
+			transform->getPosition(),
 			animManager.moving_animations[animationName].total_frames, animManager.moving_animations[animationName].speed,
 			animManager.moving_animations[animationName].type,
-			animManager.moving_animations[animationName].positions, animManager.moving_animations[animationName].zIndices, animManager.moving_animations[animationName].rotations);
+			animManager.moving_animations[animationName].dest_position, animManager.moving_animations[animationName].dest_rotation);
 	}
 
 	std::string getPlayName()
 	{
 		return animationName;
-	}
-
-	void DestroyTex()
-	{
-		sprite->DestroyTex();
 	}
 
 };

@@ -5,7 +5,7 @@
 #include "GL/glew.h"
 #include "../../../../TextureManager/TextureManager.h"
 #include "../../../Animators/Animation.h"
-#include "../../../Animators/MovingAnimation.h"
+
 #include "../../../Animators/FlashAnimation.h"
 #include <map>
 #include "../../../../Vertex.h"
@@ -27,7 +27,6 @@ public:
 	SDL_FRect srcRect = { 0,0,0,0 };
 
 	Animation animation;
-	MovingAnimation moving_animation;
 	FlashAnimation flash_animation;
 
 	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
@@ -122,11 +121,6 @@ public:
 		animation = Animation(idX, idY, fr, sp, type, reps);
 	}
 
-	void SetMovingAnimation(int idX, int idY, size_t fr, float sp, const Animation::animType type, const std::vector<glm::vec2>& _positions, const std::vector<int>& _zIndices, const std::vector<int>& _rotations, int reps = 0)
-	{
-		moving_animation = MovingAnimation(idX, idY, fr, sp, type, _positions, _zIndices, _rotations, reps); // dx,dy needs to be vector, if yes then dont need int dx dy
-	}
-
 	void SetFlashAnimation(int idX, int idY, size_t fr, float sp, const Animation::animType type, const std::vector<float>& flashTimes, TazColor flashC, int reps = 0)
 	{
 		flash_animation = FlashAnimation(idX, idY, fr, sp, type, flashTimes, flashC, reps);
@@ -135,18 +129,6 @@ public:
 	void setCurrFrame() {
 		this->srcRect.x = (this->animation.indexX * this->transform->size.x) /* init */ + (this->srcRect.w * animation.cur_frame_index/* curframe from total frams */);
 		this->srcRect.y = this->animation.indexY * this->transform->size.y;
-	}
-
-	void setMoveFrame() {
-
-		this->transform->setPosition_X(((this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.positions[0].x * moving_animation.cur_frame_index));
-		this->transform->setPosition_Y(((this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.positions[0].y * moving_animation.cur_frame_index));
-	}
-
-	void setSpecificMoveFrame() {
-
-		this->transform->setPosition_X(((this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.positions[moving_animation.cur_frame_index].x));
-		this->transform->setPosition_Y(((this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.positions[moving_animation.cur_frame_index].y));
 	}
 
 	void setFlashFrame() {

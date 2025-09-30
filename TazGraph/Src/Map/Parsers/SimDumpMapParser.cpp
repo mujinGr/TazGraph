@@ -101,7 +101,10 @@ void SimDumpMapParser::parse(Manager& manager,
 		float x = it->x;
 		float y = it->y;
 
-		parsedNodes.push_back({ 0, glm::vec3(x, y, 0.0f) });
+		parsedNodes.push_back({
+			glm::vec3(x * 10.0f, y * 10.0f, 0.0f),
+			TazColor(it->color.r,it->color.g,it->color.b,it->color.alpha),
+			glm::vec3(it->size * 10.0f) });
 
 		// Track global min/max
 		minPos.x = std::min(minPos.x, x);
@@ -191,7 +194,10 @@ void SimDumpMapParser::createSteps(
 	if (_threader) {
 		_threader->parallel(nodeEntities.size(), [&](int start, int end) {
 			for (int i = start; i < end; i++) {
-				addNodeFunc(*nodeEntities[i], parsedNodes[i].pos);
+				nodeEntities[i]->addComponent<TransformComponent>(parsedNodes[i].position, parsedNodes[i].size, 1);
+				nodeEntities[i]->addComponent<Rectangle_w_Color>();
+				nodeEntities[i]->GetComponent<Rectangle_w_Color>().setColor(parsedNodes[i].color);
+				addNodeFunc(*nodeEntities[i], glm::vec3(0));
 			}
 			});
 	}
@@ -255,9 +261,9 @@ void SimDumpMapParser::createSteps(
 
 		SimDumpPathParser pathParser;
 		pathParser.parse(manager, reader,
-			nodeEntities, 
+			nodeEntities,
 			linkEntities,
-			addNodeFunc, 
+			addNodeFunc,
 			addLinkFunc);
 
 		manager.steps.push_back(std::move(step));
