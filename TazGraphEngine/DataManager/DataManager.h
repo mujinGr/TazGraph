@@ -141,8 +141,8 @@ public:
 
 				auto& tc = t_node->GetComponent<TransformComponent>();
 
-				t_node->GetComponent<MovingAnimatorComponent>().Play("Test", 
-					 node.second.position * 10.0f - t_node->GetComponent<TransformComponent>().getPosition());
+				t_node->GetComponent<MovingAnimatorComponent>().Play("Test",
+					node.second.position * 10.0f - t_node->GetComponent<TransformComponent>().getPosition());
 
 				tc.size = glm::vec3(node.second.size * 10.0f);
 
@@ -165,16 +165,11 @@ public:
 		}
 
 		// Paths (example)
-		for (auto& pathHolder : manager.getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
+		for (auto& simPaths : manager.steps[transitionToStep].paths) {
+			auto& plc = simPaths.first->GetComponent<PathLinkerComponent>();
 
-			if (pathHolder && pathHolder->hasComponent<PathLinkerComponent>()) {
-				auto& plc = pathHolder->GetComponent<PathLinkerComponent>();
-
-				if (!manager.steps[transitionToStep].paths.empty()) {
-					plc.color = manager.steps[transitionToStep].paths.at(0).first; // use at when the variable is not modified
-					plc.width = manager.steps[transitionToStep].paths.at(0).second;
-				}
-			}
+			plc.color = simPaths.second.color; // use at when the variable is not modified
+			plc.width = simPaths.second.width;
 		}
 	}
 };

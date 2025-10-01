@@ -271,18 +271,22 @@ void SimDumpMapParser::createSteps(
 			}
 			else {
 				auto& empty_pathHolder = manager.addEntity<Empty>();
-				empty_pathHolder.addComponent<PathLinkerComponent>();
+				auto& plc = empty_pathHolder.addComponent<PathLinkerComponent>();
 
-				for (size_t j = 0; j < step.paths[i].second.link_ids.size(); ++j) {
+				plc.color = step.paths[i].second.color;
 
-					int idA = std::get<int>(
-						linkEntities[
-							std::get<int>(step.paths[i].second.link_ids[j])
-						]->getFromNode()->getId());
-					int idB = std::get<int>(
-						linkEntities[
-							std::get<int>(step.paths[i].second.link_ids[j])
-						]->getToNode()->getId());
+				for (auto linkId : path_linkIds) {
+					// Find the link entity by ID
+					LinkEntity* linkEntity = nullptr;
+					for (auto* link : linkEntities) {
+						if (link->getId() == linkId) {
+							linkEntity = link;
+							break;
+						}
+					}
+
+					int idA = std::get<int>(linkEntity->getFromNode()->getId());
+					int idB = std::get<int>(linkEntity->getToNode()->getId());
 
 					// create ECS link
 					auto& link = manager.addEntity<Link>((int)idA, (int)idB);
@@ -294,9 +298,10 @@ void SimDumpMapParser::createSteps(
 					// associate link with path linker
 					empty_pathHolder.GetComponent<PathLinkerComponent>().addLink(&link);
 					empty_pathHolder.addGroup(Manager::groupPathLinksHolder);
+
+					manager.expectoAlwayso.push_back(&empty_pathHolder);
 				}
-
-
+				sim_paths[it->first] = &empty_pathHolder;
 				step.paths[i].first = &empty_pathHolder;
 
 			}
