@@ -264,6 +264,8 @@ void AssetManager::AddPathLink(Entity& link)
 void AssetManager::AddSimulationNode(Entity& node, glm::vec3 pos = glm::vec3(0))
 {
 	node.addComponent<RectangleFlashAnimatorComponent>();
+	node.GetComponent<RectangleFlashAnimatorComponent>().Play("RectInterpolation", TazColor(255,0,100,255));
+
 	node.addComponent<MovingAnimatorComponent>();
 	node.GetComponent<MovingAnimatorComponent>().Play("Test", glm::vec3(5.0f, 5.0f, 0.0f));
 }

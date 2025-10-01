@@ -74,7 +74,9 @@ public:
 		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = animName;
 		transform->SetMovingAnimation(
+
 			transform->getPosition(),
+
 			animManager.moving_animations[animationName].total_frames, animManager.moving_animations[animationName].speed,
 			animManager.moving_animations[animationName].type,
 			m_dest_posistion, animManager.moving_animations[animationName].dest_rotation, // here needs to be vector

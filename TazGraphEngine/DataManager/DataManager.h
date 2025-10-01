@@ -134,13 +134,19 @@ public:
 		for (auto& node : manager.steps[transitionToStep].nodes) {
 			NodeEntity* t_node = node.first;
 
-			if (t_node->hasComponent<TransformComponent>()) {
+			if (t_node->hasComponent<TransformComponent>() &&
+				t_node->hasComponent<MovingAnimatorComponent>() &&
+				t_node->hasComponent<RectangleFlashAnimatorComponent>()
+				) {
+
 				auto& tc = t_node->GetComponent<TransformComponent>();
-				tc.position = node.second.position * 10.0f;
+
+				t_node->GetComponent<MovingAnimatorComponent>().Play("Test", node.second.position * 10.0f);
+
 				tc.size = glm::vec3(node.second.size * 10.0f);
-			}
-			if (t_node->hasComponent<Rectangle_w_Color>()) {
-				t_node->GetComponent<Rectangle_w_Color>().color = node.second.color;
+
+				t_node->GetComponent<RectangleFlashAnimatorComponent>().Play("RectInterpolation", node.second.color);
+
 			}
 		}
 

@@ -26,8 +26,8 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 
 	}
 	// ix,iy is initial position (destX, destY), f is total frames to move, s is the speed to move frames, type as in animation, dx,dy distance to move
-	FlashAnimation(int ix, int iy, size_t f, float s, const std::string _type,
-		const std::vector<float>& flashTimes, TazColor flashC, int _reps = 0) : Animation(ix, iy, f, s, _type) // Animation frames look the next number of frames from the index
+	FlashAnimation(size_t f, float s, const std::string _type,
+		const std::vector<float>& flashTimes, TazColor flashC, int _reps = 0) : Animation(0, 0, f, s, _type) // Animation frames look the next number of frames from the index
 	{
 		speeds[FlashState::FLASH_OUT] = flashTimes[0];
 		speeds[FlashState::EASE_IN] = flashTimes[1];
@@ -37,8 +37,9 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 		reps = _reps;
 	}
 
-	FlashAnimation(int ix, int iy, size_t f, float s, const animType _type,
-		const std::vector<float>& flashTimes, TazColor flashC, int _reps = 0) : Animation(ix, iy, f, s, _type) // Animation frames look the next number of frames from the index
+	FlashAnimation(size_t f, float s, const animType _type,
+		const std::vector<float>& flashTimes, TazColor flashC, int _reps = 0) 
+		: Animation(0, 0, f, s, _type) // Animation frames look the next number of frames from the index
 	{
 		speeds[FlashState::FLASH_OUT] = flashTimes[0];
 		speeds[FlashState::EASE_IN] = flashTimes[1];

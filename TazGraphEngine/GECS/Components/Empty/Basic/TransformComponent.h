@@ -167,25 +167,30 @@ public:
 	}
 
 	void SetMovingAnimation(
-		glm::vec3 m_startingPos, 
-		size_t fr, 
-		float sp, 
-		const Animation::animType type, 
-		const glm::vec3 dest_position, 
-		const glm::vec3 dest_rotation, 
+		glm::vec3 m_startingPos,
+		size_t fr,
+		float sp,
+		const Animation::animType type,
+		const glm::vec3 dest_position,
+		const glm::vec3 dest_rotation,
 		int reps = 0)
 	{
-		std::cout << "Before assignment" << std::endl;
 		moving_animation = MovingAnimation(m_startingPos, fr, sp, type, dest_position, dest_rotation, reps);
-		std::cout << "After assignment" << std::endl;
 	}
 
 	void setMoveFrame() {
 
 		setPosition_X((this->moving_animation.startingPosition.x) /* init */
-			+ (this->moving_animation.dest_position.x * moving_animation.cur_frame_index));
-		setPosition_Y((this->moving_animation.startingPosition.y) 
-			+ (this->moving_animation.dest_position.y * moving_animation.cur_frame_index));
+			+ (
+				(
+					this->moving_animation.dest_position.x -
+					this->moving_animation.startingPosition.x
+					) 
+				* moving_animation.cur_frame_index));
+		setPosition_Y((this->moving_animation.startingPosition.y)
+			+ ((this->moving_animation.dest_position.y -
+				this->moving_animation.startingPosition.x) 
+				* moving_animation.cur_frame_index));
 	}
 
 	std::string GetComponentName() override {

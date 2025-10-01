@@ -65,7 +65,6 @@ public:
 		animationName = animName;
 		FlashAnimation& flash_animation = animManager.flash_animations[animationName];
 		rectangle->SetFlashAnimation(
-			flash_animation.indexX, flash_animation.indexY,
 			flash_animation.total_frames, flash_animation.speed,
 			flash_animation.type,
 			flash_animation.getSpeedsAsVector(),
@@ -74,11 +73,26 @@ public:
 		);
 	}
 
+	void Play(const std::string& animName, TazColor m_destColor, int reps = 0)
+	{
+		AnimatorManager& animManager = AnimatorManager::getInstance();
+		animationName = animName;
+		FlashAnimation& flash_animation = animManager.flash_animations[animationName];
+		rectangle->SetFlashAnimation(
+			flash_animation.total_frames, flash_animation.speed,
+			flash_animation.type,
+			flash_animation.getSpeedsAsVector(),
+			m_destColor,
+			reps ? reps : flash_animation.reps
+		);
+	}
+
 	void resetAnimation() {
+		rectangle->default_color = rectangle->color;
+
 		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = "Default";
 		rectangle->SetFlashAnimation(
-			animManager.flash_animations[animationName].indexX, animManager.flash_animations[animationName].indexY,
 			animManager.flash_animations[animationName].total_frames, animManager.flash_animations[animationName].speed,
 			animManager.flash_animations[animationName].type,
 			animManager.flash_animations[animationName].getSpeedsAsVector(),

@@ -62,7 +62,6 @@ public:
 		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = animName;
 		sprite->SetFlashAnimation(
-			animManager.flash_animations[animationName].indexX, animManager.flash_animations[animationName].indexY,
 			animManager.flash_animations[animationName].total_frames, animManager.flash_animations[animationName].speed,
 			animManager.flash_animations[animationName].type,
 			animManager.flash_animations[animationName].getSpeedsAsVector(),
@@ -77,7 +76,6 @@ public:
 		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = "Default";
 		sprite->SetFlashAnimation(
-			animManager.flash_animations[animationName].indexX, animManager.flash_animations[animationName].indexY,
 			animManager.flash_animations[animationName].total_frames, animManager.flash_animations[animationName].speed,
 			animManager.flash_animations[animationName].type,
 			animManager.flash_animations[animationName].getSpeedsAsVector(),
