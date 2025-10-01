@@ -59,14 +59,14 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 			break;
 		case FlashState::EASE_IN:
 			// Using simple subtraction to find the fractional part
-			interpolation_a = cur_frame_index_f - (int)cur_frame_index_f;
+			interpolation_a = cur_frame_index_f - cur_frame_index;
 			break;
 		case FlashState::FLASH_IN:
 			interpolation_a = 1;
 			break;
 		case FlashState::EASE_OUT:
 			// Using simple subtraction and inversion for the fractional part
-			interpolation_a = 1 - (cur_frame_index_f - (int)cur_frame_index_f);
+			interpolation_a = 1 - (cur_frame_index_f - cur_frame_index);
 			break;
 		}
 		switch (type) {
@@ -85,8 +85,8 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 			// Check if the frame index has changed
 			if (prev_frame_index != cur_frame_index) {
 				frame_times_played = 1;
-				if ((static_cast<int>(currentSpeedIndex) + 1) % NUM_BACK_FORTH_STATES < NUM_BACK_FORTH_STATES)
-					currentSpeedIndex = static_cast<FlashState>((static_cast<int>(currentSpeedIndex) + 1) % speeds.size());
+				if ((static_cast<int>(currentSpeedIndex) ) < NUM_BACK_FORTH_STATES)
+					currentSpeedIndex = static_cast<FlashState>(static_cast<int>(cur_frame_index));
 			}
 			else {
 				frame_times_played++;
@@ -100,8 +100,8 @@ struct FlashAnimation : public Animation //todo moving animation can be moving s
 			// Check if the frame index has changed
 			if (prev_frame_index != cur_frame_index) {
 				frame_times_played = 1;
-				if (static_cast<int>(currentSpeedIndex) % NUM_LOOP_STATES < NUM_LOOP_STATES)
-					currentSpeedIndex = static_cast<FlashState>(static_cast<int>(currentSpeedIndex) % NUM_LOOP_STATES);
+				if (static_cast<int>(currentSpeedIndex) < NUM_LOOP_STATES)
+					currentSpeedIndex = static_cast<FlashState>(static_cast<int>(cur_frame_index));
 			}
 			else {
 				frame_times_played++;

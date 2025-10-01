@@ -15,6 +15,12 @@ struct SimulationStep {
 	struct TazSimulationLink : LineInstanceData {
 	};
 
+	struct TazSimulationPath {
+		TazColor color;
+		float width;
+		std::vector<EntityID> link_ids;
+	};
+
 	sim_dump::UInt32 step_index;
 	sim_dump::UInt64 timestamp;
 
@@ -25,5 +31,5 @@ struct SimulationStep {
 	std::vector< std::pair<LinkEntity*, TazSimulationLink>>  links;
 
 	// path data
-	std::unordered_map<int, std::pair<TazColor, float>> paths; // pathId → (color, width)
+	std::vector<std::pair<EmptyEntity*, TazSimulationPath>> paths; // pathId → (color, width)
 };

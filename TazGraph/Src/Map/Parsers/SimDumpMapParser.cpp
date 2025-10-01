@@ -136,11 +136,11 @@ void SimDumpMapParser::parse(Manager& manager,
 
 	manager.grid->setSize(2 * maxDistance);
 
-	for (auto& node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+	for (auto& node : nodeEntities) {
 		manager.grid->addNode(node, manager.grid->getGridLevel());
 	}
 
-	for (auto& link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
+	for (auto& link : linkEntities) {
 		manager.grid->addLink(link, manager.grid->getGridLevel());
 	}
 
@@ -210,6 +210,8 @@ void SimDumpMapParser::createSteps(
 			});
 	}
 
+	std::unordered_map<int, EmptyEntity*> sim_paths;
+
 	do {
 		SimulationStep step;
 		step.step_index = reader.get_current_step_index();
@@ -233,9 +235,7 @@ void SimDumpMapParser::createSteps(
 		// links
 		step.links.resize(reader.get_link_count());
 
-		Uint32 i = 0;
-
-		for (auto it = reader.get_link_iterator(); it != reader.get_link_end(); ++it) {
+		for (UInt32 i = 0; i < reader.get_link_count(); i++) {
 			auto color = reader.get_entity_color(EntityType::LINK, i);
 			float width = reader.get_entity_width(EntityType::LINK, i);
 
@@ -244,27 +244,66 @@ void SimDumpMapParser::createSteps(
 			step.links[i].second.width = width;
 
 			step.links[i].first = linkEntities[i];
+		}
+
+		step.paths.resize(reader.get_path_count());
+		// paths
+		UInt32 i = 0;
+		for (auto it = reader.get_path_iterator(); it != reader.get_path_end(); ++it) {
+			auto color = it->second.color;
+			float width = it->second.width;
+			std::vector<EntityID> path_linkIds;
+
+			for (auto& pathIt : it->second.links) {
+				path_linkIds.push_back(linkEntities[pathIt]->getId());
+			}
+
+			step.paths[i].second = {
+				TazColor(color.r, color.g, color.b, color.alpha),
+				width,
+				path_linkIds
+			};
+
+			auto existing_it = sim_paths.find(it->first);
+			if (existing_it != sim_paths.end()) {
+				// Use existing path entity
+				step.paths[i].first = existing_it->second;
+			}
+			else {
+				auto& empty_pathHolder = manager.addEntity<Empty>();
+				empty_pathHolder.addComponent<PathLinkerComponent>();
+
+				for (size_t j = 0; j < step.paths[i].second.link_ids.size(); ++j) {
+
+					int idA = std::get<int>(
+						linkEntities[
+							std::get<int>(step.paths[i].second.link_ids[j])
+						]->getFromNode()->getId());
+					int idB = std::get<int>(
+						linkEntities[
+							std::get<int>(step.paths[i].second.link_ids[j])
+						]->getToNode()->getId());
+
+					// create ECS link
+					auto& link = manager.addEntity<Link>((int)idA, (int)idB);
+					link.addGroup(Manager::groupPathLinks);
+					addLinkFunc(link);
+
+					manager.grid->addLink(&link, manager.grid->getGridLevel());
+
+					// associate link with path linker
+					empty_pathHolder.GetComponent<PathLinkerComponent>().addLink(&link);
+					empty_pathHolder.addGroup(Manager::groupPathLinksHolder);
+				}
+
+
+				step.paths[i].first = &empty_pathHolder;
+
+			}
 
 			i++;
 		}
-
-		// paths
-		for (UInt32 i = 0; i < reader.get_path_count(); i++) {
-			auto color = reader.get_entity_color(EntityType::PATH, i);
-			float width = reader.get_entity_width(EntityType::PATH, i);
-
-			step.paths[i] = {
-				TazColor(color.r, color.g, color.b, color.alpha),
-				width
-			};
-		}
-
-		SimDumpPathParser pathParser;
-		pathParser.parse(manager, reader,
-			nodeEntities,
-			linkEntities,
-			addNodeFunc,
-			addLinkFunc);
+		manager.updateInnerPathLinks = true;
 
 		manager.steps.push_back(std::move(step));
 	} while (reader.next());

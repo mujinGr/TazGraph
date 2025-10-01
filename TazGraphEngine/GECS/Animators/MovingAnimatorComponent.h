@@ -64,12 +64,12 @@ public:
 			transform->getPosition(),
 			animManager.moving_animations[animationName].total_frames, animManager.moving_animations[animationName].speed,
 			animManager.moving_animations[animationName].type,
-			animManager.moving_animations[animationName].dest_position, animManager.moving_animations[animationName].dest_rotation, // here needs to be vector
+			animManager.moving_animations[animationName].distance, animManager.moving_animations[animationName].dest_rotation, // here needs to be vector
 			reps ? reps : animManager.moving_animations[animationName].reps
 		);
 	}
 
-	void Play(const char* animName, glm::vec3 m_dest_posistion, int reps = 0)
+	void Play(const char* animName, glm::vec3 m_distance, int reps = 0)
 	{
 		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = animName;
@@ -79,7 +79,7 @@ public:
 
 			animManager.moving_animations[animationName].total_frames, animManager.moving_animations[animationName].speed,
 			animManager.moving_animations[animationName].type,
-			m_dest_posistion, animManager.moving_animations[animationName].dest_rotation, // here needs to be vector
+			m_distance, animManager.moving_animations[animationName].dest_rotation, // here needs to be vector
 			reps ? reps : animManager.moving_animations[animationName].reps
 		);
 	}
@@ -93,7 +93,7 @@ public:
 			transform->getPosition(),
 			animManager.moving_animations[animationName].total_frames, animManager.moving_animations[animationName].speed,
 			animManager.moving_animations[animationName].type,
-			animManager.moving_animations[animationName].dest_position, animManager.moving_animations[animationName].dest_rotation);
+			animManager.moving_animations[animationName].distance, animManager.moving_animations[animationName].dest_rotation);
 	}
 
 	std::string getPlayName()

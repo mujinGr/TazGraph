@@ -28,15 +28,15 @@ public:
 
 		animations.emplace("Default", defaultAnimation);
 
-		MovingAnimation defaultMoveAnimation = MovingAnimation(glm::vec3(0), 0, 0, "looped", glm::vec3(0));
-		MovingAnimation testMoveAnimation = MovingAnimation(glm::vec3(0), 20, 0.1f, "play_n_times", glm::vec3(5.0f, 5.0f, 0.0f), 1);
+		MovingAnimation defaultMoveAnimation = MovingAnimation(glm::vec3(0), 1, 0, "looped", glm::vec3(0));
+		MovingAnimation testMoveAnimation = MovingAnimation(glm::vec3(0), 100, 1.0f, "play_n_times", glm::vec3(5.0f, 5.0f, 0.0f), 1);
 
 		moving_animations.emplace("Default", defaultMoveAnimation);
 		moving_animations.emplace("Test", testMoveAnimation);
 
-		FlashAnimation defaultFlashAnimation = FlashAnimation(3, 0.0f, "looped", { 0.2f, 1.0f, 0.2f, 1.0f }, { 255,255,255,255 });
+		FlashAnimation defaultFlashAnimation = FlashAnimation(3, 0.0f, "looped", { 0.2f, 1.0f, 0.2f, 1.0f }, { 0,0,0,255 });
 		FlashAnimation lineTransferFlashAnimation = FlashAnimation(3, 0.01f, "play_n_times", { 0.01f, 0.01f, 0.00f, 0.01f }, { 255,255,255,255 }, 1);
-		FlashAnimation rectangleInterpolationFlashAnimation = FlashAnimation(3, 0.01f, "back_forth", { 0.01f, 0.01f, 1.00f, 0.01f }, { 255,0,0,255 }, 0);
+		FlashAnimation rectangleInterpolationFlashAnimation = FlashAnimation(3, 0.01f, "play_n_times", { 0.5f, 0.01f, 1.00f, 0.01f }, { 255,0,0,255 }, 1);
 
 		flash_animations.emplace("Default", defaultFlashAnimation);
 		flash_animations.emplace("LineTransfer", lineTransferFlashAnimation);

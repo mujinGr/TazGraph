@@ -171,26 +171,27 @@ public:
 		size_t fr,
 		float sp,
 		const Animation::animType type,
-		const glm::vec3 dest_position,
+		const glm::vec3 distance,
 		const glm::vec3 dest_rotation,
 		int reps = 0)
 	{
-		moving_animation = MovingAnimation(m_startingPos, fr, sp, type, dest_position, dest_rotation, reps);
+		moving_animation = MovingAnimation(m_startingPos, fr, sp, type, distance, dest_rotation, reps);
 	}
 
 	void setMoveFrame() {
 
-		setPosition_X((this->moving_animation.startingPosition.x) /* init */
-			+ (
-				(
-					this->moving_animation.dest_position.x -
-					this->moving_animation.startingPosition.x
-					) 
-				* moving_animation.cur_frame_index));
-		setPosition_Y((this->moving_animation.startingPosition.y)
-			+ ((this->moving_animation.dest_position.y -
-				this->moving_animation.startingPosition.x) 
-				* moving_animation.cur_frame_index));
+		float progress = (float)moving_animation.cur_frame_index /
+			(float)moving_animation.total_frames;
+
+		// Use linear interpolation
+		float newX = moving_animation.startingPosition.x +
+			((moving_animation.distance.x) * progress);
+
+		float newY = moving_animation.startingPosition.y +
+			((moving_animation.distance.y) * progress); // Fixed typo: was .x instead of .y
+
+		setPosition_X(newX);
+		setPosition_Y(newY);
 	}
 
 	std::string GetComponentName() override {
