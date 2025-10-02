@@ -21,6 +21,8 @@ public:
 
 	void setParentEntity(Entity* pEntity) override {
 		parent_entity = pEntity;
+
+		id = EntityIDUtils::toString(parent_entity->getId()) + EntityIDUtils::toString(id);
 	}
 
 	void removeFromCell() {

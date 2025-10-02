@@ -12,6 +12,15 @@
 
 #include "./Base.h"
 
+#define NODEPORTS(XX) \
+    XX(TOP,) \
+    XX(RIGHT,) \
+    XX(BOTTOM,) \
+    XX(LEFT,) \
+
+DECLARE_ENUM(NodePorts, NODEPORTS)
+
+
 namespace TazGraphEngine {
 
 	enum WindowFlags { INVISIBLE = 0x1, VISIBLE = 0x2, FULLSCREEN = 0x4, BORDERLESS = 0x8 };

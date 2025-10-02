@@ -75,7 +75,7 @@ void GraphLeftPanel::OnImGuiRender()
 				textLabel.GetComponent<TransformComponent>().local_position = glm::vec3(0);
 				node->children["label"] = &textLabel;
 				node->children["label"]->setParentEntity(node);
-				node->children["label"]->GetComponent<TransformComponent>().initChild(0.0f);
+				node->children["label"]->GetComponent<TransformComponent>().initChild();
 			}
 		}
 		else if (!config.scene->manager->idTextEnabled) {
@@ -143,28 +143,11 @@ void GraphLeftPanel::OnImGuiRender()
 				auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
 
 				for (auto* link : pathLinks) {
-					NodeEntity* from = link->getFromNode();
-					NodeEntity* to = link->getToNode();
-
-					if (from) {
-						from->removeOutLink(link);
-						from->removeSlots(); // if slots are per-link
-					}
-					if (to) {
-						to->removeInLink(link);
-						to->removeSlots();
-					}
-
-					link->removeArrowHead();
-					link->resetPorts();
+					link->destroy();
 				}
+				config.scene->manager->updateInnerPathLinks = true;
 			}
 			config.scene->manager->removeAllEntitiesFromEmptyGroup(Manager::groupPathLinksHolder);
-
-			// remove related links
-			config.scene->manager->removeAllEntitiesFromLinkGroup(Manager::groupPathInnerLinks);
-
-			config.scene->manager->removeAllEntitiesFromLinkGroup(Manager::groupPathLinks);
 		}
 		else {
 			DataManager::getInstance().pathLoading = DataManager::getInstance().pathData.input;

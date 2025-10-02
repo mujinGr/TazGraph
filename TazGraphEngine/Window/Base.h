@@ -19,3 +19,5 @@
 #elif defined(TAZ_PLATFORM_LINUX)
 #define safe_putenv putenv
 #endif
+
+#include "../DefineFactory.h"

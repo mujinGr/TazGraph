@@ -2,6 +2,8 @@
 #include "../ConsoleLogger.h"
 #include <SDL2/SDL_image.h>
 
+DEFINE_ENUM(NodePorts, NODEPORTS)
+
 TazGraphEngine::Window::Window()
 {
 }

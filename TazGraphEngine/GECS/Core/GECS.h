@@ -139,13 +139,6 @@ public:
 	LinkEntity* entity = nullptr;
 };
 
-enum NodePorts {
-	TOP = 0,
-	RIGHT = 1,
-	BOTTOM = 2,
-	LEFT = 3
-};
-
 enum LinkPorts {
 	ARROWHEAD = 0
 };
@@ -177,7 +170,7 @@ namespace EntityIDUtils {
 
 class Entity
 {
-private:
+protected:
 	EntityID id = 0;
 
 	bool active = true; // false if about to delete
@@ -187,7 +180,6 @@ private:
 	ComponentBitSet componentBitSet;
 	GroupBitSet groupBitSet;
 
-protected:
 	std::optional<ComponentArray> nodeComponentArray;
 	std::optional<ComponentBitSet> nodeComponentBitSet;
 

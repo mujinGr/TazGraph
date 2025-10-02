@@ -5,6 +5,7 @@
 #include "simdump/include/sim_dump/filewriter.h"
 
 #include "../PathParsers/SimDumpPathParser.h"
+#include <DataManager/DataManager.h>
 
 using namespace sim_dump;
 
@@ -25,8 +26,6 @@ public:
 
 private:
 	void createSteps(sim_dump::FileReader& reader, Manager& manager,
-		std::vector<NodeEntity*>& nodeEntities,
-		std::vector<LinkEntity*>& linkEntities,
 		std::function<void(Entity&, glm::vec3)> addNodeFunc,
 		std::function<void(Entity&)> addLinkFunc);
 

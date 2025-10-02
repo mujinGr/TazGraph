@@ -122,11 +122,9 @@ void SimDumpMapParser::parse(Manager& manager,
 	}
 
 	//  === INITIAL CREATION OF NODES ===
-	std::vector<NodeEntity*> nodeEntities;
-	std::vector<LinkEntity*> linkEntities;
 
 
-	createSteps(reader, manager, nodeEntities, linkEntities, addNodeFunc, addLinkFunc);
+	createSteps(reader, manager, addNodeFunc, addLinkFunc);
 
 
 	// --- Grid setup ---
@@ -136,14 +134,13 @@ void SimDumpMapParser::parse(Manager& manager,
 
 	manager.grid->setSize(2 * maxDistance);
 
-	for (auto& node : nodeEntities) {
-		manager.grid->addNode(node, manager.grid->getGridLevel());
+	for (auto& node : DataManager::getInstance().mapSimToGraphNodes) {
+		manager.grid->addNode(node.second, manager.grid->getGridLevel());
 	}
 
-	for (auto& link : linkEntities) {
-		manager.grid->addLink(link, manager.grid->getGridLevel());
+	for (auto& link : DataManager::getInstance().mapSimToGraphLinks) {
+		manager.grid->addLink(link.second, manager.grid->getGridLevel());
 	}
-
 
 	// --- Camera setup ---
 	std::shared_ptr<PerspectiveCamera> main_camera2D =
@@ -172,24 +169,31 @@ void SimDumpMapParser::parse(Manager& manager,
 void SimDumpMapParser::createSteps(
 	sim_dump::FileReader& reader,
 	Manager& manager,
-	std::vector<NodeEntity*>& nodeEntities,
-	std::vector<LinkEntity*>& linkEntities,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
 	std::function<void(Entity&)> addLinkFunc) {
+
+
 
 	// Create all nodes ONCE before the loop
 	for (UInt32 i = 0; i < reader.get_node_count(); i++) {
 		auto& node = manager.addEntity<Node>();
 		node.addGroup(Manager::groupNodes_0);
-		nodeEntities.push_back(&node);
-	}
 
+		DataManager::getInstance().mapSimToGraphNodes[i] = &node;
+	}
+	UInt32 i = 0;
 	// Create all links ONCE before the loop  
 	for (auto it = reader.get_link_iterator(); it != reader.get_link_end(); ++it) {
 		auto& link = manager.addEntity<Link>((int)it->src_id, (int)it->dst_id);
 		link.addGroup(Manager::groupLinks_0);
-		linkEntities.push_back(&link);
+
+		DataManager::getInstance().mapSimToGraphLinks[i] = &link;
+		i++;
 	}
+
+	auto& nodeEntities = DataManager::getInstance().mapSimToGraphNodes;
+	auto& linkEntities = DataManager::getInstance().mapSimToGraphLinks;
+	auto& pathEntities = DataManager::getInstance().mapSimToGraphPaths;
 
 	if (_threader) {
 		_threader->parallel(nodeEntities.size(), [&](int start, int end) {
@@ -209,8 +213,6 @@ void SimDumpMapParser::createSteps(
 			}
 			});
 	}
-
-	std::unordered_map<int, EmptyEntity*> sim_paths;
 
 	do {
 		SimulationStep step;
@@ -249,9 +251,25 @@ void SimDumpMapParser::createSteps(
 		step.paths.resize(reader.get_path_count());
 		// paths
 		UInt32 i = 0;
-		for (auto it = reader.get_path_iterator(); it != reader.get_path_end(); ++it) {
+		for (auto it = reader.get_path_iterator();
+			it != reader.get_path_end(); ++it)
+		{
+			//create the empties, assign their id to map
+			// creation of links is done in manager step
+
+			auto& empty_pathHolder = manager.addEntity<Empty>();
+			auto& plc = empty_pathHolder.addComponent<PathLinkerComponent>();
+
 			auto color = it->second.color;
 			float width = it->second.width;
+			int id = it->first;
+
+			if (!pathEntities[id]) {
+				pathEntities[id] = &empty_pathHolder;
+			}
+
+			step.paths[i].first = &empty_pathHolder;
+
 			std::vector<EntityID> path_linkIds;
 
 			for (auto& pathIt : it->second.links) {
@@ -264,52 +282,7 @@ void SimDumpMapParser::createSteps(
 				path_linkIds
 			};
 
-			auto existing_it = sim_paths.find(it->first);
-			if (existing_it != sim_paths.end()) {
-				// Use existing path entity
-				step.paths[i].first = existing_it->second;
-			}
-			else {
-				auto& empty_pathHolder = manager.addEntity<Empty>();
-				auto& plc = empty_pathHolder.addComponent<PathLinkerComponent>();
-
-				plc.color = step.paths[i].second.color;
-
-				for (auto linkId : path_linkIds) {
-					// Find the link entity by ID
-					LinkEntity* linkEntity = nullptr;
-					for (auto* link : linkEntities) {
-						if (link->getId() == linkId) {
-							linkEntity = link;
-							break;
-						}
-					}
-
-					int idA = std::get<int>(linkEntity->getFromNode()->getId());
-					int idB = std::get<int>(linkEntity->getToNode()->getId());
-
-					// create ECS link
-					auto& link = manager.addEntity<Link>((int)idA, (int)idB);
-					link.addGroup(Manager::groupPathLinks);
-					addLinkFunc(link);
-
-					manager.grid->addLink(&link, manager.grid->getGridLevel());
-
-					// associate link with path linker
-					empty_pathHolder.GetComponent<PathLinkerComponent>().addLink(&link);
-					empty_pathHolder.addGroup(Manager::groupPathLinksHolder);
-
-					manager.expectoAlwayso.push_back(&empty_pathHolder);
-				}
-				sim_paths[it->first] = &empty_pathHolder;
-				step.paths[i].first = &empty_pathHolder;
-
-			}
-
-			i++;
 		}
-		manager.updateInnerPathLinks = true;
-
 		manager.steps.push_back(std::move(step));
 	} while (reader.next());
 }

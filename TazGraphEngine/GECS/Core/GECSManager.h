@@ -293,6 +293,31 @@ public:
 	}
 
 	template <typename T>
+	std::vector<T*>& getAllTypeEntities() {
+		std::vector<T*> allTypeEntities = {};
+
+		if constexpr (std::is_same_v<T, EmptyEntity>) {
+			for (auto& groupPair : groupedEmptyEntities) {
+				allTypeEntities.insert(allTypeEntities.end(), groupPair.begin(), groupPair.end());
+			}
+		}
+		else if constexpr (std::is_same_v<T, NodeEntity>) {
+			for (auto& groupPair : groupedNodeEntities) {
+				allTypeEntities.insert(allTypeEntities.end(), groupPair.begin(), groupPair.end());
+			}
+		}
+		else if constexpr (std::is_same_v<T, LinkEntity>) {
+			for (auto& groupPair : groupedLinkEntities) {
+				allTypeEntities.insert(allTypeEntities.end(), groupPair.begin(), groupPair.end());
+			}
+		}
+		else {
+			static_assert(sizeof(T) == 0, "Unsupported entity type.");
+		}
+		return allTypeEntities;
+	}
+
+	template <typename T>
 	std::vector<T*>& getGroup(Group mGroup) {
 		if constexpr (std::is_same_v<T, EmptyEntity>) {
 			return groupedEmptyEntities[mGroup];

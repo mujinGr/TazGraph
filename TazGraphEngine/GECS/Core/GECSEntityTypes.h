@@ -87,27 +87,14 @@ public:
 
 		TransformComponent* tr = &GetComponent<TransformComponent>();
 
-		if (children[NodePorts::LEFT]) {
-			for (auto& portSlots : children[NodePorts::LEFT]->GetComponent<PortComponent>().portSlots) {
-				portSlots->update(deltaTime);
-			}
-		}
-
-		if (children[NodePorts::RIGHT]) {
-			for (auto& portSlots : children[NodePorts::RIGHT]->GetComponent<PortComponent>().portSlots) {
-				portSlots->update(deltaTime);
-			}
-		}
-
-		if (children[NodePorts::TOP]) {
-			for (auto& portSlots : children[NodePorts::TOP]->GetComponent<PortComponent>().portSlots) {
-				portSlots->update(deltaTime);
-			}
-		}
-
-		if (children[NodePorts::BOTTOM]) {
-			for (auto& portSlots : children[NodePorts::BOTTOM]->GetComponent<PortComponent>().portSlots) {
-				portSlots->update(deltaTime);
+		for (auto& child : { children[NodePorts::LEFT],
+			children[NodePorts::RIGHT] ,
+			children[NodePorts::TOP],
+			children[NodePorts::BOTTOM] }) {
+			if (child) {
+				for (auto& portSlots : child->GetComponent<PortComponent>().portSlots) {
+					portSlots->update(deltaTime);
+				}
 			}
 		}
 	}
@@ -175,63 +162,23 @@ public:
 			return;
 		}
 
-		TransformComponent* tr = &GetComponent<TransformComponent>();
+		auto createPort = [this](NodePorts portName, const glm::vec3& localPosition, bool isHorizontal) {
+			auto& port = getManager()->addEntityNoId<Empty>();
+			port.addGroup(Manager::groupPorts);
+			port.addComponent<TransformComponent>(glm::vec3(0), glm::vec3(0), 1.0f);
+			children[portName] = &port;
+			children[portName]->setParentEntity(this);
+			children[portName]->GetComponent<TransformComponent>().local_normal_position = localPosition;
+			children[portName]->GetComponent<TransformComponent>().initChild();
+			children[portName]->addComponent<PortComponent>(isHorizontal);
+			children[portName]->update(0.0f);
+			};
 
-		auto& leftPort = getManager()->addEntityNoId<Empty>();
-		leftPort.addGroup(Manager::groupPorts);
-		glm::vec3 m_position = glm::vec3(-1.0f, 0.0f, 0.0f);
-		leftPort.addComponent<TransformComponent>(glm::vec3(0), glm::vec3(0), 1.0f);
-		children[NodePorts::LEFT] = &leftPort;
-		children[NodePorts::LEFT]->setParentEntity(this);
-		children[NodePorts::LEFT]->GetComponent<TransformComponent>().local_normal_position = m_position;
-		children[NodePorts::LEFT]->GetComponent<TransformComponent>().initChild(0.0f);
-		children[NodePorts::LEFT]->addComponent<PortComponent>(true);
-		children[NodePorts::LEFT]->update(0.0f);
-
-		auto& rightPort = getManager()->addEntityNoId<Empty>();
-		rightPort.addGroup(Manager::groupPorts);
-		m_position = glm::vec3(1.0f, 0.0f, 0.0f);
-		rightPort.addComponent<TransformComponent>(glm::vec3(0), glm::vec3(0), 1.0f);
-		children[NodePorts::RIGHT] = &rightPort;
-		children[NodePorts::RIGHT]->setParentEntity(this);
-		children[NodePorts::RIGHT]->GetComponent<TransformComponent>().local_normal_position = m_position;
-		children[NodePorts::RIGHT]->GetComponent<TransformComponent>().initChild(0.0f);
-		children[NodePorts::RIGHT]->addComponent<PortComponent>(true);
-		children[NodePorts::RIGHT]->update(0.0f);
-
-		// Initialize top port
-		auto& topPort = getManager()->addEntityNoId<Empty>();
-		topPort.addGroup(Manager::groupPorts);
-		m_position = glm::vec3(0.0f, -1.0f, 0.0f);
-		topPort.addComponent<TransformComponent>(glm::vec3(0), glm::vec3(0), 1.0f);
-		children[NodePorts::TOP] = &topPort;
-		children[NodePorts::TOP]->setParentEntity(this);
-		children[NodePorts::TOP]->GetComponent<TransformComponent>().local_normal_position = m_position;
-		children[NodePorts::TOP]->GetComponent<TransformComponent>().initChild(0.0f);
-		children[NodePorts::TOP]->addComponent<PortComponent>(false);
-		children[NodePorts::TOP]->update(0.0f);
-
-		// Initialize bottom port
-		auto& bottomPort = getManager()->addEntityNoId<Empty>();
-		bottomPort.addGroup(Manager::groupPorts);
-		m_position = glm::vec3(0.0f, 1.0f, 0.0f);
-		bottomPort.addComponent<TransformComponent>(glm::vec3(0), glm::vec3(0), 1.0f);
-		children[NodePorts::BOTTOM] = &bottomPort;
-		children[NodePorts::BOTTOM]->setParentEntity(this);
-		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().local_normal_position = m_position;
-		children[NodePorts::BOTTOM]->GetComponent<TransformComponent>().initChild(0.0f);
-		children[NodePorts::BOTTOM]->addComponent<PortComponent>(false);
-		children[NodePorts::BOTTOM]->update(0.0f);
-
-		/*	auto& testSlot = getManager()->addEntityNoId<Empty>();
-			testSlot.addGroup(Manager::groupPortSlots);
-			testSlot.addComponent<TransformComponent>(m_position, glm::vec3(3), 1.0f);
-			testSlot.addComponent<Rectangle_w_Color>();
-			testSlot.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, 250, 0, 255));
-			testSlot.addComponent<PortSlotComponent>();
-			testSlot.setParentEntity(children[NodePorts::BOTTOM]);
-			children[NodePorts::BOTTOM]->GetComponent<PortComponent>().
-				portSlots.push_back(&testSlot);*/
+		// Create all ports using the lambda
+		createPort(NodePorts::LEFT, glm::vec3(-1.0f, 0.0f, 0.0f), true);
+		createPort(NodePorts::RIGHT, glm::vec3(1.0f, 0.0f, 0.0f), true);
+		createPort(NodePorts::TOP, glm::vec3(0.0f, -1.0f, 0.0f), false);
+		createPort(NodePorts::BOTTOM, glm::vec3(0.0f, 1.0f, 0.0f), false);
 
 	}
 
@@ -490,7 +437,8 @@ public:
 					oldSlots.erase(oldSlots.begin() + oldSlotIndex);  // Remove from vector first
 					slotToRemove->destroy();
 
-					updateLinksSlotIndices(node, oldPort, oldSlotIndex);
+					updateLinksSlotIndices(node, oldPort, oldSlotIndex, true);
+					updateLinksSlotIndices(node, oldPort, oldSlotIndex, false);
 				}
 			}
 		}
@@ -529,20 +477,39 @@ public:
 		return oldSlotIndex;
 	}
 
-	void updateLinksSlotIndices(NodeEntity* node, EntityID portIndex, int removedSlotIndex) {
-		for (auto& linkEntity : node->getOutLinks()) {
+	void updateLinksSlotIndices(NodeEntity* node, EntityID portIndex, int removedSlotIndex, bool isFrom) {
 
-			if (linkEntity->fromPort == portIndex &&
-				linkEntity->fromSlotIndex > removedSlotIndex) {
-				linkEntity->fromSlotIndex--;
+		// reassign slots to links
+		if (isFrom) {
+			for (auto& linkEntity : node->getOutLinks()) {
+
+				if (linkEntity->fromPort == portIndex &&
+					linkEntity->fromSlotIndex > removedSlotIndex) {
+					linkEntity->fromSlotIndex--;
+				}
 			}
 		}
+		else {
+			for (auto& linkEntity : node->getInLinks()) {
 
-		for (auto& linkEntity : node->getInLinks()) {
+				if (linkEntity->toPort == portIndex &&
+					linkEntity->toSlotIndex > removedSlotIndex) {
+					linkEntity->toSlotIndex--;
+				}
+			}
+		}
+	}
 
-			if (linkEntity->toPort == portIndex &&
-				linkEntity->toSlotIndex > removedSlotIndex) {
-				linkEntity->toSlotIndex--;
+	void removeSlotFromNode(NodeEntity* node, EntityID port, int slotIndex, bool isFrom) {
+		if (std::get<int>(port) == -1 || slotIndex == -1) return;
+
+		Entity* portEntity = node->children[port];
+		if (portEntity && portEntity->hasComponent<PortComponent>()) {
+			auto& portSlots = portEntity->GetComponent<PortComponent>().portSlots;
+			if (slotIndex >= 0 && slotIndex < portSlots.size()) {
+				portSlots[slotIndex]->destroy();
+				portSlots.erase(portSlots.begin() + slotIndex);
+				updateLinksSlotIndices(node, port, slotIndex, isFrom);
 			}
 		}
 	}
@@ -568,9 +535,20 @@ public:
 	void destroy() {
 		Entity::destroy();
 
-		if (children[LinkPorts::ARROWHEAD]) {
-			children[LinkPorts::ARROWHEAD]->destroy();
+		NodeEntity* from = getFromNode();
+		NodeEntity* to = getToNode();
+
+		if (from) {
+			from->removeOutLink(this);
+			removeSlotFromNode(from, fromPort, fromSlotIndex, true);
 		}
+		if (to) {
+			to->removeInLink(this);
+			removeSlotFromNode(to, toPort, toSlotIndex, false);
+		}
+
+		removeArrowHead();
+		resetPorts();
 
 		manager.aboutTo_updateActiveEntities();
 	}

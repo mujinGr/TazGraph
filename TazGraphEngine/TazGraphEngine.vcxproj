@@ -218,6 +218,7 @@
     <ClInclude Include="Camera2.5D\ICamera.h" />
     <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="DataManager\DataManager.h" />
+    <ClInclude Include="DefineFactory.h" />
     <ClInclude Include="DorParser\DotParser.h" />
     <ClInclude Include="GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h" />
     <ClInclude Include="GECS\Animators\RectangleAnimators\RectangleFlashAnimatorComponent.h" />

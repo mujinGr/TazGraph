@@ -118,7 +118,7 @@ public:
 
 	}
 
-	void initChild(float deltaTime) {
+	void initChild() {
 		if (entity->getParentEntity()
 			&& (dynamic_cast<NodeEntity*>(entity->getParentEntity())
 				|| dynamic_cast<EmptyEntity*>(entity->getParentEntity())))

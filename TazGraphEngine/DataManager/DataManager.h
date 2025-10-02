@@ -39,6 +39,10 @@ public:
 	bool loadingPath = false;
 	bool goingBack = false;
 
+	std::map<int, NodeEntity*> mapSimToGraphNodes;
+	std::map<int, LinkEntity*> mapSimToGraphLinks;
+	std::map<int, EmptyEntity*> mapSimToGraphPaths;
+
 	void setPathLoading(bool loading)
 	{
 		loadingPath = loading;
@@ -164,12 +168,58 @@ public:
 			}
 		}
 
-		// Paths (example)
-		for (auto& simPaths : manager.steps[transitionToStep].paths) {
-			auto& plc = simPaths.first->GetComponent<PathLinkerComponent>();
+		for (auto& simPaths : DataManager::getInstance().mapSimToGraphPaths) {
 
-			plc.color = simPaths.second.color; // use at when the variable is not modified
-			plc.width = simPaths.second.width;
+			for (auto& pathLink : simPaths.second->GetComponent<PathLinkerComponent>().pathLinks) {
+				simPaths.second->GetComponent<PathLinkerComponent>().removeLink(pathLink);
+				pathLink->destroy();
+			}
 		}
+
+		for (size_t i = 0; i < manager.steps[transitionToStep].paths.size(); i++) {
+
+			auto& path = manager.
+				steps[transitionToStep].paths[i];
+
+			auto& plc = path.first->addComponent<PathLinkerComponent>();
+
+			plc.color = path.second.color;
+			plc.width = path.second.width;
+
+			for (auto linkId : path.second.link_ids) {
+				// Find the link entity by ID
+				LinkEntity* linkEntity = nullptr;
+				for (auto& link : DataManager::getInstance().mapSimToGraphLinks) {
+					if (link.second->getId() == linkId) {
+						linkEntity = link.second;
+						break;
+					}
+				}
+
+				if (!linkEntity) break;
+
+				int idA = std::get<int>(linkEntity->getFromNode()->getId());
+				int idB = std::get<int>(linkEntity->getToNode()->getId());
+
+				// create ECS link
+				auto& link = manager.addEntity<Link>((int)idA, (int)idB);
+				link.addGroup(Manager::groupPathLinks);
+				link.addComponent<Line_w_Color>();
+
+				link.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 40, 0, 255));
+				link.GetComponent<Line_w_Color>().setDestColor(TazColor(40, 255, 0, 255));
+
+				link.addComponent<LineFlashAnimatorComponent>();
+
+				manager.grid->addLink(&link, manager.grid->getGridLevel());
+
+				// associate link with path linker
+				path.first->GetComponent<PathLinkerComponent>().addLink(&link);
+				path.first->addGroup(Manager::groupPathLinksHolder);
+
+				manager.expectoAlwayso.push_back(path.first);
+			}
+		}
+		manager.updateInnerPathLinks = true;
 	}
 };
