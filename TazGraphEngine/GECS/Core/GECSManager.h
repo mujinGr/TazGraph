@@ -36,7 +36,6 @@ public:
 	std::vector<SimulationStep> steps;
 
 	std::vector<NodeEntity*> movedNodes;
-	std::vector<EmptyEntity*> expectoAlwayso;
 	std::mutex movedNodesMutex;
 
 	bool idTextEnabled = false;
@@ -93,10 +92,6 @@ public:
 				for (auto& link : e->getOutLinks()) {
 					link->cellUpdate();
 				}
-			}
-
-			for (auto& e : expectoAlwayso) {
-				e->update(deltaTime);
 			}
 
 			_threader->parallel(movedNodes.size(), [&](int start, int end) {

@@ -19,10 +19,14 @@ public:
 		return parent_entity;
 	}
 
-	void setParentEntity(Entity* pEntity) override {
+	void setParentEntity(Entity* pEntity, const char* newID = "" ) override {
 		parent_entity = pEntity;
-
-		id = EntityIDUtils::toString(parent_entity->getId()) + EntityIDUtils::toString(id);
+		if ((newID != NULL) && (newID[0] == '\0')) {
+			id = (parent_entity ? EntityIDUtils::toString(parent_entity->getId()) : "") + newID;
+		}
+		else {
+			id = (parent_entity ? EntityIDUtils::toString(parent_entity->getId()) : "") + EntityIDUtils::toString(id);
+		}
 	}
 
 	void removeFromCell() {

@@ -169,9 +169,12 @@ public:
 		}
 
 		for (auto& simPaths : DataManager::getInstance().mapSimToGraphPaths) {
+			auto& pathLinks = simPaths.second->GetComponent<PathLinkerComponent>().pathLinks;
+			auto toRemove = pathLinks;
 
-			for (auto& pathLink : simPaths.second->GetComponent<PathLinkerComponent>().pathLinks) {
+			for (auto* pathLink : toRemove) {
 				simPaths.second->GetComponent<PathLinkerComponent>().removeLink(pathLink);
+				manager.updateInnerPathLinks = true;
 				pathLink->destroy();
 			}
 		}
@@ -181,7 +184,7 @@ public:
 			auto& path = manager.
 				steps[transitionToStep].paths[i];
 
-			auto& plc = path.first->addComponent<PathLinkerComponent>();
+			auto& plc = path.first->GetComponent<PathLinkerComponent>();
 
 			plc.color = path.second.color;
 			plc.width = path.second.width;
@@ -206,18 +209,13 @@ public:
 				link.addGroup(Manager::groupPathLinks);
 				link.addComponent<Line_w_Color>();
 
-				link.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 40, 0, 255));
-				link.GetComponent<Line_w_Color>().setDestColor(TazColor(40, 255, 0, 255));
-
 				link.addComponent<LineFlashAnimatorComponent>();
 
 				manager.grid->addLink(&link, manager.grid->getGridLevel());
 
 				// associate link with path linker
 				path.first->GetComponent<PathLinkerComponent>().addLink(&link);
-				path.first->addGroup(Manager::groupPathLinksHolder);
 
-				manager.expectoAlwayso.push_back(path.first);
 			}
 		}
 		manager.updateInnerPathLinks = true;

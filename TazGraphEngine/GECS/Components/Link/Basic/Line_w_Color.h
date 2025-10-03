@@ -42,7 +42,7 @@ public:
 	void drawWithPorts(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
 		//float tempScreenScale = window.getScale();
 
-		if (std::get<int>(entity->fromPort) < 0 || std::get<int>(entity->toPort) < 0) {
+		if (std::holds_alternative<int>(entity->fromPort) || std::holds_alternative<int>(entity->toPort)) {
 			TazGraphEngine::ConsoleLogger::error("Ports are not assigned!");
 			return;
 		}

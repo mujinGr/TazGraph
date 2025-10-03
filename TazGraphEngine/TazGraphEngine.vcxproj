@@ -207,6 +207,7 @@
     <ClCompile Include="Renderers\PlaneRenderers\PlaneModelRenderer\PlaneModelRenderer.cpp" />
     <ClCompile Include="TextureManager\TextureManager.cpp" />
     <ClCompile Include="BaseFPSLimiter\BaseFPSLimiter.cpp" />
+    <ClCompile Include="Window\DefineFactory.cpp" />
     <ClCompile Include="Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -218,7 +219,7 @@
     <ClInclude Include="Camera2.5D\ICamera.h" />
     <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="DataManager\DataManager.h" />
-    <ClInclude Include="DefineFactory.h" />
+    <ClInclude Include="Window\DefineFactory.h" />
     <ClInclude Include="DorParser\DotParser.h" />
     <ClInclude Include="GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h" />
     <ClInclude Include="GECS\Animators\RectangleAnimators\RectangleFlashAnimatorComponent.h" />

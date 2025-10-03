@@ -135,6 +135,9 @@
     <ClCompile Include="..\vendors\simdump\src\filewriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Window\DefineFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioEngine\AudioEngine.h">
@@ -347,7 +350,7 @@
     <ClInclude Include="GECS\Core\SimulationStep.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DefineFactory.h">
+    <ClInclude Include="Window\DefineFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

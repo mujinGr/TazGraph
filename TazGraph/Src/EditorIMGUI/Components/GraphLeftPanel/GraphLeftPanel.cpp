@@ -74,7 +74,7 @@ void GraphLeftPanel::OnImGuiRender()
 				textLabel.addComponent<TransformComponent>(0.0f);
 				textLabel.GetComponent<TransformComponent>().local_position = glm::vec3(0);
 				node->children["label"] = &textLabel;
-				node->children["label"]->setParentEntity(node);
+				node->children["label"]->setParentEntity(node, "label");
 				node->children["label"]->GetComponent<TransformComponent>().initChild();
 			}
 		}

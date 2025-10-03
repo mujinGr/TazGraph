@@ -10,7 +10,9 @@ void GraphTopBar::update(float deltaTime) {
 		interpolation += interpolation_speed * deltaTime / config.scene->getApp()->getFPSLimiter().fps;
 
 		// here, get interpolation and manager steps intervals
-		if (interpolation >= manager->steps[current_simulation_step].timestamp) {
+		if (
+			current_simulation_step < manager->steps.size() &&
+			interpolation >= manager->steps[current_simulation_step].timestamp) {
 			// if step done, then apply step (function at GECS)
 			// where it will change the color/size/pos of entities
 
@@ -19,13 +21,13 @@ void GraphTopBar::update(float deltaTime) {
 			current_simulation_step++;
 		}
 
-		if (interpolation >= manager->steps.back().timestamp) {
+		if (interpolation >= manager->steps.back().timestamp + 1.0f) {
 			if (autoInterpolate) {
 				interpolation = 0.0f;
 			}
 			else {
 				interpolation_running = false;
-				interpolation = manager->steps.back().timestamp;
+				interpolation = manager->steps.back().timestamp + 1.0f;
 			}
 
 			current_simulation_step = 0;
@@ -111,7 +113,7 @@ void GraphTopBar::OnImGuiRender()
 
 		ImGui::Text("Interpolation");
 		ImGui::SameLine();
-		ImGui::SliderFloat("##interp", &interpolation, 0.0f, manager->steps.back().timestamp, "%.2f");
+		ImGui::SliderFloat("##interp", &interpolation, 0.0f, manager->steps.back().timestamp + 1.0f, "%.2f");
 
 		// Optional: Add tooltip
 		if (ImGui::IsItemHovered()) {

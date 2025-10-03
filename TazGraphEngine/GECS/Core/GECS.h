@@ -139,10 +139,6 @@ public:
 	LinkEntity* entity = nullptr;
 };
 
-enum LinkPorts {
-	ARROWHEAD = 0
-};
-
 using EntityID = std::variant<int, std::string>;
 
 namespace EntityIDUtils {
@@ -414,7 +410,7 @@ public:
 		return nullptr;
 	}
 
-	virtual void setParentEntity(Entity* pEntity) {}
+	virtual void setParentEntity(Entity* pEntity, const char* newID = "") {}
 
 	virtual void imgui_print() {}
 

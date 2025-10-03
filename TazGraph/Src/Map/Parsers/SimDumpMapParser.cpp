@@ -254,21 +254,25 @@ void SimDumpMapParser::createSteps(
 		for (auto it = reader.get_path_iterator();
 			it != reader.get_path_end(); ++it)
 		{
-			//create the empties, assign their id to map
-			// creation of links is done in manager step
-
-			auto& empty_pathHolder = manager.addEntity<Empty>();
-			auto& plc = empty_pathHolder.addComponent<PathLinkerComponent>();
-
 			auto color = it->second.color;
 			float width = it->second.width;
 			int id = it->first;
 
-			if (!pathEntities[id]) {
+			EmptyEntity* pathEntity = nullptr;
+
+			// Check if path already exists
+			if (pathEntities[id]) {
+				pathEntity = pathEntities[id];
+			}
+			else {
+				// Create a new one only if missing
+				auto& empty_pathHolder = manager.addEntity<Empty>();
+				empty_pathHolder.addComponent<PathLinkerComponent>();
 				pathEntities[id] = &empty_pathHolder;
+				pathEntity = &empty_pathHolder;
 			}
 
-			step.paths[i].first = &empty_pathHolder;
+			step.paths[i].first = pathEntity;
 
 			std::vector<EntityID> path_linkIds;
 
@@ -281,7 +285,7 @@ void SimDumpMapParser::createSteps(
 				width,
 				path_linkIds
 			};
-
+			i++;
 		}
 		manager.steps.push_back(std::move(step));
 	} while (reader.next());

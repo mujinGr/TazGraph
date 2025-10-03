@@ -12,14 +12,6 @@
 
 #include "./Base.h"
 
-#define NODEPORTS(XX) \
-    XX(TOP,) \
-    XX(RIGHT,) \
-    XX(BOTTOM,) \
-    XX(LEFT,) \
-
-DECLARE_ENUM(NodePorts, NODEPORTS)
-
 
 namespace TazGraphEngine {
 

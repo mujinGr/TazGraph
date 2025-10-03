@@ -34,7 +34,8 @@ void EntityComponentsControlPanel::OnImGuiRender()
 	}
 
 	if (ImGui::Begin(windowTitle.c_str())) {
-		bool hasComponent = config.displayedEntity->hasComponent<EmptyPythonCodeComponent>();
+		bool hasComponent = link ? config.displayedEntity->hasComponent<LinkPythonCodeComponent>()
+			: config.displayedEntity->hasComponent<EmptyPythonCodeComponent>();
 
 		if (ImGui::Checkbox("EmptyPythonCodeComponent", &hasComponent)) {
 			if (hasComponent) {
@@ -57,8 +58,8 @@ void EntityComponentsControlPanel::OnImGuiRender()
 				}
 			}
 		}
-		
-		
+
+
 		if (hasComponent && ImGui::CollapsingHeader("Script"))
 		{
 			getSubcomponent<PythonInterpreterPanel>()->setConfig({
