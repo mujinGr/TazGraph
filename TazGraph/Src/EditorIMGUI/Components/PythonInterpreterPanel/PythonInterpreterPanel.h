@@ -46,6 +46,7 @@ public:
 	float intervalSec = 1.0f;
 	double lastExecTime = 0.0;
 	bool useInterval = false;
+	bool updatePaused = true;
 
 	bool inputActive = false;
 

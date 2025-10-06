@@ -1,4 +1,4 @@
-#include "PythonInterpreterPanel.h"
+﻿#include "PythonInterpreterPanel.h"
 
 
 static std::unique_ptr<py::scoped_interpreter> pythonRuntime;
@@ -34,6 +34,198 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 		return EntityIDUtils::toString(node.getId()); // return something to Python
 		});
 
+	m.def("getNodes", [&manager]() {
+		py::list nodeList;
+
+		std::vector<NodeEntity*> nodes;
+		manager.getAllTypeEntities<NodeEntity>(nodes);
+
+		for (auto& node : nodes) {
+			py::dict nodeData;
+			nodeData["id"] = EntityIDUtils::toString(node->getId());
+
+			// Get position if available
+			if (node->hasComponent<TransformComponent>()) {
+				auto& transform = node->GetComponent<TransformComponent>();
+				auto pos = transform.getPosition();
+				nodeData["x"] = pos.x;
+				nodeData["y"] = pos.y;
+				nodeData["z"] = pos.z;
+			}
+
+			nodeList.append(nodeData);
+		}
+
+		return nodeList;
+		});
+
+	m.def("getSimNodes", []() {
+		py::list nodeList;
+		auto& simNodes = DataManager::getInstance().mapSimToGraphNodes;
+
+		for (auto& pair : simNodes) {
+			py::dict nodeData;
+			nodeData["simId"] = pair.first;
+			nodeData["entityId"] = EntityIDUtils::toString(pair.second->getId());
+
+			if (pair.second->hasComponent<TransformComponent>()) {
+				auto& tc = pair.second->GetComponent<TransformComponent>();
+				auto pos = tc.getPosition();
+				nodeData["x"] = pos.x;
+				nodeData["y"] = pos.y;
+				nodeData["z"] = pos.z;
+			}
+
+			nodeList.append(nodeData);
+		}
+
+		return nodeList;
+		});
+
+	m.def("getSimLinks", []() {
+		py::list linkList;
+		auto& simLinks = DataManager::getInstance().mapSimToGraphLinks;
+
+		for (auto& pair : simLinks) {
+			py::dict linkData;
+			linkData["simId"] = pair.first;
+			linkData["entityId"] = EntityIDUtils::toString(pair.second->getId());
+
+			if (pair.second->getFromNode() && pair.second->getToNode()) {
+				linkData["fromId"] = std::get<int>(pair.second->getFromNode()->getId());
+				linkData["toId"] = std::get<int>(pair.second->getToNode()->getId());
+			}
+
+			linkList.append(linkData);
+		}
+
+		return linkList;
+		});
+
+	m.def("getCurrentStep", [&manager]() -> int {
+		if (manager.steps.empty()) {
+			return -1;
+		}
+		// You may need to add a currentStep member to Manager class
+		// For now, return the last step index
+		return manager.currentStep;
+		});
+
+	m.def("deepCopyNode", [&manager](int simId, float alpha) -> py::object {
+		auto& simNodes = DataManager::getInstance().mapSimToGraphNodes;
+		auto it = simNodes.find(simId);
+
+		if (it == simNodes.end() || !it->second) {
+			return py::none();
+		}
+
+		NodeEntity* originalNode = it->second;
+
+		// Create new ghost node
+		auto& ghostNode = manager.addEntity<Node>();
+		ghostNode.addGroup(Manager::groupNodes_0); // Or a separate ghost group
+
+		// Copy transform
+		if (originalNode->hasComponent<TransformComponent>()) {
+			auto& origTC = originalNode->GetComponent<TransformComponent>();
+			ghostNode.addComponent<TransformComponent>();
+			auto& ghostTC = ghostNode.GetComponent<TransformComponent>();
+			ghostTC.position = origTC.getPosition();
+			ghostTC.size = origTC.size;
+		}
+
+		// Copy visual components with transparency
+		if (originalNode->hasComponent<RectangleFlashAnimatorComponent>()) {
+			auto& origRAC = originalNode->GetComponent<Rectangle_w_Color>();
+			ghostNode.addComponent<Rectangle_w_Color>();
+			auto& ghostRAC = ghostNode.GetComponent<Rectangle_w_Color>();
+
+			// Copy color but apply alpha
+			TazColor color = origRAC.color;
+			color.a = origRAC.color.a * alpha;
+			ghostRAC.setColor(color);
+		}
+
+		// Add to grid
+		manager.grid->addNode(&ghostNode, manager.grid->getGridLevel());
+
+		py::dict result;
+		result["id"] = EntityIDUtils::toString(ghostNode.getId());
+		result["originalSimId"] = simId;
+
+		return result;
+		});
+
+	//m.def("addGhostLinkBetweenGhostNodes", [&manager](int simId, float alpha) -> py::object {
+	//	auto& dataMgr = DataManager::getInstance();
+	//	auto& simLinks = dataMgr.mapSimToGraphLinks;
+	//	auto& simNodes = dataMgr.mapSimToGraphNodes;
+	//	auto& ghostNodes = dataMgr.mapGhostNodes; // 👈 you'll need this map
+
+	//	auto it = simLinks.find(simId);
+	//	if (it == simLinks.end() || !it->second)
+	//		return py::none();
+
+	//	LinkEntity* originalLink = it->second;
+	//	if (!originalLink->getFromNode() || !originalLink->getToNode())
+	//		return py::none();
+
+	//	// find the ghost nodes that correspond to this link’s endpoints
+	//	int fromSimId = std::get<int>(originalLink->getFromNode()->getSimId());
+	//	int toSimId = std::get<int>(originalLink->getToNode()->getSimId());
+
+	//	NodeEntity* ghostFrom = ghostNodes[fromSimId];
+	//	NodeEntity* ghostTo = ghostNodes[toSimId];
+
+	//	if (!ghostFrom || !ghostTo)
+	//		return py::none();
+
+	//	// create a link connecting the ghost nodes
+	//	auto& ghostLink = manager.addEntity<Link>(
+	//		std::get<int>(ghostFrom->getId()),
+	//		std::get<int>(ghostTo->getId())
+	//	);
+	//	ghostLink.addGroup(Manager::groupLinks_0);
+
+	//	// add simple visual style (optional)
+	//	auto& line = ghostLink.addComponent<Line_w_Color>();
+	//	line.src_color = TazColor(1, 1, 1, alpha);  // translucent white
+	//	line.dest_color = TazColor(1, 1, 1, alpha);
+	//	line.width = 1.0f;
+
+	//	manager.grid->addLink(&ghostLink, manager.grid->getGridLevel());
+
+	//	py::dict result;
+	//	result["id"] = EntityIDUtils::toString(ghostLink.getId());
+	//	result["originalSimId"] = simId;
+	//	result["fromSimId"] = fromSimId;
+	//	result["toSimId"] = toSimId;
+
+	//	return result;
+	//	});
+
+	m.def("deleteEntities", [&manager](py::list ghostList) -> int {
+		int deletedCount = 0;
+
+		for (auto item : ghostList) {
+			try {
+				py::dict ghost = item.cast<py::dict>();
+				if (ghost.contains("id")) {
+					std::string id = ghost["id"].cast<std::string>();
+					EntityID entityId = EntityIDUtils::fromString(id);
+
+					manager.getEntityFromId(entityId)->destroy();
+				}
+			}
+			catch (...) {
+				continue;
+			}
+		}
+
+		return deletedCount;
+		});
+
+	
 }
 
 void PythonInterpreterPanel::update(float deltaTime) {
@@ -41,7 +233,8 @@ void PythonInterpreterPanel::update(float deltaTime) {
 
 	double now = ImGui::GetTime();
 
-	if (currentScriptType == ScriptType::OnUpdate
+	if (!updatePaused &&
+		currentScriptType == ScriptType::OnUpdate
 		&& now - lastExecTime >= intervalSec) {
 		runUpdateScript(deltaTime);
 		lastExecTime = now;
@@ -219,6 +412,7 @@ void PythonInterpreterPanel::innerTable() {
 		}
 		else {
 			ImGui::Text("Update Script (Execute every frame)");
+			ImGui::Checkbox("Pause Update", &updatePaused);
 		}
 
 		float originalScale = ImGui::GetFont()->Scale;
@@ -298,6 +492,13 @@ void PythonInterpreterPanel::runScript() {
 
 		py::globals()["addNode"] = userapi.attr("addNode");
 		py::globals()["addNode"] = userapi.attr("addNode");
+		py::globals()["getNodes"] = userapi.attr("getNodes");
+		py::globals()["getCurrentStep"] = userapi.attr("getCurrentStep");
+		py::globals()["getSimNodes"] = userapi.attr("getSimNodes");
+		py::globals()["getSimLinks"] = userapi.attr("getSimLinks");
+		py::globals()["deepCopyNode"] = userapi.attr("deepCopyNode");
+		//py::globals()["addGhostLinkBetweenGhostNodes"] = userapi.attr("addGhostLinkBetweenGhostNodes");
+		py::globals()["deleteEntities"] = userapi.attr("deleteEntities");
 		py::exec(_pythonBuffer);
 		py::object output = py::eval("sys.stdout.getvalue()");
 		_outputText = output.cast<std::string>();
@@ -324,6 +525,13 @@ void PythonInterpreterPanel::runUpdateScript(float deltaTime) {
 
 		py::globals()["addNode"] = userapi.attr("addNode");
 		py::globals()["addLink"] = userapi.attr("addLink");
+		py::globals()["getNodes"] = userapi.attr("getNodes");
+		py::globals()["getCurrentStep"] = userapi.attr("getCurrentStep");
+		py::globals()["getSimNodes"] = userapi.attr("getSimNodes");
+		py::globals()["getSimLinks"] = userapi.attr("getSimLinks");
+		py::globals()["deepCopyNode"] = userapi.attr("deepCopyNode");
+		//py::globals()["addGhostLinkBetweenGhostNodes"] = userapi.attr("addGhostLinkBetweenGhostNodes");
+		py::globals()["deleteEntities"] = userapi.attr("deleteEntities");
 		py::globals()["deltaTime"] = deltaTime;
 
 		py::exec(_updateBuffer);

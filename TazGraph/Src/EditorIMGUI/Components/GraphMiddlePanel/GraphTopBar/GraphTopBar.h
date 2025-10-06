@@ -22,7 +22,6 @@ private:
 	std::string tabToClose = "";
 
 
-	int current_simulation_step = 0;
 
 public:
 	void update(float deltaTime) override;

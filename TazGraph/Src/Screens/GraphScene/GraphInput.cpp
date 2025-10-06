@@ -493,45 +493,48 @@ void Graph::checkInput() {
 				if (manager->grid->getGridLevel() == Grid::Level::Basic) {
 					for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
 						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = 255;
+							int alpha = node_entity->GetComponent<Rectangle_w_Color>().default_color.a;
 							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
 						}
 					}
 					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
 						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = 255;
+							int alpha = link_entity->GetComponent<Line_w_Color>().default_src_color.a;
+							int destalpha = link_entity->GetComponent<Line_w_Color>().default_dest_color.a;
 							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+							link_entity->GetComponent<Line_w_Color>().dest_color.a = destalpha;
 						}
 					}
 				}
 				else if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
 					for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
 						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = 255;
+							int alpha = node_entity->GetComponent<Rectangle_w_Color>().default_color.a;
 							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
 						}
 					}
 					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
 						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = 255;
+							int alpha = link_entity->GetComponent<Line_w_Color>().default_src_color.a;
+							int destalpha = link_entity->GetComponent<Line_w_Color>().default_dest_color.a;
 							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+							link_entity->GetComponent<Line_w_Color>().dest_color.a = destalpha;
 						}
 					}
 				}
 				else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
 					for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
 						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = 255;
+							int alpha = node_entity->GetComponent<Rectangle_w_Color>().default_color.a;
 							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
 						}
 					}
 					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
 						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = 255;
+							int alpha = link_entity->GetComponent<Line_w_Color>().default_src_color.a;
+							int destalpha = link_entity->GetComponent<Line_w_Color>().default_dest_color.a;
 							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
+							link_entity->GetComponent<Line_w_Color>().dest_color.a = destalpha;
 						}
 					}
 				}

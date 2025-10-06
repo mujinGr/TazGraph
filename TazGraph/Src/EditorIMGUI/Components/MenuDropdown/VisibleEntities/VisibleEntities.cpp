@@ -10,12 +10,15 @@ void VisibleEntitiesPanel::OnImGuiRender()
 		ImGui::TableHeadersRow();
 
 		int totalEntities = 0;
-		for (std::size_t managerGroup = Manager::groupBackgroundLayer; managerGroup <= Manager::textLabels; ++managerGroup) {
+		for (auto managerGroup : config.manager->groupNames) {
+
+			auto group = managerGroup.first;
+
 			ImGui::TableNextRow();
 			ImGui::TableSetColumnIndex(0);
-			ImGui::Text("%s", config.manager->getGroupName(managerGroup).c_str());
+			ImGui::Text("%s", config.manager->getGroupName(group).c_str());
 			ImGui::TableSetColumnIndex(1);
-			int groupSize = config.manager->getVisibleGroup<EmptyEntity>(managerGroup).size() + config.manager->getVisibleGroup<NodeEntity>(managerGroup).size() + config.manager->getVisibleGroup<LinkEntity>(managerGroup).size();
+			int groupSize = config.manager->getVisibleGroup<EmptyEntity>(group).size() + config.manager->getVisibleGroup<NodeEntity>(group).size() + config.manager->getVisibleGroup<LinkEntity>(group).size();
 			ImGui::Text("%d", groupSize);
 
 			totalEntities += groupSize;

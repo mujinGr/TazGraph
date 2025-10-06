@@ -34,6 +34,7 @@ private:
 	bool _update_active_entities = false;
 public:
 	std::vector<SimulationStep> steps;
+	int currentStep = 0;
 
 	std::vector<NodeEntity*> movedNodes;
 	std::mutex movedNodesMutex;
@@ -288,28 +289,27 @@ public:
 	}
 
 	template <typename T>
-	std::vector<T*>& getAllTypeEntities() {
-		std::vector<T*> allTypeEntities = {};
+	void getAllTypeEntities(std::vector<T*>& output) {
+		output.clear();
 
 		if constexpr (std::is_same_v<T, EmptyEntity>) {
 			for (auto& groupPair : groupedEmptyEntities) {
-				allTypeEntities.insert(allTypeEntities.end(), groupPair.begin(), groupPair.end());
+				output.insert(output.end(), groupPair.begin(), groupPair.end());
 			}
 		}
 		else if constexpr (std::is_same_v<T, NodeEntity>) {
 			for (auto& groupPair : groupedNodeEntities) {
-				allTypeEntities.insert(allTypeEntities.end(), groupPair.begin(), groupPair.end());
+				output.insert(output.end(), groupPair.begin(), groupPair.end());
 			}
 		}
 		else if constexpr (std::is_same_v<T, LinkEntity>) {
 			for (auto& groupPair : groupedLinkEntities) {
-				allTypeEntities.insert(allTypeEntities.end(), groupPair.begin(), groupPair.end());
+				output.insert(output.end(), groupPair.begin(), groupPair.end());
 			}
 		}
 		else {
 			static_assert(sizeof(T) == 0, "Unsupported entity type.");
 		}
-		return allTypeEntities;
 	}
 
 	template <typename T>
@@ -381,9 +381,9 @@ public:
 	}
 
 	void removeAllEntites() {
-		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::textLabels; group++) {
-			removeAllEntitiesFromGroup(group);
-			removeAllEntitiesFromLinkGroup(group);
+		for (auto group : groupNames) {
+			removeAllEntitiesFromGroup(group.first);
+			removeAllEntitiesFromLinkGroup(group.first);
 		}
 	}
 

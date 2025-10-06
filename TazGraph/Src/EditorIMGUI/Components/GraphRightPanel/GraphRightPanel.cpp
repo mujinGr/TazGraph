@@ -13,21 +13,19 @@ void GraphRightPanel::OnImGuiRender()
 	int emptyCount = 0;
 	int linkCount = 0;
 
-	for (std::size_t group = Manager::groupBackgroundLayer;
-		group <= Manager::textLabels;
-		group++)
+	for (auto group : config.scene->manager->groupNames)
 	{
-		if (group == Manager::groupMinimapNodes) continue;
+		if (group.first == Manager::groupMinimapNodes) continue;
 		// Count EmptyEntities
-		auto& empties = config.scene->manager->getGroup<EmptyEntity>(group);
+		auto& empties = config.scene->manager->getGroup<EmptyEntity>(group.first);
 		emptyCount += static_cast<int>(empties.size());
 
 		// Count NodeEntities
-		auto& nodes = config.scene->manager->getGroup<NodeEntity>(group);
+		auto& nodes = config.scene->manager->getGroup<NodeEntity>(group.first);
 		nodeCount += static_cast<int>(nodes.size());
 
 		// Count LinkEntities
-		auto& links = config.scene->manager->getGroup<LinkEntity>(group);
+		auto& links = config.scene->manager->getGroup<LinkEntity>(group.first);
 		linkCount += static_cast<int>(links.size());
 	}
 
@@ -119,7 +117,8 @@ void GraphRightPanel::ShowAllEntities() {
 	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 	float size = 10;
 
-	for (std::size_t group = Manager::groupBackgroundLayer; group <= Manager::textLabels; group++) {
+	for (auto groupElement : config.scene->manager->groupNames) {
+		auto group = groupElement.first;
 		std::string s = config.scene->manager->getGroupName(group);
 
 		if (ImGui::CollapsingHeader(s.c_str())) {

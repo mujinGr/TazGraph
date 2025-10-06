@@ -162,6 +162,31 @@ namespace EntityIDUtils {
 			}
 			}, id);
 	}
+
+	inline EntityID fromString(const std::string& str) {
+		try {
+			// Check if the string consists only of digits (and optional sign)
+			if (!str.empty() && (std::isdigit(str[0]) || (str.size() > 1 && (str[0] == '-') && std::isdigit(str[1])))) {
+				bool allDigits = true;
+				for (size_t i = (str[0] == '-') ? 1 : 0; i < str.size(); ++i) {
+					if (!std::isdigit(static_cast<unsigned char>(str[i]))) {
+						allDigits = false;
+						break;
+					}
+				}
+
+				if (allDigits) {
+					int value = std::stoi(str);
+					return EntityID{ value };
+				}
+			}
+		}
+		catch (const std::exception&) {
+		}
+
+		// If not a valid integer or conversion failed, treat as string
+		return EntityID{ str };
+	}
 }
 
 class Entity

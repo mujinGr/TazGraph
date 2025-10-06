@@ -6,6 +6,9 @@ void GraphTopBar::update(float deltaTime) {
 	if (!config.scene) return; // not yet initialized by scene
 	Manager* manager = config.scene->manager;
 
+	int& current_simulation_step = manager->currentStep;
+
+
 	if (interpolation_running) {
 		interpolation += interpolation_speed * deltaTime / config.scene->getApp()->getFPSLimiter().fps;
 
