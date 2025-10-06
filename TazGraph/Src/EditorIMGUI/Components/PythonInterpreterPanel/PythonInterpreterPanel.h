@@ -18,12 +18,22 @@ class PythonInterpreterPanel : public UIElement
 private:
 	PythonInterpreterConfig  config;
 	char _pythonBuffer[1024] = "";
+	char _updateBuffer[4096] = "";
+
 	std::string _outputText;
+	std::string _updateOutputText;
 
 	enum console_state {
 		Collapsed,
 		Expanded
 	};
+
+	enum class ScriptType {
+		OneOff,
+		OnUpdate
+	};
+
+	ScriptType currentScriptType = ScriptType::OneOff;
 
 	console_state state = console_state::Collapsed;
 	console_state last_state = console_state::Collapsed;
@@ -35,7 +45,7 @@ public:
 
 	float intervalSec = 1.0f;
 	double lastExecTime = 0.0;
-	bool autoUpdate = false;
+	bool useInterval = false;
 
 	bool inputActive = false;
 
@@ -60,4 +70,5 @@ public:
 	void setFlags();
 	void innerTable();
 	void runScript();
+	void runUpdateScript(float deltaTime);
 };

@@ -41,10 +41,17 @@ void PythonInterpreterPanel::update(float deltaTime) {
 
 	double now = ImGui::GetTime();
 
-	if (autoUpdate && now - lastExecTime >= intervalSec) {
-		runScript();
+	if (currentScriptType == ScriptType::OnUpdate
+		&& now - lastExecTime >= intervalSec) {
+		runUpdateScript(deltaTime);
 		lastExecTime = now;
 	}
+	//else {
+	//	// Execute update script every frame when auto-update is off
+	//	if (strlen(_updateBuffer) > 0) {
+	//		runUpdateScript(deltaTime);
+	//	}
+	//}
 }
 
 void PythonInterpreterPanel::OnImGuiRender()
@@ -68,7 +75,7 @@ void PythonInterpreterPanel::OnImGuiRender()
 	if (state == console_state::Expanded) {
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(4.f, 4.f));
-		ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 0.8f);
+		ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 0.9f);
 
 		ImGui::Begin("Python Interpreter", nullptr, flags);
 
@@ -118,17 +125,33 @@ void PythonInterpreterPanel::OnImGuiRender2() {
 	ImGui::PopFont();
 	ImGui::GetFont()->Scale = originalScale;
 
-	if (ImGui::Button("Run"))
-	{
-		runScript();
+	if (currentScriptType == ScriptType::OneOff) {
+		if (ImGui::Button("Run"))
+		{
+			runScript();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Clear")) {
+			_outputText.clear();
+		}
 	}
-	ImGui::SameLine();
-	if (ImGui::Button("Clear")) {
-		_outputText.clear();
+	else {
+		ImGui::Text("Auto-run settings:");
+		ImGui::Checkbox("Use Interval", &useInterval);
+		if (useInterval) {
+			ImGui::InputFloat("Interval (s)", &intervalSec, 0.1f, 1.0f, "%.2f");
+		}
+		else {
+			ImGui::TextDisabled("(Runs every frame)");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Clear Output")) {
+			_updateOutputText.clear();
+		}
 	}
 	ImGui::Separator();
 	ImGui::Text("Auto-run:");
-	ImGui::Checkbox("Use Seconds", &autoUpdate);
+	ImGui::Checkbox("Use Seconds", &useInterval);
 	ImGui::InputFloat("Interval (s)", &intervalSec, 0.1f, 1.0f, "%.2f");
 
 	ImGui::EndChild();
@@ -175,39 +198,84 @@ void PythonInterpreterPanel::setFlags() {
 }
 
 void PythonInterpreterPanel::innerTable() {
+	ImGui::Text("Script Type:");
+	ImGui::SameLine();
+	if (ImGui::RadioButton("One-Off", currentScriptType == ScriptType::OneOff)) {
+		currentScriptType = ScriptType::OneOff;
+	}
+	ImGui::SameLine();
+	if (ImGui::RadioButton("On Update", currentScriptType == ScriptType::OnUpdate)) {
+		currentScriptType = ScriptType::OnUpdate;
+	}
+
+	ImGui::Separator();
+
 	if (ImGui::BeginTable("PythonIO", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_BordersInnerV))
 	{
 		// ===== LEFT COLUMN: Input =====
 		ImGui::TableNextColumn();
-		ImGui::Text("Python Script");
+		if (currentScriptType == ScriptType::OneOff) {
+			ImGui::Text("One-Off Script (Execute on demand)");
+		}
+		else {
+			ImGui::Text("Update Script (Execute every frame)");
+		}
 
 		float originalScale = ImGui::GetFont()->Scale;
 		ImGui::GetFont()->Scale = 1.5f;
 		ImGui::PushFont(ImGui::GetFont());
 
-		ImGui::InputTextMultiline("##pythonInput",
-			_pythonBuffer, IM_ARRAYSIZE(_pythonBuffer),
-			ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 10 * 1.5f));
+		if (currentScriptType == ScriptType::OneOff) {
+			ImGui::InputTextMultiline("##pythonInput",
+				_pythonBuffer, IM_ARRAYSIZE(_pythonBuffer),
+				ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 10 * 1.5f));
+		}
+		else {
+			ImGui::InputTextMultiline("##updateInput",
+				_updateBuffer, IM_ARRAYSIZE(_updateBuffer),
+				ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 10 * 1.5f));
+		}
 
 		inputActive = ImGui::IsItemActive() || ImGui::IsItemFocused();
 
 		ImGui::PopFont();
 		ImGui::GetFont()->Scale = originalScale;
 
-		if (ImGui::Button("Run"))
-		{
-			runScript();
+		if (currentScriptType == ScriptType::OneOff) {
+			if (ImGui::Button("Run")) {
+				runScript();
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Clear Output")) {
+				_outputText.clear();
+			}
 		}
-		ImGui::SameLine();
-		if (ImGui::Button("Clear")) {
-			_outputText.clear();
+		else {
+			ImGui::Text("Auto-run settings:");
+			ImGui::Checkbox("Use Interval", &useInterval);
+			if (useInterval) {
+				ImGui::InputFloat("Interval (s)", &intervalSec, 0.1f, 1.0f, "%.2f");
+			}
+			else {
+				intervalSec = 0.0f;
+				ImGui::TextDisabled("(Runs every frame)");
+			}
+
+			if (ImGui::Button("Clear Output")) {
+				_updateOutputText.clear();
+			}
 		}
 
 		// ===== RIGHT COLUMN: Output =====
 		ImGui::TableNextColumn();
 		ImGui::Text("Output:");
 		ImGui::BeginChild("OutputChild", ImVec2(0, 0), true);
-		ImGui::TextWrapped("%s", _outputText.c_str());
+		if (currentScriptType == ScriptType::OneOff) {
+			ImGui::TextWrapped("%s", _outputText.c_str());
+		}
+		else {
+			ImGui::TextWrapped("%s", _updateOutputText.c_str());
+		}
 		ImGui::EndChild();
 
 		ImGui::EndTable();
@@ -238,5 +306,34 @@ void PythonInterpreterPanel::runScript() {
 	}
 	catch (const std::exception& e) {
 		_outputText = std::string("Python error: ") + e.what();
+	}
+}
+
+void PythonInterpreterPanel::runUpdateScript(float deltaTime) {
+	safe_putenv("PYTHONHOME=C:\\Users\\lefte\\AppData\\Local\\Programs\\Python\\Python313");
+	try {
+		py::exec(R"(
+				import sys
+				from io import StringIO
+				sys.stdout = StringIO()
+			)");
+
+		py::module_ userapi = py::module_::create_extension_module("tazpyapi", nullptr, new PyModuleDef{});
+		init_api(userapi, *config.scene->manager);
+		py::module_::import("sys").attr("modules")["tazpyapi"] = userapi;
+
+		py::globals()["addNode"] = userapi.attr("addNode");
+		py::globals()["addLink"] = userapi.attr("addLink");
+		py::globals()["deltaTime"] = deltaTime;
+
+		py::exec(_updateBuffer);
+
+		py::object output = py::eval("sys.stdout.getvalue()");
+		_updateOutputText = output.cast<std::string>();
+
+		config.scene->manager->aboutTo_updateActiveEntities();
+	}
+	catch (const std::exception& e) {
+		_updateOutputText = std::string("Python error: ") + e.what();
 	}
 }

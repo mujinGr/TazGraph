@@ -432,7 +432,7 @@ public:
 
 	int assignSlotIndex(NodeEntity* node, EntityID newPort, EntityID oldPort, int oldSlotIndex) {
 		// If port changed, remove link from old port's slots
-		if (std::holds_alternative<std::string>(oldPort) &&
+		if (std::holds_alternative<std::string>(oldPort) && // replace with other port
 			!std::get<std::string>(oldPort).empty() &&
 			oldPort != newPort) {
 			Entity* oldPortEntity = node->children[oldPort];
@@ -451,8 +451,9 @@ public:
 			}
 		}
 
-		if (oldPort != newPort) {
-			if (std::get<std::string>(newPort).empty()) {
+		if (oldPort != newPort) { // add new port
+			if (std::get<std::string>(newPort).empty()
+				|| !node->children.contains(newPort)) {
 				return -1; // Invalid port
 			}
 
