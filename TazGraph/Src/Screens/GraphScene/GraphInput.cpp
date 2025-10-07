@@ -431,7 +431,7 @@ void Graph::checkInput() {
 				main_camera2D->movePosition_Forward(-CELL_SIZE);
 			}
 			break;
-		case SDL_KEYDOWN:
+		case SDL_KEYDOWN: {
 			if (_app->_inputManager.isKeyDown(SDLK_ESCAPE)) {
 				if (_displayedEntity || _sceneManagerActive) {
 					_displayedEntity = nullptr;
@@ -445,28 +445,55 @@ void Graph::checkInput() {
 				return;
 			}
 
-			if (_app->_inputManager.isKeyDown(SDLK_e)) {
-				main_camera2D->movePosition_Forward(manager->grid->getCellSize());
-			}
-			if (_app->_inputManager.isKeyDown(SDLK_r)) {
-				main_camera2D->movePosition_Forward(-manager->grid->getCellSize());
-			}
+			float accelerationX = 0.0f;
+			float accelerationY = 0.0f;
+			float deltaTime = _app->getFPSLimiter().frameTime;
+			// Apply input acceleration
 			if (_app->_inputManager.isKeyDown(SDLK_w)) {
-				main_camera2D->movePosition_Vert(manager->grid->getCellSize() + 10.0f);
-
+				accelerationY += cameraAcceleration;
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_s)) {
-				main_camera2D->movePosition_Vert(-manager->grid->getCellSize() - 10.0f);
-
+				accelerationY -= cameraAcceleration;
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_a)) {
-				main_camera2D->movePosition_Hor(-manager->grid->getCellSize() - 10.0f);
+				accelerationX -= cameraAcceleration;
 			}
 			if (_app->_inputManager.isKeyDown(SDLK_d)) {
-				main_camera2D->movePosition_Hor(manager->grid->getCellSize() + 10.0f);
+				accelerationX += cameraAcceleration;
+			}
+			if (_app->_inputManager.isKeyDown(SDLK_e)) {
+				// Forward/backward depending on your coordinate system
+				accelerationY += cameraAcceleration; // or adjust as needed
+			}
+			if (_app->_inputManager.isKeyDown(SDLK_r)) {
+				accelerationY -= cameraAcceleration; // or adjust as needed
+			}
+
+			// Apply acceleration to velocity
+			cameraVelocityX += accelerationX * deltaTime;
+			cameraVelocityY += accelerationY * deltaTime;
+
+			// Apply friction (gradual slowdown when no input)
+			if (accelerationX == 0.0f) {
+				cameraVelocityX *= cameraFriction;
+			}
+			if (accelerationY == 0.0f) {
+				cameraVelocityY *= cameraFriction;
+			}
+
+			// Clamp velocity to maximum
+			cameraVelocityX = std::clamp(cameraVelocityX, -cameraMaxVelocity, cameraMaxVelocity);
+			cameraVelocityY = std::clamp(cameraVelocityY, -cameraMaxVelocity, cameraMaxVelocity);
+
+			// Apply movement if velocity is significant
+			if (std::abs(cameraVelocityX) > 0.1f) {
+				main_camera2D->movePosition_Hor(cameraVelocityX * deltaTime);
+			}
+			if (std::abs(cameraVelocityY) > 0.1f) {
+				main_camera2D->movePosition_Vert(cameraVelocityY * deltaTime);
 			}
 			break;
-
+		}
 		case SDL_MOUSEMOTION:
 		{
 			glm::vec2 viewportPos(_viewportPos.x, _viewportPos.y);

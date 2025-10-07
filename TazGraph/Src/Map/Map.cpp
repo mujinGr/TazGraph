@@ -54,29 +54,34 @@ void Map::loadMap(
 	std::function<void(Entity&)> addLinkFunc,
 	Threader* m_threadPool
 ) {
-	std::string text = "assets/Maps/" + std::string(fileName);
+	std::string filePath = std::string(fileName);
+
+	// If the path doesn't contain a directory separator, assume it's in assets/Maps/
+	if (filePath.find('/') == std::string::npos && filePath.find('\\') == std::string::npos) {
+		filePath = "assets/Maps/" + filePath;
+	}
 
 	std::unique_ptr<IMapParser> processor;
-	if (text.find(".py") != std::string::npos) {
+	if (filePath.find(".py") != std::string::npos) {
 		processor = std::make_unique<PythonMapParser>();
 	}
-	else if (text.find(".graphml") != std::string::npos) {
+	else if (filePath.find(".graphml") != std::string::npos) {
 		processor = std::make_unique<GraphMLMapParser>();
 	}
-	else if (text.find(".dot") != std::string::npos) {
+	else if (filePath.find(".dot") != std::string::npos) {
 		processor = std::make_unique<DOTMapParser>();
 	}
-	else if (text.find(".txt") != std::string::npos) {
+	else if (filePath.find(".txt") != std::string::npos) {
 		processor = std::make_unique<TextMapParser>();
 	}
-	else if (text.find(".simdmp") != std::string::npos) {
+	else if (filePath.find(".simdmp") != std::string::npos) {
 		processor = std::make_unique<SimDumpMapParser>();
 
 		manager->removeAllEntites();
 
 		processor->setThreader(*m_threadPool);
 
-		processor->readFile(text);
+		processor->readFile(filePath);
 		processor->parse(*manager, AssetManager::AddSimulationNode, AssetManager::AddSimulationLink);
 		processor->closeFile();
 		return;
@@ -90,7 +95,7 @@ void Map::loadMap(
 
 	processor->setThreader(*m_threadPool);
 
-	processor->readFile(text);
+	processor->readFile(filePath);
 	processor->parse(*manager, addNodeFunc, addLinkFunc);
 	processor->closeFile();
 

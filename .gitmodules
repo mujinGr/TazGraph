@@ -28,3 +28,6 @@
 [submodule "vendors/simdump"]
 	path = vendors/simdump
 	url = https://carvgit.ics.forth.gr/chaix/simdump.git
+[submodule "vendors/imgui-filebrowser"]
+	path = vendors/imgui-filebrowser
+	url = https://github.com/AirGuanZ/imgui-filebrowser
