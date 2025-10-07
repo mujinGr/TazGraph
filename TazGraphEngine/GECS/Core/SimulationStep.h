@@ -22,7 +22,7 @@ struct SimulationStep {
 	};
 
 	sim_dump::UInt32 step_index;
-	sim_dump::UInt64 timestamp;
+	double timestamp;
 
 	// node data
 	std::vector<std::pair<NodeEntity*, TazSimulationNode>> nodes;

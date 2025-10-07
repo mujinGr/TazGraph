@@ -450,7 +450,7 @@ void Graph::checkInput() {
 			float accelerationZ = 0.0f;
 			float deltaTime = _app->getFPSLimiter().frameTime / 1000.0f; // Convert to seconds
 
-			cameraMaxVelocity = manager->grid->getCellSize() * 5.0f; // Adjust multiplier as needed
+			cameraMaxVelocity = manager->grid->getCellSize(); // Adjust multiplier as needed
 
 			if (_app->_inputManager.isKeyPressed(SDLK_w) ||
 				_app->_inputManager.isKeyPressed(SDLK_s)) {
@@ -494,18 +494,15 @@ void Graph::checkInput() {
 				cameraVelocityZ = 0;
 			}
 
-			cameraVelocityX += accelerationX * deltaTime;
-			cameraVelocityY += accelerationY * deltaTime;
-			cameraVelocityZ += accelerationZ * deltaTime;
+			cameraVelocityX += accelerationX * deltaTime * 0.1f *cameraMaxVelocity;
+			cameraVelocityY += accelerationY * deltaTime * 0.1f * cameraMaxVelocity;
+			cameraVelocityZ += accelerationZ * deltaTime * 0.1f * cameraMaxVelocity;
 
 			// Clamp velocity to maximum
 			cameraVelocityX = std::clamp(cameraVelocityX, -cameraMaxVelocity, cameraMaxVelocity);
 			cameraVelocityY = std::clamp(cameraVelocityY, -cameraMaxVelocity, cameraMaxVelocity);
 			cameraVelocityZ = std::clamp(cameraVelocityZ, -cameraMaxVelocity, cameraMaxVelocity);
 
-			std::cout << "X" << cameraVelocityX << std::endl;
-			std::cout << "Y" << cameraVelocityY << std::endl;
-			std::cout << "Z" << cameraVelocityZ << std::endl;
 			// Apply movement directly with velocity
 			const float minVelocity = 0.01f;
 

@@ -23,15 +23,49 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 		return EntityIDUtils::toString(node.getId()); // return something to Python
 		});
 
-	m.def("addLink", [&manager](float x, float y, float z) {
-		auto& node(manager.addEntity<Node>());
+	m.def("addLink", [&manager](py::object fromObj, py::object toObj, float alpha) -> py::object {
+		EntityID fromEntityId;
+		if (py::isinstance<py::int_>(fromObj)) {
+			fromEntityId = fromObj.cast<int>();
+		}
+		else if (py::isinstance<py::str>(fromObj)) {
+			fromEntityId = EntityIDUtils::fromString(fromObj.cast<std::string>());
+		}
+		else {
+			throw std::runtime_error("addLink: fromId must be int or string");
+		}
 
-		node.addGroup(Manager::groupNodes_0);
-		AssetManager::AddDefaultNode(node, glm::vec3(x, y, z));
+		// Parse toId (accept int or string)
+		EntityID toEntityId;
+		if (py::isinstance<py::int_>(toObj)) {
+			toEntityId = toObj.cast<int>();
+		}
+		else if (py::isinstance<py::str>(toObj)) {
+			toEntityId = EntityIDUtils::fromString(toObj.cast<std::string>());
+		}
+		else {
+			throw std::runtime_error("addLink: toId must be int or string");
+		}
 
-		manager.grid->addNode(&node, manager.grid->getGridLevel());
+		// Extract raw int IDs (adjust if your EntityID variant uses a different type)
+		int fromInt = std::get<int>(fromEntityId);
+		int toInt = std::get<int>(toEntityId);
 
-		return EntityIDUtils::toString(node.getId()); // return something to Python
+
+		auto& link(manager.addEntity<Link>(fromInt, toInt));
+
+		link.addGroup(Manager::groupLinks_0);
+		link.addComponent<Line_w_Color>();
+		link.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 255, 255.0f * alpha));
+		link.GetComponent<Line_w_Color>().setDestColor(TazColor(255, 255, 255, 255.0f * alpha));
+
+		manager.grid->addLink(&link, manager.grid->getGridLevel());
+
+		py::dict result;
+		result["id"] = EntityIDUtils::toString(link.getId());
+		result["fromId"] = EntityIDUtils::toString(link.getFromNode()->getId());
+		result["toId"] = EntityIDUtils::toString(link.getToNode()->getId());
+		return result; // return something to Python
 		});
 
 	m.def("getNodes", [&manager]() {
@@ -156,53 +190,11 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 		return result;
 		});
 
-	//m.def("addGhostLinkBetweenGhostNodes", [&manager](int simId, float alpha) -> py::object {
-	//	auto& dataMgr = DataManager::getInstance();
-	//	auto& simLinks = dataMgr.mapSimToGraphLinks;
-	//	auto& simNodes = dataMgr.mapSimToGraphNodes;
-	//	auto& ghostNodes = dataMgr.mapGhostNodes; // 👈 you'll need this map
+	m.def("deepCopyLink", [&manager](int fromSimId, int toSimId, float alpha) -> py::object {
+		py::dict result;
+		return result;
+		});
 
-	//	auto it = simLinks.find(simId);
-	//	if (it == simLinks.end() || !it->second)
-	//		return py::none();
-
-	//	LinkEntity* originalLink = it->second;
-	//	if (!originalLink->getFromNode() || !originalLink->getToNode())
-	//		return py::none();
-
-	//	// find the ghost nodes that correspond to this link’s endpoints
-	//	int fromSimId = std::get<int>(originalLink->getFromNode()->getSimId());
-	//	int toSimId = std::get<int>(originalLink->getToNode()->getSimId());
-
-	//	NodeEntity* ghostFrom = ghostNodes[fromSimId];
-	//	NodeEntity* ghostTo = ghostNodes[toSimId];
-
-	//	if (!ghostFrom || !ghostTo)
-	//		return py::none();
-
-	//	// create a link connecting the ghost nodes
-	//	auto& ghostLink = manager.addEntity<Link>(
-	//		std::get<int>(ghostFrom->getId()),
-	//		std::get<int>(ghostTo->getId())
-	//	);
-	//	ghostLink.addGroup(Manager::groupLinks_0);
-
-	//	// add simple visual style (optional)
-	//	auto& line = ghostLink.addComponent<Line_w_Color>();
-	//	line.src_color = TazColor(1, 1, 1, alpha);  // translucent white
-	//	line.dest_color = TazColor(1, 1, 1, alpha);
-	//	line.width = 1.0f;
-
-	//	manager.grid->addLink(&ghostLink, manager.grid->getGridLevel());
-
-	//	py::dict result;
-	//	result["id"] = EntityIDUtils::toString(ghostLink.getId());
-	//	result["originalSimId"] = simId;
-	//	result["fromSimId"] = fromSimId;
-	//	result["toSimId"] = toSimId;
-
-	//	return result;
-	//	});
 
 	m.def("deleteEntities", [&manager](py::list ghostList) -> int {
 		int deletedCount = 0;
@@ -225,7 +217,7 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 		return deletedCount;
 		});
 
-	
+
 }
 
 void PythonInterpreterPanel::update(float deltaTime) {
@@ -491,13 +483,13 @@ void PythonInterpreterPanel::runScript() {
 		py::module_::import("sys").attr("modules")["tazpyapi"] = userapi;
 
 		py::globals()["addNode"] = userapi.attr("addNode");
-		py::globals()["addNode"] = userapi.attr("addNode");
+		py::globals()["addLink"] = userapi.attr("addLink");
 		py::globals()["getNodes"] = userapi.attr("getNodes");
 		py::globals()["getCurrentStep"] = userapi.attr("getCurrentStep");
 		py::globals()["getSimNodes"] = userapi.attr("getSimNodes");
 		py::globals()["getSimLinks"] = userapi.attr("getSimLinks");
 		py::globals()["deepCopyNode"] = userapi.attr("deepCopyNode");
-		//py::globals()["addGhostLinkBetweenGhostNodes"] = userapi.attr("addGhostLinkBetweenGhostNodes");
+		py::globals()["deepCopyLink"] = userapi.attr("deepCopyLink");
 		py::globals()["deleteEntities"] = userapi.attr("deleteEntities");
 		py::exec(_pythonBuffer);
 		py::object output = py::eval("sys.stdout.getvalue()");
@@ -530,7 +522,7 @@ void PythonInterpreterPanel::runUpdateScript(float deltaTime) {
 		py::globals()["getSimNodes"] = userapi.attr("getSimNodes");
 		py::globals()["getSimLinks"] = userapi.attr("getSimLinks");
 		py::globals()["deepCopyNode"] = userapi.attr("deepCopyNode");
-		//py::globals()["addGhostLinkBetweenGhostNodes"] = userapi.attr("addGhostLinkBetweenGhostNodes");
+		py::globals()["deepCopyLink"] = userapi.attr("deepCopyLink");
 		py::globals()["deleteEntities"] = userapi.attr("deleteEntities");
 		py::globals()["deltaTime"] = deltaTime;
 

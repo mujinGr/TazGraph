@@ -26,7 +26,7 @@ void GraphTopBar::update(float deltaTime) {
 
 		if (interpolation >= manager->steps.back().timestamp + 1.0f) {
 			if (autoInterpolate) {
-				interpolation = 0.0f;
+				interpolation = manager->steps.begin()->timestamp;
 			}
 			else {
 				interpolation_running = false;
@@ -116,7 +116,10 @@ void GraphTopBar::OnImGuiRender()
 
 		ImGui::Text("Interpolation");
 		ImGui::SameLine();
-		ImGui::SliderFloat("##interp", &interpolation, 0.0f, manager->steps.size() ?
+		ImGui::SliderFloat("##interp", &interpolation,
+			manager->steps.size() ?
+			manager->steps.begin()->timestamp : 0.0f,
+			manager->steps.size() ?
 			(manager->steps.back().timestamp + 1.0f) : 0.0f, "%.2f");
 
 		// Optional: Add tooltip
