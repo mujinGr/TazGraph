@@ -9,7 +9,7 @@ void GraphTopBar::update(float deltaTime) {
 	int& current_simulation_step = manager->currentStep;
 
 
-	if (interpolation_running) {
+	if (interpolation_running && !manager->steps.empty()) {
 		interpolation += interpolation_speed * deltaTime / config.scene->getApp()->getFPSLimiter().fps;
 
 		// here, get interpolation and manager steps intervals
@@ -116,7 +116,8 @@ void GraphTopBar::OnImGuiRender()
 
 		ImGui::Text("Interpolation");
 		ImGui::SameLine();
-		ImGui::SliderFloat("##interp", &interpolation, 0.0f, manager->steps.back().timestamp + 1.0f, "%.2f");
+		ImGui::SliderFloat("##interp", &interpolation, 0.0f, manager->steps.size() ?
+			(manager->steps.back().timestamp + 1.0f) : 0.0f, "%.2f");
 
 		// Optional: Add tooltip
 		if (ImGui::IsItemHovered()) {
