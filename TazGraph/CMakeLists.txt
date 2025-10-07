@@ -76,6 +76,9 @@ include_directories(${PYBIND11_INCLUDE_DIR})
 
 set(DOTPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/simdump/include")
 include_directories(${DOTPARSER_INCLUDE_DIR})
+
+set(FILEBROWSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/imgui-filebrowser")
+include_directories(${FILEBROWSER_INCLUDE_DIR})
 ################################################################################
 # Target
 ################################################################################
