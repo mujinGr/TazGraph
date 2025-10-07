@@ -140,9 +140,9 @@ inline bool rayIntersectsBox(
 	float m_maxT
 ) {
 
-	float sphereRad = glm::distance(boxMin, boxMax) / 2.0f;
-
-
+	float sphereRad = std::max(
+		glm::distance(boxMin, boxMax) / 2.0f,
+		1.0f);
 
 
 	for (float t = 0.0f; t < m_maxT; t += sphereRad) {
