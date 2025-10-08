@@ -263,95 +263,126 @@ void PythonInterpreterPanel::OnImGuiRender()
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(4.f, 4.f));
 		ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 0.9f);
 
-		ImGui::Begin("Python Interpreter", nullptr, flags);
+		if (ImGui::Begin("Python Interpreter", nullptr, flags))
+		{
+			innerTable();
 
-		innerTable();
+			setFlags();
 
-		setFlags();
-
-		ImGui::End();
+			ImGui::End();
+		}
 
 		ImGui::PopStyleVar(2);
 
 	}
 	else if (state == console_state::Collapsed) {
-		ImGui::Begin("Python Interpreter", nullptr, flags);
+		if (ImGui::Begin("Python Interpreter", nullptr, flags)) {
+			if (init) {
+				ImGui::SetWindowCollapsed(ImGui::GetCurrentWindow());
 
-		if (init) {
-			ImGui::SetWindowCollapsed(ImGui::GetCurrentWindow());
+				init = false;
+			}
+			innerTable();
 
-			init = false;
+			setFlags();
+
+			ImGui::End();
 		}
-		innerTable();
 
-		setFlags();
-
-		ImGui::End();
 	}
 }
 
 void PythonInterpreterPanel::OnImGuiRender2() {
 
-	ImGui::BeginChild("Python Interpreter");
-	ImGuiChildFlags flags = ImGuiChildFlags_ResizeY;
-
-	ImGui::BeginChild("Python Input", ImVec2(0.0f, 300.0f), flags);
-	ImGui::Text("Python Script");
-
-	float originalScale = ImGui::GetFont()->Scale;
-	ImGui::GetFont()->Scale = 1.5f;
-	ImGui::PushFont(ImGui::GetFont());
-
-	ImGui::InputTextMultiline("##pythonInput",
-		_pythonBuffer, IM_ARRAYSIZE(_pythonBuffer),
-		ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 4 * 1.5f));
-
-	inputActive = ImGui::IsItemActive() || ImGui::IsItemFocused();
-
-	ImGui::PopFont();
-	ImGui::GetFont()->Scale = originalScale;
-
-	if (currentScriptType == ScriptType::OneOff) {
-		if (ImGui::Button("Run"))
-		{
-			runScript();
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Clear")) {
-			_outputText.clear();
-		}
+	ImGui::Text("Script Type:");
+	ImGui::SameLine();
+	if (ImGui::RadioButton("One-Off", currentScriptType == ScriptType::OneOff)) {
+		currentScriptType = ScriptType::OneOff;
 	}
-	else {
-		ImGui::Text("Auto-run settings:");
-		ImGui::Checkbox("Use Interval", &useInterval);
-		if (useInterval) {
-			ImGui::InputFloat("Interval (s)", &intervalSec, 0.1f, 1.0f, "%.2f");
+	ImGui::SameLine();
+	if (ImGui::RadioButton("On Update", currentScriptType == ScriptType::OnUpdate)) {
+		currentScriptType = ScriptType::OnUpdate;
+	}
+
+	ImGui::Separator();
+
+	if (ImGui::BeginChild("Python Interpreter")) {
+		ImGuiChildFlags flags = ImGuiChildFlags_ResizeY;
+
+		if (ImGui::BeginChild("Python Input", ImVec2(0.0f, 300.0f), flags)) {
+			ImGui::Text("Python Script");
+			if (currentScriptType == ScriptType::OneOff) {
+				ImGui::Text("One-Off Script (Execute on demand)");
+			}
+			else {
+				ImGui::Text("Update Script (Execute every frame)");
+				ImGui::Checkbox("Pause Update", &updatePaused);
+			}
+			float originalScale = ImGui::GetFont()->Scale;
+			ImGui::GetFont()->Scale = 1.5f;
+			ImGui::PushFont(ImGui::GetFont());
+
+			if (currentScriptType == ScriptType::OneOff) {
+				ImGui::InputTextMultiline("##pythonInput",
+					_pythonBuffer, IM_ARRAYSIZE(_pythonBuffer),
+					ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 4 * 1.5f));
+			}
+			else {
+				ImGui::InputTextMultiline("##updateInput",
+					_updateBuffer, IM_ARRAYSIZE(_updateBuffer),
+					ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 4 * 1.5f));
+			}
+
+			inputActive = ImGui::IsItemActive() || ImGui::IsItemFocused();
+
+			ImGui::PopFont();
+			ImGui::GetFont()->Scale = originalScale;
+
+			ImGui::EndChild();
+		}
+
+		if (currentScriptType == ScriptType::OneOff) {
+			if (ImGui::Button("Run")) {
+				runScript();
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Clear Output")) {
+				_outputText.clear();
+			}
 		}
 		else {
-			ImGui::TextDisabled("(Runs every frame)");
+			ImGui::Text("Auto-run settings:");
+			ImGui::Checkbox("Use Interval", &useInterval);
+			if (useInterval) {
+				ImGui::InputFloat("Interval (s)", &intervalSec, 0.1f, 1.0f, "%.2f");
+			}
+			else {
+				intervalSec = 0.0f;
+				ImGui::TextDisabled("(Runs every frame)");
+			}
+
+			if (ImGui::Button("Clear Output")) {
+				_updateOutputText.clear();
+			}
 		}
-		ImGui::SameLine();
-		if (ImGui::Button("Clear Output")) {
-			_updateOutputText.clear();
+
+		if (ImGui::BeginChild("Python Output")) {
+			ImGui::Text("Output:");
+			if (ImGui::BeginChild("OutputChild", ImVec2(0.0f, 100.0f), true))
+			{
+				if (currentScriptType == ScriptType::OneOff) {
+					ImGui::TextWrapped("%s", _outputText.c_str());
+				}
+				else {
+					ImGui::TextWrapped("%s", _updateOutputText.c_str());
+				}
+				ImGui::EndChild();
+			}
+			ImGui::EndChild();
 		}
+
+		ImGui::EndChild();
 	}
-	ImGui::Separator();
-	ImGui::Text("Auto-run:");
-	ImGui::Checkbox("Use Seconds", &useInterval);
-	ImGui::InputFloat("Interval (s)", &intervalSec, 0.1f, 1.0f, "%.2f");
-
-	ImGui::EndChild();
-
-
-	ImGui::BeginChild("Python Output");
-	ImGui::Text("Output:");
-	ImGui::BeginChild("OutputChild", ImVec2(0.0f, 100.0f), true);
-	ImGui::TextWrapped("%s", _outputText.c_str());
-	ImGui::EndChild();
-	ImGui::EndChild();
-
-
-	ImGui::EndChild();
 }
 
 void PythonInterpreterPanel::setFlags() {
@@ -467,15 +498,15 @@ void PythonInterpreterPanel::innerTable() {
 		// ===== RIGHT COLUMN: Output =====
 		ImGui::TableNextColumn();
 		ImGui::Text("Output:");
-		ImGui::BeginChild("OutputChild", ImVec2(0, 0), true);
-		if (currentScriptType == ScriptType::OneOff) {
-			ImGui::TextWrapped("%s", _outputText.c_str());
+		if (ImGui::BeginChild("OutputChild", ImVec2(0, 0), true)) {
+			if (currentScriptType == ScriptType::OneOff) {
+				ImGui::TextWrapped("%s", _outputText.c_str());
+			}
+			else {
+				ImGui::TextWrapped("%s", _updateOutputText.c_str());
+			}
+			ImGui::EndChild();
 		}
-		else {
-			ImGui::TextWrapped("%s", _updateOutputText.c_str());
-		}
-		ImGui::EndChild();
-
 		ImGui::EndTable();
 	}
 }

@@ -110,7 +110,7 @@ void GraphTopBar::OnImGuiRender()
 		ImGui::EndTabBar();
 	}
 	ImGui::EndChild();
-	ImGui::BeginChild("Interpolation Slider", ImVec2(0, 40), true);
+	if(ImGui::BeginChild("Interpolation Slider", ImVec2(0, 40), true))
 	{
 		Manager* manager = config.scene->manager;
 
@@ -136,9 +136,8 @@ void GraphTopBar::OnImGuiRender()
 		ImGui::SameLine();
 		ImGui::Checkbox("Auto", &autoInterpolate);
 
+		ImGui::EndChild();
 	}
-
-	ImGui::EndChild();
 }
 
 

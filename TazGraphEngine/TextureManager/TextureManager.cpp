@@ -101,3 +101,39 @@ std::vector<std::string> TextureManager::Get_GLTextureNames() const
 	}
 	return textureNames;
 }
+
+
+// Font management implementation
+void TextureManager::Add_Font(std::string id, const char* fontPath, float size)
+{
+	ImGuiIO& io = ImGui::GetIO();
+
+	// Load the font
+	ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath, size);
+
+	if (font) {
+		fonts.emplace(id, font);
+		std::cout << "Font added: " << id << " from " << fontPath << " size " << size << std::endl;
+	}
+	else {
+		std::cout << "Failed to load font: " << id << " from " << fontPath << std::endl;
+	}
+}
+
+ImFont* TextureManager::Get_Font(std::string id)
+{
+	auto it = fonts.find(id);
+	if (it != fonts.end()) {
+		return it->second;
+	}
+	return nullptr; // or return default font
+}
+
+std::vector<std::string> TextureManager::Get_FontNames() const
+{
+	std::vector<std::string> fontNames;
+	for (const auto& pair : fonts) {
+		fontNames.push_back(pair.first);
+	}
+	return fontNames;
+}

@@ -95,6 +95,11 @@ void MainMenuScreen::onEntry()
 	TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/menuBg.png");
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 
+	TextureManager::getInstance().Add_Font("arial", "assets/Fonts/arial.ttf", 14.0f);
+	TextureManager::getInstance().Add_Font("bold", "assets/Fonts/Figerona-VF.ttf", 16.0f);
+	ImGuiIO& io = ImGui::GetIO();
+	io.Fonts->Build();
+
 	if (!manager->grid)
 	{
 		manager->grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);

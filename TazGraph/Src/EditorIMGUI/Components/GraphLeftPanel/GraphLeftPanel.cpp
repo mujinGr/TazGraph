@@ -32,145 +32,144 @@ void GraphLeftPanel::update(float deltaTime) {
 
 void GraphLeftPanel::OnImGuiRender()
 {
-	ImGui::BeginChild("Background UI");
+	if (ImGui::BeginChild("Background UI")) {
+		ImVec4 activeColor = ImVec4(0.2f, 0.7f, 0.2f, 1.0f);
+		ImVec4 inactiveColor = ImVec4(0.7f, 0.2f, 0.2f, 1.0f);
 
-	ImVec4 activeColor = ImVec4(0.2f, 0.7f, 0.2f, 1.0f);
-	ImVec4 inactiveColor = ImVec4(0.7f, 0.2f, 0.2f, 1.0f);
+		ImVec4 defaultColor = ImVec4(0.0f, 0.5f, 1.0f, 1.0f);
 
-	ImVec4 defaultColor = ImVec4(0.0f, 0.5f, 1.0f, 1.0f);
+		glm::vec2 mousePos = config.scene->getApp()->_inputManager.getMouseCoords();
 
-	glm::vec2 mousePos = config.scene->getApp()->_inputManager.getMouseCoords();
-
-	// Change color based on the debug mode state
-	if (config.scene->renderDebug) {
-		ImGui::PushStyleColor(ImGuiCol_Button, activeColor);  // Green for ON
-	}
-	else {
-		ImGui::PushStyleColor(ImGuiCol_Button, inactiveColor);  // Red for OFF
-	}
-	// Button toggles the debug mode
-	if (ImGui::Button("Enable Debug Mode")) {
-		config.scene->renderDebug = !config.scene->renderDebug;  // Toggle the state
-	}
-	ImGui::PopStyleColor(1);
-
-	if (config.scene->manager->idTextEnabled) {
-		ImGui::PushStyleColor(ImGuiCol_Button, activeColor);  // Green for ON
-	}
-	else {
-		ImGui::PushStyleColor(ImGuiCol_Button, inactiveColor);  // Red for OFF
-	}
-	// Button toggles the debug mode
-	if (ImGui::Button(config.scene->manager->idTextEnabled ? "Disable Id Labels" : "Enable Id Labels")) {
-		config.scene->manager->idTextEnabled = !config.scene->manager->idTextEnabled;
-
-		if (config.scene->manager->idTextEnabled) {
-			//create empty entities(textLabels) that will attach on node entities
-			for (auto& node : config.scene->manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
-				auto& textLabel = config.scene->manager->addEntity<Empty>();
-
-				textLabel.addGroup(Manager::textLabels);
-
-				textLabel.addComponent<TransformComponent>(0.0f);
-				textLabel.GetComponent<TransformComponent>().local_position = glm::vec3(0);
-				node->children["label"] = &textLabel;
-				node->children["label"]->setParentEntity(node, "label");
-				node->children["label"]->GetComponent<TransformComponent>().initChild();
-			}
-		}
-		else if (!config.scene->manager->idTextEnabled) {
-			//destroy empty entities(textLabels) 
-			config.scene->manager->removeAllEntitiesFromEmptyGroup(Manager::textLabels);
-
-			for (auto& label : config.scene->manager->getGroup<EmptyEntity>(Manager::textLabels)) {
-				auto& node = *label->getParentEntity();
-
-				node.children.erase("label");
-			}
-		}
-		config.scene->manager->aboutTo_updateActiveEntities();
-	}
-	ImGui::PopStyleColor(1);
-
-	ImGui::Separator();
-
-	if (ImGui::Button(config.scene->manager->arrowheadsEnabled ? "Disable Arrowheads" : "Enable Arrowheads")) {
-		config.scene->manager->arrowheadsEnabled = !config.scene->manager->arrowheadsEnabled;
-		config.scene->manager->updateInnerPathLinks = true;
-		//manager.setArrowheadsEnabled(arrowheadsEnabled); // Call function to apply change
-	}
-
-	ImGui::Separator();
-
-	ImGui::Text("Select Grouping Level:");
-	if (ImGui::RadioButton("1", activeLayout == 0)) {
-		activeLayout = 0;
-	}
-
-	ImGui::SameLine();
-	if (ImGui::RadioButton("2", activeLayout == 1)) {
-		activeLayout = 1;
-	}
-
-	ImGui::SameLine();
-	if (ImGui::RadioButton("3", activeLayout == 2)) {
-		activeLayout = 2;
-	}
-
-	ImGui::Separator();
-
-
-
-	ImGui::Text("Grid TazSize: %u", config.scene->manager->grid->getCellSize());
-
-
-	ImGui::Separator();
-
-
-	ImGui::Text("Scene/Screen Coords: {x: %f, y: %f}", config.sceneMouseCoords.x, config.sceneMouseCoords.y);
-	ImGui::Text("MainViewport Coords: {x: %f, y: %f}", mousePos.x, mousePos.y);
-
-
-	ImGui::Separator();
-
-	DataManager::getInstance().pathData.SetSelectData(std::move(DataManager::getInstance().pathsFileNames));
-
-	if (ImGui::ComboAutoSelect("Choose Links Path File", DataManager::getInstance().pathData)) {
-		std::string resetIndex = ">Reset";
-		if (strcmp(DataManager::getInstance().pathData.input, resetIndex.c_str()) == 0) {
-
-			for (auto& pathHolder : config.scene->manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
-				auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
-
-				for (auto* link : pathLinks) {
-					link->destroy();
-				}
-				config.scene->manager->updateInnerPathLinks = true;
-			}
-			config.scene->manager->removeAllEntitiesFromEmptyGroup(Manager::groupPathLinksHolder);
+		// Change color based on the debug mode state
+		if (config.scene->renderDebug) {
+			ImGui::PushStyleColor(ImGuiCol_Button, activeColor);  // Green for ON
 		}
 		else {
-			DataManager::getInstance().pathLoading = DataManager::getInstance().pathData.input;
-			DataManager::getInstance().setPathLoading(true);
+			ImGui::PushStyleColor(ImGuiCol_Button, inactiveColor);  // Red for OFF
+		}
+		// Button toggles the debug mode
+		if (ImGui::Button("Enable Debug Mode")) {
+			config.scene->renderDebug = !config.scene->renderDebug;  // Toggle the state
+		}
+		ImGui::PopStyleColor(1);
+
+		if (config.scene->manager->idTextEnabled) {
+			ImGui::PushStyleColor(ImGuiCol_Button, activeColor);  // Green for ON
+		}
+		else {
+			ImGui::PushStyleColor(ImGuiCol_Button, inactiveColor);  // Red for OFF
+		}
+		// Button toggles the debug mode
+		if (ImGui::Button(config.scene->manager->idTextEnabled ? "Disable Id Labels" : "Enable Id Labels")) {
+			config.scene->manager->idTextEnabled = !config.scene->manager->idTextEnabled;
+
+			if (config.scene->manager->idTextEnabled) {
+				//create empty entities(textLabels) that will attach on node entities
+				for (auto& node : config.scene->manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
+					auto& textLabel = config.scene->manager->addEntity<Empty>();
+
+					textLabel.addGroup(Manager::textLabels);
+
+					textLabel.addComponent<TransformComponent>(0.0f);
+					textLabel.GetComponent<TransformComponent>().local_position = glm::vec3(0);
+					node->children["label"] = &textLabel;
+					node->children["label"]->setParentEntity(node, "label");
+					node->children["label"]->GetComponent<TransformComponent>().initChild();
+				}
+			}
+			else if (!config.scene->manager->idTextEnabled) {
+				//destroy empty entities(textLabels) 
+				config.scene->manager->removeAllEntitiesFromEmptyGroup(Manager::textLabels);
+
+				for (auto& label : config.scene->manager->getGroup<EmptyEntity>(Manager::textLabels)) {
+					auto& node = *label->getParentEntity();
+
+					node.children.erase("label");
+				}
+			}
+			config.scene->manager->aboutTo_updateActiveEntities();
+		}
+		ImGui::PopStyleColor(1);
+
+		ImGui::Separator();
+
+		if (ImGui::Button(config.scene->manager->arrowheadsEnabled ? "Disable Arrowheads" : "Enable Arrowheads")) {
+			config.scene->manager->arrowheadsEnabled = !config.scene->manager->arrowheadsEnabled;
+			config.scene->manager->updateInnerPathLinks = true;
+			//manager.setArrowheadsEnabled(arrowheadsEnabled); // Call function to apply change
 		}
 
-	}
+		ImGui::Separator();
 
-	ImGui::Separator();
-
-	if (ImGui::BeginTabBar("LeftPanelTabs", ImGuiTabBarFlags_AutoSelectNewTabs)) {
-
-		if (ImGui::BeginTabItem("Layout")) {
-
-			ImGui::EndTabItem();
+		ImGui::Text("Select Grouping Level:");
+		if (ImGui::RadioButton("1", activeLayout == 0)) {
+			activeLayout = 0;
 		}
 
-		ImGui::EndTabBar();
+		ImGui::SameLine();
+		if (ImGui::RadioButton("2", activeLayout == 1)) {
+			activeLayout = 1;
+		}
+
+		ImGui::SameLine();
+		if (ImGui::RadioButton("3", activeLayout == 2)) {
+			activeLayout = 2;
+		}
+
+		ImGui::Separator();
+
+
+
+		ImGui::Text("Grid TazSize: %u", config.scene->manager->grid->getCellSize());
+
+
+		ImGui::Separator();
+
+
+		ImGui::Text("Scene/Screen Coords: {x: %f, y: %f}", config.sceneMouseCoords.x, config.sceneMouseCoords.y);
+		ImGui::Text("MainViewport Coords: {x: %f, y: %f}", mousePos.x, mousePos.y);
+
+
+		ImGui::Separator();
+
+		DataManager::getInstance().pathData.SetSelectData(std::move(DataManager::getInstance().pathsFileNames));
+
+		if (ImGui::ComboAutoSelect("Choose Links Path File", DataManager::getInstance().pathData)) {
+			std::string resetIndex = ">Reset";
+			if (strcmp(DataManager::getInstance().pathData.input, resetIndex.c_str()) == 0) {
+
+				for (auto& pathHolder : config.scene->manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
+					auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
+
+					for (auto* link : pathLinks) {
+						link->destroy();
+					}
+					config.scene->manager->updateInnerPathLinks = true;
+				}
+				config.scene->manager->removeAllEntitiesFromEmptyGroup(Manager::groupPathLinksHolder);
+			}
+			else {
+				DataManager::getInstance().pathLoading = DataManager::getInstance().pathData.input;
+				DataManager::getInstance().setPathLoading(true);
+			}
+
+		}
+
+		ImGui::Separator();
+
+		if (ImGui::BeginTabBar("LeftPanelTabs", ImGuiTabBarFlags_AutoSelectNewTabs)) {
+
+			if (ImGui::BeginTabItem("Layout")) {
+
+				ImGui::EndTabItem();
+			}
+
+			ImGui::EndTabBar();
+		}
+
+		ChooseLayoutPanel();
+		ImGui::EndChild();
 	}
-
-	ChooseLayoutPanel();
-	ImGui::EndChild();
-
 }
 
 

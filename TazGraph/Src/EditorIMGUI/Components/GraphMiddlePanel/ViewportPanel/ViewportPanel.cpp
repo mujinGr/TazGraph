@@ -21,7 +21,6 @@ void ViewportPanel::OnImGuiRender()
 
 	// Check if we have valid size and camera
 	if (viewportPanelSize.x <= 0 || viewportPanelSize.y <= 0) {
-		ImGui::EndChild();
 		return;
 	}
 
@@ -37,7 +36,6 @@ void ViewportPanel::OnImGuiRender()
 
 
 	if (!minimap_camera2D) {
-		ImGui::EndChild();
 		return;
 	}
 
