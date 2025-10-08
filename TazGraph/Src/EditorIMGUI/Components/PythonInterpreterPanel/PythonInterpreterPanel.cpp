@@ -100,7 +100,7 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 		for (auto& pair : simNodes) {
 			py::dict nodeData;
 			nodeData["simId"] = pair.first;
-			nodeData["entityId"] = EntityIDUtils::toString(pair.second->getId());
+			nodeData["id"] = EntityIDUtils::toString(pair.second->getId());
 
 			if (pair.second->hasComponent<TransformComponent>()) {
 				auto& tc = pair.second->GetComponent<TransformComponent>();
@@ -123,7 +123,7 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 		for (auto& pair : simLinks) {
 			py::dict linkData;
 			linkData["simId"] = pair.first;
-			linkData["entityId"] = EntityIDUtils::toString(pair.second->getId());
+			linkData["id"] = EntityIDUtils::toString(pair.second->getId());
 
 			if (pair.second->getFromNode() && pair.second->getToNode()) {
 				linkData["fromId"] = std::get<int>(pair.second->getFromNode()->getId());
@@ -185,7 +185,7 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 
 		py::dict result;
 		result["id"] = EntityIDUtils::toString(ghostNode.getId());
-		result["originalSimId"] = simId;
+		result["simId"] = simId;
 
 		return result;
 		});
@@ -207,6 +207,7 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 					EntityID entityId = EntityIDUtils::fromString(id);
 
 					manager.getEntityFromId(entityId)->destroy();
+					deletedCount++;
 				}
 			}
 			catch (...) {
@@ -407,6 +408,17 @@ void PythonInterpreterPanel::innerTable() {
 			ImGui::Checkbox("Pause Update", &updatePaused);
 		}
 
+		// Calculate height for text input
+		float buttonHeight = ImGui::GetFrameHeightWithSpacing() * 2; // Space for buttons below
+		float settingsHeight = 0.0f;
+
+		if (currentScriptType == ScriptType::OnUpdate) {
+			// Account for auto-run settings
+			settingsHeight = ImGui::GetFrameHeightWithSpacing() * 3; // Text + Checkbox + InputFloat
+		}
+
+		float availableHeight = ImGui::GetContentRegionAvail().y - buttonHeight - settingsHeight;
+
 		float originalScale = ImGui::GetFont()->Scale;
 		ImGui::GetFont()->Scale = 1.5f;
 		ImGui::PushFont(ImGui::GetFont());
@@ -414,12 +426,12 @@ void PythonInterpreterPanel::innerTable() {
 		if (currentScriptType == ScriptType::OneOff) {
 			ImGui::InputTextMultiline("##pythonInput",
 				_pythonBuffer, IM_ARRAYSIZE(_pythonBuffer),
-				ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 10 * 1.5f));
+				ImVec2(-FLT_MIN, availableHeight));
 		}
 		else {
 			ImGui::InputTextMultiline("##updateInput",
 				_updateBuffer, IM_ARRAYSIZE(_updateBuffer),
-				ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 10 * 1.5f));
+				ImVec2(-FLT_MIN, availableHeight));
 		}
 
 		inputActive = ImGui::IsItemActive() || ImGui::IsItemFocused();

@@ -223,9 +223,6 @@ private:
 
 public:
 
-
-	TazColor color = {};
-
 	Link(Manager& mManager) : LinkEntity(mManager) {
 	}
 
