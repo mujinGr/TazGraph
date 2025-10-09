@@ -24,13 +24,13 @@ void GraphTopBar::update(float deltaTime) {
 			current_simulation_step++;
 		}
 
-		if (interpolation >= manager->steps.back().timestamp + 1.0f) {
+		if (interpolation >= manager->steps.back().timestamp) {
 			if (autoInterpolate) {
 				interpolation = manager->steps.begin()->timestamp;
 			}
 			else {
 				interpolation_running = false;
-				interpolation = manager->steps.back().timestamp + 1.0f;
+				interpolation = manager->steps.back().timestamp;
 			}
 
 			current_simulation_step = 0;
@@ -121,13 +121,13 @@ void GraphTopBar::OnImGuiRender()
 	{
 		Manager* manager = config.scene->manager;
 
-		ImGui::Text("Interpolation");
+		ImGui::Text("Time");
 		ImGui::SameLine();
 		ImGui::SliderFloat("##interp", &interpolation,
 			manager->steps.size() ?
 			manager->steps.begin()->timestamp : 0.0f,
 			manager->steps.size() ?
-			(manager->steps.back().timestamp + 1.0f) : 0.0f, "%.2f");
+			(manager->steps.back().timestamp) : 0.0f, "%.10f");
 
 		// Optional: Add tooltip
 		if (ImGui::IsItemHovered()) {
@@ -136,10 +136,10 @@ void GraphTopBar::OnImGuiRender()
 			ImGui::EndTooltip();
 		}
 		ImGui::SameLine();
-		ImGui::Text("Speed");
+		ImGui::Text("Simulation Speed");
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(100.0f);
-		ImGui::SliderFloat("##interp_speed", &interpolation_speed, 0.01f, 1.0f, "%.2f");
+		ImGui::SliderFloat("##interp_speed", &interpolation_speed, 0.01f, 1.0f, "%.10f");
 		ImGui::SameLine();
 		ImGui::Checkbox("Auto-Replay", &autoInterpolate);
 
