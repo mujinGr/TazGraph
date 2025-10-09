@@ -255,7 +255,13 @@ void PythonInterpreterPanel::OnImGuiRender()
 	if (ImGui::FindWindowByName("Python Interpreter") && state == console_state::Collapsed)
 	{
 		ImGui::SetNextWindowSize(ImVec2(config.viewportSize->x, titleBarRect.GetHeight()));
-		ImGui::SetNextWindowPos(ImVec2(config.viewportPos->x, config.viewportPos->y + config.viewportSize->y - titleBarRect.GetHeight()));
+		if (titleBarRect.GetHeight() == 0) {
+			ImGui::SetNextWindowPos(ImVec2(config.viewportPos->x, config.viewportPos->y + config.viewportSize->y - 20.0f));
+		}
+		else {
+			ImGui::SetNextWindowPos(ImVec2(config.viewportPos->x, config.viewportPos->y + config.viewportSize->y - titleBarRect.GetHeight()));
+
+		}
 	}
 
 	// Set collapsed state on first frame

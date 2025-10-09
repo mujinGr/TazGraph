@@ -142,6 +142,7 @@ void Graph::onEntry()
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 	TextureManager::getInstance().Add_GLTexture("worldMap", "assets/Sprites/worldMap.png");
 	TextureManager::getInstance().Add_GLTexture("play-button", "assets/Sprites/images-removebg-preview.png");
+	TextureManager::getInstance().Add_GLTexture("pause-button", "assets/Sprites/pause.png");
 	TextureManager::getInstance().Add_GLTexture("treemap", "assets/Sprites/treemap.png");
 	TextureManager::getInstance().Add_GLTexture("sauronEye", "assets/Sprites/Eye-of-Sauron.png");
 

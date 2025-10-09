@@ -103,7 +103,10 @@ void GraphTopBar::OnImGuiRender()
 				}
 			}
 			ImGui::SameLine(ImGui::GetContentRegionAvail().x - 16);
-			if (ImGui::ImageButton("play", static_cast<ImTextureID>(static_cast<intptr_t>(TextureManager::getInstance().Get_GLTexture("play-button")->id)), ImVec2(16, 16))) {
+			const char* textureName = interpolation_running ? "pause-button" : "play-button";
+			if (ImGui::ImageButton("play",
+				static_cast<ImTextureID>(static_cast<intptr_t>(TextureManager::getInstance().Get_GLTexture(textureName)->id)),
+				ImVec2(16, 16))) {
 				interpolation_running = !interpolation_running;
 			}
 
@@ -138,7 +141,7 @@ void GraphTopBar::OnImGuiRender()
 		ImGui::SetNextItemWidth(100.0f);
 		ImGui::SliderFloat("##interp_speed", &interpolation_speed, 0.01f, 1.0f, "%.2f");
 		ImGui::SameLine();
-		ImGui::Checkbox("Auto", &autoInterpolate);
+		ImGui::Checkbox("Auto-Replay", &autoInterpolate);
 
 	}
 	ImGui::EndChild();//? Needs to be outside
