@@ -111,9 +111,21 @@ public:
 			}
 			for (auto& link : inLinks) {
 				link->updateArrowHeads();
+				for (auto& depthLink : link->getFromNode()->getInLinks()) {
+					depthLink->updateArrowHeads();
+				}
+				for (auto& depthLink : link->getFromNode()->getOutLinks()) {
+					depthLink->updateArrowHeads();
+				}
 			}
 			for (auto& link : outLinks) {
 				link->updateArrowHeads();
+				for (auto& depthLink : link->getToNode()->getInLinks()) {
+					depthLink->updateArrowHeads();
+				}
+				for (auto& depthLink : link->getToNode()->getOutLinks()) {
+					depthLink->updateArrowHeads();
+				}
 			}
 		}
 	}
@@ -318,32 +330,42 @@ public:
 
 	void updateArrowHeads() override {
 		if (children.contains(LinkChildren_ToString(ARROWHEAD))) {
-			TransformComponent* tr = &children[LinkChildren_ToString(ARROWHEAD)]->GetComponent<TransformComponent>();
+			NodeEntity* fromNode = getFromNode();
+			NodeEntity* toNode = getToNode();
 
-			children[LinkChildren_ToString(ARROWHEAD)]->update(0.0f);
+			Entity* fromPortEntity = fromNode->children[fromPort];
+			Entity* toPortEntity = toNode->children[toPort];
 
-			// set position of arrowHead
-			TransformComponent* ch_tr = &to->children[toPort]->GetComponent<TransformComponent>();
+			PortComponent& fromPortComp = fromPortEntity->GetComponent<PortComponent>();
+			PortComponent& toPortComp = toPortEntity->GetComponent<PortComponent>();
 
-			TransformComponent* toPortTR = ch_tr;
-			TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
+			// Get the actual connection points from the port slots (same as in drawWithPorts)
+			glm::vec3 fromConnectionPoint = fromPortComp.portSlots[fromSlotIndex]->GetComponent<TransformComponent>().getPosition();
+			glm::vec3 toConnectionPoint = toPortComp.portSlots[toSlotIndex]->GetComponent<TransformComponent>().getPosition();
 
-			glm::vec3 direction = toPortTR->getPosition() - fromPortTR->getPosition();
+			glm::vec3 direction = toConnectionPoint - fromConnectionPoint;
+			float distance = glm::length(direction);
 
-			glm::vec3 unitDirection = glm::normalize(direction);
+			if (distance < 0.001f) {
+				// Points are too close, skip update to avoid division by zero
+				return;
+			}
+
+			glm::vec3 unitDirection = direction / distance;
+
+			// Calculate arrowhead position with offset (same as in addArrowHead)
 			float offset = 10.0f;
+			glm::vec3 arrowHeadPos = toConnectionPoint - unitDirection * offset;
 
-			glm::vec3 arrowHeadPos = toPortTR->getPosition() - unitDirection * offset;
-
-			// Calculate the angle in radians, and convert it to degrees
+			// Calculate rotation based on the direction between slots
 			float angleRadians = -atan2(direction.y, direction.x);
-			float angleDegrees = glm::degrees(angleRadians);
 
-
-			glm::vec3 newArrowHeadPosition = arrowHeadPos;
-			children[LinkChildren_ToString(ARROWHEAD)]->GetComponent<TransformComponent>().position = newArrowHeadPosition;
-
+			// Update the arrowhead position and rotation
+			children[LinkChildren_ToString(ARROWHEAD)]->GetComponent<TransformComponent>().position = arrowHeadPos;
 			children[LinkChildren_ToString(ARROWHEAD)]->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleRadians + glm::half_pi<float>()));
+
+			// Update the arrowhead entity
+			children[LinkChildren_ToString(ARROWHEAD)]->update(0.0f);
 		}
 	}
 
@@ -362,42 +384,48 @@ public:
 	}
 
 	void addArrowHead() override {
-		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
-		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
+		NodeEntity* fromNode = getFromNode();
+		NodeEntity* toNode = getToNode();
 
-		fromPort = getBestPortForConnection(fromTR->getPosition(), toTR->getPosition());
-		toPort = getBestPortForConnection(toTR->getPosition(), fromTR->getPosition());
+		Entity* fromPortEntity = fromNode->children[fromPort];
+		Entity* toPortEntity = toNode->children[toPort];
+		PortComponent& fromPortComp = fromPortEntity->GetComponent<PortComponent>();
+		PortComponent& toPortComp = toPortEntity->GetComponent<PortComponent>();
 
-		TransformComponent* toPortTR = &to->children[toPort]->GetComponent<TransformComponent>();
-		TransformComponent* fromPortTR = &from->children[fromPort]->GetComponent<TransformComponent>();
+		// Check if slot indices are valid
+		if ((fromSlotIndex >= fromPortComp.portSlots.size()) ||
+			(toSlotIndex >= toPortComp.portSlots.size())) {
+			TazGraphEngine::ConsoleLogger::error("Invalid slot indices!");
+			return;
+		}
 
-		glm::vec3 direction = toPortTR->getPosition() - fromPortTR->getPosition();
+		// Get the actual connection points from the port slots
+		glm::vec3 fromConnectionPoint = fromPortComp.portSlots[fromSlotIndex]->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 toConnectionPoint = toPortComp.portSlots[toSlotIndex]->GetComponent<TransformComponent>().getPosition();
 
+		glm::vec3 direction = toConnectionPoint - fromConnectionPoint;
 		glm::vec3 unitDirection = glm::normalize(direction);
-		float offset = 10.0f;
 
-		glm::vec3 arrowHeadPos = toPortTR->getPosition() - unitDirection * offset;
+		// Calculate arrowhead position (slightly offset from the target slot)
+		float offset = 10.0f;
+		glm::vec3 arrowHeadPos = toConnectionPoint - unitDirection * offset;
 
 		auto& temp_arrowHead = getManager()->addEntityNoId<Empty>();
 
-		// Calculate the angle in radians, and convert it to degrees
+		// Calculate rotation based on the direction between slots
 		float angleRadians = -atan2(direction.y, direction.x);
-		float angleDegrees = glm::degrees(angleRadians);
+		glm::vec3 arrowSize(10.0f, 20.0f, 0.0f);
 
-		glm::vec3 farrowSize(10.0f, 20.0f, 0.0f);
-
-		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos, farrowSize, 1);
+		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos, arrowSize, 1);
 		temp_arrowHead.addComponent<Triangle_w_Color>();
 		temp_arrowHead.GetComponent<Triangle_w_Color>().color = TazColor(0, 0, 0, 255);
 
+		// Rotate the arrowhead to point in the direction of the connection
 		temp_arrowHead.GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleRadians + glm::half_pi<float>()));
 
 		temp_arrowHead.addGroup(Manager::groupArrowHeads_0);
-
 		temp_arrowHead.setParentEntity(this, LinkChildren_ToString(ARROWHEAD));
-
 		manager.grid->addEmpty(&temp_arrowHead, manager.grid->getGridLevel());
-
 		children[LinkChildren_ToString(ARROWHEAD)] = &temp_arrowHead;
 	}
 
