@@ -258,37 +258,45 @@ void PythonInterpreterPanel::OnImGuiRender()
 		ImGui::SetNextWindowPos(ImVec2(config.viewportPos->x, config.viewportPos->y + config.viewportSize->y - titleBarRect.GetHeight()));
 	}
 
-	if (state == console_state::Expanded) {
+	// Set collapsed state on first frame
+	if (init) {
+		ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once);
+	}
 
+	if (state == console_state::Expanded) {
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(4.f, 4.f));
 		ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 0.9f);
 
-		if (ImGui::Begin("Python Interpreter", nullptr, flags))
+		bool widgetActive = ImGui::Begin("Python Interpreter", nullptr, flags);
+
+		// Clear init flag after first Begin
+		if (init) {
+			init = false;
+		}
+
+		if (widgetActive)
 		{
 			innerTable();
-
-			setFlags();
-
-			ImGui::End();
 		}
+		setFlags();
 
+		ImGui::End();
 		ImGui::PopStyleVar(2);
-
 	}
 	else if (state == console_state::Collapsed) {
-		if (ImGui::Begin("Python Interpreter", nullptr, flags)) {
-			if (init) {
-				ImGui::SetWindowCollapsed(ImGui::GetCurrentWindow());
+		bool widgetActive = ImGui::Begin("Python Interpreter", nullptr, flags);
 
-				init = false;
-			}
-			innerTable();
-
-			setFlags();
-
-			ImGui::End();
+		// Clear init flag after first Begin
+		if (init) {
+			init = false;
 		}
 
+		if (widgetActive) {
+			innerTable();
+		}
+		setFlags();
+
+		ImGui::End();
 	}
 }
 
@@ -305,11 +313,11 @@ void PythonInterpreterPanel::OnImGuiRender2() {
 	}
 
 	ImGui::Separator();
-
-	if (ImGui::BeginChild("Python Interpreter")) {
+	bool childActive = ImGui::BeginChild("Python Interpreter");
+	if (childActive) {
 		ImGuiChildFlags flags = ImGuiChildFlags_ResizeY;
-
-		if (ImGui::BeginChild("Python Input", ImVec2(0.0f, 300.0f), flags)) {
+		bool nestedChildActive = ImGui::BeginChild("Python Input", ImVec2(0.0f, 300.0f), flags);
+		if (nestedChildActive) {
 			ImGui::Text("Python Script");
 			if (currentScriptType == ScriptType::OneOff) {
 				ImGui::Text("One-Off Script (Execute on demand)");
@@ -338,8 +346,8 @@ void PythonInterpreterPanel::OnImGuiRender2() {
 			ImGui::PopFont();
 			ImGui::GetFont()->Scale = originalScale;
 
-			ImGui::EndChild();
 		}
+		ImGui::EndChild(); //? Needs to be outside
 
 		if (currentScriptType == ScriptType::OneOff) {
 			if (ImGui::Button("Run")) {
@@ -365,10 +373,11 @@ void PythonInterpreterPanel::OnImGuiRender2() {
 				_updateOutputText.clear();
 			}
 		}
-
-		if (ImGui::BeginChild("Python Output")) {
+		nestedChildActive = ImGui::BeginChild("Python Output");
+		if (nestedChildActive) {
 			ImGui::Text("Output:");
-			if (ImGui::BeginChild("OutputChild", ImVec2(0.0f, 100.0f), true))
+			bool nestedNestedChildActive = ImGui::BeginChild("OutputChild", ImVec2(0.0f, 100.0f), true);
+			if (nestedNestedChildActive)
 			{
 				if (currentScriptType == ScriptType::OneOff) {
 					ImGui::TextWrapped("%s", _outputText.c_str());
@@ -376,19 +385,19 @@ void PythonInterpreterPanel::OnImGuiRender2() {
 				else {
 					ImGui::TextWrapped("%s", _updateOutputText.c_str());
 				}
-				ImGui::EndChild();
 			}
-			ImGui::EndChild();
+			ImGui::EndChild(); //? Needs to be outside
 		}
-
-		ImGui::EndChild();
+		ImGui::EndChild(); //? Needs to be outside
 	}
+	ImGui::EndChild(); //? Needs to be outside
 }
 
 void PythonInterpreterPanel::setFlags() {
 	last_state = state;
-
-	if (ImGui::IsWindowCollapsed()) {
+	ImGuiWindow* window = ImGui::GetCurrentWindow();
+	bool collapsed = window->Collapsed;
+	if (collapsed) {
 		flags |= ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
 		state = console_state::Collapsed;
 	}
@@ -498,15 +507,17 @@ void PythonInterpreterPanel::innerTable() {
 		// ===== RIGHT COLUMN: Output =====
 		ImGui::TableNextColumn();
 		ImGui::Text("Output:");
-		if (ImGui::BeginChild("OutputChild", ImVec2(0, 0), true)) {
+		bool childActive = ImGui::BeginChild("OutputChild", ImVec2(0, 0), true);
+		if (childActive) {
 			if (currentScriptType == ScriptType::OneOff) {
 				ImGui::TextWrapped("%s", _outputText.c_str());
 			}
 			else {
 				ImGui::TextWrapped("%s", _updateOutputText.c_str());
 			}
-			ImGui::EndChild();
 		}
+		ImGui::EndChild(); //? Needs to be outside
+
 		ImGui::EndTable();
 	}
 }

@@ -136,8 +136,9 @@ public:
 				ImGui::TableSetColumnIndex(0);
 				ImGui::Text("%s", str.c_str());
 			}
+
+			ImGui::EndTable();
 		}
-		ImGui::EndTable();
 
 
 	}

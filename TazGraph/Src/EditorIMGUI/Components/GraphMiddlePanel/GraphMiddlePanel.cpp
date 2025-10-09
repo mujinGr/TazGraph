@@ -37,8 +37,8 @@ void GraphMiddlePanel::OnImGuiRender()
 			config.scene->setManager(config.scene->managerName);
 		}
 	}
-
-	if (ImGui::BeginChild("Viewport")) {
+	bool childActive = ImGui::BeginChild("Viewport");
+	if (childActive) {
 		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 		Manager* man = config.scene->manager;
@@ -62,8 +62,10 @@ void GraphMiddlePanel::OnImGuiRender()
 			});
 		getSubcomponent<ViewportPanel>()->OnImGuiRender();
 
-		ImGui::EndChild();
 	}
+	ImGui::EndChild();//? Needs to be outside
+
+
 	getSubcomponent<PythonInterpreterPanel>()->setConfig(
 		{
 			.scene = config.scene,

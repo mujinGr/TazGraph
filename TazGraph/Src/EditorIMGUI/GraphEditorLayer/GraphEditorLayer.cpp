@@ -60,7 +60,8 @@ void GraphEditorLayer::OnImGuiRender()
 			ImGui::TableSetupColumn("RightCol", ImGuiTableColumnFlags_WidthFixed, rightWidth);
 
 			ImGui::TableNextColumn();
-			if (ImGui::BeginChild("Tab 1"))
+			bool childActive = ImGui::BeginChild("Tab 1");
+			if (childActive)
 			{
 				if (ImGui::BeginTable("LeftPanelTable", 2, ImGuiTableFlags_SizingFixedFit))
 				{
@@ -90,29 +91,32 @@ void GraphEditorLayer::OnImGuiRender()
 
 					ImGui::EndTable();
 				}
-				ImGui::EndChild();
 			}
+			ImGui::EndChild(); //? Needs to be outside
 
 			ImGui::TableNextColumn();
+			childActive = ImGui::BeginChild("Tab 2");
+			if (childActive) {
+				getSubcomponent<GraphMiddlePanel>()->setConfig(
+					{
+						.scene = config.scene,
+						.c_framebuffer = config.viewportFramebuffer,
+						.c_minimapFramebuffer = config.minimapFramebuffer,
 
-			getSubcomponent<GraphMiddlePanel>()->setConfig(
-				{
-					.scene = config.scene,
-					.c_framebuffer = config.viewportFramebuffer,
-					.c_minimapFramebuffer = config.minimapFramebuffer,
-
-					.c_viewportPos = config.viewportPos,
-					.c_viewportSize = config.viewportSize,
-					.startPos = config.selectionWindowStartPos,
-					.currPos = config.selectionWindowCurrentPos
-				}
-			);
-			getSubcomponent<GraphMiddlePanel>()->OnImGuiRender();
+						.c_viewportPos = config.viewportPos,
+						.c_viewportSize = config.viewportSize,
+						.startPos = config.selectionWindowStartPos,
+						.currPos = config.selectionWindowCurrentPos
+					}
+				);
+				getSubcomponent<GraphMiddlePanel>()->OnImGuiRender();
+			}
+			ImGui::EndChild();//? Needs to be outside
 
 
 			ImGui::TableNextColumn();
-
-			if (ImGui::BeginChild("Tab 2"))
+			childActive = ImGui::BeginChild("Tab 3");
+			if (childActive)
 			{
 				if (ImGui::BeginTable("RightPanelTable", 2, ImGuiTableFlags_SizingFixedFit))
 				{
@@ -152,8 +156,8 @@ void GraphEditorLayer::OnImGuiRender()
 					ImGui::EndTable();
 				}
 
-				ImGui::EndChild();
 			}
+			ImGui::EndChild(); //? Needs to be outside
 
 			ImGui::EndTable();
 		}

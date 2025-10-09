@@ -9,23 +9,25 @@ void CustomFunctions::OnImGuiRender() {
 		ImGui::SetNextWindowPos(initialPos, ImGuiCond_FirstUseEver);
 		ImGui::SetNextWindowSize(initialSize, ImGuiCond_FirstUseEver);
 
-		ImGui::Begin("Script Results", &isScriptResultsOpen);
-		switch (activatedScriptShown) {
-		case 0:
-			default_renderUI();
-			break;
-		case 1:
-			CalculateDegree();
-			break;
-		case 2:
-			CalculateSignals();
-			break;
-		case 3:
-			CalculateHeatMap();
-			break;
-		case 4:
-			DrawCandlestickChart();
-			break;
+		bool windowActive = ImGui::Begin("Script Results", &isScriptResultsOpen);
+		if (windowActive) {
+			switch (activatedScriptShown) {
+			case 0:
+				default_renderUI();
+				break;
+			case 1:
+				CalculateDegree();
+				break;
+			case 2:
+				CalculateSignals();
+				break;
+			case 3:
+				CalculateHeatMap();
+				break;
+			case 4:
+				DrawCandlestickChart();
+				break;
+			}
 		}
 		ImGui::End();
 	}
