@@ -145,7 +145,7 @@ public:
 
 				auto& tc = t_node->GetComponent<TransformComponent>();
 
-				t_node->GetComponent<MovingAnimatorComponent>().Play("Test",
+				t_node->GetComponent<MovingAnimatorComponent>().Play("StepMove",
 					node.second.position * 10.0f - t_node->GetComponent<TransformComponent>().getPosition());
 
 				tc.size = glm::vec3(node.second.size * 10.0f);

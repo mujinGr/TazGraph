@@ -9,20 +9,31 @@ void GraphTopBar::update(float deltaTime) {
 	int& current_simulation_step = manager->currentStep;
 
 
-	if (interpolation_running && !manager->steps.empty()) {
-		interpolation += interpolation_speed * deltaTime / config.scene->getApp()->getFPSLimiter().fps;
+	if (!manager->steps.empty()) {
+		if (interpolation_running) {
+			interpolation += interpolation_speed * deltaTime / config.scene->getApp()->getFPSLimiter().fps;
+		}
 
 		// here, get interpolation and manager steps intervals
-		if (
-			current_simulation_step < manager->steps.size() &&
-			interpolation >= manager->steps[current_simulation_step].timestamp) {
-			// if step done, then apply step (function at GECS)
-			// where it will change the color/size/pos of entities
+		for (size_t i = 0; i < manager->steps.size(); i++) {
+			if (i == manager->steps.size() - 1) {
+				current_simulation_step = static_cast<int>(i);
+				DataManager::getInstance().applyStep(*manager, current_simulation_step);
+			}
+			else {
+				float t0 = manager->steps[i].timestamp;
+				float t1 = manager->steps[i + 1].timestamp;
 
-			DataManager::getInstance().applyStep(*manager, current_simulation_step);
-
-			current_simulation_step++;
+				if (interpolation >= t0 && interpolation < t1) {
+					if (current_simulation_step != static_cast<int>(i)) {
+						current_simulation_step = static_cast<int>(i);
+						DataManager::getInstance().applyStep(*manager, current_simulation_step);
+					}
+					break;
+				}
+			}
 		}
+
 
 		if (interpolation >= manager->steps.back().timestamp) {
 			if (autoInterpolate) {
@@ -33,28 +44,9 @@ void GraphTopBar::update(float deltaTime) {
 				interpolation = manager->steps.back().timestamp;
 			}
 
-			current_simulation_step = 0;
 		}
 	}
 
-	//for all nodes and for all links, get interpolation and accordingly modify the animators?
-	//if (interpolation_running) {
-
-	//	for (NodeEntity* node_entity : config.scene->manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
-	//		if (node_entity->hasComponent<Rectangle_w_Color>()) {
-	//			node_entity->GetComponent<Rectangle_w_Color>().flash_animation.interpolation_a = interpolation;
-	//			node_entity->GetComponent<Rectangle_w_Color>().setFlashFrame();
-	//		}
-	//	}
-
-	//	for (LinkEntity* link_entity : config.scene->manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
-	//		if (link_entity->hasComponent<Line_w_Color>()) {
-	//			link_entity->GetComponent<Line_w_Color>().flash_animation.interpolation_a = interpolation;
-	//			link_entity->GetComponent<Line_w_Color>().setFlashFrame();
-	//		}
-	//	}
-
-	//}
 }
 
 void GraphTopBar::OnImGuiRender()
@@ -116,7 +108,7 @@ void GraphTopBar::OnImGuiRender()
 	ImGui::EndChild();//? Needs to be outside
 
 
-	childActive = ImGui::BeginChild("Interpolation Slider", ImVec2(0, 40), true);
+	childActive = ImGui::BeginChild("Interpolation Slider", ImVec2(0, 60), true);
 	if (childActive)
 	{
 		Manager* manager = config.scene->manager;
@@ -128,7 +120,14 @@ void GraphTopBar::OnImGuiRender()
 			manager->steps.begin()->timestamp : 0.0f,
 			manager->steps.size() ?
 			(manager->steps.back().timestamp) : 0.0f, "%.10f");
+		ImGui::SameLine();
+		ImGui::Text("(%d / %zu)", manager->currentStep, manager->steps.size() - 1);
 
+		// Manual time input
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(100);
+		if (ImGui::InputFloat("Set Time", &interpolation, 0.0f, 0.0f, "%.6f"))
+			interpolation_running = false;
 		// Optional: Add tooltip
 		if (ImGui::IsItemHovered()) {
 			ImGui::BeginTooltip();
@@ -136,12 +135,13 @@ void GraphTopBar::OnImGuiRender()
 			ImGui::EndTooltip();
 		}
 		ImGui::SameLine();
+		ImGui::Checkbox("Auto-Replay", &autoInterpolate);
+
 		ImGui::Text("Simulation Speed");
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(100.0f);
 		ImGui::SliderFloat("##interp_speed", &interpolation_speed, 0.01f, 1.0f, "%.10f");
-		ImGui::SameLine();
-		ImGui::Checkbox("Auto-Replay", &autoInterpolate);
+
 
 	}
 	ImGui::EndChild();//? Needs to be outside
