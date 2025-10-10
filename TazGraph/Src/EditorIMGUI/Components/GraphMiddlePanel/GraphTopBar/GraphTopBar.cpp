@@ -15,25 +15,26 @@ void GraphTopBar::update(float deltaTime) {
 		}
 
 		// here, get interpolation and manager steps intervals
-		for (size_t i = 0; i < manager->steps.size(); i++) {
-			if (i == manager->steps.size() - 1) {
-				current_simulation_step = static_cast<int>(i);
-				DataManager::getInstance().applyStep(*manager, current_simulation_step);
-			}
-			else {
-				float t0 = manager->steps[i].timestamp;
-				float t1 = manager->steps[i + 1].timestamp;
-
-				if (interpolation >= t0 && interpolation < t1) {
-					if (current_simulation_step != static_cast<int>(i)) {
-						current_simulation_step = static_cast<int>(i);
-						DataManager::getInstance().applyStep(*manager, current_simulation_step);
-					}
-					break;
+		int targetStep = -1;
+		for (size_t i = 0; i < manager->steps.size(); ++i) {
+			if (interpolation >= manager->steps[i].timestamp) {
+				// For the last step, we need to be exactly at or beyond it
+				if (i == manager->steps.size() - 1) {
+					targetStep = static_cast<int>(i);
+					interpolation = manager->steps[i].timestamp; // Clamp to exact value
+				}
+				// For other steps, check if we're before the next step
+				else if (interpolation < manager->steps[i + 1].timestamp) {
+					targetStep = static_cast<int>(i);
 				}
 			}
 		}
 
+		// Apply the step if found and different from current
+		if (targetStep != -1 && current_simulation_step != targetStep) {
+			current_simulation_step = targetStep;
+			DataManager::getInstance().applyStep(*manager, current_simulation_step);
+		}
 
 		if (interpolation >= manager->steps.back().timestamp) {
 			if (autoInterpolate) {

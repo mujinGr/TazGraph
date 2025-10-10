@@ -23,8 +23,14 @@ private:
 
 	unsigned int _FBO;
 	unsigned int _RBO;
+
+	unsigned int _multisampledFBO;
+	unsigned int _multisampledRBO;
 public:
 	uint32_t _framebufferTexture;
+	uint32_t _multisampledTexture;
+
+	int _width, _height;
 
 	Framebuffer();
 	~Framebuffer();
