@@ -217,7 +217,7 @@ void SimDumpMapParser::createSteps(
 				auto& lwc = linkEntities[i]->addComponent<Line_w_Color>();
 				lwc.setSrcColor(parsedLinks[i].color);
 				lwc.setDestColor(parsedLinks[i].color);
-				lwc.width = parsedLinks[i].width;
+				lwc.width = parsedLinks[i].width * 10.0f;
 				addLinkFunc(*linkEntities[i]);
 			}
 			});

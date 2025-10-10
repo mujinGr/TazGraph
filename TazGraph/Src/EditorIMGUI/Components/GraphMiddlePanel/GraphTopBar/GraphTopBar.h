@@ -11,7 +11,7 @@ class GraphTopBar : public UIElement
 private:
 	bool interpolation_running = false;
 
-	float interpolation = 0.0f;
+	double interpolation = 0.0f;
 	float interpolation_speed = 0.01f;
 	
 	bool autoInterpolate = false;

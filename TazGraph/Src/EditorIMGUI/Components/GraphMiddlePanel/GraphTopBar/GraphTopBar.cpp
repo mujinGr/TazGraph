@@ -116,18 +116,21 @@ void GraphTopBar::OnImGuiRender()
 
 		ImGui::Text("Time");
 		ImGui::SameLine();
-		ImGui::SliderFloat("##interp", &interpolation,
+		float temp_value = static_cast<float>(interpolation);
+		if (ImGui::SliderFloat("##interp", &temp_value,
 			manager->steps.size() ?
 			manager->steps.begin()->timestamp : 0.0f,
 			manager->steps.size() ?
-			(manager->steps.back().timestamp) : 0.0f, "%.10f");
+			(manager->steps.back().timestamp) : 0.0f, "%.10f")) {
+			interpolation = static_cast<double>(temp_value);
+		}
 		ImGui::SameLine();
 		ImGui::Text("(%d / %zu)", manager->currentStep, manager->steps.size() - 1);
 
 		// Manual time input
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(100);
-		if (ImGui::InputFloat("Set Time", &interpolation, 0.0f, 0.0f, "%.6f"))
+		if (ImGui::InputDouble("Set Time", &interpolation, 0.0f, 0.0f, "%.6f"))
 			interpolation_running = false;
 		// Optional: Add tooltip
 		if (ImGui::IsItemHovered()) {
