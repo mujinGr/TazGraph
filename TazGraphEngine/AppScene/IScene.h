@@ -83,6 +83,7 @@ public:
 	std::string managerName = "";
 
 	bool renderDebug = false;
+	bool showGrid = true;
 
 	SceneState currentState = SceneState::NONE;
 protected:

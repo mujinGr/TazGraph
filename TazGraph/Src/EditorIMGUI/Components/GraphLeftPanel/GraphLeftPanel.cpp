@@ -93,6 +93,10 @@ void GraphLeftPanel::OnImGuiRender()
 
 		ImGui::Separator();
 
+		if (ImGui::Button(config.scene->showGrid ? "Hide Grid" : "Show Grid")) {
+			config.scene->showGrid = !config.scene->showGrid;
+		}
+
 		if (ImGui::Button(config.scene->manager->arrowheadsEnabled ? "Disable Arrowheads" : "Enable Arrowheads")) {
 			config.scene->manager->arrowheadsEnabled = !config.scene->manager->arrowheadsEnabled;
 			config.scene->manager->updateInnerPathLinks = true;

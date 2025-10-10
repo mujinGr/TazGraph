@@ -7,20 +7,22 @@
 class App : public AppInterface
 {
 public:
-	App(int threadCount);
+	App(int threadCount, std::string openFile,
+		double initialTimestamp,
+		int initialStep);
 	~App();
 
-    // Called on initialization
-    virtual void onInit() override;
-    // For adding all screens
-    virtual void addScenes() override;
-    // Called when exiting
-    virtual void onExit() override;
+	// Called on initialization
+	virtual void onInit() override;
+	// For adding all screens
+	virtual void addScenes() override;
+	// Called when exiting
+	virtual void onExit() override;
 private:
 
-    std::unique_ptr<Graph> _graphplayScreen = nullptr;
-    std::unique_ptr<MainMenuScreen> _mainMenuScreen = nullptr;
+	std::unique_ptr<Graph> _graphplayScreen = nullptr;
+	std::unique_ptr<MainMenuScreen> _mainMenuScreen = nullptr;
 
-    //std::unique_ptr<EditorScreen> m_editorScreen = nullptr;
+	//std::unique_ptr<EditorScreen> m_editorScreen = nullptr;
 };
 

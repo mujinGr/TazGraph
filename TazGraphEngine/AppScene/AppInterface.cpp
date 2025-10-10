@@ -10,7 +10,13 @@
 
 using namespace std::chrono;
 
-AppInterface::AppInterface(int threadCount):threadPool(threadCount) {
+AppInterface::AppInterface(int threadCount, std::string m_openFile,
+	double m_initialTimestamp,
+	int m_initialStep) :
+	threadPool(threadCount),
+	openFile(m_openFile),
+	initialTimestamp(m_initialTimestamp),
+	initialStep(m_initialStep) {
 	_sceneList = std::make_unique<SceneList>(this);
 }
 
@@ -65,7 +71,7 @@ void AppInterface::run() {
 			i++;
 			//std::cout << "Update: " << updateTime << " ms\n";
 
-			
+
 		}
 		if (_isRunning) {
 			Uint64 startDraw = SDL_GetPerformanceCounter();
@@ -145,7 +151,7 @@ void AppInterface::onSDLEvent(SDL_Event& evnt) {
 	default:
 		break;
 	}
-	
+
 }
 
 bool AppInterface::init() {

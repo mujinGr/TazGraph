@@ -141,7 +141,7 @@ void GraphTopBar::OnImGuiRender()
 		ImGui::Text("Simulation Speed");
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(100.0f);
-		ImGui::SliderFloat("##interp_speed", &interpolation_speed, 0.01f, 1.0f, "%.10f");
+		ImGui::SliderFloat("##interp_speed", &interpolation_speed, 1e-9, 1.0f, "%.10f");
 
 
 	}

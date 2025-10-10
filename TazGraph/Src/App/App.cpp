@@ -1,7 +1,11 @@
 #include "App.h"
 #include "AppScene/SceneList.h"
 
-App::App(int threadCount) : AppInterface(threadCount) {
+App::App(int threadCount, std::string openFile,
+	double initialTimestamp,
+	int initialStep) : AppInterface(threadCount, openFile,
+		initialTimestamp,
+		initialStep) {
 
 }
 
@@ -14,15 +18,15 @@ void App::onInit() {
 }
 
 void App::addScenes() {
-    _mainMenuScreen = std::make_unique<MainMenuScreen>(&_window);
-    _graphplayScreen = std::make_unique<Graph>(&_window);
-    //m_editorScreen = std::make_unique<EditorScreen>(&_window);
+	_mainMenuScreen = std::make_unique<MainMenuScreen>(&_window);
+	_graphplayScreen = std::make_unique<Graph>(&_window);
+	//m_editorScreen = std::make_unique<EditorScreen>(&_window);
 
-    _sceneList->addScene("main_menu", _mainMenuScreen.get());
-    _sceneList->addScene(_graphplayScreen.get());
-    //m_screenList->addScreen(_editorScreen.get());
+	_sceneList->addScene("main_menu", _mainMenuScreen.get());
+	_sceneList->addScene(_graphplayScreen.get());
+	//m_screenList->addScreen(_editorScreen.get());
 
-    _sceneList->setScene(_mainMenuScreen->getSceneIndex());
+	_sceneList->setScene(_mainMenuScreen->getSceneIndex());
 }
 
 void App::onExit() {

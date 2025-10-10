@@ -18,7 +18,9 @@ class IScene;
 
 class AppInterface {
 public:
-	AppInterface(int threadCount);
+	AppInterface(int threadCount, std::string openFile,
+		double initialTimestamp,
+		int initialStep);
 	virtual ~AppInterface();
 
 	void run();
@@ -37,6 +39,9 @@ public:
 	AudioEngine& getAudioEngine() { return _audioEngine; }
 
 	Threader threadPool;
+	std::string openFile;
+	double initialTimestamp;
+	int initialStep;
 
 protected:
 	virtual void checkInput();

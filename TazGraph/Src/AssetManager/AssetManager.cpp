@@ -270,10 +270,5 @@ void AssetManager::AddSimulationNode(Entity& node, glm::vec3 pos = glm::vec3(0))
 
 void AssetManager::AddSimulationLink(Entity& link)
 {
-	link.addComponent<Line_w_Color>();
-
-	link.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 40, 0, 255));
-	link.GetComponent<Line_w_Color>().setDestColor(TazColor(40, 255, 0, 255));
-
 	link.addComponent<LineFlashAnimatorComponent>();
 }

@@ -399,16 +399,18 @@ void Graph::draw()
 
 	float z = 0.0f;
 
-	for (int i = 0; i <= AXIS_CELLS; i++) {
-		// Vertical lines (constant X, varying Y)
-		glm::vec3 startV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), -AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);
-		glm::vec3 endV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);
-		_LineRenderer.drawLine(lineIndex++, startV, endV, TazColor(255, 255, 255, 64), TazColor(255, 255, 255, 64));
+	if (showGrid) {
+		for (int i = 0; i <= AXIS_CELLS; i++) {
+			// Vertical lines (constant X, varying Y)
+			glm::vec3 startV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), -AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);
+			glm::vec3 endV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);
+			_LineRenderer.drawLine(lineIndex++, startV, endV, TazColor(255, 255, 255, 64), TazColor(255, 255, 255, 64));
 
-		// Horizontal lines (constant Y, varying X)
-		glm::vec3 startH(-AXIS_CELLS / 2.0f * manager->grid->getCellSize(), (i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), z);
-		glm::vec3 endH(AXIS_CELLS / 2.0f * manager->grid->getCellSize(), (i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), z);
-		_LineRenderer.drawLine(lineIndex++, startH, endH, TazColor(255, 255, 255, 64), TazColor(255, 255, 255, 64));
+			// Horizontal lines (constant Y, varying X)
+			glm::vec3 startH(-AXIS_CELLS / 2.0f * manager->grid->getCellSize(), (i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), z);
+			glm::vec3 endH(AXIS_CELLS / 2.0f * manager->grid->getCellSize(), (i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), z);
+			_LineRenderer.drawLine(lineIndex++, startH, endH, TazColor(255, 255, 255, 64), TazColor(255, 255, 255, 64));
+		}
 	}
 
 	//_LineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, TazColor(0, 0, 0, 255), TazColor(0, 0, 255, 255));

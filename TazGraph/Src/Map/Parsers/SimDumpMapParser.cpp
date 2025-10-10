@@ -118,7 +118,12 @@ void SimDumpMapParser::parse(Manager& manager,
 		int fromNode = it->src_id;
 		int toNode = it->dst_id;
 
-		parsedLinks.push_back({ 0, fromNode, toNode });
+		parsedLinks.push_back(
+			SimulationStep::TazSimulationLink(
+				TazColor(it->color.r, it->color.g, it->color.b, it->color.alpha),
+				it->width
+			)
+		);
 	}
 
 	//  === INITIAL CREATION OF NODES ===
@@ -209,6 +214,10 @@ void SimDumpMapParser::createSteps(
 	if (_threader) {
 		_threader->parallel(linkEntities.size(), [&](int start, int end) {
 			for (int i = start; i < end; i++) {
+				auto& lwc = linkEntities[i]->addComponent<Line_w_Color>();
+				lwc.setSrcColor(parsedLinks[i].color);
+				lwc.setDestColor(parsedLinks[i].color);
+				lwc.width = parsedLinks[i].width;
 				addLinkFunc(*linkEntities[i]);
 			}
 			});
@@ -241,8 +250,7 @@ void SimDumpMapParser::createSteps(
 			auto color = reader.get_entity_color(EntityType::LINK, i);
 			float width = reader.get_entity_width(EntityType::LINK, i);
 
-			step.links[i].second.fromColor = TazColor(color.r, color.g, color.b, color.alpha);
-			step.links[i].second.toColor = TazColor(color.r, color.g, color.b, color.alpha);
+			step.links[i].second.color = TazColor(color.r, color.g, color.b, color.alpha);
 			step.links[i].second.width = width;
 
 			step.links[i].first = linkEntities[i];

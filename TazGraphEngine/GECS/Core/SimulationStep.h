@@ -12,7 +12,10 @@ struct SimulationStep {
 		TazSize size;
 	};
 
-	struct TazSimulationLink : LineInstanceData {
+	struct TazSimulationLink {
+		TazColor color = TazColor(255, 255, 255, 255);
+
+		float width = 10.0f;
 	};
 
 	struct TazSimulationPath {

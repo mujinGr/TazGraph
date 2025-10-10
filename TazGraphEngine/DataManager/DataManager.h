@@ -162,8 +162,8 @@ public:
 
 			if (t_link->hasComponent<Line_w_Color>()) {
 				auto& lwc = t_link->GetComponent<Line_w_Color>();
-				lwc.src_color = link.second.fromColor;
-				lwc.dest_color = link.second.toColor;
+				lwc.src_color = link.second.color;
+				lwc.dest_color = link.second.color;
 				lwc.width = link.second.width * 10.0f;
 			}
 		}
