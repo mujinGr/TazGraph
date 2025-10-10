@@ -121,7 +121,8 @@ void GraphTopBar::OnImGuiRender()
 			manager->steps.size() ?
 			manager->steps.begin()->timestamp : 0.0f,
 			manager->steps.size() ?
-			(manager->steps.back().timestamp) : 0.0f, "%.10f")) {
+			(manager->steps.back().timestamp) : 0.0f, "%.10f"))
+		{
 			interpolation = static_cast<double>(temp_value);
 		}
 		ImGui::SameLine();
@@ -130,7 +131,7 @@ void GraphTopBar::OnImGuiRender()
 		// Manual time input
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(100);
-		if (ImGui::InputDouble("Set Time", &interpolation, 0.0f, 0.0f, "%.6f"))
+		if (ImGui::InputDouble("Set Time", &interpolation))
 			interpolation_running = false;
 		// Optional: Add tooltip
 		if (ImGui::IsItemHovered()) {
@@ -144,8 +145,14 @@ void GraphTopBar::OnImGuiRender()
 		ImGui::Text("Simulation Speed");
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(100.0f);
-		ImGui::SliderFloat("##interp_speed", &interpolation_speed, 1e-9, 1.0f, "%.10f");
-
+		float speed_temp_value = static_cast<float>(interpolation_speed);
+		if (ImGui::SliderFloat("##interp_speed", &speed_temp_value, 1e-9, 1.0f, "%.10f"))
+		{
+			interpolation_speed = static_cast<double>(speed_temp_value);
+		}
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(100);
+		ImGui::InputDouble("Set Speed", &interpolation_speed);
 
 	}
 	ImGui::EndChild();//? Needs to be outside

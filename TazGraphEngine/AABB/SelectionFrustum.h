@@ -9,7 +9,7 @@ struct SelectionFrustum {
 
 	// Create frustum from screen-space selection box
 	bool createFromSelectionBox(const glm::vec2& startPos, const glm::vec2& endPos,
-		ICamera* camera, float nearZ = 100.0f, float farZ = 10000.0f) {
+		ICamera* camera, float nearZ = 100.0f, float farZ = 300000.0f) {
 		// Ensure min/max order
 		glm::vec2 minPos = glm::min(startPos, endPos);
 		glm::vec2 maxPos = glm::max(startPos, endPos);

@@ -12,7 +12,7 @@ private:
 	bool interpolation_running = false;
 
 	double interpolation = 0.0f;
-	float interpolation_speed = 0.01f;
+	double interpolation_speed = 0.01f;
 
 	bool autoInterpolate = false;
 

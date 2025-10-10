@@ -19,6 +19,11 @@ enum class SceneState {
 	CHANGE_PREVIOUS
 };
 
+#define ON_HOVER 0
+#define CTRLD_LEFT_CLICK -1
+#define HOLD_TIME_FOR_SELECTION 1000
+#define SELECT_DISTANCE 300000.0f
+
 class IScene {
 public:
 	friend class SceneList;

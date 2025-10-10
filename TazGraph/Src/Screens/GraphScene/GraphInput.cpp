@@ -55,7 +55,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-	std::vector<Cell*> trav_cells = traversedCellsFromRay(rayOrigin, rayDirection, 300000.0f);
+	std::vector<Cell*> trav_cells = traversedCellsFromRay(rayOrigin, rayDirection, SELECT_DISTANCE);
 
 	bool hasSelected = false;
 
@@ -65,7 +65,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 		manager->grid->getNumZCells() * manager->grid->getCellSize() / 2.0f);
 
 	float maxT = glm::distance(rayOrigin, pointAtMaxDepth);
-	if (maxT > 300000.0f) maxT = 300000.0f;
+	if (maxT > SELECT_DISTANCE) maxT = SELECT_DISTANCE;
 
 	for (auto& trav_cell : trav_cells) {
 		for (auto& node : trav_cell->nodes) {
@@ -74,7 +74,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			if (rayIntersectsBox(rayOrigin,
 				rayDirection,
 				glm::vec3(tempBod->position.x, tempBod->position.y, node->GetComponent<TransformComponent>().getPosition().z),
-				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, node->GetComponent<TransformComponent>().getPosition().z + tempBod->size.z),
+				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, node->GetComponent<TransformComponent>().getPosition().z),
 				t,
 				maxT)) {
 				//std::cout << "Ray hit node: " << node->getId() << " at distance " << t.x << t.y << t.z << std::endl;
@@ -494,7 +494,7 @@ void Graph::checkInput() {
 				cameraVelocityZ = 0;
 			}
 
-			cameraVelocityX += accelerationX * deltaTime * 0.1f *cameraMaxVelocity;
+			cameraVelocityX += accelerationX * deltaTime * 0.1f * cameraMaxVelocity;
 			cameraVelocityY += accelerationY * deltaTime * 0.1f * cameraMaxVelocity;
 			cameraVelocityZ += accelerationZ * deltaTime * 0.1f * cameraMaxVelocity;
 

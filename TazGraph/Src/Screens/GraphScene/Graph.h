@@ -34,9 +34,7 @@ class SceneManager;
 class ColliderComponent;
 class TransformComponent;
 
-#define ON_HOVER 0
-#define CTRLD_LEFT_CLICK -1
-#define HOLD_TIME_FOR_SELECTION 1000
+
 
 class Graph : public IScene {
 
