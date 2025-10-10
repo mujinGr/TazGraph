@@ -146,9 +146,9 @@ public:
 				auto& tc = t_node->GetComponent<TransformComponent>();
 
 				t_node->GetComponent<MovingAnimatorComponent>().Play("StepMove",
-					node.second.position * 10.0f - t_node->GetComponent<TransformComponent>().getPosition());
+					node.second.position - t_node->GetComponent<TransformComponent>().getPosition());
 
-				tc.size = glm::vec3(node.second.size * 10.0f);
+				tc.size = glm::vec3(node.second.size);
 
 				t_node->GetComponent<RectangleFlashAnimatorComponent>().Play("RectInterpolation", node.second.color);
 
@@ -164,7 +164,7 @@ public:
 				auto& lwc = t_link->GetComponent<Line_w_Color>();
 				lwc.src_color = link.second.color;
 				lwc.dest_color = link.second.color;
-				lwc.width = link.second.width * 10.0f;
+				lwc.width = link.second.width;
 			}
 		}
 

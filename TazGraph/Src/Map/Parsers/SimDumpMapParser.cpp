@@ -102,9 +102,9 @@ void SimDumpMapParser::parse(Manager& manager,
 		float y = it->y;
 
 		parsedNodes.push_back({
-			glm::vec3(x * 10.0f, y * 10.0f, 0.0f),
+			glm::vec3(x, y, 0.0f),
 			TazColor(it->color.r,it->color.g,it->color.b,it->color.alpha),
-			glm::vec3(it->size * 10.0f) });
+			glm::vec3(it->size) });
 
 		// Track global min/max
 		minPos.x = std::min(minPos.x, x);
@@ -217,7 +217,7 @@ void SimDumpMapParser::createSteps(
 				auto& lwc = linkEntities[i]->addComponent<Line_w_Color>();
 				lwc.setSrcColor(parsedLinks[i].color);
 				lwc.setDestColor(parsedLinks[i].color);
-				lwc.width = parsedLinks[i].width * 10.0f;
+				lwc.width = parsedLinks[i].width;
 				addLinkFunc(*linkEntities[i]);
 			}
 			});
