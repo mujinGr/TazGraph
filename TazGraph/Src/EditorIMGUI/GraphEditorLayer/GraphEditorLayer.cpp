@@ -266,15 +266,19 @@ void GraphEditorLayer::OnImGuiRender()
 				getSubcomponent<EntityComponentsControlPanel>()->
 				OnImGuiRender();
 
-			getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
-				getSubcomponent<HoverEntityPanel>()->
-				setConfig({
-				.scene = config.scene,
-				.hoveredEntity = config.onHoverEntity,
-					});
-			getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
-				getSubcomponent<HoverEntityPanel>()->
-				OnImGuiRender();
+			if (getSubcomponent<GraphMiddlePanel>()->
+				getSubcomponent<ViewportPanel>()->isMouseInSecondColumn) {
+
+				getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
+					getSubcomponent<HoverEntityPanel>()->
+					setConfig({
+					.scene = config.scene,
+					.hoveredEntity = config.onHoverEntity,
+						});
+				getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
+					getSubcomponent<HoverEntityPanel>()->
+					OnImGuiRender();
+			}
 		}
 
 		if (manager && config.sceneManagerActive) {

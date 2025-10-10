@@ -495,7 +495,7 @@ public:
 			TransformComponent& portTransform = newPortEntity->GetComponent<TransformComponent>();
 			newSlot.addComponent<TransformComponent>(
 				portTransform.position,
-				glm::vec3(3),
+				glm::vec3(1),
 				1.0f
 			);
 			newSlot.addComponent<Rectangle_w_Color>();
