@@ -222,6 +222,11 @@ void MainMenuScreen::drawUI() {
 			currentState = SceneState::CHANGE_NEXT;
 		}
 	}
+	if (!getApp()->openFile.empty()) {
+		DataManager::getInstance().mapToLoad = getApp()->openFile;
+		_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
+		currentState = SceneState::CHANGE_NEXT;
+	}
 }
 
 void MainMenuScreen::EndRender() {

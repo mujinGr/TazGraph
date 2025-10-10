@@ -55,7 +55,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-	std::vector<Cell*> trav_cells = traversedCellsFromRay(rayOrigin, rayDirection, 10000.0f);
+	std::vector<Cell*> trav_cells = traversedCellsFromRay(rayOrigin, rayDirection, 300000.0f);
 
 	bool hasSelected = false;
 
@@ -65,7 +65,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 		manager->grid->getNumZCells() * manager->grid->getCellSize() / 2.0f);
 
 	float maxT = glm::distance(rayOrigin, pointAtMaxDepth);
-	if (maxT > 10000.0f) maxT = 10000.0f;
+	if (maxT > 300000.0f) maxT = 300000.0f;
 
 	for (auto& trav_cell : trav_cells) {
 		for (auto& node : trav_cell->nodes) {

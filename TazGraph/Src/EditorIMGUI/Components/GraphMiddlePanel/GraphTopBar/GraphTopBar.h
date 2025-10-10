@@ -13,7 +13,7 @@ private:
 
 	double interpolation = 0.0f;
 	float interpolation_speed = 0.01f;
-	
+
 	bool autoInterpolate = false;
 
 	std::string currentActive;
@@ -29,8 +29,12 @@ public:
 		config = cfg;
 		if (!inited) {
 			interpolation =
-				cfg.scene->manager->steps.empty() ?
-				0.0f : cfg.scene->manager->steps.begin()->timestamp;
+				config.scene->getApp()->initialTimestamp ? config.scene->getApp()->initialTimestamp :
+
+				(config.scene->getApp()->initialStep ? cfg.scene->manager->steps[config.scene->getApp()->initialStep].timestamp :
+
+					(cfg.scene->manager->steps.empty() ?
+						0.0f : cfg.scene->manager->steps.begin()->timestamp));
 			inited = true;
 		}
 	}
