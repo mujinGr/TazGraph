@@ -2,7 +2,7 @@
 
 #include "GECSManager.h"
 #include "../Components.h"
-
+#include <tracy/public/tracy/Tracy.hpp>
 
 class Empty : public EmptyEntity {
 
@@ -23,6 +23,8 @@ public:
 
 	void update(float deltaTime)
 	{
+		ZoneScoped;
+
 		//cellUpdate();
 
 		Entity::update(deltaTime);
@@ -414,7 +416,7 @@ public:
 
 		// Calculate rotation based on the direction between slots
 		float angleRadians = -atan2(direction.y, direction.x);
-		glm::vec3 arrowSize(10.0f, 20.0f, 0.0f);
+		glm::vec3 arrowSize(5.0f, 10.0f, 0.0f);
 
 		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos, arrowSize, 1);
 		temp_arrowHead.addComponent<Triangle_w_Color>();

@@ -42,6 +42,9 @@ void AppInterface::run() {
 
 	_isRunning = true;
 	while (_isRunning) {
+		ZoneScoped;
+		FrameMark;
+
 		_limiter.begin();
 
 		Uint64 newTicks = SDL_GetPerformanceCounter();
@@ -50,20 +53,30 @@ void AppInterface::run() {
 		float totalDeltaTime = frameTime / DESIRED_FRAMETIME;
 
 
-		Uint64 startInput = SDL_GetPerformanceCounter();
-		checkInput();
-		Uint64 endInput = SDL_GetPerformanceCounter();
+		{
+			ZoneScopedN("Input"); // Profile input section
+			Uint64 startInput = SDL_GetPerformanceCounter();
+			checkInput();
+			Uint64 endInput = SDL_GetPerformanceCounter();
+			float inputTime = static_cast<float>(endInput - startInput) / freq * 1000.0f;
+			//std::cout << "Input: " << inputTime << " ms" << std::endl;
+		}
 		int i = 0;
-		float inputTime = static_cast<float>(endInput - startInput) / freq * 1000.0f;
-		//std::cout << "Input: " << inputTime << " ms" << std::endl;
 
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
-
+			ZoneScopedN("Physics Step"); // Profile physics loop
 
 			Uint64 startUpdate = SDL_GetPerformanceCounter();
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
-			update(deltaTime);
-			updateUI(deltaTime);
+			{
+				ZoneScopedN("Update");
+				update(deltaTime);
+			}
+
+			{
+				ZoneScopedN("UpdateUI");
+				updateUI(deltaTime);
+			}
 			Uint64 endUpdate = SDL_GetPerformanceCounter();
 			float updateTime = static_cast<float>(endUpdate - startUpdate) / freq * 1000.0f;
 
@@ -74,6 +87,7 @@ void AppInterface::run() {
 
 		}
 		if (_isRunning) {
+			ZoneScopedN("Draw");
 			Uint64 startDraw = SDL_GetPerformanceCounter();
 			draw();
 			Uint64 endDraw = SDL_GetPerformanceCounter();
@@ -82,12 +96,17 @@ void AppInterface::run() {
 
 
 		}
-		Uint64 startUI = SDL_GetPerformanceCounter();
-		drawUI();
-		Uint64 endUI = SDL_GetPerformanceCounter();
-		float uiTime = static_cast<float>(endUI - startUI) / freq * 1000.0f;
-
-		_window.swapBuffer();
+		{
+			ZoneScopedN("DrawUI"); // Profile UI rendering
+			Uint64 startUI = SDL_GetPerformanceCounter();
+			drawUI();
+			Uint64 endUI = SDL_GetPerformanceCounter();
+			float uiTime = static_cast<float>(endUI - startUI) / freq * 1000.0f;
+		}
+		{
+			ZoneScopedN("SwapBuffer");
+			_window.swapBuffer();
+		}
 
 		_limiter.fps = _limiter.end();
 
@@ -97,7 +116,9 @@ void AppInterface::run() {
 			_limiter.setHistoryValue(_limiter.fps);
 			frameCounter = 0;
 		}
-
+		TracyPlot("FPS", _limiter.fps); // Plot FPS over time
+		TracyPlot("Frame Time (ms)", frameTime); // Plot frame time
+		FrameMark;
 		//std::cout << "UI: " << uiTime << " ms, Total Frame Time: " << frameTime << " ms, FPS: " << _limiter.fps << "\n";
 	}
 }

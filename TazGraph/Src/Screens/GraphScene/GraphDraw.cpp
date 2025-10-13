@@ -1,5 +1,6 @@
 #include "Graph.h"
 #include <AppScene/AppInterface.h>
+#include <tracy/public/tracy/Tracy.hpp>
 
 void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
 	//! activate threads near the end, where we have completed everything else
@@ -68,6 +69,8 @@ void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, LightRenderer
 
 void Graph::draw()
 {
+	ZoneScoped;
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D =

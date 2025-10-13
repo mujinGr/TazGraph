@@ -31,3 +31,6 @@
 [submodule "vendors/imgui-filebrowser"]
 	path = vendors/imgui-filebrowser
 	url = https://github.com/AirGuanZ/imgui-filebrowser
+[submodule "vendors/tracy"]
+	path = vendors/tracy
+	url = https://github.com/wolfpld/tracy.git
