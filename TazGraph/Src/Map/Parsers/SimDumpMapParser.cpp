@@ -276,6 +276,7 @@ void SimDumpMapParser::createSteps(
 				// Create a new one only if missing
 				auto& empty_pathHolder = manager.addEntity<Empty>();
 				empty_pathHolder.addComponent<PathLinkerComponent>();
+				//empty_pathHolder.addGroup(Manager::groupPathLinksHolder);
 				pathEntities[id] = &empty_pathHolder;
 				pathEntity = &empty_pathHolder;
 			}

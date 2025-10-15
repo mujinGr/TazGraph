@@ -4,7 +4,7 @@
 #include <type_traits>
 
 #include "./SelectionFrustum.h"
-
+constexpr float LINE_THRESHOLD = 5.0f;
 template<typename RectType>
 inline bool checkCollision(const RectType& recA, const RectType& recB) {
 	static_assert(std::is_same<RectType, SDL_Rect>::value || std::is_same<RectType, SDL_FRect>::value,
@@ -135,57 +135,103 @@ inline bool sphereIntersectsBox(
 inline bool rayIntersectsBox(
 	const glm::vec3& rayOrigin,
 	const glm::vec3& rayDirection,
-	const glm::vec3& boxMin, const glm::vec3& boxMax,
+	const glm::vec3& boxMin,
+	const glm::vec3& boxMax,
 	glm::vec3& intersectionPoint,
-	float m_maxT
+	float* tOut = nullptr
 ) {
+	float tMin = 0.0f;
+	float tMax = std::numeric_limits<float>::max();
 
-	float sphereRad = std::max(
-		glm::distance(boxMin, boxMax) / 2.0f,
-		1.0f);
+	// Test each axis slab
+	for (int i = 0; i < 3; i++) {
+		if (abs(rayDirection[i]) < 1e-8f) {
+			// Ray is parallel to slab, check if origin is inside
+			if (rayOrigin[i] < boxMin[i] || rayOrigin[i] > boxMax[i]) {
+				return false;
+			}
+		}
+		else {
+			// Compute intersection t values for near and far plane
+			float invD = 1.0f / rayDirection[i];
+			float t1 = (boxMin[i] - rayOrigin[i]) * invD;
+			float t2 = (boxMax[i] - rayOrigin[i]) * invD;
 
+			// Ensure t1 is the near plane
+			if (t1 > t2) std::swap(t1, t2);
 
-	for (float t = 0.0f; t < m_maxT; t += sphereRad) {
-		glm::vec3 samplePoint = rayOrigin + t * rayDirection;
+			// Update tMin and tMax
+			tMin = std::max(tMin, t1);
+			tMax = std::min(tMax, t2);
 
-		if (sphereIntersectsBox(
-			samplePoint, sphereRad,
-			boxMin, boxMax,
-			intersectionPoint
-		)) {
-			return true;
+			// Early exit if no overlap
+			if (tMin > tMax) {
+				return false;
+			}
 		}
 	}
-	return false;
 
+	// If tMax < 0, box is behind ray
+	if (tMax < 0) {
+		return false;
+	}
+
+	// tMin is the intersection distance
+	float t = (tMin >= 0) ? tMin : tMax;
+	intersectionPoint = rayOrigin + t * rayDirection;
+
+	if (tOut) {
+		*tOut = t;
+	}
+
+	return true;
 }
+
 
 
 inline bool rayIntersectsLineSegment(
 	const glm::vec3& rayOrigin,
 	const glm::vec3& rayDirection,
 	const glm::vec3& segmentStart,
-	const glm::vec3& segmentEnd,
-	glm::vec3& intersectionPoint,
-	float m_minT,
-	float m_maxT,
-	float m_sphereRad
+	const glm::vec3& segmentEnd
 ) {
-	for (float t = m_minT; t < m_maxT; t += m_sphereRad) {
-		m_sphereRad += 0.005f;
-		glm::vec3 samplePoint = rayOrigin + t * rayDirection;
+	glm::vec3 lineVec = segmentEnd - segmentStart;
+	glm::vec3 w = rayOrigin - segmentStart;
 
-		glm::vec3 lineLength = segmentEnd - segmentStart;
+	float a = glm::dot(rayDirection, rayDirection);
+	float b = glm::dot(rayDirection, lineVec);
+	float c = glm::dot(lineVec, lineVec);
+	float d = glm::dot(rayDirection, w);
+	float e = glm::dot(lineVec, w);
 
-		glm::vec3 lineDir = glm::normalize(lineLength);
-		glm::vec3 t_temp(0.0f);
+	float denom = a * c - b * b;
 
-		if (rayIntersectsSphere(segmentStart, lineDir, samplePoint, m_sphereRad, t_temp)) {
-			if (glm::distance(segmentStart, t_temp) < glm::distance(segmentEnd, segmentStart))
-				return true;
-		}
+	if (abs(denom) < 1e-6f) {
+		return false; // Lines are parallel
 	}
+
+	float s = (b * e - c * d) / denom;
+	float t = (a * e - b * d) / denom;
+
+	// Clamp t to line segment bounds
+	t = glm::clamp(t, 0.0f, 1.0f);
+
+	// Check if ray parameter is positive
+	if (s < 0) {
+		return false;
+	}
+
+	glm::vec3 pointOnRay = rayOrigin + s * rayDirection;
+	glm::vec3 pointOnSegment = segmentStart + t * lineVec;
+
+	float distance = glm::distance(pointOnRay, pointOnSegment);
+
+	if (distance <= LINE_THRESHOLD) {
+		return true;
+	}
+
 	return false;
+
 }
 
 inline bool checkCircleLineCollision(glm::vec2 center, int circleRadius, glm::vec2 lineStartPoint, glm::vec2 lineEndPoint) {

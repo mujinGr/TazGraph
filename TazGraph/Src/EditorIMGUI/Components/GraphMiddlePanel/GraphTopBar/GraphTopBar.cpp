@@ -102,6 +102,9 @@ void GraphTopBar::OnImGuiRender()
 				ImVec2(16, 16))) {
 				interpolation_running = !interpolation_running;
 			}
+			if (ImGui::IsItemHovered()) {
+				ImGui::SetTooltip(interpolation_running ? "Stop Simulation" : "Start Simulation");
+			}
 
 			ImGui::EndTabBar();
 		}
@@ -140,6 +143,36 @@ void GraphTopBar::OnImGuiRender()
 			ImGui::EndTooltip();
 		}
 		ImGui::SameLine();
+		bool hasSteps = manager->steps.size() > 0;
+
+		// Previous step button
+		if (ImGui::ArrowButton("##prev_step", ImGuiDir_Left)) {
+			if (hasSteps && manager->currentStep > 0) {
+				manager->currentStep--;
+				interpolation = manager->steps[manager->currentStep].timestamp;
+				DataManager::getInstance().applyStep(*manager, manager->currentStep);
+				interpolation_running = false;
+			}
+		}
+		if (ImGui::IsItemHovered()) {
+			ImGui::SetTooltip("Previous Step");
+		}
+		ImGui::SameLine();
+
+		// Next step button
+		if (ImGui::ArrowButton("##next_step", ImGuiDir_Right)) {
+			if (hasSteps && manager->currentStep < manager->steps.size() - 1) {
+				manager->currentStep++;
+				interpolation = manager->steps[manager->currentStep].timestamp;
+				DataManager::getInstance().applyStep(*manager, manager->currentStep);
+				interpolation_running = false;
+			}
+		}
+		if (ImGui::IsItemHovered()) {
+			ImGui::SetTooltip("Next Step");
+		}
+		ImGui::SameLine();
+
 		ImGui::Checkbox("Auto-Replay", &autoInterpolate);
 
 		ImGui::Text("Simulation Speed");

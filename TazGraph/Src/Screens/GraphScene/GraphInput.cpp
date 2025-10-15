@@ -66,17 +66,17 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 	float maxT = glm::distance(rayOrigin, pointAtMaxDepth);
 	if (maxT > SELECT_DISTANCE) maxT = SELECT_DISTANCE;
-
+	// ! Select Nodes
 	for (auto& trav_cell : trav_cells) {
 		for (auto& node : trav_cell->nodes) {
 			glm::vec3 t;
 			TransformComponent* tempBod = &node->GetComponent<TransformComponent>();
 			if (rayIntersectsBox(rayOrigin,
 				rayDirection,
-				glm::vec3(tempBod->position.x, tempBod->position.y, node->GetComponent<TransformComponent>().getPosition().z),
-				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, node->GetComponent<TransformComponent>().getPosition().z),
-				t,
-				maxT)) {
+				glm::vec3(tempBod->position.x, tempBod->position.y, tempBod->position.z),
+				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, tempBod->position.z + tempBod->size.z),
+				t)) {
+
 				//std::cout << "Ray hit node: " << node->getId() << " at distance " << t.x << t.y << t.z << std::endl;
 				if (activateMode == SDL_BUTTON_RIGHT)
 				{
@@ -151,7 +151,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 		if (hasSelected) return;
 	}
-
+	// ! Select Empties
 	for (auto& trav_cell : trav_cells) {
 		for (auto& empty : trav_cell->emptyEntities) {
 			glm::vec3 t;
@@ -160,8 +160,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				rayDirection,
 				glm::vec3(tempBod->position.x, tempBod->position.y, empty->GetComponent<TransformComponent>().getPosition().z),
 				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, empty->GetComponent<TransformComponent>().getPosition().z + tempBod->size.z),
-				t,
-				maxT)) {
+				t)) {
 				//std::cout << "Ray hit empty: " << empty->getId() << " at distance " << t.x << t.y << t.z << std::endl;
 				if (activateMode == SDL_BUTTON_RIGHT)
 				{
@@ -245,11 +244,6 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	float minT = glm::distance(rayOrigin, pointAtMinDepth);
 	if (minT < 0.0f) minT = 0.0f;
 
-	float sphereRad = 5.0f;
-	for (float t = 0.0f; t < minT; t += sphereRad) {
-		sphereRad += 0.005f;
-	}
-
 	// Helper function to check if entity is already selected
 	auto isEntitySelected = [&](Entity* entity) {
 		return std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
@@ -258,38 +252,19 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			}) != _selectedEntities.end();
 		};
 
-	// Helper function to find which path a link belongs to
-	auto findPathContainingLink = [&](Entity* targetLink) -> std::vector<LinkEntity*>*{
-		for (auto& pathHolder : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
-			auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
-
-			for (auto* link : pathLinks) {
-				if (link == targetLink) {
-					return &pathLinks; // Return reference to the path's link vector
-				}
-			}
-		}
-		return nullptr; // Link is not part of any path
-		};
 
 	// Unified link selection handler
-	auto handleLinkSelection = [&](Entity* link, int mode, bool selectWholePath = false) {
+	auto handleLinkSelection = [&](Entity* link, int mode) {
 		std::vector<Entity*> linksToSelect;
 
-		if (selectWholePath) {
-			// Find the path this link belongs to
-			auto* pathLinks = findPathContainingLink(link);
-			if (pathLinks) {
-				// Add all valid links in the path (cast LinkEntity* to Entity*)
-				for (auto* pathLink : *pathLinks) {
-					if (pathLink) {
-						linksToSelect.push_back(static_cast<Entity*>(pathLink));
-					}
-				}
-			}
-			else {
-				// Not a path link, just select the single link
-				linksToSelect.push_back(link);
+		if (link->getParentEntity() &&
+			link->getParentEntity()->hasGroup(Manager::groupPathLinksHolder)) {
+			auto& pathLinks =
+				link->getParentEntity()->GetComponent<PathLinkerComponent>().pathLinks;
+
+			for (auto& pathLink : pathLinks) {
+				linksToSelect.push_back(static_cast<Entity*>(pathLink));
+
 			}
 		}
 		else {
@@ -332,50 +307,18 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	// Check individual links in trav_cells (now with path awareness)
 	for (auto& trav_cell : trav_cells) {
 		for (auto& link : trav_cell->links) {
-			glm::vec3 t;
 			if (rayIntersectsLineSegment(rayOrigin, rayDirection,
 				link->getFromNode()->GetComponent<TransformComponent>().getPosition(),
-				link->getToNode()->GetComponent<TransformComponent>().getPosition(),
-				t, minT, maxT, sphereRad)) {
+				link->getToNode()->GetComponent<TransformComponent>().getPosition()
+			)) {
 
 				// Check if this link is part of a path and select accordingly
-				handleLinkSelection(link, activateMode, true); // true = select whole path if it's a path link
+				handleLinkSelection(link, activateMode); // true = select whole path if it's a path link
 				hasSelected = true;
 				break;
 			}
 		}
 		if (hasSelected) return;
-	}
-
-	// Check path link holders (existing behavior - select entire path)
-	for (auto& pathHolder : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
-		auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
-		bool hitAny = false;
-		glm::vec3 t;
-
-		// Check if ray hits any link in this path
-		for (auto* link : pathLinks) {
-			if (!link) continue;
-
-			if (rayIntersectsLineSegment(rayOrigin, rayDirection,
-				link->getFromNode()->GetComponent<TransformComponent>().getPosition(),
-				link->getToNode()->GetComponent<TransformComponent>().getPosition(),
-				t, minT, maxT, sphereRad)) {
-
-				hitAny = true;
-				break;
-			}
-		}
-
-		if (hitAny) {
-			// Select all links in this path
-			for (auto* link : pathLinks) {
-				if (!link) continue;
-				handleLinkSelection(link, activateMode, false); // false = don't double-process path selection
-			}
-			hasSelected = true;
-			return; // Stop after first hit path holder
-		}
 	}
 
 	if (!hasSelected && activateMode == SDL_BUTTON_LEFT) {
