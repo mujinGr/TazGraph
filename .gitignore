@@ -25,3 +25,4 @@ build/
 
 *.sln
 TazGraph/imgui.ini
+TazGraph/assets/Maps/*.simdmp
