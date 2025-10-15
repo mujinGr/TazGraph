@@ -206,7 +206,7 @@ protected:
 
 	Manager& manager;
 public:
-	std::map < EntityID, EmptyEntity*> children;
+	std::map < EntityID, Entity*> children;
 
 	void setId(EntityID m_id) { id = m_id; }
 	EntityID getId() { return id; }
@@ -442,5 +442,8 @@ public:
 	virtual void imgui_display() {}
 
 	virtual void removeEntity() {}
+	virtual void removeFromCell() {};
+	virtual void removeFromCells() {};
+
 };
 

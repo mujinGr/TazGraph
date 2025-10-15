@@ -19,7 +19,7 @@ public:
 		return parent_entity;
 	}
 
-	void setParentEntity(Entity* pEntity, const char* newID = "" ) override {
+	void setParentEntity(Entity* pEntity, const char* newID = "") override {
 		parent_entity = pEntity;
 		if ((newID != NULL) && (newID[0] == '\0')) {
 			id = (parent_entity ? EntityIDUtils::toString(parent_entity->getId()) : "") + newID;
@@ -29,7 +29,7 @@ public:
 		}
 	}
 
-	void removeFromCell() {
+	void removeFromCell() override {
 		if (this->ownerCell) {
 			removeEntity();
 			this->ownerCell = nullptr;
@@ -162,7 +162,7 @@ public:
 		c->entity = this;
 	}
 
-	void removeFromCells() {
+	void removeFromCells() override {
 		removeEntity();
 		ownerCells.clear();
 	}
@@ -183,11 +183,11 @@ public:
 		return to;
 	}
 
-	EmptyEntity* getFromPort() {
+	Entity* getFromPort() {
 		return from->children[fromPort];
 	}
 
-	EmptyEntity* getToPort() {
+	Entity* getToPort() {
 		return to->children[toPort];
 	}
 

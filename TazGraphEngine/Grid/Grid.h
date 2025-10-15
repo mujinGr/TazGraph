@@ -79,11 +79,11 @@ public:
 
 						for (auto& port : entity->children) {
 							if (port.second && !port.second->isHidden()) {
-								visible_emptyEntities.push_back(port.second);
+								visible_emptyEntities.push_back(static_cast<EmptyEntity*>(port.second));
 
 								if (port.second->hasComponent<PortComponent>()) {
 									for (auto& portSlots : port.second->GetComponent<PortComponent>().portSlots)
-										visible_emptyEntities.push_back(portSlots);
+										visible_emptyEntities.push_back(static_cast<EmptyEntity*>(portSlots));
 								}
 							}
 						}
@@ -141,11 +141,11 @@ public:
 						// Also include children(ports) if they exist
 						for (auto& port : entity->children) {
 							if (port.second && !port.second->isHidden()) {
-								visible_emptyEntities.push_back(port.second);
+								visible_emptyEntities.push_back(static_cast<EmptyEntity*>(port.second));
 
 								if (port.second->hasComponent<PortComponent>()) {
 									for (auto& portSlots : port.second->GetComponent<PortComponent>().portSlots)
-										visible_emptyEntities.push_back(portSlots);
+										visible_emptyEntities.push_back(static_cast<EmptyEntity*>(portSlots));
 								}
 							}
 						}
