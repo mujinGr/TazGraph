@@ -230,7 +230,6 @@ void AssetManager::AddTreeNode(Entity& node, glm::vec3 mPosition)
 	node.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, colorOffset, 224, 255));
 
 	node.addComponent<RectangleFlashAnimatorComponent>();
-	node.addComponent<PollingComponent>();
 }
 
 void AssetManager::AddDefaultLink(Entity& link)

@@ -79,6 +79,7 @@ void GraphEditorLayer::OnImGuiRender()
 						getSubcomponent<GraphLeftPanel>()->setConfig({
 							.scene = config.scene,
 							.sceneMouseCoords = viewportMousePos,
+							.displayedEntity = config.displayedEntity
 							});
 						getSubcomponent<GraphLeftPanel>()->OnImGuiRender();
 					}

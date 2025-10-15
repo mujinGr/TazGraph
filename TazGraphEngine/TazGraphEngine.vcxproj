@@ -234,7 +234,6 @@
     <ClInclude Include="GECS\Components\Empty\Basic\Triangle_w_Color.h" />
     <ClInclude Include="GECS\Components\Link\Basic\LinkPythonCodeComponent.h" />
     <ClInclude Include="GECS\Components\Link\Basic\SpringComponent.h" />
-    <ClInclude Include="GECS\Components\Node\Util\PollingComponent.h" />
     <ClInclude Include="GECS\Components\PythonCodeComponent.h" />
     <ClInclude Include="GECS\Components\templateComponent.h" />
     <ClInclude Include="GECS\Core\CellEntity.h" />

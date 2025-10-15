@@ -275,9 +275,6 @@
     <ClInclude Include="GECS\UtilComponents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Node\Util\PollingComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>

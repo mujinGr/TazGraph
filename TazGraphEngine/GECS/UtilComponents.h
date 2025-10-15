@@ -6,4 +6,3 @@
 #include "./Components/Empty/Util/RigidBodyComponent.h"
 #include "./Components/Empty/Util/PathLinkerComponent.h"
 
-#include "./Components/Node/Util/PollingComponent.h"

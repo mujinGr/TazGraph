@@ -172,6 +172,13 @@ void GraphLeftPanel::OnImGuiRender()
 		}
 
 		ChooseLayoutPanel();
+
+		ImGui::Separator();
+
+		if (config.displayedEntity) {
+			displayChildrenRecursive(config.displayedEntity, 0);
+		}
+
 		ImGui::EndChild();
 	}
 }
@@ -337,4 +344,27 @@ void GraphLeftPanel::ChooseLayoutPanel() {
 	}
 	ImGui::PopStyleColor(1);
 	ImGui::PopStyleVar();
+}
+
+void GraphLeftPanel::displayChildrenRecursive(Entity* entity, int depth) {
+	for (auto& [childId, child] : entity->children) {
+		if (!child) continue;
+
+		// Indentation for hierarchy
+		std::string indent(depth * 2, ' ');
+
+		// Create a unique ID for this child
+		ImGui::PushID(child);
+
+		// Display child information
+		ImGui::Text("%sChild: %s", indent.c_str(), EntityIDUtils::toString(childId));
+
+		// Recursively display grandchildren
+		if (!child->children.empty()) {
+			displayChildrenRecursive(child, depth + 1);
+		}
+
+		ImGui::PopID();
+		ImGui::Spacing();
+	}
 }

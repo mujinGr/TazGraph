@@ -100,16 +100,6 @@ public:
 		}
 	}
 
-	void updatePollingFileNamesInAssets() {
-		pollingFileNames.clear();
-		const std::string path = "assets/Maps/Polling"; // Directory path
-		for (const auto& entry : fs::directory_iterator(path)) {
-			if (entry.is_regular_file()) {
-				pollingFileNames.push_back(entry.path().filename().string()); // Add file name to vector
-			}
-		}
-	}
-
 	void updatePathFileNamesInAssets() {
 		pathsFileNames.clear();
 		const std::string path = "assets/Paths"; // Directory path
@@ -124,7 +114,6 @@ public:
 	void ReloadAccessibleFiles() {
 		if (!filesLoaded) {
 			updateFileNamesInAssets();
-			updatePollingFileNamesInAssets();
 			updatePathFileNamesInAssets();
 
 			filesLoaded = true; // Set to true so we don't reload unnecessarily
