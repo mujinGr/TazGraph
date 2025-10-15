@@ -176,6 +176,7 @@
     <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HoverEntityPanel\HoverEntityPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\LoadingPanel\LoadingPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\MenuDropdown.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\ScenePanel\ScenePanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\VisibleEntities\VisibleEntities.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\LoadingUI\LoadingUI.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\NewMapUI\NewMapUI.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HoverEntityPanel\HoverEntityPanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\LoadingPanel\LoadingPanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\MenuDropdown.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\ScenePanel\ScenePanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\VisibleEntities\VisibleEntities.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\LoadingUI\LoadingUI.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\NewMapUI\NewMapUI.h" />

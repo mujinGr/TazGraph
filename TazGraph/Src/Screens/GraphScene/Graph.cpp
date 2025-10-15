@@ -175,6 +175,11 @@ void Graph::onEntry()
 	_viewportFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
 	_minimapFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
 
+	backgroundColor[0] = 0.407f;
+	backgroundColor[1] = 0.384f;
+	backgroundColor[2] = 0.356f;
+	backgroundColor[3] = 1.0f;
+
 	//ImGuiIO& io = ImGui::GetIO();
 	//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }

@@ -55,7 +55,6 @@ public:
 	void renderBatch(const std::vector<EmptyEntity*>& entities);
 
 private:
-	float _backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 
 	void checkInput();
 	bool onStartSimulator();

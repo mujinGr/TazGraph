@@ -8,6 +8,7 @@
 #include "../PythonInterpreterPanel/PythonInterpreterPanel.h"
 
 #include "CameraPanel/CameraPanel.h"
+#include "ScenePanel/ScenePanel.h"
 #include "VisibleEntities/VisibleEntities.h"
 #include "FPSCounter.h"
 
@@ -26,6 +27,7 @@ public:
 		addUIComponent<SavingUI>();
 		addUIComponent<NewMapUI>();
 		addUIComponent<CameraPanel>();
+		addUIComponent<ScenePanel>();
 		addUIComponent<VisibleEntitiesPanel>();
 		addUIComponent<FPSCounter>();
 	}

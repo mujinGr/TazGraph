@@ -86,7 +86,7 @@ void Graph::draw()
 
 	_viewportFramebuffer.Bind();
 	////////////OPENGL USE
-	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
+	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 
 	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);

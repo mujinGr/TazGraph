@@ -85,7 +85,6 @@ public:
 
 
 private:
-	float _backgroundColor[4] = { 0.407f,0.384f,0.356f, 1.0f };
 
 	std::vector<Cell*> traversedCellsFromRay(glm::vec3 rayOrigin,
 		glm::vec3 rayDirection,

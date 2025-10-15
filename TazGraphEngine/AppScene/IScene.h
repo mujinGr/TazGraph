@@ -91,6 +91,8 @@ public:
 	bool showGrid = true;
 
 	SceneState currentState = SceneState::NONE;
+
+	float backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 protected:
 	AppInterface* _app = nullptr;
 	int _sceneIndex = -1;

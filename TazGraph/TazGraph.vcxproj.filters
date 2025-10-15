@@ -138,6 +138,9 @@
     <ClCompile Include="Src\Map\PathParsers\SimDumpPathParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\ScenePanel\ScenePanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Screens\GraphScene\Graph.h">
@@ -264,6 +267,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Map\PathParsers\SimDumpPathParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\ScenePanel\ScenePanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

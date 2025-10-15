@@ -20,6 +20,10 @@ void MenuDropdownPanel::OnImGuiRender()
 
 		if (ImGui::BeginMenu("Window"))
 		{
+			if (ImGui::MenuItem("Scene")) {
+				getSubcomponent<ScenePanel>()->showScenePanel =
+					!getSubcomponent<ScenePanel>()->showScenePanel;
+			}
 			if (ImGui::MenuItem("Camera")) {
 				getSubcomponent<CameraPanel>()->showCameraPanel=
 					!getSubcomponent<CameraPanel>()->showCameraPanel;
@@ -39,7 +43,10 @@ void MenuDropdownPanel::OnImGuiRender()
 		ImGui::EndMenuBar();
 	}
 
-
+	if (getSubcomponent<ScenePanel>()->showScenePanel) {
+		getSubcomponent<ScenePanel>()->setConfig({ .scene = config.scene });
+		getSubcomponent<ScenePanel>()->OnImGuiRender();
+	}
 	if (getSubcomponent<CameraPanel>()->showCameraPanel) {
 		getSubcomponent<CameraPanel>()->setConfig({});
 		getSubcomponent<CameraPanel>()->OnImGuiRender();
