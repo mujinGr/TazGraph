@@ -7,7 +7,7 @@
 struct GraphLeftConfig {
 	IScene* scene;
 	glm::vec2 sceneMouseCoords;
-	Entity* displayedEntity = nullptr;
+	std::vector<std::pair<Entity*, glm::vec3>> c_selectedEntities;
 };
 
 class GraphLeftPanel : public UIElement

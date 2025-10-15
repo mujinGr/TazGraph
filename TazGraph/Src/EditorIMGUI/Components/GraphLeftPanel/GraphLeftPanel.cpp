@@ -175,8 +175,8 @@ void GraphLeftPanel::OnImGuiRender()
 
 		ImGui::Separator();
 
-		if (config.displayedEntity) {
-			displayChildrenRecursive(config.displayedEntity, 0);
+		if (config.c_selectedEntities.size() == 1) {
+			displayChildrenRecursive(config.c_selectedEntities.front().first, 0);
 		}
 
 		ImGui::EndChild();
@@ -346,25 +346,58 @@ void GraphLeftPanel::ChooseLayoutPanel() {
 	ImGui::PopStyleVar();
 }
 
-void GraphLeftPanel::displayChildrenRecursive(Entity* entity, int depth) {
-	for (auto& [childId, child] : entity->children) {
-		if (!child) continue;
+void GraphLeftPanel::displayChildrenRecursive(Entity* entity, int depth)
+{
+	if (!entity) return;
 
-		// Indentation for hierarchy
-		std::string indent(depth * 2, ' ');
+	ImGui::Text("Selected Entity:");
 
-		// Create a unique ID for this child
-		ImGui::PushID(child);
+	std::string entityIdStr = EntityIDUtils::toString(entity->getId());
+	std::string label = "ID: " + entityIdStr;
 
-		// Display child information
-		ImGui::Text("%sChild: %s", indent.c_str(), EntityIDUtils::toString(childId));
+	ImGuiTreeNodeFlags baseFlags =
+		ImGuiTreeNodeFlags_OpenOnArrow |
+		ImGuiTreeNodeFlags_OpenOnDoubleClick |
+		ImGuiTreeNodeFlags_SpanAvailWidth;
 
-		// Recursively display grandchildren
-		if (!child->children.empty()) {
-			displayChildrenRecursive(child, depth + 1);
+	if (entity->children.empty())
+		baseFlags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+
+	ImGui::PushID(entityIdStr.c_str());
+
+	bool nodeOpen = ImGui::TreeNodeEx(label.c_str(), baseFlags);
+
+	if (nodeOpen && !entity->children.empty()) {
+		for (auto& [childId, child] : entity->children) {
+			if (!child) continue;
+
+			// Convert ID to string
+			std::string childIdStr = EntityIDUtils::toString(childId);
+
+			// Print both index and entity ID
+			std::string childLabel = "[" + childIdStr + "] - " + EntityIDUtils::toString(child->getId());
+
+			ImGuiTreeNodeFlags childFlags =
+				ImGuiTreeNodeFlags_OpenOnArrow |
+				ImGuiTreeNodeFlags_OpenOnDoubleClick |
+				ImGuiTreeNodeFlags_SpanAvailWidth;
+
+			if (child->children.empty())
+				childFlags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+
+			ImGui::PushID(childIdStr.c_str());
+
+			bool childOpen = ImGui::TreeNodeEx(childLabel.c_str(), childFlags);
+
+			if (childOpen && !child->children.empty()) {
+				displayChildrenRecursive(child, depth + 1);
+				ImGui::TreePop();
+			}
+
+			ImGui::PopID();
 		}
-
-		ImGui::PopID();
-		ImGui::Spacing();
+		ImGui::TreePop();
 	}
+
+	ImGui::PopID();
 }
