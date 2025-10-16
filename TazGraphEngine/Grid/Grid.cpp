@@ -56,17 +56,20 @@ void Grid::createCells(Grid::Level m_level) {
 
 	gridLevelsData[m_level] = data;
 
-	std::vector<Cell>& currentCells = (m_level == Level::Basic) ? _cells :
+	std::vector<Cell*>& currentCells = (m_level == Level::Basic) ? _cells :
 		(m_level == Level::Outer1) ? _parentCells :
 		_superParentCells;
 
-	std::vector<Cell> emptyCells;
-	std::vector<Cell>& childCells = (m_level == Level::Outer1) ? _cells :
+	std::vector<Cell*> emptyCells;
+	std::vector<Cell*>& childCells = (m_level == Level::Outer1) ? _cells :
 		(m_level == Level::Outer2) ? _parentCells :
 		emptyCells;
 
-	currentCells.resize(gridLevelsData[m_level].numYCells * gridLevelsData[m_level].numXCells * gridLevelsData[m_level].numZCells);
+	size_t numCells = gridLevelsData[m_level].numYCells * gridLevelsData[m_level].numXCells * gridLevelsData[m_level].numZCells;
 
+	currentCells.resize(numCells, nullptr);
+	for (Cell*& c : currentCells)
+		c = new Cell(); // allocate each
 
 	for (int pz = gridLevelsData[m_level].startZ; pz <= gridLevelsData[m_level].endZ; pz++) {
 		for (int py = gridLevelsData[m_level].startY; py <= gridLevelsData[m_level].endY; py++) {
@@ -76,37 +79,37 @@ void Grid::createCells(Grid::Level m_level) {
 					((py - gridLevelsData[m_level].startY) * gridLevelsData[m_level].numXCells) +
 					(px - gridLevelsData[m_level].startX); // we dont want negative numbers thats why add the -startXY
 
-				Cell& cell = currentCells[parentIndex];
+				Cell*& cell = currentCells[parentIndex];
 
-				cell.boundingBox_origin.x = px * cellsGroupSize * _cellSize;
-				cell.boundingBox_origin.y = py * cellsGroupSize * _cellSize;
+				cell->boundingBox_origin.x = px * cellsGroupSize * _cellSize;
+				cell->boundingBox_origin.y = py * cellsGroupSize * _cellSize;
 				if (gridLevelsData[m_level].endZ != gridLevelsData[m_level].startZ)
-					cell.boundingBox_origin.z = pz * cellsGroupSize * _cellSize;
+					cell->boundingBox_origin.z = pz * cellsGroupSize * _cellSize;
 				else
-					cell.boundingBox_origin.z = (pz - 0.5f) * cellsGroupSize * _cellSize;
+					cell->boundingBox_origin.z = (pz - 0.5f) * cellsGroupSize * _cellSize;
 
-				cell.boundingBox_size.x = cellsGroupSize * _cellSize;
-				cell.boundingBox_size.y = cellsGroupSize * _cellSize;
-				cell.boundingBox_size.z = cellsGroupSize * _cellSize;
+				cell->boundingBox_size.x = cellsGroupSize * _cellSize;
+				cell->boundingBox_size.y = cellsGroupSize * _cellSize;
+				cell->boundingBox_size.z = cellsGroupSize * _cellSize;
 
-				cell.boundingBox_center.x = cell.boundingBox_origin.x + cell.boundingBox_size.x / 2.0f;
-				cell.boundingBox_center.y = cell.boundingBox_origin.y + cell.boundingBox_size.y / 2.0f;
-				cell.boundingBox_center.z = cell.boundingBox_origin.z + cell.boundingBox_size.z / 2.0f;
+				cell->boundingBox_center.x = cell->boundingBox_origin.x + cell->boundingBox_size.x / 2.0f;
+				cell->boundingBox_center.y = cell->boundingBox_origin.y + cell->boundingBox_size.y / 2.0f;
+				cell->boundingBox_center.z = cell->boundingBox_origin.z + cell->boundingBox_size.z / 2.0f;
 
 				if (px == gridLevelsData[m_level].endX) {
-					cell.boundingBox_size.x = (_width / 2.0f) - cell.boundingBox_origin.x;
+					cell->boundingBox_size.x = (_width / 2.0f) - cell->boundingBox_origin.x;
 				}
 				if (py == gridLevelsData[m_level].endY) {
-					cell.boundingBox_size.y = (_height / 2.0f) - cell.boundingBox_origin.y;
+					cell->boundingBox_size.y = (_height / 2.0f) - cell->boundingBox_origin.y;
 				}
 				if (pz == gridLevelsData[m_level].endZ && gridLevelsData[m_level].endZ != gridLevelsData[m_level].startZ) { // Edge case for Z
-					cell.boundingBox_size.z = (_depth / 2.0f) - cell.boundingBox_origin.z;
+					cell->boundingBox_size.z = (_depth / 2.0f) - cell->boundingBox_origin.z;
 				}
 
 				if (!childCells.empty())
 				{
 					int groupedCells = sqrt(childCells.size() / currentCells.size());
-					cell.children.resize(pow(groupedCells, 3));
+					cell->children.resize(pow(groupedCells, 3));
 					for (int cz = 0; cz < groupedCells; cz++) {
 						for (int cy = 0; cy < groupedCells; cy++) {
 							for (int cx = 0; cx < groupedCells; cx++) {
@@ -120,7 +123,7 @@ void Grid::createCells(Grid::Level m_level) {
 									(childX);
 
 								if (childIndex < childCells.size()) {
-									cell.children[cz * 2 * groupedCells + cy * groupedCells + cx] = &childCells[childIndex];
+									cell->children[cz * 2 * groupedCells + cy * groupedCells + cx] = childCells[childIndex];
 								}
 							}
 						}
@@ -194,7 +197,11 @@ std::vector<Cell*> Grid::getLinkCells(const LinkEntity& link, Grid::Level m_leve
 void Grid::addLink(LinkEntity* link, std::vector<Cell*> cells)
 {
 	for (auto& cell : cells) {
-		cell->links.push_back(link);
+		if (!cell || !link) return;
+		{
+			std::scoped_lock lock(cell->mtx);
+			cell->links.push_back(link);
+		}
 	}
 
 	link->setOwnerCells(cells);
@@ -215,14 +222,22 @@ void Grid::addNode(NodeEntity* entity, Grid::Level m_level)
 
 void Grid::addEmpty(EmptyEntity* entity, Cell* cell)
 {
-	cell->emptyEntities.push_back(entity);
+	if (!cell || !entity) return;
+	{
+		std::scoped_lock lock(cell->mtx);
+		cell->emptyEntities.push_back(entity);
+	}
 
 	entity->setOwnerCell(cell);
 }
 
 void Grid::addNode(NodeEntity* entity, Cell* cell)
 {
-	cell->nodes.push_back(entity);
+	if (!cell || !entity) return;
+	{
+		std::scoped_lock lock(cell->mtx);
+		cell->nodes.push_back(entity);
+	}
 
 	entity->setOwnerCell(cell);
 }
@@ -240,9 +255,9 @@ Cell* Grid::getCell(int x, int y, int z, Grid::Level m_level)
 	size_t index = (z - gridLevelsData[m_level].startZ) * gridLevelsData[m_level].numXCells * gridLevelsData[m_level].numYCells +
 		(y - gridLevelsData[m_level].startY) * gridLevelsData[m_level].numXCells +
 		(x - gridLevelsData[m_level].startX);
-	return (m_level == Level::Basic) ? &_cells[index] :
-		(m_level == Level::Outer1 ? &_parentCells[index] :
-			&_superParentCells[index]);
+	return (m_level == Level::Basic) ? _cells[index] :
+		(m_level == Level::Outer1 ? _parentCells[index] :
+			_superParentCells[index]);
 }
 
 Cell* Grid::getCell(const Entity& entity, Grid::Level m_level)
@@ -302,7 +317,7 @@ std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity, Grid::Level m_le
 	return getAdjacentCells(cellX, cellY, cellZ, m_level);
 }
 
-std::vector<Cell>& Grid::getCells(Grid::Level m_level) {
+std::vector<Cell*>& Grid::getCells(Grid::Level m_level) {
 	if (m_level == Grid::Level::Basic)
 		return _cells;
 	else if (m_level == Grid::Level::Outer1)
@@ -327,12 +342,12 @@ bool Grid::setIntersectedCameraCells(ICamera& camera) {
 	bool intersectedCellsChanged = false;
 	std::vector<Cell*> newInterceptedCells;
 
-	for (auto& cell : getCells(_level)) {
+	for (auto* cell : getCells(_level)) {
 		glm::vec4 cellCenter(
-			cell.boundingBox_center,
+			cell->boundingBox_center,
 			1.0f);
 		if (camera.isPointInCameraView(cellCenter, gridLevelsData[_level].cameraMargin)) {
-			newInterceptedCells.push_back(&cell);
+			newInterceptedCells.push_back(cell);
 		}
 	}
 

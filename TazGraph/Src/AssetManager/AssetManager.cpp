@@ -60,9 +60,9 @@ void AssetManager::CreateGroupLink(Entity& groupLink, Grid::Level m_level) {
 
 void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 
-	for (const auto& cell : manager->grid->getCells(m_level)) {
+	for (const auto* cell : manager->grid->getCells(m_level)) {
 		int totalNodes = 0;
-		for (const auto& childCell : cell.children)
+		for (const auto& childCell : cell->children)
 		{
 			for (const auto& node : childCell->nodes) {
 				if (!node->isHidden()) {  // Assuming `isHidden()` is a method that tells if the node is hidden
@@ -78,7 +78,7 @@ void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 		auto& node = manager->addEntity<Node>();
 
 		glm::vec3 centroid(0);
-		for (const auto& childCell : cell.children) {
+		for (const auto& childCell : cell->children) {
 			for (auto& entity : childCell->nodes) {
 				if (!entity->isHidden()) {
 					glm::vec3 node_position = entity->GetComponent<TransformComponent>().getPosition();
@@ -99,7 +99,7 @@ void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 
 		manager->grid->addNode(&node, m_level);
 
-		for (const auto& childCell : cell.children)
+		for (const auto& childCell : cell->children)
 		{
 			for (auto& entity : childCell->nodes) {
 				if (entity->isHidden()) {
@@ -114,7 +114,7 @@ void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 		}
 
 		// remove all links
-		for (const auto& childCell : cell.children) {
+		for (const auto& childCell : cell->children) {
 			for (auto& link : childCell->links) {
 				link->hide();
 			}

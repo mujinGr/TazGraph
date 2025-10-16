@@ -37,10 +37,15 @@ public:
 	}
 
 	void removeEntity() override {
-		ownerCell->emptyEntities.erase(
-			std::remove(this->ownerCell->emptyEntities.begin(), this->ownerCell->emptyEntities.end(),
-				this),
-			this->ownerCell->emptyEntities.end());
+		auto* cell = ownerCell;
+		if (!cell) return;
+
+		std::scoped_lock lock(cell->mtx); // automatically releases when leaving scope
+
+		auto& entities = cell->emptyEntities;
+		auto it = std::find(entities.begin(), entities.end(), this);
+		if (it != entities.end())
+			entities.erase(it);
 	}
 
 
@@ -63,10 +68,15 @@ public:
 	}
 
 	void removeEntity() override {
-		ownerCell->nodes.erase(
-			std::remove(this->ownerCell->nodes.begin(), this->ownerCell->nodes.end(),
-				this),
-			this->ownerCell->nodes.end());
+		auto* cell = ownerCell;
+		if (!cell) return;
+
+		std::scoped_lock lock(cell->mtx); // automatically releases when leaving scope
+
+		auto& entities = cell->nodes;
+		auto it = std::find(entities.begin(), entities.end(), this);
+		if (it != entities.end())
+			entities.erase(it);
 	}
 
 	void addInLink(LinkEntity* link) {
@@ -168,10 +178,17 @@ public:
 	}
 
 	void removeEntity() override {
-		for (auto cell : ownerCells) {
-			cell->links.erase(std::remove(cell->links.begin(), cell->links.end(),
-				this),
-				cell->links.end());
+		for (auto* cell : ownerCells) {
+			if (!cell) continue;
+
+			// Lock per-cell to prevent concurrent erase
+			std::scoped_lock lock(cell->mtx);
+
+			auto& links = cell->links;
+			auto it = std::find(links.begin(), links.end(), this);
+			if (it != links.end()) {
+				links.erase(it);
+			}
 		}
 	}
 

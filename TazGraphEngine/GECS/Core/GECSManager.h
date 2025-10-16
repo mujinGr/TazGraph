@@ -16,6 +16,8 @@ namespace fs = std::filesystem;
 class Manager
 {
 private:
+	std::mutex entities_mtx;
+
 	Threader* _threader = nullptr;
 	int lastEntityId = 0;
 	int negativeEntityId = -1;
@@ -334,7 +336,10 @@ public:
 		T* e(new T(*this, std::forward<TArgs>(mArgs)...));
 		e->setId(negativeEntityId--);
 		std::unique_ptr<T> uPtr{ e };
-		entities.emplace_back(std::move(uPtr));
+		{
+			std::scoped_lock lock(entities_mtx);
+			entities.emplace_back(std::move(uPtr));
+		}
 
 		return *e;
 	}
@@ -345,7 +350,10 @@ public:
 		T* e(new T(*this, std::forward<TArgs>(mArgs)...));
 		e->setId(lastEntityId++);
 		std::unique_ptr<T> uPtr{ e };
-		entities.emplace_back(std::move(uPtr));
+		{
+			std::scoped_lock lock(entities_mtx);
+			entities.emplace_back(std::move(uPtr));
+		}
 
 		return *e;
 	}

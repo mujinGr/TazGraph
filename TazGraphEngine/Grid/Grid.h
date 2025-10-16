@@ -56,7 +56,7 @@ public:
 	Cell* getCell(const Entity& position, Grid::Level m_level);
 	std::vector<Cell*> getAdjacentCells(int x, int y, int z, Grid::Level m_level);
 	std::vector<Cell*> getAdjacentCells(const Entity& entity, Grid::Level m_level);
-	std::vector<Cell>& getCells(Grid::Level m_level);
+	std::vector<Cell*>& getCells(Grid::Level m_level);
 	int getCellSize();
 	int getNumXCells();
 	int getNumYCells();
@@ -179,9 +179,9 @@ public:
 private:
 	std::vector<Cell*> _interceptedCells;
 
-	std::vector<Cell> _cells;
-	std::vector<Cell> _parentCells;
-	std::vector<Cell> _superParentCells;
+	std::vector<Cell*> _cells;
+	std::vector<Cell*> _parentCells;
+	std::vector<Cell*> _superParentCells;
 
 	int _cellSize;
 

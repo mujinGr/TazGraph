@@ -1,8 +1,11 @@
 #pragma once
 
 #include "GECS.h"
+#include <mutex>
 
 struct Cell {
+	std::mutex mtx;
+
 	std::vector<EmptyEntity*> emptyEntities;
 	std::vector<NodeEntity*> nodes;
 	std::vector<LinkEntity*> links;
