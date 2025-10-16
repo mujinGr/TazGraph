@@ -2,16 +2,16 @@
 
 #include "../../../Components.h"
 
+class PortSlotComponent;
 // todo this can be generally a flexbox
 class PortComponent : public Component
 {
+private: 
+	bool tempIsVertical = false;
 public:
 	TazColor color = { 255, 255, 255, 255 };
 
-	bool isVertical = false;
 
-	std::vector<EmptyEntity*> portSlots;
-	float slotSpacing = 0.0f;
 	TransformComponent* transform = nullptr;
 
 	PortComponent()
@@ -21,7 +21,7 @@ public:
 
 	PortComponent(bool m_isVertical)
 	{
-		isVertical = m_isVertical;
+		tempIsVertical = m_isVertical;
 	}
 
 	~PortComponent() {
@@ -30,23 +30,24 @@ public:
 
 	void init() override {
 		transform = &entity->GetComponent<TransformComponent>();
+		entity->isVertical = tempIsVertical;
 	}
 
 	void update(float deltaTime) override {
 		transform->size.x = entity->getParentEntity()->GetComponent<TransformComponent>().size.x;
 		transform->size.y = entity->getParentEntity()->GetComponent<TransformComponent>().size.y;
-
-		if (!isVertical) {
-			if (portSlots.size() > 1)
-				slotSpacing = transform->size.x / (portSlots.size());
+		size_t childrenSize = entity->children.size();
+		if (!entity->isVertical) {
+			if (childrenSize > 1)
+				entity->slotSpacing = transform->size.x / childrenSize;
 			else
-				slotSpacing = transform->size.x;
+				entity->slotSpacing = transform->size.x;
 		}
 		else { // Vertical
-			if (portSlots.size() > 1)
-				slotSpacing = transform->size.y / (portSlots.size());
+			if (entity->children.size() > 1)
+				entity->slotSpacing = transform->size.y / childrenSize;
 			else
-				slotSpacing = transform->size.y;
+				entity->slotSpacing = transform->size.y;
 		}
 
 	}
@@ -77,33 +78,68 @@ public:
 
 	}
 
-	glm::vec3 getSlotPosition(size_t slotIndex) const {
-		if (slotIndex >= portSlots.size()) {
-			TazGraphEngine::ConsoleLogger::error("Port Slot index wrong");
-			return transform->getPosition();
-		}
-
-		glm::vec3 basePos = transform->getPosition();
-		glm::vec3 offset(0.0f);
-
-		if (!isVertical) {
-			offset.x = (static_cast<float>(slotIndex) - (portSlots.size() - 1) / 2.0f) * slotSpacing;
-		}
-		else { // Vertical
-			offset.y = (static_cast<float>(slotIndex) - (portSlots.size() - 1) / 2.0f) * slotSpacing;
-		}
-
-		return basePos + offset;
-	}
-
-	// Helper function to find the index of a specific slot
-	int getSlotIndex(EmptyEntity* slot) const {
-		for (size_t i = 0; i < portSlots.size(); ++i) {
-			if (portSlots[i] == slot) {
-				return static_cast<int>(i);
+	std::vector<Entity*> getSlots() const {
+		std::vector<Entity*> slots;
+		for (const auto& [id, child] : entity->children) {
+			if (child->hasComponent<PortSlotComponent>()) {
+				slots.push_back(child);
 			}
 		}
-		return -1; // Not found
+		return slots;
+	}
+
+	// Get slot by index
+	Entity* getSlotByIndex(int index) const {
+		for (const auto& [id, child] : entity->children) {
+			if (child->hasComponent<PortSlotComponent>() &&
+				child->GetComponent<PortSlotComponent>().index == index) {
+				return child;
+			}
+		}
+		return nullptr;
+	}
+
+	// Add slot with auto-indexing
+	int addSlot(Entity* slot) {
+		// Find max index
+		int maxIndex = -1;
+		for (const auto& [id, child] : entity->children) {
+			if (child->hasComponent<PortSlotComponent>()) {
+				maxIndex = std::max(maxIndex, child->GetComponent<PortSlotComponent>().index);
+			}
+		}
+
+		int newIndex = maxIndex + 1;
+		auto& slotComp = slot->addComponent<PortSlotComponent>();
+		slotComp.index = newIndex;
+
+		entity->children[newIndex] = slot; // Use index as key
+		return newIndex;
+	}
+
+	// Remove slot by index
+	bool removeSlot(int index) {
+		for (auto it = entity->children.begin(); it != entity->children.end(); ++it) {
+			Entity* child = it->second;
+			if (child->hasComponent<PortSlotComponent>() &&
+				child->GetComponent<PortSlotComponent>().index == index) {
+				child->destroy();
+				entity->children.erase(it);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// Get number of slots
+	size_t getSlotCount() const {
+		size_t count = 0;
+		for (const auto& [id, child] : entity->children) {
+			if (child->hasComponent<PortSlotComponent>()) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 };

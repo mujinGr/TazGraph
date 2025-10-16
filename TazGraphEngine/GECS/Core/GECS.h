@@ -206,6 +206,10 @@ protected:
 
 	Manager& manager;
 public:
+	bool isVertical = false;
+
+	float slotSpacing = 0.0f;
+
 	std::map < EntityID, Entity*> children;
 
 	void setId(EntityID m_id) { id = m_id; }

@@ -52,15 +52,13 @@ public:
 
 		Entity* fromPortEntity = fromNode->children[entity->fromPort];
 		Entity* toPortEntity = toNode->children[entity->toPort];
-		PortComponent& fromPortComp = fromPortEntity->GetComponent<PortComponent>();
-		PortComponent& toPortComp = toPortEntity->GetComponent<PortComponent>();
 
-		if ((entity->fromSlotIndex >= fromPortComp.portSlots.size())
-			|| (entity->toSlotIndex >= toPortComp.portSlots.size())) {
+		if ((entity->fromSlotIndex >= fromPortEntity->children.size())
+			|| (entity->toSlotIndex >= toPortEntity->children.size())) {
 			return;
 		}
-		glm::vec3 fromConnectionPoint = fromPortComp.portSlots[entity->fromSlotIndex]->GetComponent<TransformComponent>().getPosition();
-		glm::vec3 toConnectionPoint = toPortComp.portSlots[entity->toSlotIndex]->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 fromConnectionPoint = fromPortEntity->children[entity->fromSlotIndex]->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 toConnectionPoint = toPortEntity->children[entity->toSlotIndex]->GetComponent<TransformComponent>().getPosition();
 
 		batch.drawLine(v_index, fromConnectionPoint, toConnectionPoint, src_color, dest_color, width);
 	}

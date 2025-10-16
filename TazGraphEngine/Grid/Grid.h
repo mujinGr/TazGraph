@@ -82,8 +82,8 @@ public:
 								visible_emptyEntities.push_back(static_cast<EmptyEntity*>(port.second));
 
 								if (port.second->hasComponent<PortComponent>()) {
-									for (auto& portSlots : port.second->GetComponent<PortComponent>().portSlots)
-										visible_emptyEntities.push_back(static_cast<EmptyEntity*>(portSlots));
+									for (auto& portSlots : port.second->children)
+										visible_emptyEntities.push_back(static_cast<EmptyEntity*>(portSlots.second));
 								}
 							}
 						}
@@ -144,8 +144,8 @@ public:
 								visible_emptyEntities.push_back(static_cast<EmptyEntity*>(port.second));
 
 								if (port.second->hasComponent<PortComponent>()) {
-									for (auto& portSlots : port.second->GetComponent<PortComponent>().portSlots)
-										visible_emptyEntities.push_back(static_cast<EmptyEntity*>(portSlots));
+									for (auto& portSlots : port.second->children)
+										visible_emptyEntities.push_back(static_cast<EmptyEntity*>(portSlots.second));
 								}
 							}
 						}

@@ -6,6 +6,8 @@
 class PortSlotComponent : public Component
 {
 public:
+	int index = -1;
+
 	TransformComponent* transform = nullptr;
 
 	PortSlotComponent()
@@ -23,25 +25,44 @@ public:
 
 	void update(float deltaTime) override {
 		Entity* parentEntity = entity->getParentEntity();
-		if (!parentEntity || !parentEntity->hasComponent<PortComponent>()) {
+		if (!parentEntity) {
 			return;
 		}
 
-		PortComponent& parentPort = parentEntity->GetComponent<PortComponent>();
-
 		// Find our index in the parent's portSlots vector
-		int myIndex = parentPort.getSlotIndex(static_cast<EmptyEntity*>(entity));
-		if (myIndex == -1) {
+		if (index == -1) {
 			return;
 		}
 
 		// Calculate and set our position
-		glm::vec3 newPosition = parentPort.getSlotPosition(myIndex);
+		glm::vec3 newPosition = getSlotPosition();
 		transform->position = newPosition;
 	}
 
+	glm::vec3 getSlotPosition() const {
+		size_t childrenSize = entity->getParentEntity()->children.size();
+		if (index >= childrenSize) {
+			TazGraphEngine::ConsoleLogger::error("Port Slot index wrong");
+			return entity->getParentEntity()->
+				GetComponent<TransformComponent>().getPosition();
+		}
+
+		glm::vec3 basePos = entity->getParentEntity()->
+			GetComponent<TransformComponent>().getPosition();
+		glm::vec3 offset(0.0f);
+
+		if (!entity->getParentEntity()->isVertical) {
+			offset.x = (static_cast<float>(index) - (childrenSize - 1) / 2.0f) * entity->getParentEntity()->slotSpacing;
+		}
+		else { // Vertical
+			offset.y = (static_cast<float>(index) - (childrenSize - 1) / 2.0f) * entity->getParentEntity()->slotSpacing;
+		}
+
+		return basePos + offset;
+	}
+
 	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {
-		
+
 	}
 
 	std::string GetComponentName() override {

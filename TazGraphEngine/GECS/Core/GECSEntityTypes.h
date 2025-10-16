@@ -92,8 +92,8 @@ public:
 		for (auto portName : { LEFT, RIGHT, TOP, BOTTOM }) {
 			auto it = children.find(NodePorts_ToString(portName));
 			if (it != children.end() && it->second) {
-				for (auto& portSlots : it->second->GetComponent<PortComponent>().portSlots) {
-					portSlots->update(deltaTime);
+				for (auto& portSlots : it->second->children) {
+					portSlots.second->update(deltaTime);
 				}
 			}
 		}
@@ -204,11 +204,11 @@ public:
 
 			if (children.contains(t_portName)) {
 				children[t_portName]->destroy();
-				for (auto slot : children[t_portName]->GetComponent<PortComponent>().portSlots)
+				for (auto slot : children[t_portName]->children)
 				{
-					slot->destroy();
+					slot.second->destroy();
 				}
-				children[t_portName]->GetComponent<PortComponent>().portSlots.clear();
+				children[t_portName]->children.clear();
 				children.erase(t_portName);
 			}
 		}
@@ -219,11 +219,11 @@ public:
 			const char* t_portName = NodePorts_ToString(portName);
 
 			if (children.contains(t_portName)) {
-				for (auto slot : children[t_portName]->GetComponent<PortComponent>().portSlots)
+				for (auto slot : children[t_portName]->children)
 				{
-					slot->destroy();
+					slot.second->destroy();
 				}
-				children[t_portName]->GetComponent<PortComponent>().portSlots.clear();
+				children[t_portName]->children.clear();
 			}
 		}
 	}
@@ -338,12 +338,9 @@ public:
 			Entity* fromPortEntity = fromNode->children[fromPort];
 			Entity* toPortEntity = toNode->children[toPort];
 
-			PortComponent& fromPortComp = fromPortEntity->GetComponent<PortComponent>();
-			PortComponent& toPortComp = toPortEntity->GetComponent<PortComponent>();
-
 			// Get the actual connection points from the port slots (same as in drawWithPorts)
-			glm::vec3 fromConnectionPoint = fromPortComp.portSlots[fromSlotIndex]->GetComponent<TransformComponent>().getPosition();
-			glm::vec3 toConnectionPoint = toPortComp.portSlots[toSlotIndex]->GetComponent<TransformComponent>().getPosition();
+			glm::vec3 fromConnectionPoint = fromPortEntity->children[fromSlotIndex]->GetComponent<TransformComponent>().getPosition();
+			glm::vec3 toConnectionPoint = toPortEntity->children[toSlotIndex]->GetComponent<TransformComponent>().getPosition();
 
 			glm::vec3 direction = toConnectionPoint - fromConnectionPoint;
 			float distance = glm::length(direction);
@@ -391,19 +388,17 @@ public:
 
 		Entity* fromPortEntity = fromNode->children[fromPort];
 		Entity* toPortEntity = toNode->children[toPort];
-		PortComponent& fromPortComp = fromPortEntity->GetComponent<PortComponent>();
-		PortComponent& toPortComp = toPortEntity->GetComponent<PortComponent>();
 
 		// Check if slot indices are valid
-		if ((fromSlotIndex >= fromPortComp.portSlots.size()) ||
-			(toSlotIndex >= toPortComp.portSlots.size())) {
+		if ((fromSlotIndex >= fromPortEntity->children.size()) ||
+			(toSlotIndex >= toPortEntity->children.size())) {
 			TazGraphEngine::ConsoleLogger::error("Invalid slot indices!");
 			return;
 		}
 
 		// Get the actual connection points from the port slots
-		glm::vec3 fromConnectionPoint = fromPortComp.portSlots[fromSlotIndex]->GetComponent<TransformComponent>().getPosition();
-		glm::vec3 toConnectionPoint = toPortComp.portSlots[toSlotIndex]->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 fromConnectionPoint = fromPortEntity->children[fromSlotIndex]->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 toConnectionPoint = toPortEntity->children[toSlotIndex]->GetComponent<TransformComponent>().getPosition();
 
 		glm::vec3 direction = toConnectionPoint - fromConnectionPoint;
 		glm::vec3 unitDirection = glm::normalize(direction);
@@ -460,38 +455,29 @@ public:
 
 	int assignSlotIndex(NodeEntity* node, EntityID newPort, EntityID oldPort, int oldSlotIndex) {
 		// If port changed, remove link from old port's slots
-		if (std::holds_alternative<std::string>(oldPort) && // replace with other port
+		if (std::holds_alternative<std::string>(oldPort) &&
 			!std::get<std::string>(oldPort).empty() &&
 			oldPort != newPort) {
+
 			Entity* oldPortEntity = node->children[oldPort];
 			if (oldPortEntity && oldPortEntity->hasComponent<PortComponent>()) {
-				auto& oldSlots = oldPortEntity->GetComponent<PortComponent>().portSlots;
-
-				if (oldSlotIndex >= 0 && oldSlotIndex < (int)oldSlots.size()) {
-					EmptyEntity* slotToRemove = oldSlots[oldSlotIndex];
-
-					oldSlots.erase(oldSlots.begin() + oldSlotIndex);  // Remove from vector first
-					slotToRemove->destroy();
-
-					updateLinksSlotIndices(node, oldPort, oldSlotIndex, true);
-					updateLinksSlotIndices(node, oldPort, oldSlotIndex, false);
-				}
+				oldPortEntity->GetComponent<PortComponent>().removeSlot(oldSlotIndex);
+				updateLinksSlotIndices(node, oldPort, oldSlotIndex, true);
+				updateLinksSlotIndices(node, oldPort, oldSlotIndex, false);
 			}
 		}
 
-		if (oldPort != newPort) { // add new port
-			if (std::get<std::string>(newPort).empty()
-				|| !node->children.contains(newPort)) {
-				return -1; // Invalid port
+		if (oldPort != newPort) {
+			if (std::get<std::string>(newPort).empty() || !node->children.contains(newPort)) {
+				return -1;
 			}
 
 			Entity* newPortEntity = node->children[newPort];
 			if (!newPortEntity || !newPortEntity->hasComponent<PortComponent>()) {
-				return -1; // Port doesn't exist or doesn't have PortComponent
+				return -1;
 			}
 
-			auto& newSlots = newPortEntity->GetComponent<PortComponent>().portSlots;
-
+			// Create new slot
 			auto& newSlot = node->getManager()->addEntityNoId<Empty>();
 			newSlot.addGroup(Manager::groupPortSlots);
 			TransformComponent& portTransform = newPortEntity->GetComponent<TransformComponent>();
@@ -501,14 +487,12 @@ public:
 				1.0f
 			);
 			newSlot.addComponent<Rectangle_w_Color>();
-			newSlot.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, 250, 0, 255)); // Green for connected
-			newSlot.addComponent<PortSlotComponent>();
-			// Store reference to the link (you might want to add this field to PortSlotComponent)
-			// newSlot.GetComponent<PortSlotComponent>().linkedEntity = link;
+			newSlot.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, 250, 0, 255));
 			newSlot.setParentEntity(newPortEntity);
-			newSlots.push_back(&newSlot);
 
-			return static_cast<int>(newSlots.size() - 1);
+			// Add to port and get the assigned index
+			int newSlotIndex = newPortEntity->GetComponent<PortComponent>().addSlot(&newSlot);
+			return newSlotIndex;
 		}
 
 		return oldSlotIndex;
@@ -542,10 +526,7 @@ public:
 
 		Entity* portEntity = node->children[port];
 		if (portEntity && portEntity->hasComponent<PortComponent>()) {
-			auto& portSlots = portEntity->GetComponent<PortComponent>().portSlots;
-			if (slotIndex >= 0 && slotIndex < portSlots.size()) {
-				portSlots[slotIndex]->destroy();
-				portSlots.erase(portSlots.begin() + slotIndex);
+			if (portEntity->GetComponent<PortComponent>().removeSlot(slotIndex)) {
 				updateLinksSlotIndices(node, port, slotIndex, isFrom);
 			}
 		}
