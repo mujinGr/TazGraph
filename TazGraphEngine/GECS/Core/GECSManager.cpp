@@ -1,57 +1,63 @@
 #include "GECSManager.h"
 
 void Manager::updateActiveEntities() {
-	std::vector<EmptyEntity*> toBeRemoved;
-	std::vector<NodeEntity*> nodes_toBeRemoved;
-	std::vector<LinkEntity*> links_toBeRemoved;
+	std::vector<EntityID> toBeRemoved;
+	std::vector<EntityID> nodes_toBeRemoved;
+	std::vector<EntityID> links_toBeRemoved;
 
-	for (auto& v_entity : grid->visible_emptyEntities)
+	for (auto v_entityId : grid->visible_emptyEntities)
 	{
-		if (!v_entity->isActive()) {
-			v_entity->removeFromCell();
-			toBeRemoved.push_back(v_entity);
+		auto* ent = getEntityFromId(v_entityId);
+		if (ent->isActive()) {
+			ent->removeFromCell();
+			toBeRemoved.push_back(v_entityId);
 		}
 	}
 
-	for (auto& v_entity : grid->visible_nodes)
+	for (auto& v_entityId : grid->visible_nodes)
 	{
-		if (!v_entity->isActive()) {
-			v_entity->removeFromCell();
-			nodes_toBeRemoved.push_back(v_entity);
+		auto* ent = getEntityFromId(v_entityId);
+		if (!ent->isActive()) {
+			ent->removeFromCell();
+			nodes_toBeRemoved.push_back(v_entityId);
 		}
 	}
 
-	for (auto& v_entity : grid->visible_links)
+	for (auto v_entityId : grid->visible_links)
 	{
-		if (!v_entity->isActive()) {
-			v_entity->removeFromCells();
-			links_toBeRemoved.push_back(v_entity);
+		auto* ent = getEntityFromId(v_entityId);
+		if (!ent->isActive()) {
+			ent->removeFromCells();
+			links_toBeRemoved.push_back(v_entityId);
 		}
 	}
 	// if from visible entities is something deleted, then delete it from all data structures (groupedEntities + enentities)
 	// ! or instead of updating the groupedEntities when we see an inactive entity, update the groupedEntities the moment an entity goes
 	// ! inactive and wait until we about to delete more
 	for (auto& group : groupedEmptyEntities) {
-		for (EmptyEntity* entity : group) {
-			if (!entity->isActive()) {
-				entity->removeFromCell();
-				toBeRemoved.push_back(entity);
+		for (auto entityId : group) {
+			auto* ent = getEntityFromId(entityId);
+			if (!ent->isActive()) {
+				ent->removeFromCell();
+				toBeRemoved.push_back(entityId);
 			}
 		}
 	}
 	for (auto& group : groupedNodeEntities) {
-		for (NodeEntity* entity : group) {
-			if (!entity->isActive()) {
-				entity->removeFromCell();
-				nodes_toBeRemoved.push_back(entity);
+		for (auto entityId : group) {
+			auto* ent = getEntityFromId(entityId);
+			if (!ent->isActive()) {
+				ent->removeFromCell();
+				nodes_toBeRemoved.push_back(entityId);
 			}
 		}
 	}
 	for (auto& group : groupedLinkEntities) {
-		for (LinkEntity* entity : group) {
-			if (!entity->isActive()) {
-				entity->removeFromCells();
-				links_toBeRemoved.push_back(entity);
+		for (auto entityId : group) {
+			auto* ent = getEntityFromId(entityId);
+			if (!ent->isActive()) {
+				ent->removeFromCells();
+				links_toBeRemoved.push_back(entityId);
 			}
 		}
 	}
@@ -113,19 +119,25 @@ void Manager::updateActiveEntities() {
 		}),
 		grid->visible_links.end());
 
-	entities.erase(
-		std::remove_if(
-			entities.begin(),
-			entities.end(),
-			[&](const std::unique_ptr<Entity>& e) {
-				Entity* raw = e.get();
-				return std::find(toBeRemoved.begin(), toBeRemoved.end(), raw) != toBeRemoved.end() ||
-					std::find(nodes_toBeRemoved.begin(), nodes_toBeRemoved.end(), raw) != nodes_toBeRemoved.end() ||
-					std::find(links_toBeRemoved.begin(), links_toBeRemoved.end(), raw) != links_toBeRemoved.end();
-			}
-		),
-		entities.end()
+	std::vector<EntityID> idsToRemove;
+	idsToRemove.reserve(
+		toBeRemoved.size() + nodes_toBeRemoved.size() + links_toBeRemoved.size()
 	);
+
+	// collect all ids
+	for (auto e : toBeRemoved)
+		idsToRemove.push_back(e);
+	for (auto e : nodes_toBeRemoved)
+		idsToRemove.push_back(e);
+	for (auto e : links_toBeRemoved)
+		idsToRemove.push_back(e);
+
+	// remove by id
+	{
+		std::scoped_lock lock(entities_mtx);
+		for (EntityID id : idsToRemove)
+			entities.erase(id);
+	}
 }
 
 void Manager::updateVisibleEntities() {

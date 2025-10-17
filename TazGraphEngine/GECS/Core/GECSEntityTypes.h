@@ -35,7 +35,7 @@ public:
 			Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
 			if (newCell != this->ownerCell) {
 				// Need to shift the entity
-				removeEntity();
+				removeFromCell();
 				manager.grid->addEmpty(this, newCell);
 			}
 		}
@@ -58,8 +58,6 @@ public:
 class Node : public NodeEntity {
 private:
 
-
-	std::vector<std::string> messageLog;
 public:
 
 	Node(Manager& mManager) : NodeEntity(mManager) {
@@ -83,30 +81,13 @@ public:
 		Entity::update(deltaTime);
 	}
 
-	void updatePorts(float deltaTime) override {
-		// first set the new position of port based on parent size
-		// then set its bodyPosition through the transformComponent
-
-		TransformComponent* tr = &GetComponent<TransformComponent>();
-
-		for (auto portName : { LEFT, RIGHT, TOP, BOTTOM }) {
-			auto it = children.find(NodePorts_ToString(portName));
-			if (it != children.end() && it->second) {
-				for (auto& portSlots : it->second->children) {
-					portSlots.second->update(deltaTime);
-				}
-			}
-		}
-	}
-
 	void cellUpdate() override {
 		if (this->ownerCell) {
-			updatePorts(0.0f);
 			//this->GetComponent<TransformComponent>().update(0.0f);
 			Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
 			if (newCell != this->ownerCell) {
 				std::scoped_lock lock(manager.movedNodesMutex);
-				removeEntity();
+				removeFromCell();
 				manager.grid->addNode(this, newCell);
 
 				manager.movedNodes.push_back(this);
@@ -132,27 +113,9 @@ public:
 		}
 	}
 
-	void addMessage(std::string mMessage) override {
-		messageLog.push_back(mMessage);
-	}
-
 	void imgui_print() override {
 		glm::vec2 position = this->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
 		ImGui::Text("TazPosition: (%.2f, %.2f)", position.x, position.y);
-
-
-		if (ImGui::BeginTable("GroupsTable", 1, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
-			ImGui::TableSetupColumn("Message Log", ImGuiTableColumnFlags_WidthStretch);
-
-			ImGui::TableHeadersRow();
-			for (auto str : messageLog) {
-				ImGui::TableNextRow();
-				ImGui::TableSetColumnIndex(0);
-				ImGui::Text("%s", str.c_str());
-			}
-
-			ImGui::EndTable();
-		}
 
 
 	}
@@ -334,13 +297,37 @@ public:
 		if (children.contains(LinkChildren_ToString(ARROWHEAD))) {
 			NodeEntity* fromNode = getFromNode();
 			NodeEntity* toNode = getToNode();
+			if (!fromNode || !toNode)
+				return;
 
-			Entity* fromPortEntity = fromNode->children[fromPort];
-			Entity* toPortEntity = toNode->children[toPort];
+			// --- Get port entities safely ---
+			Entity* fromPortEntity = nullptr;
+			Entity* toPortEntity = nullptr;
 
-			// Get the actual connection points from the port slots (same as in drawWithPorts)
-			glm::vec3 fromConnectionPoint = fromPortEntity->children[fromSlotIndex]->GetComponent<TransformComponent>().getPosition();
-			glm::vec3 toConnectionPoint = toPortEntity->children[toSlotIndex]->GetComponent<TransformComponent>().getPosition();
+			if (fromNode->children.contains(fromPort))
+				fromPortEntity = fromNode->children[fromPort];
+			if (toNode->children.contains(toPort))
+				toPortEntity = toNode->children[toPort];
+
+			if (!fromPortEntity || !toPortEntity)
+				return;
+
+			// --- Get slot entities safely ---
+			if (fromSlotIndex >= fromPortEntity->children.size() ||
+				toSlotIndex >= toPortEntity->children.size())
+				return;
+
+			Entity* fromSlotEntity = fromPortEntity->children[fromSlotIndex];
+			Entity* toSlotEntity = toPortEntity->children[toSlotIndex];
+			if (!fromSlotEntity || !toSlotEntity)
+				return;
+
+			// --- Retrieve positions ---
+			auto& fromTransform = fromSlotEntity->GetComponent<TransformComponent>();
+			auto& toTransform = toSlotEntity->GetComponent<TransformComponent>();
+
+			glm::vec3 fromConnectionPoint = fromTransform.getPosition();
+			glm::vec3 toConnectionPoint = toTransform.getPosition();
 
 			glm::vec3 direction = toConnectionPoint - fromConnectionPoint;
 			float distance = glm::length(direction);

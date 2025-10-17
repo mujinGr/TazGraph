@@ -126,5 +126,7 @@ public:
 
 			setDestColor(newColor);
 		}
+
+		ImGui::SliderFloat("Width: ", &width, 0.0f,10.0f);
 	}
 };

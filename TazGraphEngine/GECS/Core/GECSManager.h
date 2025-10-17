@@ -21,17 +21,15 @@ private:
 	Threader* _threader = nullptr;
 	int lastEntityId = 0;
 	int negativeEntityId = -1;
-	std::vector<std::unique_ptr<Entity>> entities;
+	std::unordered_map<EntityID, std::unique_ptr<Entity>> entities;
 
-	std::array<std::vector<EmptyEntity*>, maxGroups> groupedEmptyEntities;
-	std::array<std::vector<NodeEntity*>, maxGroups> groupedNodeEntities;
-	std::array<std::vector<LinkEntity*>, maxGroups> groupedLinkEntities;
+	std::array<std::vector<EntityID>, maxGroups> groupedEmptyEntities;
+	std::array<std::vector<EntityID>, maxGroups> groupedNodeEntities;
+	std::array<std::vector<EntityID>, maxGroups> groupedLinkEntities;
 
-
-
-	std::array<std::vector<EmptyEntity*>, maxGroups> visible_groupedEmptyEntities;
-	std::array<std::vector<NodeEntity*>, maxGroups> visible_groupedNodeEntities;
-	std::array<std::vector<LinkEntity*>, maxGroups> visible_groupedLinkEntities;
+	std::array<std::vector<EntityID>, maxGroups> visible_groupedEmptyEntities;
+	std::array<std::vector<EntityID>, maxGroups> visible_groupedNodeEntities;
+	std::array<std::vector<EntityID>, maxGroups> visible_groupedLinkEntities;
 
 	bool _update_active_entities = false;
 public:
@@ -66,24 +64,6 @@ public:
 
 		if (_threader && !_threader->t_queue.shuttingDown) {
 
-			//! CELL UPDATE
-
-			//_threader->parallel(visible_emptyEntities.size(), [&](int start, int end) {
-			//	for (int i = start; i < end; i++) {
-			//		if (visible_emptyEntities[i] && visible_emptyEntities[i]->isActive()) {
-			//			visible_emptyEntities[i]->cellUpdate();
-			//		}
-			//	}
-			//	});
-
-			//_threader->parallel(visible_nodes.size(), [&](int start, int end) {
-			//	for (int i = start; i < end; i++) {
-			//		if (visible_nodes[i] && visible_nodes[i]->isActive()) {
-			//			visible_nodes[i]->cellUpdate();
-			//		}
-			//	}
-			//	});
-
 			//! UPDATE LINK CELLS
 			//? THIS MAY CAUSE ERRORS, IF REMOVE LINK FROM CELL AND OTHER LINK THAT HAS THAT CELL IN SEARCH
 			//? WILL PUMP IN AN EMPTY ELEMENT OR THE SIZE WILL BE SMALLER FOR THAT LINK TO FIND ELEMENT
@@ -113,13 +93,11 @@ public:
 				}
 				});
 
-			movedNodes.clear();
-
 			//! UPDATE
 			_threader->parallel(grid->visible_emptyEntities.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					if (grid->visible_emptyEntities[i] && grid->visible_emptyEntities[i]->isActive()) {
-						grid->visible_emptyEntities[i]->update(deltaTime);
+					if (getEntityFromId(grid->visible_emptyEntities[i])->isActive()) {
+						getEntityFromId(grid->visible_emptyEntities[i])->update(deltaTime);
 					}
 				}
 				});
@@ -127,8 +105,8 @@ public:
 
 			_threader->parallel(grid->visible_nodes.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					if (grid->visible_nodes[i] && grid->visible_nodes[i]->isActive()) {
-						grid->visible_nodes[i]->update(deltaTime);
+					if (getEntityFromId(grid->visible_nodes[i])->isActive()) {
+						getEntityFromId(grid->visible_nodes[i])->update(deltaTime);
 					}
 				}
 
@@ -138,8 +116,8 @@ public:
 			_threader->parallel(grid->visible_links.size(), [&](int start, int end) {
 
 				for (int i = start; i < end; i++) {
-					if (grid->visible_links[i] && grid->visible_links[i]->isActive()) {
-						grid->visible_links[i]->update(deltaTime);
+					if (getEntityFromId(grid->visible_links[i])->isActive()) {
+						getEntityFromId(grid->visible_links[i])->update(deltaTime);
 					}
 				}
 				});
@@ -175,25 +153,28 @@ public:
 			movedNodes.clear();
 
 			for (auto& e : grid->visible_emptyEntities) {
-				if (!e || !e->isActive()) continue;
+				auto* ent = getEntityFromId(e);
+				if (!ent->isActive()) continue;
 
-				e->update(deltaTime);
+				ent->update(deltaTime);
 			}
 
 			if (arrowheadsEnabled) {
 				for (auto& e : grid->visible_nodes) {
-					if (!e || !e->isActive()) continue;
+					auto* ent = getEntityFromId(e);
+					if (!ent->isActive()) continue;
 
-					e->update(deltaTime);
+					ent->update(deltaTime);
 
 				}
 			}
 
 
 			for (auto& e : grid->visible_links) {
-				if (!e || !e->isActive()) continue;
+				auto* ent = getEntityFromId(e);
+				if (!ent->isActive()) continue;
 
-				e->update(deltaTime);
+				ent->update(deltaTime);
 			}
 		}
 	}
@@ -203,9 +184,9 @@ public:
 	{
 		// the links are updating once since after first update we check wether the nodes are aligned with the ownerCells
 		for (auto& e : entities) {
-			if (!e || !e->isActive()) continue;
+			if (!e.second || !e.second->isActive()) continue;
 
-			e->update(deltaTime);
+			e.second->update(deltaTime);
 		}
 		update(deltaTime);
 	}
@@ -254,7 +235,7 @@ public:
 		groupedLinkEntities[mGroup].emplace_back(mEntity);
 	}
 
-	const std::vector<std::unique_ptr<Entity>>& getEntities() const {
+	const std::unordered_map<EntityID, std::unique_ptr<Entity>>& getEntities() const {
 		return entities;
 	}
 
@@ -338,7 +319,7 @@ public:
 		std::unique_ptr<T> uPtr{ e };
 		{
 			std::scoped_lock lock(entities_mtx);
-			entities.emplace_back(std::move(uPtr));
+			entities.emplace(e->getId(), std::move(uPtr));
 		}
 
 		return *e;
@@ -352,7 +333,7 @@ public:
 		std::unique_ptr<T> uPtr{ e };
 		{
 			std::scoped_lock lock(entities_mtx);
-			entities.emplace_back(std::move(uPtr));
+			entities.emplace(e->getId(), std::move(uPtr));
 		}
 
 		return *e;
@@ -363,19 +344,14 @@ public:
 	}
 
 	Entity* getEntityFromId(EntityID mId) {
-		for (auto& entity : entities) {
-			if (entity->getId() == mId && entity->isActive()) {
-				return &*entity;
-			}
+		if (entities.contains(mId)) {
+			return entities[mId].get();
 		}
 		return nullptr;
 	}
 
 	bool hasEntity(EntityID mId) {
-		if (getEntityFromId(mId) == nullptr) {
-			return false;
-		}
-		return true;
+		return entities.contains(mId);
 	}
 
 	void clearAllEntities() {
@@ -398,35 +374,35 @@ public:
 	void removeAllEntitiesFromGroup(Group mGroup) {
 		auto& entitiesInGroup = groupedNodeEntities[mGroup];
 
-		for (Entity* entity : entitiesInGroup) {
-			entity->destroy();
+		for (auto entityId : entitiesInGroup) {
+			getEntityFromId(entityId)->destroy();
 		}
 	}
 
 	void removeAllEntitiesFromEmptyGroup(Group mGroup) {
 		auto& entitiesInGroup = groupedEmptyEntities[mGroup];
 
-		for (Entity* entity : entitiesInGroup) {
-			entity->destroy();
+		for (auto entityId : entitiesInGroup) {
+			getEntityFromId(entityId)->destroy();
 		}
 	}
 
 	void removeAllEntitiesFromLinkGroup(Group mGroup) {
 		auto& entitiesInGroup = groupedLinkEntities[mGroup];
 
-		for (Entity* entity : entitiesInGroup) {
-			entity->destroy();
+		for (auto entityId : entitiesInGroup) {
+			getEntityFromId(entityId)->destroy();
 		}
 	}
 
-	std::vector<Entity*> adjacentEntities(Entity* mainEntity, Group group) {
-		std::vector<Entity*> nearbyEntities;
+	std::vector<EntityID> adjacentEntities(Entity* mainEntity, Group group) {
+		std::vector<EntityID> nearbyEntities;
 
 		auto adjacentCells = grid->getAdjacentCells(*mainEntity, grid->getGridLevel());
 
 		for (Cell* adjCell : adjacentCells) {
 			for (auto& neighbor : adjCell->nodes) {
-				if (neighbor->hasGroup(group) && (neighbor != mainEntity)) {
+				if (getEntityFromId(neighbor)->hasGroup(group) && (getEntityFromId(neighbor) != mainEntity)) {
 					nearbyEntities.push_back(neighbor);
 				}
 			}

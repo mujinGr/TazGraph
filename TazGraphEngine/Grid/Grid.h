@@ -30,9 +30,9 @@ public:
 		Outer2
 	};
 
-	std::vector<EmptyEntity*> visible_emptyEntities;
-	std::vector<NodeEntity*> visible_nodes;
-	std::vector<LinkEntity*> visible_links;
+	std::vector<EntityID> visible_emptyEntities;
+	std::vector<EntityID> visible_nodes;
+	std::vector<EntityID> visible_links;
 
 	Grid(int width, int height, int depth, int cellSize);
 	~Grid();
@@ -42,15 +42,15 @@ public:
 
 	void createCells(Grid::Level size);
 
-	void addLink(LinkEntity* link, Grid::Level m_level);
-	std::vector<Cell*> getLinkCells(const LinkEntity& link, Grid::Level m_level);
-	void addLink(LinkEntity* link, std::vector<Cell*> cell);
+	void addLink(EntityID link, Grid::Level m_level);
+	std::vector<Cell*> getLinkCells(EntityID link, Grid::Level m_level);
+	void addLink(EntityID link, std::vector<Cell*> cell);
 
-	void addEmpty(EmptyEntity* entity, Grid::Level m_level);
+	void addEmpty(EntityID entity, Grid::Level m_level);
 
-	void addNode(NodeEntity* entity, Grid::Level m_level);
-	void addEmpty(EmptyEntity* entity, Cell* cell);
-	void addNode(NodeEntity* entity, Cell* cell);
+	void addNode(EntityID entity, Grid::Level m_level);
+	void addEmpty(EntityID entity, Cell* cell);
+	void addNode(EntityID entity, Cell* cell);
 
 	Cell* getCell(int x, int y, int z, Grid::Level m_level);
 	Cell* getCell(const Entity& position, Grid::Level m_level);
@@ -69,12 +69,13 @@ public:
 	// loops through the intrecepted cells and just get the entities
 	template <typename T>
 	std::vector<T*> getRevealedEntitiesInCameraCells() {
-		std::vector<T*> result;
+		std::vector<EntityId> result;
 
 		if constexpr (std::is_same_v<T, NodeEntity>) {
 			for (auto& cell : _interceptedCells) {
-				for (auto& entity : cell->nodes) {
-					if (!entity->isHidden()) {  // Check if the entity is visible
+				for (auto& entityId : cell->nodes) {
+					auto& ent = getEntityFromId(entityId);
+					if (!ent->isHidden()) {  // Check if the entity is visible
 						result.push_back(entity);
 
 						for (auto& port : entity->children) {

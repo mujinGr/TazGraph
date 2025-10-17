@@ -6,9 +6,9 @@
 struct Cell {
 	std::mutex mtx;
 
-	std::vector<EmptyEntity*> emptyEntities;
-	std::vector<NodeEntity*> nodes;
-	std::vector<LinkEntity*> links;
+	std::vector<EntityID> emptyEntities;
+	std::vector<EntityID> nodes;
+	std::vector<EntityID> links;
 
 	glm::vec3 boundingBox_origin = glm::vec3(0); // Starting point (minimum corner) of the cell
 	glm::vec3 boundingBox_size = glm::vec3(0);

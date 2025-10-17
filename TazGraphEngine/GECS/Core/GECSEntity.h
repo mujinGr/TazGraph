@@ -31,12 +31,12 @@ public:
 
 	void removeFromCell() override {
 		if (this->ownerCell) {
-			removeEntity();
+			removeEntityFromCell();
 			this->ownerCell = nullptr;
 		}
 	}
 
-	void removeEntity() override {
+	void removeEntityFromCell() override {
 		auto* cell = ownerCell;
 		if (!cell) return;
 
@@ -67,7 +67,7 @@ public:
 
 	}
 
-	void removeEntity() override {
+	void removeEntityFromCell() override {
 		auto* cell = ownerCell;
 		if (!cell) return;
 
@@ -173,11 +173,11 @@ public:
 	}
 
 	void removeFromCells() override {
-		removeEntity();
+		removeEntityFromCell();
 		ownerCells.clear();
 	}
 
-	void removeEntity() override {
+	void removeEntityFromCell() override {
 		for (auto* cell : ownerCells) {
 			if (!cell) continue;
 

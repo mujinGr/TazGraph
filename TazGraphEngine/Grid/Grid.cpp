@@ -136,16 +136,18 @@ void Grid::createCells(Grid::Level m_level) {
 }
 
 // adding link to grid
-void Grid::addLink(LinkEntity* link, Grid::Level m_level)
+void Grid::addLink(EntityID link, Grid::Level m_level)
 {
-	std::vector<Cell*> cells = getLinkCells(*link, m_level);
+	std::vector<Cell*> cells = getLinkCells(link, m_level);
 
 	addLink(link, cells);
 }
 
-std::vector<Cell*> Grid::getLinkCells(const LinkEntity& link, Grid::Level m_level) {
+std::vector<Cell*> Grid::getLinkCells(EntityID linkId, Grid::Level m_level) {
 	std::vector<Cell*> intersectedCells;
 	std::unordered_set<Cell*> uniqueCells;
+
+	auto& link = getEntityFromId(linkId);
 
 	float x0 = link.getFromNode()->GetComponent<TransformComponent>().getPosition().x;
 	float y0 = link.getFromNode()->GetComponent<TransformComponent>().getPosition().y;
@@ -194,52 +196,49 @@ std::vector<Cell*> Grid::getLinkCells(const LinkEntity& link, Grid::Level m_leve
 	return intersectedCells;
 }
 
-void Grid::addLink(LinkEntity* link, std::vector<Cell*> cells)
+void Grid::addLink(EntityID link, std::vector<Cell*> cells)
 {
 	for (auto& cell : cells) {
-		if (!cell || !link) return;
 		{
 			std::scoped_lock lock(cell->mtx);
 			cell->links.push_back(link);
 		}
 	}
 
-	link->setOwnerCells(cells);
+	getEntityById(link)->setOwnerCells(cells);
 }
 
 // adding node to grid
-void Grid::addEmpty(EmptyEntity* entity, Grid::Level m_level)
+void Grid::addEmpty(EntityID entity, Grid::Level m_level)
 {
 	Cell* cell = getCell(*entity, m_level);
 	addEmpty(entity, cell);
 }
 
-void Grid::addNode(NodeEntity* entity, Grid::Level m_level)
+void Grid::addNode(EntityID entity, Grid::Level m_level)
 {
 	Cell* cell = getCell(*entity, m_level);
 	addNode(entity, cell);
 }
 
-void Grid::addEmpty(EmptyEntity* entity, Cell* cell)
+void Grid::addEmpty(EntityID entity, Cell* cell)
 {
-	if (!cell || !entity) return;
 	{
 		std::scoped_lock lock(cell->mtx);
 		cell->emptyEntities.push_back(entity);
 	}
 
-	entity->setOwnerCell(cell);
+	getEntityById(entity)->setOwnerCell(cell);
 }
 
-void Grid::addNode(NodeEntity* entity, Cell* cell)
+void Grid::addNode(EntityID entity, Cell* cell)
 {
-	if (!cell || !entity) return;
 	{
 		std::scoped_lock lock(cell->mtx);
 		cell->nodes.push_back(entity);
 	}
 
-	entity->setOwnerCell(cell);
+	getEntityById(entity)->setOwnerCell(cell);
 }
 
 
@@ -260,9 +259,9 @@ Cell* Grid::getCell(int x, int y, int z, Grid::Level m_level)
 			_superParentCells[index]);
 }
 
-Cell* Grid::getCell(const Entity& entity, Grid::Level m_level)
+Cell* Grid::getCell(EntityID entity, Grid::Level m_level)
 {
-	auto pos = entity.GetComponent<TransformComponent>().getPosition();
+	auto pos = getEntityFromId(entity).GetComponent<TransformComponent>().getPosition();
 
 	int cellX = (int)(std::floor((pos.x) / (_cellSize * gridLevels[m_level])));
 	int cellY = (int)(std::floor((pos.y) / (_cellSize * gridLevels[m_level])));

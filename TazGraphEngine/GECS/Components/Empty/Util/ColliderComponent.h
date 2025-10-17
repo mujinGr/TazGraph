@@ -54,7 +54,8 @@ public:
 		for (Group group : _groupChecks) {
 			const auto& adjacentEntities = _manager->adjacentEntities(entity, group);
 
-			for (Entity* other : adjacentEntities) {
+			for (EntityID other : adjacentEntities) {
+				auto* ent = getEntityFromId(other);
 
 				auto areEntitiesLinked = [&](Entity* main, Entity* other)
 					{

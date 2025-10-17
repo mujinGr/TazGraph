@@ -432,9 +432,6 @@ public:
 		return &manager;
 	}
 
-	virtual void addMessage(std::string mMessage) {}
-
-
 	virtual Entity* getParentEntity() {
 		return nullptr;
 	}
@@ -445,7 +442,7 @@ public:
 
 	virtual void imgui_display() {}
 
-	virtual void removeEntity() {}
+	virtual void removeEntityFromCell() {}
 	virtual void removeFromCell() {};
 	virtual void removeFromCells() {};
 
