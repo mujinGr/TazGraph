@@ -43,7 +43,7 @@ public:
 		std::scoped_lock lock(cell->mtx); // automatically releases when leaving scope
 
 		auto& entities = cell->emptyEntities;
-		auto it = std::find(entities.begin(), entities.end(), this);
+		auto it = std::find(entities.begin(), entities.end(), id);
 		if (it != entities.end())
 			entities.erase(it);
 	}
@@ -74,7 +74,7 @@ public:
 		std::scoped_lock lock(cell->mtx); // automatically releases when leaving scope
 
 		auto& entities = cell->nodes;
-		auto it = std::find(entities.begin(), entities.end(), this);
+		auto it = std::find(entities.begin(), entities.end(), id);
 		if (it != entities.end())
 			entities.erase(it);
 	}
@@ -185,7 +185,7 @@ public:
 			std::scoped_lock lock(cell->mtx);
 
 			auto& links = cell->links;
-			auto it = std::find(links.begin(), links.end(), this);
+			auto it = std::find(links.begin(), links.end(), id);
 			if (it != links.end()) {
 				links.erase(it);
 			}

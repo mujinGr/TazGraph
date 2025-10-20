@@ -5,7 +5,7 @@ void Manager::updateActiveEntities() {
 	std::vector<EntityID> nodes_toBeRemoved;
 	std::vector<EntityID> links_toBeRemoved;
 
-	for (auto v_entityId : grid->visible_emptyEntities)
+	for (auto v_entityId : visible_emptyEntities)
 	{
 		auto* ent = getEntityFromId(v_entityId);
 		if (ent->isActive()) {
@@ -14,7 +14,7 @@ void Manager::updateActiveEntities() {
 		}
 	}
 
-	for (auto& v_entityId : grid->visible_nodes)
+	for (auto& v_entityId : visible_nodes)
 	{
 		auto* ent = getEntityFromId(v_entityId);
 		if (!ent->isActive()) {
@@ -23,7 +23,7 @@ void Manager::updateActiveEntities() {
 		}
 	}
 
-	for (auto v_entityId : grid->visible_links)
+	for (auto v_entityId : visible_links)
 	{
 		auto* ent = getEntityFromId(v_entityId);
 		if (!ent->isActive()) {
@@ -65,59 +65,65 @@ void Manager::updateActiveEntities() {
 	for (auto i(0u); i < maxGroups; i++) {
 		auto& group(visible_groupedEmptyEntities[i]);
 		group.erase(std::remove_if(std::begin(group), std::end(group),
-			[&toBeRemoved, i](Entity* mEntity) {
-				return !mEntity->isActive() || !mEntity->hasGroup(i);
+			[this, &toBeRemoved, i](EntityID mEntity) {
+				return !entities[mEntity]->isActive()
+					|| !entities[mEntity]->hasGroup(i);
 			}), group.end());
 		auto& m_group(groupedEmptyEntities[i]);
 		m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
-			[&toBeRemoved, i](Entity* mEntity) {
-				return !mEntity->isActive() || !mEntity->hasGroup(i);
+			[this, &toBeRemoved, i](EntityID mEntity) {
+				return !entities[mEntity]->isActive()
+					|| !entities[mEntity]->hasGroup(i);
 			}), m_group.end());
 	}
 
 	for (auto i(0u); i < maxGroups; i++) {
 		auto& group(visible_groupedNodeEntities[i]);
 		group.erase(std::remove_if(std::begin(group), std::end(group),
-			[&nodes_toBeRemoved, i](Entity* mEntity) {
-				return !mEntity->isActive() || !mEntity->hasGroup(i);
+			[this, &nodes_toBeRemoved, i](EntityID mEntity) {
+				return !entities[mEntity]->isActive()
+					|| !entities[mEntity]->hasGroup(i);
 			}), group.end());
 		auto& m_group(groupedNodeEntities[i]);
 		m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
-			[&nodes_toBeRemoved, i](Entity* mEntity) {
-				return !mEntity->isActive() || !mEntity->hasGroup(i);
+			[this, &nodes_toBeRemoved, i](EntityID mEntity) {
+				return !entities[mEntity]->isActive()
+					|| !entities[mEntity]->hasGroup(i);
 			}), m_group.end());
 	}
 
 	for (auto i(0u); i < maxGroups; i++) {
 		auto& group(visible_groupedLinkEntities[i]);
 		group.erase(std::remove_if(std::begin(group), std::end(group),
-			[&links_toBeRemoved, i](Entity* mEntity) {
-				return !mEntity->isActive() || !mEntity->hasGroup(i);
+			[this, &links_toBeRemoved, i](EntityID mEntity) {
+				return !entities[mEntity]->isActive()
+					|| !entities[mEntity]->hasGroup(i);
 			}), group.end());
 		auto& m_group(groupedLinkEntities[i]);
 		m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
-			[&links_toBeRemoved, i](Entity* mEntity) {
-				return !mEntity->isActive() || !mEntity->hasGroup(i);
+			[this, &links_toBeRemoved, i](EntityID mEntity) {
+				return !entities[mEntity]->isActive()
+					|| !entities[mEntity]->hasGroup(i);
 			}), m_group.end());
 	}
 
 
-	grid->visible_emptyEntities.erase(std::remove_if(grid->visible_emptyEntities.begin(), grid->visible_emptyEntities.end(),
-		[&toBeRemoved](Entity* mEntity) {
+	visible_emptyEntities.erase(std::remove_if(visible_emptyEntities.begin(), visible_emptyEntities.end(),
+		[&toBeRemoved](EntityID mEntity) {
 			return std::find(toBeRemoved.begin(), toBeRemoved.end(), mEntity) != toBeRemoved.end();
 		}),
-		grid->visible_emptyEntities.end());
-	grid->visible_nodes.erase(std::remove_if(grid->visible_nodes.begin(), grid->visible_nodes.end(),
-		[&nodes_toBeRemoved](Entity* mEntity) {
+		visible_emptyEntities.end());
+	visible_nodes.erase(std::remove_if(visible_nodes.begin(), visible_nodes.end(),
+		[&nodes_toBeRemoved](EntityID mEntity) {
 			return std::find(nodes_toBeRemoved.begin(), nodes_toBeRemoved.end(), mEntity) != nodes_toBeRemoved.end();
 		}),
-		grid->visible_nodes.end());
+		visible_nodes.end());
 
-	grid->visible_links.erase(std::remove_if(grid->visible_links.begin(), grid->visible_links.end(),
-		[&links_toBeRemoved](Entity* mEntity) {
+	visible_links.erase(std::remove_if(visible_links.begin(), visible_links.end(),
+		[&links_toBeRemoved](EntityID mEntity) {
 			return std::find(links_toBeRemoved.begin(), links_toBeRemoved.end(), mEntity) != links_toBeRemoved.end();
 		}),
-		grid->visible_links.end());
+		visible_links.end());
 
 	std::vector<EntityID> idsToRemove;
 	idsToRemove.reserve(
@@ -141,9 +147,9 @@ void Manager::updateActiveEntities() {
 }
 
 void Manager::updateVisibleEntities() {
-	grid->visible_emptyEntities = grid->getGridLevel() ? grid->getRevealedEntitiesInCameraCells<EmptyEntity>() : grid->getEntitiesInCameraCells<EmptyEntity>();
-	grid->visible_nodes = grid->getGridLevel() ? grid->getRevealedEntitiesInCameraCells<NodeEntity>() : grid->getEntitiesInCameraCells<NodeEntity>();
-	grid->visible_links = grid->getLinksInCameraCells();
+	visible_emptyEntities = grid->getGridLevel() ? getRevealedEntitiesInCameraCells<EmptyEntity>() : getEntitiesInCameraCells<EmptyEntity>();
+	visible_nodes = grid->getGridLevel() ? getRevealedEntitiesInCameraCells<NodeEntity>() : getEntitiesInCameraCells<NodeEntity>();
+	visible_links = grid->getLinksInCameraCells();
 
 	for (auto& vgroup : visible_groupedEmptyEntities) {
 		vgroup.clear();
@@ -155,36 +161,39 @@ void Manager::updateVisibleEntities() {
 		vgroup.clear();
 	}
 
-	for (auto* ventity : grid->visible_emptyEntities) {
-		if (!ventity->isActive()) {
+	for (auto ventityId : visible_emptyEntities) {
+		auto* ent = getEntityFromId(ventityId);
+		if (!ent->isActive()) {
 			continue;
 		}
 
 		for (unsigned i = 0; i < maxGroups; ++i) {
-			if (ventity->hasGroup(i)) {
-				visible_groupedEmptyEntities[i].push_back(ventity);
+			if (ent->hasGroup(i)) {
+				visible_groupedEmptyEntities[i].push_back(ventityId);
 			}
 		}
 	}
-	for (auto* ventity : grid->visible_nodes) {
-		if (!ventity->isActive()) {
+	for (auto ventityId : visible_nodes) {
+		auto* ent = getEntityFromId(ventityId);
+		if (!ent->isActive()) {
 			continue;
 		}
 
 		for (unsigned i = 0; i < maxGroups; ++i) {
-			if (ventity->hasGroup(i)) {
-				visible_groupedNodeEntities[i].push_back(ventity);
+			if (ent->hasGroup(i)) {
+				visible_groupedNodeEntities[i].push_back(ventityId);
 			}
 		}
 	}
-	for (auto* vlink : grid->visible_links) {
-		if (!vlink->isActive()) {
+	for (auto ventityId : visible_links) {
+		auto* ent = getEntityFromId(ventityId);
+		if (!ent->isActive()) {
 			continue;
 		}
 
 		for (unsigned i = 0; i < maxGroups; ++i) {
-			if (vlink->hasGroup(i)) {
-				visible_groupedLinkEntities[i].push_back(vlink);
+			if (ent->hasGroup(i)) {
+				visible_groupedLinkEntities[i].push_back(ventityId);
 			}
 		}
 	}
@@ -239,4 +248,108 @@ void Manager::setComponentNames()
 	scanComponentNames(folderPath);
 	scanComponentNames(folderPath2);
 
+}
+
+// loops through the intrecepted cells and just get the entities
+template <typename T>
+std::vector<EntityID> Manager::getRevealedEntitiesInCameraCells() {
+	std::vector<EntityID> result;
+
+	if constexpr (std::is_same_v<T, NodeEntity>) {
+		for (auto& cell : grid->interceptedCells) {
+			for (auto& entityId : cell->nodes) {
+				auto* ent = getEntityFromId(entityId);
+
+				if (!ent->isHidden()) {  // Check if the entity is visible
+					result.push_back(entityId);
+
+					for (auto& port : ent->children) {
+						if (port.second && !port.second->isHidden()) {
+							visible_emptyEntities.push_back(port.second->getId());
+
+							if (port.second->hasComponent<PortComponent>()) {
+								for (auto& portSlots : port.second->children)
+									visible_emptyEntities.push_back(portSlots.second->getId());
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	else if constexpr (std::is_same_v<T, EmptyEntity>) {
+		for (auto& cell : grid->interceptedCells) {
+			for (auto entityId : cell->emptyEntities) {
+				auto* entity = getEntityFromId(entityId);
+
+				if (!entity->isHidden()) {  // Check if the entity is visible
+					result.push_back(entityId);
+				}
+			}
+		}
+	}
+	else if constexpr (std::is_same_v<T, LinkEntity>) {
+		std::map<unsigned int, LinkEntity*> uniqueEntities;
+
+		for (auto& cell : grid->interceptedCells) {
+			for (auto& link : cell->links) {
+				if (!link->isHidden()) {
+					unsigned int linkId = link->getId();
+
+					if (uniqueEntities.find(linkId) == uniqueEntities.end()) {
+						uniqueEntities[linkId] = link;
+					}
+				}
+			}
+		}
+		for (auto& entry : uniqueEntities) {
+			result.push_back(entry.second);
+		}
+	}
+	else {
+		static_assert(sizeof(T) == 0, "Unsupported entity type.");
+	}
+	return result;
+
+}
+
+// loops through the intrecepted cells and just get the entities
+template <typename T>
+std::vector<EntityID> Manager::getEntitiesInCameraCells() {
+	std::vector<EntityID> result;
+
+	if constexpr (std::is_same_v<T, NodeEntity>) {
+		for (auto& cell : grid->interceptedCells) {
+			result.insert(result.end(), cell->nodes.begin(), cell->nodes.end());
+		}
+
+		for (auto& cell : grid->interceptedCells) {
+			for (auto& entityID : cell->nodes) {
+				auto* entity = getEntityFromId(entityID);
+				if (!entity->isHidden()) {
+					// Also include children(ports) if they exist
+					for (auto& port : entity->children) {
+						if (port.second && !port.second->isHidden()) {
+							visible_emptyEntities.push_back(port.second->getId());
+
+							if (port.second->hasComponent<PortComponent>()) {
+								for (auto& portSlots : port.second->children)
+									visible_emptyEntities.push_back(portSlots.second->getId());
+							}
+						}
+					}
+				}
+			}
+		}
+
+	}
+	else if constexpr (std::is_same_v<T, EmptyEntity>) {
+		for (auto& cell : grid->interceptedCells) {
+			result.insert(result.end(), cell->emptyEntities.begin(), cell->emptyEntities.end());
+		}
+	}
+	else {
+		static_assert(sizeof(T) == 0, "Unsupported entity type.");
+	}
+	return result;
 }

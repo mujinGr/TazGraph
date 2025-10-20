@@ -129,8 +129,9 @@ void MainMenuScreen::update(float deltaTime)
 	hud_camera2D->update();
 }
 
-void MainMenuScreen::renderBatch(const std::vector<EmptyEntity*>& entities) {
-	for (const auto& entity : entities) {
+void MainMenuScreen::renderBatch(const std::vector<EntityID>& entities) {
+	for (const auto entityId : entities) {
+		auto* entity = manager->getEntityFromId(entityId);
 		entity->GetComponent<SpriteComponent>().draw(0, _PlaneModelRenderer, *_window);
 	}
 

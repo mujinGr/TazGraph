@@ -65,7 +65,9 @@ void GraphLeftPanel::OnImGuiRender()
 
 			if (config.scene->manager->idTextEnabled) {
 				//create empty entities(textLabels) that will attach on node entities
-				for (auto& node : config.scene->manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
+				for (auto nodeId : config.scene->manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
+					auto* node = config.scene->manager->getEntityFromId(nodeId);
+
 					auto& textLabel = config.scene->manager->addEntity<Empty>();
 
 					textLabel.addGroup(Manager::textLabels);
@@ -81,7 +83,8 @@ void GraphLeftPanel::OnImGuiRender()
 				//destroy empty entities(textLabels) 
 				config.scene->manager->removeAllEntitiesFromEmptyGroup(Manager::textLabels);
 
-				for (auto& label : config.scene->manager->getGroup<EmptyEntity>(Manager::textLabels)) {
+				for (auto& labelId : config.scene->manager->getGroup<EmptyEntity>(Manager::textLabels)) {
+					auto* label = config.scene->manager->getEntityFromId(labelId);
 					auto& node = *label->getParentEntity();
 
 					node.children.erase("label");
@@ -142,7 +145,8 @@ void GraphLeftPanel::OnImGuiRender()
 			std::string resetIndex = ">Reset";
 			if (strcmp(DataManager::getInstance().pathData.input, resetIndex.c_str()) == 0) {
 
-				for (auto& pathHolder : config.scene->manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
+				for (auto pathHolderId : config.scene->manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
+					auto* pathHolder = config.scene->manager->getEntityFromId(pathHolderId);
 					auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
 
 					for (auto* link : pathLinks) {
@@ -203,7 +207,8 @@ void GraphLeftPanel::ChooseLayoutPanel() {
 		NodeEntity* centerNode = nullptr;
 		int maxOutlinks = -1;
 
-		for (NodeEntity* node : nodes) {
+		for (EntityID nodeId : nodes) {
+			auto* node = dynamic_cast<NodeEntity*>(config.scene->manager->getEntityFromId(nodeId));
 			int outLinks = node->getOutLinks().size();
 			if (outLinks > maxOutlinks) {
 				maxOutlinks = outLinks;
@@ -221,8 +226,11 @@ void GraphLeftPanel::ChooseLayoutPanel() {
 		float maxRadius = 3000.0f;
 
 		int minOutlinks = INT_MAX;
-		for (NodeEntity* node : nodes) {
-			if (node == centerNode) continue;
+		for (EntityID nodeId : nodes) {
+			if (nodeId == centerNode->getId()) continue;
+
+			auto* node = dynamic_cast<NodeEntity*>(config.scene->manager->getEntityFromId(nodeId));
+
 			int count = node->getOutLinks().size();
 
 			minOutlinks = std::min(minOutlinks, count);
@@ -234,8 +242,9 @@ void GraphLeftPanel::ChooseLayoutPanel() {
 		size_t index = 0;
 		size_t total = nodes.size() - 1;
 
-		for (NodeEntity* node : nodes) {
-			if (node == centerNode) continue;
+		for (EntityID nodeId : nodes) {
+			if (nodeId == centerNode->getId()) continue;
+			auto* node = dynamic_cast<NodeEntity*>(config.scene->manager->getEntityFromId(nodeId));
 
 			float angle = (2 * M_PI * index) / total;
 			int outLinks = node->getOutLinks().size();
@@ -254,28 +263,53 @@ void GraphLeftPanel::ChooseLayoutPanel() {
 
 		config.scene->manager->aboutTo_updateActiveEntities();
 
-		for (auto& n : config.scene->manager->getGroup<NodeEntity>(Manager::groupNodes_0))
+		for (auto& nId : config.scene->manager->getGroup<NodeEntity>(Manager::groupNodes_0))
 		{
+			auto* n =
+				dynamic_cast<NodeEntity*>(
+					config.scene->manager->getEntityFromId(nId)
+					);
+
 			n->cellUpdate();
 		}
-		for (auto& n : config.scene->manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0))
+		for (auto& nId : config.scene->manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0))
 		{
+			auto* n =
+				dynamic_cast<NodeEntity*>(
+					config.scene->manager->getEntityFromId(nId)
+					);
 			n->cellUpdate();
 		}
-		for (auto& n : config.scene->manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1))
+		for (auto& nId : config.scene->manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1))
 		{
+			auto* n =
+				dynamic_cast<NodeEntity*>(
+					config.scene->manager->getEntityFromId(nId)
+					);
 			n->cellUpdate();
 		}
-		for (auto& l : config.scene->manager->getGroup<LinkEntity>(Manager::groupLinks_0))
+		for (auto& lId : config.scene->manager->getGroup<LinkEntity>(Manager::groupLinks_0))
 		{
+			auto* l =
+				dynamic_cast<LinkEntity*>(
+					config.scene->manager->getEntityFromId(lId)
+					);
 			l->cellUpdate();
 		}
-		for (auto& l : config.scene->manager->getGroup<LinkEntity>(Manager::groupGroupLinks_0))
+		for (auto& lId : config.scene->manager->getGroup<LinkEntity>(Manager::groupGroupLinks_0))
 		{
+			auto* l =
+				dynamic_cast<LinkEntity*>(
+					config.scene->manager->getEntityFromId(lId)
+					);
 			l->cellUpdate();
 		}
-		for (auto& l : config.scene->manager->getGroup<LinkEntity>(Manager::groupGroupLinks_1))
+		for (auto& lId : config.scene->manager->getGroup<LinkEntity>(Manager::groupGroupLinks_1))
 		{
+			auto* l =
+				dynamic_cast<LinkEntity*>(
+					config.scene->manager->getEntityFromId(lId)
+					);
 			l->cellUpdate();
 		}
 	}
@@ -305,7 +339,12 @@ void GraphLeftPanel::ChooseLayoutPanel() {
 						node->addGroup(config.scene->manager::groupColliders);
 					}*/
 
-					for (NodeEntity* node : nodes) {
+					for (EntityID nodeId : nodes) {
+						auto* node =
+							dynamic_cast<NodeEntity*>(
+								config.scene->manager->getEntityFromId(nodeId)
+								);
+
 						node->addGroup(Manager::groupColliders);
 						node->addComponent<ColliderComponent>(
 							config.scene->manager,
@@ -314,18 +353,31 @@ void GraphLeftPanel::ChooseLayoutPanel() {
 						node->GetComponent<ColliderComponent>().addCollisionGroup(nodeGroup);
 					}
 
-					for (LinkEntity* link : links) {
+					for (EntityID linkId : links) {
+						auto* link =
+							dynamic_cast<LinkEntity*>(
+								config.scene->manager->getEntityFromId(linkId)
+								);
+
 						link->addComponent<SpringComponent>();
 					}
 				}
 				else {
-					for (NodeEntity* node : nodes) {
+					for (EntityID nodeId : nodes) {
+						auto* node =
+							dynamic_cast<NodeEntity*>(
+								config.scene->manager->getEntityFromId(nodeId)
+								);
 						if (node->hasComponent<ColliderComponent>()) {
 							node->removeGroup(Manager::groupColliders);
 							node->removeComponent<ColliderComponent>();
 						}
 					}
-					for (LinkEntity* link : links) {
+					for (EntityID linkId : links) {
+						auto* link =
+							dynamic_cast<LinkEntity*>(
+								config.scene->manager->getEntityFromId(linkId)
+								);
 						if (link->hasComponent<SpringComponent>()) {
 							link->removeComponent<SpringComponent>();
 						}

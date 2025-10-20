@@ -71,10 +71,11 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 	m.def("getNodes", [&manager]() {
 		py::list nodeList;
 
-		std::vector<NodeEntity*> nodes;
+		std::vector<EntityID> nodes;
 		manager.getAllTypeEntities<NodeEntity>(nodes);
 
-		for (auto& node : nodes) {
+		for (auto& nodeId : nodes) {
+			auto* node = manager.getEntityFromId(nodeId);
 			py::dict nodeData;
 			nodeData["id"] = EntityIDUtils::toString(node->getId());
 

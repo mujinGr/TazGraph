@@ -68,7 +68,9 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	if (maxT > SELECT_DISTANCE) maxT = SELECT_DISTANCE;
 	// ! Select Nodes
 	for (auto& trav_cell : trav_cells) {
-		for (auto& node : trav_cell->nodes) {
+		for (auto& nodeId : trav_cell->nodes) {
+			auto* node = manager->getEntityFromId(nodeId);
+
 			glm::vec3 t;
 			TransformComponent* tempBod = &node->GetComponent<TransformComponent>();
 			if (rayIntersectsBox(rayOrigin,
@@ -153,7 +155,9 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	}
 	// ! Select Empties
 	for (auto& trav_cell : trav_cells) {
-		for (auto& empty : trav_cell->emptyEntities) {
+		for (auto& emptyId : trav_cell->emptyEntities) {
+			auto* empty = manager->getEntityFromId(emptyId);
+
 			glm::vec3 t;
 			TransformComponent* tempBod = &empty->GetComponent<TransformComponent>();
 			if (rayIntersectsBox(rayOrigin,
@@ -306,7 +310,9 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 	// Check individual links in trav_cells (now with path awareness)
 	for (auto& trav_cell : trav_cells) {
-		for (auto& link : trav_cell->links) {
+		for (auto linkId : trav_cell->links) {
+			auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
+
 			if (rayIntersectsLineSegment(rayOrigin, rayDirection,
 				link->getFromNode()->GetComponent<TransformComponent>().getPosition(),
 				link->getToNode()->GetComponent<TransformComponent>().getPosition()
@@ -483,126 +489,131 @@ void Graph::checkInput() {
 
 			selectEntityFromRay(rayOrigin, rayDirection, ON_HOVER);
 
-			std::unordered_set<Entity*> connectedEntities;
+			auto resetAlphaForEntities = [](Manager* manager,
+				const std::vector<EntityID>& nodeGroup,
+				const std::vector<EntityID>& linkGroup)
+				{
+					for (EntityID nodeId : nodeGroup) {
+						auto* node = manager->getEntityFromId(nodeId);
+						if (node->hasComponent<Rectangle_w_Color>()) {
+							auto& rect = node->GetComponent<Rectangle_w_Color>();
+							rect.color.a = rect.default_color.a;
+						}
+					}
+
+					for (EntityID linkId : linkGroup) {
+						auto* link = manager->getEntityFromId(linkId);
+						if (link->hasComponent<Line_w_Color>()) {
+							auto& line = link->GetComponent<Line_w_Color>();
+							line.src_color.a = line.default_src_color.a;
+							line.dest_color.a = line.default_dest_color.a;
+						}
+					}
+				};
 
 			if (wasHoveringEntity && !_onHoverEntity) {
-				if (manager->grid->getGridLevel() == Grid::Level::Basic) {
-					for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
-						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = node_entity->GetComponent<Rectangle_w_Color>().default_color.a;
-							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
-						}
-					}
-					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
-						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = link_entity->GetComponent<Line_w_Color>().default_src_color.a;
-							int destalpha = link_entity->GetComponent<Line_w_Color>().default_dest_color.a;
-							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = destalpha;
-						}
-					}
-				}
-				else if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
-					for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
-						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = node_entity->GetComponent<Rectangle_w_Color>().default_color.a;
-							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
-						}
-					}
-					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
-						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = link_entity->GetComponent<Line_w_Color>().default_src_color.a;
-							int destalpha = link_entity->GetComponent<Line_w_Color>().default_dest_color.a;
-							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = destalpha;
-						}
-					}
-				}
-				else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
-					for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
-						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = node_entity->GetComponent<Rectangle_w_Color>().default_color.a;
-							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
-						}
-					}
-					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
-						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = link_entity->GetComponent<Line_w_Color>().default_src_color.a;
-							int destalpha = link_entity->GetComponent<Line_w_Color>().default_dest_color.a;
-							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = destalpha;
-						}
-					}
+				Grid::Level level = manager->grid->getGridLevel();
+
+				switch (level) {
+				case Grid::Level::Basic:
+					resetAlphaForEntities(
+						manager,
+						manager->getGroup<NodeEntity>(Manager::groupNodes_0),
+						manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)
+					);
+					break;
+
+				case Grid::Level::Outer1:
+					resetAlphaForEntities(
+						manager,
+						manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0),
+						manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)
+					);
+					break;
+
+				case Grid::Level::Outer2:
+					resetAlphaForEntities(
+						manager,
+						manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1),
+						manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)
+					);
+					break;
+
+				default:
+					break;
 				}
 			}
 
+			std::unordered_set<Entity*> connectedEntities;
 			if (_onHoverEntity) {
-				// todo here reduce the alpha of all nodes and links except the ones that are connected to the the node or the nodes connecting to the link
-				Node* hoveredNode = dynamic_cast<Node*>(_onHoverEntity);
-				Link* hoveredLink = dynamic_cast<Link*>(_onHoverEntity);
-				if (hoveredNode) {
+				// --- Build connected entities set ---
+				if (auto* hoveredNode = dynamic_cast<Node*>(_onHoverEntity)) {
 					connectedEntities.insert(hoveredNode);
-					for (LinkEntity* link : hoveredNode->getInLinks()) {
+					for (auto* link : hoveredNode->getInLinks()) {
 						connectedEntities.insert(link);
 						connectedEntities.insert(link->getFromNode());
 					}
-					for (LinkEntity* link : hoveredNode->getOutLinks()) {
+					for (auto* link : hoveredNode->getOutLinks()) {
 						connectedEntities.insert(link);
 						connectedEntities.insert(link->getToNode());
 					}
 				}
-				else if (hoveredLink) {
+				else if (auto* hoveredLink = dynamic_cast<Link*>(_onHoverEntity)) {
 					connectedEntities.insert(hoveredLink);
 					connectedEntities.insert(hoveredLink->getFromNode());
 					connectedEntities.insert(hoveredLink->getToNode());
 				}
-				if (manager->grid->getGridLevel() == Grid::Level::Basic) {
 
-					for (NodeEntity* node_entity : manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
-						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
-							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+				// --- Helper lambda to set alpha on entities ---
+				auto applyAlpha = [&](const std::vector<EntityID>& nodeIds,
+					const std::vector<EntityID>& linkIds)
+					{
+						for (EntityID nodeId : nodeIds) {
+							auto* node = manager->getEntityFromId(nodeId);
+							if (node->hasComponent<Rectangle_w_Color>()) {
+								auto& rect = node->GetComponent<Rectangle_w_Color>();
+								rect.color.a = (connectedEntities.empty() || connectedEntities.count(node))
+									? 255 : 100;
+							}
 						}
-					}
-					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
-						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
-							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
-						}
-					}
-				}
-				else if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
 
-					for (NodeEntity* node_entity : manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
-						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
-							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
+						for (EntityID linkId : linkIds) {
+							auto* link = manager->getEntityFromId(linkId);
+							if (link->hasComponent<Line_w_Color>()) {
+								auto& line = link->GetComponent<Line_w_Color>();
+								int alpha = (connectedEntities.empty() || connectedEntities.count(link))
+									? 255 : 100;
+								line.src_color.a = alpha;
+								line.dest_color.a = alpha;
+							}
 						}
-					}
-					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
-						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
-							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
-						}
-					}
-				}
-				else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
+					};
 
-					for (NodeEntity* node_entity : manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
-						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
-							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
-						}
-					}
-					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
-						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
-							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
-						}
-					}
+				// --- Choose groups by grid level ---
+				switch (manager->grid->getGridLevel()) {
+				case Grid::Level::Basic:
+					applyAlpha(
+						manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0),
+						manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)
+					);
+					break;
+
+				case Grid::Level::Outer1:
+					applyAlpha(
+						manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0),
+						manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)
+					);
+					break;
+
+				case Grid::Level::Outer2:
+					applyAlpha(
+						manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1),
+						manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)
+					);
+					break;
+
+				default:
+					break;
 				}
 			}
 
@@ -749,7 +760,8 @@ void Graph::performFrustumSelection() {
 
 template<typename EntityType>
 void Graph::selectEntitiesInFrustum(int groupId, const SelectionFrustum& frustum) {
-	for (EntityType* entity : manager->getGroup<EntityType>(groupId)) {
+	for (EntityID entityId : manager->getGroup<EntityType>(groupId)) {
+		auto* entity = manager->getEntityFromId(entityId);
 		glm::vec3 centerPoint = entity->template GetComponent<TransformComponent>().getPosition();
 		if (isPointInFrustum(centerPoint, frustum)) {
 			auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),

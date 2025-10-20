@@ -86,17 +86,17 @@ void GraphRightPanel::availableFunctions() {
 
 }
 
-template <typename TVec>
-void GraphRightPanel::DrawEntityJumpList(const char* labelId, TVec& vec) {
+void GraphRightPanel::DrawEntityJumpList(const char* labelId, const std::vector<EntityID>& vec) {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 	if (ImGui::TreeNode(labelId)) {
-		for (auto* e : vec) {
+		for (auto eId : vec) {
+			auto* e = config.scene->manager->getEntityFromId(eId);
 			std::string nodeLabel = "Entity ID: " + EntityIDUtils::toString(e->getId());
 			std::string btn = "Go to##" + EntityIDUtils::toString(e->getId());
 			if (ImGui::Button(btn.c_str())) {
-				if (e->template hasComponent<TransformComponent>()) { // because clang doesnt know what type vec is
-					auto& tr = e->template GetComponent<TransformComponent>();
+				if (e->hasComponent<TransformComponent>()) { // because clang doesnt know what type vec is
+					auto& tr = e->GetComponent<TransformComponent>();
 					main_camera2D->setPosition_X(tr.getPosition().x);
 					main_camera2D->setPosition_Y(tr.getPosition().y);
 					main_camera2D->setAimPos(glm::vec3(main_camera2D->eyePos.x, main_camera2D->eyePos.y, main_camera2D->eyePos.z + 1.0f));
@@ -159,8 +159,7 @@ void GraphRightPanel::ShowAllEntities() {
 
 }
 
-template<typename EntityType>
-void GraphRightPanel::DrawBulkComponentControls(const std::vector<EntityType*>& entityVec,
+void GraphRightPanel::DrawBulkComponentControls(const std::vector<EntityID>& entityVec,
 	const std::string& componentCategory,
 	const std::string& uniqueID) {
 
@@ -190,10 +189,11 @@ void GraphRightPanel::DrawBulkComponentControls(const std::vector<EntityType*>& 
 		// Count how many entities have this component
 		int entitiesWithComponent = 0;
 
-		EntityType* entityWithThisComponent = nullptr;
+		Entity* entityWithThisComponent = nullptr;
 
 
-		for (auto& entity : entityVec) {
+		for (auto entityId : entityVec) {
+			auto* entity = config.scene->manager->getEntityFromId(entityId);
 			if (entity->hasComponentByName(componentName)) {
 				entitiesWithComponent++;
 
@@ -216,7 +216,9 @@ void GraphRightPanel::DrawBulkComponentControls(const std::vector<EntityType*>& 
 		// Add to All button
 		std::string addButtonLabel = "Add to All##" + componentName + "_" + uniqueID;
 		if (ImGui::Button(addButtonLabel.c_str())) {
-			for (auto& entity : entityVec) {
+			for (auto& entityId : entityVec) {
+				auto* entity = config.scene->manager->getEntityFromId(entityId);
+
 				if (!entity->hasComponentByName(componentName)) {
 					AddComponentByName(componentName, entity);
 				}
@@ -227,7 +229,9 @@ void GraphRightPanel::DrawBulkComponentControls(const std::vector<EntityType*>& 
 		// Remove from All button
 		std::string removeButtonLabel = "Remove from All##" + componentName + "_" + uniqueID;
 		if (ImGui::Button(removeButtonLabel.c_str())) {
-			for (auto& entity : entityVec) {
+			for (auto& entityId : entityVec) {
+				auto* entity = config.scene->manager->getEntityFromId(entityId);
+
 				if (entity->hasComponentByName(componentName)) {
 					RemoveComponentByName(componentName, entity);
 				}
@@ -238,7 +242,9 @@ void GraphRightPanel::DrawBulkComponentControls(const std::vector<EntityType*>& 
 		// Toggle button (adds to entities without, removes from entities with)
 		std::string toggleButtonLabel = "Toggle##" + componentName + "_" + uniqueID;
 		if (ImGui::Button(toggleButtonLabel.c_str())) {
-			for (auto& entity : entityVec) {
+			for (auto& entityId : entityVec) {
+				auto* entity = config.scene->manager->getEntityFromId(entityId);
+
 				if (entity->hasComponentByName(componentName)) {
 					RemoveComponentByName(componentName, entity);
 				}
@@ -258,7 +264,9 @@ void GraphRightPanel::DrawBulkComponentControls(const std::vector<EntityType*>& 
 					templateComponent->showGUI();
 				else {
 					std::vector<BaseComponent*> entitiesComponents = {};
-					for (auto& entity : entityVec) {
+					for (auto& entityId : entityVec) {
+						auto* entity = config.scene->manager->getEntityFromId(entityId);
+
 						if (entity->hasComponentByName(componentName)) {
 							entitiesComponents.push_back(getComponentByName(componentName, entity));
 						}

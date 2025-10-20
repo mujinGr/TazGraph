@@ -28,10 +28,8 @@ public:
 
 	void availableFunctions();
 	void ShowAllEntities();
-	template<typename TVec>
-	static void DrawEntityJumpList(const char* labelId, TVec& vec);
+	void DrawEntityJumpList(const char* labelId, const std::vector<EntityID>& vec);
 
-	template<typename EntityType>
-	void DrawBulkComponentControls(const std::vector<EntityType*>& entityVec, const std::string& componentCategory, const std::string& uniqueID);
+	void DrawBulkComponentControls(const std::vector<EntityID>& entityVec, const std::string& componentCategory, const std::string& uniqueID);
 	void CopyComponentValues(BaseComponent* source, BaseComponent* target, size_t size);
 };

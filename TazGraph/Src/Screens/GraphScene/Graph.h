@@ -68,13 +68,11 @@ public:
 
 
 	/////////////////////////
-	void renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch);
-	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRenderer& batch);
-	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch);
-	void renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch);
-	void renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch);
-	void renderBatch(const std::vector<EmptyEntity*>& entities, LightRenderer& batch);
-	void drawHUD(const std::vector<NodeEntity*>& entities);
+	void renderBatch(const std::vector<EntityID>& entities, LineRenderer& batch);
+	void renderBatch(const std::vector<EntityID>& entities, PlaneColorRenderer& batch);
+	void renderBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch);
+	void renderBatch(const std::vector<EntityID>& entities, LightRenderer& batch);
+	void drawHUD(const std::vector<EntityID>& entities);
 
 	/////////////////////////
 

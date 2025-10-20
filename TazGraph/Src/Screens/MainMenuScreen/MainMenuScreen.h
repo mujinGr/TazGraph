@@ -52,7 +52,7 @@ public:
 	virtual void EndRender() override;
 
 
-	void renderBatch(const std::vector<EmptyEntity*>& entities);
+	void renderBatch(const std::vector<EntityID>& entities);
 
 private:
 

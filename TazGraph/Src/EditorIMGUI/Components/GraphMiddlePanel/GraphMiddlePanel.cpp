@@ -42,7 +42,8 @@ void GraphMiddlePanel::OnImGuiRender()
 		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 		Manager* man = config.scene->manager;
-		for (auto& textLabels : man->getGroup<EmptyEntity>(Manager::textLabels)) {
+		for (auto textLabelsId : man->getGroup<EmptyEntity>(Manager::textLabels)) {
+			auto* textLabels = config.scene->manager->getEntityFromId(textLabelsId);
 
 			TazGraphEngine::drawTextAtWorldPositionPerspective(
 				textLabels->GetComponent<TransformComponent>().getPosition(),

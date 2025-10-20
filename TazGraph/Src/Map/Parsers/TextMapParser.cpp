@@ -26,8 +26,8 @@ void TextMapParser::writeFile(std::string m_fileName, Manager& manager)
 
 	file << "Total number of nodes: " << nodes.size() << "\n";
 
-	for (auto& entity : nodes) {
-
+	for (auto entityId : nodes) {
+		auto* entity = manager.getEntityFromId(entityId);
 		if (entity->hasComponent<TransformComponent>()) {
 			TransformComponent& tc = entity->GetComponent<TransformComponent>();
 			file << EntityIDUtils::toString(entity->getId()) << "\t"; // id is the index in the vector of entities
@@ -40,7 +40,8 @@ void TextMapParser::writeFile(std::string m_fileName, Manager& manager)
 
 	file << "Total number of links: " << links.size() << "\n";
 
-	for (auto& entity : links) {
+	for (auto entityId : links) {
+		auto* entity = dynamic_cast<LinkEntity*>(manager.getEntityFromId(entityId));
 		file << EntityIDUtils::toString(entity->getId()) << "\t";
 		file << EntityIDUtils::toString(entity->getFromNode()->getId()) << "\t";
 		file << EntityIDUtils::toString(entity->getToNode()->getId()) << "\n";
@@ -178,12 +179,16 @@ void TextMapParser::parse(Manager& manager,
 	//! Set grid size
 	manager.grid->setSize(2 * maxDistance);
 
-	for (auto& node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
-		manager.grid->addNode(node, manager.grid->getGridLevel());
+	for (auto nodeId : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+		auto* entity = dynamic_cast<NodeEntity*>(manager.getEntityFromId(nodeId));
+
+		manager.grid->addNode(entity, manager.grid->getGridLevel());
 	}
 
-	for (auto& link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
-		manager.grid->addLink(link, manager.grid->getGridLevel());
+	for (auto linkId : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
+		auto* entity = dynamic_cast<LinkEntity*>(manager.getEntityFromId(linkId));
+
+		manager.grid->addLink(entity, manager.grid->getGridLevel());
 	}
 
 	//! Set camera based on map loaded

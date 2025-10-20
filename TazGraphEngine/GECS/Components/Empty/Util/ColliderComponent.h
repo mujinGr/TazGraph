@@ -55,7 +55,7 @@ public:
 			const auto& adjacentEntities = _manager->adjacentEntities(entity, group);
 
 			for (EntityID other : adjacentEntities) {
-				auto* ent = getEntityFromId(other);
+				auto* ent = entity->getManager()->getEntityFromId(other);
 
 				auto areEntitiesLinked = [&](Entity* main, Entity* other)
 					{
@@ -71,12 +71,12 @@ public:
 						return false;
 					};
 
-				if (areEntitiesLinked(entity, other)) {
+				if (areEntitiesLinked(entity, ent)) {
 					//continue;
 				}
 
-				glm::vec3 otherPosition = other->GetComponent<TransformComponent>().getPosition();
-				glm::vec3 otherHalfSize = 0.5f * other->GetComponent<TransformComponent>().size;
+				glm::vec3 otherPosition = ent->GetComponent<TransformComponent>().getPosition();
+				glm::vec3 otherHalfSize = 0.5f * ent->GetComponent<TransformComponent>().size;
 
 				glm::vec3 delta = nodePosition - otherPosition;
 
@@ -84,7 +84,7 @@ public:
 				glm::vec3 repulsion = repulsion_strength * normalize(delta) / (dist * dist);
 
 				transform->velocity += repulsion;
-				other->GetComponent<TransformComponent>().velocity -= repulsion;
+				ent->GetComponent<TransformComponent>().velocity -= repulsion;
 
 			}
 		}

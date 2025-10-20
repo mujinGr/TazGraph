@@ -2,68 +2,60 @@
 #include <AppScene/AppInterface.h>
 #include <tracy/public/tracy/Tracy.hpp>
 
-void Graph::renderBatch(const std::vector<LinkEntity*>& entities, LineRenderer& batch) {
+void Graph::renderBatch(const std::vector<EntityID>& entities, LineRenderer& batch) {
 	//! activate threads near the end, where we have completed everything else
 	if (manager->arrowheadsEnabled) {
 		_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 			for (int i = start; i < end; i++) {
-				assert(entities[i]->hasComponent<Line_w_Color>());
+				auto* entity = manager->getEntityFromId(entities[i]);
+				assert(entity->hasComponent<Line_w_Color>());
 
-				entities[i]->GetComponent<Line_w_Color>().drawWithPorts(i, batch, *Graph::_window);
+				entity->GetComponent<Line_w_Color>().drawWithPorts(i, batch, *Graph::_window);
 			}
 			});
 	}
 	else {
 		_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 			for (int i = start; i < end; i++) {
-				assert(entities[i]->hasComponent<Line_w_Color>());
-				entities[i]->GetComponent<Line_w_Color>().draw(i, batch, *Graph::_window);
+				auto* entity = manager->getEntityFromId(entities[i]);
+
+				assert(entity->hasComponent<Line_w_Color>());
+				entity->GetComponent<Line_w_Color>().draw(i, batch, *Graph::_window);
 			}
 			});
 	}
 
 }
 
-void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneColorRenderer& batch) {
+void Graph::renderBatch(const std::vector<EntityID>& entities, PlaneColorRenderer& batch) {
 
 	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 		for (int i = start; i < end; i++) {
-			assert(entities[i]->hasComponent<Rectangle_w_Color>());
-			entities[i]->GetComponent<Rectangle_w_Color>().draw(i, batch, *Graph::_window);
+			auto* entity = manager->getEntityFromId(entities[i]);
+
+			entity->draw(i, batch, *Graph::_window);
 		}
 		});
 }
 
-void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneColorRenderer& batch) {
-
-	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
-		for (int i = start; i < end; i++) {
-			entities[i]->draw(i, batch, *Graph::_window);
-		}
-		});
-}
-
-void Graph::renderBatch(const std::vector<NodeEntity*>& entities, PlaneModelRenderer& batch) {
+void Graph::renderBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch) {
 	// before calling this make sure that reserved the right amount of memory
 
 	for (int i = 0; i < entities.size(); i++) {
-		entities[i]->draw(i, batch, *Graph::_window);
+		auto* entity = manager->getEntityFromId(entities[i]);
+
+		entity->draw(i, batch, *Graph::_window);
 	}
 
 }
-void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, PlaneModelRenderer& batch) {
+
+void Graph::renderBatch(const std::vector<EntityID>& entities, LightRenderer& batch) {
 	// before calling this make sure that reserved the right amount of memory
 
 	for (int i = 0; i < entities.size(); i++) {
-		entities[i]->draw(i, batch, *Graph::_window);
-	}
-}
+		auto* entity = manager->getEntityFromId(entities[i]);
 
-void Graph::renderBatch(const std::vector<EmptyEntity*>& entities, LightRenderer& batch) {
-	// before calling this make sure that reserved the right amount of memory
-
-	for (int i = 0; i < entities.size(); i++) {
-		entities[i]->draw(i, batch, *Graph::_window);
+		entity->draw(i, batch, *Graph::_window);
 	}
 }
 
@@ -159,9 +151,10 @@ void Graph::draw()
 			manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1)
 			}) {
 
-			std::vector<NodeEntity*> groupVec = group;
+			std::vector<EntityID> groupVec = group;
 
-			for (auto& entity : groupVec) {
+			for (auto entityId : groupVec) {
+				auto* entity = manager->getEntityFromId(entityId);
 
 				if (entity->hasComponent<TransformComponent>())
 				{
@@ -227,7 +220,7 @@ void Graph::draw()
 	_PlaneModelRenderer.initBatchSize();
 	_LightRenderer.initBatchSize();
 
-	std::vector<LinkEntity*> allLinks;
+	std::vector<EntityID> allLinks;
 	auto& links = manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0);
 	auto& group0 = manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0);
 	auto& group1 = manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1);
@@ -299,7 +292,7 @@ void Graph::draw()
 	_LineRenderer.initBatchSize();
 	_PlaneColorRenderer.initBatchSize();
 
-	std::vector<LinkEntity*> allPathLinks;
+	std::vector<EntityID> allPathLinks;
 	auto& pathlinks = manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks);
 	auto& innerLinks = manager->getVisibleGroup<LinkEntity>(Manager::groupPathInnerLinks);
 
@@ -308,7 +301,7 @@ void Graph::draw()
 
 	renderBatch(allPathLinks, _LineRenderer);
 
-	std::vector<EmptyEntity*> allNodeUtils;
+	std::vector<EntityID> allNodeUtils;
 	auto& ports = manager->getVisibleGroup<EmptyEntity>(Manager::groupPorts);
 	auto& portSlots = manager->getVisibleGroup<EmptyEntity>(Manager::groupPortSlots);
 
@@ -504,7 +497,9 @@ void Graph::minimapDraw() {
 				for (int x = Min_WIDTH_CELL; x <= Max_WIDTH_CELL; x++) {
 					Cell* cell = manager->grid->getCell(x, y, z, Grid::Basic);
 					if (cell != nullptr) {
-						for (auto* node : cell->nodes) {
+						for (auto nodeId : cell->nodes) {
+							auto* node = manager->getEntityFromId(nodeId);
+
 							if (node != nullptr) {
 								auto& transform = node->GetComponent<TransformComponent>();
 
@@ -532,7 +527,9 @@ void Graph::minimapDraw() {
 
 			if (cell != nullptr) {
 				// Process all nodes in this cell
-				for (auto* node : cell->nodes) {
+				for (auto nodeId : cell->nodes) {
+					auto* node = manager->getEntityFromId(nodeId);
+
 					if (node != nullptr) {
 						auto& transform = node->GetComponent<TransformComponent>();
 
@@ -631,7 +628,7 @@ void Graph::minimapDraw() {
 	_minimapFramebuffer.Unbind();
 }
 
-void Graph::drawHUD(const std::vector<NodeEntity*>& entities) {
+void Graph::drawHUD(const std::vector<EntityID>& entities) {
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), *hud_camera2D);

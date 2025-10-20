@@ -30,9 +30,7 @@ public:
 		Outer2
 	};
 
-	std::vector<EntityID> visible_emptyEntities;
-	std::vector<EntityID> visible_nodes;
-	std::vector<EntityID> visible_links;
+
 
 	Grid(int width, int height, int depth, int cellSize);
 	~Grid();
@@ -42,15 +40,15 @@ public:
 
 	void createCells(Grid::Level size);
 
-	void addLink(EntityID link, Grid::Level m_level);
-	std::vector<Cell*> getLinkCells(EntityID link, Grid::Level m_level);
-	void addLink(EntityID link, std::vector<Cell*> cell);
+	void addLink(LinkEntity* link, Grid::Level m_level);
+	std::vector<Cell*> getLinkCells(LinkEntity* link, Grid::Level m_level);
+	void addLink(LinkEntity* link, std::vector<Cell*> cell);
 
-	void addEmpty(EntityID entity, Grid::Level m_level);
+	void addEmpty(EmptyEntity* entity, Grid::Level m_level);
 
-	void addNode(EntityID entity, Grid::Level m_level);
-	void addEmpty(EntityID entity, Cell* cell);
-	void addNode(EntityID entity, Cell* cell);
+	void addNode(NodeEntity* entity, Grid::Level m_level);
+	void addEmpty(EmptyEntity* entity, Cell* cell);
+	void addNode(NodeEntity* entity, Cell* cell);
 
 	Cell* getCell(int x, int y, int z, Grid::Level m_level);
 	Cell* getCell(const Entity& position, Grid::Level m_level);
@@ -66,107 +64,7 @@ public:
 
 	std::vector<Cell*> getIntersectedCameraCells(ICamera& camera);
 
-	// loops through the intrecepted cells and just get the entities
-	template <typename T>
-	std::vector<T*> getRevealedEntitiesInCameraCells() {
-		std::vector<EntityId> result;
-
-		if constexpr (std::is_same_v<T, NodeEntity>) {
-			for (auto& cell : _interceptedCells) {
-				for (auto& entityId : cell->nodes) {
-					auto& ent = getEntityFromId(entityId);
-					if (!ent->isHidden()) {  // Check if the entity is visible
-						result.push_back(entity);
-
-						for (auto& port : entity->children) {
-							if (port.second && !port.second->isHidden()) {
-								visible_emptyEntities.push_back(static_cast<EmptyEntity*>(port.second));
-
-								if (port.second->hasComponent<PortComponent>()) {
-									for (auto& portSlots : port.second->children)
-										visible_emptyEntities.push_back(static_cast<EmptyEntity*>(portSlots.second));
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		else if constexpr (std::is_same_v<T, EmptyEntity>) {
-			for (auto& cell : _interceptedCells) {
-				for (auto& entity : cell->emptyEntities) {
-					if (!entity->isHidden()) {  // Check if the entity is visible
-						result.push_back(entity);
-					}
-				}
-			}
-		}
-		else if constexpr (std::is_same_v<T, LinkEntity>) {
-			std::map<unsigned int, LinkEntity*> uniqueEntities;
-
-			for (auto& cell : _interceptedCells) {
-				for (auto& link : cell->links) {
-					if (!link->isHidden()) {
-						unsigned int linkId = link->getId();
-
-						if (uniqueEntities.find(linkId) == uniqueEntities.end()) {
-							uniqueEntities[linkId] = link;
-						}
-					}
-				}
-			}
-			for (auto& entry : uniqueEntities) {
-				result.push_back(entry.second);
-			}
-		}
-		else {
-			static_assert(sizeof(T) == 0, "Unsupported entity type.");
-		}
-		return result;
-
-	}
-
-	// loops through the intrecepted cells and just get the entities
-	template <typename T>
-	std::vector<T*> getEntitiesInCameraCells() {
-		std::vector<T*> result;
-
-		if constexpr (std::is_same_v<T, NodeEntity>) {
-			for (auto& cell : _interceptedCells) {
-				result.insert(result.end(), cell->nodes.begin(), cell->nodes.end());
-			}
-
-			for (auto& cell : _interceptedCells) {
-				for (auto& entity : cell->nodes) {
-					if (!entity->isHidden()) {
-						// Also include children(ports) if they exist
-						for (auto& port : entity->children) {
-							if (port.second && !port.second->isHidden()) {
-								visible_emptyEntities.push_back(static_cast<EmptyEntity*>(port.second));
-
-								if (port.second->hasComponent<PortComponent>()) {
-									for (auto& portSlots : port.second->children)
-										visible_emptyEntities.push_back(static_cast<EmptyEntity*>(portSlots.second));
-								}
-							}
-						}
-					}
-				}
-			}
-
-		}
-		else if constexpr (std::is_same_v<T, EmptyEntity>) {
-			for (auto& cell : _interceptedCells) {
-				result.insert(result.end(), cell->emptyEntities.begin(), cell->emptyEntities.end());
-			}
-		}
-		else {
-			static_assert(sizeof(T) == 0, "Unsupported entity type.");
-		}
-		return result;
-	}
-
-	std::vector<LinkEntity*> getLinksInCameraCells();
+	std::vector<EntityID> getLinksInCameraCells();
 
 
 	bool gridLevelChanged();
@@ -177,8 +75,8 @@ public:
 	int getLevelCellScale();
 
 	int getLevelCellScale(Level level);
+	std::vector<Cell*> interceptedCells;
 private:
-	std::vector<Cell*> _interceptedCells;
 
 	std::vector<Cell*> _cells;
 	std::vector<Cell*> _parentCells;
