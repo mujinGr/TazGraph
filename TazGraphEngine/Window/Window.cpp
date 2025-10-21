@@ -46,10 +46,11 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 	SDL_Surface* icon = IMG_Load("../TazGraph/assets/Sprites/TazGraph_whitebg.jpg");
 	SDL_SetWindowIcon(_sdlWindow, icon);
 	//Set up our OpenGL context
-	SDL_GLContext glContext = SDL_GL_CreateContext(_sdlWindow);
+	glContext = SDL_GL_CreateContext(_sdlWindow);
 	if (glContext == nullptr) {
 		TazGraphEngine::ConsoleLogger::error("SDL_GL context could not be created!");
 	}
+	SDL_GL_MakeCurrent(_sdlWindow, glContext);
 
 	//Set up glew (optional but recommended)
 	GLenum error = glewInit();
@@ -70,7 +71,6 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 
 	//Check the OpenGL version
 	std::cout << "***   OpenGL Version: " << glGetString(GL_VERSION) << "    ***\n";
-
 	//Set VSYNC
 	SDL_GL_SetSwapInterval(0);
 
@@ -83,6 +83,8 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 	glEnable(GL_POLYGON_SMOOTH);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+	SDL_GL_MakeCurrent(_sdlWindow, nullptr);
+
 	return 0;
 }
 

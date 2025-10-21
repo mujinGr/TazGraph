@@ -353,5 +353,8 @@
     <ClInclude Include="Window\DefineFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Threader\RenderCommandQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

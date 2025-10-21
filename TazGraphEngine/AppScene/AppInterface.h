@@ -11,6 +11,7 @@
 #include "../AudioEngine/AudioEngine.h"
 
 #include "../Threader/Threader.h"
+#include "../Threader/RenderCommandQueue.h"
 
 
 class SceneList;
@@ -24,6 +25,7 @@ public:
 	virtual ~AppInterface();
 
 	void run();
+	void RenderThreadFunc();
 	void exitSimulator();
 
 	virtual void onInit() = 0;
@@ -43,6 +45,9 @@ public:
 	double initialTimestamp;
 	int initialStep;
 
+	RenderCommandQueue queues[2];
+	std::atomic<int> activeIndex = 0;
+	std::atomic<bool> frameReady = false;
 protected:
 	virtual void checkInput();
 	virtual void update(float deltaTime);

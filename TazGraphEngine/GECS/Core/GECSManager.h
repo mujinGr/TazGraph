@@ -347,11 +347,8 @@ public:
 		lastEntityId = 0;
 	}
 
-	Entity* getEntityFromId(EntityID mId) {
-		if (entities.contains(mId)) {
-			return entities[mId].get();
-		}
-		return nullptr;
+	inline Entity* getEntityFromId(EntityID mId) {
+		return entities[mId].get();
 	}
 
 	bool hasEntity(EntityID mId) {

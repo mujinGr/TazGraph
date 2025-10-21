@@ -76,19 +76,7 @@ void Graph::draw()
 	GLSLProgram glsl_color = *_resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer = *_resourceManager.getGLSLProgram("framebuffer");
 
-	_viewportFramebuffer.Bind();
-	////////////OPENGL USE
-	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 
-	glClearDepth(1.0);
-	glDepthFunc(GL_LESS);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-	// Blending for smooth edges (premultiplied or standard)
-	glEnable(GL_BLEND);
-	/////////////////////////////////////////////////////
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
 	glm::mat4 rotationMatrix = glm::mat4(1.0f);
@@ -248,6 +236,19 @@ void Graph::draw()
 	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), _LightRenderer);
 
 
+	_viewportFramebuffer.Bind();
+	////////////OPENGL USE
+	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+
+	glClearDepth(1.0);
+	glDepthFunc(GL_LESS);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	// Blending for smooth edges (premultiplied or standard)
+	glEnable(GL_BLEND);
+	/////////////////////////////////////////////////////
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	_resourceManager.setupShader(glsl_texture, *main_camera2D);
 	_PlaneModelRenderer.end();
@@ -272,9 +273,6 @@ void Graph::draw()
 	_LightRenderer.end();
 	_LightRenderer.renderBatch(_resourceManager.getGLSLProgram("light"));
 	glsl_light.unuse();
-
-	glDepthMask(GL_FALSE);  // don’t write to depth buffer
-	glDisable(GL_DEPTH_TEST);
 
 	//! Link Paths rendering & Ports rendering
 	_LineRenderer.begin();
@@ -612,10 +610,6 @@ void Graph::minimapDraw() {
 	_PlaneColorRenderer.end();
 	_PlaneColorRenderer.renderBatch(&glsl_color);
 	glsl_color.unuse();
-
-
-	glDepthMask(GL_TRUE);
-	glEnable(GL_DEPTH_TEST);
 
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);

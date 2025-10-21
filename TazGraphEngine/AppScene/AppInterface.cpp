@@ -28,6 +28,7 @@ void AppInterface::run() {
 
 	const float DESIRED_FPS = 60;
 	const int MAX_PHYSICS_STEPS = 1;
+	//SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
 	if (!init()) return;
 
@@ -39,6 +40,7 @@ void AppInterface::run() {
 	Uint64 prevTicks = SDL_GetPerformanceCounter();
 
 	_limiter.setMaxFPS(60.0f);
+	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
 	_isRunning = true;
 	while (_isRunning) {
@@ -121,7 +123,38 @@ void AppInterface::run() {
 		FrameMark;
 		//std::cout << "UI: " << uiTime << " ms, Total Frame Time: " << frameTime << " ms, FPS: " << _limiter.fps << "\n";
 	}
+	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 }
+
+void AppInterface::RenderThreadFunc() {
+	// Make OpenGL context current on this thread
+	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
+
+	// Initialize ImGui (OpenGL3 backend)
+	ImGui_ImplOpenGL3_Init("#version 430");
+	ImGui_ImplSDL2_InitForOpenGL(_window._sdlWindow, _window.glContext);
+
+	while (_isRunning) {
+		int readIndex = activeIndex.load();
+		queues[readIndex].Execute();
+
+		{
+			ZoneScopedN("SwapBuffer");
+			_window.swapBuffer();
+		}
+
+		frameReady.store(false);
+		while (!frameReady.load() && _isRunning)
+			std::this_thread::sleep_for(std::chrono::microseconds(100));
+	}
+
+	// Cleanup ImGui before exiting
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+
+	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
+}
+
 void AppInterface::exitSimulator() {
 	_currentScene->onExit();
 	if (_sceneList) {
@@ -193,10 +226,12 @@ bool AppInterface::init() {
 	_audioEngine.init();
 
 	CameraManager::getInstance().initializeCameras();
+	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
 	_currentScene = _sceneList->getCurrent();
 	_currentScene->onEntry();
 	_currentScene->setRunning();
+	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 
 	return true;
 }
