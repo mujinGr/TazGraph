@@ -97,6 +97,10 @@ public:
 			newInnerLink.addGroup(Manager::groupPathInnerLinks);  // or a dedicated group for inner links
 
 			newInnerLink.addComponent<Line_w_Color>();
+			if (entity->getManager()->arrowheadsEnabled)
+				newInnerLink.addComponent<LinkNodesComponent>();
+			else
+				newInnerLink.addComponent<LinkPortsComponent>();
 
 			innerLinks.push_back(&newInnerLink);
 

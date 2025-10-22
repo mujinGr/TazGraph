@@ -3,27 +3,14 @@
 #include <tracy/public/tracy/Tracy.hpp>
 
 void Graph::drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch) {
-	//! activate threads near the end, where we have completed everything else
-	if (manager->arrowheadsEnabled) {
-		_app->threadPool.parallel(entities.size(), [&](int start, int end) {
-			for (int i = start; i < end; i++) {
-				auto* entity = manager->getEntityFromId(entities[i]);
-				assert(entity->hasComponent<Line_w_Color>());
 
-				entity->GetComponent<Line_w_Color>().drawWithPorts(i, batch, *Graph::_window);
-			}
-			});
-	}
-	else {
-		_app->threadPool.parallel(entities.size(), [&](int start, int end) {
-			for (int i = start; i < end; i++) {
-				auto* entity = manager->getEntityFromId(entities[i]);
+	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
+		for (int i = start; i < end; i++) {
+			auto* entity = manager->getEntityFromId(entities[i]);
 
-				assert(entity->hasComponent<Line_w_Color>());
-				entity->GetComponent<Line_w_Color>().draw(i, batch, *Graph::_window);
-			}
-			});
-	}
+			entity->draw(i, batch, *Graph::_window);
+		}
+		});
 
 }
 
@@ -461,7 +448,7 @@ void Graph::minimapDraw() {
 	const int Max_DEPTH_CELL = (GRID_DEPTH + 1) / 2;
 
 	static float elapsed = 0.0f;
-	elapsed += getApp()->getFPSLimiter().frameTime / 1000.0f;
+	elapsed += getApp()->getFPSLimiter().fps / 3600.0f;
 
 	if (elapsed >= 60.0f && processingComplete) {
 		elapsed = 0.0f;

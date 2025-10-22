@@ -30,37 +30,8 @@ public:
 	void update(float deltaTime) override {
 	}
 
-	void draw(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
-		//float tempScreenScale = window.getScale();
+	virtual void draw() {
 
-		glm::vec3 fromNodeCenter = entity->getFromNode()->GetComponent<TransformComponent>().getPosition();
-		glm::vec3 toNodeCenter = entity->getToNode()->GetComponent<TransformComponent>().getPosition();
-
-		batch.drawLine(v_index, fromNodeCenter, toNodeCenter, src_color, dest_color, width);
-	}
-
-	void drawWithPorts(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
-		//float tempScreenScale = window.getScale();
-
-		if (std::holds_alternative<int>(entity->fromPort) || std::holds_alternative<int>(entity->toPort)) {
-			TazGraphEngine::ConsoleLogger::error("Ports are not assigned!");
-			return;
-		}
-
-		NodeEntity* fromNode = entity->getFromNode();
-		NodeEntity* toNode = entity->getToNode();
-
-		Entity* fromPortEntity = fromNode->children[entity->fromPort];
-		Entity* toPortEntity = toNode->children[entity->toPort];
-
-		if ((entity->fromSlotIndex >= fromPortEntity->children.size())
-			|| (entity->toSlotIndex >= toPortEntity->children.size())) {
-			return;
-		}
-		glm::vec3 fromConnectionPoint = fromPortEntity->children[entity->fromSlotIndex]->GetComponent<TransformComponent>().getPosition();
-		glm::vec3 toConnectionPoint = toPortEntity->children[entity->toSlotIndex]->GetComponent<TransformComponent>().getPosition();
-
-		batch.drawLine(v_index, fromConnectionPoint, toConnectionPoint, src_color, dest_color, width);
 	}
 
 	void setSrcColor(TazColor clr) {
@@ -127,6 +98,6 @@ public:
 			setDestColor(newColor);
 		}
 
-		ImGui::SliderFloat("Width: ", &width, 0.0f,10.0f);
+		ImGui::SliderFloat("Width: ", &width, 0.0f, 10.0f);
 	}
 };

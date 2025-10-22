@@ -60,6 +60,10 @@ void DOTMapParser::parse(Manager& manager,
 		link.addGroup(Manager::groupLinks_0);
 
 		addLinkFunc(link);
+		if (manager.arrowheadsEnabled)
+			link.addComponent<LinkPortsComponent>();
+		else
+			link.addComponent<LinkNodesComponent>();
 	}
 
 

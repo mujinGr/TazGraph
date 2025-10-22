@@ -202,7 +202,10 @@ void GraphEditorLayer::OnImGuiRender()
 
 					link.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 40, 0, 255));
 					link.GetComponent<Line_w_Color>().setDestColor(TazColor(40, 255, 0, 255));
-
+					if (manager->arrowheadsEnabled)
+						link.addComponent<LinkNodesComponent>();
+					else
+						link.addComponent<LinkPortsComponent>();
 					link.addComponent<LineFlashAnimatorComponent>();
 
 					link.addGroup(Manager::groupLinks_0);

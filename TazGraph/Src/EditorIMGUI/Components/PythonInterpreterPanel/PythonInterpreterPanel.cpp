@@ -59,6 +59,11 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 		link.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 255, 255.0f * alpha));
 		link.GetComponent<Line_w_Color>().setDestColor(TazColor(255, 255, 255, 255.0f * alpha));
 
+		if (manager.arrowheadsEnabled)
+			link.addComponent<LinkPortsComponent>();
+		else
+			link.addComponent<LinkNodesComponent>();
+
 		manager.grid->addLink(&link, manager.grid->getGridLevel());
 
 		py::dict result;

@@ -91,7 +91,10 @@ void SceneControlPanel::OnImGuiRender()
 				link.GetComponent<Line_w_Color>().setDestColor(TazColor(40, 255, 0, 255));
 
 				link.addComponent<LineFlashAnimatorComponent>();
-
+				if (config.scene->manager->arrowheadsEnabled)
+					link.addComponent<LinkNodesComponent>();
+				else
+					link.addComponent<LinkPortsComponent>();
 
 				link.addGroup(Manager::groupLinks_0);
 				config.scene->manager->grid->addLink(&link, config.scene->manager->grid->getGridLevel());

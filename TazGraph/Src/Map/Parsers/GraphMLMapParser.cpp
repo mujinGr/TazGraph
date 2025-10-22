@@ -73,7 +73,10 @@ void GraphMLMapParser::parse(Manager& manager,
 		link.addGroup(Manager::groupLinks_0);
 
 		addLinkFunc(link);
-
+		if (manager.arrowheadsEnabled)
+			link.addComponent<LinkPortsComponent>();
+		else
+			link.addComponent<LinkNodesComponent>();
 		// Optional: Set edge properties
 		for (tinyxml2::XMLElement* data = edge->FirstChildElement("data");
 			data != nullptr;

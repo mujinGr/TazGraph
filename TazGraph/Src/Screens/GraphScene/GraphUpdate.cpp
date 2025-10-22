@@ -45,8 +45,7 @@ void Graph::update(float deltaTime) //game objects updating
 
 	*/
 
-	if ((manager->last_arrowheadsEnabled != manager->arrowheadsEnabled)
-		&& manager->arrowheadsEnabled) {
+	if (!manager->last_arrowheadsEnabled && manager->arrowheadsEnabled) {
 		//todo add to all nodes ports
 		for (auto nodeId : manager->getGroup<NodeEntity>(manager->grid->getGridLevel() == Grid::Level::Basic ? Manager::groupNodes_0 :
 			(manager->grid->getGridLevel() == Grid::Level::Outer1 ? Manager::groupGroupNodes_0 :
@@ -64,6 +63,8 @@ void Graph::update(float deltaTime) //game objects updating
 				)))
 		{
 			auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
+			link->removeComponent<LinkNodesComponent>();
+			link->addComponent<LinkPortsComponent>();
 
 			link->updateConnectedPorts();
 			link->addArrowHead();

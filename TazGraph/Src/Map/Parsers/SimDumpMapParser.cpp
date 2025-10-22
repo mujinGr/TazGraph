@@ -222,6 +222,10 @@ void SimDumpMapParser::createSteps(
 				lwc.setDestColor(parsedLinks[i].color);
 				lwc.width = parsedLinks[i].width;
 				addLinkFunc(*linkEntities[i]);
+				if (manager.arrowheadsEnabled)
+					linkEntities[i]->addComponent<LinkPortsComponent>();
+				else
+					linkEntities[i]->addComponent<LinkNodesComponent>();
 			}
 			});
 	}

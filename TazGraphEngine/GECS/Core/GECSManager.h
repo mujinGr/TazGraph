@@ -17,6 +17,7 @@ class Manager
 {
 private:
 	std::mutex entities_mtx;
+	std::mutex refresh_mtx;
 
 	Threader* _threader = nullptr;
 	int lastEntityId = 0;
@@ -208,6 +209,8 @@ public:
 		}
 
 		if (_update_active_entities) {
+			std::scoped_lock lock(refresh_mtx);
+
 			_update_active_entities = false;
 
 			updateActiveEntities();
@@ -217,6 +220,7 @@ public:
 	}
 
 	void aboutTo_updateActiveEntities() {
+		std::scoped_lock lock(refresh_mtx);
 		_update_active_entities = true;
 	}
 

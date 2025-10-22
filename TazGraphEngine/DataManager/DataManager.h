@@ -197,6 +197,10 @@ public:
 				auto& link = manager.addEntity<Link>((int)idA, (int)idB);
 				link.addGroup(Manager::groupPathLinks);
 				link.addComponent<Line_w_Color>();
+				if (manager.arrowheadsEnabled)
+					link.addComponent<LinkPortsComponent>();
+				else
+					link.addComponent<LinkNodesComponent>();
 
 				link.addComponent<LineFlashAnimatorComponent>();
 
