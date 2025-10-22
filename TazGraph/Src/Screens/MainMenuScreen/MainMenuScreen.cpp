@@ -165,7 +165,6 @@ void MainMenuScreen::draw()
 	_PlaneModelRenderer.renderBatch(_resourceManager.getGLSLProgram("texture"));
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-	//drawHUD();
 	_resourceManager.getGLSLProgram("texture")->unuse();
 }
 

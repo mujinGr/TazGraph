@@ -2,7 +2,7 @@
 #include <AppScene/AppInterface.h>
 #include <tracy/public/tracy/Tracy.hpp>
 
-void Graph::renderBatch(const std::vector<EntityID>& entities, LineRenderer& batch) {
+void Graph::drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch) {
 	//! activate threads near the end, where we have completed everything else
 	if (manager->arrowheadsEnabled) {
 		_app->threadPool.parallel(entities.size(), [&](int start, int end) {
@@ -27,7 +27,7 @@ void Graph::renderBatch(const std::vector<EntityID>& entities, LineRenderer& bat
 
 }
 
-void Graph::renderBatch(const std::vector<EntityID>& entities, PlaneColorRenderer& batch) {
+void Graph::drawBatch(const std::vector<EntityID>& entities, PlaneColorRenderer& batch) {
 
 	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 		for (int i = start; i < end; i++) {
@@ -38,7 +38,7 @@ void Graph::renderBatch(const std::vector<EntityID>& entities, PlaneColorRendere
 		});
 }
 
-void Graph::renderBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch) {
+void Graph::drawBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch) {
 	// before calling this make sure that reserved the right amount of memory
 
 	for (int i = 0; i < entities.size(); i++) {
@@ -49,7 +49,7 @@ void Graph::renderBatch(const std::vector<EntityID>& entities, PlaneModelRendere
 
 }
 
-void Graph::renderBatch(const std::vector<EntityID>& entities, LightRenderer& batch) {
+void Graph::drawBatch(const std::vector<EntityID>& entities, LightRenderer& batch) {
 	// before calling this make sure that reserved the right amount of memory
 
 	for (int i = 0; i < entities.size(); i++) {
@@ -75,9 +75,6 @@ void Graph::draw()
 	GLSLProgram glsl_wireframeColor = *_resourceManager.getGLSLProgram("wireframeColor");
 	GLSLProgram glsl_color = *_resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer = *_resourceManager.getGLSLProgram("framebuffer");
-
-
-
 
 	glm::mat4 rotationMatrix = glm::mat4(1.0f);
 	glm::vec3 cameraAimPos = main_camera2D->getAimPos();
@@ -217,23 +214,23 @@ void Graph::draw()
 	allLinks.insert(allLinks.end(), group0.begin(), group0.end());
 	allLinks.insert(allLinks.end(), group1.begin(), group1.end());
 
-	renderBatch(allLinks, _LineRenderer);
+	drawBatch(allLinks, _LineRenderer);
 
 	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
 
-	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
-	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
-	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
+	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
+	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
+	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
 
-	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
+	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
 
 
-	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
+	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
 
-	renderBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
+	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
 
-	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties), _LightRenderer);
-	renderBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), _LightRenderer);
+	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties), _LightRenderer);
+	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), _LightRenderer);
 
 
 	_viewportFramebuffer.Bind();
@@ -297,7 +294,7 @@ void Graph::draw()
 	allPathLinks.insert(allPathLinks.end(), pathlinks.begin(), pathlinks.end());
 	allPathLinks.insert(allPathLinks.end(), innerLinks.begin(), innerLinks.end());
 
-	renderBatch(allPathLinks, _LineRenderer);
+	drawBatch(allPathLinks, _LineRenderer);
 
 	std::vector<EntityID> allNodeUtils;
 	auto& ports = manager->getVisibleGroup<EmptyEntity>(Manager::groupPorts);
@@ -306,7 +303,7 @@ void Graph::draw()
 	allNodeUtils.insert(allNodeUtils.end(), ports.begin(), ports.end());
 	allNodeUtils.insert(allNodeUtils.end(), portSlots.begin(), portSlots.end());
 
-	renderBatch(allNodeUtils, _PlaneColorRenderer);
+	drawBatch(allNodeUtils, _PlaneColorRenderer);
 
 	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
@@ -423,10 +420,6 @@ void Graph::draw()
 	glsl_wireframeColor.unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
-	/*drawHUD(labels, "arial");
-	_resourceManager.getGLSLProgram("color")->use();
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	///////////////////////////////////////////////////////
@@ -585,7 +578,7 @@ void Graph::minimapDraw() {
 
 	_PlaneColorRenderer.initBatchSize();
 
-	renderBatch(manager->getGroup<NodeEntity>(Manager::groupMinimapNodes), _PlaneColorRenderer);
+	drawBatch(manager->getGroup<NodeEntity>(Manager::groupMinimapNodes), _PlaneColorRenderer);
 
 	float maxDistance = manager->grid->getNumXCells() * manager->grid->getCellSize();
 
@@ -620,11 +613,4 @@ void Graph::minimapDraw() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	_minimapFramebuffer.Unbind();
-}
-
-void Graph::drawHUD(const std::vector<EntityID>& entities) {
-	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
-
-	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), *hud_camera2D);
-	renderBatch(entities, _hudPlaneModelRenderer);
 }
