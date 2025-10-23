@@ -57,23 +57,23 @@ public:
 			for (EntityID other : adjacentEntities) {
 				auto* ent = entity->getManager()->getEntityFromId(other);
 
-				auto areEntitiesLinked = [&](Entity* main, Entity* other)
-					{
-						NodeEntity* mainNode = dynamic_cast<NodeEntity*>(main);
-						if (mainNode)
-						{
-							for (auto& i : mainNode->getOutLinks()) {
-								if (i->getToNode() == other) {
-									return true;
-								}
-							}
-						}
-						return false;
-					};
+				//auto areEntitiesLinked = [&](Entity* main, Entity* other)
+				//	{
+				//		NodeEntity* mainNode = dynamic_cast<NodeEntity*>(main);
+				//		if (mainNode)
+				//		{
+				//			for (auto& i : mainNode->getOutLinks()) {
+				//				if (i == other) {
+				//					return true;
+				//				}
+				//			}
+				//		}
+				//		return false;
+				//	};
 
-				if (areEntitiesLinked(entity, ent)) {
-					//continue;
-				}
+				//if (areEntitiesLinked(entity, ent)) {
+				//	//continue;
+				//}
 
 				glm::vec3 otherPosition = ent->GetComponent<TransformComponent>().getPosition();
 				glm::vec3 otherHalfSize = 0.5f * ent->GetComponent<TransformComponent>().size;

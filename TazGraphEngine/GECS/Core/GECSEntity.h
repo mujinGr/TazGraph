@@ -53,8 +53,8 @@ public:
 
 class NodeEntity : public EmptyEntity {
 protected:
-	std::vector<LinkEntity*> inLinks;
-	std::vector<LinkEntity*> outLinks;
+	std::vector<EntityID> inLinks;
+	std::vector<EntityID> outLinks;
 public:
 
 	NodeEntity(Manager& mManager) : EmptyEntity(mManager) {
@@ -79,33 +79,33 @@ public:
 			entities.erase(it);
 	}
 
-	void addInLink(LinkEntity* link) {
+	void addInLink(EntityID link) {
 		inLinks.push_back(link);
 	}
 
-	void addOutLink(LinkEntity* link) {
+	void addOutLink(EntityID link) {
 		outLinks.push_back(link);
 	}
 
-	void removeInLink(LinkEntity* link) {
+	void removeInLink(EntityID link) {
 		auto it = std::find(inLinks.begin(), inLinks.end(), link);
 		if (it != inLinks.end()) {
 			inLinks.erase(it);
 		}
 	}
 
-	void removeOutLink(LinkEntity* link) {
+	void removeOutLink(EntityID link) {
 		auto it = std::find(outLinks.begin(), outLinks.end(), link);
 		if (it != outLinks.end()) {
 			outLinks.erase(it);
 		}
 	}
 
-	const std::vector<LinkEntity*>& getInLinks() const {
+	const std::vector<EntityID>& getInLinks() const {
 		return inLinks;
 	}
 
-	const std::vector<LinkEntity*>& getOutLinks() const {
+	const std::vector<EntityID>& getOutLinks() const {
 		return outLinks;
 	}
 
@@ -121,6 +121,11 @@ public:
 
 class LinkEntity : public MultiCellEntity {
 protected:
+	//! When DirectPosition
+
+	glm::vec3 fromPos = glm::vec3(0);
+	glm::vec3 toPos = glm::vec3(0);
+
 	//! When Node_to_Node
 	EntityID fromId = 0;
 	EntityID toId = 0;
@@ -149,11 +154,13 @@ public:
 
 	LinkEntity(Manager& mManager, EntityID mfromId, EntityID mtoId)
 		: MultiCellEntity(mManager), fromId(mfromId), toId(mtoId) {
+		type = ConnectionType::NODE_TO_NODE;
 
 	}
 
 	LinkEntity(Manager& mManager, NodeEntity* mfrom, NodeEntity* mto)
 		: MultiCellEntity(mManager), from(mfrom), to(mto) {
+		type = ConnectionType::NODE_TO_NODE;
 
 	}
 
@@ -163,6 +170,7 @@ public:
 		: MultiCellEntity(mManager),
 		fromId(mfromId), toId(mtoId),
 		from(mfrom), to(mto) {
+		type = ConnectionType::NODE_TO_NODE;
 
 	}
 
@@ -176,6 +184,16 @@ public:
 		toPort = m_toPort;
 		fromSlotIndex = m_fromSlot;
 		toSlotIndex = m_toSlot;
+		type = ConnectionType::PORT_TO_PORT;
+	}
+
+	LinkEntity(
+		Manager& mManager,
+		glm::vec3 mfrom, glm::vec3 mto
+	)
+		: MultiCellEntity(mManager), fromPos(mfrom), toPos(mto)
+	{
+		type = ConnectionType::DIRECT_POSITIONS;
 	}
 
 	void setComponentEntity(LinkComponent* c) override {

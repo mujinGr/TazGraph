@@ -33,7 +33,7 @@ float BaseFPSLimiter::end() {
 
 void BaseFPSLimiter::setHistoryValue(float currentFPS)
 {
-	fpsHistory[fpsHistoryIndx % fps_history_count] = fps;
+	fpsHistory[fpsHistoryIndx % fps_history_count] = currentFPS;
 	fpsHistoryIndx++;
 }
 

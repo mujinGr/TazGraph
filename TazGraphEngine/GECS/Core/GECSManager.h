@@ -76,11 +76,15 @@ public:
 				auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(e));
 
 				updateInnerPathLinks = true;
-				for (auto& link : ent->getInLinks()) {
-					link->cellUpdate();
+				for (auto& linkId : ent->getInLinks()) {
+					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(linkId));
+
+					linkEntity->cellUpdate();
 				}
 				for (auto& link : ent->getOutLinks()) {
-					link->cellUpdate();
+					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
+
+					linkEntity->cellUpdate();
 				}
 			}
 
@@ -89,7 +93,9 @@ public:
 					auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(movedNodes[i]));
 
 					for (auto& link : ent->getInLinks()) {
-						link->updateConnectedPorts();
+						auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
+
+						linkEntity->updateConnectedPorts();
 					}
 				}
 				});
@@ -99,7 +105,9 @@ public:
 					auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(movedNodes[i]));
 
 					for (auto& link : ent->getOutLinks()) {
-						link->updateConnectedPorts();
+						auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
+
+						linkEntity->updateConnectedPorts();
 					}
 				}
 				});
@@ -144,10 +152,14 @@ public:
 				auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(e));
 
 				for (auto& link : ent->getInLinks()) {
-					link->cellUpdate();
+					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
+
+					linkEntity->cellUpdate();
 				}
 				for (auto& link : ent->getOutLinks()) {
-					link->cellUpdate();
+					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
+
+					linkEntity->cellUpdate();
 				}
 			}
 
@@ -155,15 +167,19 @@ public:
 				auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(e));
 
 				for (auto& link : ent->getInLinks()) {
-					link->updateConnectedPorts();
+					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
+
+					linkEntity->updateConnectedPorts();
 				}
 			}
 
 			for (auto& e : movedNodes) {
 				auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(e));
-				
+
 				for (auto& link : ent->getOutLinks()) {
-					link->updateConnectedPorts();
+					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
+
+					linkEntity->updateConnectedPorts();
 				}
 			}
 

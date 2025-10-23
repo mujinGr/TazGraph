@@ -187,6 +187,33 @@ namespace EntityIDUtils {
 		// If not a valid integer or conversion failed, treat as string
 		return EntityID{ str };
 	}
+
+	inline bool areEqual(const EntityID& a, const EntityID& b) {
+		// If both hold the same type
+		if (a.index() == b.index()) {
+			if (std::holds_alternative<int>(a))
+				return std::get<int>(a) == std::get<int>(b);
+			else
+				return std::get<std::string>(a) == std::get<std::string>(b);
+		}
+
+		// If types differ (int vs string), try numeric-string conversion
+		try {
+			if (std::holds_alternative<int>(a) && std::holds_alternative<std::string>(b)) {
+				return std::to_string(std::get<int>(a)) == std::get<std::string>(b) ||
+					std::stoi(std::get<std::string>(b)) == std::get<int>(a);
+			}
+			if (std::holds_alternative<std::string>(a) && std::holds_alternative<int>(b)) {
+				return std::get<std::string>(a) == std::to_string(std::get<int>(b)) ||
+					std::stoi(std::get<std::string>(a)) == std::get<int>(b);
+			}
+		}
+		catch (const std::exception&) {
+			// Conversion failed — treat as not equal
+		}
+
+		return false;
+	}
 }
 
 class Entity

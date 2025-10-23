@@ -555,11 +555,14 @@ void Graph::checkInput() {
 				// --- Build connected entities set ---
 				if (auto* hoveredNode = dynamic_cast<Node*>(_onHoverEntity)) {
 					connectedEntities.insert(hoveredNode);
-					for (auto* link : hoveredNode->getInLinks()) {
+					for (auto& linkId : hoveredNode->getInLinks()) {
+						auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
 						connectedEntities.insert(link);
 						connectedEntities.insert(link->getFromNode());
 					}
-					for (auto* link : hoveredNode->getOutLinks()) {
+					for (auto& linkId : hoveredNode->getOutLinks()) {
+						auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
+
 						connectedEntities.insert(link);
 						connectedEntities.insert(link->getToNode());
 					}

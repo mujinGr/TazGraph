@@ -44,6 +44,8 @@ void CustomFunctions::CalculateDegree()
 	std::unordered_set<NodeEntity*> currentDepthNodes;
 	std::unordered_set<NodeEntity*> nextDepthNodes;
 
+	Manager* manager = config.scene->manager;
+
 	// Add selected entities (only nodes) as depth 0
 	for (auto& pair : *selectedEntities) {
 		if (auto* node = dynamic_cast<NodeEntity*>(pair.first)) {
@@ -57,7 +59,9 @@ void CustomFunctions::CalculateDegree()
 
 		// Collect next depth nodes
 		for (auto* node : currentDepthNodes) {
-			for (auto* link : node->getOutLinks()) {
+			for (auto& linkId : node->getOutLinks()) {
+				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
+
 				if (auto* target = link->getToNode()) {
 					nextDepthNodes.insert(target);
 				}

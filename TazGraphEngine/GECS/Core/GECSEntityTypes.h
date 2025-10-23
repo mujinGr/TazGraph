@@ -92,22 +92,35 @@ public:
 
 				manager.movedNodes.push_back(id);
 			}
-			for (auto& link : inLinks) {
-				link->updateArrowHeads();
-				for (auto& depthLink : link->getFromNode()->getInLinks()) {
-					depthLink->updateArrowHeads();
+			for (auto& linkId : inLinks) {
+				auto* link = dynamic_cast<LinkEntity*>(manager.getEntityFromId(linkId));
+				if (link->type == LinkEntity::ConnectionType::PORT_TO_PORT)
+					link->updateArrowHeads();
+
+				for (auto& depthLinkId : link->getFromNode()->getInLinks()) {
+					auto* depthLink = dynamic_cast<LinkEntity*>(manager.getEntityFromId(depthLinkId));
+					if (depthLink->type == LinkEntity::ConnectionType::PORT_TO_PORT)
+						depthLink->updateArrowHeads();
 				}
-				for (auto& depthLink : link->getFromNode()->getOutLinks()) {
-					depthLink->updateArrowHeads();
+				for (auto& depthLinkId : link->getFromNode()->getOutLinks()) {
+					auto* depthLink = dynamic_cast<LinkEntity*>(manager.getEntityFromId(depthLinkId));
+					if (depthLink->type == LinkEntity::ConnectionType::PORT_TO_PORT)
+						depthLink->updateArrowHeads();
 				}
 			}
-			for (auto& link : outLinks) {
-				link->updateArrowHeads();
-				for (auto& depthLink : link->getToNode()->getInLinks()) {
-					depthLink->updateArrowHeads();
+			for (auto& linkId : outLinks) {
+				auto* link = dynamic_cast<LinkEntity*>(manager.getEntityFromId(linkId));
+				if (link->type == LinkEntity::ConnectionType::PORT_TO_PORT)
+					link->updateArrowHeads();
+				for (auto& depthLinkId : link->getToNode()->getInLinks()) {
+					auto* depthLink = dynamic_cast<LinkEntity*>(manager.getEntityFromId(depthLinkId));
+					if (depthLink->type == LinkEntity::ConnectionType::PORT_TO_PORT)
+						depthLink->updateArrowHeads();
 				}
-				for (auto& depthLink : link->getToNode()->getOutLinks()) {
-					depthLink->updateArrowHeads();
+				for (auto& depthLinkId : link->getToNode()->getOutLinks()) {
+					auto* depthLink = dynamic_cast<LinkEntity*>(manager.getEntityFromId(depthLinkId));
+					if (depthLink->type == LinkEntity::ConnectionType::PORT_TO_PORT)
+						depthLink->updateArrowHeads();
 				}
 			}
 		}
@@ -209,9 +222,7 @@ public:
 		: LinkEntity(mManager, mfromId, mtoId)
 	{
 		from = dynamic_cast<NodeEntity*>(mManager.getEntityFromId(fromId));
-		from->addOutLink(this);
 		to = dynamic_cast<NodeEntity*>(mManager.getEntityFromId(toId));
-		to->addInLink(this);
 	}
 
 	Link(Manager& mManager, Entity* mfrom, Entity* mto)
@@ -232,17 +243,6 @@ public:
 		toId = to->getId();
 	}
 
-	Link(Manager& mManager,
-		EntityID mfromId, EntityID mtoId,
-		NodeEntity* mfrom, NodeEntity* mto
-	)
-		: LinkEntity(mManager,
-			mfromId, mtoId,
-			mfrom, mto)
-	{
-
-	}
-
 	Link(
 		Manager& mManager,
 		NodeEntity* mfrom, NodeEntity* mto,
@@ -252,6 +252,16 @@ public:
 			mfrom, mto,
 			m_fromPort, m_toPort,
 			m_fromSlot, m_toSlot)
+	{
+
+	}
+
+	Link(
+		Manager& mManager,
+		glm::vec3 mfromPos, glm::vec3 mtoPos
+	)
+		: LinkEntity(mManager,
+			mfromPos, mtoPos)
 	{
 
 	}
@@ -356,17 +366,19 @@ public:
 	}
 
 	void updateConnectedPorts() override {
-		TransformComponent* toTR = &to->GetComponent<TransformComponent>();
-		TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
+		if (type == ConnectionType::PORT_TO_PORT) {
+			TransformComponent* toTR = &to->GetComponent<TransformComponent>();
+			TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
 
-		EntityID newFromPort = getBestPortForConnection(fromTR->getPosition(), toTR->getPosition());
-		EntityID newToPort = getBestPortForConnection(toTR->getPosition(), fromTR->getPosition());
+			EntityID newFromPort = getBestPortForConnection(fromTR->getPosition(), toTR->getPosition());
+			EntityID newToPort = getBestPortForConnection(toTR->getPosition(), fromTR->getPosition());
 
-		fromSlotIndex = assignSlotIndex(from, newFromPort, fromPort, fromSlotIndex);
-		toSlotIndex = assignSlotIndex(to, newToPort, toPort, toSlotIndex);
+			fromSlotIndex = assignSlotIndex(from, newFromPort, fromPort, fromSlotIndex);
+			toSlotIndex = assignSlotIndex(to, newToPort, toPort, toSlotIndex);
 
-		fromPort = newFromPort;
-		toPort = newToPort;
+			fromPort = newFromPort;
+			toPort = newToPort;
+		}
 	}
 
 	void addArrowHead() override {
@@ -488,18 +500,19 @@ public:
 
 		// reassign slots to links
 		if (isFrom) {
-			for (auto& linkEntity : node->getOutLinks()) {
-
-				if (linkEntity->fromPort == portIndex &&
+			for (auto& linkEntityId : node->getOutLinks()) {
+				auto* linkEntity = dynamic_cast<LinkEntity*>(manager.getEntityFromId(linkEntityId));
+				if (EntityIDUtils::areEqual(linkEntity->fromPort, portIndex) &&
 					linkEntity->fromSlotIndex > removedSlotIndex) {
 					linkEntity->fromSlotIndex--;
 				}
 			}
 		}
 		else {
-			for (auto& linkEntity : node->getInLinks()) {
+			for (auto& linkEntityId : node->getInLinks()) {
+				auto* linkEntity = dynamic_cast<LinkEntity*>(manager.getEntityFromId(linkEntityId));
 
-				if (linkEntity->toPort == portIndex &&
+				if (EntityIDUtils::areEqual(linkEntity->toPort, portIndex) &&
 					linkEntity->toSlotIndex > removedSlotIndex) {
 					linkEntity->toSlotIndex--;
 				}
@@ -543,11 +556,11 @@ public:
 		NodeEntity* to = getToNode();
 
 		if (from) {
-			from->removeOutLink(this);
+			from->removeOutLink(id);
 			removeSlotFromNode(from, fromPort, fromSlotIndex, true);
 		}
 		if (to) {
-			to->removeInLink(this);
+			to->removeInLink(id);
 			removeSlotFromNode(to, toPort, toSlotIndex, false);
 		}
 

@@ -58,6 +58,7 @@ void GraphRightPanel::OnImGuiRender()
 
 	// popup window
 	getSubcomponent<CustomFunctions>()->setSelectedEntities(config.c_selectedEntities);
+	getSubcomponent<CustomFunctions>()->setConfig({ .scene = config.scene });
 	getSubcomponent<CustomFunctions>()->update();
 	getSubcomponent<CustomFunctions>()->OnImGuiRender();
 }

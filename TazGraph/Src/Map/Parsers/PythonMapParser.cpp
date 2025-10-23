@@ -127,12 +127,10 @@ void PythonMapParser::parse(Manager& manager,
 
 	for (const auto& parsedLink : parsedLinks) {
 		auto& link = manager.addEntity<Link>(
-			parsedLink.fromId, parsedLink.toId,
 			parsedLink.from, parsedLink.to);
 
-		parsedLink.from->addOutLink(&link);
-		parsedLink.to->addInLink(&link);
-
+		parsedLink.from->addOutLink(link.getId());
+		parsedLink.to->addInLink(link.getId());
 
 		link.addGroup(Manager::groupLinks_0);
 
