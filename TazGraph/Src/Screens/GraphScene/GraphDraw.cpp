@@ -76,6 +76,33 @@ void Graph::draw()
 	renderBatch(backgroundImage, _PlaneModelRenderer, false);
 	_PlaneModelRenderer.end();
 	_PlaneModelRenderer.renderBatch();*/
+	_viewportFramebuffer.Bind();
+	////////////OPENGL USE
+	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+
+	glClearDepth(1.0);
+	glDepthFunc(GL_LESS);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	// Blending for smooth edges (premultiplied or standard)
+	glEnable(GL_BLEND);
+	/////////////////////////////////////////////////////
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//Grid Rendering
+
+	_LineRenderer.begin();
+	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
+
+	_LineRenderer.initLineBatch(
+		manager->getVisibleGroup<LinkEntity>(Manager::groupGridLinks).size()
+	);
+
+	_LineRenderer.initBatchSize();
+	drawBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupGridLinks), _LineRenderer);
+	_LineRenderer.end();
+	_LineRenderer.renderBatch();
+	glsl_lineColor.unuse();
 
 	// Debug Rendering
 	if (renderDebug) {
@@ -220,19 +247,7 @@ void Graph::draw()
 	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), _LightRenderer);
 
 
-	_viewportFramebuffer.Bind();
-	////////////OPENGL USE
-	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 
-	glClearDepth(1.0);
-	glDepthFunc(GL_LESS);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-	// Blending for smooth edges (premultiplied or standard)
-	glEnable(GL_BLEND);
-	/////////////////////////////////////////////////////
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	_resourceManager.setupShader(glsl_texture, *main_camera2D);
 	_PlaneModelRenderer.end();
@@ -255,7 +270,7 @@ void Graph::draw()
 
 	_resourceManager.setupShader(glsl_light, *main_camera2D);
 	_LightRenderer.end();
-	_LightRenderer.renderBatch(_resourceManager.getGLSLProgram("light"));
+	_LightRenderer.renderBatch();
 	glsl_light.unuse();
 
 	//! Link Paths rendering & Ports rendering
@@ -375,21 +390,6 @@ void Graph::draw()
 	}
 
 
-	float z = 0.0f;
-
-	if (showGrid) {
-		for (int i = 0; i <= AXIS_CELLS; i++) {
-			// Vertical lines (constant X, varying Y)
-			glm::vec3 startV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), -AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);
-			glm::vec3 endV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);
-			_LineRenderer.drawLine(lineIndex++, startV, endV, TazColor(255, 255, 255, 64), TazColor(255, 255, 255, 64));
-
-			// Horizontal lines (constant Y, varying X)
-			glm::vec3 startH(-AXIS_CELLS / 2.0f * manager->grid->getCellSize(), (i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), z);
-			glm::vec3 endH(AXIS_CELLS / 2.0f * manager->grid->getCellSize(), (i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), z);
-			_LineRenderer.drawLine(lineIndex++, startH, endH, TazColor(255, 255, 255, 64), TazColor(255, 255, 255, 64));
-		}
-	}
 
 	//_LineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, TazColor(0, 0, 0, 255), TazColor(0, 0, 255, 255));
 
@@ -417,7 +417,6 @@ void Graph::draw()
 
 	minimapDraw();
 
-	_firstLoop = false;
 
 }
 
@@ -435,117 +434,6 @@ void Graph::minimapDraw() {
 	GLSLProgram glsl_color = *_resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer = *_resourceManager.getGLSLProgram("framebuffer");
 
-	const int GRID_WIDTH = manager->grid->getNumXCells();
-	const int GRID_HEIGHT = manager->grid->getNumYCells();
-	const int GRID_DEPTH = manager->grid->getNumZCells();
-
-	const int Min_WIDTH_CELL = (-GRID_WIDTH + 1) / 2;
-	const int Min_HEIGHT_CELL = (-GRID_HEIGHT + 1) / 2;
-	const int Min_DEPTH_CELL = (-GRID_DEPTH + 1) / 2;
-
-	const int Max_WIDTH_CELL = (GRID_WIDTH + 1) / 2;
-	const int Max_HEIGHT_CELL = (GRID_HEIGHT + 1) / 2;
-	const int Max_DEPTH_CELL = (GRID_DEPTH + 1) / 2;
-
-	static float elapsed = 0.0f;
-	elapsed += getApp()->getFPSLimiter().fps / 3600.0f;
-
-	if (elapsed >= 60.0f && processingComplete) {
-		elapsed = 0.0f;
-		needsRefresh = true;
-		processingComplete = false;
-		currentX = Min_WIDTH_CELL;
-		currentY = Min_HEIGHT_CELL;
-		currentZ = Min_DEPTH_CELL;
-		// Clear all minimap nodes for fresh start
-		manager->removeAllEntitiesFromGroup(Manager::groupMinimapNodes);
-	}
-
-	// For first two frames (0 and 1), draw minimap normally with all nodes at once
-	if (_firstLoop) {
-		currentX = Min_WIDTH_CELL;
-		currentY = Min_HEIGHT_CELL;
-		currentZ = Min_DEPTH_CELL;
-		// Clear existing minimap nodes
-		manager->removeAllEntitiesFromGroup(Manager::groupMinimapNodes);
-
-		// Process all cells immediately
-		for (int z = Min_DEPTH_CELL; z <= Max_DEPTH_CELL; z++) {
-			for (int y = Min_HEIGHT_CELL; y <= Max_HEIGHT_CELL; y++) {
-				for (int x = Min_WIDTH_CELL; x <= Max_WIDTH_CELL; x++) {
-					Cell* cell = manager->grid->getCell(x, y, z, Grid::Basic);
-					if (cell != nullptr) {
-						for (auto nodeId : cell->nodes) {
-							auto* node = manager->getEntityFromId(nodeId);
-
-							if (node != nullptr) {
-								auto& transform = node->GetComponent<TransformComponent>();
-
-								auto& mnode = manager->addEntity<Node>();
-								mnode.addGroup(Manager::groupMinimapNodes);
-
-								auto& mtrans = mnode.addComponent<TransformComponent>();
-								mtrans.position.x = transform.position.x;
-								mtrans.position.y = transform.position.y;
-								mtrans.size = transform.size * 10.0f;
-								mnode.addComponent<Rectangle_w_Color>();
-								mnode.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, 250, 0, 255));
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	if (needsRefresh && !processingComplete) {
-		while (!processingComplete) {
-			// Get current cell
-			Cell* cell = manager->grid->getCell(currentX, currentY, currentZ, Grid::Basic);
-
-			if (cell != nullptr) {
-				// Process all nodes in this cell
-				for (auto nodeId : cell->nodes) {
-					auto* node = manager->getEntityFromId(nodeId);
-
-					if (node != nullptr) {
-						auto& transform = node->GetComponent<TransformComponent>();
-
-						// Create a new entity in the minimap group
-						auto& mnode = manager->addEntity<Node>();
-						mnode.addGroup(Manager::groupMinimapNodes);
-
-						// Copy/scale transform
-						auto& mtrans = mnode.addComponent<TransformComponent>();
-						mtrans.position.x = transform.position.x;
-						mtrans.position.y = transform.position.y;
-						mtrans.size = transform.size * 10.0f; // enlarge only on minimap
-						mnode.addComponent<Rectangle_w_Color>();
-						mnode.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, 250, 0, 255));
-					}
-				}
-			}
-
-			// Move to next cell
-			currentX++;
-			if (currentX > ceil(GRID_WIDTH / 2.0f)) {
-				currentX = Min_WIDTH_CELL;
-				currentY++;
-				if (currentY > ceil(GRID_HEIGHT / 2.0f)) {
-					currentY = Min_HEIGHT_CELL;
-					currentZ++;
-					if (currentZ > ceil(GRID_DEPTH / 2.0f)) {
-						// We've processed all cells
-						processingComplete = true;
-						needsRefresh = false;
-						currentX = Min_WIDTH_CELL;
-						currentY = Min_HEIGHT_CELL;
-						currentZ = Min_DEPTH_CELL; // Reset for next cycle
-					}
-				}
-			}
-		}
-	}
 
 	_minimapFramebuffer.Bind();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

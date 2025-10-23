@@ -69,6 +69,8 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	// ! Select Nodes
 	for (auto& trav_cell : trav_cells) {
 		for (auto& nodeId : trav_cell->nodes) {
+			if (std::holds_alternative<int>(nodeId) && std::get<int>(nodeId) < 0)
+				continue;
 			auto* node = manager->getEntityFromId(nodeId);
 
 			glm::vec3 t;
@@ -156,6 +158,8 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	// ! Select Empties
 	for (auto& trav_cell : trav_cells) {
 		for (auto& emptyId : trav_cell->emptyEntities) {
+			if (std::holds_alternative<int>(emptyId) && std::get<int>(emptyId) < 0)
+				continue;
 			auto* empty = manager->getEntityFromId(emptyId);
 
 			glm::vec3 t;
@@ -311,6 +315,8 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	// Check individual links in trav_cells (now with path awareness)
 	for (auto& trav_cell : trav_cells) {
 		for (auto linkId : trav_cell->links) {
+			if (std::holds_alternative<int>(linkId) && std::get<int>(linkId) < 0)
+				continue;
 			auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
 
 			if (rayIntersectsLineSegment(rayOrigin, rayDirection,

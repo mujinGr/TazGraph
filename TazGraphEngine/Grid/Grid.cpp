@@ -21,7 +21,10 @@ void Grid::setSize(int gridDimensionSize) {
 
 void Grid::init(int width, int height, int depth, int cellSize)
 {
-	_width = width, _height = height, _cellSize = cellSize;
+	_width = width;
+	_height = height;
+	_cellSize = cellSize;
+
 	_depth = 4 * cellSize;
 
 	_numXCells = (_width + 1) / _cellSize;
@@ -140,13 +143,28 @@ std::vector<Cell*> Grid::getLinkCells(LinkEntity* link, Grid::Level m_level) {
 	std::vector<Cell*> intersectedCells;
 	std::unordered_set<Cell*> uniqueCells;
 
-	float x0 = link->getFromNode()->GetComponent<TransformComponent>().getPosition().x;
-	float y0 = link->getFromNode()->GetComponent<TransformComponent>().getPosition().y;
-	float z0 = link->getFromNode()->GetComponent<TransformComponent>().getPosition().z;
+	glm::vec3 fromPos = glm::vec3(0);
+	glm::vec3 toPos = glm::vec3(0);
+	if (link->hasComponent<LinkNodesComponent>() ||
+		link->hasComponent<LinkPortsComponent>()) {
+		fromPos = link->getFromNode()->GetComponent<TransformComponent>().getPosition();
+		toPos = link->getToNode()->GetComponent<TransformComponent>().getPosition();
+	}
+	else if (link->hasComponent<LinePositionsComponent>()) {
+		fromPos = link->GetComponent<LinePositionsComponent>().fromPos;
+		toPos = link->GetComponent<LinePositionsComponent>().toPos;
+	}
+	else {
+		TazGraphEngine::ConsoleLogger::error("Link doesn't have component for connection");
+	}
 
-	float x1 = link->getToNode()->GetComponent<TransformComponent>().getPosition().x;
-	float y1 = link->getToNode()->GetComponent<TransformComponent>().getPosition().y;
-	float z1 = link->getToNode()->GetComponent<TransformComponent>().getPosition().z;
+	float x0 = fromPos.x;
+	float y0 = fromPos.y;
+	float z0 = fromPos.z;
+
+	float x1 = toPos.x;
+	float y1 = toPos.y;
+	float z1 = toPos.z;
 
 	float dx = x1 - x0;
 	float dy = y1 - y0;

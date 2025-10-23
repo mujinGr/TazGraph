@@ -362,5 +362,8 @@
     <ClInclude Include="GECS\Components\Link\Basic\LinkPortsComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GECS\Components\Link\Basic\LinePositionsComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

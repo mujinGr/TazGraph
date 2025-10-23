@@ -120,8 +120,7 @@ void LineRenderer::renderBatch()
 		);
 	}
 
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	renderElementsBatch();
 }
 
 void LineRenderer::renderElementsBatch() {

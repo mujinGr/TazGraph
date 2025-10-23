@@ -13,7 +13,7 @@ void SceneControlPanel::OnImGuiRender()
 
 	if (ImGui::Begin(windowTitle.c_str())) {
 		if (ImGui::Button("Create Empty - Box")) {
-			auto& empty(config.scene->manager->addEntityNoId<Empty>());
+			auto& empty(config.scene->manager->addEntity<Empty>());
 
 			glm::vec2 position(0, 0);
 
@@ -28,21 +28,21 @@ void SceneControlPanel::OnImGuiRender()
 		}
 
 		if (ImGui::Button("Create Empty - Plane")) {
-			auto& empty(config.scene->manager->addEntityNoId<Empty>());
+			auto& empty(config.scene->manager->addEntity<Empty>());
 
 			//empty.addGroup(config.c_manager::groupNodes_0);
 			// todo here we also have choose shape option
 		}
 
 		if (ImGui::Button("Create Empty - Triangle")) {
-			auto& empty(config.scene->manager->addEntityNoId<Empty>());
+			auto& empty(config.scene->manager->addEntity<Empty>());
 
 			//empty.addGroup(config.c_manager::groupNodes_0);
 			// todo here we also have choose shape option
 		}
 
 		if (ImGui::Button("Create Empty - Sphere")) {
-			auto& empty(config.scene->manager->addEntityNoId<Empty>());
+			auto& empty(config.scene->manager->addEntity<Empty>());
 
 			glm::vec2 position(0, 0);
 
@@ -58,7 +58,7 @@ void SceneControlPanel::OnImGuiRender()
 		ImGui::Separator();
 
 		if (ImGui::Button("Create Node Entity")) {
-			auto& node(config.scene->manager->addEntityNoId<Node>());
+			auto& node(config.scene->manager->addEntity<Node>());
 
 			glm::vec2 position(0, 0);
 
@@ -82,7 +82,7 @@ void SceneControlPanel::OnImGuiRender()
 		if (ImGui::Button("Create Link Entity")) {
 			// Check if both nodes exist before creating the link
 			if (config.scene->manager->getEntityFromId(sceneMan_nodeID1) && config.scene->manager->getEntityFromId(sceneMan_nodeID2)) {
-				auto& link(config.scene->manager->addEntityNoId<Link>(sceneMan_nodeID1, sceneMan_nodeID2));
+				auto& link(config.scene->manager->addEntity<Link>(sceneMan_nodeID1, sceneMan_nodeID2));
 
 
 				link.addComponent<Line_w_Color>();

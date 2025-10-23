@@ -90,7 +90,7 @@ public:
 				removeFromCell();
 				manager.grid->addNode(this, newCell);
 
-				manager.movedNodes.push_back(this);
+				manager.movedNodes.push_back(id);
 			}
 			for (auto& link : inLinks) {
 				link->updateArrowHeads();

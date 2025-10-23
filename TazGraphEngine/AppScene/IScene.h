@@ -89,6 +89,7 @@ public:
 
 	bool renderDebug = false;
 	bool showGrid = true;
+	bool last_showGrid = false;
 
 	SceneState currentState = SceneState::NONE;
 

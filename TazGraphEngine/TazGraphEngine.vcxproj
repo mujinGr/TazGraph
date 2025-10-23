@@ -220,6 +220,7 @@
     <ClInclude Include="Camera2.5D\ICamera.h" />
     <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="DataManager\DataManager.h" />
+    <ClInclude Include="GECS\Components\Link\Basic\LinePositionsComponent.h" />
     <ClInclude Include="GECS\Components\Link\Basic\LinkPortsComponent.h" />
     <ClInclude Include="GECS\Components\Link\Basic\LinkNodesComponent.h" />
     <ClInclude Include="Threader\RenderCommandQueue.h" />

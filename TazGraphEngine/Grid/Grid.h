@@ -3,7 +3,7 @@
 #include "../GECS/Components.h"
 
 #include "../AABB/AABB.h"
-
+#include "../ConsoleLogger.h"
 #include <vector>
 
 #include <cmath>

@@ -97,7 +97,7 @@ void LightRenderer::drawSphere(
 	_meshesElements[SPHERE_MESH_IDX].instances[v_index] = ColorInstanceData(sphereSize, position, mRotation, color);
 }
 
-void LightRenderer::renderBatch(GLSLProgram* glsl_program) {
+void LightRenderer::renderBatch() {
 
 	for (int i = 0; i < _meshesElements.size(); i++) { // different batch for each geometry
 

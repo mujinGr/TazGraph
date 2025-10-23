@@ -6,7 +6,7 @@ class PortSlotComponent;
 // todo this can be generally a flexbox
 class PortComponent : public Component
 {
-private: 
+private:
 	bool tempIsVertical = false;
 public:
 	TazColor color = { 255, 255, 255, 255 };

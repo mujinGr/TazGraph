@@ -52,7 +52,7 @@ public:
 		const TazColor& color);
 
 
-	void renderBatch(GLSLProgram* glsl_program);
+	void renderBatch();
 
 	void dispose();
 

@@ -41,7 +41,7 @@ public:
 	std::vector<SimulationStep> steps;
 	int currentStep = 0;
 
-	std::vector<NodeEntity*> movedNodes;
+	std::vector<EntityID> movedNodes;
 	std::mutex movedNodesMutex;
 
 	bool idTextEnabled = false;
@@ -73,18 +73,22 @@ public:
 			//? THIS MAY CAUSE ERRORS, IF REMOVE LINK FROM CELL AND OTHER LINK THAT HAS THAT CELL IN SEARCH
 			//? WILL PUMP IN AN EMPTY ELEMENT OR THE SIZE WILL BE SMALLER FOR THAT LINK TO FIND ELEMENT
 			for (auto& e : movedNodes) {
+				auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(e));
+
 				updateInnerPathLinks = true;
-				for (auto& link : e->getInLinks()) {
+				for (auto& link : ent->getInLinks()) {
 					link->cellUpdate();
 				}
-				for (auto& link : e->getOutLinks()) {
+				for (auto& link : ent->getOutLinks()) {
 					link->cellUpdate();
 				}
 			}
 
 			_threader->parallel(movedNodes.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					for (auto& link : movedNodes[i]->getInLinks()) {
+					auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(movedNodes[i]));
+
+					for (auto& link : ent->getInLinks()) {
 						link->updateConnectedPorts();
 					}
 				}
@@ -92,7 +96,9 @@ public:
 
 			_threader->parallel(movedNodes.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					for (auto& link : movedNodes[i]->getOutLinks()) {
+					auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(movedNodes[i]));
+
+					for (auto& link : ent->getOutLinks()) {
 						link->updateConnectedPorts();
 					}
 				}
@@ -135,22 +141,28 @@ public:
 			//! CELL UPDATE
 
 			for (auto& e : movedNodes) {
-				for (auto& link : e->getInLinks()) {
+				auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(e));
+
+				for (auto& link : ent->getInLinks()) {
 					link->cellUpdate();
 				}
-				for (auto& link : e->getOutLinks()) {
+				for (auto& link : ent->getOutLinks()) {
 					link->cellUpdate();
 				}
 			}
 
 			for (auto& e : movedNodes) {
-				for (auto& link : e->getInLinks()) {
+				auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(e));
+
+				for (auto& link : ent->getInLinks()) {
 					link->updateConnectedPorts();
 				}
 			}
 
 			for (auto& e : movedNodes) {
-				for (auto& link : e->getOutLinks()) {
+				auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(e));
+				
+				for (auto& link : ent->getOutLinks()) {
 					link->updateConnectedPorts();
 				}
 			}
@@ -422,6 +434,7 @@ public:
 		groupBackgroundLayer,
 		panelBackground,
 
+		groupGridLinks,
 		//action
 		groupLinks_0,
 		groupGroupLinks_0,
@@ -459,6 +472,7 @@ public:
 		{groupBackgroundLayer, "groupBackgroundLayer" },
 		{panelBackground, "panelBackground"},
 
+		{ groupGridLinks,"groupGridLinks" },
 		//action
 		{ groupLinks_0,"groupLinks_0" },
 		{groupGroupLinks_0, "groupGroupLinks_0"},

@@ -210,6 +210,7 @@ public:
 
 	float slotSpacing = 0.0f;
 
+	//! child_index(id) -> real_entity_id
 	std::map < EntityID, Entity*> children;
 
 	void setId(EntityID m_id) { id = m_id; }
