@@ -144,12 +144,12 @@ public:
 			port.addComponent<TransformComponent>(glm::vec3(0), glm::vec3(0), 1.0f);
 
 
-			children[t_portName] = &port;
-			children[t_portName]->setParentEntity(this, t_portName);
-			children[t_portName]->GetComponent<TransformComponent>().local_normal_position = localPosition;
-			children[t_portName]->GetComponent<TransformComponent>().initChild();
-			children[t_portName]->addComponent<PortComponent>(isHorizontal);
-			children[t_portName]->update(0.0f);
+			children[t_portName] = port.getId();
+			getManager()->getEntityFromId(children[t_portName])->setParentEntity(this, t_portName);
+			getManager()->getEntityFromId(children[t_portName])->GetComponent<TransformComponent>().local_normal_position = localPosition;
+			getManager()->getEntityFromId(children[t_portName])->GetComponent<TransformComponent>().initChild();
+			getManager()->getEntityFromId(children[t_portName])->addComponent<PortComponent>(isHorizontal);
+			getManager()->getEntityFromId(children[t_portName])->update(0.0f);
 			};
 
 		// Create all ports using the lambda
@@ -166,12 +166,13 @@ public:
 			const char* t_portName = NodePorts_ToString(portName);
 
 			if (children.contains(t_portName)) {
-				children[t_portName]->destroy();
-				for (auto slot : children[t_portName]->children)
+				getManager()->getEntityFromId(children[t_portName])->destroy();
+				for (auto& slot : getManager()->getEntityFromId(children[t_portName])->children)
 				{
-					slot.second->destroy();
+					auto* slotEnt = getManager()->getEntityFromId(slot.second);
+					slotEnt->destroy();
 				}
-				children[t_portName]->children.clear();
+				getManager()->getEntityFromId(children[t_portName])->children.clear();
 				children.erase(t_portName);
 			}
 		}
@@ -182,11 +183,11 @@ public:
 			const char* t_portName = NodePorts_ToString(portName);
 
 			if (children.contains(t_portName)) {
-				for (auto slot : children[t_portName]->children)
+				for (auto slot : getManager()->getEntityFromId(children[t_portName])->children)
 				{
-					slot.second->destroy();
+					getManager()->getEntityFromId(slot.second)->destroy();
 				}
-				children[t_portName]->children.clear();
+				getManager()->getEntityFromId(children[t_portName])->children.clear();
 			}
 		}
 	}
@@ -300,14 +301,13 @@ public:
 			if (!fromNode || !toNode)
 				return;
 
-			// --- Get port entities safely ---
 			Entity* fromPortEntity = nullptr;
 			Entity* toPortEntity = nullptr;
 
 			if (fromNode->children.contains(fromPort))
-				fromPortEntity = fromNode->children[fromPort];
+				fromPortEntity = getManager()->getEntityFromId(fromNode->children[fromPort]);
 			if (toNode->children.contains(toPort))
-				toPortEntity = toNode->children[toPort];
+				toPortEntity = getManager()->getEntityFromId(toNode->children[toPort]);
 
 			if (!fromPortEntity || !toPortEntity)
 				return;
@@ -317,8 +317,8 @@ public:
 				toSlotIndex >= toPortEntity->children.size())
 				return;
 
-			Entity* fromSlotEntity = fromPortEntity->children[fromSlotIndex];
-			Entity* toSlotEntity = toPortEntity->children[toSlotIndex];
+			Entity* fromSlotEntity = getManager()->getEntityFromId(fromPortEntity->children[fromSlotIndex]);
+			Entity* toSlotEntity = getManager()->getEntityFromId(toPortEntity->children[toSlotIndex]);
 			if (!fromSlotEntity || !toSlotEntity)
 				return;
 
@@ -347,11 +347,11 @@ public:
 			float angleRadians = -atan2(direction.y, direction.x);
 
 			// Update the arrowhead position and rotation
-			children[LinkChildren_ToString(ARROWHEAD)]->GetComponent<TransformComponent>().position = arrowHeadPos;
-			children[LinkChildren_ToString(ARROWHEAD)]->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleRadians + glm::half_pi<float>()));
+			getManager()->getEntityFromId(children[LinkChildren_ToString(ARROWHEAD)])->GetComponent<TransformComponent>().position = arrowHeadPos;
+			getManager()->getEntityFromId(children[LinkChildren_ToString(ARROWHEAD)])->GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleRadians + glm::half_pi<float>()));
 
 			// Update the arrowhead entity
-			children[LinkChildren_ToString(ARROWHEAD)]->update(0.0f);
+			getManager()->getEntityFromId(children[LinkChildren_ToString(ARROWHEAD)])->update(0.0f);
 		}
 	}
 
@@ -373,8 +373,8 @@ public:
 		NodeEntity* fromNode = getFromNode();
 		NodeEntity* toNode = getToNode();
 
-		Entity* fromPortEntity = fromNode->children[fromPort];
-		Entity* toPortEntity = toNode->children[toPort];
+		Entity* fromPortEntity = getManager()->getEntityFromId(fromNode->children[fromPort]);
+		Entity* toPortEntity = getManager()->getEntityFromId(toNode->children[toPort]);
 
 		// Check if slot indices are valid
 		if ((fromSlotIndex >= fromPortEntity->children.size()) ||
@@ -384,8 +384,8 @@ public:
 		}
 
 		// Get the actual connection points from the port slots
-		glm::vec3 fromConnectionPoint = fromPortEntity->children[fromSlotIndex]->GetComponent<TransformComponent>().getPosition();
-		glm::vec3 toConnectionPoint = toPortEntity->children[toSlotIndex]->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 fromConnectionPoint = getManager()->getEntityFromId(fromPortEntity->children[fromSlotIndex])->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 toConnectionPoint = getManager()->getEntityFromId(toPortEntity->children[toSlotIndex])->GetComponent<TransformComponent>().getPosition();
 
 		glm::vec3 direction = toConnectionPoint - fromConnectionPoint;
 		glm::vec3 unitDirection = glm::normalize(direction);
@@ -410,14 +410,13 @@ public:
 		temp_arrowHead.addGroup(Manager::groupArrowHeads_0);
 		temp_arrowHead.setParentEntity(this, LinkChildren_ToString(ARROWHEAD));
 		manager.grid->addEmpty(&temp_arrowHead, manager.grid->getGridLevel());
-		children[LinkChildren_ToString(ARROWHEAD)] = &temp_arrowHead;
+		children[LinkChildren_ToString(ARROWHEAD)] = temp_arrowHead.getId();
 	}
 
 	void removeArrowHead() override {
 		if (children.contains(LinkChildren_ToString(ARROWHEAD))) {
-			children[LinkChildren_ToString(ARROWHEAD)]->removeFromCell();
-			children[LinkChildren_ToString(ARROWHEAD)]->destroy();
-			children[LinkChildren_ToString(ARROWHEAD)] = nullptr;
+			getManager()->getEntityFromId(children[LinkChildren_ToString(ARROWHEAD)])->removeFromCell();
+			getManager()->getEntityFromId(children[LinkChildren_ToString(ARROWHEAD)])->destroy();
 			children.erase(LinkChildren_ToString(ARROWHEAD));
 		}
 	}
@@ -446,9 +445,9 @@ public:
 			!std::get<std::string>(oldPort).empty() &&
 			oldPort != newPort) {
 
-			Entity* oldPortEntity = node->children[oldPort];
+			Entity* oldPortEntity = getManager()->getEntityFromId(node->children[oldPort]);
 			if (oldPortEntity && oldPortEntity->hasComponent<PortComponent>()) {
-				oldPortEntity->GetComponent<PortComponent>().removeSlot(oldSlotIndex);
+				removeSlot(oldPortEntity, oldSlotIndex);
 				updateLinksSlotIndices(node, oldPort, oldSlotIndex, true);
 				updateLinksSlotIndices(node, oldPort, oldSlotIndex, false);
 			}
@@ -459,7 +458,7 @@ public:
 				return -1;
 			}
 
-			Entity* newPortEntity = node->children[newPort];
+			Entity* newPortEntity = getManager()->getEntityFromId(node->children[newPort]);
 			if (!newPortEntity || !newPortEntity->hasComponent<PortComponent>()) {
 				return -1;
 			}
@@ -478,7 +477,7 @@ public:
 			newSlot.setParentEntity(newPortEntity);
 
 			// Add to port and get the assigned index
-			int newSlotIndex = newPortEntity->GetComponent<PortComponent>().addSlot(&newSlot);
+			int newSlotIndex = addSlot(newPortEntity, newSlot.getId());
 			return newSlotIndex;
 		}
 
@@ -511,9 +510,9 @@ public:
 	void removeSlotFromNode(NodeEntity* node, EntityID port, int slotIndex, bool isFrom) {
 		if (std::holds_alternative<int>(port) || slotIndex == -1) return;
 
-		Entity* portEntity = node->children[port];
+		Entity* portEntity = getManager()->getEntityFromId(node->children[port]);
 		if (portEntity && portEntity->hasComponent<PortComponent>()) {
-			if (portEntity->GetComponent<PortComponent>().removeSlot(slotIndex)) {
+			if (removeSlot(portEntity, slotIndex)) {
 				updateLinksSlotIndices(node, port, slotIndex, isFrom);
 			}
 		}
@@ -556,6 +555,82 @@ public:
 		resetPorts();
 
 		manager.aboutTo_updateActiveEntities();
+	}
+
+	std::vector<EntityID> getSlots(Entity* portEntity) const {
+		std::vector<EntityID> slots;
+		for (const auto& [id, child] : portEntity->children) {
+			auto* ent = portEntity->getManager()->getEntityFromId(child);
+
+			if (ent->hasComponent<PortSlotComponent>()) {
+				slots.push_back(child);
+			}
+		}
+		return slots;
+	}
+
+	// Get slot by index
+	EntityID getSlotByIndex(Entity* portEntity, int index) const {
+		for (const auto& [id, child] : portEntity->children) {
+			auto* ent = portEntity->getManager()->getEntityFromId(child);
+
+			if (ent->hasComponent<PortSlotComponent>() &&
+				ent->GetComponent<PortSlotComponent>().index == index) {
+				return child;
+			}
+		}
+		TazGraphEngine::ConsoleLogger::error("index doesn't have entity");
+		return nullptr;
+	}
+
+	// Add slot with auto-indexing
+	int addSlot(Entity* portEntity, EntityID slot) {
+		// Find max index
+		int maxIndex = -1;
+		for (const auto& [id, child] : portEntity->children) {
+			auto* ent = portEntity->getManager()->getEntityFromId(child);
+
+			if (ent->hasComponent<PortSlotComponent>()) {
+				maxIndex = std::max(maxIndex, ent->GetComponent<PortSlotComponent>().index);
+			}
+		}
+		auto* slotEnt = portEntity->getManager()->getEntityFromId(slot);
+
+		int newIndex = maxIndex + 1;
+		auto& slotComp = slotEnt->addComponent<PortSlotComponent>();
+		slotComp.index = newIndex;
+
+		portEntity->children[newIndex] = slot; // Use index as key
+		return newIndex;
+	}
+
+	// Remove slot by index
+	bool removeSlot(Entity* portEntity, int index) {
+		for (auto it = portEntity->children.begin(); it != portEntity->children.end(); ++it) {
+			EntityID child = it->second;
+			auto* childEnt = portEntity->getManager()->getEntityFromId(child);
+
+			if (childEnt->hasComponent<PortSlotComponent>() &&
+				childEnt->GetComponent<PortSlotComponent>().index == index) {
+				childEnt->destroy();
+				portEntity->children.erase(it);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// Get number of slots
+	size_t getSlotCount(Entity* portEntity) const {
+		size_t count = 0;
+		for (const auto& [id, child] : portEntity->children) {
+			auto* childEnt = portEntity->getManager()->getEntityFromId(child);
+
+			if (childEnt->hasComponent<PortSlotComponent>()) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 };

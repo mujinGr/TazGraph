@@ -74,9 +74,9 @@ void GraphLeftPanel::OnImGuiRender()
 
 					textLabel.addComponent<TransformComponent>(0.0f);
 					textLabel.GetComponent<TransformComponent>().local_position = glm::vec3(0);
-					node->children["label"] = &textLabel;
-					node->children["label"]->setParentEntity(node, "label");
-					node->children["label"]->GetComponent<TransformComponent>().initChild();
+					node->children["label"] = textLabel.getId();
+					config.scene->manager->getEntityFromId(node->children["label"])->setParentEntity(node, "label");
+					config.scene->manager->getEntityFromId(node->children["label"])->GetComponent<TransformComponent>().initChild();
 				}
 			}
 			else if (!config.scene->manager->idTextEnabled) {
@@ -421,28 +421,30 @@ void GraphLeftPanel::displayChildrenRecursive(Entity* entity, int depth)
 
 	if (nodeOpen && !entity->children.empty()) {
 		for (auto& [childId, child] : entity->children) {
-			if (!child) continue;
+			auto* childEnt = config.scene->manager->getEntityFromId(child);
+
+			if (!childEnt) continue;
 
 			// Convert ID to string
 			std::string childIdStr = EntityIDUtils::toString(childId);
 
 			// Print both index and entity ID
-			std::string childLabel = "[" + childIdStr + "] - " + EntityIDUtils::toString(child->getId());
+			std::string childLabel = "[" + childIdStr + "] - " + EntityIDUtils::toString(childEnt->getId());
 
 			ImGuiTreeNodeFlags childFlags =
 				ImGuiTreeNodeFlags_OpenOnArrow |
 				ImGuiTreeNodeFlags_OpenOnDoubleClick |
 				ImGuiTreeNodeFlags_SpanAvailWidth;
 
-			if (child->children.empty())
+			if (childEnt->children.empty())
 				childFlags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
 
 			ImGui::PushID(childIdStr.c_str());
 
 			bool childOpen = ImGui::TreeNodeEx(childLabel.c_str(), childFlags);
 
-			if (childOpen && !child->children.empty()) {
-				displayChildrenRecursive(child, depth + 1);
+			if (childOpen && !childEnt->children.empty()) {
+				displayChildrenRecursive(childEnt, depth + 1);
 				ImGui::TreePop();
 			}
 

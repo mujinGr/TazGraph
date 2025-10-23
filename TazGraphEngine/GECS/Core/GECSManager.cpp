@@ -264,12 +264,12 @@ std::vector<EntityID> Manager::getRevealedEntitiesInCameraCells() {
 					result.push_back(entityId);
 
 					for (auto& port : ent->children) {
-						if (port.second && !port.second->isHidden()) {
-							visible_emptyEntities.push_back(port.second->getId());
+						if (hasEntity(port.second) && !getEntityFromId(port.second)->isHidden()) {
+							visible_emptyEntities.push_back(port.second);
 
-							if (port.second->hasComponent<PortComponent>()) {
-								for (auto& portSlots : port.second->children)
-									visible_emptyEntities.push_back(portSlots.second->getId());
+							if (getEntityFromId(port.second)->hasComponent<PortComponent>()) {
+								for (auto& portSlots : getEntityFromId(port.second)->children)
+									visible_emptyEntities.push_back(portSlots.second);
 							}
 						}
 					}
@@ -329,12 +329,12 @@ std::vector<EntityID> Manager::getEntitiesInCameraCells() {
 				if (!entity->isHidden()) {
 					// Also include children(ports) if they exist
 					for (auto& port : entity->children) {
-						if (port.second && !port.second->isHidden()) {
-							visible_emptyEntities.push_back(port.second->getId());
+						if (hasEntity(port.second) && !getEntityFromId(port.second)->isHidden()) {
+							visible_emptyEntities.push_back(port.second);
 
-							if (port.second->hasComponent<PortComponent>()) {
-								for (auto& portSlots : port.second->children)
-									visible_emptyEntities.push_back(portSlots.second->getId());
+							if (getEntityFromId(port.second)->hasComponent<PortComponent>()) {
+								for (auto& portSlots : getEntityFromId(port.second)->children)
+									visible_emptyEntities.push_back(portSlots.second);
 							}
 						}
 					}

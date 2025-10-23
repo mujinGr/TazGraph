@@ -78,68 +78,6 @@ public:
 
 	}
 
-	std::vector<Entity*> getSlots() const {
-		std::vector<Entity*> slots;
-		for (const auto& [id, child] : entity->children) {
-			if (child->hasComponent<PortSlotComponent>()) {
-				slots.push_back(child);
-			}
-		}
-		return slots;
-	}
 
-	// Get slot by index
-	Entity* getSlotByIndex(int index) const {
-		for (const auto& [id, child] : entity->children) {
-			if (child->hasComponent<PortSlotComponent>() &&
-				child->GetComponent<PortSlotComponent>().index == index) {
-				return child;
-			}
-		}
-		return nullptr;
-	}
-
-	// Add slot with auto-indexing
-	int addSlot(Entity* slot) {
-		// Find max index
-		int maxIndex = -1;
-		for (const auto& [id, child] : entity->children) {
-			if (child->hasComponent<PortSlotComponent>()) {
-				maxIndex = std::max(maxIndex, child->GetComponent<PortSlotComponent>().index);
-			}
-		}
-
-		int newIndex = maxIndex + 1;
-		auto& slotComp = slot->addComponent<PortSlotComponent>();
-		slotComp.index = newIndex;
-
-		entity->children[newIndex] = slot; // Use index as key
-		return newIndex;
-	}
-
-	// Remove slot by index
-	bool removeSlot(int index) {
-		for (auto it = entity->children.begin(); it != entity->children.end(); ++it) {
-			Entity* child = it->second;
-			if (child->hasComponent<PortSlotComponent>() &&
-				child->GetComponent<PortSlotComponent>().index == index) {
-				child->destroy();
-				entity->children.erase(it);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	// Get number of slots
-	size_t getSlotCount() const {
-		size_t count = 0;
-		for (const auto& [id, child] : entity->children) {
-			if (child->hasComponent<PortSlotComponent>()) {
-				count++;
-			}
-		}
-		return count;
-	}
 
 };

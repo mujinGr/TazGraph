@@ -121,6 +121,7 @@ public:
 
 class LinkEntity : public MultiCellEntity {
 protected:
+	//! When Node_to_Node
 	EntityID fromId = 0;
 	EntityID toId = 0;
 
@@ -128,6 +129,15 @@ protected:
 	NodeEntity* to = nullptr;
 
 public:
+	enum class ConnectionType {
+		NODE_TO_NODE,
+		PORT_TO_PORT,
+		DIRECT_POSITIONS
+	};
+	ConnectionType type = ConnectionType::NODE_TO_NODE;
+
+
+	//! When Port_to_Port
 	EntityID fromPort = -1;
 	EntityID toPort = -1;
 	int fromSlotIndex = -1;
@@ -200,11 +210,11 @@ public:
 		return to;
 	}
 
-	Entity* getFromPort() {
+	EntityID getFromPort() {
 		return from->children[fromPort];
 	}
 
-	Entity* getToPort() {
+	EntityID getToPort() {
 		return to->children[toPort];
 	}
 
