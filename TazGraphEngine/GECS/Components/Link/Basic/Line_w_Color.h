@@ -25,13 +25,15 @@ public:
 	}
 
 	void init() override {
+		entity->updateConnection(entity->type);
 	}
 
 	void update(float deltaTime) override {
 	}
 
-	virtual void draw() {
-
+	void draw(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
+		//float tempScreenScale = window.getScale();
+		batch.drawLine(v_index, entity->fromPos, entity->toPos, src_color, dest_color, width);
 	}
 
 	void setSrcColor(TazColor clr) {

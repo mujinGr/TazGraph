@@ -254,7 +254,7 @@
     <ClInclude Include="GECS\Animators\MovingAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Core\GECSEntityTypes.h">
+    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DataManager\DataManager.h">
@@ -299,7 +299,7 @@
     <ClInclude Include="GECS\Animators\RectangleAnimators\RectangleFlashAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Link\Basic\SpringComponent.h">
+    <ClInclude Include="GECS\Components\Link\Util\SpringComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.h">
@@ -356,13 +356,13 @@
     <ClInclude Include="Threader\RenderCommandQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Link\Basic\LinkNodesComponent.h">
+    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypesLink.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Link\Basic\LinkPortsComponent.h">
+    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypesEmpty.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Link\Basic\LinePositionsComponent.h">
+    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypesNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

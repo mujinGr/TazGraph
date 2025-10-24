@@ -220,9 +220,9 @@
     <ClInclude Include="Camera2.5D\ICamera.h" />
     <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="DataManager\DataManager.h" />
-    <ClInclude Include="GECS\Components\Link\Basic\LinePositionsComponent.h" />
-    <ClInclude Include="GECS\Components\Link\Basic\LinkPortsComponent.h" />
-    <ClInclude Include="GECS\Components\Link\Basic\LinkNodesComponent.h" />
+    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypesEmpty.h" />
+    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypesLink.h" />
+    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypesNode.h" />
     <ClInclude Include="Threader\RenderCommandQueue.h" />
     <ClInclude Include="Window\DefineFactory.h" />
     <ClInclude Include="DorParser\DotParser.h" />
@@ -237,7 +237,7 @@
     <ClInclude Include="GECS\Components\Link\Basic\Line_w_Color.h" />
     <ClInclude Include="GECS\Components\Empty\Basic\Triangle_w_Color.h" />
     <ClInclude Include="GECS\Components\Link\Basic\LinkPythonCodeComponent.h" />
-    <ClInclude Include="GECS\Components\Link\Basic\SpringComponent.h" />
+    <ClInclude Include="GECS\Components\Link\Util\SpringComponent.h" />
     <ClInclude Include="GECS\Components\PythonCodeComponent.h" />
     <ClInclude Include="GECS\Components\templateComponent.h" />
     <ClInclude Include="GECS\Core\CellEntity.h" />
@@ -245,7 +245,7 @@
     <ClInclude Include="GECS\Core\GECSUtil.h" />
     <ClInclude Include="GECS\Core\SimulationStep.h" />
     <ClInclude Include="GECS\UtilComponents.h" />
-    <ClInclude Include="GECS\Core\GECSEntityTypes.h" />
+    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypes.h" />
     <ClInclude Include="ImGuiText.h" />
     <ClInclude Include="Renderers\FrameBuffer\Framebuffer.h" />
     <ClInclude Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.h" />

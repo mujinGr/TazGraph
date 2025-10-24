@@ -16,10 +16,6 @@
 #include "./Components/Empty/Basic/PortComponent.h"
 
 #include "./Components/Link/Basic/Line_w_Color.h"
-#include "./Components/Link/Basic/LinePositionsComponent.h"
-#include "./Components/Link/Basic/LinkNodesComponent.h"
-#include "./Components/Link/Basic/LinkPortsComponent.h"
-#include "./Components/Link/Basic/SpringComponent.h"
 
 #include "./Animators/AnimatorComponent.h"
 #include "./Animators/MovingAnimatorComponent.h"

@@ -61,51 +61,55 @@ void Manager::updateActiveEntities() {
 			}
 		}
 	}
+	{
+		std::shared_lock lock(entities_mtx);
 
-	for (auto i(0u); i < maxGroups; i++) {
-		auto& group(visible_groupedEmptyEntities[i]);
-		group.erase(std::remove_if(std::begin(group), std::end(group),
-			[this, &toBeRemoved, i](EntityID mEntity) {
-				return !entities[mEntity]->isActive()
-					|| !entities[mEntity]->hasGroup(i);
-			}), group.end());
-		auto& m_group(groupedEmptyEntities[i]);
-		m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
-			[this, &toBeRemoved, i](EntityID mEntity) {
-				return !entities[mEntity]->isActive()
-					|| !entities[mEntity]->hasGroup(i);
-			}), m_group.end());
+		for (auto i(0u); i < maxGroups; i++) {
+			auto& group(visible_groupedEmptyEntities[i]);
+			group.erase(std::remove_if(std::begin(group), std::end(group),
+				[this, &toBeRemoved, i](EntityID mEntity) {
+					return !entities[mEntity]->isActive()
+						|| !entities[mEntity]->hasGroup(i);
+				}), group.end());
+			auto& m_group(groupedEmptyEntities[i]);
+			m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
+				[this, &toBeRemoved, i](EntityID mEntity) {
+					return !entities[mEntity]->isActive()
+						|| !entities[mEntity]->hasGroup(i);
+				}), m_group.end());
+		}
+
+		for (auto i(0u); i < maxGroups; i++) {
+			auto& group(visible_groupedNodeEntities[i]);
+			group.erase(std::remove_if(std::begin(group), std::end(group),
+				[this, &nodes_toBeRemoved, i](EntityID mEntity) {
+					return !entities[mEntity]->isActive()
+						|| !entities[mEntity]->hasGroup(i);
+				}), group.end());
+			auto& m_group(groupedNodeEntities[i]);
+			m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
+				[this, &nodes_toBeRemoved, i](EntityID mEntity) {
+					return !entities[mEntity]->isActive()
+						|| !entities[mEntity]->hasGroup(i);
+				}), m_group.end());
+		}
+
+		for (auto i(0u); i < maxGroups; i++) {
+			auto& group(visible_groupedLinkEntities[i]);
+			group.erase(std::remove_if(std::begin(group), std::end(group),
+				[this, &links_toBeRemoved, i](EntityID mEntity) {
+					return !entities[mEntity]->isActive()
+						|| !entities[mEntity]->hasGroup(i);
+				}), group.end());
+			auto& m_group(groupedLinkEntities[i]);
+			m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
+				[this, &links_toBeRemoved, i](EntityID mEntity) {
+					return !entities[mEntity]->isActive()
+						|| !entities[mEntity]->hasGroup(i);
+				}), m_group.end());
+		}
 	}
 
-	for (auto i(0u); i < maxGroups; i++) {
-		auto& group(visible_groupedNodeEntities[i]);
-		group.erase(std::remove_if(std::begin(group), std::end(group),
-			[this, &nodes_toBeRemoved, i](EntityID mEntity) {
-				return !entities[mEntity]->isActive()
-					|| !entities[mEntity]->hasGroup(i);
-			}), group.end());
-		auto& m_group(groupedNodeEntities[i]);
-		m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
-			[this, &nodes_toBeRemoved, i](EntityID mEntity) {
-				return !entities[mEntity]->isActive()
-					|| !entities[mEntity]->hasGroup(i);
-			}), m_group.end());
-	}
-
-	for (auto i(0u); i < maxGroups; i++) {
-		auto& group(visible_groupedLinkEntities[i]);
-		group.erase(std::remove_if(std::begin(group), std::end(group),
-			[this, &links_toBeRemoved, i](EntityID mEntity) {
-				return !entities[mEntity]->isActive()
-					|| !entities[mEntity]->hasGroup(i);
-			}), group.end());
-		auto& m_group(groupedLinkEntities[i]);
-		m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
-			[this, &links_toBeRemoved, i](EntityID mEntity) {
-				return !entities[mEntity]->isActive()
-					|| !entities[mEntity]->hasGroup(i);
-			}), m_group.end());
-	}
 
 
 	visible_emptyEntities.erase(std::remove_if(visible_emptyEntities.begin(), visible_emptyEntities.end(),
@@ -140,7 +144,7 @@ void Manager::updateActiveEntities() {
 
 	// remove by id
 	{
-		std::scoped_lock lock(entities_mtx);
+		std::unique_lock lock(entities_mtx);
 		for (EntityID id : idsToRemove)
 			entities.erase(id);
 	}

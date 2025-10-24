@@ -22,18 +22,20 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		NodeEntity* a = entity->getFromNode();
-		NodeEntity* b = entity->getToNode();
 
-		glm::vec3 posA = a->GetComponent<TransformComponent>().getPosition();
-		glm::vec3 posB = b->GetComponent<TransformComponent>().getPosition();
+		glm::vec3 posA = entity->fromPos;
+		glm::vec3 posB = entity->toPos;
 
 		glm::vec3 delta = posB - posA;
 		glm::vec3 attraction = delta * springStrength;
 
 		if (glm::length(delta) > deltaThreshold) {
-			a->GetComponent<TransformComponent>().velocity += attraction;
-			b->GetComponent<TransformComponent>().velocity -= attraction;
+			entity->getManager()->getEntityFromId(
+				entity->getFromNode()
+			)->GetComponent<TransformComponent>().velocity += attraction;
+			entity->getManager()->getEntityFromId(
+				entity->getToNode()
+			)->GetComponent<TransformComponent>().velocity -= attraction;
 		}
 
 		/*springStrength -= 0.001f;

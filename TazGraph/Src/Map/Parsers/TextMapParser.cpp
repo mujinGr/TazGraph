@@ -43,8 +43,8 @@ void TextMapParser::writeFile(std::string m_fileName, Manager& manager)
 	for (auto entityId : links) {
 		auto* entity = dynamic_cast<LinkEntity*>(manager.getEntityFromId(entityId));
 		file << EntityIDUtils::toString(entity->getId()) << "\t";
-		file << EntityIDUtils::toString(entity->getFromNode()->getId()) << "\t";
-		file << EntityIDUtils::toString(entity->getToNode()->getId()) << "\n";
+		file << EntityIDUtils::toString(entity->getFromNode()) << "\t";
+		file << EntityIDUtils::toString(entity->getToNode()) << "\n";
 	}
 
 	file.close();
@@ -157,10 +157,10 @@ void TextMapParser::parse(Manager& manager,
 
 	for (const auto& parsedLink : parsedLinks) {
 		auto& link = manager.addEntity<Link>(parsedLink.fromId, parsedLink.toId);
-		
-		link.getFromNode()->addOutLink(link.getId());
-		link.getToNode()->addInLink(link.getId());
-		
+
+		dynamic_cast<NodeEntity*>(manager.getEntityFromId(link.getFromNode()))->addOutLink(link.getId());
+		dynamic_cast<NodeEntity*>(manager.getEntityFromId(link.getToNode()))->addInLink(link.getId());
+
 		link.addGroup(Manager::groupLinks_0);
 
 		linkEntities.push_back(&link);
@@ -170,10 +170,6 @@ void TextMapParser::parse(Manager& manager,
 		_threader->parallel(linkEntities.size(), [&](int start, int end) {
 			for (int i = start; i < end; i++) {
 				addLinkFunc(*linkEntities[i]);
-				if (manager.arrowheadsEnabled)
-					linkEntities[i]->addComponent<LinkPortsComponent>();
-				else
-					linkEntities[i]->addComponent<LinkNodesComponent>();
 			}
 			});
 	}

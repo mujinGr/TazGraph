@@ -140,10 +140,10 @@ void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 		auto* c_link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(c_linkId));
 		if (c_link->isHidden()) {
 			// Get the parent group nodes of the source and target
-			auto* fromNode = c_link->getFromNode();
-			auto* toNode = c_link->getToNode();
-			auto* fromParent = fromNode->getParentEntity();
-			auto* toParent = toNode->getParentEntity();
+			auto fromNodeId = c_link->getFromNode();
+			auto toNodeId = c_link->getToNode();
+			auto* fromParent = manager->getEntityFromId(fromNodeId)->getParentEntity();
+			auto* toParent = manager->getEntityFromId(toNodeId)->getParentEntity();
 
 			// Skip if:
 			// - Either parent is missing (not grouped).

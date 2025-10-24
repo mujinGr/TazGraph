@@ -166,10 +166,8 @@ void Graph::update(float deltaTime) //game objects updating
 				)))
 		{
 			auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
-			link->removeComponent<LinkNodesComponent>();
-			link->addComponent<LinkPortsComponent>();
 
-			link->updateConnectedPorts();
+			link->updateConnection(LinkEntity::ConnectionType::PORT_TO_PORT);
 			link->addArrowHead();
 		}
 	}
@@ -183,7 +181,7 @@ void Graph::update(float deltaTime) //game objects updating
 			{
 				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
 
-				link->updateConnectedPorts();
+				link->updateConnection(LinkEntity::ConnectionType::PORT_TO_PORT);
 			}
 
 		}
@@ -193,28 +191,28 @@ void Graph::update(float deltaTime) //game objects updating
 			for (auto linkId : manager->getGroup<LinkEntity>(Manager::groupLinks_0)) {
 				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
 
-				link->resetPorts();
+				link->updateConnection(LinkEntity::ConnectionType::NODE_TO_NODE);
 				link->removeArrowHead();
 			}
 			for (auto linkId : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
 				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
-				link->resetPorts();
+				link->updateConnection(LinkEntity::ConnectionType::NODE_TO_NODE);
 				link->removeArrowHead();
 			}
 			for (auto linkId : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
 				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
-				link->resetPorts();
+				link->updateConnection(LinkEntity::ConnectionType::NODE_TO_NODE);
 				link->removeArrowHead();
 			}
 
 			for (auto linkId : manager->getGroup<LinkEntity>(Manager::groupPathLinks)) {
 				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
-				link->resetPorts();
+				link->updateConnection(LinkEntity::ConnectionType::NODE_TO_NODE);
 				link->removeArrowHead();
 			}
 			for (auto linkId : manager->getGroup<LinkEntity>(Manager::groupPathInnerLinks)) {
 				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
-				link->resetPorts();
+				link->updateConnection(LinkEntity::ConnectionType::NODE_TO_NODE);
 				link->removeArrowHead();
 			}
 			//todo remove all ports
@@ -267,10 +265,8 @@ void Graph::update(float deltaTime) //game objects updating
 			glm::vec3 startV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), -AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);
 			glm::vec3 endV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);
 
-			auto& vert_gridLink = manager->addEntityNoId<Link>();
-			vert_gridLink.addComponent<LinePositionsComponent>();
-			vert_gridLink.GetComponent<LinePositionsComponent>().fromPos = startV;
-			vert_gridLink.GetComponent<LinePositionsComponent>().toPos = endV;
+			auto& vert_gridLink = manager->addEntityNoId<Link>(startV, endV);
+			vert_gridLink.addComponent<Line_w_Color>();
 			vert_gridLink.GetComponent<Line_w_Color>().width = 1.0f;
 			vert_gridLink.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 255, 64));
 			vert_gridLink.addGroup(Manager::groupGridLinks);
@@ -280,10 +276,8 @@ void Graph::update(float deltaTime) //game objects updating
 			glm::vec3 startH(-AXIS_CELLS / 2.0f * manager->grid->getCellSize(), (i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), z);
 			glm::vec3 endH(AXIS_CELLS / 2.0f * manager->grid->getCellSize(), (i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), z);
 
-			auto& hor_gridLink = manager->addEntityNoId<Link>();
-			hor_gridLink.addComponent<LinePositionsComponent>();
-			hor_gridLink.GetComponent<LinePositionsComponent>().fromPos = startH;
-			hor_gridLink.GetComponent<LinePositionsComponent>().toPos = endH;
+			auto& hor_gridLink = manager->addEntityNoId<Link>(startH, endH);
+			hor_gridLink.addComponent<Line_w_Color>();
 			hor_gridLink.GetComponent<Line_w_Color>().width = 1.0f;
 			hor_gridLink.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 255, 64));
 

@@ -1,212 +1,6 @@
 #pragma once
 
-#include "GECSManager.h"
-#include "../Components.h"
-#include <tracy/public/tracy/Tracy.hpp>
-
-class Empty : public EmptyEntity {
-
-public:
-
-	Empty(Manager& mManager) : EmptyEntity(mManager) {
-
-	}
-
-	void addGroup(Group mGroup) override {
-		Entity::addGroup(mGroup);
-		manager.AddToGroup(this, mGroup);
-	}
-
-	virtual ~Empty() {
-
-	}
-
-	void update(float deltaTime)
-	{
-		ZoneScoped;
-
-		//cellUpdate();
-
-		Entity::update(deltaTime);
-	}
-
-	void cellUpdate() override {
-		if (this->ownerCell) {
-			Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
-			if (newCell != this->ownerCell) {
-				// Need to shift the entity
-				removeFromCell();
-				manager.grid->addEmpty(this, newCell);
-			}
-		}
-	}
-
-
-
-	void imgui_print() override {
-		glm::vec2 position = this->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
-		ImGui::Text("TazPosition: (%.2f, %.2f)", position.x, position.y);
-	}
-
-	void destroy() {
-		Entity::destroy();
-		manager.aboutTo_updateActiveEntities(); // cant have it at destroy in baseclass
-		// may need to also update Visible Entities
-	}
-};
-
-class Node : public NodeEntity {
-private:
-
-public:
-
-	Node(Manager& mManager) : NodeEntity(mManager) {
-
-
-	}
-
-	void addGroup(Group mGroup) override {
-		Entity::addGroup(mGroup);
-		manager.AddToGroup(this, mGroup);
-	}
-
-	virtual ~Node() {
-
-	}
-
-	void update(float deltaTime)
-	{
-		//cellUpdate();
-
-		Entity::update(deltaTime);
-	}
-
-	void cellUpdate() override {
-		if (this->ownerCell) {
-			//this->GetComponent<TransformComponent>().update(0.0f);
-			Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
-			if (newCell != this->ownerCell) {
-				std::scoped_lock lock(manager.movedNodesMutex);
-				removeFromCell();
-				manager.grid->addNode(this, newCell);
-
-				manager.movedNodes.push_back(id);
-			}
-			for (auto& linkId : inLinks) {
-				auto* link = dynamic_cast<LinkEntity*>(manager.getEntityFromId(linkId));
-				if (link->type == LinkEntity::ConnectionType::PORT_TO_PORT)
-					link->updateArrowHeads();
-
-				for (auto& depthLinkId : link->getFromNode()->getInLinks()) {
-					auto* depthLink = dynamic_cast<LinkEntity*>(manager.getEntityFromId(depthLinkId));
-					if (depthLink->type == LinkEntity::ConnectionType::PORT_TO_PORT)
-						depthLink->updateArrowHeads();
-				}
-				for (auto& depthLinkId : link->getFromNode()->getOutLinks()) {
-					auto* depthLink = dynamic_cast<LinkEntity*>(manager.getEntityFromId(depthLinkId));
-					if (depthLink->type == LinkEntity::ConnectionType::PORT_TO_PORT)
-						depthLink->updateArrowHeads();
-				}
-			}
-			for (auto& linkId : outLinks) {
-				auto* link = dynamic_cast<LinkEntity*>(manager.getEntityFromId(linkId));
-				if (link->type == LinkEntity::ConnectionType::PORT_TO_PORT)
-					link->updateArrowHeads();
-				for (auto& depthLinkId : link->getToNode()->getInLinks()) {
-					auto* depthLink = dynamic_cast<LinkEntity*>(manager.getEntityFromId(depthLinkId));
-					if (depthLink->type == LinkEntity::ConnectionType::PORT_TO_PORT)
-						depthLink->updateArrowHeads();
-				}
-				for (auto& depthLinkId : link->getToNode()->getOutLinks()) {
-					auto* depthLink = dynamic_cast<LinkEntity*>(manager.getEntityFromId(depthLinkId));
-					if (depthLink->type == LinkEntity::ConnectionType::PORT_TO_PORT)
-						depthLink->updateArrowHeads();
-				}
-			}
-		}
-	}
-
-	void imgui_print() override {
-		glm::vec2 position = this->GetComponent<TransformComponent>().getPosition();  // Make sure Entity class has a getPosition method
-		ImGui::Text("TazPosition: (%.2f, %.2f)", position.x, position.y);
-
-
-	}
-
-	void imgui_display() override {
-		ImGui::Text("Display Info Here Node");
-	}
-
-	void destroy() {
-		Entity::destroy();
-		manager.aboutTo_updateActiveEntities();
-	}
-
-	void addPorts() {
-		auto createPort = [this](NodePorts portName, const glm::vec3& localPosition, bool isHorizontal) {
-			const char* t_portName = NodePorts_ToString(portName);
-
-			if (children.contains(t_portName)) {
-				TazGraphEngine::ConsoleLogger::error(
-					std::string("Port already exists: ") + t_portName);
-				return;
-			}
-
-			auto& port = getManager()->addEntityNoId<Empty>();
-			port.addGroup(Manager::groupPorts);
-			port.addComponent<TransformComponent>(glm::vec3(0), glm::vec3(0), 1.0f);
-
-
-			children[t_portName] = port.getId();
-			getManager()->getEntityFromId(children[t_portName])->setParentEntity(this, t_portName);
-			getManager()->getEntityFromId(children[t_portName])->GetComponent<TransformComponent>().local_normal_position = localPosition;
-			getManager()->getEntityFromId(children[t_portName])->GetComponent<TransformComponent>().initChild();
-			getManager()->getEntityFromId(children[t_portName])->addComponent<PortComponent>(isHorizontal);
-			getManager()->getEntityFromId(children[t_portName])->update(0.0f);
-			};
-
-		// Create all ports using the lambda
-		createPort(NodePorts::LEFT, glm::vec3(-1.0f, 0.0f, 0.0f), true);
-		createPort(NodePorts::RIGHT, glm::vec3(1.0f, 0.0f, 0.0f), true);
-		createPort(NodePorts::TOP, glm::vec3(0.0f, -1.0f, 0.0f), false);
-		createPort(NodePorts::BOTTOM, glm::vec3(0.0f, 1.0f, 0.0f), false);
-
-	}
-
-	void removePorts() override {
-		for (auto portName : { NodePorts::LEFT, NodePorts::RIGHT, NodePorts::TOP, NodePorts::BOTTOM }) {
-
-			const char* t_portName = NodePorts_ToString(portName);
-
-			if (children.contains(t_portName)) {
-				getManager()->getEntityFromId(children[t_portName])->destroy();
-				for (auto& slot : getManager()->getEntityFromId(children[t_portName])->children)
-				{
-					auto* slotEnt = getManager()->getEntityFromId(slot.second);
-					slotEnt->destroy();
-				}
-				getManager()->getEntityFromId(children[t_portName])->children.clear();
-				children.erase(t_portName);
-			}
-		}
-	}
-
-	void removeSlots() override {
-		for (auto portName : { NodePorts::LEFT, NodePorts::RIGHT, NodePorts::TOP, NodePorts::BOTTOM }) {
-			const char* t_portName = NodePorts_ToString(portName);
-
-			if (children.contains(t_portName)) {
-				for (auto slot : getManager()->getEntityFromId(children[t_portName])->children)
-				{
-					getManager()->getEntityFromId(slot.second)->destroy();
-				}
-				getManager()->getEntityFromId(children[t_portName])->children.clear();
-			}
-		}
-	}
-
-};
-
+#include "./GECSEntityTypes.h"
 
 class Link : public LinkEntity {
 private:
@@ -221,35 +15,16 @@ public:
 	Link(Manager& mManager, EntityID mfromId, EntityID mtoId)
 		: LinkEntity(mManager, mfromId, mtoId)
 	{
-		from = dynamic_cast<NodeEntity*>(mManager.getEntityFromId(fromId));
-		to = dynamic_cast<NodeEntity*>(mManager.getEntityFromId(toId));
-	}
-
-	Link(Manager& mManager, Entity* mfrom, Entity* mto)
-		: LinkEntity(mManager,
-			dynamic_cast<NodeEntity*>(mfrom), // it is node but cant see it due to getParentEntity
-			dynamic_cast<NodeEntity*>(mto))
-	{
-		fromId = from->getId();
-		toId = to->getId();
-	}
-
-	Link(Manager& mManager, NodeEntity* mfrom, NodeEntity* mto)
-		: LinkEntity(mManager,
-			mfrom,
-			mto)
-	{
-		fromId = from->getId();
-		toId = to->getId();
 	}
 
 	Link(
 		Manager& mManager,
-		NodeEntity* mfrom, NodeEntity* mto,
-		EntityID m_fromPort, EntityID m_toPort, int m_fromSlot, int m_toSlot
+		EntityID mfromId, EntityID mtoId,
+		EntityID m_fromPort, EntityID m_toPort,
+		int m_fromSlot, int m_toSlot
 	)
 		: LinkEntity(mManager,
-			mfrom, mto,
+			mfromId, mtoId,
 			m_fromPort, m_toPort,
 			m_fromSlot, m_toSlot)
 	{
@@ -287,8 +62,11 @@ public:
 		// the saved cells in ownerCells then update it
 		if (!ownerCells.empty()) {
 			auto level = manager.grid->getGridLevel();
-			const auto& fromCell = manager.grid->getCell(*getFromNode(), level);
-			const auto& toCell = manager.grid->getCell(*getToNode(), level);
+			NodeEntity* fromNode = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getFromNode()));
+			NodeEntity* toNode = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getToNode()));
+
+			const auto& fromCell = manager.grid->getCell(*fromNode, level);
+			const auto& toCell = manager.grid->getCell(*toNode, level);
 
 			const auto& ownerFront = ownerCells.front();
 			const auto& ownerBack = ownerCells.back();
@@ -306,8 +84,8 @@ public:
 
 	void updateArrowHeads() override {
 		if (children.contains(LinkChildren_ToString(ARROWHEAD))) {
-			NodeEntity* fromNode = getFromNode();
-			NodeEntity* toNode = getToNode();
+			NodeEntity* fromNode = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getFromNode()));
+			NodeEntity* toNode = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getToNode()));
 			if (!fromNode || !toNode)
 				return;
 
@@ -365,8 +143,17 @@ public:
 		}
 	}
 
-	void updateConnectedPorts() override {
-		if (type == ConnectionType::PORT_TO_PORT) {
+	void updateConnection(ConnectionType setType) override {
+		type = setType;
+
+		if (type == ConnectionType::NODE_TO_NODE) {
+			fromPort = -1;
+			toPort = -1;
+		}
+		else if (type == ConnectionType::PORT_TO_PORT) {
+			NodeEntity* from = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getFromNode()));
+			NodeEntity* to = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getToNode()));
+
 			TransformComponent* toTR = &to->GetComponent<TransformComponent>();
 			TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
 
@@ -379,11 +166,51 @@ public:
 			fromPort = newFromPort;
 			toPort = newToPort;
 		}
+		else if (type == ConnectionType::DIRECT_POSITIONS) {
+			// it is as is
+		}
+		updateConnectionPositions();
+	}
+
+	void updateConnectionPositions() {
+		if (type == ConnectionType::NODE_TO_NODE) {
+			NodeEntity* from = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getFromNode()));
+			NodeEntity* to = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getToNode()));
+
+			fromPos = from->
+				GetComponent<TransformComponent>()
+				.getPosition();
+			toPos = to->
+				GetComponent<TransformComponent>()
+				.getPosition();
+		}
+		else if (type == ConnectionType::PORT_TO_PORT) {
+			NodeEntity* from = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getFromNode()));
+			NodeEntity* to = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getToNode()));
+
+			Entity* fromPortEntity = getManager()->getEntityFromId(from->children[fromPort]);
+			Entity* toPortEntity = getManager()->getEntityFromId(to->children[toPort]);
+
+			if (!fromPortEntity || !toPortEntity ||
+				fromSlotIndex >= fromPortEntity->children.size() ||
+				toSlotIndex >= toPortEntity->children.size()) {
+				TazGraphEngine::ConsoleLogger::error("updateConnectionPositions port-port");
+			}
+
+			fromPos = getManager()->getEntityFromId(fromPortEntity->children[fromSlotIndex])
+				->GetComponent<TransformComponent>().getPosition();
+			toPos = getManager()->getEntityFromId(toPortEntity->children[toSlotIndex])
+				->GetComponent<TransformComponent>().getPosition();
+		}
+		else if (type == ConnectionType::DIRECT_POSITIONS) {
+			// it is as is
+		}
 	}
 
 	void addArrowHead() override {
-		NodeEntity* fromNode = getFromNode();
-		NodeEntity* toNode = getToNode();
+		NodeEntity* fromNode = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getFromNode()));
+		NodeEntity* toNode = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getToNode()));
+
 
 		Entity* fromPortEntity = getManager()->getEntityFromId(fromNode->children[fromPort]);
 		Entity* toPortEntity = getManager()->getEntityFromId(toNode->children[toPort]);
@@ -431,11 +258,6 @@ public:
 			getManager()->getEntityFromId(children[LinkChildren_ToString(ARROWHEAD)])->destroy();
 			children.erase(LinkChildren_ToString(ARROWHEAD));
 		}
-	}
-
-	void resetPorts() override {
-		fromPort = -1;
-		toPort = -1;
 	}
 
 	EntityID getBestPortForConnection(const glm::vec3& fromPos, const glm::vec3& toPos) {
@@ -532,8 +354,13 @@ public:
 	}
 
 	void imgui_print() override {
-		glm::vec2 fromNodePosition = this->getFromNode()->GetComponent<TransformComponent>().getPosition();
-		glm::vec2 toNodePosition = this->getToNode()->GetComponent<TransformComponent>().getPosition();
+
+		NodeEntity* fromNode = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getFromNode()));
+		NodeEntity* toNode = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getToNode()));
+
+
+		glm::vec2 fromNodePosition = fromNode->GetComponent<TransformComponent>().getPosition();
+		glm::vec2 toNodePosition = toNode->GetComponent<TransformComponent>().getPosition();
 
 		ImGui::Text("From Node TazPosition: (%.2f, %.2f)", fromNodePosition.x, fromNodePosition.y);
 		ImGui::Text("To Node TazPosition: (%.2f, %.2f)", toNodePosition.x, toNodePosition.y);
@@ -552,8 +379,9 @@ public:
 	void destroy() {
 		Entity::destroy();
 
-		NodeEntity* from = getFromNode();
-		NodeEntity* to = getToNode();
+		NodeEntity* from = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getFromNode()));
+		NodeEntity* to = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getToNode()));
+
 
 		if (from) {
 			from->removeOutLink(id);
@@ -565,7 +393,7 @@ public:
 		}
 
 		removeArrowHead();
-		resetPorts();
+		updateConnection(LinkEntity::ConnectionType::NODE_TO_NODE);
 
 		manager.aboutTo_updateActiveEntities();
 	}

@@ -9,6 +9,7 @@
 
 #include <regex>
 #include <filesystem>
+#include <shared_mutex>
 
 namespace fs = std::filesystem;
 
@@ -16,7 +17,7 @@ namespace fs = std::filesystem;
 class Manager
 {
 private:
-	std::mutex entities_mtx;
+	mutable std::shared_mutex entities_mtx;
 	std::mutex refresh_mtx;
 
 	Threader* _threader = nullptr;
@@ -95,7 +96,7 @@ public:
 					for (auto& link : ent->getInLinks()) {
 						auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
 
-						linkEntity->updateConnectedPorts();
+						linkEntity->updateConnection(linkEntity->type);
 					}
 				}
 				});
@@ -107,7 +108,7 @@ public:
 					for (auto& link : ent->getOutLinks()) {
 						auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
 
-						linkEntity->updateConnectedPorts();
+						linkEntity->updateConnection(linkEntity->type);
 					}
 				}
 				});
@@ -169,7 +170,7 @@ public:
 				for (auto& link : ent->getInLinks()) {
 					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
 
-					linkEntity->updateConnectedPorts();
+					linkEntity->updateConnection(linkEntity->type);
 				}
 			}
 
@@ -179,7 +180,7 @@ public:
 				for (auto& link : ent->getOutLinks()) {
 					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
 
-					linkEntity->updateConnectedPorts();
+					linkEntity->updateConnection(linkEntity->type);
 				}
 			}
 
@@ -354,7 +355,7 @@ public:
 		e->setId(negativeEntityId--);
 		std::unique_ptr<T> uPtr{ e };
 		{
-			std::scoped_lock lock(entities_mtx);
+			std::unique_lock lock(entities_mtx);
 			entities.emplace(e->getId(), std::move(uPtr));
 		}
 
@@ -368,7 +369,7 @@ public:
 		e->setId(lastEntityId++);
 		std::unique_ptr<T> uPtr{ e };
 		{
-			std::scoped_lock lock(entities_mtx);
+			std::unique_lock lock(entities_mtx);
 			entities.emplace(e->getId(), std::move(uPtr));
 		}
 
@@ -380,10 +381,12 @@ public:
 	}
 
 	inline Entity* getEntityFromId(EntityID mId) {
+		std::shared_lock lock(entities_mtx);
 		return entities[mId].get();
 	}
 
 	bool hasEntity(EntityID mId) {
+		std::shared_lock lock(entities_mtx);
 		return entities.contains(mId);
 	}
 
@@ -394,7 +397,10 @@ public:
 		for (auto& group : groupedLinkEntities) {
 			group.clear();
 		}
-		entities.clear();
+		{
+			std::unique_lock lock(entities_mtx);
+			entities.clear();
+		}
 	}
 
 	void removeAllEntites() {

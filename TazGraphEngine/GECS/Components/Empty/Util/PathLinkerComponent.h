@@ -74,18 +74,14 @@ public:
 			LinkEntity* currLink = pathLinks[i];
 
 			// Validate nodes and ports for prevLink's toPort and currLink's fromPort
-			NodeEntity* prevToNode = prevLink->getToNode();
-			NodeEntity* currFromNode = currLink->getFromNode();
+			EntityID prevToNode = prevLink->getToNode();
+			EntityID currFromNode = currLink->getFromNode();
 
 			if (prevToNode != currFromNode)
 				TazGraphEngine::ConsoleLogger::error("Should be same node to create innerPaths!");
 
-			if (!prevToNode || !currFromNode)
-				continue;
-
 			EntityID prevToPortIndex = prevLink->toPort;
 			EntityID currFromPortIndex = currLink->fromPort;
-
 
 
 			// Create the inner link connecting prevLink's toPort to currLink's fromPort
@@ -97,10 +93,6 @@ public:
 			newInnerLink.addGroup(Manager::groupPathInnerLinks);  // or a dedicated group for inner links
 
 			newInnerLink.addComponent<Line_w_Color>();
-			if (entity->getManager()->arrowheadsEnabled)
-				newInnerLink.addComponent<LinkNodesComponent>();
-			else
-				newInnerLink.addComponent<LinkPortsComponent>();
 
 			innerLinks.push_back(&newInnerLink);
 

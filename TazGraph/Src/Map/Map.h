@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include <JsonParser.h>
-#include "GECS/Core/GECSEntityTypes.h"
+#include "GECS/Core/GECSEntityTypes/GECSEntityTypes.h"
 
 #include "./Parsers/TextMapParser.h"
 #include "./Parsers/PythonMapParser.h"

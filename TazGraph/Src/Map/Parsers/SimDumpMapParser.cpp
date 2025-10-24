@@ -47,12 +47,11 @@ void SimDumpMapParser::writeFile(std::string m_fileName, Manager& manager)
 	for (auto entityId : links) {
 		auto* entity = dynamic_cast<LinkEntity*>(manager.getEntityFromId(entityId));
 
-		auto* fromNode = entity->getFromNode();
-		auto* toNode = entity->getToNode();
-		if (!fromNode || !toNode) continue;
+		auto fromNode = entity->getFromNode();
+		auto toNode = entity->getToNode();
 
-		UInt32 fromIdx = nodeIdMap[fromNode->getId()];
-		UInt32 toIdx = nodeIdMap[toNode->getId()];
+		UInt32 fromIdx = nodeIdMap[fromNode];
+		UInt32 toIdx = nodeIdMap[toNode];
 
 		// Default width & color, or pull from components
 		float width = 1.0f;
@@ -222,10 +221,6 @@ void SimDumpMapParser::createSteps(
 				lwc.setDestColor(parsedLinks[i].color);
 				lwc.width = parsedLinks[i].width;
 				addLinkFunc(*linkEntities[i]);
-				if (manager.arrowheadsEnabled)
-					linkEntities[i]->addComponent<LinkPortsComponent>();
-				else
-					linkEntities[i]->addComponent<LinkNodesComponent>();
 			}
 			});
 	}

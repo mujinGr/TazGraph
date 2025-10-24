@@ -190,17 +190,13 @@ public:
 
 				if (!linkEntity) break;
 
-				int idA = std::get<int>(linkEntity->getFromNode()->getId());
-				int idB = std::get<int>(linkEntity->getToNode()->getId());
+				int idA = std::get<int>(linkEntity->getFromNode());
+				int idB = std::get<int>(linkEntity->getToNode());
 
 				// create ECS link
 				auto& link = manager.addEntity<Link>((int)idA, (int)idB);
 				link.addGroup(Manager::groupPathLinks);
 				link.addComponent<Line_w_Color>();
-				if (manager.arrowheadsEnabled)
-					link.addComponent<LinkPortsComponent>();
-				else
-					link.addComponent<LinkNodesComponent>();
 
 				link.addComponent<LineFlashAnimatorComponent>();
 

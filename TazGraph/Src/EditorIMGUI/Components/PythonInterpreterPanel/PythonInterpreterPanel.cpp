@@ -59,17 +59,12 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 		link.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 255, 255.0f * alpha));
 		link.GetComponent<Line_w_Color>().setDestColor(TazColor(255, 255, 255, 255.0f * alpha));
 
-		if (manager.arrowheadsEnabled)
-			link.addComponent<LinkPortsComponent>();
-		else
-			link.addComponent<LinkNodesComponent>();
-
 		manager.grid->addLink(&link, manager.grid->getGridLevel());
 
 		py::dict result;
 		result["id"] = EntityIDUtils::toString(link.getId());
-		result["fromId"] = EntityIDUtils::toString(link.getFromNode()->getId());
-		result["toId"] = EntityIDUtils::toString(link.getToNode()->getId());
+		result["fromId"] = EntityIDUtils::toString(link.getFromNode());
+		result["toId"] = EntityIDUtils::toString(link.getToNode());
 		return result; // return something to Python
 		});
 
@@ -131,10 +126,8 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 			linkData["simId"] = pair.first;
 			linkData["id"] = EntityIDUtils::toString(pair.second->getId());
 
-			if (pair.second->getFromNode() && pair.second->getToNode()) {
-				linkData["fromId"] = std::get<int>(pair.second->getFromNode()->getId());
-				linkData["toId"] = std::get<int>(pair.second->getToNode()->getId());
-			}
+			linkData["fromId"] = std::get<int>(pair.second->getFromNode());
+			linkData["toId"] = std::get<int>(pair.second->getToNode());
 
 			linkList.append(linkData);
 		}

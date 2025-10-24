@@ -7,7 +7,13 @@ void Graph::drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch
 	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 		for (int i = start; i < end; i++) {
 			auto* entity = manager->getEntityFromId(entities[i]);
-
+			if (entity->hasGroup(Manager::groupLinks_0)) {
+				std::cout <<
+					dynamic_cast<LinkEntity*>(entity)->fromPos.x << std::endl <<
+					dynamic_cast<LinkEntity*>(entity)->fromPos.y << std::endl <<
+					dynamic_cast<LinkEntity*>(entity)->toPos.x << std::endl <<
+					dynamic_cast<LinkEntity*>(entity)->toPos.y << std::endl;
+			}
 			entity->draw(i, batch, *Graph::_window);
 		}
 		});
@@ -363,27 +369,20 @@ void Graph::draw()
 				if (_selectedEntities[i].first->hasComponent<TransformComponent>()) {
 					TransformComponent* tr = &_selectedEntities[i].first->GetComponent<TransformComponent>();
 
-					glm::vec4 destRect;
-					destRect.x = tr->position.x;
-					destRect.y = tr->position.y;
-					destRect.z = tr->size.x;
-					destRect.w = tr->size.y;
+					glm::vec3 nodePos = tr->getPosition();
 
-					glm::vec3 nodeBox_org(destRect.x, destRect.y, tr->position.z);
-					glm::vec3 nodeBox_size(destRect.z, destRect.w, tr->size.z);
+					glm::vec3 nodeBox_org(nodePos.x, nodePos.y, nodePos.z);
+					glm::vec3 nodeBox_size(tr->size.x, tr->size.y, tr->size.z);
 
 					_LineRenderer.drawBox(boxIndex++, nodeBox_size, nodeBox_org, TazColor(255, 255, 0, 100)); //todo add angle for drawRectangle
 				}
 			}
 			else if (link) {
 				if (_selectedEntities[i].first->hasComponent<Line_w_Color>()) {
-					Line_w_Color* lWc = &_selectedEntities[i].first->GetComponent<Line_w_Color>();
-
-					glm::vec3 startP = lWc->entity->getFromNode()->GetComponent<TransformComponent>().getPosition();
-					glm::vec3 endP = lWc->entity->getToNode()->GetComponent<TransformComponent>().getPosition();
+					glm::vec3 startP = link->fromPos;
+					glm::vec3 endP = link->toPos;
 
 					_LineRenderer.drawLine(lineIndex++, startP, endP, TazColor(255, 255, 0, 100), TazColor(255, 255, 0, 100), 20.0f);
-
 				}
 			}
 		}

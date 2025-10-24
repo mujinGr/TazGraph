@@ -127,7 +127,7 @@ void PythonMapParser::parse(Manager& manager,
 
 	for (const auto& parsedLink : parsedLinks) {
 		auto& link = manager.addEntity<Link>(
-			parsedLink.from, parsedLink.to);
+			parsedLink.from->getId(), parsedLink.to->getId());
 
 		parsedLink.from->addOutLink(link.getId());
 		parsedLink.to->addInLink(link.getId());
@@ -141,10 +141,6 @@ void PythonMapParser::parse(Manager& manager,
 		_threader->parallel(linkEntities.size(), [&](int start, int end) {
 			for (int i = start; i < end; i++) {
 				addLinkFunc(*linkEntities[i]);
-				if (manager.arrowheadsEnabled)
-					linkEntities[i]->addComponent<LinkPortsComponent>();
-				else
-					linkEntities[i]->addComponent<LinkNodesComponent>();
 			}
 			});
 	}

@@ -8,7 +8,7 @@
 #include <tinyxml2.h> // for graphml
 #include <DotParser.h> // for dot/graphviz
 
-#include "GECS/Core/GECSEntityTypes.h"
+#include "GECS/Core/GECSEntityTypes/GECSEntityTypes.h"
 #include "GECS/UtilComponents.h"
 
 struct ParsedNode {

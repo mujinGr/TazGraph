@@ -62,7 +62,7 @@ void CustomFunctions::CalculateDegree()
 			for (auto& linkId : node->getOutLinks()) {
 				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
 
-				if (auto* target = link->getToNode()) {
+				if (auto* target = dynamic_cast<NodeEntity*>(manager->getEntityFromId(link->getToNode()))) {
 					nextDepthNodes.insert(target);
 				}
 			}

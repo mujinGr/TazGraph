@@ -143,28 +143,13 @@ std::vector<Cell*> Grid::getLinkCells(LinkEntity* link, Grid::Level m_level) {
 	std::vector<Cell*> intersectedCells;
 	std::unordered_set<Cell*> uniqueCells;
 
-	glm::vec3 fromPos = glm::vec3(0);
-	glm::vec3 toPos = glm::vec3(0);
-	if (link->hasComponent<LinkNodesComponent>() ||
-		link->hasComponent<LinkPortsComponent>()) {
-		fromPos = link->getFromNode()->GetComponent<TransformComponent>().getPosition();
-		toPos = link->getToNode()->GetComponent<TransformComponent>().getPosition();
-	}
-	else if (link->hasComponent<LinePositionsComponent>()) {
-		fromPos = link->GetComponent<LinePositionsComponent>().fromPos;
-		toPos = link->GetComponent<LinePositionsComponent>().toPos;
-	}
-	else {
-		TazGraphEngine::ConsoleLogger::error("Link doesn't have component for connection");
-	}
+	float x0 = link->fromPos.x;
+	float y0 = link->fromPos.y;
+	float z0 = link->fromPos.z;
 
-	float x0 = fromPos.x;
-	float y0 = fromPos.y;
-	float z0 = fromPos.z;
-
-	float x1 = toPos.x;
-	float y1 = toPos.y;
-	float z1 = toPos.z;
+	float x1 = link->toPos.x;
+	float y1 = link->toPos.y;
+	float z1 = link->toPos.z;
 
 	float dx = x1 - x0;
 	float dy = y1 - y0;

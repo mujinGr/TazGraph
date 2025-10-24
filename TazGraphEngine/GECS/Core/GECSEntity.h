@@ -121,18 +121,10 @@ public:
 
 class LinkEntity : public MultiCellEntity {
 protected:
-	//! When DirectPosition
-
-	glm::vec3 fromPos = glm::vec3(0);
-	glm::vec3 toPos = glm::vec3(0);
 
 	//! When Node_to_Node
 	EntityID fromId = 0;
 	EntityID toId = 0;
-
-	NodeEntity* from = nullptr;
-	NodeEntity* to = nullptr;
-
 public:
 	enum class ConnectionType {
 		NODE_TO_NODE,
@@ -141,6 +133,10 @@ public:
 	};
 	ConnectionType type = ConnectionType::NODE_TO_NODE;
 
+	//! When DirectPosition
+
+	glm::vec3 fromPos = glm::vec3(0);
+	glm::vec3 toPos = glm::vec3(0);
 
 	//! When Port_to_Port
 	EntityID fromPort = -1;
@@ -158,27 +154,11 @@ public:
 
 	}
 
-	LinkEntity(Manager& mManager, NodeEntity* mfrom, NodeEntity* mto)
-		: MultiCellEntity(mManager), from(mfrom), to(mto) {
-		type = ConnectionType::NODE_TO_NODE;
-
-	}
-
-	LinkEntity(Manager& mManager,
-		EntityID mfromId, EntityID mtoId,
-		NodeEntity* mfrom, NodeEntity* mto)
-		: MultiCellEntity(mManager),
-		fromId(mfromId), toId(mtoId),
-		from(mfrom), to(mto) {
-		type = ConnectionType::NODE_TO_NODE;
-
-	}
-
 	LinkEntity(
 		Manager& mManager,
-		NodeEntity* mfrom, NodeEntity* mto,
+		EntityID mfromId, EntityID mtoId,
 		EntityID m_fromPort, EntityID m_toPort, int m_fromSlot, int m_toSlot)
-		: MultiCellEntity(mManager), from(mfrom), to(mto)
+		: MultiCellEntity(mManager), fromId(mfromId), toId(mtoId)
 	{
 		fromPort = m_fromPort;
 		toPort = m_toPort;
@@ -220,25 +200,15 @@ public:
 		}
 	}
 
-	NodeEntity* getFromNode() const {
-		return from;
+	EntityID getFromNode() const {
+		return fromId;
 	}
 
-	NodeEntity* getToNode() const {
-		return to;
+	EntityID getToNode() const {
+		return toId;
 	}
 
-	EntityID getFromPort() {
-		return from->children[fromPort];
-	}
-
-	EntityID getToPort() {
-		return to->children[toPort];
-	}
-
-	virtual void updateConnectedPorts() {}
-
-	virtual void resetPorts() {}
+	virtual void updateConnection(ConnectionType setType) {}
 
 	virtual void updateArrowHeads() {}
 

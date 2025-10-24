@@ -320,8 +320,8 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
 
 			if (rayIntersectsLineSegment(rayOrigin, rayDirection,
-				link->getFromNode()->GetComponent<TransformComponent>().getPosition(),
-				link->getToNode()->GetComponent<TransformComponent>().getPosition()
+				manager->getEntityFromId(link->getFromNode())->GetComponent<TransformComponent>().getPosition(),
+				manager->getEntityFromId(link->getToNode())->GetComponent<TransformComponent>().getPosition()
 			)) {
 
 				// Check if this link is part of a path and select accordingly
@@ -558,19 +558,19 @@ void Graph::checkInput() {
 					for (auto& linkId : hoveredNode->getInLinks()) {
 						auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
 						connectedEntities.insert(link);
-						connectedEntities.insert(link->getFromNode());
+						connectedEntities.insert(manager->getEntityFromId(link->getFromNode()));
 					}
 					for (auto& linkId : hoveredNode->getOutLinks()) {
 						auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
 
 						connectedEntities.insert(link);
-						connectedEntities.insert(link->getToNode());
+						connectedEntities.insert(manager->getEntityFromId(link->getToNode()));
 					}
 				}
 				else if (auto* hoveredLink = dynamic_cast<Link*>(_onHoverEntity)) {
 					connectedEntities.insert(hoveredLink);
-					connectedEntities.insert(hoveredLink->getFromNode());
-					connectedEntities.insert(hoveredLink->getToNode());
+					connectedEntities.insert(manager->getEntityFromId(hoveredLink->getFromNode()));
+					connectedEntities.insert(manager->getEntityFromId(hoveredLink->getToNode()));
 				}
 
 				// --- Helper lambda to set alpha on entities ---
