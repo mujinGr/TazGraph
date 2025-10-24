@@ -7,13 +7,6 @@ void Graph::drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch
 	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
 		for (int i = start; i < end; i++) {
 			auto* entity = manager->getEntityFromId(entities[i]);
-			if (entity->hasGroup(Manager::groupLinks_0)) {
-				std::cout <<
-					dynamic_cast<LinkEntity*>(entity)->fromPos.x << std::endl <<
-					dynamic_cast<LinkEntity*>(entity)->fromPos.y << std::endl <<
-					dynamic_cast<LinkEntity*>(entity)->toPos.x << std::endl <<
-					dynamic_cast<LinkEntity*>(entity)->toPos.y << std::endl;
-			}
 			entity->draw(i, batch, *Graph::_window);
 		}
 		});
@@ -83,6 +76,8 @@ void Graph::draw()
 	_PlaneModelRenderer.end();
 	_PlaneModelRenderer.renderBatch();*/
 	_viewportFramebuffer.Bind();
+	glDepthMask(GL_TRUE);
+	glEnable(GL_DEPTH_TEST);
 	////////////OPENGL USE
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 
@@ -327,8 +322,7 @@ void Graph::draw()
 	_PlaneColorRenderer.renderBatch(&glsl_color);
 	glsl_color.unuse();
 
-	glDepthMask(GL_TRUE);
-	glEnable(GL_DEPTH_TEST);
+
 
 	_LineRenderer.begin();
 

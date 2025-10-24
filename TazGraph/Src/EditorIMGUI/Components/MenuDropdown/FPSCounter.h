@@ -1,10 +1,10 @@
 #pragma once
 #include "../../UIElement.h"
 #include <Camera2.5D/CameraManager.h>
-
+#include <algorithm>
 class FPSCounter : public UIElement {
 private:
-	const BaseFPSLimiter* baseFPSLimiter = nullptr;
+	BaseFPSLimiter* baseFPSLimiter = nullptr;
 
 public:
 	bool showFPS = false;
@@ -24,14 +24,14 @@ public:
 
 			ImPlot::SetupAxesLimits(0, 100, 0, 200);
 
-			ImPlot::PlotLine("FPS", &baseFPSLimiter->fpsHistory[0], plot_count);
+			ImPlot::PlotLine("FPS", baseFPSLimiter->fpsHistory, plot_count);
 
 			ImPlot::EndPlot();
 		}
 		ImGui::End();
 	};
 
-	void setLimiter(const BaseFPSLimiter& m_baseFPSLimiter) {
+	void setLimiter(BaseFPSLimiter& m_baseFPSLimiter) {
 		baseFPSLimiter = &m_baseFPSLimiter;
 	}
 

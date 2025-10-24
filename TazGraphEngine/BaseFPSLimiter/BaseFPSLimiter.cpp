@@ -17,7 +17,7 @@ void BaseFPSLimiter::begin() {
 	startTicks = SDL_GetTicks();
 }
 
-float BaseFPSLimiter::end() {
+void BaseFPSLimiter::end() {
 
 	calculateFPS();
 
@@ -27,8 +27,6 @@ float BaseFPSLimiter::end() {
 	{
 		SDL_Delay((Uint32)(1000.0f / maxFPS - frameTicks));
 	}
-
-	return fps;
 }
 
 void BaseFPSLimiter::setHistoryValue(float currentFPS)

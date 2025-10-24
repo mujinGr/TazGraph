@@ -11,6 +11,45 @@
 
 namespace fs = std::filesystem;
 
+namespace Taz {
+	struct RenderBatch {
+		enum class Type {
+			Line,
+			PlaneColor,
+			PlaneModel,
+			Light
+		};
+
+		bool showGrid = false;
+
+		Type type;
+		std::string shaderName;
+		std::vector<EntityID> entities;
+
+		size_t lineCount = 0;
+		size_t quadCount = 0;
+		size_t triangleCount = 0;
+		size_t boxCount = 0;
+		size_t sphereCount = 0;
+
+		// Additional shader uniforms
+		glm::mat4 rotationMatrix = glm::mat4(1.0f);
+		glm::vec2 viewportSize = glm::vec2(0.0f);
+	};
+
+	struct FrameRenderData {
+		std::vector<RenderBatch> batches;
+		glm::vec4 backgroundColor;
+		bool renderDebug = false;
+
+		struct MinimapData {
+			std::vector<EntityID> nodes;
+			bool needsUpdate = false;
+		} minimapData;
+	};
+}
+
+
 class DataManager {
 public:
 	// Gets the single instance of CameraManager (singleton)

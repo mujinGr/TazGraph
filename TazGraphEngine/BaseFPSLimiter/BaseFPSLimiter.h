@@ -15,7 +15,7 @@ public:
 	void begin();
 
 	//end will return the current FPS
-	float end();
+	void end();
 
 	float fpsHistory[fps_history_count] = { 0 };
 	int fpsHistoryIndx = 0;

@@ -457,6 +457,8 @@ public:
 		panelBackground,
 
 		groupGridLinks,
+
+		groupSelectedEntities,
 		//action
 		groupLinks_0,
 		groupGroupLinks_0,

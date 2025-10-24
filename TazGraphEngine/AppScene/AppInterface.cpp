@@ -36,6 +36,9 @@ void AppInterface::run() {
 	const float DESIRED_FRAMETIME = MS_PER_SECOND / DESIRED_FPS;
 	const float MAX_DELTA_TIME = 1.0f;
 
+	int frameCounter = 0;
+
+
 	Uint64 freq = SDL_GetPerformanceFrequency();
 	Uint64 prevTicks = SDL_GetPerformanceCounter();
 
@@ -110,9 +113,8 @@ void AppInterface::run() {
 			_window.swapBuffer();
 		}
 
-		_limiter.fps = _limiter.end();
+		_limiter.end();
 
-		static int frameCounter = 0;
 		frameCounter++;
 		if (frameCounter == 10) {
 			_limiter.setHistoryValue(_limiter.fps);
