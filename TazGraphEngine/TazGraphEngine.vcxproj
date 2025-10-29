@@ -81,7 +81,7 @@
 	$(SolutionDir)vendors/imguiComboAutoselect;
     	$(IncludePath)
     </IncludePath>
-    <LibraryPath>$(SolutionDir)deps/lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)deps/lib;$(SolutionDir)x64/Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>
@@ -93,7 +93,7 @@
 	$(SolutionDir)vendors/imguiComboAutoselect;
 	$(IncludePath)
     </IncludePath>
-    <LibraryPath>$(SolutionDir)deps/lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)deps/lib;$(SolutionDir)x64/Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -131,16 +131,17 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);TRACY_ENABLE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/simdump/include;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)RenderEngine;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/simdump/include;$(IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;opengl32.lib;glew32.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;opengl32.lib;glew32.lib;Winmm.lib;RenderEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -152,8 +153,9 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);TRACY_ENABLE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/simdump/include;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps/include;$(SolutionDir)deps/include/SDL2;$(SolutionDir)RenderEngine;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/simdump/include;$(IncludePath)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,7 +166,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)deps/lib</AdditionalLibraryDirectories>
     </Link>
     <Lib>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;opengl32.lib;glew32.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;opengl32.lib;glew32.lib;Winmm.lib;RenderEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -173,20 +175,15 @@
     <ClCompile Include="..\vendors\simdump\src\filereader.cpp" />
     <ClCompile Include="..\vendors\simdump\src\filewriter.cpp" />
     <ClCompile Include="..\vendors\tracy\public\TracyClient.cpp" />
-    <ClCompile Include="AudioEngine\AudioEngine.cpp" />
-    <ClCompile Include="Camera2.5D\ICamera.cpp" />
-    <ClCompile Include="Camera2.5D\OrthoCamera.h" />
-    <ClCompile Include="GECS\Core\GECSManager.cpp" />
-    <ClCompile Include="Renderers\FrameBuffer\Framebuffer.cpp" />
-    <ClCompile Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.cpp" />
-    <ClCompile Include="Renderers\LineRenderer\LineRenderer.cpp" />
-    <ClCompile Include="GECS\Core\GECS.cpp" />
-    <ClCompile Include="AppScene\IScene.cpp" />
-    <ClCompile Include="AppScene\AppInterface.cpp" />
-    <ClCompile Include="AppScene\ScreenIndices.h" />
-    <ClCompile Include="AppScene\SceneList.cpp" />
-    <ClCompile Include="Grid\Grid.cpp" />
-    <ClCompile Include="ImGuiInterface\ImGuiInterface.cpp" />
+    <ClCompile Include="src\AudioEngine\AudioEngine.cpp" />
+    <ClCompile Include="src\GECS\Core\GECSManager.cpp" />
+    <ClCompile Include="src\GECS\Core\GECS.cpp" />
+    <ClCompile Include="src\AppScene\IScene.cpp" />
+    <ClCompile Include="src\AppScene\AppInterface.cpp" />
+    <ClCompile Include="src\AppScene\ScreenIndices.h" />
+    <ClCompile Include="src\AppScene\SceneList.cpp" />
+    <ClCompile Include="src\Grid\Grid.cpp" />
+    <ClCompile Include="src\ImGuiInterface\ImGuiInterface.cpp" />
     <ClCompile Include="..\vendors\imgui\imgui.cpp" />
     <ClCompile Include="..\vendors\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\vendors\imgui\imgui_draw.cpp" />
@@ -200,92 +197,74 @@
     <ClCompile Include="..\vendors\ImGuizmo\ImGuizmo.cpp" />
     <ClCompile Include="..\vendors\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="..\vendors\DotParser\DotParser\DotParser.cpp" />
-    <ClCompile Include="InputManager\InputManager.cpp" />
-    <ClCompile Include="PNG_Letters.cpp" />
-    <ClCompile Include="Renderers\PlaneRenderers\PlaneColorRenderer\PlaneColorRenderer.cpp" />
-    <ClCompile Include="Renderers\Renderer.cpp" />
-    <ClCompile Include="Renderers\ResourceManager\ResourceManager.cpp" />
-    <ClCompile Include="Renderers\PlaneRenderers\PlaneModelRenderer\PlaneModelRenderer.cpp" />
-    <ClCompile Include="TextureManager\TextureManager.cpp" />
-    <ClCompile Include="BaseFPSLimiter\BaseFPSLimiter.cpp" />
-    <ClCompile Include="Window\DefineFactory.cpp" />
-    <ClCompile Include="Window\Window.cpp" />
+    <ClCompile Include="src\InputManager\InputManager.cpp" />
+    <ClCompile Include="src\BaseFPSLimiter\BaseFPSLimiter.cpp" />
+    <ClCompile Include="DefineFactory.cpp" />
+    <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AABB\AABB.h" />
-    <ClInclude Include="AABB\SelectionFrustum.h" />
-    <ClInclude Include="AudioEngine\AudioEngine.h" />
-    <ClInclude Include="Camera2.5D\PerspectiveCamera.h" />
-    <ClInclude Include="Camera2.5D\CameraManager.h" />
-    <ClInclude Include="Camera2.5D\ICamera.h" />
-    <ClInclude Include="ConsoleLogger.h" />
-    <ClInclude Include="DataManager\DataManager.h" />
-    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypesEmpty.h" />
-    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypesLink.h" />
-    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypesNode.h" />
-    <ClInclude Include="Threader\RenderCommandQueue.h" />
-    <ClInclude Include="Window\DefineFactory.h" />
+    <ClInclude Include="src\AABB\AABB.h" />
+    <ClInclude Include="src\AABB\SelectionFrustum.h" />
+    <ClInclude Include="src\AudioEngine\AudioEngine.h" />
+    <ClInclude Include="src\DataManager\DataManager.h" />
+    <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesEmpty.h" />
+    <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesLink.h" />
+    <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesNode.h" />
+    <ClInclude Include="src\Threader\RenderCommandQueue.h" />
+    <ClInclude Include="DefineFactory.h" />
     <ClInclude Include="DorParser\DotParser.h" />
-    <ClInclude Include="GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h" />
-    <ClInclude Include="GECS\Animators\RectangleAnimators\RectangleFlashAnimatorComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Basic\BoxComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Basic\EmptyPythonCodeComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Basic\PortSlotComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Basic\SphereComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Basic\PortComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Util\PathLinkerComponent.h" />
-    <ClInclude Include="GECS\Components\Link\Basic\Line_w_Color.h" />
-    <ClInclude Include="GECS\Components\Empty\Basic\Triangle_w_Color.h" />
-    <ClInclude Include="GECS\Components\Link\Basic\LinkPythonCodeComponent.h" />
-    <ClInclude Include="GECS\Components\Link\Util\SpringComponent.h" />
-    <ClInclude Include="GECS\Components\PythonCodeComponent.h" />
-    <ClInclude Include="GECS\Components\templateComponent.h" />
-    <ClInclude Include="GECS\Core\CellEntity.h" />
-    <ClInclude Include="GECS\Core\GECSEntity.h" />
-    <ClInclude Include="GECS\Core\GECSUtil.h" />
-    <ClInclude Include="GECS\Core\SimulationStep.h" />
-    <ClInclude Include="GECS\UtilComponents.h" />
-    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypes.h" />
+    <ClInclude Include="src\GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h" />
+    <ClInclude Include="src\GECS\Animators\RectangleAnimators\RectangleFlashAnimatorComponent.h" />
+    <ClInclude Include="src\GECS\Components\Empty\Basic\BoxComponent.h" />
+    <ClInclude Include="src\GECS\Components\Empty\Basic\EmptyPythonCodeComponent.h" />
+    <ClInclude Include="src\GECS\Components\Empty\Basic\PortSlotComponent.h" />
+    <ClInclude Include="src\GECS\Components\Empty\Basic\SphereComponent.h" />
+    <ClInclude Include="src\GECS\Components\Empty\Basic\PortComponent.h" />
+    <ClInclude Include="src\GECS\Components\Empty\Util\PathLinkerComponent.h" />
+    <ClInclude Include="src\GECS\Components\Link\Basic\Line_w_Color.h" />
+    <ClInclude Include="src\GECS\Components\Empty\Basic\Triangle_w_Color.h" />
+    <ClInclude Include="src\GECS\Components\Link\Basic\LinkPythonCodeComponent.h" />
+    <ClInclude Include="src\GECS\Components\Link\Util\SpringComponent.h" />
+    <ClInclude Include="src\GECS\Components\PythonCodeComponent.h" />
+    <ClInclude Include="src\GECS\Components\templateComponent.h" />
+    <ClInclude Include="src\GECS\Core\CellEntity.h" />
+    <ClInclude Include="src\GECS\Core\GECSEntity.h" />
+    <ClInclude Include="src\GECS\Core\GECSUtil.h" />
+    <ClInclude Include="src\GECS\Core\SimulationStep.h" />
+    <ClInclude Include="src\GECS\UtilComponents.h" />
+    <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypes.h" />
     <ClInclude Include="ImGuiText.h" />
-    <ClInclude Include="Renderers\FrameBuffer\Framebuffer.h" />
-    <ClInclude Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.h" />
-    <ClInclude Include="Renderers\LineRenderer\LineRenderer.h" />
-    <ClInclude Include="GECS\Animators\Animation.h" />
-    <ClInclude Include="GECS\Animators\AnimatorComponent.h" />
-    <ClInclude Include="GECS\Animators\AnimatorManager.h" />
-    <ClInclude Include="GECS\Animators\MovingAnimation.h" />
-    <ClInclude Include="GECS\Animators\MovingAnimatorComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Util\ColliderComponent.h" />
-    <ClInclude Include="GECS\Components.h" />
-    <ClInclude Include="GECS\Core\GECS.h" />
-    <ClInclude Include="GECS\Core\GECSManager.h" />
-    <ClInclude Include="GECS\Animators\FlashAnimation.h" />
-    <ClInclude Include="GECS\Animators\FlashAnimatorComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Basic\Rectangle_w_Color.h" />
-    <ClInclude Include="GECS\Components\Empty\Util\RigidBodyComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Basic\SpriteComponent.h" />
-    <ClInclude Include="GECS\Components\Empty\Basic\TransformComponent.h" />
-    <ClInclude Include="AppScene\IScene.h" />
-    <ClInclude Include="AppScene\AppInterface.h" />
-    <ClInclude Include="AppScene\SceneList.h" />
-    <ClInclude Include="GLSLProgram.h" />
-    <ClInclude Include="GLTexture.h" />
-    <ClInclude Include="Grid\Grid.h" />
-    <ClInclude Include="ImGuiInterface\ImGuiInterface.h" />
-    <ClInclude Include="InputManager\InputManager.h" />
-    <ClInclude Include="picoPNG.h" />
-    <ClInclude Include="PNG_Letters.h" />
-    <ClInclude Include="Renderers\PlaneRenderers\PlaneColorRenderer\PlaneColorRenderer.h" />
-    <ClInclude Include="Renderers\Renderer.h" />
-    <ClInclude Include="Renderers\ResourceManager\ResourceManager.h" />
-    <ClInclude Include="Renderers\PlaneRenderers\PlaneModelRenderer\PlaneModelRenderer.h" />
-    <ClInclude Include="TextureManager\TextureManager.h" />
-    <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h" />
-    <ClInclude Include="Threader\Threader.h" />
-    <ClInclude Include="Vertex.h" />
-    <ClInclude Include="Window\Base.h" />
-    <ClInclude Include="Window\PlatformDetection.h" />
-    <ClInclude Include="Window\Window.h" />
+    <ClInclude Include="src\GECS\Animators\Animation.h" />
+    <ClInclude Include="src\GECS\Animators\AnimatorComponent.h" />
+    <ClInclude Include="src\GECS\Animators\AnimatorManager.h" />
+    <ClInclude Include="src\GECS\Animators\MovingAnimation.h" />
+    <ClInclude Include="src\GECS\Animators\MovingAnimatorComponent.h" />
+    <ClInclude Include="src\GECS\Components\Empty\Util\ColliderComponent.h" />
+    <ClInclude Include="src\GECS\Components.h" />
+    <ClInclude Include="src\GECS\Core\GECS.h" />
+    <ClInclude Include="src\GECS\Core\GECSManager.h" />
+    <ClInclude Include="src\GECS\Animators\FlashAnimation.h" />
+    <ClInclude Include="src\GECS\Animators\FlashAnimatorComponent.h" />
+    <ClInclude Include="src\GECS\Components\Empty\Basic\Rectangle_w_Color.h" />
+    <ClInclude Include="src\GECS\Components\Empty\Util\RigidBodyComponent.h" />
+    <ClInclude Include="src\GECS\Components\Empty\Basic\SpriteComponent.h" />
+    <ClInclude Include="src\GECS\Components\Empty\Basic\TransformComponent.h" />
+    <ClInclude Include="src\AppScene\IScene.h" />
+    <ClInclude Include="src\AppScene\AppInterface.h" />
+    <ClInclude Include="src\AppScene\SceneList.h" />
+    <ClInclude Include="src\Grid\Grid.h" />
+    <ClInclude Include="src\ImGuiInterface\ImGuiInterface.h" />
+    <ClInclude Include="src\InputManager\InputManager.h" />
+    <ClInclude Include="src\BaseFPSLimiter\BaseFPSLimiter.h" />
+    <ClInclude Include="src\Threader\Threader.h" />
+    <ClInclude Include="Base.h" />
+    <ClInclude Include="PlatformDetection.h" />
+    <ClInclude Include="src\Window\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RenderEngine\RenderEngine.vcxproj">
+      <Project>{a13807f6-fbee-4cd8-b6be-ad4c8c29e8c3}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "TextureManager/TextureManager.h"
+#include <TextureManager/TextureManager.h>
 #include <GECS/Core/GECSEntityTypes/GECSEntityTypes.h>
 #include <ImGuiInterface/ImGuiInterface.h>
 

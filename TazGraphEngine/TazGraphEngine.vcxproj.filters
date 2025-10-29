@@ -15,67 +15,40 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AudioEngine\AudioEngine.cpp">
+    <ClCompile Include="src\AudioEngine\AudioEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TextureManager\TextureManager.cpp">
+    <ClCompile Include="src\Window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Window\Window.cpp">
+    <ClCompile Include="src\InputManager\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InputManager\InputManager.cpp">
+    <ClCompile Include="src\AppScene\IScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AppScene\IScene.cpp">
+    <ClCompile Include="src\AppScene\AppInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AppScene\AppInterface.cpp">
+    <ClCompile Include="src\AppScene\SceneList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AppScene\SceneList.cpp">
+    <ClCompile Include="src\AppScene\ScreenIndices.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AppScene\ScreenIndices.h">
+    <ClCompile Include="src\BaseFPSLimiter\BaseFPSLimiter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BaseFPSLimiter\BaseFPSLimiter.cpp">
+    <ClCompile Include="src\GECS\Core\GECS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderers\PlaneRenderers\PlaneModelRenderer\PlaneModelRenderer.cpp">
+    <ClCompile Include="src\Grid\Grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GECS\Core\GECS.cpp">
+    <ClCompile Include="src\ImGuiInterface\ImGuiInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PNG_Letters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Grid\Grid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderers\LineRenderer\LineRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera2.5D\OrthoCamera.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderers\ResourceManager\ResourceManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGuiInterface\ImGuiInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderers\FrameBuffer\Framebuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderers\PlaneRenderers\PlaneColorRenderer\PlaneColorRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GECS\Core\GECSManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.cpp">
+    <ClCompile Include="src\GECS\Core\GECSManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\vendors\imgui\imgui.cpp">
@@ -111,16 +84,10 @@
     <ClCompile Include="..\vendors\ImGuizmo\ImGuizmo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderers\Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\vendors\tinyxml2\tinyxml2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\vendors\DotParser\DotParser\DotParser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera2.5D\ICamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\vendors\simdump\example.cpp">
@@ -135,7 +102,7 @@
     <ClCompile Include="..\vendors\simdump\src\filewriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Window\DefineFactory.cpp">
+    <ClCompile Include="DefineFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\vendors\tracy\public\TracyClient.cpp">
@@ -143,226 +110,175 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AudioEngine\AudioEngine.h">
+    <ClInclude Include="src\AudioEngine\AudioEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GLSLProgram.h">
+    <ClInclude Include="src\Window\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GLTexture.h">
+    <ClInclude Include="src\InputManager\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="picoPNG.h">
+    <ClInclude Include="src\AppScene\IScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vertex.h">
+    <ClInclude Include="src\AppScene\AppInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextureManager\TextureManager.h">
+    <ClInclude Include="src\AppScene\SceneList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Window\Window.h">
+    <ClInclude Include="src\BaseFPSLimiter\BaseFPSLimiter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputManager\InputManager.h">
+    <ClInclude Include="src\GECS\Components\Empty\Util\ColliderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AppScene\IScene.h">
+    <ClInclude Include="src\GECS\Components\Empty\Basic\Rectangle_w_Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AppScene\AppInterface.h">
+    <ClInclude Include="src\GECS\Core\GECS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AppScene\SceneList.h">
+    <ClInclude Include="src\GECS\Components\Empty\Basic\TransformComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BaseFPSLimiter\BaseFPSLimiter.h">
+    <ClInclude Include="src\GECS\Components\Empty\Basic\SpriteComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderers\PlaneRenderers\PlaneModelRenderer\PlaneModelRenderer.h">
+    <ClInclude Include="src\GECS\Components\Empty\Util\RigidBodyComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera2.5D\PerspectiveCamera.h">
+    <ClInclude Include="src\GECS\Animators\FlashAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Util\ColliderComponent.h">
+    <ClInclude Include="src\GECS\Animators\FlashAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Basic\Rectangle_w_Color.h">
+    <ClInclude Include="src\GECS\Animators\AnimatorManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Core\GECS.h">
+    <ClInclude Include="src\GECS\Animators\AnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Basic\TransformComponent.h">
+    <ClInclude Include="src\GECS\Animators\Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Basic\SpriteComponent.h">
+    <ClInclude Include="src\GECS\Components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Util\RigidBodyComponent.h">
+    <ClInclude Include="src\Grid\Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Animators\FlashAnimatorComponent.h">
+    <ClInclude Include="src\GECS\Core\GECSManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Animators\FlashAnimation.h">
+    <ClInclude Include="src\ImGuiInterface\ImGuiInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Animators\AnimatorManager.h">
+    <ClInclude Include="src\GECS\Animators\MovingAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Animators\AnimatorComponent.h">
+    <ClInclude Include="src\GECS\Animators\MovingAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Animators\Animation.h">
+    <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components.h">
+    <ClInclude Include="src\DataManager\DataManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera2.5D\CameraManager.h">
+    <ClInclude Include="src\AABB\AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera2.5D\ICamera.h">
+    <ClInclude Include="src\GECS\Components\Link\Basic\Line_w_Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PNG_Letters.h">
+    <ClInclude Include="src\GECS\Components\Empty\Basic\Triangle_w_Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Grid\Grid.h">
+    <ClInclude Include="src\GECS\UtilComponents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Core\GECSManager.h">
+    <ClInclude Include="src\GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderers\LineRenderer\LineRenderer.h">
+    <ClInclude Include="src\GECS\Components\Empty\Basic\BoxComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderers\ResourceManager\ResourceManager.h">
+    <ClInclude Include="src\GECS\Core\CellEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiInterface\ImGuiInterface.h">
+    <ClInclude Include="src\GECS\Core\GECSEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleLogger.h">
+    <ClInclude Include="src\Threader\Threader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Animators\MovingAnimation.h">
+    <ClInclude Include="src\GECS\Core\GECSUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Animators\MovingAnimatorComponent.h">
+    <ClInclude Include="src\GECS\Animators\RectangleAnimators\RectangleFlashAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypes.h">
+    <ClInclude Include="src\GECS\Components\Link\Util\SpringComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DataManager\DataManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AABB\AABB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\Components\Link\Basic\Line_w_Color.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderers\FrameBuffer\Framebuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Basic\Triangle_w_Color.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\UtilComponents.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\Animators\LineAnimators\LineFlashAnimatorComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderers\PlaneRenderers\PlaneColorRenderer\PlaneColorRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Basic\BoxComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\Core\CellEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\Core\GECSEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Threader\Threader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\Core\GECSUtil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\Animators\RectangleAnimators\RectangleFlashAnimatorComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\Components\Link\Util\SpringComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderers\PlaneRenderers\LightRenderer\LightRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Basic\SphereComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderers\Renderer.h">
+    <ClInclude Include="src\GECS\Components\Empty\Basic\SphereComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DorParser\DotParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Basic\PortComponent.h">
+    <ClInclude Include="src\GECS\Components\Empty\Basic\PortComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Basic\PortSlotComponent.h">
+    <ClInclude Include="src\GECS\Components\Empty\Basic\PortSlotComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Util\PathLinkerComponent.h">
+    <ClInclude Include="src\GECS\Components\Empty\Util\PathLinkerComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Window\PlatformDetection.h">
+    <ClInclude Include="PlatformDetection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Window\Base.h">
+    <ClInclude Include="Base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AABB\SelectionFrustum.h">
+    <ClInclude Include="src\AABB\SelectionFrustum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\PythonCodeComponent.h">
+    <ClInclude Include="src\GECS\Components\PythonCodeComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\templateComponent.h">
+    <ClInclude Include="src\GECS\Components\templateComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Empty\Basic\EmptyPythonCodeComponent.h">
+    <ClInclude Include="src\GECS\Components\Empty\Basic\EmptyPythonCodeComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Components\Link\Basic\LinkPythonCodeComponent.h">
+    <ClInclude Include="src\GECS\Components\Link\Basic\LinkPythonCodeComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Core\SimulationStep.h">
+    <ClInclude Include="src\GECS\Core\SimulationStep.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Window\DefineFactory.h">
+    <ClInclude Include="DefineFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Threader\RenderCommandQueue.h">
+    <ClInclude Include="src\Threader\RenderCommandQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypesLink.h">
+    <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesLink.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypesEmpty.h">
+    <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesEmpty.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GECS\Core\GECSEntityTypes\GECSEntityTypesNode.h">
+    <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
