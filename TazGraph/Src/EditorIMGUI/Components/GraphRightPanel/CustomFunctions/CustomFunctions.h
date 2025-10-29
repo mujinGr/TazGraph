@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../../UIElement.h"
-#include <GECS/Core/GECSEntity.h>
 
 struct CustomFunctionsConfig {
 	IScene* scene;

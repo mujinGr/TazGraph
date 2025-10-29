@@ -1,11 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL_mixer.h>
-#include <ConsoleLogger.h>
-
-#include <string>
-#include <map>
-
+#include "../../pch.h"
 
 class SoundEffect {
 public:

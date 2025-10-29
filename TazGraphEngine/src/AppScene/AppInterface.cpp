@@ -5,8 +5,6 @@
 #include "IScene.h"
 
 #include "../DataManager/DataManager.h"
-#include <Camera2.5D/CameraManager.h>
-#include <chrono>
 
 using namespace std::chrono;
 

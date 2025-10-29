@@ -1,10 +1,4 @@
 #include "MainMenuScreen.h"
-#include <iostream>
-#include <SDL2/SDL.h>
-#include "GECS/Components.h"
-#include "../../GECS/ScriptComponents.h"
-#include "Camera2.5D/CameraManager.h"
-#include "AppScene/AppInterface.h"
 
 
 

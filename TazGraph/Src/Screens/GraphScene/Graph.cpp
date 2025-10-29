@@ -5,13 +5,8 @@
 */
 
 #include "Graph.h"
-#include <TextureManager/TextureManager.h>
-#include <Camera2.5D/CameraManager.h>
 #include "../../Map/Map.h"
-#include "GECS/Components.h"
-#include "../../GECS/ScriptComponents.h"
-#include <sstream>
-#include <unordered_set>
+
 
 #undef main
 

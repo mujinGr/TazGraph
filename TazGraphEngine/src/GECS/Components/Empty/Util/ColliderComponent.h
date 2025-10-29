@@ -5,7 +5,6 @@
 #include <glm/glm.hpp>
 #include "../../../Components.h"
 #include "../../../UtilComponents.h"
-#include <TextureManager/TextureManager.h>
 
 
 class ColliderComponent : public Component //collider -> transform

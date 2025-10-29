@@ -1,11 +1,7 @@
 #pragma once
 
-#include <map>
-#include <memory>
-#include <string>
-#include <filesystem>
+#include "../../pch.h"
 
-#include <ImGuiComboAutoselect/imgui_combo_autoselect.h>
 #include "../GECS/Core/SimulationStep.h"
 #include "../GECS/UtilComponents.h"
 

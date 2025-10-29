@@ -1,5 +1,4 @@
 #include "Graph.h"
-#include <AppScene/AppInterface.h>
 #include <tracy/public/tracy/Tracy.hpp>
 
 void Graph::drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch) {

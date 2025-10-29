@@ -1,14 +1,8 @@
 #pragma once
 
 #include <string>
-#include <TextureManager/TextureManager.h>
-#include <GECS/Core/GECSEntityTypes/GECSEntityTypes.h>
-#include <ImGuiInterface/ImGuiInterface.h>
+#include "TazGraphEngine.h"
 
-#include <SDL2/SDL_ttf.h>
-#include <ImGuiText.h>
-
-#include <GECS/UtilComponents.h>
 
 struct PairHash {
 	template <class T1, class T2>

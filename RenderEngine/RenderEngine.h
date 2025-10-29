@@ -24,5 +24,5 @@
 #include "src/Camera2.5D/PerspectiveCamera.h"
 
 #include "src/TextureManager/TextureManager.h"
-
+#include "src/Renderers/ResourceManager/ResourceManager.h"
 //-------------

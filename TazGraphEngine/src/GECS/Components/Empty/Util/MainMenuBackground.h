@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GECS/Animators/AnimatorComponent.h"
-#include <Window/Window.h>
+#include "../../../Components.h"
+#include "../../../UtilComponents.h"
 
 class MainMenuBackground : public Component
 {
@@ -30,7 +30,10 @@ public: // it is like it has init that creates Animator Component since it inher
 	}
 
 	void init() override {
-		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
+		std::shared_ptr<PerspectiveCamera> main_camera2D =
+			std::dynamic_pointer_cast<PerspectiveCamera>(
+				CameraManager::getInstance().getCamera("mainMenu_main")
+			);
 
 		if (!entity->hasComponent<TransformComponent>()) {
 			entity->addComponent<TransformComponent>(

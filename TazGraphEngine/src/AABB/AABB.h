@@ -1,7 +1,6 @@
 #pragma once
-#include <glm/glm.hpp>
-#include <SDL2/SDL_rect.h>
-#include <type_traits>
+
+#include "../../pch.h"
 
 #include "./SelectionFrustum.h"
 constexpr float LINE_THRESHOLD = 5.0f;

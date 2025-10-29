@@ -1,24 +1,10 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <algorithm>
-#include <bitset>
-#include <array>
-#include <unordered_map>
+#include "../../../pch.h"
 
-#include <SDL2/SDL.h>
-#include <Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h>
-#include <Renderers/LineRenderer/LineRenderer.h>
-#include <Renderers/PlaneRenderers/PlaneColorRenderer/PlaneColorRenderer.h>
-#include <Renderers/PlaneRenderers/LightRenderer/LightRenderer.h>
-#include <Camera2.5D/CameraManager.h>
 #include "../../Window/Window.h"
-#include <ConsoleLogger.h>
 
-#include <optional>
-#include <variant>
+
 
 #define CULLING_OFFSET 100
 

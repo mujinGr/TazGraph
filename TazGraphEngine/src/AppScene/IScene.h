@@ -1,6 +1,7 @@
 #pragma once
 
-#include <Renderers/LineRenderer/LineRenderer.h>
+#include "./ScreenIndices.h"
+
 #include "../DataManager/DataManager.h"
 
 #include "AppInterface.h"

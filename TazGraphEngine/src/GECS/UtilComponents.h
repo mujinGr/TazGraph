@@ -5,6 +5,7 @@
 #include "./Components/Empty/Util/ColliderComponent.h"
 #include "./Components/Empty/Util/RigidBodyComponent.h"
 #include "./Components/Empty/Util/PathLinkerComponent.h"
+#include "./Components/Empty/Util/MainMenuBackground.h"
 
 #include "./Components/Link/Util/SpringComponent.h"
 

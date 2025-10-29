@@ -1,23 +1,15 @@
 #pragma once
 
-#include <iostream>
-#include <string>
+#include "../../pch.h"
 
-#include <imgui.h>
-#include <imgui_impl_sdl2.h>
-#include <imgui_impl_opengl3.h>
-#include <implot.h>
-#include <implot_internal.h>
-#include "../ImGuiComboAutoselect/imgui_combo_autoselect.h"
-#include <ImGuizmo/ImGuizmo.h>
 
 namespace ImGuiInterface {
 
-    void BeginRender();
+	void BeginRender();
 
-    void RenderUI();
+	void RenderUI();
 
-    void EndRender();
+	void EndRender();
 
-    bool isMouseOnWidget(const std::string& widgetName);
+	bool isMouseOnWidget(const std::string& widgetName);
 };

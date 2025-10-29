@@ -175,12 +175,12 @@
     <ClCompile Include="..\vendors\simdump\src\filereader.cpp" />
     <ClCompile Include="..\vendors\simdump\src\filewriter.cpp" />
     <ClCompile Include="..\vendors\tracy\public\TracyClient.cpp" />
+    <ClCompile Include="pch.cpp" />
     <ClCompile Include="src\AudioEngine\AudioEngine.cpp" />
     <ClCompile Include="src\GECS\Core\GECSManager.cpp" />
     <ClCompile Include="src\GECS\Core\GECS.cpp" />
     <ClCompile Include="src\AppScene\IScene.cpp" />
     <ClCompile Include="src\AppScene\AppInterface.cpp" />
-    <ClCompile Include="src\AppScene\ScreenIndices.h" />
     <ClCompile Include="src\AppScene\SceneList.cpp" />
     <ClCompile Include="src\Grid\Grid.cpp" />
     <ClCompile Include="src\ImGuiInterface\ImGuiInterface.cpp" />
@@ -203,10 +203,12 @@
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="pch.h" />
     <ClInclude Include="src\AABB\AABB.h" />
     <ClInclude Include="src\AABB\SelectionFrustum.h" />
     <ClInclude Include="src\AudioEngine\AudioEngine.h" />
     <ClInclude Include="src\DataManager\DataManager.h" />
+    <ClInclude Include="src\GECS\Components\Empty\Util\MainMenuBackground.h" />
     <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesEmpty.h" />
     <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesLink.h" />
     <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesNode.h" />
@@ -260,6 +262,7 @@
     <ClInclude Include="Base.h" />
     <ClInclude Include="PlatformDetection.h" />
     <ClInclude Include="src\Window\Window.h" />
+    <ClInclude Include="TazGraphEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RenderEngine\RenderEngine.vcxproj">

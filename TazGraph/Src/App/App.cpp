@@ -1,5 +1,4 @@
 #include "App.h"
-#include "AppScene/SceneList.h"
 
 App::App(int threadCount, std::string openFile,
 	double initialTimestamp,

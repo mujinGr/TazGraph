@@ -10,7 +10,6 @@
 #include "HoverEntityPanel/HoverEntityPanel.h"
 #include "../../EntityComponentsControl/EntityComponentsControl.h"
 
-#include <Renderers/FrameBuffer/Framebuffer.h>
 
 struct ViewportPanelConfig {
 	Framebuffer* c_fb;

@@ -1,5 +1,4 @@
 #include "Graph.h"
-#include <AppScene/AppInterface.h>
 
 std::vector<Cell*> Graph::traversedCellsFromRay(
 	glm::vec3 rayOrigin,

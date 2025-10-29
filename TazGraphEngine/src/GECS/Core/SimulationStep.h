@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include <GLSLProgram.h>
 #include <simdump/include/sim_dump/datatypes.h>
 #include "./GECSEntity.h"
 

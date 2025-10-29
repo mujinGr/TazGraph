@@ -1,31 +1,11 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include <AppScene/IScene.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <TazGraphEngine.h>
+
 #include <GL/glew.h>
-#include <GLSLProgram.h>
-#include <Renderers/ResourceManager/ResourceManager.h>
 #undef main
-#include <iostream>
-#include <vector>
-#include "Camera2.5D/PerspectiveCamera.h"
-#include <Renderers/FrameBuffer/Framebuffer.h>
-#include <Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h>
-#include <InputManager/InputManager.h>
-#include <BaseFPSLimiter/BaseFPSLimiter.h>
-//#include "SpriteFont/SpriteFont.h"
-#include "Window/Window.h"
-#include "TextureManager/TextureManager.h"
 
-
-#include "AppScene/ScreenIndices.h"
-
-#include <ImGuiInterface/ImGuiInterface.h>
-
-#include <chrono>
-#include <thread>
 #include "../../AssetManager/AssetManager.h"
 #include "../../EditorIMGUI/GraphEditorLayer/GraphEditorLayer.h"
 

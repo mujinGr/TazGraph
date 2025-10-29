@@ -4,7 +4,8 @@
 #include <sstream>
 
 #include <JsonParser.h>
-#include "GECS/Core/GECSEntityTypes/GECSEntityTypes.h"
+
+#include "TazGraphEngine.h"
 
 #include "./Parsers/TextMapParser.h"
 #include "./Parsers/PythonMapParser.h"

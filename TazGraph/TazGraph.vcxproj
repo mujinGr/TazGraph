@@ -242,8 +242,6 @@
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\Minimap\Minimap.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\OrientationBox\OrientationBox.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\CameraPanel\SliderRotateZ.h" />
-    <ClInclude Include="Src\GECS\Scripts\MainMenuBackground.h" />
-    <ClInclude Include="Src\GECS\ScriptComponents.h" />
     <ClInclude Include="Src\Map\Parsers\SimDumpMapParser.h" />
     <ClInclude Include="Src\Map\PathParsers\SimDumpPathParser.h" />
     <ClInclude Include="Src\Screens\GraphScene\Graph.h" />

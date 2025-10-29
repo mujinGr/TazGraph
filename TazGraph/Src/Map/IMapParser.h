@@ -8,8 +8,7 @@
 #include <tinyxml2.h> // for graphml
 #include <DotParser.h> // for dot/graphviz
 
-#include "GECS/Core/GECSEntityTypes/GECSEntityTypes.h"
-#include "GECS/UtilComponents.h"
+#include "TazGraphEngine.h"
 
 struct ParsedNode {
 	int id;
@@ -34,7 +33,7 @@ public:
 	virtual ~IMapParser() = default;
 
 	virtual void readFile(std::string m_fileName) = 0;
-	
+
 	virtual void writeFile(std::string m_fileName, Manager& manager) = 0;
 
 	virtual void parse(

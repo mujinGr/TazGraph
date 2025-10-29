@@ -155,12 +155,6 @@
     <ClInclude Include="Src\Screens\MainMenuScreen\MainMenuScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\GECS\ScriptComponents.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\GECS\Scripts\MainMenuBackground.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\App\App.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -1,12 +1,7 @@
 #pragma once
 
-#include <unordered_map>
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/glm.hpp>
+#include "../../pch.h"
 
-#include <SDL2/SDL.h>
-
-#include <Camera2.5D/ICamera.h>
 class InputManager {
 public:
 	InputManager();

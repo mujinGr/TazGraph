@@ -1,24 +1,6 @@
 #pragma once
-#include <string>
-#include <imgui.h>
-#include <implot/implot.h>
-#include <glm/glm.hpp> 
-#include <ImGuizmo/ImGuizmo.h>
-#include <ImGuiComboAutoselect/imgui_combo_autoselect.h>
-#include <vector>
-#include <utility> 
 
-#include <BaseFPSLimiter/BaseFPSLimiter.h>
-#include <DataManager/DataManager.h>
-
-#include "GECS/Components.h"
-#include "GECS/UtilComponents.h"
-#include "GECS/Core/GECSManager.h"
-
-#include <GECS/Core/GECSUtil.h>
-#include <typeindex>
-#include <AppScene/IScene.h>
-#include <AppScene/AppInterface.h>
+#include "TazGraphEngine.h"
 
 #include "../AssetManager/AssetManager.h"
 

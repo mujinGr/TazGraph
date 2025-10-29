@@ -1,5 +1,4 @@
 #include "Graph.h"
-#include <AppScene/AppInterface.h>
 
 void Graph::update(float deltaTime) //game objects updating
 {

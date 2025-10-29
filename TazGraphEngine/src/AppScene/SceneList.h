@@ -1,6 +1,6 @@
 #pragma once
-#include <vector>
-#include <string>
+
+#include "../../pch.h"
 
 class AppInterface;
 class IScene;

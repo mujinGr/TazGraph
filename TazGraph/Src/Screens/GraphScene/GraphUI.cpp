@@ -1,5 +1,4 @@
 #include "./Graph.h"
-#include <AppScene/AppInterface.h>
 
 void Graph::updateUI(float deltaTime) {
 
@@ -29,25 +28,25 @@ void Graph::drawUI() {
 		.scene = this,
 		.viewportMousePosition = _viewportMousePosition,
 
-		.viewportFramebuffer  = &_viewportFramebuffer,
-		.minimapFramebuffer  = &_minimapFramebuffer,
+		.viewportFramebuffer = &_viewportFramebuffer,
+		.minimapFramebuffer = &_minimapFramebuffer,
 
-		.viewportPos  = &_viewportPos,
-		.viewportSize  = &_viewportSize,
+		.viewportPos = &_viewportPos,
+		.viewportSize = &_viewportSize,
 
-		.selectionWindowStartPos  = _selectionWindowStartPos,
-		.selectionWindowCurrentPos  = _selectionWindowCurrentPos,
+		.selectionWindowStartPos = _selectionWindowStartPos,
+		.selectionWindowCurrentPos = _selectionWindowCurrentPos,
 
 		.selectedEntities = &_selectedEntities,
 
-		.map  = map,
+		.map = map,
 
-		.onHoverEntity  = _onHoverEntity,
-		.displayedEntity  = _displayedEntity,
+		.onHoverEntity = _onHoverEntity,
+		.displayedEntity = _displayedEntity,
 
-		.sceneManagerActive  = _sceneManagerActive
+		.sceneManagerActive = _sceneManagerActive
 		}
-		);
+	);
 
 	_graphEditorLayer.OnImGuiRender();
 

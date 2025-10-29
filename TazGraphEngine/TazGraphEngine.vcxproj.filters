@@ -33,9 +33,6 @@
     <ClCompile Include="src\AppScene\SceneList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AppScene\ScreenIndices.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\BaseFPSLimiter\BaseFPSLimiter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -106,6 +103,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\vendors\tracy\public\TracyClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -279,6 +279,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TazGraphEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GECS\Components\Empty\Util\MainMenuBackground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

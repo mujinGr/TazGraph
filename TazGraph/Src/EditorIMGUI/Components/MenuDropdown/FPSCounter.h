@@ -1,7 +1,6 @@
 #pragma once
 #include "../../UIElement.h"
-#include <Camera2.5D/CameraManager.h>
-#include <algorithm>
+
 class FPSCounter : public UIElement {
 private:
 	BaseFPSLimiter* baseFPSLimiter = nullptr;

@@ -7,7 +7,6 @@
 #include "../Components/GraphLeftPanel/GraphLeftPanel.h"
 #include "../Components/GraphMiddlePanel/GraphMiddlePanel.h"
 #include "../Components/GraphRightPanel/GraphRightPanel.h"
-#include <Renderers/FrameBuffer/Framebuffer.h>
 #include "../../Map/Map.h"
 
 struct GraphEditorLayerConfig {

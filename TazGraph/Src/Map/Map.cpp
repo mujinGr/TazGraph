@@ -1,7 +1,6 @@
 #include "Map.h"
-#include "GECS/Components.h"
-#include "GECS/UtilComponents.h"
-#include "../GECS/ScriptComponents.h"
+
+#include "TazGraphEngine.h"
 
 #include "../AssetManager/AssetManager.h"
 #include <iostream>

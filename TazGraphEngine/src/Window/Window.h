@@ -1,16 +1,7 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-#include <GL/glew.h>
-#include <string>
 
-#include <imgui.h>
-#include <imgui_impl_sdl2.h>
-#include <imgui_impl_opengl3.h>
-#include <implot.h>
-#include <implot_internal.h>
-
-#include "../../Base.h"
+#include "../../pch.h"
 
 
 namespace TazGraphEngine {

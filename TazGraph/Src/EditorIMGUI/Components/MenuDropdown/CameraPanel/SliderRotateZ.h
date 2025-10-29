@@ -1,6 +1,5 @@
 #pragma once
 #include "../../../UIElement.h"
-#include <Camera2.5D/CameraManager.h>
 
 class SliderRotateZ : public UIElement {
 private:

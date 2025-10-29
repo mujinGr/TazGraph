@@ -1,27 +1,8 @@
 #pragma once
 
-#include "AppScene/IScene.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <GL/glew.h>
-#include "GLSLProgram.h"
-#include <Renderers/ResourceManager/ResourceManager.h>
+#include "TazGraphEngine.h"
 #undef main
-#include <iostream>
-#include <vector>
-#include <functional>
-#include "Camera2.5D/PerspectiveCamera.h"
-#include "Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h"
-#include "InputManager/InputManager.h"
-#include "BaseFPSLimiter/BaseFPSLimiter.h"
 //#include "../SpriteFont/SpriteFont.h"
-#include "Window/Window.h"
-#include "TextureManager/TextureManager.h"
-
-#include "AppScene/ScreenIndices.h"
-
-#include <ImGuiInterface/ImGuiInterface.h>
-
 #include "../../EditorIMGUI/MainMenuEditorLayer/MainMenuEditorLayer.h"
 #include "../../AssetManager/AssetManager.h"
 

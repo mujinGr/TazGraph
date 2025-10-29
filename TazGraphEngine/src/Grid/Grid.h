@@ -1,12 +1,12 @@
 #pragma once
+
+#include "../../pch.h"
+
 #include "../GECS/Core/GECSEntity.h"
 #include "../GECS/Components.h"
 
 #include "../AABB/AABB.h"
-#include <ConsoleLogger.h>
-#include <vector>
 
-#include <cmath>
 
 constexpr int CELL_SIZE = 100;
 constexpr int AXIS_CELLS = 80;

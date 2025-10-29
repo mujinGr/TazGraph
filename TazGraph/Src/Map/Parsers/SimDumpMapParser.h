@@ -5,7 +5,6 @@
 #include "simdump/include/sim_dump/filewriter.h"
 
 #include "../PathParsers/SimDumpPathParser.h"
-#include <DataManager/DataManager.h>
 
 using namespace sim_dump;
 

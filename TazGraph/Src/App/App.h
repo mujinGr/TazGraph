@@ -1,6 +1,6 @@
 #pragma once
 
-#include <AppScene/AppInterface.h>
+#include "TazGraphEngine.h"
 #include "../Screens/GraphScene/Graph.h"
 #include "../Screens/MainMenuScreen/MainMenuScreen.h"
 

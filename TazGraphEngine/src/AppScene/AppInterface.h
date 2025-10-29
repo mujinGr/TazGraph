@@ -1,9 +1,9 @@
 #pragma once
 
+#include "../../pch.h"
+
 #include "../InputManager/InputManager.h"
 #include "../Window/Window.h"
-#include <memory>
-#include <iostream>
 
 #include "SceneList.h"
 #include "../BaseFPSLimiter/BaseFPSLimiter.h"

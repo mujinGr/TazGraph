@@ -241,16 +241,12 @@ void Manager::setComponentNames()
 
 	std::cout << "Current Working Directory: " << fs::current_path() << std::endl;
 
-	const std::string folderPath = fs::current_path().string() + "/../TazGraphEngine/GECS";
+	const std::string folderPath = fs::current_path().string() + "/../TazGraphEngine/src/GECS";
 	if (!fs::exists(folderPath)) {
 		std::cerr << "Error: Folder does not exist at " << folderPath << std::endl;
 	}
-	const std::string folderPath2 = fs::current_path().string() + "/Src/GECS";
-	if (!fs::exists(folderPath)) {
-		std::cerr << "Error: Folder does not exist at " << folderPath2 << std::endl;
-	}
+
 	scanComponentNames(folderPath);
-	scanComponentNames(folderPath2);
 
 }
 
