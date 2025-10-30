@@ -54,12 +54,12 @@ void Graph::draw()
 		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 
 
-	GLSLProgram glsl_texture = *_resourceManager.getGLSLProgram("texture");
-	GLSLProgram glsl_light = *_resourceManager.getGLSLProgram("light");
-	GLSLProgram glsl_lineColor = *_resourceManager.getGLSLProgram("lineColor");
-	GLSLProgram glsl_wireframeColor = *_resourceManager.getGLSLProgram("wireframeColor");
-	GLSLProgram glsl_color = *_resourceManager.getGLSLProgram("color");
-	GLSLProgram glsl_framebuffer = *_resourceManager.getGLSLProgram("framebuffer");
+	GLSLProgram glsl_texture = *getApp()->resourceManager.getGLSLProgram("texture");
+	GLSLProgram glsl_light = *getApp()->resourceManager.getGLSLProgram("light");
+	GLSLProgram glsl_lineColor = *getApp()->resourceManager.getGLSLProgram("lineColor");
+	GLSLProgram glsl_wireframeColor = *getApp()->resourceManager.getGLSLProgram("wireframeColor");
+	GLSLProgram glsl_color = *getApp()->resourceManager.getGLSLProgram("color");
+	GLSLProgram glsl_framebuffer = *getApp()->resourceManager.getGLSLProgram("framebuffer");
 
 	glm::mat4 rotationMatrix = glm::mat4(1.0f);
 	glm::vec3 cameraAimPos = main_camera2D->getAimPos();
@@ -68,15 +68,14 @@ void Graph::draw()
 
 	rotationMatrix = getRotationMatrix(cameraEulerAngles);
 
-	//_PlaneModelRenderer.begin();
+	//getApp()->planeModelRenderer.begin();
 
-	/*_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), "worldMap", *main_camera2D);
-	renderBatch(backgroundImage, _PlaneModelRenderer, false);
-	_PlaneModelRenderer.end();
-	_PlaneModelRenderer.renderBatch();*/
+	/*getApp()->resourceManager.setupShader(*getApp()->resourceManager.getGLSLProgram("texture"), "worldMap", *main_camera2D);
+	renderBatch(backgroundImage, getApp()->planeModelRenderer, false);
+	getApp()->planeModelRenderer.end();
+	getApp()->planeModelRenderer.renderBatch();*/
 	_viewportFramebuffer.Bind();
 	glDepthMask(GL_TRUE);
-	glEnable(GL_DEPTH_TEST);
 	////////////OPENGL USE
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 
@@ -86,28 +85,27 @@ void Graph::draw()
 	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Blending for smooth edges (premultiplied or standard)
-	glEnable(GL_BLEND);
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//Grid Rendering
 
-	_LineRenderer.begin();
-	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
+	getApp()->lineRenderer.begin();
+	getApp()->resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
-	_LineRenderer.initLineBatch(
+	getApp()->lineRenderer.initLineBatch(
 		manager->getVisibleGroup<LinkEntity>(Manager::groupGridLinks).size()
 	);
 
-	_LineRenderer.initBatchSize();
-	drawBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupGridLinks), _LineRenderer);
-	_LineRenderer.end();
-	_LineRenderer.renderBatch();
+	getApp()->lineRenderer.initBatchSize();
+	drawBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupGridLinks), getApp()->lineRenderer);
+	getApp()->lineRenderer.end();
+	getApp()->lineRenderer.renderBatch();
 	glsl_lineColor.unuse();
 
 	// Debug Rendering
 	if (renderDebug) {
-		_LineRenderer.begin();
-		_resourceManager.setupShader(glsl_wireframeColor, *main_camera2D);
+		getApp()->lineRenderer.begin();
+		getApp()->resourceManager.setupShader(glsl_wireframeColor, *main_camera2D);
 
 		/*GLint viewportLoc = glsl_lineColor.getUniformLocation("_viewport");
 		glUniform4f(viewportLoc, 0.0f, 0.0f, 800.0f, 640.0f);*/
@@ -115,9 +113,9 @@ void Graph::draw()
 
 		std::vector<Cell*> intercectedCells = manager->grid->getIntersectedCameraCells(*main_camera2D);
 
-		_LineRenderer.initQuadBatch(4);
+		getApp()->lineRenderer.initQuadBatch(4);
 
-		_LineRenderer.initBoxBatch(
+		getApp()->lineRenderer.initBoxBatch(
 			intercectedCells.size() +
 			manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
 			manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
@@ -125,14 +123,14 @@ void Graph::draw()
 		);
 
 
-		_LineRenderer.initBatchSize();
+		getApp()->lineRenderer.initBatchSize();
 
 		size_t v_index = 0;
 
-		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
-		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
-		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
-		_LineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
+		getApp()->lineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
+		getApp()->lineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
+		getApp()->lineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
+		getApp()->lineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
 
 
 		size_t box_v_index = 0;
@@ -141,7 +139,7 @@ void Graph::draw()
 			glm::vec3 cellBox_center(cell->boundingBox_center.x, cell->boundingBox_center.y, cell->boundingBox_center.z);
 			glm::vec3 cellBox_size(cell->boundingBox_size.x, cell->boundingBox_size.y, cell->boundingBox_size.z);
 
-			_LineRenderer.drawBox(box_v_index++, cellBox_size, cellBox_center, TazColor(0, 255, 0, 20));  // Drawing each cell in red for visibility
+			getApp()->lineRenderer.drawBox(box_v_index++, cellBox_size, cellBox_center, TazColor(0, 255, 0, 20));  // Drawing each cell in red for visibility
 		}
 
 		for (auto& group : {
@@ -162,9 +160,9 @@ void Graph::draw()
 					glm::vec3 nodeBox_org(tr->position);
 					glm::vec3 nodeBox_size(tr->size.x, tr->size.y, tr->size.z);
 
-					_LineRenderer.drawBox(box_v_index++, nodeBox_size, nodeBox_org, TazColor(255, 255, 255, 255));  // Drawing each cell in red for visibility
+					getApp()->lineRenderer.drawBox(box_v_index++, nodeBox_size, nodeBox_org, TazColor(255, 255, 255, 255));  // Drawing each cell in red for visibility
 
-					//_LineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), TazColor(255, 255, 255, 255), tr->getPosition().x);
+					//getApp()->lineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), TazColor(255, 255, 255, 255), tr->getPosition().x);
 					//break;
 				}
 
@@ -172,52 +170,52 @@ void Graph::draw()
 		}
 
 
-		_LineRenderer.end();
-		_LineRenderer.renderElementsBatch();
+		getApp()->lineRenderer.end();
+		getApp()->lineRenderer.renderElementsBatch();
 		glsl_wireframeColor.unuse();
 
 	}
 
-	_LineRenderer.begin();
-	_PlaneColorRenderer.begin();
-	_PlaneModelRenderer.begin();
-	_LightRenderer.begin();
+	getApp()->lineRenderer.begin();
+	getApp()->planeColorRenderer.begin();
+	getApp()->planeModelRenderer.begin();
+	getApp()->lightRenderer.begin();
 	//! Line Renderer Init
-	_LineRenderer.initLineBatch(
+	getApp()->lineRenderer.initLineBatch(
 		manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0).size() +
 		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0).size() +
 		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size()
 	);
 	//! TazColor Renderer Init
-	_PlaneColorRenderer.initQuadBatch(
+	getApp()->planeColorRenderer.initQuadBatch(
 		manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
 		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
 		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size()
 	);
-	_PlaneColorRenderer.initTriangleBatch(
+	getApp()->planeColorRenderer.initTriangleBatch(
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
 	);
 
 
 	//! Model Renderer Init
-	_PlaneModelRenderer.initQuadBatch(
+	getApp()->planeModelRenderer.initQuadBatch(
 		manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites).size()
 	);
 
 	//! Light Renderer Init
-	_LightRenderer.initBoxBatch(
+	getApp()->lightRenderer.initBoxBatch(
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties).size()
 	);
 
-	_LightRenderer.initSphereBatch(
+	getApp()->lightRenderer.initSphereBatch(
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties).size()
 	);
 
 
-	_PlaneColorRenderer.initBatchSize();
-	_LineRenderer.initBatchSize();
-	_PlaneModelRenderer.initBatchSize();
-	_LightRenderer.initBatchSize();
+	getApp()->planeColorRenderer.initBatchSize();
+	getApp()->lineRenderer.initBatchSize();
+	getApp()->planeModelRenderer.initBatchSize();
+	getApp()->lightRenderer.initBatchSize();
 
 	std::vector<EntityID> allLinks;
 	auto& links = manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0);
@@ -228,66 +226,66 @@ void Graph::draw()
 	allLinks.insert(allLinks.end(), group0.begin(), group0.end());
 	allLinks.insert(allLinks.end(), group1.begin(), group1.end());
 
-	drawBatch(allLinks, _LineRenderer);
+	drawBatch(allLinks, getApp()->lineRenderer);
 
-	//_LineRenderer.renderBatch(cameraMatrix, 2.0f);
+	//getApp()->lineRenderer.renderBatch(cameraMatrix, 2.0f);
 
-	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0), _PlaneColorRenderer);
-	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), _PlaneColorRenderer);
-	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), _PlaneColorRenderer);
+	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0), getApp()->planeColorRenderer);
+	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), getApp()->planeColorRenderer);
+	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), getApp()->planeColorRenderer);
 
-	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), _PlaneColorRenderer);
-
-
-	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
-
-	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites), _PlaneModelRenderer);
-
-	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties), _LightRenderer);
-	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), _LightRenderer);
+	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), getApp()->planeColorRenderer);
 
 
+	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupRenderSprites), getApp()->planeModelRenderer);
+
+	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites), getApp()->planeModelRenderer);
+
+	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties), getApp()->lightRenderer);
+	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), getApp()->lightRenderer);
 
 
-	_resourceManager.setupShader(glsl_texture, *main_camera2D);
-	_PlaneModelRenderer.end();
-	_PlaneModelRenderer.renderBatch(_resourceManager.getGLSLProgram("texture"));
+
+
+	getApp()->resourceManager.setupShader(glsl_texture, *main_camera2D);
+	getApp()->planeModelRenderer.end();
+	getApp()->planeModelRenderer.renderBatch(getApp()->resourceManager.getGLSLProgram("texture"));
 	glsl_texture.unuse();
 
-	_resourceManager.setupShader(glsl_color, *main_camera2D);
+	getApp()->resourceManager.setupShader(glsl_color, *main_camera2D);
 	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
-	_PlaneColorRenderer.end();
-	_PlaneColorRenderer.renderBatch(&glsl_color);
+	getApp()->planeColorRenderer.end();
+	getApp()->planeColorRenderer.renderBatch(&glsl_color);
 	glsl_color.unuse();
 
 
-	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
+	getApp()->resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
-	_LineRenderer.end();
-	_LineRenderer.renderBatch();
+	getApp()->lineRenderer.end();
+	getApp()->lineRenderer.renderBatch();
 	glsl_lineColor.unuse();
 
-	_resourceManager.setupShader(glsl_light, *main_camera2D);
-	_LightRenderer.end();
-	_LightRenderer.renderBatch();
+	getApp()->resourceManager.setupShader(glsl_light, *main_camera2D);
+	getApp()->lightRenderer.end();
+	getApp()->lightRenderer.renderBatch();
 	glsl_light.unuse();
 
 	//! Link Paths rendering & Ports rendering
-	_LineRenderer.begin();
-	_PlaneColorRenderer.begin();
+	getApp()->lineRenderer.begin();
+	getApp()->planeColorRenderer.begin();
 
-	_LineRenderer.initLineBatch(
+	getApp()->lineRenderer.initLineBatch(
 		manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks).size() +
 		manager->getVisibleGroup<LinkEntity>(Manager::groupPathInnerLinks).size()
 	);
-	_PlaneColorRenderer.initQuadBatch(
+	getApp()->planeColorRenderer.initQuadBatch(
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupPorts).size() +
 		manager->getVisibleGroup<EmptyEntity>(Manager::groupPortSlots).size()
 	);
 
-	_LineRenderer.initBatchSize();
-	_PlaneColorRenderer.initBatchSize();
+	getApp()->lineRenderer.initBatchSize();
+	getApp()->planeColorRenderer.initBatchSize();
 
 	std::vector<EntityID> allPathLinks;
 	auto& pathlinks = manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks);
@@ -296,7 +294,7 @@ void Graph::draw()
 	allPathLinks.insert(allPathLinks.end(), pathlinks.begin(), pathlinks.end());
 	allPathLinks.insert(allPathLinks.end(), innerLinks.begin(), innerLinks.end());
 
-	drawBatch(allPathLinks, _LineRenderer);
+	drawBatch(allPathLinks, getApp()->lineRenderer);
 
 	std::vector<EntityID> allNodeUtils;
 	auto& ports = manager->getVisibleGroup<EmptyEntity>(Manager::groupPorts);
@@ -305,25 +303,25 @@ void Graph::draw()
 	allNodeUtils.insert(allNodeUtils.end(), ports.begin(), ports.end());
 	allNodeUtils.insert(allNodeUtils.end(), portSlots.begin(), portSlots.end());
 
-	drawBatch(allNodeUtils, _PlaneColorRenderer);
+	drawBatch(allNodeUtils, getApp()->planeColorRenderer);
 
-	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
+	getApp()->resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
 	pLocation = glsl_lineColor.getUniformLocation("viewportSize");
 	glUniform2f(pLocation, _window->getScreenWidth(), _window->getScreenHeight());
 
-	_LineRenderer.end();
-	_LineRenderer.renderBatch();
+	getApp()->lineRenderer.end();
+	getApp()->lineRenderer.renderBatch();
 	glsl_lineColor.unuse();
 
-	_resourceManager.setupShader(glsl_color, *main_camera2D);
-	_PlaneColorRenderer.end();
-	_PlaneColorRenderer.renderBatch(&glsl_color);
+	getApp()->resourceManager.setupShader(glsl_color, *main_camera2D);
+	getApp()->planeColorRenderer.end();
+	getApp()->planeColorRenderer.renderBatch(&glsl_color);
 	glsl_color.unuse();
 
 
 
-	_LineRenderer.begin();
+	getApp()->lineRenderer.begin();
 
 	size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
 		[](const std::pair<Entity*, glm::vec3>& entry) {
@@ -338,15 +336,15 @@ void Graph::draw()
 
 	linkCount += 2 * AXIS_CELLS + 2;
 
-	_LineRenderer.initLineBatch(
+	getApp()->lineRenderer.initLineBatch(
 		linkCount
 		//+1
 	);
-	_LineRenderer.initBoxBatch(
+	getApp()->lineRenderer.initBoxBatch(
 		nodeCount
 	);
 
-	_LineRenderer.initBatchSize();
+	getApp()->lineRenderer.initBatchSize();
 
 	size_t lineIndex = 0;
 	size_t boxIndex = 0;
@@ -367,7 +365,7 @@ void Graph::draw()
 					glm::vec3 nodeBox_org(nodePos.x, nodePos.y, nodePos.z);
 					glm::vec3 nodeBox_size(tr->size.x, tr->size.y, tr->size.z);
 
-					_LineRenderer.drawBox(boxIndex++, nodeBox_size, nodeBox_org, TazColor(255, 255, 0, 100)); //todo add angle for drawRectangle
+					getApp()->lineRenderer.drawBox(boxIndex++, nodeBox_size, nodeBox_org, TazColor(255, 255, 0, 100)); //todo add angle for drawRectangle
 				}
 			}
 			else if (link) {
@@ -375,7 +373,7 @@ void Graph::draw()
 					glm::vec3 startP = link->fromPos;
 					glm::vec3 endP = link->toPos;
 
-					_LineRenderer.drawLine(lineIndex++, startP, endP, TazColor(255, 255, 0, 100), TazColor(255, 255, 0, 100), 20.0f);
+					getApp()->lineRenderer.drawLine(lineIndex++, startP, endP, TazColor(255, 255, 0, 100), TazColor(255, 255, 0, 100), 20.0f);
 				}
 			}
 		}
@@ -383,19 +381,19 @@ void Graph::draw()
 
 
 
-	//_LineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, TazColor(0, 0, 0, 255), TazColor(0, 0, 255, 255));
+	//getApp()->lineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, TazColor(0, 0, 0, 255), TazColor(0, 0, 255, 255));
 
-	_resourceManager.setupShader(glsl_lineColor, *main_camera2D);
+	getApp()->resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
 
-	_LineRenderer.end();
-	_LineRenderer.renderBatch();
+	getApp()->lineRenderer.end();
+	getApp()->lineRenderer.renderBatch();
 	glsl_lineColor.unuse();
 
-	_resourceManager.setupShader(glsl_wireframeColor, *main_camera2D);
+	getApp()->resourceManager.setupShader(glsl_wireframeColor, *main_camera2D);
 
-	_LineRenderer.end();
-	_LineRenderer.renderElementsBatch();
+	getApp()->lineRenderer.end();
+	getApp()->lineRenderer.renderElementsBatch();
 	glsl_wireframeColor.unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -420,11 +418,11 @@ void Graph::minimapDraw() {
 		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 
 
-	GLSLProgram glsl_texture = *_resourceManager.getGLSLProgram("texture");
-	GLSLProgram glsl_light = *_resourceManager.getGLSLProgram("light");
-	GLSLProgram glsl_lineColor = *_resourceManager.getGLSLProgram("lineColor");
-	GLSLProgram glsl_color = *_resourceManager.getGLSLProgram("color");
-	GLSLProgram glsl_framebuffer = *_resourceManager.getGLSLProgram("framebuffer");
+	GLSLProgram glsl_texture = *getApp()->resourceManager.getGLSLProgram("texture");
+	GLSLProgram glsl_light = *getApp()->resourceManager.getGLSLProgram("light");
+	GLSLProgram glsl_lineColor = *getApp()->resourceManager.getGLSLProgram("lineColor");
+	GLSLProgram glsl_color = *getApp()->resourceManager.getGLSLProgram("color");
+	GLSLProgram glsl_framebuffer = *getApp()->resourceManager.getGLSLProgram("framebuffer");
 
 
 	_minimapFramebuffer.Bind();
@@ -435,17 +433,14 @@ void Graph::minimapDraw() {
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-
-
-
-	_PlaneColorRenderer.begin();
-	_PlaneColorRenderer.initQuadBatch(
+	getApp()->planeColorRenderer.begin();
+	getApp()->planeColorRenderer.initQuadBatch(
 		manager->getGroup<NodeEntity>(Manager::groupMinimapNodes).size()
 	);
 
-	_PlaneColorRenderer.initBatchSize();
+	getApp()->planeColorRenderer.initBatchSize();
 
-	drawBatch(manager->getGroup<NodeEntity>(Manager::groupMinimapNodes), _PlaneColorRenderer);
+	drawBatch(manager->getGroup<NodeEntity>(Manager::groupMinimapNodes), getApp()->planeColorRenderer);
 
 	float maxDistance = manager->grid->getNumXCells() * manager->grid->getCellSize();
 
@@ -463,12 +458,12 @@ void Graph::minimapDraw() {
 	glm::mat4 proj = glm::ortho(-maxDistance / 2.0f, maxDistance / 2.0f, -maxDistance / 2.0f, maxDistance / 2.0f, near, far);
 	minimap_camera2D->setProjMatrix(proj);
 
-	_resourceManager.setupShader(glsl_color, *minimap_camera2D);
+	getApp()->resourceManager.setupShader(glsl_color, *minimap_camera2D);
 
 	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
-	_PlaneColorRenderer.end();
-	_PlaneColorRenderer.renderBatch(&glsl_color);
+	getApp()->planeColorRenderer.end();
+	getApp()->planeColorRenderer.renderBatch(&glsl_color);
 	glsl_color.unuse();
 
 

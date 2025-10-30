@@ -2,6 +2,7 @@
 
 #include "GECS.h"
 #include "../../Grid/Grid.h"
+#include "../../DataManager/DataManager.h"
 
 #include "../../Threader/Threader.h"
 
@@ -537,4 +538,11 @@ public:
 	std::vector<EntityID> getRevealedEntitiesInCameraCells();
 	template<typename T>
 	std::vector<EntityID> getEntitiesInCameraCells();
+
+	std::vector<EntityID> collectEntities(
+		std::initializer_list<Manager::groupLabels> groupNames,
+		Taz::EntityType type);
+
+
+
 };

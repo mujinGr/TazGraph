@@ -13,6 +13,7 @@
 #include "../Threader/Threader.h"
 #include "../Threader/RenderCommandQueue.h"
 
+#include "IScene.h"
 
 class SceneList;
 class IScene;
@@ -48,6 +49,38 @@ public:
 	RenderCommandQueue queues[2];
 	std::atomic<int> activeIndex = 0;
 	std::atomic<bool> frameReady = false;
+
+	PlaneModelRenderer planeModelRenderer;
+	PlaneColorRenderer planeColorRenderer;
+	LineRenderer lineRenderer;
+	LightRenderer lightRenderer;
+
+	ResourceManager resourceManager;
+
+	void renderBatch(
+		const Taz::RenderBatch& batch,
+		const Taz::FrameRenderData& frameData
+	);
+
+	void drawLineBatch(
+		const Taz::RenderBatch& batch,
+		const Taz::FrameRenderData& frameData
+	);
+	void drawPlaneColorBatch(
+		const Taz::RenderBatch& batch,
+		const Taz::FrameRenderData& frameData
+	);
+	void drawPlaneModelBatch(
+		const Taz::RenderBatch& batch,
+		const Taz::FrameRenderData& frameData
+	);
+	void drawLightBatch(
+		const Taz::RenderBatch& batch,
+		const Taz::FrameRenderData& frameData
+	);
+
+
+
 protected:
 	virtual void checkInput();
 	virtual void update(float deltaTime);
@@ -56,6 +89,7 @@ protected:
 	virtual void drawUI();
 
 	bool init();
+	void initRenderers();
 	bool initSystems();
 
 	BaseFPSLimiter _limiter;

@@ -37,8 +37,8 @@ void MainMenuScreen::onEntry()
 {
 	auto& Mainmenubackground(manager->addEntity<Empty>());
 
-	_resourceManager.addGLSLProgram("texture");
-	_resourceManager.addGLSLProgram("color");
+	getApp()->resourceManager.addGLSLProgram("texture");
+	getApp()->resourceManager.addGLSLProgram("color");
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
@@ -67,17 +67,15 @@ void MainMenuScreen::onEntry()
 
 
 		//InitShaders function from Bengine
-		_resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
-		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
-		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
-		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
+		getApp()->resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
+		getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
+		getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
+		getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
 
-		_resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
-		_resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
-		_resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
-		_resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
-
-		MainMenuScreen::_PlaneModelRenderer.init();
+		getApp()->resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
+		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
+		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
+		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
 	}
 
 	if (TTF_Init() == -1)
@@ -126,7 +124,7 @@ void MainMenuScreen::update(float deltaTime)
 void MainMenuScreen::renderBatch(const std::vector<EntityID>& entities) {
 	for (const auto entityId : entities) {
 		auto* entity = manager->getEntityFromId(entityId);
-		entity->GetComponent<SpriteComponent>().draw(0, _PlaneModelRenderer, *_window);
+		entity->GetComponent<SpriteComponent>().draw(0, getApp()->planeModelRenderer, *_window);
 	}
 
 }
@@ -143,23 +141,45 @@ void MainMenuScreen::draw()
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 	//////////////////////////////////////
 
+	/*
+		Taz::FrameRenderData frameData;
+	//! Prepare Frame
+	{
+		Taz::RenderBatch mainMenuBatch;
+		mainMenuBatch.type = Taz::RenderBatch::Type::PlaneModel;
+		mainMenuBatch.shaderName = "texture";
+		mainMenuBatch.entities = manager->collectEntities(
+			{ Manager::groupBackgroundLayer }
+		, Taz::EntityType::Empty);
+		mainMenuBatch.showGrid = showGrid;
+		mainMenuBatch.quadCount = mainMenuBatch.entities.size();
+		frameData.batches.push_back(mainMenuBatch);
 
-	_PlaneModelRenderer.begin();
+	}
+	//! render Frame
+	{
+		for (const auto& batch : frameData.batches) {
+			renderBatch(batch, frameData);
+		}
+	}
+	*/
 
-	_PlaneModelRenderer.initQuadBatch(mainmenubackground.size());
+	getApp()->planeModelRenderer.begin();
 
-	_PlaneModelRenderer.initBatchSize();
+	getApp()->planeModelRenderer.initQuadBatch(mainmenubackground.size());
+
+	getApp()->planeModelRenderer.initBatchSize();
 
 
 	renderBatch(mainmenubackground);
 
-	_resourceManager.setupShader(*_resourceManager.getGLSLProgram("texture"), *main_camera2D);
+	getApp()->resourceManager.setupShader(*getApp()->resourceManager.getGLSLProgram("texture"), *main_camera2D);
 
-	_PlaneModelRenderer.end();
-	_PlaneModelRenderer.renderBatch(_resourceManager.getGLSLProgram("texture"));
+	getApp()->planeModelRenderer.end();
+	getApp()->planeModelRenderer.renderBatch(getApp()->resourceManager.getGLSLProgram("texture"));
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-	_resourceManager.getGLSLProgram("texture")->unuse();
+	getApp()->resourceManager.getGLSLProgram("texture")->unuse();
 }
 
 void MainMenuScreen::checkInput() {

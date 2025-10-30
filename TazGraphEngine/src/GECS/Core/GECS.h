@@ -31,6 +31,16 @@ namespace Layer {
 	};
 }
 
+namespace Taz {
+	enum EntityType
+	{
+		Empty,
+		Node,
+		Link
+	};
+}
+
+
 const std::unordered_map<layer, float> layerNames = {
 		{Layer::action, 0.0f},
 		{Layer::menubackground, -100.0f}

@@ -35,8 +35,8 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1); //! BUFFERS
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);//! SAMPLES (request)
 	//Open an SDL window
 	_sdlWindow = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screenWidth, _screenHeight, flags);
 	if (_sdlWindow == nullptr) {

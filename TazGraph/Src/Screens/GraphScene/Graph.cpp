@@ -45,18 +45,18 @@ void Graph::onEntry()
 	std::string mapName = DataManager::getInstance().mapToLoad;
 
 	/////////////////////////////////////////////
-	_resourceManager.addGLSLProgram("color");
-	_resourceManager.addGLSLProgram("texture");
-	_resourceManager.addGLSLProgram("framebuffer");
-	_resourceManager.addGLSLProgram("light");
+	getApp()->resourceManager.addGLSLProgram("color");
+	getApp()->resourceManager.addGLSLProgram("texture");
+	getApp()->resourceManager.addGLSLProgram("framebuffer");
+	getApp()->resourceManager.addGLSLProgram("light");
 
+	getApp()->resourceManager.addGLSLProgram("lineColor");
+	getApp()->resourceManager.addGLSLProgram("wireframeColor");
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 
-	_resourceManager.addGLSLProgram("lineColor");
-	_resourceManager.addGLSLProgram("wireframeColor");
 
 	main_camera2D->init(); // Assuming a screen resolution of 800x600
 	main_camera2D->setPosition_X(main_camera2D->getPosition().x /*+ glm::vec2(
@@ -81,51 +81,34 @@ void Graph::onEntry()
 
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-		_resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
-		_resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
-		_resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
-		_resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
+		getApp()->resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
+		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
+		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
+		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
 
-		_resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
-		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
-		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
-		_resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
+		getApp()->resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
+		getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
+		getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
+		getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
 
-		_resourceManager.getGLSLProgram("framebuffer")->compileAndLinkShaders("Src/Shaders/framebuffer.vert", "Src/Shaders/framebuffer.frag");
-		_resourceManager.getGLSLProgram("framebuffer")->addAttribute("inPos");
-		_resourceManager.getGLSLProgram("framebuffer")->addAttribute("inTexCoords");
+		getApp()->resourceManager.getGLSLProgram("framebuffer")->compileAndLinkShaders("Src/Shaders/framebuffer.vert", "Src/Shaders/framebuffer.frag");
+		getApp()->resourceManager.getGLSLProgram("framebuffer")->addAttribute("inPos");
+		getApp()->resourceManager.getGLSLProgram("framebuffer")->addAttribute("inTexCoords");
 
-		_resourceManager.getGLSLProgram("light")->compileAndLinkShaders("Src/Shaders/colorLighting.vert", "Src/Shaders/colorLighting.frag");
-		_resourceManager.getGLSLProgram("light")->addAttribute("vertexPosition");
-		_resourceManager.getGLSLProgram("light")->addAttribute("vertexColor");
-		_resourceManager.getGLSLProgram("light")->addAttribute("vertexUV");
+		getApp()->resourceManager.getGLSLProgram("light")->compileAndLinkShaders("Src/Shaders/colorLighting.vert", "Src/Shaders/colorLighting.frag");
+		getApp()->resourceManager.getGLSLProgram("light")->addAttribute("vertexPosition");
+		getApp()->resourceManager.getGLSLProgram("light")->addAttribute("vertexColor");
+		getApp()->resourceManager.getGLSLProgram("light")->addAttribute("vertexUV");
 
-		Graph::_PlaneModelRenderer.init();
-		generateSphereMesh(
-			Graph::_LightRenderer.sphereVertices,
-			Graph::_LightRenderer.sphereIndices);
+		getApp()->resourceManager.getGLSLProgram("lineColor")->compileAndLinkShaders("Src/Shaders/lineColorShading.vert", "Src/Shaders/lineColorShading.gs", "Src/Shaders/lineColorShading.frag");
+		getApp()->resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexPosition");
+		getApp()->resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexColor");
 
-		Graph::_LightRenderer.init();
-		Graph::_hudPlaneModelRenderer.init();
+		getApp()->resourceManager.getGLSLProgram("wireframeColor")->compileAndLinkShaders("Src/Shaders/wireFrameColorShading.vert", "Src/Shaders/wireFrameColorShading.gs", "Src/Shaders/wireFrameColorShading.frag");
+		getApp()->resourceManager.getGLSLProgram("wireframeColor")->addAttribute("vertexPosition");
+		getApp()->resourceManager.getGLSLProgram("wireframeColor")->addAttribute("vertexColor");
 
-		/*_resourceManager.getGLSLProgram("lineColor")->compileShadersFromSource(_LineRenderer.VERT_SRC, _LineRenderer.FRAG_SRC);
-		_resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexPosition");
-		_resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexColor");
-		_resourceManager.getGLSLProgram("lineColor")->linkShaders();*/
 
-		_resourceManager.getGLSLProgram("lineColor")->compileAndLinkShaders("Src/Shaders/lineColorShading.vert", "Src/Shaders/lineColorShading.gs", "Src/Shaders/lineColorShading.frag");
-		_resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexPosition");
-		_resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexColor");
-
-		_resourceManager.getGLSLProgram("wireframeColor")->compileAndLinkShaders("Src/Shaders/wireFrameColorShading.vert", "Src/Shaders/wireFrameColorShading.gs", "Src/Shaders/wireFrameColorShading.frag");
-		_resourceManager.getGLSLProgram("wireframeColor")->addAttribute("vertexPosition");
-		_resourceManager.getGLSLProgram("wireframeColor")->addAttribute("vertexColor");
-
-		Graph::_LineRenderer.init();
-		generateSphereMesh(
-			Graph::_PlaneColorRenderer.sphereVertices,
-			Graph::_PlaneColorRenderer.sphereIndices);
-		Graph::_PlaneColorRenderer.init();
 	}
 
 	if (TTF_Init() == -1)
@@ -160,12 +143,9 @@ void Graph::onEntry()
 	Music music = getApp()->getAudioEngine().loadMusic("Sounds/JPEGSnow.ogg");
 	music.play(-1);
 
-
-	_resourceManager.getGLSLProgram("framebuffer")->use();
-
-
-	glUniform1i(glGetUniformLocation(_resourceManager.getGLSLProgram("framebuffer")->getProgramID(), "screenTexture"), 0);
-	_resourceManager.getGLSLProgram("framebuffer")->unuse();
+	getApp()->resourceManager.getGLSLProgram("framebuffer")->use();
+	glUniform1i(glGetUniformLocation(getApp()->resourceManager.getGLSLProgram("framebuffer")->getProgramID(), "screenTexture"), 0);
+	getApp()->resourceManager.getGLSLProgram("framebuffer")->unuse();
 
 	_viewportFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
 	_minimapFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
@@ -180,13 +160,12 @@ void Graph::onEntry()
 }
 
 void Graph::onExit() {
-	Graph::_PlaneModelRenderer.dispose();
-	Graph::_hudPlaneModelRenderer.dispose();
-	Graph::_LineRenderer.dispose();
-	Graph::_PlaneColorRenderer.dispose();
-	Graph::_LightRenderer.dispose();
+	getApp()->planeModelRenderer.dispose();
+	getApp()->lineRenderer.dispose();
+	getApp()->planeColorRenderer.dispose();
+	getApp()->lightRenderer.dispose();
 
-	_resourceManager.disposeGLSLPrograms();
+	getApp()->resourceManager.disposeGLSLPrograms();
 }
 
 

@@ -182,6 +182,7 @@
     <ClCompile Include="src\AppScene\IScene.cpp" />
     <ClCompile Include="src\AppScene\AppInterface.cpp" />
     <ClCompile Include="src\AppScene\SceneList.cpp" />
+    <ClCompile Include="src\AppScene\AppInterfaceRenderingUtils.cpp" />
     <ClCompile Include="src\Grid\Grid.cpp" />
     <ClCompile Include="src\ImGuiInterface\ImGuiInterface.cpp" />
     <ClCompile Include="..\vendors\imgui\imgui.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="src\AABB\AABB.h" />
     <ClInclude Include="src\AABB\SelectionFrustum.h" />
+    <ClInclude Include="src\AppScene\ScreenIndices.h" />
     <ClInclude Include="src\AudioEngine\AudioEngine.h" />
     <ClInclude Include="src\DataManager\DataManager.h" />
     <ClInclude Include="src\GECS\Components\Empty\Util\MainMenuBackground.h" />

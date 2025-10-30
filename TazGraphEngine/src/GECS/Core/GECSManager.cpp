@@ -250,6 +250,38 @@ void Manager::setComponentNames()
 
 }
 
+std::vector<EntityID> Manager::collectEntities(
+	std::initializer_list<Manager::groupLabels> groupNames,
+	Taz::EntityType type
+)
+{
+	std::vector<EntityID> result;
+
+	if (type == Taz::EntityType::Empty) {
+		for (const auto& groupName : groupNames) {
+			auto& group = getVisibleGroup<EmptyEntity>(groupName);
+			result.insert(result.end(), group.begin(), group.end());
+		}
+	}
+	else if (type == Taz::EntityType::Node) {
+		for (const auto& groupName : groupNames) {
+			auto& group = getVisibleGroup<NodeEntity>(groupName);
+			result.insert(result.end(), group.begin(), group.end());
+		}
+	}
+	else if (type == Taz::EntityType::Link) {
+		for (const auto& groupName : groupNames) {
+			auto& group = getVisibleGroup<LinkEntity>(groupName);
+			result.insert(result.end(), group.begin(), group.end());
+		}
+	}
+
+	return result;
+}
+
+
+;
+
 // loops through the intrecepted cells and just get the entities
 template <typename T>
 std::vector<EntityID> Manager::getRevealedEntitiesInCameraCells() {

@@ -44,10 +44,6 @@ private:
 
 	TazGraphEngine::Window* _window;
 
-	PlaneModelRenderer _PlaneModelRenderer;
-
-	ResourceManager _resourceManager;
-
 	int _nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 	int _prevSceneIndex = SCENE_INDEX_GRAPHPLAY;
 

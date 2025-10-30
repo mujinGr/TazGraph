@@ -108,6 +108,9 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\AppScene\AppInterfaceRenderingUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AudioEngine\AudioEngine.h">
@@ -288,6 +291,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GECS\Components\Empty\Util\MainMenuBackground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AppScene\ScreenIndices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

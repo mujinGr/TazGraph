@@ -75,14 +75,6 @@ private:
 	void performFrustumSelection();
 	bool onPauseGraph();
 
-	PlaneModelRenderer _PlaneModelRenderer;
-	PlaneModelRenderer _hudPlaneModelRenderer;
-	PlaneColorRenderer _PlaneColorRenderer;
-	LineRenderer _LineRenderer;
-	LightRenderer _LightRenderer;
-
-	ResourceManager _resourceManager;
-
 	std::vector<std::pair<Entity*, glm::vec3>> _selectedEntities;
 	Entity* _displayedEntity = nullptr;
 	bool _sceneManagerActive = false;

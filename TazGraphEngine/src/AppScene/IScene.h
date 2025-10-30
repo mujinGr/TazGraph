@@ -2,10 +2,6 @@
 
 #include "./ScreenIndices.h"
 
-#include "../DataManager/DataManager.h"
-
-#include "AppInterface.h"
-
 #include "../GECS/Core/GECSManager.h"
 
 #define SCENE_INDEX_NO_SCENE -1
@@ -95,6 +91,12 @@ public:
 	SceneState currentState = SceneState::NONE;
 
 	float backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
+
+	void drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch);
+	void drawBatch(const std::vector<EntityID>& entities, PlaneColorRenderer& batch);
+	void drawBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch);
+	void drawBatch(const std::vector<EntityID>& entities, LightRenderer& batch);
+
 protected:
 	AppInterface* _app = nullptr;
 	int _sceneIndex = -1;

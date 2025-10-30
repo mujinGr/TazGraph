@@ -1,10 +1,6 @@
 #include "AppInterface.h"
-#include "../BaseFPSLimiter/BaseFPSLimiter.h"
 
-#include "SceneList.h"
-#include "IScene.h"
 
-#include "../DataManager/DataManager.h"
 
 using namespace std::chrono;
 
@@ -228,12 +224,29 @@ bool AppInterface::init() {
 	CameraManager::getInstance().initializeCameras();
 	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
+	initRenderers();
+
 	_currentScene = _sceneList->getCurrent();
 	_currentScene->onEntry();
 	_currentScene->setRunning();
 	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 
 	return true;
+}
+
+void AppInterface::initRenderers() {
+	planeModelRenderer.init();
+	generateSphereMesh(
+		lightRenderer.sphereVertices,
+		lightRenderer.sphereIndices);
+
+	lightRenderer.init();
+
+	lineRenderer.init();
+	generateSphereMesh(
+		planeColorRenderer.sphereVertices,
+		planeColorRenderer.sphereIndices);
+	planeColorRenderer.init();
 }
 
 bool AppInterface::initSystems() {
