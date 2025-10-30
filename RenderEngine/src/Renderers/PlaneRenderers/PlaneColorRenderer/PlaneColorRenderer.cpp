@@ -97,7 +97,7 @@ void PlaneColorRenderer::drawSphere(
 	_meshesElements[SPHERE_MESH_IDX].instances[v_index] = ColorInstanceData(sphereSize, position, mRotation, color);
 }
 
-void PlaneColorRenderer::renderBatch(GLSLProgram* glsl_program) {
+void PlaneColorRenderer::renderBatch() {
 
 	for (int i = 0; i < _meshesElements.size(); i++) { // different batch for each geometry
 

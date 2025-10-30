@@ -18,10 +18,10 @@ public:
 	PlaneModelRenderer();
 	~PlaneModelRenderer();
 
-	void init();
+	void init() override;
 
-	void begin();
-	void end();
+	void begin() override;
+	void end() override;
 
 	void initBatchSize();
 
@@ -40,7 +40,7 @@ public:
 		GLuint texture
 	);
 
-	void renderBatch(GLSLProgram* glsl_program);
+	void renderBatch() override;
 
 	void dispose();
 private:

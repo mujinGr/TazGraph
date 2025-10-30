@@ -64,7 +64,7 @@ void PlaneModelRenderer::draw(
 	_meshesElements[RECTANGLE_MESH_IDX].instances[v_index] = TextureInstanceData(rectSize, position, mRotation, texture);
 }
 
-void PlaneModelRenderer::renderBatch(GLSLProgram* glsl_program) {
+void PlaneModelRenderer::renderBatch() {
 
 	if (_meshesElements[RECTANGLE_MESH_IDX].instances.size() == 0) return;
 

@@ -133,8 +133,7 @@ void MainMenuScreen::draw()
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 	//////////////////////////////////////
 
-	/*
-		Taz::FrameRenderData frameData;
+	Taz::FrameRenderData frameData;
 	//! Prepare Frame
 	{
 		Taz::RenderBatch mainMenuBatch;
@@ -149,26 +148,28 @@ void MainMenuScreen::draw()
 
 	}
 	//! render Frame
-	{
-		for (const auto& batch : frameData.batches) {
-			renderBatch(batch, frameData);
-		}
+	//{
+	//	for (const auto& batch : frameData.batches) {
+	//		getApp()->drawPlaneModelBatch(batch, frameData);
+	//	}
+	//}
+
+
+	for (const auto& batch : frameData.batches) {
+		getApp()->planeModelRenderer.begin();
+		getApp()->planeModelRenderer.initQuadBatch(batch.quadCount);
+		getApp()->planeModelRenderer.initBatchSize();
+
+
+		getApp()->drawBatch(batch.entities, getApp()->planeModelRenderer);
+
+		auto& shader = *getApp()->resourceManager.getGLSLProgram(batch.shaderName);
+		getApp()->resourceManager.setupShader(shader, *main_camera2D);
+
+		getApp()->planeModelRenderer.end();
+		getApp()->planeModelRenderer.renderBatch();
+		shader.unuse();
 	}
-	*/
-
-	getApp()->planeModelRenderer.begin();
-
-	getApp()->planeModelRenderer.initQuadBatch(mainmenubackground.size());
-
-	getApp()->planeModelRenderer.initBatchSize();
-
-
-	getApp()->drawBatch(mainmenubackground, getApp()->planeModelRenderer);
-
-	getApp()->resourceManager.setupShader(*getApp()->resourceManager.getGLSLProgram("texture"), *main_camera2D);
-
-	getApp()->planeModelRenderer.end();
-	getApp()->planeModelRenderer.renderBatch(getApp()->resourceManager.getGLSLProgram("texture"));
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	getApp()->resourceManager.getGLSLProgram("texture")->unuse();

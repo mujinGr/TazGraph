@@ -206,14 +206,14 @@ void Graph::draw()
 
 	getApp()->resourceManager.setupShader(glsl_texture, *main_camera2D);
 	getApp()->planeModelRenderer.end();
-	getApp()->planeModelRenderer.renderBatch(getApp()->resourceManager.getGLSLProgram("texture"));
+	getApp()->planeModelRenderer.renderBatch();
 	glsl_texture.unuse();
 
 	getApp()->resourceManager.setupShader(glsl_color, *main_camera2D);
 	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
 	getApp()->planeColorRenderer.end();
-	getApp()->planeColorRenderer.renderBatch(&glsl_color);
+	getApp()->planeColorRenderer.renderBatch();
 	glsl_color.unuse();
 
 
@@ -273,7 +273,7 @@ void Graph::draw()
 
 	getApp()->resourceManager.setupShader(glsl_color, *main_camera2D);
 	getApp()->planeColorRenderer.end();
-	getApp()->planeColorRenderer.renderBatch(&glsl_color);
+	getApp()->planeColorRenderer.renderBatch();
 	glsl_color.unuse();
 
 
@@ -420,7 +420,7 @@ void Graph::minimapDraw() {
 	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
 	getApp()->planeColorRenderer.end();
-	getApp()->planeColorRenderer.renderBatch(&glsl_color);
+	getApp()->planeColorRenderer.renderBatch();
 	glsl_color.unuse();
 
 

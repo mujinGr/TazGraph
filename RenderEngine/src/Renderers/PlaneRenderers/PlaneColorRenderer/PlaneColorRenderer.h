@@ -46,7 +46,7 @@ public:
 		const glm::vec3& mRotation,
 		const TazColor& color);
 
-	void renderBatch(GLSLProgram* glsl_program);
+	void renderBatch() override;
 
 	void dispose();
 

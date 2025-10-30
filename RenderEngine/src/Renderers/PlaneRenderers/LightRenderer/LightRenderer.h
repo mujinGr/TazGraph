@@ -48,7 +48,7 @@ public:
 		const TazColor& color);
 
 
-	void renderBatch();
+	void renderBatch() override;
 
 	void dispose();
 

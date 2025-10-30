@@ -21,10 +21,10 @@ namespace Taz
 		Renderer();
 		~Renderer();
 
-		void init();
+		virtual void init();
 
-		void begin();
-		void end();
+		virtual void begin();
+		virtual void end();
 
 		void initLineBatch(size_t mSize);
 		void initTriangleBatch(size_t mSize);
@@ -42,6 +42,8 @@ namespace Taz
 		size_t _sphereGlyphs_size = 0;
 
 		void createRenderBatches();
+
+		virtual void renderBatch() = 0;
 	};
 
 }

@@ -58,7 +58,7 @@ void main() {
 		const float width = 5.0f);
 	void drawCircle(const glm::vec2& center, const TazColor& color, float radius);
 
-	void renderBatch();
+	void renderBatch() override;
 
 	void renderElementsBatch();
 
