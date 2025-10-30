@@ -477,7 +477,7 @@ void Graph::checkInput() {
 		case SDL_MOUSEMOTION:
 		{
 			glm::vec2 viewportPos(_viewportPos.x, _viewportPos.y);
-			glm::vec2 windowDimension(_window->getScreenWidth(), _window->getScreenHeight());
+			glm::vec2 windowDimension(getApp()->_window.getScreenWidth(), getApp()->_window.getScreenHeight());
 			glm::vec2 viewportSize(_viewportSize.x, _viewportSize.y);
 
 

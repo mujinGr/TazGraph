@@ -17,8 +17,8 @@ void App::onInit() {
 }
 
 void App::addScenes() {
-	_mainMenuScreen = std::make_unique<MainMenuScreen>(&_window);
-	_graphplayScreen = std::make_unique<Graph>(&_window);
+	_mainMenuScreen = std::make_unique<MainMenuScreen>();
+	_graphplayScreen = std::make_unique<Graph>();
 	//m_editorScreen = std::make_unique<EditorScreen>(&_window);
 
 	_sceneList->addScene("main_menu", _mainMenuScreen.get());

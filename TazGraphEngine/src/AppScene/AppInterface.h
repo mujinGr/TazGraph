@@ -53,28 +53,32 @@ public:
 
 	ResourceManager resourceManager;
 
-	//void renderBatch(
-	//	const Taz::RenderBatch& batch,
-	//	const Taz::FrameRenderData& frameData
-	//);
+	void renderBatch(
+		const Taz::RenderBatch& batch,
+		const Taz::FrameRenderData& frameData
+	);
 
-	//void drawLineBatch(
-	//	const Taz::RenderBatch& batch,
-	//	const Taz::FrameRenderData& frameData
-	//);
-	//void drawPlaneColorBatch(
-	//	const Taz::RenderBatch& batch,
-	//	const Taz::FrameRenderData& frameData
-	//);
-	//void drawPlaneModelBatch(
-	//	const Taz::RenderBatch& batch,
-	//	const Taz::FrameRenderData& frameData
-	//);
-	//void drawLightBatch(
-	//	const Taz::RenderBatch& batch,
-	//	const Taz::FrameRenderData& frameData
-	//);
+	void drawLineBatch(
+		const Taz::RenderBatch& batch,
+		const Taz::FrameRenderData& frameData
+	);
+	void drawPlaneColorBatch(
+		const Taz::RenderBatch& batch,
+		const Taz::FrameRenderData& frameData
+	);
+	void drawPlaneModelBatch(
+		const Taz::RenderBatch& batch,
+		const Taz::FrameRenderData& frameData
+	);
+	void drawLightBatch(
+		const Taz::RenderBatch& batch,
+		const Taz::FrameRenderData& frameData
+	);
 
+	void drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch);
+	void drawBatch(const std::vector<EntityID>& entities, PlaneColorRenderer& batch);
+	void drawBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch);
+	void drawBatch(const std::vector<EntityID>& entities, LightRenderer& batch);
 
 
 protected:

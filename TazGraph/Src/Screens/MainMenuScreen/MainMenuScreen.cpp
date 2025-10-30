@@ -2,8 +2,7 @@
 
 
 
-MainMenuScreen::MainMenuScreen(TazGraphEngine::Window* window)
-	: _window(window)
+MainMenuScreen::MainMenuScreen()
 {
 	_sceneIndex = SCENE_INDEX_MAIN_MENU;
 }
@@ -96,7 +95,7 @@ void MainMenuScreen::onEntry()
 	{
 		manager->grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
 
-		Mainmenubackground.addComponent<MainMenuBackground>(_window);
+		Mainmenubackground.addComponent<MainMenuBackground>(&getApp()->_window);
 		Mainmenubackground.addGroup(Manager::groupBackgroundLayer);
 		manager->grid->addEmpty(&Mainmenubackground, manager->grid->getGridLevel());
 	}
@@ -121,13 +120,6 @@ void MainMenuScreen::update(float deltaTime)
 	hud_camera2D->update();
 }
 
-void MainMenuScreen::renderBatch(const std::vector<EntityID>& entities) {
-	for (const auto entityId : entities) {
-		auto* entity = manager->getEntityFromId(entityId);
-		entity->GetComponent<SpriteComponent>().draw(0, getApp()->planeModelRenderer, *_window);
-	}
-
-}
 
 void MainMenuScreen::draw()
 {
@@ -171,7 +163,7 @@ void MainMenuScreen::draw()
 	getApp()->planeModelRenderer.initBatchSize();
 
 
-	renderBatch(mainmenubackground);
+	getApp()->drawBatch(mainmenubackground, getApp()->planeModelRenderer);
 
 	getApp()->resourceManager.setupShader(*getApp()->resourceManager.getGLSLProgram("texture"), *main_camera2D);
 
@@ -196,7 +188,7 @@ void MainMenuScreen::checkInput() {
 		{
 		case SDL_MOUSEMOTION:
 			glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
-			_app->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
+			_app->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / getApp()->_window.getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / getApp()->_window.getScreenHeight());
 		}
 
 		if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {

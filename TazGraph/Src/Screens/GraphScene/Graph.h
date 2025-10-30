@@ -19,7 +19,7 @@ class TransformComponent;
 class Graph : public IScene {
 
 public:
-	Graph(TazGraphEngine::Window* window);
+	Graph();
 	~Graph();
 
 
@@ -47,19 +47,8 @@ public:
 	virtual void EndRender() override;
 
 
-	/////////////////////////
-	void drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch);
-	void drawBatch(const std::vector<EntityID>& entities, PlaneColorRenderer& batch);
-	void drawBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch);
-	void drawBatch(const std::vector<EntityID>& entities, LightRenderer& batch);
-
-	/////////////////////////
-
 	Map* map = nullptr;
 	//std::unique_ptr<Grid> grid;
-
-	static TazGraphEngine::Window* _window;
-
 
 private:
 

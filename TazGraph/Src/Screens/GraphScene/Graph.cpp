@@ -10,12 +10,9 @@
 
 #undef main
 
-TazGraphEngine::Window* Graph::_window = nullptr;
 
-
-Graph::Graph(TazGraphEngine::Window* window)
+Graph::Graph()
 {
-	_window = window;
 	_sceneIndex = SCENE_INDEX_GRAPHPLAY;
 }
 Graph::~Graph()

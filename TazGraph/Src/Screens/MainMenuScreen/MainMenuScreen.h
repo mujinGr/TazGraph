@@ -8,7 +8,7 @@
 
 class MainMenuScreen : public IScene {
 public:
-	MainMenuScreen(TazGraphEngine::Window* window);
+	MainMenuScreen();
 	~MainMenuScreen();
 
 	virtual int getNextSceneIndex() const override;
@@ -32,17 +32,12 @@ public:
 	virtual void drawUI() override;
 	virtual void EndRender() override;
 
-
-	void renderBatch(const std::vector<EntityID>& entities);
-
 private:
 
 	void checkInput();
 	bool onStartSimulator();
 	bool onResumeSimulator();
 	void onExitSimulator();
-
-	TazGraphEngine::Window* _window;
 
 	int _nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 	int _prevSceneIndex = SCENE_INDEX_GRAPHPLAY;

@@ -1,49 +1,6 @@
 #include "Graph.h"
 #include <tracy/public/tracy/Tracy.hpp>
 
-void Graph::drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch) {
-
-	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
-		for (int i = start; i < end; i++) {
-			auto* entity = manager->getEntityFromId(entities[i]);
-			entity->draw(i, batch, *Graph::_window);
-		}
-		});
-
-}
-
-void Graph::drawBatch(const std::vector<EntityID>& entities, PlaneColorRenderer& batch) {
-
-	_app->threadPool.parallel(entities.size(), [&](int start, int end) {
-		for (int i = start; i < end; i++) {
-			auto* entity = manager->getEntityFromId(entities[i]);
-
-			entity->draw(i, batch, *Graph::_window);
-		}
-		});
-}
-
-void Graph::drawBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch) {
-	// before calling this make sure that reserved the right amount of memory
-
-	for (int i = 0; i < entities.size(); i++) {
-		auto* entity = manager->getEntityFromId(entities[i]);
-
-		entity->draw(i, batch, *Graph::_window);
-	}
-
-}
-
-void Graph::drawBatch(const std::vector<EntityID>& entities, LightRenderer& batch) {
-	// before calling this make sure that reserved the right amount of memory
-
-	for (int i = 0; i < entities.size(); i++) {
-		auto* entity = manager->getEntityFromId(entities[i]);
-
-		entity->draw(i, batch, *Graph::_window);
-	}
-}
-
 void Graph::draw()
 {
 	ZoneScoped;
@@ -97,7 +54,7 @@ void Graph::draw()
 	);
 
 	getApp()->lineRenderer.initBatchSize();
-	drawBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupGridLinks), getApp()->lineRenderer);
+	getApp()->drawBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupGridLinks), getApp()->lineRenderer);
 	getApp()->lineRenderer.end();
 	getApp()->lineRenderer.renderBatch();
 	glsl_lineColor.unuse();
@@ -226,23 +183,23 @@ void Graph::draw()
 	allLinks.insert(allLinks.end(), group0.begin(), group0.end());
 	allLinks.insert(allLinks.end(), group1.begin(), group1.end());
 
-	drawBatch(allLinks, getApp()->lineRenderer);
+	getApp()->drawBatch(allLinks, getApp()->lineRenderer);
 
 	//getApp()->lineRenderer.renderBatch(cameraMatrix, 2.0f);
 
-	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0), getApp()->planeColorRenderer);
-	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), getApp()->planeColorRenderer);
-	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), getApp()->planeColorRenderer);
+	getApp()->drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0), getApp()->planeColorRenderer);
+	getApp()->drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), getApp()->planeColorRenderer);
+	getApp()->drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), getApp()->planeColorRenderer);
 
-	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), getApp()->planeColorRenderer);
+	getApp()->drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), getApp()->planeColorRenderer);
 
 
-	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupRenderSprites), getApp()->planeModelRenderer);
+	getApp()->drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupRenderSprites), getApp()->planeModelRenderer);
 
-	drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites), getApp()->planeModelRenderer);
+	getApp()->drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites), getApp()->planeModelRenderer);
 
-	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties), getApp()->lightRenderer);
-	drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), getApp()->lightRenderer);
+	getApp()->drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties), getApp()->lightRenderer);
+	getApp()->drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), getApp()->lightRenderer);
 
 
 
@@ -294,7 +251,7 @@ void Graph::draw()
 	allPathLinks.insert(allPathLinks.end(), pathlinks.begin(), pathlinks.end());
 	allPathLinks.insert(allPathLinks.end(), innerLinks.begin(), innerLinks.end());
 
-	drawBatch(allPathLinks, getApp()->lineRenderer);
+	getApp()->drawBatch(allPathLinks, getApp()->lineRenderer);
 
 	std::vector<EntityID> allNodeUtils;
 	auto& ports = manager->getVisibleGroup<EmptyEntity>(Manager::groupPorts);
@@ -303,12 +260,12 @@ void Graph::draw()
 	allNodeUtils.insert(allNodeUtils.end(), ports.begin(), ports.end());
 	allNodeUtils.insert(allNodeUtils.end(), portSlots.begin(), portSlots.end());
 
-	drawBatch(allNodeUtils, getApp()->planeColorRenderer);
+	getApp()->drawBatch(allNodeUtils, getApp()->planeColorRenderer);
 
 	getApp()->resourceManager.setupShader(glsl_lineColor, *main_camera2D);
 
 	pLocation = glsl_lineColor.getUniformLocation("viewportSize");
-	glUniform2f(pLocation, _window->getScreenWidth(), _window->getScreenHeight());
+	glUniform2f(pLocation, getApp()->_window.getScreenWidth(), getApp()->_window.getScreenHeight());
 
 	getApp()->lineRenderer.end();
 	getApp()->lineRenderer.renderBatch();
@@ -440,7 +397,7 @@ void Graph::minimapDraw() {
 
 	getApp()->planeColorRenderer.initBatchSize();
 
-	drawBatch(manager->getGroup<NodeEntity>(Manager::groupMinimapNodes), getApp()->planeColorRenderer);
+	getApp()->drawBatch(manager->getGroup<NodeEntity>(Manager::groupMinimapNodes), getApp()->planeColorRenderer);
 
 	float maxDistance = manager->grid->getNumXCells() * manager->grid->getCellSize();
 

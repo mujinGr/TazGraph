@@ -93,10 +93,7 @@ public:
 
 	float backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 
-	void drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch);
-	void drawBatch(const std::vector<EntityID>& entities, PlaneColorRenderer& batch);
-	void drawBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch);
-	void drawBatch(const std::vector<EntityID>& entities, LightRenderer& batch);
+
 
 protected:
 	AppInterface* _app = nullptr;
