@@ -13,7 +13,6 @@
 #include "../Threader/Threader.h"
 #include "../Threader/RenderCommandQueue.h"
 
-#include "IScene.h"
 
 class SceneList;
 class IScene;

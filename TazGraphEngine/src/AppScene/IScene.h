@@ -1,6 +1,9 @@
 #pragma once
 
 #include "./ScreenIndices.h"
+#include "../DataManager/DataManager.h"
+
+#include "AppInterface.h"
 
 #include "../GECS/Core/GECSManager.h"
 

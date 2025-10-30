@@ -1,4 +1,10 @@
 #include "AppInterface.h"
+#include "../BaseFPSLimiter/BaseFPSLimiter.h"
+
+#include "SceneList.h"
+#include "IScene.h"
+
+#include "../DataManager/DataManager.h"
 
 
 
