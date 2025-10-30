@@ -3,8 +3,6 @@
 #include "./ScreenIndices.h"
 #include "../DataManager/DataManager.h"
 
-#include "AppInterface.h"
-
 #include "../GECS/Core/GECSManager.h"
 
 #define SCENE_INDEX_NO_SCENE -1

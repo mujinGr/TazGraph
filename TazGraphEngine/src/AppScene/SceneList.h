@@ -2,8 +2,9 @@
 
 #include "../../pch.h"
 
+#include "./IScene.h"
+
 class AppInterface;
-class IScene;
 
 class SceneList {
 public:

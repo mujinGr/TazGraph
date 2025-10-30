@@ -14,8 +14,8 @@
 #include "src/GECS/Core/GECSEntityTypes/GECSEntityTypes.h"
 #include "src/GECS/Core/GECSUtil.h"
 
-#include "src/AppScene/IScene.h"
-#include "src/AppScene/SceneList.h"
+#include "src/AppScene/AppInterface.h"
+
 #include "src/ImGuiInterface/ImGuiInterface.h"
 
 #include "src/InputManager/InputManager.h"
