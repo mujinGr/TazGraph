@@ -158,7 +158,10 @@ void AppInterface::RenderThreadFunc() {
 }
 
 void AppInterface::exitSimulator() {
-	_currentScene->onExit();
+	if (!_sceneList || !_sceneList->getCurrent())
+		return;
+
+	_sceneList->getCurrent()->onExit();
 	if (_sceneList) {
 		_sceneList->destroy();
 		_sceneList.reset();
@@ -232,9 +235,8 @@ bool AppInterface::init() {
 
 	initRenderers();
 
-	_currentScene = _sceneList->getCurrent();
-	_currentScene->onEntry();
-	_currentScene->setRunning();
+	_sceneList->getCurrent()->onEntry();
+	_sceneList->getCurrent()->setRunning();
 	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 
 	return true;
@@ -261,74 +263,84 @@ bool AppInterface::initSystems() {
 }
 
 void AppInterface::checkInput() {
-	if (_currentScene) {
-		_inputManager.update();
+	if (!_sceneList || !_sceneList->getCurrent())
+		return;
 
-		switch (_currentScene->getState()) {
-		case SceneState::RUNNING:
-			_currentScene->checkInput();
-			break;
-		default:
-			break;
-		}
+	_inputManager.update();
+
+	switch (_sceneList->getCurrent()->getState()) {
+	case SceneState::RUNNING:
+		_sceneList->getCurrent()->checkInput();
+		break;
+	default:
+		break;
 	}
 }
 
 void AppInterface::update(float deltaTime) {
-	if (_currentScene) {
-		switch (_currentScene->getState()) {
-		case SceneState::RUNNING:
-			_currentScene->update(deltaTime);
-			break;
-		case SceneState::CHANGE_NEXT:
-			_currentScene->onExit();
-			_currentScene = _sceneList->moveNext();
-			if (_currentScene) {
-				_currentScene->setRunning();
-				_currentScene->onEntry();
-			}
-			break;
-		case SceneState::CHANGE_PREVIOUS:
-			_currentScene->onExit();
-			_currentScene = _sceneList->movePrevious();
-			if (_currentScene) {
-				_currentScene->setRunning();
-				//_currentScene->onEntry();
-			}
-			break;
-		case SceneState::EXIT_APPLICATION:
-			exitSimulator();
-			break;
-		default:
-			break;
-		}
-	}
-	else {
+	if (!_sceneList || !_sceneList->getCurrent())
+	{
 		exitSimulator();
+		return;
+	}
+
+	switch (_sceneList->getCurrent()->getState()) {
+	case SceneState::RUNNING:
+		_sceneList->getCurrent()->update(deltaTime);
+		break;
+	case SceneState::CHANGE_NEXT:
+		_sceneList->getCurrent()->onExit();
+		_sceneList->moveNext();
+		if (_sceneList->getCurrent()) {
+			_sceneList->getCurrent()->setRunning();
+			_sceneList->getCurrent()->onEntry();
+		}
+		break;
+	case SceneState::CHANGE_PREVIOUS:
+		_sceneList->getCurrent()->onExit();
+		_sceneList->movePrevious();
+		if (_sceneList->getCurrent()) {
+			_sceneList->getCurrent()->setRunning();
+			//_sceneList->getCurrent()->onEntry();
+		}
+		break;
+	case SceneState::EXIT_APPLICATION:
+		exitSimulator();
+		break;
+	default:
+		break;
 	}
 
 }
 void AppInterface::draw() {
 	glViewport(0, 0, _window.getScreenWidth(), _window.getScreenHeight());
-	if (_currentScene && _currentScene->getState() == SceneState::RUNNING) {
-		_currentScene->draw();
+	if (!_sceneList || !_sceneList->getCurrent())
+		return;
+
+	if (_sceneList->getCurrent()->getState() == SceneState::RUNNING) {
+		_sceneList->getCurrent()->draw();
 	}
 }
 
 void AppInterface::updateUI(float deltaTime)
 {
-	if (_currentScene && _currentScene->getState() == SceneState::RUNNING) {
-		_currentScene->updateUI(deltaTime);
+	if (!_sceneList || !_sceneList->getCurrent())
+		return;
+
+	if (_sceneList->getCurrent()->getState() == SceneState::RUNNING) {
+		_sceneList->getCurrent()->updateUI(deltaTime);
 	}
 }
 
 void AppInterface::drawUI()
 {
 	// Start the Dear ImGui frame
-	_currentScene->BeginRender();
-	if (_currentScene && _currentScene->getState() == SceneState::RUNNING) {
-		_currentScene->drawUI();
+	if (!_sceneList || !_sceneList->getCurrent())
+		return;
+	_sceneList->getCurrent()->BeginRender();
+	if (_sceneList->getCurrent()->getState() == SceneState::RUNNING) {
+		_sceneList->getCurrent()->drawUI();
 	}
 	// Rendering
-	_currentScene->EndRender();
+	_sceneList->getCurrent()->EndRender();
 }

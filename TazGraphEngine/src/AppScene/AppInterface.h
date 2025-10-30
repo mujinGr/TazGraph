@@ -13,6 +13,7 @@
 #include "../Threader/Threader.h"
 #include "../Threader/RenderCommandQueue.h"
 
+#include "IScene.h"
 
 class SceneList;
 class IScene;
@@ -56,27 +57,27 @@ public:
 
 	ResourceManager resourceManager;
 
-	void renderBatch(
-		const Taz::RenderBatch& batch,
-		const Taz::FrameRenderData& frameData
-	);
+	//void renderBatch(
+	//	const Taz::RenderBatch& batch,
+	//	const Taz::FrameRenderData& frameData
+	//);
 
-	void drawLineBatch(
-		const Taz::RenderBatch& batch,
-		const Taz::FrameRenderData& frameData
-	);
-	void drawPlaneColorBatch(
-		const Taz::RenderBatch& batch,
-		const Taz::FrameRenderData& frameData
-	);
-	void drawPlaneModelBatch(
-		const Taz::RenderBatch& batch,
-		const Taz::FrameRenderData& frameData
-	);
-	void drawLightBatch(
-		const Taz::RenderBatch& batch,
-		const Taz::FrameRenderData& frameData
-	);
+	//void drawLineBatch(
+	//	const Taz::RenderBatch& batch,
+	//	const Taz::FrameRenderData& frameData
+	//);
+	//void drawPlaneColorBatch(
+	//	const Taz::RenderBatch& batch,
+	//	const Taz::FrameRenderData& frameData
+	//);
+	//void drawPlaneModelBatch(
+	//	const Taz::RenderBatch& batch,
+	//	const Taz::FrameRenderData& frameData
+	//);
+	//void drawLightBatch(
+	//	const Taz::RenderBatch& batch,
+	//	const Taz::FrameRenderData& frameData
+	//);
 
 
 
@@ -95,7 +96,6 @@ protected:
 	AudioEngine _audioEngine;
 
 	std::unique_ptr<SceneList> _sceneList = nullptr;
-	IScene* _currentScene = nullptr;
 	bool _isRunning = false;
 
 	const float SCALE_SPEED = 0.1f;
