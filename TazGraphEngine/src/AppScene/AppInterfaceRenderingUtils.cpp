@@ -115,10 +115,8 @@ void AppInterface::drawPlaneColorBatch(
 	auto& shader = *resourceManager.getGLSLProgram(batch.shaderName);
 	resourceManager.setupShader(shader, camera);
 
-	if (batch.rotationMatrix != glm::mat4(1.0f)) {
-		GLint pLocation = shader.getUniformLocation("rotationMatrix");
-		glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(batch.rotationMatrix));
-	}
+	GLint pLocation = shader.getUniformLocation("rotationMatrix");
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(batch.rotationMatrix));
 
 	planeColorRenderer.end();
 	planeColorRenderer.renderBatch();

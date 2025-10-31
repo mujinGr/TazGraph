@@ -308,12 +308,28 @@ void Graph::draw()
 
 }
 
+
 void Graph::minimapDraw() {
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D =
 		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
+
+	GLSLProgram glsl_texture = *getApp()->resourceManager.getGLSLProgram("texture");
+	GLSLProgram glsl_light = *getApp()->resourceManager.getGLSLProgram("light");
+	GLSLProgram glsl_lineColor = *getApp()->resourceManager.getGLSLProgram("lineColor");
+	GLSLProgram glsl_color = *getApp()->resourceManager.getGLSLProgram("color");
+	GLSLProgram glsl_framebuffer = *getApp()->resourceManager.getGLSLProgram("framebuffer");
+
+
+	_minimapFramebuffer.Bind();
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearDepth(1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	/////////////////////////////////////////////////////
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	float maxDistance = manager->grid->getNumXCells() * manager->grid->getCellSize();
 
@@ -331,21 +347,6 @@ void Graph::minimapDraw() {
 	glm::mat4 proj = glm::ortho(-maxDistance / 2.0f, maxDistance / 2.0f, -maxDistance / 2.0f, maxDistance / 2.0f, near, far);
 	minimap_camera2D->setProjMatrix(proj);
 
-	GLSLProgram glsl_texture = *getApp()->resourceManager.getGLSLProgram("texture");
-	GLSLProgram glsl_light = *getApp()->resourceManager.getGLSLProgram("light");
-	GLSLProgram glsl_lineColor = *getApp()->resourceManager.getGLSLProgram("lineColor");
-	GLSLProgram glsl_color = *getApp()->resourceManager.getGLSLProgram("color");
-	GLSLProgram glsl_framebuffer = *getApp()->resourceManager.getGLSLProgram("framebuffer");
-
-
-	_minimapFramebuffer.Bind();
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClearDepth(1.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	/////////////////////////////////////////////////////
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	glm::mat4 minimap_rotationMatrix = glm::mat4(1.0f);
 
 	Taz::FrameRenderData frameData;
@@ -355,7 +356,7 @@ void Graph::minimapDraw() {
 		minimapBatch.shaderName = "color";
 		minimapBatch.entities = manager->collectEntities({
 			Manager::groupMinimapNodes,
-			}, Taz::EntityType::Node);
+			}, Taz::EntityType::Minimap);
 		minimapBatch.quadCount = minimapBatch.entities.size();
 		minimapBatch.rotationMatrix = minimap_rotationMatrix;
 		frameData.batches.push_back(minimapBatch);

@@ -36,7 +36,8 @@ namespace Taz {
 	{
 		Empty,
 		Node,
-		Link
+		Link,
+		Minimap
 	};
 }
 

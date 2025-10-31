@@ -275,6 +275,12 @@ std::vector<EntityID> Manager::collectEntities(
 			result.insert(result.end(), group.begin(), group.end());
 		}
 	}
+	else if (type == Taz::EntityType::Minimap) {
+		for (const auto& groupName : groupNames) {
+			auto& group = getGroup<NodeEntity>(groupName);
+			result.insert(result.end(), group.begin(), group.end());
+		}
+	}
 
 	return result;
 }
