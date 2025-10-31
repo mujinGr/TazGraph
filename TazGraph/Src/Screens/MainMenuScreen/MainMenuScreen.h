@@ -25,7 +25,8 @@ public:
 
 	virtual void update(float deltaTime) override;
 
-	virtual void draw() override;
+	virtual void prepareDraw() override;
+	virtual void renderDraw() override;
 
 	virtual void BeginRender() override;
 	virtual void updateUI(float deltaTime) override;

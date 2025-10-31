@@ -37,7 +37,9 @@ public:
 
 	virtual void update(float deltaTime) override;
 
-	virtual void draw() override;
+	virtual void prepareDraw() override;
+	virtual void renderDraw() override;
+
 
 	void minimapDraw();
 

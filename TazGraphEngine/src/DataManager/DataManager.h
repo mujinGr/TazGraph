@@ -35,11 +35,6 @@ namespace Taz {
 		std::vector<RenderBatch> batches;
 		glm::vec4 backgroundColor;
 		bool renderDebug = false;
-
-		struct MinimapData {
-			std::vector<EntityID> nodes;
-			bool needsUpdate = false;
-		} minimapData;
 	};
 }
 

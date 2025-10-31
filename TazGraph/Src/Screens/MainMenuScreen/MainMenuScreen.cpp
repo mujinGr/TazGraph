@@ -121,7 +121,7 @@ void MainMenuScreen::update(float deltaTime)
 }
 
 
-void MainMenuScreen::draw()
+void MainMenuScreen::prepareDraw()
 {
 	auto& mainmenubackground(manager->getGroup<EmptyEntity>(Manager::groupBackgroundLayer));
 
@@ -132,8 +132,7 @@ void MainMenuScreen::draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 	//////////////////////////////////////
-
-	Taz::FrameRenderData frameData;
+	frameData.batches.clear();
 	//! Prepare Frame
 	{
 		Taz::RenderBatch mainMenuBatch;
@@ -146,15 +145,19 @@ void MainMenuScreen::draw()
 		frameData.batches.push_back(mainMenuBatch);
 
 	}
+}
+
+void MainMenuScreen::renderDraw()
+{
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
+
 	//! render Frame
 	{
 		for (const auto& batch : frameData.batches) {
 			getApp()->renderBatch(batch, frameData, *main_camera2D);
 		}
 	}
-
 	glBindTexture(GL_TEXTURE_2D, 0);
-	getApp()->resourceManager.getGLSLProgram("texture")->unuse();
 }
 
 void MainMenuScreen::checkInput() {

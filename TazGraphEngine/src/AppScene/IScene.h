@@ -47,7 +47,8 @@ public:
 	virtual void checkInput() = 0;
 
 	virtual void update(float deltaTime) = 0;
-	virtual void draw() = 0;
+	virtual void prepareDraw() = 0;
+	virtual void renderDraw() = 0;
 
 	virtual void BeginRender() = 0;
 	virtual void updateUI(float deltaTime) = 0;
@@ -93,7 +94,7 @@ public:
 
 	float backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 
-
+	Taz::FrameRenderData frameData;
 
 protected:
 	AppInterface* _app = nullptr;

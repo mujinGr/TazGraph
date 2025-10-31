@@ -94,7 +94,8 @@ void AppInterface::run() {
 		if (_isRunning) {
 			ZoneScopedN("Draw");
 			Uint64 startDraw = SDL_GetPerformanceCounter();
-			draw();
+			prepareDraw();
+			renderDraw();
 			Uint64 endDraw = SDL_GetPerformanceCounter();
 			float drawTime = static_cast<float>(endDraw - startDraw) / freq * 1000.0f;
 			//std::cout << "Draw: " << drawTime << " ms\n";
@@ -312,13 +313,26 @@ void AppInterface::update(float deltaTime) {
 	}
 
 }
-void AppInterface::draw() {
+
+void AppInterface::prepareDraw()
+{
 	glViewport(0, 0, _window.getScreenWidth(), _window.getScreenHeight());
 	if (!_sceneList || !_sceneList->getCurrent())
 		return;
 
 	if (_sceneList->getCurrent()->getState() == SceneState::RUNNING) {
-		_sceneList->getCurrent()->draw();
+		_sceneList->getCurrent()->prepareDraw();
+	}
+}
+
+void AppInterface::renderDraw()
+{
+	glViewport(0, 0, _window.getScreenWidth(), _window.getScreenHeight());
+	if (!_sceneList || !_sceneList->getCurrent())
+		return;
+
+	if (_sceneList->getCurrent()->getState() == SceneState::RUNNING) {
+		_sceneList->getCurrent()->renderDraw();
 	}
 }
 

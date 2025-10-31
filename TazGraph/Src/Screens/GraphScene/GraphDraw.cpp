@@ -1,7 +1,7 @@
 #include "Graph.h"
 #include <tracy/public/tracy/Tracy.hpp>
 
-void Graph::draw()
+void Graph::prepareDraw()
 {
 	ZoneScoped;
 
@@ -44,8 +44,6 @@ void Graph::draw()
 	// Blending for smooth edges (premultiplied or standard)
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	Taz::FrameRenderData frameData;
 
 	// 0. Grid Rendering
 	if (showGrid) {
@@ -306,6 +304,10 @@ void Graph::draw()
 	minimapDraw();
 
 
+}
+
+void Graph::renderDraw()
+{
 }
 
 

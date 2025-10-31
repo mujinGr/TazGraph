@@ -89,7 +89,8 @@ public:
 protected:
 	virtual void checkInput();
 	virtual void update(float deltaTime);
-	virtual void draw();
+	virtual void prepareDraw();
+	virtual void renderDraw();
 	virtual void updateUI(float deltaTime);
 	virtual void drawUI();
 
@@ -104,4 +105,6 @@ protected:
 	bool _isRunning = false;
 
 	const float SCALE_SPEED = 0.1f;
+
+	std::thread renderThread;
 };
