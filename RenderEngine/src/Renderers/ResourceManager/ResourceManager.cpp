@@ -10,7 +10,7 @@ void ResourceManager::setupShader(GLSLProgram& shaderProgram, ICamera& camera) {
 }
 
 void ResourceManager::addGLSLProgram(std::string programName)
-{	
+{
 	GLSLProgram* newGLSLProgram = new GLSLProgram();
 	glsl_programs.try_emplace(programName, newGLSLProgram);
 }

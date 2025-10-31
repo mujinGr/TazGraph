@@ -16,8 +16,6 @@ namespace Taz {
 			Light
 		};
 
-		bool showGrid = false;
-
 		Type type;
 		std::string shaderName;
 		std::vector<EntityID> entities;

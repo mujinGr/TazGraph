@@ -55,24 +55,29 @@ public:
 
 	void renderBatch(
 		const Taz::RenderBatch& batch,
-		const Taz::FrameRenderData& frameData
+		const Taz::FrameRenderData& frameData,
+		ICamera& camera
 	);
 
 	void drawLineBatch(
 		const Taz::RenderBatch& batch,
-		const Taz::FrameRenderData& frameData
+		const Taz::FrameRenderData& frameData,
+		ICamera& camera
 	);
 	void drawPlaneColorBatch(
 		const Taz::RenderBatch& batch,
-		const Taz::FrameRenderData& frameData
+		const Taz::FrameRenderData& frameData,
+		ICamera& camera
 	);
 	void drawPlaneModelBatch(
 		const Taz::RenderBatch& batch,
-		const Taz::FrameRenderData& frameData
+		const Taz::FrameRenderData& frameData,
+		ICamera& camera
 	);
 	void drawLightBatch(
 		const Taz::RenderBatch& batch,
-		const Taz::FrameRenderData& frameData
+		const Taz::FrameRenderData& frameData,
+		ICamera& camera
 	);
 
 	void drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch);

@@ -44,20 +44,180 @@ void Graph::draw()
 	// Blending for smooth edges (premultiplied or standard)
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//Grid Rendering
 
-	getApp()->lineRenderer.begin();
-	getApp()->resourceManager.setupShader(glsl_lineColor, *main_camera2D);
+	Taz::FrameRenderData frameData;
 
-	getApp()->lineRenderer.initLineBatch(
-		manager->getVisibleGroup<LinkEntity>(Manager::groupGridLinks).size()
-	);
+	// 0. Grid Rendering
+	if (showGrid) {
+		//! Prepare Frame
+		Taz::RenderBatch gridBatch;
+		gridBatch.type = Taz::RenderBatch::Type::Line;
+		gridBatch.shaderName = "lineColor";
+		gridBatch.entities = manager->collectEntities({
+			Manager::groupGridLinks,
+			}, Taz::EntityType::Link);
+		gridBatch.lineCount = gridBatch.entities.size();
+		frameData.batches.push_back(gridBatch);
+	}
+	// 1. Nodes Batch (Color)
+	{
+		Taz::RenderBatch nodesBatch;
+		nodesBatch.type = Taz::RenderBatch::Type::PlaneColor;
+		nodesBatch.shaderName = "color";
+		nodesBatch.entities = manager->collectEntities({
+			Manager::groupNodes_0,
+			Manager::groupGroupNodes_0,
+			Manager::groupGroupNodes_1
+			}, Taz::EntityType::Node);
+		nodesBatch.quadCount = nodesBatch.entities.size();
+		nodesBatch.rotationMatrix = rotationMatrix;
+		frameData.batches.push_back(nodesBatch);
+	}
+	// 2. Link Rendering
+	{
+		Taz::RenderBatch linksBatch;
+		linksBatch.type = Taz::RenderBatch::Type::Line;
+		linksBatch.shaderName = "lineColor";
+		linksBatch.entities = manager->collectEntities({
+			Manager::groupLinks_0,
+			Manager::groupGroupLinks_0,
+			Manager::groupGroupLinks_1
+			}, Taz::EntityType::Link);
+		linksBatch.lineCount = linksBatch.entities.size();
+		frameData.batches.push_back(linksBatch);
 
-	getApp()->lineRenderer.initBatchSize();
-	getApp()->drawBatch(manager->getVisibleGroup<LinkEntity>(Manager::groupGridLinks), getApp()->lineRenderer);
-	getApp()->lineRenderer.end();
-	getApp()->lineRenderer.renderBatch();
-	glsl_lineColor.unuse();
+	}
+	// 3. ArrowHeads Batch
+	{
+		Taz::RenderBatch arrowsBatch;
+		arrowsBatch.type = Taz::RenderBatch::Type::PlaneColor;
+		arrowsBatch.shaderName = "color";
+		arrowsBatch.entities = manager->collectEntities({
+			Manager::groupArrowHeads_0,
+			}, Taz::EntityType::Empty);
+
+		arrowsBatch.triangleCount = arrowsBatch.entities.size();
+		arrowsBatch.rotationMatrix = rotationMatrix;
+		frameData.batches.push_back(arrowsBatch);
+	}
+	// 4. Sprite Models Batch
+	{
+		Taz::RenderBatch spritesBatch;
+		spritesBatch.type = Taz::RenderBatch::Type::PlaneModel;
+		spritesBatch.shaderName = "texture";
+		spritesBatch.entities = manager->collectEntities({
+			Manager::groupRenderSprites
+			}, Taz::EntityType::Empty);
+		spritesBatch.quadCount = spritesBatch.entities.size();
+		frameData.batches.push_back(spritesBatch);
+	}
+	// 5. Lights Batch
+	{
+		Taz::RenderBatch lightsBatch;
+		lightsBatch.type = Taz::RenderBatch::Type::Light;
+		lightsBatch.shaderName = "light";
+
+		auto empties = manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties);
+		auto spheres = manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties);
+
+		lightsBatch.boxCount = empties.size();
+		lightsBatch.sphereCount = spheres.size();
+		lightsBatch.entities.insert(lightsBatch.entities.end(), empties.begin(), empties.end());
+		lightsBatch.entities.insert(lightsBatch.entities.end(), spheres.begin(), spheres.end());
+
+		frameData.batches.push_back(lightsBatch);
+	}
+	// 6. Path Links Batch (rendered without depth test)
+	{
+		Taz::RenderBatch pathLinksBatch;
+		pathLinksBatch.type = Taz::RenderBatch::Type::Line;
+		pathLinksBatch.shaderName = "lineColor";
+		pathLinksBatch.entities = manager->collectEntities({
+			Manager::groupPathLinks,
+			Manager::groupPathInnerLinks
+			}, Taz::EntityType::Link);
+		pathLinksBatch.lineCount = pathLinksBatch.entities.size();
+		pathLinksBatch.viewportSize =
+			glm::vec2(
+				getApp()->_window.getScreenWidth(),
+				getApp()->_window.getScreenHeight()
+			);
+		frameData.batches.push_back(pathLinksBatch);
+	}
+	// 7. Ports and Slots Batch
+	{
+		Taz::RenderBatch portsBatch;
+		portsBatch.type = Taz::RenderBatch::Type::PlaneColor;
+		portsBatch.shaderName = "color";
+		portsBatch.entities = manager->collectEntities({
+			Manager::groupPorts,
+			Manager::groupPortSlots
+			}, Taz::EntityType::Empty);
+		portsBatch.quadCount = portsBatch.entities.size();
+		frameData.batches.push_back(portsBatch);
+	}
+	// 8. Selection Overlay Batch
+	{
+		Taz::RenderBatch selectionBatch;
+		selectionBatch.type = Taz::RenderBatch::Type::Line;
+		selectionBatch.shaderName = "lineColor";
+
+		size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
+			[](const auto& entry) {
+				return dynamic_cast<NodeEntity*>(entry.first) || dynamic_cast<EmptyEntity*>(entry.first);
+			});
+
+		size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
+			[](const auto& entry) {
+				return dynamic_cast<LinkEntity*>(entry.first);
+			});
+
+		selectionBatch.lineCount = linkCount;
+		selectionBatch.boxCount = nodeCount;
+
+		manager->removeAllEntitiesFromEmptyGroup(Manager::groupSelectedEntities);
+
+		for (auto& [entity, offset] : _selectedEntities) {
+			Node* node = dynamic_cast<Node*>(entity);
+			Empty* empty = dynamic_cast<Empty*>(entity);
+			Link* link = dynamic_cast<Link*>(entity);
+
+			if (node || empty) {
+				auto& selectedEntity = manager->addEntity<Empty>();
+				selectedEntity.addGroup(Manager::groupSelectedEntities);
+				selectedEntity.addComponent<BoxComponent>();
+				manager->grid->addEmpty(&selectedEntity, manager->grid->getGridLevel());
+
+				auto& tr = entity->GetComponent<TransformComponent>();
+				glm::vec3 nodeBox_org(tr.position.x, tr.position.y, tr.position.z);
+				glm::vec3 nodeBox_size(tr.size.x, tr.size.y, tr.size.z);
+
+				selectionBatch.boxCount++;
+				selectionBatch.entities.push_back(selectedEntity.getId());
+			}
+			else if (link) {
+				auto& selectedEntity = manager->addEntity<Link>();
+
+				selectedEntity.addComponent<Line_w_Color>();
+				manager->grid->addLink(&selectedEntity, manager->grid->getGridLevel());
+
+				selectionBatch.lineCount++;
+				selectionBatch.entities.push_back(selectedEntity.getId());
+			}
+
+		}
+		frameData.batches.push_back(selectionBatch);
+	}
+
+	{
+		//! render Frame
+		for (const auto& batch : frameData.batches) {
+			getApp()->renderBatch(batch, frameData, *main_camera2D);
+		}
+	}
+
+
+
 
 	// Debug Rendering
 	if (renderDebug) {
@@ -133,225 +293,6 @@ void Graph::draw()
 
 	}
 
-	getApp()->lineRenderer.begin();
-	getApp()->planeColorRenderer.begin();
-	getApp()->planeModelRenderer.begin();
-	getApp()->lightRenderer.begin();
-	//! Line Renderer Init
-	getApp()->lineRenderer.initLineBatch(
-		manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0).size() +
-		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0).size() +
-		manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1).size()
-	);
-	//! TazColor Renderer Init
-	getApp()->planeColorRenderer.initQuadBatch(
-		manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
-		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
-		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size()
-	);
-	getApp()->planeColorRenderer.initTriangleBatch(
-		manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0).size()
-	);
-
-
-	//! Model Renderer Init
-	getApp()->planeModelRenderer.initQuadBatch(
-		manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites).size()
-	);
-
-	//! Light Renderer Init
-	getApp()->lightRenderer.initBoxBatch(
-		manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties).size()
-	);
-
-	getApp()->lightRenderer.initSphereBatch(
-		manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties).size()
-	);
-
-
-	getApp()->planeColorRenderer.initBatchSize();
-	getApp()->lineRenderer.initBatchSize();
-	getApp()->planeModelRenderer.initBatchSize();
-	getApp()->lightRenderer.initBatchSize();
-
-	std::vector<EntityID> allLinks;
-	auto& links = manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0);
-	auto& group0 = manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0);
-	auto& group1 = manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1);
-
-	allLinks.insert(allLinks.end(), links.begin(), links.end());
-	allLinks.insert(allLinks.end(), group0.begin(), group0.end());
-	allLinks.insert(allLinks.end(), group1.begin(), group1.end());
-
-	getApp()->drawBatch(allLinks, getApp()->lineRenderer);
-
-	//getApp()->lineRenderer.renderBatch(cameraMatrix, 2.0f);
-
-	getApp()->drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0), getApp()->planeColorRenderer);
-	getApp()->drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0), getApp()->planeColorRenderer);
-	getApp()->drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1), getApp()->planeColorRenderer);
-
-	getApp()->drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupArrowHeads_0), getApp()->planeColorRenderer);
-
-
-	getApp()->drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupRenderSprites), getApp()->planeModelRenderer);
-
-	getApp()->drawBatch(manager->getVisibleGroup<NodeEntity>(Manager::groupRenderSprites), getApp()->planeModelRenderer);
-
-	getApp()->drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties), getApp()->lightRenderer);
-	getApp()->drawBatch(manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties), getApp()->lightRenderer);
-
-
-
-
-	getApp()->resourceManager.setupShader(glsl_texture, *main_camera2D);
-	getApp()->planeModelRenderer.end();
-	getApp()->planeModelRenderer.renderBatch();
-	glsl_texture.unuse();
-
-	getApp()->resourceManager.setupShader(glsl_color, *main_camera2D);
-	GLint pLocation = glsl_color.getUniformLocation("rotationMatrix");
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
-	getApp()->planeColorRenderer.end();
-	getApp()->planeColorRenderer.renderBatch();
-	glsl_color.unuse();
-
-
-	getApp()->resourceManager.setupShader(glsl_lineColor, *main_camera2D);
-
-	getApp()->lineRenderer.end();
-	getApp()->lineRenderer.renderBatch();
-	glsl_lineColor.unuse();
-
-	getApp()->resourceManager.setupShader(glsl_light, *main_camera2D);
-	getApp()->lightRenderer.end();
-	getApp()->lightRenderer.renderBatch();
-	glsl_light.unuse();
-
-	//! Link Paths rendering & Ports rendering
-	getApp()->lineRenderer.begin();
-	getApp()->planeColorRenderer.begin();
-
-	getApp()->lineRenderer.initLineBatch(
-		manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks).size() +
-		manager->getVisibleGroup<LinkEntity>(Manager::groupPathInnerLinks).size()
-	);
-	getApp()->planeColorRenderer.initQuadBatch(
-		manager->getVisibleGroup<EmptyEntity>(Manager::groupPorts).size() +
-		manager->getVisibleGroup<EmptyEntity>(Manager::groupPortSlots).size()
-	);
-
-	getApp()->lineRenderer.initBatchSize();
-	getApp()->planeColorRenderer.initBatchSize();
-
-	std::vector<EntityID> allPathLinks;
-	auto& pathlinks = manager->getVisibleGroup<LinkEntity>(Manager::groupPathLinks);
-	auto& innerLinks = manager->getVisibleGroup<LinkEntity>(Manager::groupPathInnerLinks);
-
-	allPathLinks.insert(allPathLinks.end(), pathlinks.begin(), pathlinks.end());
-	allPathLinks.insert(allPathLinks.end(), innerLinks.begin(), innerLinks.end());
-
-	getApp()->drawBatch(allPathLinks, getApp()->lineRenderer);
-
-	std::vector<EntityID> allNodeUtils;
-	auto& ports = manager->getVisibleGroup<EmptyEntity>(Manager::groupPorts);
-	auto& portSlots = manager->getVisibleGroup<EmptyEntity>(Manager::groupPortSlots);
-
-	allNodeUtils.insert(allNodeUtils.end(), ports.begin(), ports.end());
-	allNodeUtils.insert(allNodeUtils.end(), portSlots.begin(), portSlots.end());
-
-	getApp()->drawBatch(allNodeUtils, getApp()->planeColorRenderer);
-
-	getApp()->resourceManager.setupShader(glsl_lineColor, *main_camera2D);
-
-	pLocation = glsl_lineColor.getUniformLocation("viewportSize");
-	glUniform2f(pLocation, getApp()->_window.getScreenWidth(), getApp()->_window.getScreenHeight());
-
-	getApp()->lineRenderer.end();
-	getApp()->lineRenderer.renderBatch();
-	glsl_lineColor.unuse();
-
-	getApp()->resourceManager.setupShader(glsl_color, *main_camera2D);
-	getApp()->planeColorRenderer.end();
-	getApp()->planeColorRenderer.renderBatch();
-	glsl_color.unuse();
-
-
-
-	getApp()->lineRenderer.begin();
-
-	size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
-		[](const std::pair<Entity*, glm::vec3>& entry) {
-			return (dynamic_cast<NodeEntity*>(entry.first) != nullptr)
-				|| (dynamic_cast<EmptyEntity*>(entry.first) != nullptr);
-		});
-
-	size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
-		[](const std::pair<Entity*, glm::vec3>& entry) {
-			return dynamic_cast<LinkEntity*>(entry.first) != nullptr;
-		});
-
-	linkCount += 2 * AXIS_CELLS + 2;
-
-	getApp()->lineRenderer.initLineBatch(
-		linkCount
-		//+1
-	);
-	getApp()->lineRenderer.initBoxBatch(
-		nodeCount
-	);
-
-	getApp()->lineRenderer.initBatchSize();
-
-	size_t lineIndex = 0;
-	size_t boxIndex = 0;
-
-
-	if (!_selectedEntities.empty()) {
-
-		for (int i = 0; i < _selectedEntities.size(); i++) {
-			Node* node = dynamic_cast<Node*>(_selectedEntities[i].first);
-			Empty* empty = dynamic_cast<Empty*>(_selectedEntities[i].first);
-			Link* link = dynamic_cast<Link*>(_selectedEntities[i].first);
-			if (node || empty) {
-				if (_selectedEntities[i].first->hasComponent<TransformComponent>()) {
-					TransformComponent* tr = &_selectedEntities[i].first->GetComponent<TransformComponent>();
-
-					glm::vec3 nodePos = tr->getPosition();
-
-					glm::vec3 nodeBox_org(nodePos.x, nodePos.y, nodePos.z);
-					glm::vec3 nodeBox_size(tr->size.x, tr->size.y, tr->size.z);
-
-					getApp()->lineRenderer.drawBox(boxIndex++, nodeBox_size, nodeBox_org, TazColor(255, 255, 0, 100)); //todo add angle for drawRectangle
-				}
-			}
-			else if (link) {
-				if (_selectedEntities[i].first->hasComponent<Line_w_Color>()) {
-					glm::vec3 startP = link->fromPos;
-					glm::vec3 endP = link->toPos;
-
-					getApp()->lineRenderer.drawLine(lineIndex++, startP, endP, TazColor(255, 255, 0, 100), TazColor(255, 255, 0, 100), 20.0f);
-				}
-			}
-		}
-	}
-
-
-
-	//getApp()->lineRenderer.drawLine(lineIndex++, pointAtZ0, pointAtO, TazColor(0, 0, 0, 255), TazColor(0, 0, 255, 255));
-
-	getApp()->resourceManager.setupShader(glsl_lineColor, *main_camera2D);
-
-
-	getApp()->lineRenderer.end();
-	getApp()->lineRenderer.renderBatch();
-	glsl_lineColor.unuse();
-
-	getApp()->resourceManager.setupShader(glsl_wireframeColor, *main_camera2D);
-
-	getApp()->lineRenderer.end();
-	getApp()->lineRenderer.renderElementsBatch();
-	glsl_wireframeColor.unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 

@@ -142,33 +142,15 @@ void MainMenuScreen::draw()
 		mainMenuBatch.entities = manager->collectEntities(
 			{ Manager::groupBackgroundLayer }
 		, Taz::EntityType::Empty);
-		mainMenuBatch.showGrid = showGrid;
 		mainMenuBatch.quadCount = mainMenuBatch.entities.size();
 		frameData.batches.push_back(mainMenuBatch);
 
 	}
 	//! render Frame
-	//{
-	//	for (const auto& batch : frameData.batches) {
-	//		getApp()->drawPlaneModelBatch(batch, frameData);
-	//	}
-	//}
-
-
-	for (const auto& batch : frameData.batches) {
-		getApp()->planeModelRenderer.begin();
-		getApp()->planeModelRenderer.initQuadBatch(batch.quadCount);
-		getApp()->planeModelRenderer.initBatchSize();
-
-
-		getApp()->drawBatch(batch.entities, getApp()->planeModelRenderer);
-
-		auto& shader = *getApp()->resourceManager.getGLSLProgram(batch.shaderName);
-		getApp()->resourceManager.setupShader(shader, *main_camera2D);
-
-		getApp()->planeModelRenderer.end();
-		getApp()->planeModelRenderer.renderBatch();
-		shader.unuse();
+	{
+		for (const auto& batch : frameData.batches) {
+			getApp()->renderBatch(batch, frameData, *main_camera2D);
+		}
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
