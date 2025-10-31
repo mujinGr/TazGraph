@@ -92,15 +92,20 @@ void AppInterface::run() {
 
 		}
 		if (_isRunning) {
-			ZoneScopedN("Draw");
+			ZoneScopedN("PrepareDraw");
 			Uint64 startDraw = SDL_GetPerformanceCounter();
 			prepareDraw();
+			Uint64 endDraw = SDL_GetPerformanceCounter();
+			float drawTime = static_cast<float>(endDraw - startDraw) / freq * 1000.0f;
+			//std::cout << "Draw: " << drawTime << " ms\n";
+		}
+		if (_isRunning) {
+			ZoneScopedN("RenderDraw");
+			Uint64 startDraw = SDL_GetPerformanceCounter();
 			renderDraw();
 			Uint64 endDraw = SDL_GetPerformanceCounter();
 			float drawTime = static_cast<float>(endDraw - startDraw) / freq * 1000.0f;
 			//std::cout << "Draw: " << drawTime << " ms\n";
-
-
 		}
 		{
 			ZoneScopedN("DrawUI"); // Profile UI rendering
@@ -139,7 +144,6 @@ void AppInterface::RenderThreadFunc() {
 
 	while (_isRunning) {
 		int readIndex = activeIndex.load();
-		queues[readIndex].Execute();
 
 		{
 			ZoneScopedN("SwapBuffer");
