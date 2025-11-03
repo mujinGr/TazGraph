@@ -24,6 +24,7 @@ void Graph::prepareDraw()
 	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
 
 	rotationMatrix = getRotationMatrix(cameraEulerAngles);
+	frameData.batches.clear();
 
 	// 0. Grid Rendering
 	if (showGrid) {
@@ -275,6 +276,7 @@ void Graph::prepareDraw()
 
 void Graph::renderDraw()
 {
+	_viewportFramebuffer.Bind();
 	glDepthMask(GL_TRUE);
 	////////////OPENGL USE
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
@@ -288,7 +290,6 @@ void Graph::renderDraw()
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	_viewportFramebuffer.Bind();
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
