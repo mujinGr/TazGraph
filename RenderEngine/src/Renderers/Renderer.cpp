@@ -60,7 +60,11 @@ void Taz::Renderer::initSphereBatch(size_t mSize)
 
 void Taz::Renderer::createRenderBatches() {
 
-	if ((_lineGlyphs_size + _rectangleGlyphs_size+ _triangleGlyphs_size + _boxGlyphs_size + _sphereGlyphs_size) == 0) {
+	if ((_lineGlyphs_size 
+		+ _rectangleGlyphs_size
+		+ _triangleGlyphs_size 
+		+ _boxGlyphs_size 
+		+ _sphereGlyphs_size) == 0) {
 		return;
 	}
 }

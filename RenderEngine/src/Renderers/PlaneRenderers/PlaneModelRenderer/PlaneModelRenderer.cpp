@@ -19,9 +19,7 @@ void PlaneModelRenderer::begin() {
 	Renderer::begin();
 
 	for (auto& mesh : _meshesElements) {
-		for (auto& meshBatch : mesh.instancesBatches) {
-			meshBatch.clear();
-		}
+		mesh.instancesBatches.clear();
 	}
 
 }

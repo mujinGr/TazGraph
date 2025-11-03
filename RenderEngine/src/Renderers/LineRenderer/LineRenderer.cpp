@@ -22,14 +22,10 @@ void LineRenderer::begin()
 	Taz::Renderer::begin();
 
 	for (auto& mesh : _meshesArrays) {
-		for (auto& meshBatch : mesh.instancesBatches) {
-			meshBatch.clear();
-		}
+		mesh.instancesBatches.clear();
 	}
 	for (auto& mesh : _meshesElements) {
-		for (auto& meshBatch : mesh.instancesBatches) {
-			meshBatch.clear();
-		}
+		mesh.instancesBatches.clear();
 	}
 }
 
