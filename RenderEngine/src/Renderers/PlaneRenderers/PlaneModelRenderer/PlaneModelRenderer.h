@@ -49,4 +49,6 @@ private:
 
 	std::vector<TextureMeshRenderer> _meshesElements;
 
+	size_t currentBatchIndex = 0;
+
 };

@@ -19,7 +19,9 @@ void PlaneModelRenderer::begin() {
 	Renderer::begin();
 
 	for (auto& mesh : _meshesElements) {
-		mesh.instances.clear();
+		for (auto& meshBatch : mesh.instancesBatches) {
+			meshBatch.clear();
+		}
 	}
 
 }
@@ -31,12 +33,26 @@ void PlaneModelRenderer::end() {
 
 void PlaneModelRenderer::initBatchSize()
 {
-	_meshesElements[TRIANGLE_MESH_IDX].instances.resize(0);
+	for (auto& mesh : _meshesElements) {
+		mesh.instancesBatches.emplace_back();
+	}
 
-	_meshesElements[RECTANGLE_MESH_IDX].instances.resize(_rectangleGlyphs_size);
+	currentBatchIndex = _meshesElements[RECTANGLE_MESH_IDX].instancesBatches.size() - 1;
+
+	auto& triangleElemBatch = _meshesElements[TRIANGLE_MESH_IDX].instancesBatches.back();
+	auto& rectElemBatch = _meshesElements[RECTANGLE_MESH_IDX].instancesBatches.back();
+	auto& boxElemBatch = _meshesElements[BOX_MESH_IDX].instancesBatches.back();
+	auto& sphereElemBatch = _meshesElements[SPHERE_MESH_IDX].instancesBatches.back();
+
+	triangleElemBatch.resize(0);
+	rectElemBatch.resize(_rectangleGlyphs_size);
+	boxElemBatch.resize(0);
+	sphereElemBatch.resize(0);
+
+	_meshesElements[LINE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
 	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
+	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
 
-	_meshesElements[BOX_MESH_IDX].instances.resize(0);
 }
 
 void PlaneModelRenderer::drawTriangle(
@@ -61,32 +77,39 @@ void PlaneModelRenderer::draw(
 	GLuint texture
 ) {
 
-	_meshesElements[RECTANGLE_MESH_IDX].instances[v_index] = TextureInstanceData(rectSize, position, mRotation, texture);
+	_meshesElements[RECTANGLE_MESH_IDX].instancesBatches[currentBatchIndex][v_index] = TextureInstanceData(rectSize, position, mRotation, texture);
 }
 
 void PlaneModelRenderer::renderBatch() {
 
-	if (_meshesElements[RECTANGLE_MESH_IDX].instances.size() == 0) return;
+	for (auto& mesh : _meshesElements) { // different batch for each geometry
+		for (auto& batch : mesh.instancesBatches) {
+			if (batch.empty()) continue;
 
-	glBindVertexArray(_meshesElements[RECTANGLE_MESH_IDX].vao);
+			glBindVertexArray(mesh.vao);
+
+			glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
+
+			glBufferData(GL_ARRAY_BUFFER,
+				batch.size() * sizeof(TextureInstanceData),
+				nullptr,
+				GL_DYNAMIC_DRAW);
+
+			glBufferSubData(GL_ARRAY_BUFFER, 0,
+				batch.size() * sizeof(TextureInstanceData),
+				batch.data());
+
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
-	for (int i = 0; i < _meshesElements[RECTANGLE_MESH_IDX].instances.size(); i++) {
-
-		glBindTexture(GL_TEXTURE_2D, _meshesElements[RECTANGLE_MESH_IDX].instances[i].texture);
-
-		glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
-
-		glBufferData(GL_ARRAY_BUFFER, sizeof(TextureInstanceData), nullptr, GL_DYNAMIC_DRAW);
-
-		glBufferSubData(GL_ARRAY_BUFFER, 0,
-			sizeof(TextureInstanceData),
-			&_meshesElements[RECTANGLE_MESH_IDX].instances[i]);
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
-		glDrawElementsInstanced(GL_TRIANGLES, _meshesElements[RECTANGLE_MESH_IDX].meshIndices, GL_UNSIGNED_INT, 0, 1);
+			glDrawElementsInstanced(
+				GL_TRIANGLES,
+				mesh.meshIndices,
+				GL_UNSIGNED_INT,
+				0,
+				batch.size()
+			);
+		}
 	}
 
 	glBindVertexArray(0);

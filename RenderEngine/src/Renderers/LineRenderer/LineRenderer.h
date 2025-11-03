@@ -77,4 +77,7 @@ private:
 
 	std::vector<LineMeshRenderer> _meshesArrays;
 	std::vector<WireframeMeshRenderer> _meshesElements;
+
+	size_t currentBatchIndex = 0;
+
 };

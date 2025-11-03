@@ -67,4 +67,6 @@ private:
 	std::vector<ColorMeshRenderer> _meshesArrays;
 	std::vector<ColorMeshRenderer> _meshesElements;
 
+	size_t currentBatchIndex = 0;
+
 };

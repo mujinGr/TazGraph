@@ -351,23 +351,23 @@ struct BaseRenderer {
 };
 
 struct MeshRenderer : BaseRenderer {
-	std::vector<InstanceData> instances;
+	std::vector< std::vector<InstanceData>> instancesBatches;
 };
 
 struct ColorMeshRenderer : BaseRenderer {
-	std::vector<ColorInstanceData> instances;
+	std::vector< std::vector<ColorInstanceData>> instancesBatches;
 };
 
 struct LineMeshRenderer : BaseRenderer {
-	std::vector<LineInstanceData> instances;
+	std::vector< std::vector<LineInstanceData>> instancesBatches;
 };
 
 struct WireframeMeshRenderer : BaseRenderer {
-	std::vector<WireframeInstanceData> instances;
+	std::vector< std::vector<WireframeInstanceData>> instancesBatches;
 };
 
 struct TextureMeshRenderer : BaseRenderer {
-	std::vector<TextureInstanceData> instances;
+	std::vector< std::vector<TextureInstanceData>> instancesBatches;
 };
 
 class GLSLProgram {

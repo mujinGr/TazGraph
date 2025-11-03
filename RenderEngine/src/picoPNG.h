@@ -70,7 +70,7 @@ int decodePNG(std::vector<unsigned char>& out_image, unsigned long& image_width,
 			{ //make tree given the lengths
 				unsigned long numcodes = (unsigned long)(bitlen.size()), treepos = 0, nodefilled = 0;
 				std::vector<unsigned long> tree1d(numcodes), blcount(maxbitlen + 1, 0), nextcode(maxbitlen + 1, 0);
-				for (unsigned long bits = 0; bits < numcodes; bits++) blcount[bitlen[bits]]++; //count number of instances of each code length
+				for (unsigned long bits = 0; bits < numcodes; bits++) blcount[bitlen[bits]]++; //count number of instancesBatches[0] of each code length
 				for (unsigned long bits = 1; bits <= maxbitlen; bits++) nextcode[bits] = (nextcode[bits - 1] + blcount[bits - 1]) << 1;
 				for (unsigned long n = 0; n < numcodes; n++) if (bitlen[n] != 0) tree1d[n] = nextcode[bitlen[n]]++; //generate all the codes
 				tree2d.clear(); tree2d.resize(numcodes * 2, 32767); //32767 here means the tree2d isn't filled there yet
