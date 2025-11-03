@@ -85,6 +85,13 @@ public:
 	void drawBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch);
 	void drawBatch(const std::vector<EntityID>& entities, LightRenderer& batch);
 
+	void prepareBatch(const Taz::RenderBatch& batch);
+
+	void prepareLineBatch(const Taz::RenderBatch& batch);
+	void preparePlaneColorBatch(const Taz::RenderBatch& batch);
+	void preparePlaneModelBatch(const Taz::RenderBatch& batch);
+	void prepareLightBatch(const Taz::RenderBatch& batch);
+
 
 protected:
 	virtual void checkInput();

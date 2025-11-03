@@ -91,6 +91,10 @@ void AppInterface::run() {
 
 
 		}
+
+
+
+
 		if (_isRunning) {
 			ZoneScopedN("PrepareDraw");
 			Uint64 startDraw = SDL_GetPerformanceCounter();
@@ -107,6 +111,9 @@ void AppInterface::run() {
 			float drawTime = static_cast<float>(endDraw - startDraw) / freq * 1000.0f;
 			//std::cout << "Draw: " << drawTime << " ms\n";
 		}
+
+
+
 		{
 			ZoneScopedN("DrawUI"); // Profile UI rendering
 			Uint64 startUI = SDL_GetPerformanceCounter();

@@ -25,26 +25,6 @@ void Graph::prepareDraw()
 
 	rotationMatrix = getRotationMatrix(cameraEulerAngles);
 
-	//getApp()->planeModelRenderer.begin();
-
-	/*getApp()->resourceManager.setupShader(*getApp()->resourceManager.getGLSLProgram("texture"), "worldMap", *main_camera2D);
-	renderBatch(backgroundImage, getApp()->planeModelRenderer, false);
-	getApp()->planeModelRenderer.end();
-	getApp()->planeModelRenderer.renderBatch();*/
-	_viewportFramebuffer.Bind();
-	glDepthMask(GL_TRUE);
-	////////////OPENGL USE
-	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
-
-	glClearDepth(1.0);
-	glDepthFunc(GL_LESS);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-	// Blending for smooth edges (premultiplied or standard)
-	/////////////////////////////////////////////////////
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	// 0. Grid Rendering
 	if (showGrid) {
 		//! Prepare Frame
@@ -207,16 +187,6 @@ void Graph::prepareDraw()
 		frameData.batches.push_back(selectionBatch);
 	}
 
-	{
-		//! render Frame
-		for (const auto& batch : frameData.batches) {
-			getApp()->renderBatch(batch, frameData, *main_camera2D);
-		}
-	}
-
-
-
-
 	// Debug Rendering
 	if (renderDebug) {
 		getApp()->lineRenderer.begin();
@@ -292,22 +262,51 @@ void Graph::prepareDraw()
 	}
 
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	///////////////////////////////////////////////////////
-
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	_viewportFramebuffer.Unbind();
-
-	minimapDraw();
+	//minimapDraw();
+	//! Prepare Draw Batches by Frame
+	{
+		for (const auto& batch : frameData.batches) {
+			getApp()->prepareBatch(batch);
+		}
+	}
 
 
 }
 
 void Graph::renderDraw()
 {
+	glDepthMask(GL_TRUE);
+	////////////OPENGL USE
+	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+
+	glClearDepth(1.0);
+	glDepthFunc(GL_LESS);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	// Blending for smooth edges (premultiplied or standard)
+	/////////////////////////////////////////////////////
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	_viewportFramebuffer.Bind();
+
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	{
+		//! render Frame
+		for (const auto& batch : frameData.batches) {
+			getApp()->renderBatch(batch, frameData, *main_camera2D);
+		}
+	}
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	_viewportFramebuffer.Unbind();
+
 }
 
 

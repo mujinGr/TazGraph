@@ -145,6 +145,14 @@ void MainMenuScreen::prepareDraw()
 		frameData.batches.push_back(mainMenuBatch);
 
 	}
+
+	//! Prepare Draw Batches by Frame
+	{
+		for (const auto& batch : frameData.batches) {
+			getApp()->prepareBatch(batch);
+		}
+	}
+
 }
 
 void MainMenuScreen::renderDraw()
