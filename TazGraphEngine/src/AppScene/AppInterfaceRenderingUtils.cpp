@@ -45,7 +45,7 @@ void AppInterface::drawBatch(const std::vector<EntityID>& entities, LightRendere
 }
 
 void AppInterface::prepareBatch(
-	const Taz::RenderBatch& batch)
+	const Taz::GECSRenderBatch& batch)
 {
 	switch (batch.renderer_type) {
 	case Taz::RenderBatch::RendererType::Line:
@@ -64,57 +64,41 @@ void AppInterface::prepareBatch(
 }
 
 void AppInterface::prepareLineBatch(
-	const Taz::RenderBatch& batch
+	const Taz::GECSRenderBatch& batch
 )
 {
-	lineRenderer.initLineBatch(batch.lineCount);
-	lineRenderer.initBoxBatch(batch.boxCount);
 	//lineRenderer.initBatch(batch);
-	lineRenderer.initBatchSize2(batch.count);
-	lineRenderer.initBatchSize();
+	lineRenderer.initBatch(batch);
 
-	// set shader on lineRenderer.batch.back()
-	// set viewport on lineRenderer.batch.back()
-	// set rotationMatrix on lineRenderer.batch.back()
 	drawBatch(batch.entities, lineRenderer);
 }
 
 void AppInterface::preparePlaneColorBatch(
-	const Taz::RenderBatch& batch)
+	const Taz::GECSRenderBatch& batch)
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-	planeColorRenderer.initQuadBatch(batch.quadCount);
-	planeColorRenderer.initTriangleBatch(batch.triangleCount);
-	planeColorRenderer.initBatchSize2(batch.count);
 
-	planeColorRenderer.initBatchSize();
+	planeColorRenderer.initBatch(batch);
 
 	// Fill batch data
 	drawBatch(batch.entities, planeColorRenderer);
 }
 
 void AppInterface::preparePlaneModelBatch(
-	const Taz::RenderBatch& batch)
+	const Taz::GECSRenderBatch& batch)
 {
 	//CHange camera based on scene
-	planeModelRenderer.initQuadBatch(batch.quadCount);
-	planeModelRenderer.initBatchSize2(batch.count);
-
-	planeModelRenderer.initBatchSize();
+	planeModelRenderer.initBatch(batch);
 
 	// Fill batch data
 	drawBatch(batch.entities, planeModelRenderer);
 }
 
 void AppInterface::prepareLightBatch(
-	const Taz::RenderBatch& batch
+	const Taz::GECSRenderBatch& batch
 )
 {
-	lightRenderer.initBoxBatch(batch.boxCount);
-	lightRenderer.initSphereBatch(batch.sphereCount);
-	lightRenderer.initBatchSize2(batch.count);
-
-	lightRenderer.initBatchSize();
+	lightRenderer.initBatch(batch);
 
 	// Fill batch data
 	drawBatch(batch.entities, lightRenderer);

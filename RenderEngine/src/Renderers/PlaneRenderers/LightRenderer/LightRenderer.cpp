@@ -35,40 +35,30 @@ void LightRenderer::end() {
 	renderBatch();
 }
 
-void LightRenderer::initBatchSize()
+void LightRenderer::initBatch(const Taz::RenderBatch& batch)
 {
-	for (auto& mesh : _meshesArrays) {
+	auto initMeshBatch = [&](auto& mesh) {
 		mesh.batches.emplace_back();
+		mesh.batches.back().instances.resize(batch.count);
+		};
+
+	switch (batch.mesh_type) {
+	case Taz::RenderBatch::MeshType::Line:
+		initMeshBatch(_meshesArrays[TRIANGLE_MESH_IDX]);
+		break;
+
+	case Taz::RenderBatch::MeshType::Quad:
+		initMeshBatch(_meshesElements[RECTANGLE_MESH_IDX]);
+		break;
+
+	case Taz::RenderBatch::MeshType::Box:
+		initMeshBatch(_meshesElements[BOX_MESH_IDX]);
+		break;
+
+	case Taz::RenderBatch::MeshType::Sphere:
+		initMeshBatch(_meshesElements[SPHERE_MESH_IDX]);
+		break;
 	}
-
-	currentBatchIndex = _meshesArrays[RECTANGLE_MESH_IDX].batches.size() - 1;
-
-	auto& triangleBatch = _meshesArrays[TRIANGLE_MESH_IDX].batches.back();
-	auto& rectBatch = _meshesArrays[RECTANGLE_MESH_IDX].batches.back();
-	auto& boxBatch = _meshesArrays[BOX_MESH_IDX].batches.back();
-	auto& sphereBatch = _meshesArrays[SPHERE_MESH_IDX].batches.back();
-
-	triangleBatch.instances.resize(batchTotalGlyphs);
-	rectBatch.instances.resize(0);
-	boxBatch.instances.resize(0);
-	sphereBatch.instances.resize(0);
-
-	//mesh Elements
-	for (auto& mesh : _meshesElements) {
-		mesh.batches.emplace_back();
-	}
-
-	auto& triangleElemBatch = _meshesElements[TRIANGLE_MESH_IDX].batches.back();
-	auto& rectElemBatch = _meshesElements[RECTANGLE_MESH_IDX].batches.back();
-	auto& boxElemBatch = _meshesElements[BOX_MESH_IDX].batches.back();
-	auto& sphereElemBatch = _meshesElements[SPHERE_MESH_IDX].batches.back();
-
-	triangleElemBatch.instances.resize(0);
-	rectElemBatch.instances.resize(batchTotalGlyphs);
-	boxElemBatch.instances.resize(batchTotalGlyphs);
-	sphereElemBatch.instances.resize(batchTotalGlyphs);
-
-
 }
 
 

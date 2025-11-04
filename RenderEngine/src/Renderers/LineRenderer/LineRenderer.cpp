@@ -42,43 +42,20 @@ void LineRenderer::end() // on en d clear all indices reserved
 	renderBatch();
 }
 
-void LineRenderer::initBatch()
+
+void LineRenderer::initBatch(const Taz::RenderBatch& batch)
 {
-
-}
-
-
-void LineRenderer::initBatchSize()
-{
-	for (auto& mesh : _meshesArrays) {
+	auto initMeshBatch = [&](auto& mesh) {
 		mesh.batches.emplace_back();
+		mesh.batches.back().instances.resize(batch.count);
+		};
+
+
+	switch (batch.mesh_type) {
+	case Taz::RenderBatch::MeshType::Line:
+		initMeshBatch(_meshesArrays[LINE_MESH_IDX]);
+		break;
 	}
-
-	currentBatchIndex = _meshesArrays[RECTANGLE_MESH_IDX].batches.size() - 1;
-
-	auto& lineBatch = _meshesArrays[LINE_MESH_IDX].batches.back();
-	auto& rectBatch = _meshesArrays[RECTANGLE_MESH_IDX].batches.back();
-	auto& boxBatch = _meshesArrays[BOX_MESH_IDX].batches.back();
-	auto& sphereBatch = _meshesArrays[SPHERE_MESH_IDX].batches.back();
-
-	lineBatch.instances.resize(batchTotalGlyphs);
-	rectBatch.instances.resize(0);
-	boxBatch.instances.resize(0);
-	sphereBatch.instances.resize(0);
-
-	for (auto& mesh : _meshesElements) {
-		mesh.batches.emplace_back();
-	}
-	auto& lineElemBatch = _meshesElements[LINE_MESH_IDX].batches.back();
-	auto& rectElemBatch = _meshesElements[RECTANGLE_MESH_IDX].batches.back();
-	auto& boxElemBatch = _meshesElements[BOX_MESH_IDX].batches.back();
-	auto& sphereElemBatch = _meshesElements[SPHERE_MESH_IDX].batches.back();
-
-	lineElemBatch.instances.resize(0);
-	rectElemBatch.instances.resize(0);
-	boxElemBatch.instances.resize(0);
-	sphereElemBatch.instances.resize(0);
-
 
 }
 

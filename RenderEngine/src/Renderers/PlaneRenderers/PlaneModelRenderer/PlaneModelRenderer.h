@@ -23,7 +23,7 @@ public:
 	void begin() override;
 	void end() override;
 
-	void initBatchSize();
+	void initBatch(const Taz::RenderBatch& batch);
 
 	void drawTriangle(
 		size_t v_index,

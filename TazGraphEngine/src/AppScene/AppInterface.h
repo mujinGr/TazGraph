@@ -80,12 +80,12 @@ public:
 	void drawBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch);
 	void drawBatch(const std::vector<EntityID>& entities, LightRenderer& batch);
 
-	void prepareBatch(const Taz::RenderBatch& batch);
+	void prepareBatch(const Taz::GECSRenderBatch& batch);
 
-	void prepareLineBatch(const Taz::RenderBatch& batch);
-	void preparePlaneColorBatch(const Taz::RenderBatch& batch);
-	void preparePlaneModelBatch(const Taz::RenderBatch& batch);
-	void prepareLightBatch(const Taz::RenderBatch& batch);
+	void prepareLineBatch(const Taz::GECSRenderBatch& batch);
+	void preparePlaneColorBatch(const Taz::GECSRenderBatch& batch);
+	void preparePlaneModelBatch(const Taz::GECSRenderBatch& batch);
+	void prepareLightBatch(const Taz::GECSRenderBatch& batch);
 
 
 protected:

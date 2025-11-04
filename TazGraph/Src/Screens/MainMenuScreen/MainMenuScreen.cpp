@@ -135,7 +135,7 @@ void MainMenuScreen::prepareDraw()
 	frameData.batches.clear();
 	//! Prepare Frame
 	{
-		Taz::RenderBatch mainMenuBatch;
+		Taz::GECSRenderBatch mainMenuBatch;
 		mainMenuBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneModel;
 		mainMenuBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
 
@@ -143,7 +143,6 @@ void MainMenuScreen::prepareDraw()
 		mainMenuBatch.entities = manager->collectEntities(
 			{ Manager::groupBackgroundLayer }
 		, Taz::EntityType::Empty);
-		mainMenuBatch.quadCount = mainMenuBatch.entities.size();
 		mainMenuBatch.count = mainMenuBatch.entities.size();
 		frameData.batches.push_back(mainMenuBatch);
 

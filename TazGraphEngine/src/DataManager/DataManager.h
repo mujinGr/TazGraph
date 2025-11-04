@@ -8,43 +8,12 @@
 namespace fs = std::filesystem;
 
 namespace Taz {
-	struct RenderBatch {
-		enum class RendererType {
-			Line,
-			PlaneColor,
-			PlaneModel,
-			Light
-		};
-		RendererType renderer_type;
-
-		enum class MeshType {
-			Line,
-			Triangle,
-			Quad,
-			Box,
-			Sphere
-		};
-		MeshType mesh_type;
-
-		std::string shaderName;
+	struct GECSRenderBatch : RenderBatch {
 		std::vector<EntityID> entities;
-
-		size_t count = 0;
-
-
-		size_t lineCount = 0;
-		size_t quadCount = 0;
-		size_t triangleCount = 0;
-		size_t boxCount = 0;
-		size_t sphereCount = 0;
-
-		// Additional shader uniforms
-		glm::mat4 rotationMatrix = glm::mat4(1.0f);
-		glm::vec2 viewportSize = glm::vec2(0.0f);
 	};
 
 	struct FrameRenderData {
-		std::vector<RenderBatch> batches;
+		std::vector<GECSRenderBatch> batches;
 		glm::vec4 backgroundColor;
 		bool renderDebug = false;
 	};

@@ -23,7 +23,7 @@ public:
 	void begin();
 	void end();
 
-	void initBatchSize();
+	void initBatch(const Taz::RenderBatch& batch);
 
 	void drawTriangle(size_t v_index,
 		const glm::vec3& depth,

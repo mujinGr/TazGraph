@@ -32,26 +32,19 @@ void PlaneModelRenderer::end() {
 }
 
 
-void PlaneModelRenderer::initBatchSize()
+void PlaneModelRenderer::initBatch(const Taz::RenderBatch& batch)
 {
-	for (auto& mesh : _meshesElements) {
+
+	auto initMeshBatch = [&](auto& mesh) {
 		mesh.batches.emplace_back();
+		mesh.batches.back().instances.resize(batch.count);
+		};
+
+	switch (batch.mesh_type) {
+	case Taz::RenderBatch::MeshType::Quad:
+		initMeshBatch(_meshesElements[RECTANGLE_MESH_IDX]);
+		break;
 	}
-
-	currentBatchIndex = _meshesElements[RECTANGLE_MESH_IDX].batches.size() - 1;
-
-	auto& triangleElemBatch = _meshesElements[TRIANGLE_MESH_IDX].batches.back();
-	auto& rectElemBatch = _meshesElements[RECTANGLE_MESH_IDX].batches.back();
-	auto& boxElemBatch = _meshesElements[BOX_MESH_IDX].batches.back();
-	auto& sphereElemBatch = _meshesElements[SPHERE_MESH_IDX].batches.back();
-
-	triangleElemBatch.instances.resize(0);
-	rectElemBatch.instances.resize(batchTotalGlyphs);
-	boxElemBatch.instances.resize(0);
-	sphereElemBatch.instances.resize(0);
-
-
-
 }
 
 void PlaneModelRenderer::drawTriangle(
