@@ -353,22 +353,32 @@ struct BaseRenderer {
 
 //! Instances
 struct BatchInstances {
+	std::string shaderName;
+
 	std::vector<InstanceData> instances;
 };
 
 struct ColorInstances {
+	std::string shaderName;
+
 	std::vector<ColorInstanceData> instances;
 };
 
 struct LineInstances {
+	std::string shaderName;
+
 	std::vector<LineInstanceData> instances;
 };
 
 struct WireFrameInstances {
+	std::string shaderName;
+
 	std::vector<WireframeInstanceData> instances;
 };
 
 struct TextureInstances {
+	std::string shaderName;
+
 	std::vector<TextureInstanceData> instances;
 };
 

@@ -9,14 +9,23 @@ namespace fs = std::filesystem;
 
 namespace Taz {
 	struct RenderBatch {
-		enum class Type {
+		enum class RendererType {
 			Line,
 			PlaneColor,
 			PlaneModel,
 			Light
 		};
+		RendererType renderer_type;
 
-		Type type;
+		enum class MeshType {
+			Line,
+			Triangle,
+			Quad,
+			Box,
+			Sphere
+		};
+		MeshType mesh_type;
+
 		std::string shaderName;
 		std::vector<EntityID> entities;
 

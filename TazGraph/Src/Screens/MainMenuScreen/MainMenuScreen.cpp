@@ -136,7 +136,9 @@ void MainMenuScreen::prepareDraw()
 	//! Prepare Frame
 	{
 		Taz::RenderBatch mainMenuBatch;
-		mainMenuBatch.type = Taz::RenderBatch::Type::PlaneModel;
+		mainMenuBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneModel;
+		mainMenuBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
 		mainMenuBatch.shaderName = "texture";
 		mainMenuBatch.entities = manager->collectEntities(
 			{ Manager::groupBackgroundLayer }
@@ -166,7 +168,7 @@ void MainMenuScreen::renderDraw()
 	//! render Frame
 	{
 		for (const auto& batch : frameData.batches) {
-			getApp()->renderBatch(batch, frameData, *main_camera2D);
+			getApp()->renderBatch(batch, *main_camera2D);
 		}
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);

@@ -92,7 +92,7 @@ void LightRenderer::draw(
 	const glm::vec3& position,
 	const glm::vec3& mRotation,
 	const TazColor& color) {
-	_meshesElements[RECTANGLE_MESH_IDX].batches[0].instances[v_index] = ColorInstanceData(rectSize, position, mRotation, color);
+	_meshesElements[RECTANGLE_MESH_IDX].batches[currentBatchIndex].instances[v_index] = ColorInstanceData(rectSize, position, mRotation, color);
 }
 
 void LightRenderer::drawBox(
@@ -101,7 +101,7 @@ void LightRenderer::drawBox(
 	const glm::vec3& position,
 	const glm::vec3& mRotation,
 	const TazColor& color) {
-	_meshesElements[BOX_MESH_IDX].batches[0].instances[v_index] = ColorInstanceData(boxSize, position, mRotation, color);
+	_meshesElements[BOX_MESH_IDX].batches[currentBatchIndex].instances[v_index] = ColorInstanceData(boxSize, position, mRotation, color);
 }
 
 void LightRenderer::drawSphere(
@@ -111,7 +111,7 @@ void LightRenderer::drawSphere(
 	const glm::vec3& mRotation,
 	const TazColor& color)
 {
-	_meshesElements[SPHERE_MESH_IDX].batches[0].instances[v_index] = ColorInstanceData(sphereSize, position, mRotation, color);
+	_meshesElements[SPHERE_MESH_IDX].batches[currentBatchIndex].instances[v_index] = ColorInstanceData(sphereSize, position, mRotation, color);
 }
 
 void LightRenderer::renderBatch() {

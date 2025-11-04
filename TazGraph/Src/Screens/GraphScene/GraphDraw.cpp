@@ -30,7 +30,8 @@ void Graph::prepareDraw()
 	if (showGrid) {
 		//! Prepare Frame
 		Taz::RenderBatch gridBatch;
-		gridBatch.type = Taz::RenderBatch::Type::Line;
+		gridBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		gridBatch.mesh_type = Taz::RenderBatch::MeshType::Line;
 		gridBatch.shaderName = "lineColor";
 		gridBatch.entities = manager->collectEntities({
 			Manager::groupGridLinks,
@@ -41,7 +42,9 @@ void Graph::prepareDraw()
 	// 1. Nodes Batch (Color)
 	{
 		Taz::RenderBatch nodesBatch;
-		nodesBatch.type = Taz::RenderBatch::Type::PlaneColor;
+		nodesBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneColor;
+		nodesBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
 		nodesBatch.shaderName = "color";
 		nodesBatch.entities = manager->collectEntities({
 			Manager::groupNodes_0,
@@ -55,7 +58,9 @@ void Graph::prepareDraw()
 	// 2. Link Rendering
 	{
 		Taz::RenderBatch linksBatch;
-		linksBatch.type = Taz::RenderBatch::Type::Line;
+		linksBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		linksBatch.mesh_type = Taz::RenderBatch::MeshType::Line;
+
 		linksBatch.shaderName = "lineColor";
 		linksBatch.entities = manager->collectEntities({
 			Manager::groupLinks_0,
@@ -69,7 +74,9 @@ void Graph::prepareDraw()
 	// 3. ArrowHeads Batch
 	{
 		Taz::RenderBatch arrowsBatch;
-		arrowsBatch.type = Taz::RenderBatch::Type::PlaneColor;
+		arrowsBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneColor;
+		arrowsBatch.mesh_type = Taz::RenderBatch::MeshType::Triangle;
+
 		arrowsBatch.shaderName = "color";
 		arrowsBatch.entities = manager->collectEntities({
 			Manager::groupArrowHeads_0,
@@ -82,7 +89,9 @@ void Graph::prepareDraw()
 	// 4. Sprite Models Batch
 	{
 		Taz::RenderBatch spritesBatch;
-		spritesBatch.type = Taz::RenderBatch::Type::PlaneModel;
+		spritesBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneModel;
+		spritesBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
 		spritesBatch.shaderName = "texture";
 		spritesBatch.entities = manager->collectEntities({
 			Manager::groupRenderSprites
@@ -90,26 +99,44 @@ void Graph::prepareDraw()
 		spritesBatch.quadCount = spritesBatch.entities.size();
 		frameData.batches.push_back(spritesBatch);
 	}
-	// 5. Lights Batch
+	// 5.1. Lighted Boxes Batch
 	{
 		Taz::RenderBatch lightsBatch;
-		lightsBatch.type = Taz::RenderBatch::Type::Light;
+		lightsBatch.renderer_type = Taz::RenderBatch::RendererType::Light;
+		lightsBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
 		lightsBatch.shaderName = "light";
 
-		auto empties = manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties);
-		auto spheres = manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties);
+		lightsBatch.entities = manager->collectEntities({
+			Manager::groupEmpties
+			}, Taz::EntityType::Empty);
 
-		lightsBatch.boxCount = empties.size();
-		lightsBatch.sphereCount = spheres.size();
-		lightsBatch.entities.insert(lightsBatch.entities.end(), empties.begin(), empties.end());
-		lightsBatch.entities.insert(lightsBatch.entities.end(), spheres.begin(), spheres.end());
+		lightsBatch.boxCount = lightsBatch.entities.size();
+
+		frameData.batches.push_back(lightsBatch);
+	}
+	// 5.2. Lighted Spheres Batch
+	{
+		Taz::RenderBatch lightsBatch;
+		lightsBatch.renderer_type = Taz::RenderBatch::RendererType::Light;
+		lightsBatch.mesh_type = Taz::RenderBatch::MeshType::Sphere;
+
+		lightsBatch.shaderName = "light";
+
+		lightsBatch.entities = manager->collectEntities({
+			Manager::groupSphereEmpties
+			}, Taz::EntityType::Empty);
+
+		lightsBatch.sphereCount = lightsBatch.entities.size();
 
 		frameData.batches.push_back(lightsBatch);
 	}
 	// 6. Path Links Batch (rendered without depth test)
 	{
 		Taz::RenderBatch pathLinksBatch;
-		pathLinksBatch.type = Taz::RenderBatch::Type::Line;
+		pathLinksBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		pathLinksBatch.mesh_type = Taz::RenderBatch::MeshType::Line;
+
 		pathLinksBatch.shaderName = "lineColor";
 		pathLinksBatch.entities = manager->collectEntities({
 			Manager::groupPathLinks,
@@ -126,7 +153,9 @@ void Graph::prepareDraw()
 	// 7. Ports and Slots Batch
 	{
 		Taz::RenderBatch portsBatch;
-		portsBatch.type = Taz::RenderBatch::Type::PlaneColor;
+		portsBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneColor;
+		portsBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
 		portsBatch.shaderName = "color";
 		portsBatch.entities = manager->collectEntities({
 			Manager::groupPorts,
@@ -135,10 +164,13 @@ void Graph::prepareDraw()
 		portsBatch.quadCount = portsBatch.entities.size();
 		frameData.batches.push_back(portsBatch);
 	}
-	// 8. Selection Overlay Batch
+	manager->removeAllEntitiesFromEmptyGroup(Manager::groupSelectedEntities);
+	// 8.1. Selection Nodes Overlay Batch
 	{
 		Taz::RenderBatch selectionBatch;
-		selectionBatch.type = Taz::RenderBatch::Type::Line;
+		selectionBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		selectionBatch.mesh_type = Taz::RenderBatch::MeshType::Box;
+
 		selectionBatch.shaderName = "lineColor";
 
 		size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
@@ -146,20 +178,12 @@ void Graph::prepareDraw()
 				return dynamic_cast<NodeEntity*>(entry.first) || dynamic_cast<EmptyEntity*>(entry.first);
 			});
 
-		size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
-			[](const auto& entry) {
-				return dynamic_cast<LinkEntity*>(entry.first);
-			});
-
-		selectionBatch.lineCount = linkCount;
 		selectionBatch.boxCount = nodeCount;
 
-		manager->removeAllEntitiesFromEmptyGroup(Manager::groupSelectedEntities);
 
 		for (auto& [entity, offset] : _selectedEntities) {
 			Node* node = dynamic_cast<Node*>(entity);
 			Empty* empty = dynamic_cast<Empty*>(entity);
-			Link* link = dynamic_cast<Link*>(entity);
 
 			if (node || empty) {
 				auto& selectedEntity = manager->addEntity<Empty>();
@@ -174,7 +198,28 @@ void Graph::prepareDraw()
 				selectionBatch.boxCount++;
 				selectionBatch.entities.push_back(selectedEntity.getId());
 			}
-			else if (link) {
+		}
+		frameData.batches.push_back(selectionBatch);
+	}
+	// 8.2. Selection Links Overlay Batch
+	{
+		Taz::RenderBatch selectionBatch;
+		selectionBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		selectionBatch.mesh_type = Taz::RenderBatch::MeshType::Box;
+
+		selectionBatch.shaderName = "lineColor";
+
+		size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
+			[](const auto& entry) {
+				return dynamic_cast<LinkEntity*>(entry.first);
+			});
+
+		selectionBatch.lineCount = linkCount;
+
+		for (auto& [entity, offset] : _selectedEntities) {
+			Link* link = dynamic_cast<Link*>(entity);
+
+			if (link) {
 				auto& selectedEntity = manager->addEntity<Link>();
 
 				selectedEntity.addComponent<Line_w_Color>();
@@ -305,7 +350,7 @@ void Graph::renderDraw()
 	{
 		//! render Frame
 		for (const auto& batch : frameData.batches) {
-			getApp()->renderBatch(batch, frameData, *main_camera2D);
+			getApp()->renderBatch(batch, *main_camera2D);
 		}
 	}
 
@@ -356,7 +401,7 @@ void Graph::minimapPrepareDraw() {
 	Taz::FrameRenderData frameData;
 	{
 		Taz::RenderBatch minimapBatch;
-		minimapBatch.type = Taz::RenderBatch::Type::PlaneColor;
+		minimapBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneColor;
 		minimapBatch.shaderName = "color";
 		minimapBatch.entities = manager->collectEntities({
 			Manager::groupMinimapNodes,
@@ -374,7 +419,7 @@ void Graph::minimapPrepareDraw() {
 }
 
 void Graph::minimapRenderDraw() {
-	
+
 	std::shared_ptr<OrthoCamera> minimap_camera2D =
 		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 
@@ -387,7 +432,7 @@ void Graph::minimapRenderDraw() {
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	
+
 	{
 		//! render Frame
 		for (const auto& batch : frameData.batches) {

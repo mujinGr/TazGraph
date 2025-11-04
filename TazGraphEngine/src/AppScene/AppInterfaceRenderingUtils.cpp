@@ -47,17 +47,17 @@ void AppInterface::drawBatch(const std::vector<EntityID>& entities, LightRendere
 void AppInterface::prepareBatch(
 	const Taz::RenderBatch& batch)
 {
-	switch (batch.type) {
-	case Taz::RenderBatch::Type::Line:
+	switch (batch.renderer_type) {
+	case Taz::RenderBatch::RendererType::Line:
 		prepareLineBatch(batch);
 		break;
-	case Taz::RenderBatch::Type::PlaneColor:
+	case Taz::RenderBatch::RendererType::PlaneColor:
 		preparePlaneColorBatch(batch);
 		break;
-	case Taz::RenderBatch::Type::PlaneModel:
+	case Taz::RenderBatch::RendererType::PlaneModel:
 		preparePlaneModelBatch(batch);
 		break;
-	case Taz::RenderBatch::Type::Light:
+	case Taz::RenderBatch::RendererType::Light:
 		prepareLightBatch(batch);
 		break;
 	}
@@ -71,6 +71,9 @@ void AppInterface::prepareLineBatch(
 	lineRenderer.initBoxBatch(batch.boxCount);
 	lineRenderer.initBatchSize();
 
+	// set shader on lineRenderer.batch.back()
+	// set viewport on lineRenderer.batch.back()
+	// set rotationMatrix on lineRenderer.batch.back()
 	drawBatch(batch.entities, lineRenderer);
 }
 
@@ -112,30 +115,28 @@ void AppInterface::prepareLightBatch(
 
 void AppInterface::renderBatch(
 	const Taz::RenderBatch& batch,
-	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
 	auto main_camera2D = dynamic_cast<const PerspectiveCamera*>(&camera);
 
-	switch (batch.type) {
-	case Taz::RenderBatch::Type::Line:
-		drawLineBatch(batch, frameData, camera);
+	switch (batch.renderer_type) {
+	case Taz::RenderBatch::RendererType::Line:
+		drawLineBatch(batch, camera);
 		break;
-	case Taz::RenderBatch::Type::PlaneColor:
-		drawPlaneColorBatch(batch, frameData, camera);
+	case Taz::RenderBatch::RendererType::PlaneColor:
+		drawPlaneColorBatch(batch, camera);
 		break;
-	case Taz::RenderBatch::Type::PlaneModel:
-		drawPlaneModelBatch(batch, frameData, camera);
+	case Taz::RenderBatch::RendererType::PlaneModel:
+		drawPlaneModelBatch(batch, camera);
 		break;
-	case Taz::RenderBatch::Type::Light:
-		drawLightBatch(batch, frameData, camera);
+	case Taz::RenderBatch::RendererType::Light:
+		drawLightBatch(batch, camera);
 		break;
 	}
 }
 
 void AppInterface::drawLineBatch(
 	const Taz::RenderBatch& batch,
-	const Taz::FrameRenderData& frameData,
 	ICamera& camera
 )
 {
@@ -155,7 +156,6 @@ void AppInterface::drawLineBatch(
 
 void AppInterface::drawPlaneColorBatch(
 	const Taz::RenderBatch& batch,
-	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
 	// Setup shader and render
@@ -173,7 +173,6 @@ void AppInterface::drawPlaneColorBatch(
 
 void AppInterface::drawPlaneModelBatch(
 	const Taz::RenderBatch& batch,
-	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
 	// Setup shader and render
@@ -188,7 +187,6 @@ void AppInterface::drawPlaneModelBatch(
 
 void AppInterface::drawLightBatch(
 	const Taz::RenderBatch& batch,
-	const Taz::FrameRenderData& frameData,
 	ICamera& camera
 )
 {

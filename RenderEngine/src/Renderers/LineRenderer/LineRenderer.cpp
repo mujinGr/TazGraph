@@ -111,6 +111,14 @@ void LineRenderer::renderBatch()
 		for (auto& batch : mesh.batches) {
 			if (batch.instances.empty()) continue;
 
+			/*auto& shader = *resourceManager.getGLSLProgram(batch.shaderName);
+			resourceManager.setupShader(shader, camera);
+
+			if (batch.viewportSize != glm::vec2(0.0f)) {
+				GLint pLocation = shader.getUniformLocation("viewportSize");
+				glUniform2f(pLocation, batch.viewportSize.x, batch.viewportSize.y);
+			}*/
+
 			glBindVertexArray(mesh.vao);
 
 			glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);

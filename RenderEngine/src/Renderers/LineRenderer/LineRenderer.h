@@ -40,6 +40,8 @@ void main() {
 	void begin();
 	void end();
 
+	void initBatch();
+
 	void initBatchSize();
 
 	void drawLine(size_t v_index,

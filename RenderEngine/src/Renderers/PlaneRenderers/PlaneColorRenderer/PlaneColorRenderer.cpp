@@ -29,6 +29,9 @@ void PlaneColorRenderer::end() {
 
 void PlaneColorRenderer::initBatchSize()
 {
+	//! on each new batch
+	//!				`-->we push to both meshArrays and meshElements.
+	//!											`--> but only one of the meshes vectors sets the size
 	for (auto& mesh : _meshesArrays) {
 		mesh.batches.emplace_back();
 	}
