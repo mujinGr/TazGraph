@@ -19,7 +19,7 @@ void PlaneModelRenderer::begin() {
 	Renderer::begin();
 
 	for (auto& mesh : _meshesElements) {
-		mesh.instancesBatches.clear();
+		mesh.batches.clear();
 	}
 
 }
@@ -32,20 +32,20 @@ void PlaneModelRenderer::end() {
 void PlaneModelRenderer::initBatchSize()
 {
 	for (auto& mesh : _meshesElements) {
-		mesh.instancesBatches.emplace_back();
+		mesh.batches.emplace_back();
 	}
 
-	currentBatchIndex = _meshesElements[RECTANGLE_MESH_IDX].instancesBatches.size() - 1;
+	currentBatchIndex = _meshesElements[RECTANGLE_MESH_IDX].batches.size() - 1;
 
-	auto& triangleElemBatch = _meshesElements[TRIANGLE_MESH_IDX].instancesBatches.back();
-	auto& rectElemBatch = _meshesElements[RECTANGLE_MESH_IDX].instancesBatches.back();
-	auto& boxElemBatch = _meshesElements[BOX_MESH_IDX].instancesBatches.back();
-	auto& sphereElemBatch = _meshesElements[SPHERE_MESH_IDX].instancesBatches.back();
+	auto& triangleElemBatch = _meshesElements[TRIANGLE_MESH_IDX].batches.back();
+	auto& rectElemBatch = _meshesElements[RECTANGLE_MESH_IDX].batches.back();
+	auto& boxElemBatch = _meshesElements[BOX_MESH_IDX].batches.back();
+	auto& sphereElemBatch = _meshesElements[SPHERE_MESH_IDX].batches.back();
 
-	triangleElemBatch.resize(0);
-	rectElemBatch.resize(_rectangleGlyphs_size);
-	boxElemBatch.resize(0);
-	sphereElemBatch.resize(0);
+	triangleElemBatch.instances.resize(0);
+	rectElemBatch.instances.resize(_rectangleGlyphs_size);
+	boxElemBatch.instances.resize(0);
+	sphereElemBatch.instances.resize(0);
 
 	_meshesElements[LINE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
 	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
@@ -75,19 +75,19 @@ void PlaneModelRenderer::draw(
 	GLuint texture
 ) {
 
-	_meshesElements[RECTANGLE_MESH_IDX].instancesBatches[currentBatchIndex][v_index] = TextureInstanceData(rectSize, position, mRotation, texture);
+	_meshesElements[RECTANGLE_MESH_IDX].batches[currentBatchIndex].instances[v_index] = TextureInstanceData(rectSize, position, mRotation, texture);
 }
 
 void PlaneModelRenderer::renderBatch() {
 
 	for (auto& mesh : _meshesElements) { // different batch for each geometry
-		for (auto& batch : mesh.instancesBatches) {
-			if (batch.empty()) continue;
+		for (auto& batch : mesh.batches) {
+			if (batch.instances.empty()) continue;
 
 
 			glBindVertexArray(mesh.vao);
-			for (int i = 0; i < batch.size(); i++) {
-				glBindTexture(GL_TEXTURE_2D, batch[i].texture);
+			for (int i = 0; i < batch.instances.size(); i++) {
+				glBindTexture(GL_TEXTURE_2D, batch.instances[i].texture);
 
 				glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 				glBufferData(GL_ARRAY_BUFFER,
@@ -96,8 +96,8 @@ void PlaneModelRenderer::renderBatch() {
 					GL_DYNAMIC_DRAW);
 
 				glBufferSubData(GL_ARRAY_BUFFER, 0,
-					 sizeof(TextureInstanceData),
-					&batch[i]);
+					sizeof(TextureInstanceData),
+					&batch.instances[i]);
 
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 

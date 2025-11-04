@@ -17,10 +17,10 @@ void LightRenderer::begin() {
 	Renderer::begin();
 
 	for (auto& mesh : _meshesArrays) {
-		mesh.instancesBatches.clear();
+		mesh.batches.clear();
 	}
 	for (auto& mesh : _meshesElements) {
-		mesh.instancesBatches.clear();
+		mesh.batches.clear();
 	}
 }
 void LightRenderer::end() {
@@ -31,35 +31,35 @@ void LightRenderer::end() {
 void LightRenderer::initBatchSize()
 {
 	for (auto& mesh : _meshesArrays) {
-		mesh.instancesBatches.emplace_back();
+		mesh.batches.emplace_back();
 	}
 
-	currentBatchIndex = _meshesArrays[RECTANGLE_MESH_IDX].instancesBatches.size() - 1;
+	currentBatchIndex = _meshesArrays[RECTANGLE_MESH_IDX].batches.size() - 1;
 
-	auto& triangleBatch = _meshesArrays[TRIANGLE_MESH_IDX].instancesBatches.back();
-	auto& rectBatch = _meshesArrays[RECTANGLE_MESH_IDX].instancesBatches.back();
-	auto& boxBatch = _meshesArrays[BOX_MESH_IDX].instancesBatches.back();
-	auto& sphereBatch = _meshesArrays[SPHERE_MESH_IDX].instancesBatches.back();
+	auto& triangleBatch = _meshesArrays[TRIANGLE_MESH_IDX].batches.back();
+	auto& rectBatch = _meshesArrays[RECTANGLE_MESH_IDX].batches.back();
+	auto& boxBatch = _meshesArrays[BOX_MESH_IDX].batches.back();
+	auto& sphereBatch = _meshesArrays[SPHERE_MESH_IDX].batches.back();
 
-	triangleBatch.resize(_triangleGlyphs_size);
-	rectBatch.resize(0);
-	boxBatch.resize(0);
-	sphereBatch.resize(0);
+	triangleBatch.instances.resize(_triangleGlyphs_size);
+	rectBatch.instances.resize(0);
+	boxBatch.instances.resize(0);
+	sphereBatch.instances.resize(0);
 
 	//mesh Elements
 	for (auto& mesh : _meshesElements) {
-		mesh.instancesBatches.emplace_back();
+		mesh.batches.emplace_back();
 	}
 
-	auto& triangleElemBatch = _meshesElements[TRIANGLE_MESH_IDX].instancesBatches.back();
-	auto& rectElemBatch = _meshesElements[RECTANGLE_MESH_IDX].instancesBatches.back();
-	auto& boxElemBatch = _meshesElements[BOX_MESH_IDX].instancesBatches.back();
-	auto& sphereElemBatch = _meshesElements[SPHERE_MESH_IDX].instancesBatches.back();
+	auto& triangleElemBatch = _meshesElements[TRIANGLE_MESH_IDX].batches.back();
+	auto& rectElemBatch = _meshesElements[RECTANGLE_MESH_IDX].batches.back();
+	auto& boxElemBatch = _meshesElements[BOX_MESH_IDX].batches.back();
+	auto& sphereElemBatch = _meshesElements[SPHERE_MESH_IDX].batches.back();
 
-	triangleElemBatch.resize(0);
-	rectElemBatch.resize(_rectangleGlyphs_size);
-	boxElemBatch.resize(_boxGlyphs_size);
-	sphereElemBatch.resize(_sphereGlyphs_size);
+	triangleElemBatch.instances.resize(0);
+	rectElemBatch.instances.resize(_rectangleGlyphs_size);
+	boxElemBatch.instances.resize(_boxGlyphs_size);
+	sphereElemBatch.instances.resize(_sphereGlyphs_size);
 
 	_meshesArrays[TRIANGLE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
 	_meshesArrays[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
@@ -78,7 +78,7 @@ void LightRenderer::drawTriangle(
 	const TazColor& color
 ) {
 	glm::vec2 size = glm::vec2(10.0f);
-	_meshesArrays[TRIANGLE_MESH_IDX].instancesBatches[currentBatchIndex][v_index] = ColorInstanceData(size, position, cpuRotation, color);
+	_meshesArrays[TRIANGLE_MESH_IDX].batches[currentBatchIndex].instances[v_index] = ColorInstanceData(size, position, cpuRotation, color);
 }
 
 // we can generalize the renderer for multiple kinds of meshes (triangle made instead of planes) by creating
@@ -92,7 +92,7 @@ void LightRenderer::draw(
 	const glm::vec3& position,
 	const glm::vec3& mRotation,
 	const TazColor& color) {
-	_meshesElements[RECTANGLE_MESH_IDX].instancesBatches[0][v_index] = ColorInstanceData(rectSize, position, mRotation, color);
+	_meshesElements[RECTANGLE_MESH_IDX].batches[0].instances[v_index] = ColorInstanceData(rectSize, position, mRotation, color);
 }
 
 void LightRenderer::drawBox(
@@ -101,7 +101,7 @@ void LightRenderer::drawBox(
 	const glm::vec3& position,
 	const glm::vec3& mRotation,
 	const TazColor& color) {
-	_meshesElements[BOX_MESH_IDX].instancesBatches[0][v_index] = ColorInstanceData(boxSize, position, mRotation, color);
+	_meshesElements[BOX_MESH_IDX].batches[0].instances[v_index] = ColorInstanceData(boxSize, position, mRotation, color);
 }
 
 void LightRenderer::drawSphere(
@@ -111,24 +111,24 @@ void LightRenderer::drawSphere(
 	const glm::vec3& mRotation,
 	const TazColor& color)
 {
-	_meshesElements[SPHERE_MESH_IDX].instancesBatches[0][v_index] = ColorInstanceData(sphereSize, position, mRotation, color);
+	_meshesElements[SPHERE_MESH_IDX].batches[0].instances[v_index] = ColorInstanceData(sphereSize, position, mRotation, color);
 }
 
 void LightRenderer::renderBatch() {
 
 	for (auto& mesh : _meshesElements) { // different batch for each geometry
-		for (auto& batch : mesh.instancesBatches) {
-			if (batch.empty()) continue;
+		for (auto& batch : mesh.batches) {
+			if (batch.instances.empty()) continue;
 
 			glBindVertexArray(mesh.vao);
 
 			glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
-			glBufferData(GL_ARRAY_BUFFER, batch.size() * sizeof(ColorInstanceData), nullptr, GL_DYNAMIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, batch.instances.size() * sizeof(ColorInstanceData), nullptr, GL_DYNAMIC_DRAW);
 
 			glBufferSubData(GL_ARRAY_BUFFER, 0,
-				batch.size() * sizeof(ColorInstanceData),
-				batch.data());
+				batch.instances.size() * sizeof(ColorInstanceData),
+				batch.instances.data());
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -138,31 +138,31 @@ void LightRenderer::renderBatch() {
 				mesh.meshIndices,
 				GL_UNSIGNED_INT,
 				0,
-				batch.size()
+				batch.instances.size()
 			);
 		}
 	}
 
 	for (auto& mesh : _meshesArrays) { // different batch for each geometry
-		for (auto& batch : mesh.instancesBatches) {
-			if (batch.empty()) continue;
+		for (auto& batch : mesh.batches) {
+			if (batch.instances.empty()) continue;
 
 			glBindVertexArray(mesh.vao);
 
 			glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
-			glBufferData(GL_ARRAY_BUFFER, batch.size() * sizeof(ColorInstanceData), nullptr, GL_DYNAMIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, batch.instances.size() * sizeof(ColorInstanceData), nullptr, GL_DYNAMIC_DRAW);
 
 			glBufferSubData(GL_ARRAY_BUFFER, 0,
-				batch.size() * sizeof(ColorInstanceData),
-				batch.data());
+				batch.instances.size() * sizeof(ColorInstanceData),
+				batch.instances.data());
 
 
 			glDrawArraysInstanced(
 				GL_TRIANGLES,
 				0,
 				mesh.meshIndices,
-				mesh.instancesBatches[0].size()
+				batch.instances.size()
 			);
 		}
 	}

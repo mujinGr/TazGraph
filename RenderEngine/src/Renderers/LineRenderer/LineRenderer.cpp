@@ -22,10 +22,10 @@ void LineRenderer::begin()
 	Taz::Renderer::begin();
 
 	for (auto& mesh : _meshesArrays) {
-		mesh.instancesBatches.clear();
+		mesh.batches.clear();
 	}
 	for (auto& mesh : _meshesElements) {
-		mesh.instancesBatches.clear();
+		mesh.batches.clear();
 	}
 }
 
@@ -38,33 +38,33 @@ void LineRenderer::end() // on en d clear all indices reserved
 void LineRenderer::initBatchSize()
 {
 	for (auto& mesh : _meshesArrays) {
-		mesh.instancesBatches.emplace_back();
+		mesh.batches.emplace_back();
 	}
 
-	currentBatchIndex = _meshesArrays[RECTANGLE_MESH_IDX].instancesBatches.size() - 1;
+	currentBatchIndex = _meshesArrays[RECTANGLE_MESH_IDX].batches.size() - 1;
 
-	auto& lineBatch = _meshesArrays[LINE_MESH_IDX].instancesBatches.back();
-	auto& rectBatch = _meshesArrays[RECTANGLE_MESH_IDX].instancesBatches.back();
-	auto& boxBatch = _meshesArrays[BOX_MESH_IDX].instancesBatches.back();
-	auto& sphereBatch = _meshesArrays[SPHERE_MESH_IDX].instancesBatches.back();
+	auto& lineBatch = _meshesArrays[LINE_MESH_IDX].batches.back();
+	auto& rectBatch = _meshesArrays[RECTANGLE_MESH_IDX].batches.back();
+	auto& boxBatch = _meshesArrays[BOX_MESH_IDX].batches.back();
+	auto& sphereBatch = _meshesArrays[SPHERE_MESH_IDX].batches.back();
 
-	lineBatch.resize(_lineGlyphs_size);
-	rectBatch.resize(0);
-	boxBatch.resize(0);
-	sphereBatch.resize(0);
+	lineBatch.instances.resize(_lineGlyphs_size);
+	rectBatch.instances.resize(0);
+	boxBatch.instances.resize(0);
+	sphereBatch.instances.resize(0);
 
 	for (auto& mesh : _meshesElements) {
-		mesh.instancesBatches.emplace_back();
+		mesh.batches.emplace_back();
 	}
-	auto& lineElemBatch = _meshesElements[LINE_MESH_IDX].instancesBatches.back();
-	auto& rectElemBatch = _meshesElements[RECTANGLE_MESH_IDX].instancesBatches.back();
-	auto& boxElemBatch = _meshesElements[BOX_MESH_IDX].instancesBatches.back();
-	auto& sphereElemBatch = _meshesElements[SPHERE_MESH_IDX].instancesBatches.back();
+	auto& lineElemBatch = _meshesElements[LINE_MESH_IDX].batches.back();
+	auto& rectElemBatch = _meshesElements[RECTANGLE_MESH_IDX].batches.back();
+	auto& boxElemBatch = _meshesElements[BOX_MESH_IDX].batches.back();
+	auto& sphereElemBatch = _meshesElements[SPHERE_MESH_IDX].batches.back();
 
-	lineElemBatch.resize(0);
-	rectElemBatch.resize(0);
-	boxElemBatch.resize(0);
-	sphereElemBatch.resize(0);
+	lineElemBatch.instances.resize(0);
+	rectElemBatch.instances.resize(0);
+	boxElemBatch.instances.resize(0);
+	sphereElemBatch.instances.resize(0);
 
 	_meshesArrays[LINE_MESH_IDX].meshIndices = INDICES_LINE_OFFSET;
 	_meshesArrays[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
@@ -79,7 +79,7 @@ void LineRenderer::initBatchSize()
 // todo on render pass that info in verts and indices
 void LineRenderer::drawLine(size_t v_index, const glm::vec3 srcPosition, const glm::vec3 destPosition, const TazColor& srcColor, const TazColor& destColor, const float width)
 {
-	_meshesArrays[LINE_MESH_IDX].instancesBatches[currentBatchIndex][v_index] = LineInstanceData(srcPosition, destPosition, srcColor, destColor, width);
+	_meshesArrays[LINE_MESH_IDX].batches[currentBatchIndex].instances[v_index] = LineInstanceData(srcPosition, destPosition, srcColor, destColor, width);
 }
 
 void LineRenderer::drawRectangle(size_t v_index, const glm::vec2& rectSize,
@@ -88,7 +88,7 @@ void LineRenderer::drawRectangle(size_t v_index, const glm::vec2& rectSize,
 	const glm::vec3& mRotation,
 	const float width)
 {
-	_meshesElements[LINE_RECTANGLE_MESH_IDX].instancesBatches[currentBatchIndex][v_index] = WireframeInstanceData(rectSize, position, mRotation, color, width);
+	_meshesElements[LINE_RECTANGLE_MESH_IDX].batches[currentBatchIndex].instances[v_index] = WireframeInstanceData(rectSize, position, mRotation, color, width);
 }
 
 void LineRenderer::drawBox(size_t v_index, const glm::vec3& rectSize,
@@ -97,7 +97,7 @@ void LineRenderer::drawBox(size_t v_index, const glm::vec3& rectSize,
 	const glm::vec3& mRotation,
 	const float width)
 {
-	_meshesElements[LINE_BOX_MESH_IDX].instancesBatches[currentBatchIndex][v_index] = WireframeInstanceData(rectSize, position, mRotation, color, width);
+	_meshesElements[LINE_BOX_MESH_IDX].batches[currentBatchIndex].instances[v_index] = WireframeInstanceData(rectSize, position, mRotation, color, width);
 
 }
 void LineRenderer::drawCircle(const glm::vec2& center, const TazColor& color, float radius)
@@ -107,22 +107,22 @@ void LineRenderer::drawCircle(const glm::vec2& center, const TazColor& color, fl
 
 void LineRenderer::renderBatch()
 {
-	for (auto& mesh : _meshesElements) { // different batch for each geometry
-		for (auto& batch : mesh.instancesBatches) {
-			if (batch.empty()) continue;
+	for (auto& mesh : _meshesArrays) { // different batch for each geometry
+		for (auto& batch : mesh.batches) {
+			if (batch.instances.empty()) continue;
 
 			glBindVertexArray(mesh.vao);
 
 			glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
 			glBufferData(GL_ARRAY_BUFFER
-				, batch.size() * sizeof(LineInstanceData),
-				batch.data(),
+				, batch.instances.size() * sizeof(LineInstanceData),
+				batch.instances.data(),
 				GL_DYNAMIC_DRAW);
 
 			glBufferSubData(GL_ARRAY_BUFFER, 0,
-				batch.size() * sizeof(LineInstanceData),
-				batch.data());
+				batch.instances.size() * sizeof(LineInstanceData),
+				batch.instances.data());
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -131,7 +131,7 @@ void LineRenderer::renderBatch()
 				GL_LINES,
 				0,
 				2,
-				static_cast<GLsizei>(batch.size())
+				static_cast<GLsizei>(batch.instances.size())
 			);
 		}
 	}
@@ -141,21 +141,21 @@ void LineRenderer::renderBatch()
 
 void LineRenderer::renderElementsBatch() {
 	for (auto& mesh : _meshesElements) { // different batch for each geometry
-		for (auto& batch : mesh.instancesBatches) {
-			if (batch.empty()) continue;
+		for (auto& batch : mesh.batches) {
+			if (batch.instances.empty()) continue;
 
 			glBindVertexArray(mesh.vao);
 
 			glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
 			glBufferData(GL_ARRAY_BUFFER
-				, batch.size() * sizeof(WireframeInstanceData),
-				batch.data(),
+				, batch.instances.size() * sizeof(WireframeInstanceData),
+				batch.instances.data(),
 				GL_DYNAMIC_DRAW);
 
 			glBufferSubData(GL_ARRAY_BUFFER, 0,
-				batch.size() * sizeof(WireframeInstanceData),
-				batch.data());
+				batch.instances.size() * sizeof(WireframeInstanceData),
+				batch.instances.data());
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -164,7 +164,7 @@ void LineRenderer::renderElementsBatch() {
 				mesh.meshIndices,
 				GL_UNSIGNED_INT,
 				0,
-				batch.size()
+				batch.instances.size()
 			);
 		}
 	}

@@ -350,26 +350,50 @@ struct BaseRenderer {
 	GLuint ibo = 0;
 };
 
+
+//! Instances
+struct BatchInstances {
+	std::vector<InstanceData> instances;
+};
+
+struct ColorInstances {
+	std::vector<ColorInstanceData> instances;
+};
+
+struct LineInstances {
+	std::vector<LineInstanceData> instances;
+};
+
+struct WireFrameInstances {
+	std::vector<WireframeInstanceData> instances;
+};
+
+struct TextureInstances {
+	std::vector<TextureInstanceData> instances;
+};
+
+//! Meshes
 struct MeshRenderer : BaseRenderer {
-	std::vector< std::vector<InstanceData>> instancesBatches;
+	//! Batches
+	std::vector< BatchInstances> batches;
 };
 
 struct ColorMeshRenderer : BaseRenderer {
-	std::vector< std::vector<ColorInstanceData>> instancesBatches;
+	std::vector< ColorInstances> batches;
 };
 
 struct LineMeshRenderer : BaseRenderer {
-	std::vector< std::vector<LineInstanceData>> instancesBatches;
+	std::vector< LineInstances> batches;
 };
 
 struct WireframeMeshRenderer : BaseRenderer {
-	std::vector< std::vector<WireframeInstanceData>> instancesBatches;
+	std::vector< WireFrameInstances> batches;
 };
 
 struct TextureMeshRenderer : BaseRenderer {
-	std::vector< std::vector<TextureInstanceData>> instancesBatches;
+	std::vector< TextureInstances> batches;
 };
-
+//////////////////////////
 class GLSLProgram {
 public:
 	GLSLProgram() : _programID(0), _vertexShaderID(0), _geometryShaderID(0), _fragmentShaderID(0), _numAttributes(0)

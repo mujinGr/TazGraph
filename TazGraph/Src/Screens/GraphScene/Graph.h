@@ -41,7 +41,8 @@ public:
 	virtual void renderDraw() override;
 
 
-	void minimapDraw();
+	void minimapPrepareDraw();
+	void minimapRenderDraw();
 
 	virtual void BeginRender() override;
 	virtual void updateUI(float deltaTime) override;

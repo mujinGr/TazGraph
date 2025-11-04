@@ -262,8 +262,12 @@ void Graph::prepareDraw()
 
 	}
 
+	getApp()->planeColorRenderer.begin();
+	getApp()->lineRenderer.begin();
+	getApp()->planeModelRenderer.begin();
+	getApp()->lightRenderer.begin();
+	minimapPrepareDraw();
 
-	//minimapDraw();
 	getApp()->planeColorRenderer.begin();
 	getApp()->lineRenderer.begin();
 	getApp()->planeModelRenderer.begin();
@@ -313,10 +317,11 @@ void Graph::renderDraw()
 
 	_viewportFramebuffer.Unbind();
 
+	minimapRenderDraw();
 }
 
 
-void Graph::minimapDraw() {
+void Graph::minimapPrepareDraw() {
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -329,14 +334,6 @@ void Graph::minimapDraw() {
 	GLSLProgram glsl_color = *getApp()->resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer = *getApp()->resourceManager.getGLSLProgram("framebuffer");
 
-
-	_minimapFramebuffer.Bind();
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClearDepth(1.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	/////////////////////////////////////////////////////
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	float maxDistance = manager->grid->getNumXCells() * manager->grid->getCellSize();
 
@@ -368,10 +365,33 @@ void Graph::minimapDraw() {
 		minimapBatch.rotationMatrix = minimap_rotationMatrix;
 		frameData.batches.push_back(minimapBatch);
 	}
+	//! Prepare Draw Batches by Frame
+	{
+		for (const auto& batch : frameData.batches) {
+			getApp()->prepareBatch(batch);
+		}
+	}
+}
+
+void Graph::minimapRenderDraw() {
+	
+	std::shared_ptr<OrthoCamera> minimap_camera2D =
+		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
+
+
+	_minimapFramebuffer.Bind();
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearDepth(1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	/////////////////////////////////////////////////////
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	
 	{
 		//! render Frame
 		for (const auto& batch : frameData.batches) {
-			getApp()->renderBatch(batch, frameData, *minimap_camera2D);
+			//getApp()->renderBatch(batch, frameData, *minimap_camera2D);
 		}
 	}
 
