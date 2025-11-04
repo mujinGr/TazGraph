@@ -207,6 +207,13 @@ endif()
 # Dependencies
 ################################################################################
 # Link with other targets.
+
+set(RENDER_ENGINE_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/RenderEngine")
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${RENDER_ENGINE_INCLUDE_DIR}  
+)
+
+
 set(TAZGRAPHENGINE_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/TazGraphEngine")
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${TAZGRAPHENGINE_INCLUDE_DIR}  

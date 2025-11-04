@@ -327,21 +327,22 @@ std::vector<EntityID> Manager::getRevealedEntitiesInCameraCells() {
 		}
 	}
 	else if constexpr (std::is_same_v<T, LinkEntity>) {
-		std::map<unsigned int, LinkEntity*> uniqueEntities;
+		std::unordered_set<EntityID> uniqueIds;
 
 		for (auto& cell : grid->interceptedCells) {
-			for (auto& link : cell->links) {
-				if (!link->isHidden()) {
-					unsigned int linkId = link->getId();
+			for (auto& linkId : cell->links) {
 
-					if (uniqueEntities.find(linkId) == uniqueEntities.end()) {
-						uniqueEntities[linkId] = link;
+				auto& link = getEntityFromId(linkId);
+
+				if (!link->isHidden()) {
+					if (uniqueIds.find(linkId) == uniqueIds.end()) {
+						uniqueIds.insert(linkId);
 					}
 				}
 			}
 		}
-		for (auto& entry : uniqueEntities) {
-			result.push_back(entry.second);
+		for (auto& entry : uniqueIds) {
+			result.push_back(entry);
 		}
 	}
 	else {

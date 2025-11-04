@@ -1,6 +1,6 @@
-message("\nInside TazGraphEngine Cmake...\n")
+message("\nInside RenderEngine Cmake...\n")
 
-set(PROJECT_NAME TazGraphEngine)
+set(PROJECT_NAME RenderEngine)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,10 +11,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Grab all .h and .cpp files recursively from Src/
 file(GLOB_RECURSE Header_Files 
-"../TazGraphEngine/*.h"
+"../RenderEngine/*.h"
 )
 file(GLOB_RECURSE Source_Files 
-"../TazGraphEngine/*.cpp"
+"../RenderEngine/*.cpp"
  "../vendors/imgui/imgui.cpp"
 "../vendors/ImGuiComboAutoselect/imgui_combo_autoselect.cpp"
 "../vendors/imgui/imgui_demo.cpp"
@@ -134,7 +134,7 @@ set(ALL_FILES
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
 use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
-set(ROOT_NAMESPACE TazGraphEngine)
+set(ROOT_NAMESPACE RenderEngine)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     VS_GLOBAL_KEYWORD "Win32Proj"
@@ -232,16 +232,6 @@ endif()
 ################################################################################
 # Dependencies
 ################################################################################
-set(RENDER_ENGINE_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/RenderEngine")
-target_include_directories(${PROJECT_NAME} PRIVATE
-    ${RENDER_ENGINE_INCLUDE_DIR}  
-)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    RenderEngine
-)
-
-
 if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
     set(ADDITIONAL_LIBRARY_DEPENDENCIES
         "$<$<CONFIG:Debug>:"
@@ -250,7 +240,6 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
             "SDL2_image;"
             "SDL2_ttf;"
             "SDL2_mixer;"
-	    "RenderEngine"
         ">"
     )
 endif()
