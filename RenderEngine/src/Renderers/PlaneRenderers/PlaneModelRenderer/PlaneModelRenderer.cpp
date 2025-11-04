@@ -84,33 +84,37 @@ void PlaneModelRenderer::renderBatch() {
 		for (auto& batch : mesh.instancesBatches) {
 			if (batch.empty()) continue;
 
+
 			glBindVertexArray(mesh.vao);
+			for (int i = 0; i < batch.size(); i++) {
+				glBindTexture(GL_TEXTURE_2D, batch[i].texture);
 
-			glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
+				glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
+				glBufferData(GL_ARRAY_BUFFER,
+					sizeof(TextureInstanceData),
+					nullptr,
+					GL_DYNAMIC_DRAW);
 
-			glBufferData(GL_ARRAY_BUFFER,
-				batch.size() * sizeof(TextureInstanceData),
-				nullptr,
-				GL_DYNAMIC_DRAW);
+				glBufferSubData(GL_ARRAY_BUFFER, 0,
+					 sizeof(TextureInstanceData),
+					&batch[i]);
 
-			glBufferSubData(GL_ARRAY_BUFFER, 0,
-				batch.size() * sizeof(TextureInstanceData),
-				batch.data());
-
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
-			glDrawElementsInstanced(
-				GL_TRIANGLES,
-				mesh.meshIndices,
-				GL_UNSIGNED_INT,
-				0,
-				batch.size()
-			);
+				glDrawElementsInstanced(
+					GL_TRIANGLES,
+					mesh.meshIndices,
+					GL_UNSIGNED_INT,
+					0,
+					1
+				);
+			}
+			glBindVertexArray(0);
+
 		}
 	}
 
-	glBindVertexArray(0);
 }
 
 

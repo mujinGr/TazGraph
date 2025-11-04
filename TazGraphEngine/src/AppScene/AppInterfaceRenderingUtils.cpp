@@ -67,7 +67,6 @@ void AppInterface::prepareLineBatch(
 	const Taz::RenderBatch& batch
 )
 {
-	lineRenderer.begin();
 	lineRenderer.initLineBatch(batch.lineCount);
 	lineRenderer.initBoxBatch(batch.boxCount);
 	lineRenderer.initBatchSize();
@@ -79,7 +78,6 @@ void AppInterface::preparePlaneColorBatch(
 	const Taz::RenderBatch& batch)
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-	planeColorRenderer.begin();
 	planeColorRenderer.initQuadBatch(batch.quadCount);
 	planeColorRenderer.initTriangleBatch(batch.triangleCount);
 	planeColorRenderer.initBatchSize();
@@ -92,7 +90,6 @@ void AppInterface::preparePlaneModelBatch(
 	const Taz::RenderBatch& batch)
 {
 	//CHange camera based on scene
-	planeModelRenderer.begin();
 	planeModelRenderer.initQuadBatch(batch.quadCount);
 	planeModelRenderer.initBatchSize();
 
@@ -104,7 +101,6 @@ void AppInterface::prepareLightBatch(
 	const Taz::RenderBatch& batch
 )
 {
-	lightRenderer.begin();
 	lightRenderer.initBoxBatch(batch.boxCount);
 	lightRenderer.initSphereBatch(batch.sphereCount);
 	lightRenderer.initBatchSize();

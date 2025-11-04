@@ -264,6 +264,11 @@ void Graph::prepareDraw()
 
 
 	//minimapDraw();
+	getApp()->planeColorRenderer.begin();
+	getApp()->lineRenderer.begin();
+	getApp()->planeModelRenderer.begin();
+	getApp()->lightRenderer.begin();
+
 	//! Prepare Draw Batches by Frame
 	{
 		for (const auto& batch : frameData.batches) {
