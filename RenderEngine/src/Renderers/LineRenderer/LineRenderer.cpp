@@ -54,6 +54,7 @@ void LineRenderer::initBatch(const Taz::RenderBatch& batch)
 	switch (batch.mesh_type) {
 	case Taz::RenderBatch::MeshType::Line:
 		initMeshBatch(_meshesArrays[LINE_MESH_IDX]);
+		currentBatchIndex = _meshesArrays[LINE_MESH_IDX].batches.size() - 1;
 		break;
 	}
 

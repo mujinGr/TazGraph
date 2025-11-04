@@ -43,8 +43,10 @@ void PlaneModelRenderer::initBatch(const Taz::RenderBatch& batch)
 	switch (batch.mesh_type) {
 	case Taz::RenderBatch::MeshType::Quad:
 		initMeshBatch(_meshesElements[RECTANGLE_MESH_IDX]);
+		currentBatchIndex = _meshesElements[RECTANGLE_MESH_IDX].batches.size() - 1;
 		break;
 	}
+
 }
 
 void PlaneModelRenderer::drawTriangle(

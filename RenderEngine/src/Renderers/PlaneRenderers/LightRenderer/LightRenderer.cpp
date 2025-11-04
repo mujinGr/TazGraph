@@ -45,18 +45,24 @@ void LightRenderer::initBatch(const Taz::RenderBatch& batch)
 	switch (batch.mesh_type) {
 	case Taz::RenderBatch::MeshType::Line:
 		initMeshBatch(_meshesArrays[TRIANGLE_MESH_IDX]);
+		currentBatchIndex = _meshesArrays[TRIANGLE_MESH_IDX].batches.size() - 1;
 		break;
 
 	case Taz::RenderBatch::MeshType::Quad:
 		initMeshBatch(_meshesElements[RECTANGLE_MESH_IDX]);
+		currentBatchIndex = _meshesElements[RECTANGLE_MESH_IDX].batches.size() - 1;
+
 		break;
 
 	case Taz::RenderBatch::MeshType::Box:
 		initMeshBatch(_meshesElements[BOX_MESH_IDX]);
+		currentBatchIndex = _meshesElements[BOX_MESH_IDX].batches.size() - 1;
+
 		break;
 
 	case Taz::RenderBatch::MeshType::Sphere:
 		initMeshBatch(_meshesElements[SPHERE_MESH_IDX]);
+		currentBatchIndex = _meshesElements[SPHERE_MESH_IDX].batches.size() - 1;
 		break;
 	}
 }
