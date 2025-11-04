@@ -11,6 +11,14 @@ LightRenderer::~LightRenderer() {
 
 void LightRenderer::init() {
 	createVertexArray();
+
+	_meshesArrays[TRIANGLE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
+	_meshesArrays[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
+	_meshesArrays[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
+
+	_meshesElements[TRIANGLE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
+	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
+	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
 }
 
 void LightRenderer::begin() {
@@ -24,8 +32,7 @@ void LightRenderer::begin() {
 	}
 }
 void LightRenderer::end() {
-	Renderer::end();
-
+	renderBatch();
 }
 
 void LightRenderer::initBatchSize()
@@ -41,7 +48,7 @@ void LightRenderer::initBatchSize()
 	auto& boxBatch = _meshesArrays[BOX_MESH_IDX].batches.back();
 	auto& sphereBatch = _meshesArrays[SPHERE_MESH_IDX].batches.back();
 
-	triangleBatch.instances.resize(_triangleGlyphs_size);
+	triangleBatch.instances.resize(batchTotalGlyphs);
 	rectBatch.instances.resize(0);
 	boxBatch.instances.resize(0);
 	sphereBatch.instances.resize(0);
@@ -57,17 +64,11 @@ void LightRenderer::initBatchSize()
 	auto& sphereElemBatch = _meshesElements[SPHERE_MESH_IDX].batches.back();
 
 	triangleElemBatch.instances.resize(0);
-	rectElemBatch.instances.resize(_rectangleGlyphs_size);
-	boxElemBatch.instances.resize(_boxGlyphs_size);
-	sphereElemBatch.instances.resize(_sphereGlyphs_size);
+	rectElemBatch.instances.resize(batchTotalGlyphs);
+	boxElemBatch.instances.resize(batchTotalGlyphs);
+	sphereElemBatch.instances.resize(batchTotalGlyphs);
 
-	_meshesArrays[TRIANGLE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
-	_meshesArrays[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
-	_meshesArrays[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
 
-	_meshesElements[TRIANGLE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
-	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
-	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
 }
 
 

@@ -37,6 +37,7 @@ void Graph::prepareDraw()
 			Manager::groupGridLinks,
 			}, Taz::EntityType::Link);
 		gridBatch.lineCount = gridBatch.entities.size();
+		gridBatch.count = gridBatch.entities.size();
 		frameData.batches.push_back(gridBatch);
 	}
 	// 1. Nodes Batch (Color)
@@ -52,6 +53,7 @@ void Graph::prepareDraw()
 			Manager::groupGroupNodes_1
 			}, Taz::EntityType::Node);
 		nodesBatch.quadCount = nodesBatch.entities.size();
+		nodesBatch.count = nodesBatch.entities.size();
 		nodesBatch.rotationMatrix = rotationMatrix;
 		frameData.batches.push_back(nodesBatch);
 	}
@@ -68,6 +70,7 @@ void Graph::prepareDraw()
 			Manager::groupGroupLinks_1
 			}, Taz::EntityType::Link);
 		linksBatch.lineCount = linksBatch.entities.size();
+		linksBatch.count = linksBatch.entities.size();
 		frameData.batches.push_back(linksBatch);
 
 	}
@@ -83,6 +86,7 @@ void Graph::prepareDraw()
 			}, Taz::EntityType::Empty);
 
 		arrowsBatch.triangleCount = arrowsBatch.entities.size();
+		arrowsBatch.count = arrowsBatch.entities.size();
 		arrowsBatch.rotationMatrix = rotationMatrix;
 		frameData.batches.push_back(arrowsBatch);
 	}
@@ -97,6 +101,7 @@ void Graph::prepareDraw()
 			Manager::groupRenderSprites
 			}, Taz::EntityType::Empty);
 		spritesBatch.quadCount = spritesBatch.entities.size();
+		spritesBatch.count = spritesBatch.entities.size();
 		frameData.batches.push_back(spritesBatch);
 	}
 	// 5.1. Lighted Boxes Batch
@@ -112,6 +117,7 @@ void Graph::prepareDraw()
 			}, Taz::EntityType::Empty);
 
 		lightsBatch.boxCount = lightsBatch.entities.size();
+		lightsBatch.count = lightsBatch.entities.size();
 
 		frameData.batches.push_back(lightsBatch);
 	}
@@ -128,6 +134,7 @@ void Graph::prepareDraw()
 			}, Taz::EntityType::Empty);
 
 		lightsBatch.sphereCount = lightsBatch.entities.size();
+		lightsBatch.count = lightsBatch.entities.size();
 
 		frameData.batches.push_back(lightsBatch);
 	}
@@ -143,6 +150,7 @@ void Graph::prepareDraw()
 			Manager::groupPathInnerLinks
 			}, Taz::EntityType::Link);
 		pathLinksBatch.lineCount = pathLinksBatch.entities.size();
+		pathLinksBatch.count = pathLinksBatch.entities.size();
 		pathLinksBatch.viewportSize =
 			glm::vec2(
 				getApp()->_window.getScreenWidth(),
@@ -162,6 +170,7 @@ void Graph::prepareDraw()
 			Manager::groupPortSlots
 			}, Taz::EntityType::Empty);
 		portsBatch.quadCount = portsBatch.entities.size();
+		portsBatch.count = portsBatch.entities.size();
 		frameData.batches.push_back(portsBatch);
 	}
 	manager->removeAllEntitiesFromEmptyGroup(Manager::groupSelectedEntities);
@@ -179,6 +188,7 @@ void Graph::prepareDraw()
 			});
 
 		selectionBatch.boxCount = nodeCount;
+		selectionBatch.count = nodeCount;
 
 
 		for (auto& [entity, offset] : _selectedEntities) {
@@ -215,6 +225,7 @@ void Graph::prepareDraw()
 			});
 
 		selectionBatch.lineCount = linkCount;
+		selectionBatch.count = linkCount;
 
 		for (auto& [entity, offset] : _selectedEntities) {
 			Link* link = dynamic_cast<Link*>(entity);

@@ -26,6 +26,8 @@ namespace Taz
 		virtual void begin();
 		virtual void end();
 
+		void initBatchSize2(size_t mSize);
+
 		void initLineBatch(size_t mSize);
 		void initTriangleBatch(size_t mSize);
 		void initQuadBatch(size_t mSize);
@@ -35,13 +37,13 @@ namespace Taz
 
 		GLuint _vboInstances;
 
+		size_t batchTotalGlyphs = 0;
+
 		size_t _lineGlyphs_size = 0; //actual glyphs
 		size_t _triangleGlyphs_size = 0; //actual glyphs
 		size_t _rectangleGlyphs_size = 0; //actual glyphs
 		size_t _boxGlyphs_size = 0;
 		size_t _sphereGlyphs_size = 0;
-
-		void createRenderBatches();
 
 		virtual void renderBatch() = 0;
 	};

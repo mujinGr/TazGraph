@@ -15,6 +15,14 @@ LineRenderer::~LineRenderer()
 void LineRenderer::init()
 {
 	createVertexArray();
+
+	_meshesArrays[LINE_MESH_IDX].meshIndices = INDICES_LINE_OFFSET;
+	_meshesArrays[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
+	_meshesArrays[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
+
+	_meshesElements[LINE_MESH_IDX].meshIndices = INDICES_LINE_OFFSET;
+	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
+	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
 }
 
 void LineRenderer::begin()
@@ -31,7 +39,12 @@ void LineRenderer::begin()
 
 void LineRenderer::end() // on en d clear all indices reserved
 {
-	Taz::Renderer::end();
+	renderBatch();
+}
+
+void LineRenderer::initBatch()
+{
+
 }
 
 
@@ -48,7 +61,7 @@ void LineRenderer::initBatchSize()
 	auto& boxBatch = _meshesArrays[BOX_MESH_IDX].batches.back();
 	auto& sphereBatch = _meshesArrays[SPHERE_MESH_IDX].batches.back();
 
-	lineBatch.instances.resize(_lineGlyphs_size);
+	lineBatch.instances.resize(batchTotalGlyphs);
 	rectBatch.instances.resize(0);
 	boxBatch.instances.resize(0);
 	sphereBatch.instances.resize(0);
@@ -66,13 +79,7 @@ void LineRenderer::initBatchSize()
 	boxElemBatch.instances.resize(0);
 	sphereElemBatch.instances.resize(0);
 
-	_meshesArrays[LINE_MESH_IDX].meshIndices = INDICES_LINE_OFFSET;
-	_meshesArrays[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
-	_meshesArrays[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
 
-	_meshesElements[LINE_MESH_IDX].meshIndices = INDICES_LINE_OFFSET;
-	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
-	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
 }
 
 // todo can be optimized, by having something like glyphs in planeModelRenederer where first you pass info in a vector and

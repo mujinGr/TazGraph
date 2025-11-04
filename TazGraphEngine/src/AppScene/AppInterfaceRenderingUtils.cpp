@@ -69,6 +69,8 @@ void AppInterface::prepareLineBatch(
 {
 	lineRenderer.initLineBatch(batch.lineCount);
 	lineRenderer.initBoxBatch(batch.boxCount);
+	//lineRenderer.initBatch(batch);
+	lineRenderer.initBatchSize2(batch.count);
 	lineRenderer.initBatchSize();
 
 	// set shader on lineRenderer.batch.back()
@@ -83,6 +85,8 @@ void AppInterface::preparePlaneColorBatch(
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	planeColorRenderer.initQuadBatch(batch.quadCount);
 	planeColorRenderer.initTriangleBatch(batch.triangleCount);
+	planeColorRenderer.initBatchSize2(batch.count);
+
 	planeColorRenderer.initBatchSize();
 
 	// Fill batch data
@@ -94,6 +98,8 @@ void AppInterface::preparePlaneModelBatch(
 {
 	//CHange camera based on scene
 	planeModelRenderer.initQuadBatch(batch.quadCount);
+	planeModelRenderer.initBatchSize2(batch.count);
+
 	planeModelRenderer.initBatchSize();
 
 	// Fill batch data
@@ -106,6 +112,8 @@ void AppInterface::prepareLightBatch(
 {
 	lightRenderer.initBoxBatch(batch.boxCount);
 	lightRenderer.initSphereBatch(batch.sphereCount);
+	lightRenderer.initBatchSize2(batch.count);
+
 	lightRenderer.initBatchSize();
 
 	// Fill batch data
@@ -149,7 +157,6 @@ void AppInterface::drawLineBatch(
 	}
 
 	lineRenderer.end();
-	lineRenderer.renderBatch();
 	shader.unuse();
 
 }
@@ -166,7 +173,6 @@ void AppInterface::drawPlaneColorBatch(
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(batch.rotationMatrix));
 
 	planeColorRenderer.end();
-	planeColorRenderer.renderBatch();
 	shader.unuse();
 
 }
@@ -180,7 +186,6 @@ void AppInterface::drawPlaneModelBatch(
 	resourceManager.setupShader(shader, camera);
 
 	planeModelRenderer.end();
-	planeModelRenderer.renderBatch();
 	shader.unuse();
 
 }
@@ -195,7 +200,6 @@ void AppInterface::drawLightBatch(
 	resourceManager.setupShader(shader, camera);
 
 	lightRenderer.end();
-	lightRenderer.renderBatch();
 	shader.unuse();
 
 }

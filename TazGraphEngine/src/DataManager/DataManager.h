@@ -29,6 +29,9 @@ namespace Taz {
 		std::string shaderName;
 		std::vector<EntityID> entities;
 
+		size_t count = 0;
+
+
 		size_t lineCount = 0;
 		size_t quadCount = 0;
 		size_t triangleCount = 0;

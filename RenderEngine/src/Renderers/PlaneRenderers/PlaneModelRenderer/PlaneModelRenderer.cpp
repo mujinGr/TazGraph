@@ -12,6 +12,10 @@ PlaneModelRenderer::~PlaneModelRenderer() {
 
 void PlaneModelRenderer::init() {
 	createVertexArray();
+
+	_meshesElements[LINE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
+	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
+	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
 }
 
 void PlaneModelRenderer::begin() {
@@ -24,8 +28,7 @@ void PlaneModelRenderer::begin() {
 
 }
 void PlaneModelRenderer::end() {
-	//set up all pointers for fast sorting
-	Renderer::end();
+	renderBatch();
 }
 
 
@@ -43,13 +46,11 @@ void PlaneModelRenderer::initBatchSize()
 	auto& sphereElemBatch = _meshesElements[SPHERE_MESH_IDX].batches.back();
 
 	triangleElemBatch.instances.resize(0);
-	rectElemBatch.instances.resize(_rectangleGlyphs_size);
+	rectElemBatch.instances.resize(batchTotalGlyphs);
 	boxElemBatch.instances.resize(0);
 	sphereElemBatch.instances.resize(0);
 
-	_meshesElements[LINE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
-	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
-	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
+
 
 }
 
