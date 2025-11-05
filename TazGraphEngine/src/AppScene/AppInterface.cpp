@@ -32,13 +32,14 @@ void AppInterface::run() {
 
 	if (!init()) return;
 
+	renderThread = std::thread(&AppInterface::RenderThreadFunc, this);
+
 	const float MS_PER_SECOND = 1000;
 	const float DESIRED_FRAMETIME = MS_PER_SECOND / DESIRED_FPS;
 	const float MAX_DELTA_TIME = 1.0f;
 
 	int frameCounter = 0;
 
-	renderThread = std::thread(&AppInterface::RenderThreadFunc, this);
 
 	Uint64 freq = SDL_GetPerformanceFrequency();
 	Uint64 prevTicks = SDL_GetPerformanceCounter();
@@ -139,28 +140,34 @@ void AppInterface::run() {
 	//SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 }
 
+void AppInterface::enqueueRenderCommand(std::function<void()> cmd) {
+	initQueue.Submit(std::move(cmd));
+	initCommandReady.store(true);
+}
+
+void AppInterface::waitForRenderCommand() {
+	// Wait for render thread to complete the command
+	while (!initCommandComplete.load()) {
+		std::this_thread::sleep_for(std::chrono::microseconds(100));
+	}
+	// Reset for next command
+	initCommandComplete.store(false);
+	initCommandReady.store(false);
+}
+
 void AppInterface::RenderThreadFunc() {
 	// Make OpenGL context current on this thread
 	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
-	resourceManager.addGLSLProgram("texture");
-	resourceManager.addGLSLProgram("color");
-
-	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
-	{
-		//InitShaders function from Bengine
-		resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
-		resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
-		resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
-		resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
-
-		resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
-		resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
-		resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
-		resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
-	}
-
 	while (_isRunning) {
+		std::cout << "In RenderThread Func" << std::endl;
+
+		if (initCommandReady.load()) {
+			std::cout << "Executing initialization command..." << std::endl;
+			initQueue.Execute();
+			initCommandComplete.store(true);
+		}
+
 		while (!frameReady.load() && _isRunning) {
 			std::this_thread::sleep_for(std::chrono::microseconds(100));
 		}

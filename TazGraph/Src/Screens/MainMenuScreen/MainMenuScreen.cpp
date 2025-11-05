@@ -34,23 +34,28 @@ void MainMenuScreen::destroy()
 
 void MainMenuScreen::onEntry()
 {
+	getApp()->enqueueRenderCommand([this]() {
+		getApp()->resourceManager.addGLSLProgram("texture");
+		getApp()->resourceManager.addGLSLProgram("color");
 
-	//getApp()->resourceManager.addGLSLProgram("texture");
-	//getApp()->resourceManager.addGLSLProgram("color");
+		if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
+		{
+			//InitShaders function from Bengine
+			getApp()->resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
+			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
+			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
+			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
 
-	//if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
-	//{
-	//	//InitShaders function from Bengine
-	//	getApp()->resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
-	//	getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
-	//	getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
-	//	getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
+			getApp()->resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
+			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
+			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
+			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
+		}
 
-	//	getApp()->resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
-	//	getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
-	//	getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
-	//	getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
-	//}
+		std::cout << "Shaders loaded successfully on render thread!" << std::endl;
+		});
+
+	getApp()->waitForRenderCommand();
 
 	if (TTF_Init() == -1)
 	{

@@ -22,6 +22,8 @@ public:
 	virtual ~AppInterface();
 
 	void run();
+	void enqueueRenderCommand(std::function<void()> cmd);
+	void waitForRenderCommand();
 	void RenderThreadFunc();
 	void exitSimulator();
 
@@ -45,6 +47,10 @@ public:
 	RenderCommandQueue queues[2];
 	std::atomic<int> activeIndex = 0;
 	std::atomic<bool> frameReady = false;
+
+	RenderCommandQueue initQueue;
+	std::atomic<bool> initCommandReady{ false };
+	std::atomic<bool> initCommandComplete{ false };
 
 	PlaneModelRenderer planeModelRenderer;
 	PlaneColorRenderer planeColorRenderer;
