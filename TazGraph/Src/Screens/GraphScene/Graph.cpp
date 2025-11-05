@@ -74,10 +74,6 @@ void Graph::onEntry()
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
-		std::cout << "Subsystems Initialised..." << std::endl;
-
-		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
 		getApp()->resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
 		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
 		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");

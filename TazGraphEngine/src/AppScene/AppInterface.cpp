@@ -38,12 +38,13 @@ void AppInterface::run() {
 
 	int frameCounter = 0;
 
+	renderThread = std::thread(&AppInterface::RenderThreadFunc, this);
 
 	Uint64 freq = SDL_GetPerformanceFrequency();
 	Uint64 prevTicks = SDL_GetPerformanceCounter();
 
 	_limiter.setMaxFPS(60.0f);
-	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
+	//SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
 	_isRunning = true;
 	while (_isRunning) {
@@ -105,25 +106,22 @@ void AppInterface::run() {
 		}
 		if (_isRunning) {
 			ZoneScopedN("RenderDraw");
-			Uint64 startDraw = SDL_GetPerformanceCounter();
-			renderDraw();
-			Uint64 endDraw = SDL_GetPerformanceCounter();
-			float drawTime = static_cast<float>(endDraw - startDraw) / freq * 1000.0f;
-			//std::cout << "Draw: " << drawTime << " ms\n";
-		}
+			// Get the write index (opposite of active)
+			int writeIndex = 1 - activeIndex.load();
 
+			queues[writeIndex].Submit([this]() {
+				ZoneScopedN("Draw");
+				renderDraw();
+				});
+			queues[writeIndex].Submit([this]() {
+				ZoneScopedN("DrawUI");
+				drawUI();  // This calls ImGui rendering - MUST be on render thread
+				});
+			// Swap buffers - make write buffer active
+			activeIndex.store(writeIndex);
 
-
-		{
-			ZoneScopedN("DrawUI"); // Profile UI rendering
-			Uint64 startUI = SDL_GetPerformanceCounter();
-			drawUI();
-			Uint64 endUI = SDL_GetPerformanceCounter();
-			float uiTime = static_cast<float>(endUI - startUI) / freq * 1000.0f;
-		}
-		{
-			ZoneScopedN("SwapBuffer");
-			_window.swapBuffer();
+			// Signal render thread that frame is ready
+			frameReady.store(true);
 		}
 
 		_limiter.end();
@@ -138,28 +136,54 @@ void AppInterface::run() {
 		FrameMark;
 		//std::cout << "UI: " << uiTime << " ms, Total Frame Time: " << frameTime << " ms, FPS: " << _limiter.fps << "\n";
 	}
-	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
+	//SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 }
 
 void AppInterface::RenderThreadFunc() {
 	// Make OpenGL context current on this thread
 	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
-	// Initialize ImGui (OpenGL3 backend)
-	ImGui_ImplOpenGL3_Init("#version 430");
-	ImGui_ImplSDL2_InitForOpenGL(_window._sdlWindow, _window.glContext);
+	resourceManager.addGLSLProgram("texture");
+	resourceManager.addGLSLProgram("color");
+
+	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
+	{
+		//InitShaders function from Bengine
+		resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
+		resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
+		resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
+		resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
+
+		resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
+		resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
+		resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
+		resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
+	}
 
 	while (_isRunning) {
+		while (!frameReady.load() && _isRunning) {
+			std::this_thread::sleep_for(std::chrono::microseconds(100));
+		}
+
+		if (!_isRunning) break;
+
+		// Get the active queue to read from
 		int readIndex = activeIndex.load();
 
+		// Execute all rendering commands
+		{
+			ZoneScopedN("Execute Render Commands");
+			queues[readIndex].Execute();
+		}
+
+		// Swap OpenGL buffers - ONLY on render thread
 		{
 			ZoneScopedN("SwapBuffer");
 			_window.swapBuffer();
 		}
 
+		// Mark frame as consumed
 		frameReady.store(false);
-		while (!frameReady.load() && _isRunning)
-			std::this_thread::sleep_for(std::chrono::microseconds(100));
 	}
 
 	// Cleanup ImGui before exiting

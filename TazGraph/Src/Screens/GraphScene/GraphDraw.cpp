@@ -311,7 +311,7 @@ void Graph::prepareDraw()
 	getApp()->lineRenderer.begin();
 	getApp()->planeModelRenderer.begin();
 	getApp()->lightRenderer.begin();
-	minimapPrepareDraw();
+	//minimapPrepareDraw();
 
 	getApp()->planeColorRenderer.begin();
 	getApp()->lineRenderer.begin();
@@ -436,7 +436,7 @@ void Graph::minimapRenderDraw() {
 	{
 		//! render Frame
 		for (const auto& batch : frameData.batches) {
-			//getApp()->renderBatch(batch, frameData, *minimap_camera2D);
+			//getApp()->renderBatch(batch, *minimap_camera2D);
 		}
 	}
 

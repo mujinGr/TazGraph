@@ -69,7 +69,7 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 	ImGui_ImplOpenGL3_Init("#version 430"); // Or whatever GLSL version suits your needs
 
 	//Check the OpenGL version
-	std::cout << "***   OpenGL Version: " << glGetString(GL_VERSION) << "    ***\n";
+	//std::cout << "***   OpenGL Version: " << glGetString(GL_VERSION) << "    ***\n";
 	//Set VSYNC
 	SDL_GL_SetSwapInterval(0);
 
