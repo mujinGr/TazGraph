@@ -94,7 +94,8 @@ public:
 
 	float backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 
-	Taz::FrameRenderData frameData;
+	Taz::FrameRenderData frameDataBuffers[2];
+	std::atomic<int> activeFrameIndex = 0;
 
 protected:
 	AppInterface* _app = nullptr;

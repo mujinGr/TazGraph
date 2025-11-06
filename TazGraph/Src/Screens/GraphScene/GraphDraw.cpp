@@ -4,7 +4,7 @@
 void Graph::prepareDraw()
 {
 	ZoneScoped;
-
+	std::cout << "prepare draw" << std::endl;
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D =
@@ -24,6 +24,11 @@ void Graph::prepareDraw()
 	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
 
 	rotationMatrix = getRotationMatrix(cameraEulerAngles);
+
+	int writeIndex = 1 - activeFrameIndex.load();
+
+	auto& frameData = frameDataBuffers[writeIndex];
+
 	frameData.batches.clear();
 
 	// 0. Grid Rendering
@@ -324,12 +329,16 @@ void Graph::prepareDraw()
 			getApp()->prepareBatch(batch);
 		}
 	}
-
+	activeFrameIndex.store(writeIndex);
 
 }
 
 void Graph::renderDraw()
 {
+	std::cout << "render draw" << std::endl;
+
+	int readIndex = activeFrameIndex.load();
+	auto& frameData = frameDataBuffers[readIndex];
 	_viewportFramebuffer.Bind();
 	glDepthMask(GL_TRUE);
 	////////////OPENGL USE
@@ -346,7 +355,6 @@ void Graph::renderDraw()
 
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-
 	{
 		//! render Frame
 		for (const auto& batch : frameData.batches) {
@@ -367,7 +375,9 @@ void Graph::renderDraw()
 
 
 void Graph::minimapPrepareDraw() {
+	int writeIndex = 1 - activeFrameIndex.load();
 
+	auto& frameData = frameDataBuffers[writeIndex];
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D =
@@ -420,6 +430,8 @@ void Graph::minimapPrepareDraw() {
 
 void Graph::minimapRenderDraw() {
 
+	int readIndex = activeFrameIndex.load();
+	auto& frameData = frameDataBuffers[readIndex];
 	std::shared_ptr<OrthoCamera> minimap_camera2D =
 		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 

@@ -57,21 +57,15 @@ void AppInterface::run() {
 		prevTicks = newTicks;
 		float totalDeltaTime = frameTime / DESIRED_FRAMETIME;
 
-
 		{
 			ZoneScopedN("Input"); // Profile input section
-			Uint64 startInput = SDL_GetPerformanceCounter();
 			checkInput();
-			Uint64 endInput = SDL_GetPerformanceCounter();
-			float inputTime = static_cast<float>(endInput - startInput) / freq * 1000.0f;
-			//std::cout << "Input: " << inputTime << " ms" << std::endl;
 		}
 		int i = 0;
 
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
 			ZoneScopedN("Physics Step"); // Profile physics loop
 
-			Uint64 startUpdate = SDL_GetPerformanceCounter();
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
 			{
 				ZoneScopedN("Update");
@@ -82,8 +76,6 @@ void AppInterface::run() {
 				ZoneScopedN("UpdateUI");
 				updateUI(deltaTime);
 			}
-			Uint64 endUpdate = SDL_GetPerformanceCounter();
-			float updateTime = static_cast<float>(endUpdate - startUpdate) / freq * 1000.0f;
 
 			totalDeltaTime -= deltaTime;
 			i++;
@@ -92,16 +84,14 @@ void AppInterface::run() {
 
 		}
 
-
-
-
 		if (_isRunning) {
 			ZoneScopedN("PrepareDraw");
-			Uint64 startDraw = SDL_GetPerformanceCounter();
+
+			while (!frameConsumed.load(std::memory_order_acquire) && _isRunning) {
+				std::this_thread::sleep_for(std::chrono::microseconds(50));
+			}
+
 			prepareDraw();
-			Uint64 endDraw = SDL_GetPerformanceCounter();
-			float drawTime = static_cast<float>(endDraw - startDraw) / freq * 1000.0f;
-			//std::cout << "Draw: " << drawTime << " ms\n";
 		}
 		if (_isRunning) {
 			ZoneScopedN("RenderDraw");
@@ -120,7 +110,8 @@ void AppInterface::run() {
 			activeIndex.store(writeIndex);
 
 			// Signal render thread that frame is ready
-			frameReady.store(true);
+			frameConsumed.store(false, std::memory_order_release);
+			frameReady.store(true, std::memory_order_release);
 		}
 
 		_limiter.end();
@@ -156,6 +147,7 @@ void AppInterface::waitForRenderCommand() {
 void AppInterface::RenderThreadFunc() {
 	// Make OpenGL context current on this thread
 	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
+	tracy::SetThreadName("Render Thread");
 
 	while (_isRunning) {
 		bool didSomething = false;
@@ -188,7 +180,8 @@ void AppInterface::RenderThreadFunc() {
 			}
 
 			// Mark frame as consumed
-			frameReady.store(false);
+			frameReady.store(false, std::memory_order_release);
+			frameConsumed.store(true, std::memory_order_release);
 			didSomething = true;
 		}
 
@@ -278,7 +271,9 @@ bool AppInterface::init() {
 
 	CameraManager::getInstance().initializeCameras();
 
+	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 	initRenderers();
+	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 
 	_isRunning = true;
 	renderThread = std::thread(&AppInterface::RenderThreadFunc, this);

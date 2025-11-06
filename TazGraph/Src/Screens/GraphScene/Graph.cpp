@@ -90,13 +90,23 @@ void Graph::onEntry()
 		_viewportFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
 		_minimapFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
 
+		if (TTF_Init() == -1)
+		{
+			std::cout << "Error : SDL_TTF" << std::endl;
+		}
+
+		TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
+		TextureManager::getInstance().Add_GLTexture("worldMap", "assets/Sprites/worldMap.png");
+		TextureManager::getInstance().Add_GLTexture("play-button", "assets/Sprites/images-removebg-preview.png");
+		TextureManager::getInstance().Add_GLTexture("pause-button", "assets/Sprites/pause.png");
+		TextureManager::getInstance().Add_GLTexture("treemap", "assets/Sprites/treemap.png");
+		TextureManager::getInstance().Add_GLTexture("sauronEye", "assets/Sprites/Eye-of-Sauron.png");
+
+
 		});
 	getApp()->waitForRenderCommand();
 
-	if (TTF_Init() == -1)
-	{
-		std::cout << "Error : SDL_TTF" << std::endl;
-	}
+
 
 	getApp()->getFPSLimiter().currentFrame = 0;
 	std::string mapName = DataManager::getInstance().mapToLoad;
@@ -123,12 +133,6 @@ void Graph::onEntry()
 	AnimatorManager& animManager = AnimatorManager::getInstance();
 	animManager.InitializeAnimators();
 	//add the textures to our texture library
-	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
-	TextureManager::getInstance().Add_GLTexture("worldMap", "assets/Sprites/worldMap.png");
-	TextureManager::getInstance().Add_GLTexture("play-button", "assets/Sprites/images-removebg-preview.png");
-	TextureManager::getInstance().Add_GLTexture("pause-button", "assets/Sprites/pause.png");
-	TextureManager::getInstance().Add_GLTexture("treemap", "assets/Sprites/treemap.png");
-	TextureManager::getInstance().Add_GLTexture("sauronEye", "assets/Sprites/Eye-of-Sauron.png");
 
 	if (setManager(mapName)) {
 		auto& world_map(manager->addEntityNoId<Empty>());
@@ -144,7 +148,6 @@ void Graph::onEntry()
 		);
 
 	}
-
 
 	Music music = getApp()->getAudioEngine().loadMusic("Sounds/JPEGSnow.ogg");
 	music.play(-1);

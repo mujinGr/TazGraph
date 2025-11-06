@@ -53,14 +53,23 @@ void MainMenuScreen::onEntry()
 		}
 
 		std::cout << "Shaders loaded successfully on render thread!" << std::endl;
+
+		if (TTF_Init() == -1)
+		{
+			std::cout << "Error : SDL_TTF" << std::endl;
+		}
+		// Texture Loads
+		TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/menuBg.png");
+		TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
+
+		TextureManager::getInstance().Add_Font("arial", "assets/Fonts/arial.ttf", 14.0f);
+		TextureManager::getInstance().Add_Font("bold", "assets/Fonts/Figerona-VF.ttf", 16.0f);
+		ImGuiIO& io = ImGui::GetIO();
+		io.Fonts->Build();
 		});
 
 	getApp()->waitForRenderCommand();
 
-	if (TTF_Init() == -1)
-	{
-		std::cout << "Error : SDL_TTF" << std::endl;
-	}
 
 
 	auto& Mainmenubackground(manager->addEntity<Empty>());
@@ -84,15 +93,6 @@ void MainMenuScreen::onEntry()
 	hud_camera2D->setPosition_Y(hud_camera2D->getPosition().y);
 	hud_camera2D->setScale(1.0f);
 
-
-	// Texture Loads
-	TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/menuBg.png");
-	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
-
-	TextureManager::getInstance().Add_Font("arial", "assets/Fonts/arial.ttf", 14.0f);
-	TextureManager::getInstance().Add_Font("bold", "assets/Fonts/Figerona-VF.ttf", 16.0f);
-	ImGuiIO& io = ImGui::GetIO();
-	io.Fonts->Build();
 
 	if (!manager->grid)
 	{
@@ -126,6 +126,12 @@ void MainMenuScreen::update(float deltaTime)
 
 void MainMenuScreen::prepareDraw()
 {
+	std::cout << "prepare draw" << std::endl;
+
+	int writeIndex = 1 - activeFrameIndex.load();
+
+	auto& frameData = frameDataBuffers[writeIndex];
+
 	auto& mainmenubackground(manager->getGroup<EmptyEntity>(Manager::groupBackgroundLayer));
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
@@ -158,11 +164,15 @@ void MainMenuScreen::prepareDraw()
 			getApp()->prepareBatch(batch);
 		}
 	}
-
+	activeFrameIndex.store(writeIndex);
 }
 
 void MainMenuScreen::renderDraw()
 {
+	std::cout << "render draw" << std::endl;
+
+	int readIndex = activeFrameIndex.load();
+	auto& frameData = frameDataBuffers[readIndex];
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
