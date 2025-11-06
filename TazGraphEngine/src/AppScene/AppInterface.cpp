@@ -160,12 +160,11 @@ void AppInterface::RenderThreadFunc() {
 	while (_isRunning) {
 		bool didSomething = false;
 
-		std::cout << "In RenderThread Func" << std::endl;
-
 		if (initCommandReady.load()) {
 			std::cout << "Executing initialization command..." << std::endl;
 			initQueue.Execute();
 			initCommandComplete.store(true);
+			initCommandReady.store(false);
 			didSomething = true;
 		}
 
