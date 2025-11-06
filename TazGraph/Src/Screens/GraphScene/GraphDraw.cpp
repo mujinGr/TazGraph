@@ -4,7 +4,6 @@
 void Graph::prepareDraw()
 {
 	ZoneScoped;
-	std::cout << "prepare draw" << std::endl;
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D =
@@ -335,8 +334,6 @@ void Graph::prepareDraw()
 
 void Graph::renderDraw()
 {
-	std::cout << "render draw" << std::endl;
-
 	int readIndex = activeFrameIndex.load();
 	auto& frameData = frameDataBuffers[readIndex];
 	_viewportFramebuffer.Bind();

@@ -126,8 +126,6 @@ void MainMenuScreen::update(float deltaTime)
 
 void MainMenuScreen::prepareDraw()
 {
-	std::cout << "prepare draw" << std::endl;
-
 	int writeIndex = 1 - activeFrameIndex.load();
 
 	auto& frameData = frameDataBuffers[writeIndex];
@@ -169,8 +167,6 @@ void MainMenuScreen::prepareDraw()
 
 void MainMenuScreen::renderDraw()
 {
-	std::cout << "render draw" << std::endl;
-
 	int readIndex = activeFrameIndex.load();
 	auto& frameData = frameDataBuffers[readIndex];
 	glClearDepth(1.0);
