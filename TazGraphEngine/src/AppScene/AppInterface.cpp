@@ -32,7 +32,6 @@ void AppInterface::run() {
 
 	if (!init()) return;
 
-	renderThread = std::thread(&AppInterface::RenderThreadFunc, this);
 
 	const float MS_PER_SECOND = 1000;
 	const float DESIRED_FRAMETIME = MS_PER_SECOND / DESIRED_FPS;
@@ -47,7 +46,6 @@ void AppInterface::run() {
 	_limiter.setMaxFPS(60.0f);
 	//SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
-	_isRunning = true;
 	while (_isRunning) {
 		ZoneScoped;
 		FrameMark;
@@ -160,37 +158,43 @@ void AppInterface::RenderThreadFunc() {
 	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
 	while (_isRunning) {
+		bool didSomething = false;
+
 		std::cout << "In RenderThread Func" << std::endl;
 
 		if (initCommandReady.load()) {
 			std::cout << "Executing initialization command..." << std::endl;
 			initQueue.Execute();
 			initCommandComplete.store(true);
+			didSomething = true;
 		}
 
-		while (!frameReady.load() && _isRunning) {
+		if (frameReady.load()) {
+
+			if (!_isRunning) break;
+
+			// Get the active queue to read from
+			int readIndex = activeIndex.load();
+
+			// Execute all rendering commands
+			{
+				ZoneScopedN("Execute Render Commands");
+				queues[readIndex].Execute();
+			}
+
+			// Swap OpenGL buffers - ONLY on render thread
+			{
+				ZoneScopedN("SwapBuffer");
+				_window.swapBuffer();
+			}
+
+			// Mark frame as consumed
+			frameReady.store(false);
+			didSomething = true;
+		}
+
+		if (!didSomething)
 			std::this_thread::sleep_for(std::chrono::microseconds(100));
-		}
-
-		if (!_isRunning) break;
-
-		// Get the active queue to read from
-		int readIndex = activeIndex.load();
-
-		// Execute all rendering commands
-		{
-			ZoneScopedN("Execute Render Commands");
-			queues[readIndex].Execute();
-		}
-
-		// Swap OpenGL buffers - ONLY on render thread
-		{
-			ZoneScopedN("SwapBuffer");
-			_window.swapBuffer();
-		}
-
-		// Mark frame as consumed
-		frameReady.store(false);
 	}
 
 	// Cleanup ImGui before exiting
@@ -274,13 +278,14 @@ bool AppInterface::init() {
 	_audioEngine.init();
 
 	CameraManager::getInstance().initializeCameras();
-	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
 	initRenderers();
 
+	_isRunning = true;
+	renderThread = std::thread(&AppInterface::RenderThreadFunc, this);
+
 	_sceneList->getCurrent()->onEntry();
 	_sceneList->getCurrent()->setRunning();
-	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 
 	return true;
 }
