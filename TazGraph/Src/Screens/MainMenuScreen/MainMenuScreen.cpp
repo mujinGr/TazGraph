@@ -135,7 +135,7 @@ void MainMenuScreen::prepareDraw()
 	frameData.batches.clear();
 	//! Prepare Frame
 	{
-		Taz::RenderBatch mainMenuBatch;
+		Taz::GECSRenderBatch mainMenuBatch;
 		mainMenuBatch.type = Taz::RenderBatch::Type::PlaneModel;
 		mainMenuBatch.shaderName = "texture";
 		mainMenuBatch.entities = manager->collectEntities(

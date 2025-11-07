@@ -46,7 +46,7 @@ void AppInterface::drawBatch(const std::vector<EntityID>& entities, LightRendere
 
 
 void AppInterface::renderBatch(
-	const Taz::RenderBatch& batch,
+	const Taz::GECSRenderBatch& batch,
 	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
@@ -69,7 +69,7 @@ void AppInterface::renderBatch(
 }
 
 void AppInterface::drawLineBatch(
-	const Taz::RenderBatch& batch,
+	const Taz::GECSRenderBatch& batch,
 	const Taz::FrameRenderData& frameData,
 	ICamera& camera
 )
@@ -97,7 +97,7 @@ void AppInterface::drawLineBatch(
 }
 
 void AppInterface::drawPlaneColorBatch(
-	const Taz::RenderBatch& batch,
+	const Taz::GECSRenderBatch& batch,
 	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
@@ -123,7 +123,7 @@ void AppInterface::drawPlaneColorBatch(
 }
 
 void AppInterface::drawPlaneModelBatch(
-	const Taz::RenderBatch& batch,
+	const Taz::GECSRenderBatch& batch,
 	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
@@ -144,7 +144,7 @@ void AppInterface::drawPlaneModelBatch(
 }
 
 void AppInterface::drawLightBatch(
-	const Taz::RenderBatch& batch,
+	const Taz::GECSRenderBatch& batch,
 	const Taz::FrameRenderData& frameData,
 	ICamera& camera
 )

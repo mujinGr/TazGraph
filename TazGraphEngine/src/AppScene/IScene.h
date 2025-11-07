@@ -95,6 +95,7 @@ public:
 	float backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 
 	Taz::FrameRenderData frameData;
+	Taz::FrameRenderData minimap_frameData;
 
 protected:
 	AppInterface* _app = nullptr;

@@ -16,27 +16,27 @@
 
 namespace Taz
 {
-	//struct RenderBatch {
-	//	enum class Type {
-	//		Line,
-	//		PlaneColor,
-	//		PlaneModel,
-	//		Light
-	//	};
+	struct RenderBatch {
+		enum class Type {
+			Line,
+			PlaneColor,
+			PlaneModel,
+			Light
+		};
 
-	//	Type type;
-	//	std::string shaderName;
+		Type type;
+		std::string shaderName;
 
-	//	size_t lineCount = 0;
-	//	size_t quadCount = 0;
-	//	size_t triangleCount = 0;
-	//	size_t boxCount = 0;
-	//	size_t sphereCount = 0;
+		size_t lineCount = 0;
+		size_t quadCount = 0;
+		size_t triangleCount = 0;
+		size_t boxCount = 0;
+		size_t sphereCount = 0;
 
-	//	// Additional shader uniforms
-	//	glm::mat4 rotationMatrix = glm::mat4(1.0f);
-	//	glm::vec2 viewportSize = glm::vec2(0.0f);
-	//};
+		// Additional shader uniforms
+		glm::mat4 rotationMatrix = glm::mat4(1.0f);
+		glm::vec2 viewportSize = glm::vec2(0.0f);
+	};
 
 
 
@@ -64,8 +64,6 @@ namespace Taz
 		size_t _rectangleGlyphs_size = 0; //actual glyphs
 		size_t _boxGlyphs_size = 0;
 		size_t _sphereGlyphs_size = 0;
-
-		void createRenderBatches();
 
 		virtual void renderBatch() = 0;
 	};

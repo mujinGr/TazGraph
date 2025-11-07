@@ -31,25 +31,13 @@ void Graph::prepareDraw()
 	renderBatch(backgroundImage, getApp()->planeModelRenderer, false);
 	getApp()->planeModelRenderer.end();
 	getApp()->planeModelRenderer.renderBatch();*/
-	_viewportFramebuffer.Bind();
-	glDepthMask(GL_TRUE);
-	////////////OPENGL USE
-	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 
-	glClearDepth(1.0);
-	glDepthFunc(GL_LESS);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-	// Blending for smooth edges (premultiplied or standard)
-	/////////////////////////////////////////////////////
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// 0. Grid Rendering
 	if (showGrid) {
 		//! Prepare Frame
-		Taz::RenderBatch gridBatch;
-		gridBatch.type = Taz::RenderBatch::Type::Line;
+		Taz::GECSRenderBatch gridBatch;
+		gridBatch.type = Taz::GECSRenderBatch::Type::Line;
 		gridBatch.shaderName = "lineColor";
 		gridBatch.entities = manager->collectEntities({
 			Manager::groupGridLinks,
@@ -59,8 +47,8 @@ void Graph::prepareDraw()
 	}
 	// 1. Nodes Batch (Color)
 	{
-		Taz::RenderBatch nodesBatch;
-		nodesBatch.type = Taz::RenderBatch::Type::PlaneColor;
+		Taz::GECSRenderBatch nodesBatch;
+		nodesBatch.type = Taz::GECSRenderBatch::Type::PlaneColor;
 		nodesBatch.shaderName = "color";
 		nodesBatch.entities = manager->collectEntities({
 			Manager::groupNodes_0,
@@ -73,8 +61,8 @@ void Graph::prepareDraw()
 	}
 	// 2. Link Rendering
 	{
-		Taz::RenderBatch linksBatch;
-		linksBatch.type = Taz::RenderBatch::Type::Line;
+		Taz::GECSRenderBatch linksBatch;
+		linksBatch.type = Taz::GECSRenderBatch::Type::Line;
 		linksBatch.shaderName = "lineColor";
 		linksBatch.entities = manager->collectEntities({
 			Manager::groupLinks_0,
@@ -87,8 +75,8 @@ void Graph::prepareDraw()
 	}
 	// 3. ArrowHeads Batch
 	{
-		Taz::RenderBatch arrowsBatch;
-		arrowsBatch.type = Taz::RenderBatch::Type::PlaneColor;
+		Taz::GECSRenderBatch arrowsBatch;
+		arrowsBatch.type = Taz::GECSRenderBatch::Type::PlaneColor;
 		arrowsBatch.shaderName = "color";
 		arrowsBatch.entities = manager->collectEntities({
 			Manager::groupArrowHeads_0,
@@ -100,8 +88,8 @@ void Graph::prepareDraw()
 	}
 	// 4. Sprite Models Batch
 	{
-		Taz::RenderBatch spritesBatch;
-		spritesBatch.type = Taz::RenderBatch::Type::PlaneModel;
+		Taz::GECSRenderBatch spritesBatch;
+		spritesBatch.type = Taz::GECSRenderBatch::Type::PlaneModel;
 		spritesBatch.shaderName = "texture";
 		spritesBatch.entities = manager->collectEntities({
 			Manager::groupRenderSprites
@@ -111,8 +99,8 @@ void Graph::prepareDraw()
 	}
 	// 5. Lights Batch
 	{
-		Taz::RenderBatch lightsBatch;
-		lightsBatch.type = Taz::RenderBatch::Type::Light;
+		Taz::GECSRenderBatch lightsBatch;
+		lightsBatch.type = Taz::GECSRenderBatch::Type::Light;
 		lightsBatch.shaderName = "light";
 
 		auto empties = manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties);
@@ -127,8 +115,8 @@ void Graph::prepareDraw()
 	}
 	// 6. Path Links Batch (rendered without depth test)
 	{
-		Taz::RenderBatch pathLinksBatch;
-		pathLinksBatch.type = Taz::RenderBatch::Type::Line;
+		Taz::GECSRenderBatch pathLinksBatch;
+		pathLinksBatch.type = Taz::GECSRenderBatch::Type::Line;
 		pathLinksBatch.shaderName = "lineColor";
 		pathLinksBatch.entities = manager->collectEntities({
 			Manager::groupPathLinks,
@@ -144,8 +132,8 @@ void Graph::prepareDraw()
 	}
 	// 7. Ports and Slots Batch
 	{
-		Taz::RenderBatch portsBatch;
-		portsBatch.type = Taz::RenderBatch::Type::PlaneColor;
+		Taz::GECSRenderBatch portsBatch;
+		portsBatch.type = Taz::GECSRenderBatch::Type::PlaneColor;
 		portsBatch.shaderName = "color";
 		portsBatch.entities = manager->collectEntities({
 			Manager::groupPorts,
@@ -156,8 +144,8 @@ void Graph::prepareDraw()
 	}
 	// 8. Selection Overlay Batch
 	{
-		Taz::RenderBatch selectionBatch;
-		selectionBatch.type = Taz::RenderBatch::Type::Line;
+		Taz::GECSRenderBatch selectionBatch;
+		selectionBatch.type = Taz::GECSRenderBatch::Type::Line;
 		selectionBatch.shaderName = "lineColor";
 
 		size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
@@ -206,16 +194,6 @@ void Graph::prepareDraw()
 		}
 		frameData.batches.push_back(selectionBatch);
 	}
-
-	{
-		//! render Frame
-		for (const auto& batch : frameData.batches) {
-			getApp()->renderBatch(batch, frameData, *main_camera2D);
-		}
-	}
-
-
-
 
 	// Debug Rendering
 	if (renderDebug) {
@@ -288,9 +266,35 @@ void Graph::prepareDraw()
 		getApp()->lineRenderer.end();
 		getApp()->lineRenderer.renderElementsBatch();
 		glsl_wireframeColor.unuse();
-
 	}
 
+	minimapPrepareDraw();
+}
+
+void Graph::renderDraw()
+{
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	_viewportFramebuffer.Bind();
+	glDepthMask(GL_TRUE);
+	////////////OPENGL USE
+	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+
+	glClearDepth(1.0);
+	glDepthFunc(GL_LESS);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	// Blending for smooth edges (premultiplied or standard)
+	/////////////////////////////////////////////////////
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	{
+		//! render Frame
+		for (const auto& batch : frameData.batches) {
+			getApp()->renderBatch(batch, frameData, *main_camera2D);
+		}
+	}
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
@@ -301,17 +305,11 @@ void Graph::prepareDraw()
 
 	_viewportFramebuffer.Unbind();
 
-	minimapDraw();
-
-
-}
-
-void Graph::renderDraw()
-{
+	minimapRenderDraw();
 }
 
 
-void Graph::minimapDraw() {
+void Graph::minimapPrepareDraw() {
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -324,14 +322,6 @@ void Graph::minimapDraw() {
 	GLSLProgram glsl_color = *getApp()->resourceManager.getGLSLProgram("color");
 	GLSLProgram glsl_framebuffer = *getApp()->resourceManager.getGLSLProgram("framebuffer");
 
-
-	_minimapFramebuffer.Bind();
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClearDepth(1.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	/////////////////////////////////////////////////////
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	float maxDistance = manager->grid->getNumXCells() * manager->grid->getCellSize();
 
@@ -351,9 +341,9 @@ void Graph::minimapDraw() {
 
 	glm::mat4 minimap_rotationMatrix = glm::mat4(1.0f);
 
-	Taz::FrameRenderData frameData;
+	minimap_frameData.batches.clear();
 	{
-		Taz::RenderBatch minimapBatch;
+		Taz::GECSRenderBatch minimapBatch;
 		minimapBatch.type = Taz::RenderBatch::Type::PlaneColor;
 		minimapBatch.shaderName = "color";
 		minimapBatch.entities = manager->collectEntities({
@@ -361,12 +351,27 @@ void Graph::minimapDraw() {
 			}, Taz::EntityType::Minimap);
 		minimapBatch.quadCount = minimapBatch.entities.size();
 		minimapBatch.rotationMatrix = minimap_rotationMatrix;
-		frameData.batches.push_back(minimapBatch);
+		minimap_frameData.batches.push_back(minimapBatch);
 	}
+
+
+}
+
+void Graph::minimapRenderDraw() {
+	std::shared_ptr<OrthoCamera> minimap_camera2D =
+		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
+
+	_minimapFramebuffer.Bind();
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearDepth(1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	/////////////////////////////////////////////////////
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	{
 		//! render Frame
-		for (const auto& batch : frameData.batches) {
-			getApp()->renderBatch(batch, frameData, *minimap_camera2D);
+		for (const auto& batch : minimap_frameData.batches) {
+			getApp()->renderBatch(batch, minimap_frameData, *minimap_camera2D);
 		}
 	}
 
