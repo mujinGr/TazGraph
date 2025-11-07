@@ -52,17 +52,17 @@ void AppInterface::renderBatch(
 {
 	auto main_camera2D = dynamic_cast<const PerspectiveCamera*>(&camera);
 
-	switch (batch.type) {
-	case Taz::RenderBatch::Type::Line:
+	switch (batch.renderer_type) {
+	case Taz::RenderBatch::RendererType::Line:
 		drawLineBatch(batch, frameData, camera);
 		break;
-	case Taz::RenderBatch::Type::PlaneColor:
+	case Taz::RenderBatch::RendererType::PlaneColor:
 		drawPlaneColorBatch(batch, frameData, camera);
 		break;
-	case Taz::RenderBatch::Type::PlaneModel:
+	case Taz::RenderBatch::RendererType::PlaneModel:
 		drawPlaneModelBatch(batch, frameData, camera);
 		break;
-	case Taz::RenderBatch::Type::Light:
+	case Taz::RenderBatch::RendererType::Light:
 		drawLightBatch(batch, frameData, camera);
 		break;
 	}

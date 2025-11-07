@@ -17,14 +17,24 @@
 namespace Taz
 {
 	struct RenderBatch {
-		enum class Type {
+		enum class RendererType {
 			Line,
 			PlaneColor,
 			PlaneModel,
 			Light
 		};
 
-		Type type;
+		RendererType renderer_type = RendererType::Line;
+
+		enum class MeshType {
+			Line,
+			Triangle,
+			Quad,
+			Box,
+			Sphere
+		};
+		MeshType mesh_type = MeshType::Quad;
+
 		std::string shaderName;
 
 		size_t count = 0;

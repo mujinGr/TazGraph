@@ -30,7 +30,9 @@ void Graph::prepareDraw()
 	if (showGrid) {
 		//! Prepare Frame
 		Taz::GECSRenderBatch gridBatch;
-		gridBatch.type = Taz::GECSRenderBatch::Type::Line;
+		gridBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		gridBatch.mesh_type = Taz::RenderBatch::MeshType::Line;
+
 		gridBatch.shaderName = "lineColor";
 		gridBatch.entities = manager->collectEntities({
 			Manager::groupGridLinks,
@@ -41,7 +43,9 @@ void Graph::prepareDraw()
 	// 1. Nodes Batch (Color)
 	{
 		Taz::GECSRenderBatch nodesBatch;
-		nodesBatch.type = Taz::GECSRenderBatch::Type::PlaneColor;
+		nodesBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneColor;
+		nodesBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
 		nodesBatch.shaderName = "color";
 		nodesBatch.entities = manager->collectEntities({
 			Manager::groupNodes_0,
@@ -55,7 +59,9 @@ void Graph::prepareDraw()
 	// 2. Link Rendering
 	{
 		Taz::GECSRenderBatch linksBatch;
-		linksBatch.type = Taz::GECSRenderBatch::Type::Line;
+		linksBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		linksBatch.mesh_type = Taz::RenderBatch::MeshType::Line;
+
 		linksBatch.shaderName = "lineColor";
 		linksBatch.entities = manager->collectEntities({
 			Manager::groupLinks_0,
@@ -69,7 +75,9 @@ void Graph::prepareDraw()
 	// 3. ArrowHeads Batch
 	{
 		Taz::GECSRenderBatch arrowsBatch;
-		arrowsBatch.type = Taz::GECSRenderBatch::Type::PlaneColor;
+		arrowsBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneColor;
+		arrowsBatch.mesh_type = Taz::RenderBatch::MeshType::Triangle;
+
 		arrowsBatch.shaderName = "color";
 		arrowsBatch.entities = manager->collectEntities({
 			Manager::groupArrowHeads_0,
@@ -82,7 +90,9 @@ void Graph::prepareDraw()
 	// 4. Sprite Models Batch
 	{
 		Taz::GECSRenderBatch spritesBatch;
-		spritesBatch.type = Taz::GECSRenderBatch::Type::PlaneModel;
+		spritesBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneModel;
+		spritesBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
 		spritesBatch.shaderName = "texture";
 		spritesBatch.entities = manager->collectEntities({
 			Manager::groupRenderSprites
@@ -93,7 +103,9 @@ void Graph::prepareDraw()
 	// 5.1. Lighted Boxes Batch
 	{
 		Taz::GECSRenderBatch lightsBatch;
-		lightsBatch.type = Taz::GECSRenderBatch::Type::Light;
+		lightsBatch.renderer_type = Taz::RenderBatch::RendererType::Light;
+		lightsBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
 
 		lightsBatch.shaderName = "light";
 
@@ -108,7 +120,9 @@ void Graph::prepareDraw()
 	// 5.2. Lighted Spheres Batch
 	{
 		Taz::GECSRenderBatch lightsBatch;
-		lightsBatch.type = Taz::GECSRenderBatch::Type::Light;
+		lightsBatch.renderer_type = Taz::RenderBatch::RendererType::Light;
+		lightsBatch.mesh_type = Taz::RenderBatch::MeshType::Sphere;
+
 
 		lightsBatch.shaderName = "light";
 
@@ -124,7 +138,9 @@ void Graph::prepareDraw()
 	// 6. Path Links Batch (rendered without depth test)
 	{
 		Taz::GECSRenderBatch pathLinksBatch;
-		pathLinksBatch.type = Taz::GECSRenderBatch::Type::Line;
+		pathLinksBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		pathLinksBatch.mesh_type = Taz::RenderBatch::MeshType::Line;
+
 		pathLinksBatch.shaderName = "lineColor";
 		pathLinksBatch.entities = manager->collectEntities({
 			Manager::groupPathLinks,
@@ -141,7 +157,9 @@ void Graph::prepareDraw()
 	// 7. Ports and Slots Batch
 	{
 		Taz::GECSRenderBatch portsBatch;
-		portsBatch.type = Taz::GECSRenderBatch::Type::PlaneColor;
+		portsBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneColor;
+		portsBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
 		portsBatch.shaderName = "color";
 		portsBatch.entities = manager->collectEntities({
 			Manager::groupPorts,
@@ -153,7 +171,9 @@ void Graph::prepareDraw()
 	// 8.1. Selection Nodes Overlay Batch
 	{
 		Taz::GECSRenderBatch selectionBatch;
-		selectionBatch.type = Taz::GECSRenderBatch::Type::Line;
+		selectionBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		selectionBatch.mesh_type = Taz::RenderBatch::MeshType::Box;
+
 
 		selectionBatch.shaderName = "lineColor";
 
@@ -188,7 +208,9 @@ void Graph::prepareDraw()
 	// 8.2. Selection Links Overlay Batch
 	{
 		Taz::GECSRenderBatch selectionBatch;
-		selectionBatch.type = Taz::GECSRenderBatch::Type::Line;
+		selectionBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		selectionBatch.mesh_type = Taz::RenderBatch::MeshType::Box;
+
 
 		selectionBatch.shaderName = "lineColor";
 
@@ -366,7 +388,9 @@ void Graph::minimapPrepareDraw() {
 	minimap_frameData.batches.clear();
 	{
 		Taz::GECSRenderBatch minimapBatch;
-		minimapBatch.type = Taz::RenderBatch::Type::PlaneColor;
+		minimapBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneColor;
+		minimapBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
 		minimapBatch.shaderName = "color";
 		minimapBatch.entities = manager->collectEntities({
 			Manager::groupMinimapNodes,

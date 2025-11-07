@@ -136,7 +136,9 @@ void MainMenuScreen::prepareDraw()
 	//! Prepare Frame
 	{
 		Taz::GECSRenderBatch mainMenuBatch;
-		mainMenuBatch.type = Taz::RenderBatch::Type::PlaneModel;
+		mainMenuBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneModel;
+		mainMenuBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
 		mainMenuBatch.shaderName = "texture";
 		mainMenuBatch.entities = manager->collectEntities(
 			{ Manager::groupBackgroundLayer }
