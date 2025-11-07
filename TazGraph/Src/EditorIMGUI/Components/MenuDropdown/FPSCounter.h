@@ -6,7 +6,7 @@ private:
 	BaseFPSLimiter* baseFPSLimiter = nullptr;
 
 public:
-	bool showFPS = false;
+	bool showFPS = true;
 
 	FPSCounter() = default;
 	~FPSCounter() override = default;
