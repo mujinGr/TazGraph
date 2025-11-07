@@ -33,8 +33,26 @@ void LightRenderer::end() {
 	renderBatch();
 }
 
-void LightRenderer::initBatchSize()
+void LightRenderer::initBatch(const Taz::RenderBatch& batch)
 {
+
+	switch (batch.mesh_type) {
+	case Taz::RenderBatch::MeshType::Triangle:
+		_triangleGlyphs_size = batch.count;
+		break;
+
+	case Taz::RenderBatch::MeshType::Quad:
+		_rectangleGlyphs_size = batch.count;
+		break;
+
+	case Taz::RenderBatch::MeshType::Box:
+		_boxGlyphs_size = batch.count;
+		break;
+
+	case Taz::RenderBatch::MeshType::Sphere:
+		_sphereGlyphs_size = batch.count;
+		break;
+	}
 	//mesh Arrays
 	_meshesArrays[TRIANGLE_MESH_IDX].instances.resize(_triangleGlyphs_size);
 

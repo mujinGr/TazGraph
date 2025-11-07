@@ -31,8 +31,22 @@ void PlaneModelRenderer::end() {
 }
 
 
-void PlaneModelRenderer::initBatchSize()
+void PlaneModelRenderer::initBatch(const Taz::RenderBatch& batch)
 {
+	switch (batch.mesh_type) {
+	case Taz::RenderBatch::MeshType::Triangle:
+		_triangleGlyphs_size = batch.count;
+		break;
+
+	case Taz::RenderBatch::MeshType::Quad:
+		_rectangleGlyphs_size = batch.count;
+		break;
+
+	case Taz::RenderBatch::MeshType::Box:
+		_boxGlyphs_size = batch.count;
+		break;
+	}
+
 	_meshesElements[TRIANGLE_MESH_IDX].instances.resize(0);
 
 	_meshesElements[RECTANGLE_MESH_IDX].instances.resize(_rectangleGlyphs_size);

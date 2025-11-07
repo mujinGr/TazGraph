@@ -27,30 +27,3 @@ void Taz::Renderer::begin() {
 	_boxGlyphs_size = 0;
 	_sphereGlyphs_size = 0;
 }
-
-void Taz::Renderer::initQuadBatch(size_t mSize)
-{
-	_rectangleGlyphs_size = mSize;
-}
-
-void Taz::Renderer::initLineBatch(size_t mSize)
-{
-	_lineGlyphs_size = mSize;
-}
-
-void Taz::Renderer::initTriangleBatch(size_t mSize)
-{
-	_triangleGlyphs_size = mSize;
-}
-
-void Taz::Renderer::initBoxBatch(size_t mSize)
-{
-	_boxGlyphs_size = mSize;
-}
-
-void Taz::Renderer::initSphereBatch(size_t mSize)
-{
-	_sphereGlyphs_size = mSize;
-}
-
-

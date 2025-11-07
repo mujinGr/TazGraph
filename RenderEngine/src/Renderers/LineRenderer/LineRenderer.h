@@ -40,7 +40,7 @@ void main() {
 	void begin();
 	void end();
 
-	void initBatchSize();
+	void initBatch(const Taz::RenderBatch& batch);
 
 	void drawLine(size_t v_index,
 		const glm::vec3 srcPosition, const glm::vec3 destPosition,

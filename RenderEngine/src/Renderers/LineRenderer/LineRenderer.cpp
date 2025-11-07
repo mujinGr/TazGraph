@@ -43,8 +43,22 @@ void LineRenderer::end() // on en d clear all indices reserved
 }
 
 
-void LineRenderer::initBatchSize()
+void LineRenderer::initBatch(const Taz::RenderBatch& batch)
 {
+	switch (batch.mesh_type) {
+	case Taz::RenderBatch::MeshType::Line:
+		_lineGlyphs_size = batch.count;
+		break;
+
+	case Taz::RenderBatch::MeshType::Quad:
+		_rectangleGlyphs_size = batch.count;
+		break;
+
+	case Taz::RenderBatch::MeshType::Box:
+		_boxGlyphs_size = batch.count;
+		break;
+	}
+
 	_meshesArrays[LINE_MESH_IDX].instances.resize(_lineGlyphs_size);
 	_meshesArrays[RECTANGLE_MESH_IDX].instances.resize(0);
 	_meshesArrays[BOX_MESH_IDX].instances.resize(0);

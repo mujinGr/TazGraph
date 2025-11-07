@@ -260,7 +260,7 @@ void Graph::prepareDraw()
 	//	);
 
 
-	//	getApp()->lineRenderer.initBatchSize();
+	//	getApp()->lineRenderer.initBatch();
 
 	//	size_t v_index = 0;
 
