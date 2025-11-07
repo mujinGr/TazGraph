@@ -15,6 +15,14 @@ LineRenderer::~LineRenderer()
 void LineRenderer::init()
 {
 	createVertexArray();
+
+	_meshesArrays[LINE_MESH_IDX].meshIndices = INDICES_LINE_OFFSET;
+	_meshesArrays[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
+	_meshesArrays[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
+
+	_meshesElements[LINE_MESH_IDX].meshIndices = INDICES_LINE_OFFSET;
+	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
+	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
 }
 
 void LineRenderer::begin()
@@ -31,32 +39,20 @@ void LineRenderer::begin()
 
 void LineRenderer::end() // on en d clear all indices reserved
 {
-	Taz::Renderer::end();
+	renderBatch();
 }
 
 
 void LineRenderer::initBatchSize()
 {
 	_meshesArrays[LINE_MESH_IDX].instances.resize(_lineGlyphs_size);
-	_meshesArrays[LINE_MESH_IDX].meshIndices = INDICES_LINE_OFFSET;
-
 	_meshesArrays[RECTANGLE_MESH_IDX].instances.resize(0);
-	_meshesArrays[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
-
 	_meshesArrays[BOX_MESH_IDX].instances.resize(0);
-	_meshesArrays[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
-
 	_meshesArrays[SPHERE_MESH_IDX].instances.resize(0);
 
 	_meshesElements[LINE_MESH_IDX].instances.resize(0);
-	_meshesElements[LINE_MESH_IDX].meshIndices = INDICES_LINE_OFFSET;
-
 	_meshesElements[RECTANGLE_MESH_IDX].instances.resize(_rectangleGlyphs_size);
-	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
-
 	_meshesElements[BOX_MESH_IDX].instances.resize(_boxGlyphs_size);
-	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
-
 	_meshesElements[SPHERE_MESH_IDX].instances.resize(0);
 }
 

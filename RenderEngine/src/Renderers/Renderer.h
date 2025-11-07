@@ -16,6 +16,30 @@
 
 namespace Taz
 {
+	//struct RenderBatch {
+	//	enum class Type {
+	//		Line,
+	//		PlaneColor,
+	//		PlaneModel,
+	//		Light
+	//	};
+
+	//	Type type;
+	//	std::string shaderName;
+
+	//	size_t lineCount = 0;
+	//	size_t quadCount = 0;
+	//	size_t triangleCount = 0;
+	//	size_t boxCount = 0;
+	//	size_t sphereCount = 0;
+
+	//	// Additional shader uniforms
+	//	glm::mat4 rotationMatrix = glm::mat4(1.0f);
+	//	glm::vec2 viewportSize = glm::vec2(0.0f);
+	//};
+
+
+
 	class Renderer {
 	public:
 		Renderer();
@@ -24,7 +48,7 @@ namespace Taz
 		virtual void init();
 
 		virtual void begin();
-		virtual void end();
+		virtual void end() = 0;
 
 		void initLineBatch(size_t mSize);
 		void initTriangleBatch(size_t mSize);

@@ -24,7 +24,7 @@ void Graph::prepareDraw()
 	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
 
 	rotationMatrix = getRotationMatrix(cameraEulerAngles);
-
+	frameData.batches.clear();
 	//getApp()->planeModelRenderer.begin();
 
 	/*getApp()->resourceManager.setupShader(*getApp()->resourceManager.getGLSLProgram("texture"), "worldMap", *main_camera2D);

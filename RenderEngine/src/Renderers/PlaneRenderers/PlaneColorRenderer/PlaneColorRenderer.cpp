@@ -10,6 +10,12 @@ PlaneColorRenderer::~PlaneColorRenderer() {
 
 void PlaneColorRenderer::init() {
 	createVertexArray();
+	_meshesArrays[TRIANGLE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
+
+	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
+	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
+	_meshesElements[SPHERE_MESH_IDX].meshIndices = sphereIndices.size();
+
 }
 
 void PlaneColorRenderer::begin() {
@@ -24,14 +30,13 @@ void PlaneColorRenderer::begin() {
 	}
 }
 void PlaneColorRenderer::end() {
-	Taz::Renderer::end();
+	renderBatch();
 }
 
 void PlaneColorRenderer::initBatchSize()
 {
 	//mesh Arrays
 	_meshesArrays[TRIANGLE_MESH_IDX].instances.resize(_triangleGlyphs_size);
-	_meshesArrays[TRIANGLE_MESH_IDX].meshIndices = TRIANGLE_VERTICES;
 
 	_meshesArrays[RECTANGLE_MESH_IDX].instances.resize(0);
 	_meshesArrays[BOX_MESH_IDX].instances.resize(0);
@@ -43,13 +48,10 @@ void PlaneColorRenderer::initBatchSize()
 	_meshesElements[TRIANGLE_MESH_IDX].instances.resize(0);
 
 	_meshesElements[RECTANGLE_MESH_IDX].instances.resize(_rectangleGlyphs_size);
-	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
 
 	_meshesElements[BOX_MESH_IDX].instances.resize(_boxGlyphs_size);
-	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
 
 	_meshesElements[SPHERE_MESH_IDX].instances.resize(_sphereGlyphs_size);
-	_meshesElements[SPHERE_MESH_IDX].meshIndices = sphereIndices.size();
 
 }
 

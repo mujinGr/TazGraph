@@ -92,7 +92,6 @@ void AppInterface::drawLineBatch(
 	}
 
 	lineRenderer.end();
-	lineRenderer.renderBatch();
 	shader.unuse();
 
 }
@@ -119,7 +118,6 @@ void AppInterface::drawPlaneColorBatch(
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(batch.rotationMatrix));
 
 	planeColorRenderer.end();
-	planeColorRenderer.renderBatch();
 	shader.unuse();
 
 }
@@ -141,7 +139,6 @@ void AppInterface::drawPlaneModelBatch(
 	resourceManager.setupShader(shader, camera);
 
 	planeModelRenderer.end();
-	planeModelRenderer.renderBatch();
 	shader.unuse();
 
 }
@@ -165,7 +162,6 @@ void AppInterface::drawLightBatch(
 	resourceManager.setupShader(shader, camera);
 
 	lightRenderer.end();
-	lightRenderer.renderBatch();
 	shader.unuse();
 
 }

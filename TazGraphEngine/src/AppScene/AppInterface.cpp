@@ -320,7 +320,6 @@ void AppInterface::update(float deltaTime) {
 
 void AppInterface::prepareDraw()
 {
-	glViewport(0, 0, _window.getScreenWidth(), _window.getScreenHeight());
 	if (!_sceneList || !_sceneList->getCurrent())
 		return;
 
