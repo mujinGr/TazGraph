@@ -27,11 +27,7 @@ namespace Taz
 		Type type;
 		std::string shaderName;
 
-		size_t lineCount = 0;
-		size_t quadCount = 0;
-		size_t triangleCount = 0;
-		size_t boxCount = 0;
-		size_t sphereCount = 0;
+		size_t count = 0;
 
 		// Additional shader uniforms
 		glm::mat4 rotationMatrix = glm::mat4(1.0f);

@@ -141,7 +141,7 @@ void MainMenuScreen::prepareDraw()
 		mainMenuBatch.entities = manager->collectEntities(
 			{ Manager::groupBackgroundLayer }
 		, Taz::EntityType::Empty);
-		mainMenuBatch.quadCount = mainMenuBatch.entities.size();
+		mainMenuBatch.count = mainMenuBatch.entities.size();
 		frameData.batches.push_back(mainMenuBatch);
 
 	}

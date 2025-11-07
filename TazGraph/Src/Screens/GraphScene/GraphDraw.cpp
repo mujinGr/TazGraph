@@ -25,13 +25,6 @@ void Graph::prepareDraw()
 
 	rotationMatrix = getRotationMatrix(cameraEulerAngles);
 	frameData.batches.clear();
-	//getApp()->planeModelRenderer.begin();
-
-	/*getApp()->resourceManager.setupShader(*getApp()->resourceManager.getGLSLProgram("texture"), "worldMap", *main_camera2D);
-	renderBatch(backgroundImage, getApp()->planeModelRenderer, false);
-	getApp()->planeModelRenderer.end();
-	getApp()->planeModelRenderer.renderBatch();*/
-
 
 	// 0. Grid Rendering
 	if (showGrid) {
@@ -42,7 +35,7 @@ void Graph::prepareDraw()
 		gridBatch.entities = manager->collectEntities({
 			Manager::groupGridLinks,
 			}, Taz::EntityType::Link);
-		gridBatch.lineCount = gridBatch.entities.size();
+		gridBatch.count = gridBatch.entities.size();
 		frameData.batches.push_back(gridBatch);
 	}
 	// 1. Nodes Batch (Color)
@@ -55,7 +48,7 @@ void Graph::prepareDraw()
 			Manager::groupGroupNodes_0,
 			Manager::groupGroupNodes_1
 			}, Taz::EntityType::Node);
-		nodesBatch.quadCount = nodesBatch.entities.size();
+		nodesBatch.count = nodesBatch.entities.size();
 		nodesBatch.rotationMatrix = rotationMatrix;
 		frameData.batches.push_back(nodesBatch);
 	}
@@ -69,7 +62,7 @@ void Graph::prepareDraw()
 			Manager::groupGroupLinks_0,
 			Manager::groupGroupLinks_1
 			}, Taz::EntityType::Link);
-		linksBatch.lineCount = linksBatch.entities.size();
+		linksBatch.count = linksBatch.entities.size();
 		frameData.batches.push_back(linksBatch);
 
 	}
@@ -82,7 +75,7 @@ void Graph::prepareDraw()
 			Manager::groupArrowHeads_0,
 			}, Taz::EntityType::Empty);
 
-		arrowsBatch.triangleCount = arrowsBatch.entities.size();
+		arrowsBatch.count = arrowsBatch.entities.size();
 		arrowsBatch.rotationMatrix = rotationMatrix;
 		frameData.batches.push_back(arrowsBatch);
 	}
@@ -94,25 +87,40 @@ void Graph::prepareDraw()
 		spritesBatch.entities = manager->collectEntities({
 			Manager::groupRenderSprites
 			}, Taz::EntityType::Empty);
-		spritesBatch.quadCount = spritesBatch.entities.size();
+		spritesBatch.count = spritesBatch.entities.size();
 		frameData.batches.push_back(spritesBatch);
 	}
-	// 5. Lights Batch
+	// 5.1. Lighted Boxes Batch
 	{
 		Taz::GECSRenderBatch lightsBatch;
 		lightsBatch.type = Taz::GECSRenderBatch::Type::Light;
+
 		lightsBatch.shaderName = "light";
 
-		auto empties = manager->getVisibleGroup<EmptyEntity>(Manager::groupEmpties);
-		auto spheres = manager->getVisibleGroup<EmptyEntity>(Manager::groupSphereEmpties);
+		lightsBatch.entities = manager->collectEntities({
+			Manager::groupEmpties
+			}, Taz::EntityType::Empty);
 
-		lightsBatch.boxCount = empties.size();
-		lightsBatch.sphereCount = spheres.size();
-		lightsBatch.entities.insert(lightsBatch.entities.end(), empties.begin(), empties.end());
-		lightsBatch.entities.insert(lightsBatch.entities.end(), spheres.begin(), spheres.end());
+		lightsBatch.count = lightsBatch.entities.size();
 
 		frameData.batches.push_back(lightsBatch);
 	}
+	// 5.2. Lighted Spheres Batch
+	{
+		Taz::GECSRenderBatch lightsBatch;
+		lightsBatch.type = Taz::GECSRenderBatch::Type::Light;
+
+		lightsBatch.shaderName = "light";
+
+		lightsBatch.entities = manager->collectEntities({
+			Manager::groupSphereEmpties
+			}, Taz::EntityType::Empty);
+
+		lightsBatch.count = lightsBatch.entities.size();
+
+		frameData.batches.push_back(lightsBatch);
+	}
+
 	// 6. Path Links Batch (rendered without depth test)
 	{
 		Taz::GECSRenderBatch pathLinksBatch;
@@ -122,7 +130,7 @@ void Graph::prepareDraw()
 			Manager::groupPathLinks,
 			Manager::groupPathInnerLinks
 			}, Taz::EntityType::Link);
-		pathLinksBatch.lineCount = pathLinksBatch.entities.size();
+		pathLinksBatch.count = pathLinksBatch.entities.size();
 		pathLinksBatch.viewportSize =
 			glm::vec2(
 				getApp()->_window.getScreenWidth(),
@@ -139,13 +147,14 @@ void Graph::prepareDraw()
 			Manager::groupPorts,
 			Manager::groupPortSlots
 			}, Taz::EntityType::Empty);
-		portsBatch.quadCount = portsBatch.entities.size();
+		portsBatch.count = portsBatch.entities.size();
 		frameData.batches.push_back(portsBatch);
 	}
-	// 8. Selection Overlay Batch
+	// 8.1. Selection Nodes Overlay Batch
 	{
 		Taz::GECSRenderBatch selectionBatch;
 		selectionBatch.type = Taz::GECSRenderBatch::Type::Line;
+
 		selectionBatch.shaderName = "lineColor";
 
 		size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
@@ -153,20 +162,12 @@ void Graph::prepareDraw()
 				return dynamic_cast<NodeEntity*>(entry.first) || dynamic_cast<EmptyEntity*>(entry.first);
 			});
 
-		size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
-			[](const auto& entry) {
-				return dynamic_cast<LinkEntity*>(entry.first);
-			});
+		selectionBatch.count = nodeCount;
 
-		selectionBatch.lineCount = linkCount;
-		selectionBatch.boxCount = nodeCount;
-
-		manager->removeAllEntitiesFromEmptyGroup(Manager::groupSelectedEntities);
 
 		for (auto& [entity, offset] : _selectedEntities) {
 			Node* node = dynamic_cast<Node*>(entity);
 			Empty* empty = dynamic_cast<Empty*>(entity);
-			Link* link = dynamic_cast<Link*>(entity);
 
 			if (node || empty) {
 				auto& selectedEntity = manager->addEntity<Empty>();
@@ -178,16 +179,36 @@ void Graph::prepareDraw()
 				glm::vec3 nodeBox_org(tr.position.x, tr.position.y, tr.position.z);
 				glm::vec3 nodeBox_size(tr.size.x, tr.size.y, tr.size.z);
 
-				selectionBatch.boxCount++;
+				selectionBatch.count++;
 				selectionBatch.entities.push_back(selectedEntity.getId());
 			}
-			else if (link) {
+		}
+		frameData.batches.push_back(selectionBatch);
+	}
+	// 8.2. Selection Links Overlay Batch
+	{
+		Taz::GECSRenderBatch selectionBatch;
+		selectionBatch.type = Taz::GECSRenderBatch::Type::Line;
+
+		selectionBatch.shaderName = "lineColor";
+
+		size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
+			[](const auto& entry) {
+				return dynamic_cast<LinkEntity*>(entry.first);
+			});
+
+		selectionBatch.count = linkCount;
+
+		for (auto& [entity, offset] : _selectedEntities) {
+			Link* link = dynamic_cast<Link*>(entity);
+
+			if (link) {
 				auto& selectedEntity = manager->addEntity<Link>();
 
 				selectedEntity.addComponent<Line_w_Color>();
 				manager->grid->addLink(&selectedEntity, manager->grid->getGridLevel());
 
-				selectionBatch.lineCount++;
+				selectionBatch.count++;
 				selectionBatch.entities.push_back(selectedEntity.getId());
 			}
 
@@ -195,78 +216,79 @@ void Graph::prepareDraw()
 		frameData.batches.push_back(selectionBatch);
 	}
 
-	// Debug Rendering
-	if (renderDebug) {
-		getApp()->lineRenderer.begin();
-		getApp()->resourceManager.setupShader(glsl_wireframeColor, *main_camera2D);
 
-		/*GLint viewportLoc = glsl_lineColor.getUniformLocation("_viewport");
-		glUniform4f(viewportLoc, 0.0f, 0.0f, 800.0f, 640.0f);*/
+	//// Debug Rendering
+	//if (renderDebug) {
+	//	getApp()->lineRenderer.begin();
+	//	getApp()->resourceManager.setupShader(glsl_wireframeColor, *main_camera2D);
 
-
-		std::vector<Cell*> intercectedCells = manager->grid->getIntersectedCameraCells(*main_camera2D);
-
-		getApp()->lineRenderer.initQuadBatch(4);
-
-		getApp()->lineRenderer.initBoxBatch(
-			intercectedCells.size() +
-			manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
-			manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
-			manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size()
-		);
+	//	/*GLint viewportLoc = glsl_lineColor.getUniformLocation("_viewport");
+	//	glUniform4f(viewportLoc, 0.0f, 0.0f, 800.0f, 640.0f);*/
 
 
-		getApp()->lineRenderer.initBatchSize();
+	//	std::vector<Cell*> intercectedCells = manager->grid->getIntersectedCameraCells(*main_camera2D);
 
-		size_t v_index = 0;
+	//	getApp()->lineRenderer.initQuadBatch(4);
 
-		getApp()->lineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
-		getApp()->lineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
-		getApp()->lineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
-		getApp()->lineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
-
-
-		size_t box_v_index = 0;
-
-		for (const auto& cell : intercectedCells) {
-			glm::vec3 cellBox_center(cell->boundingBox_center.x, cell->boundingBox_center.y, cell->boundingBox_center.z);
-			glm::vec3 cellBox_size(cell->boundingBox_size.x, cell->boundingBox_size.y, cell->boundingBox_size.z);
-
-			getApp()->lineRenderer.drawBox(box_v_index++, cellBox_size, cellBox_center, TazColor(0, 255, 0, 20));  // Drawing each cell in red for visibility
-		}
-
-		for (auto& group : {
-			manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0),
-			manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0),
-			manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1)
-			}) {
-
-			std::vector<EntityID> groupVec = group;
-
-			for (auto entityId : groupVec) {
-				auto* entity = manager->getEntityFromId(entityId);
-
-				if (entity->hasComponent<TransformComponent>())
-				{
-					TransformComponent* tr = &entity->GetComponent<TransformComponent>();
-
-					glm::vec3 nodeBox_org(tr->position);
-					glm::vec3 nodeBox_size(tr->size.x, tr->size.y, tr->size.z);
-
-					getApp()->lineRenderer.drawBox(box_v_index++, nodeBox_size, nodeBox_org, TazColor(255, 255, 255, 255));  // Drawing each cell in red for visibility
-
-					//getApp()->lineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), TazColor(255, 255, 255, 255), tr->getPosition().x);
-					//break;
-				}
-
-			}
-		}
+	//	getApp()->lineRenderer.initBoxBatch(
+	//		intercectedCells.size() +
+	//		manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
+	//		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
+	//		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size()
+	//	);
 
 
-		getApp()->lineRenderer.end();
-		getApp()->lineRenderer.renderElementsBatch();
-		glsl_wireframeColor.unuse();
-	}
+	//	getApp()->lineRenderer.initBatchSize();
+
+	//	size_t v_index = 0;
+
+	//	getApp()->lineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
+	//	getApp()->lineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, -COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
+	//	getApp()->lineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(-ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
+	//	getApp()->lineRenderer.drawRectangle(v_index++, glm::vec2(ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2), glm::vec3(ROW_CELL_SIZE / 4, COLUMN_CELL_SIZE / 4, 0.0f), TazColor(255, 0, 255, 255));
+
+
+	//	size_t box_v_index = 0;
+
+	//	for (const auto& cell : intercectedCells) {
+	//		glm::vec3 cellBox_center(cell->boundingBox_center.x, cell->boundingBox_center.y, cell->boundingBox_center.z);
+	//		glm::vec3 cellBox_size(cell->boundingBox_size.x, cell->boundingBox_size.y, cell->boundingBox_size.z);
+
+	//		getApp()->lineRenderer.drawBox(box_v_index++, cellBox_size, cellBox_center, TazColor(0, 255, 0, 20));  // Drawing each cell in red for visibility
+	//	}
+
+	//	for (auto& group : {
+	//		manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0),
+	//		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0),
+	//		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1)
+	//		}) {
+
+	//		std::vector<EntityID> groupVec = group;
+
+	//		for (auto entityId : groupVec) {
+	//			auto* entity = manager->getEntityFromId(entityId);
+
+	//			if (entity->hasComponent<TransformComponent>())
+	//			{
+	//				TransformComponent* tr = &entity->GetComponent<TransformComponent>();
+
+	//				glm::vec3 nodeBox_org(tr->position);
+	//				glm::vec3 nodeBox_size(tr->size.x, tr->size.y, tr->size.z);
+
+	//				getApp()->lineRenderer.drawBox(box_v_index++, nodeBox_size, nodeBox_org, TazColor(255, 255, 255, 255));  // Drawing each cell in red for visibility
+
+	//				//getApp()->lineRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), TazColor(255, 255, 255, 255), tr->getPosition().x);
+	//				//break;
+	//			}
+
+	//		}
+	//	}
+
+
+	//	getApp()->lineRenderer.end();
+	//	getApp()->lineRenderer.renderElementsBatch();
+	//	glsl_wireframeColor.unuse();
+	//}
 
 	minimapPrepareDraw();
 }
@@ -349,7 +371,7 @@ void Graph::minimapPrepareDraw() {
 		minimapBatch.entities = manager->collectEntities({
 			Manager::groupMinimapNodes,
 			}, Taz::EntityType::Minimap);
-		minimapBatch.quadCount = minimapBatch.entities.size();
+		minimapBatch.count = minimapBatch.entities.size();
 		minimapBatch.rotationMatrix = minimap_rotationMatrix;
 		minimap_frameData.batches.push_back(minimapBatch);
 	}

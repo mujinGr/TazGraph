@@ -76,8 +76,8 @@ void AppInterface::drawLineBatch(
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	lineRenderer.begin();
-	lineRenderer.initLineBatch(batch.lineCount);
-	lineRenderer.initBoxBatch(batch.boxCount);
+	lineRenderer.initLineBatch(batch.count);
+	lineRenderer.initBoxBatch(batch.count);
 	lineRenderer.initBatchSize();
 
 
@@ -103,8 +103,8 @@ void AppInterface::drawPlaneColorBatch(
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	planeColorRenderer.begin();
-	planeColorRenderer.initQuadBatch(batch.quadCount);
-	planeColorRenderer.initTriangleBatch(batch.triangleCount);
+	planeColorRenderer.initQuadBatch(batch.count);
+	planeColorRenderer.initTriangleBatch(batch.count);
 	planeColorRenderer.initBatchSize();
 
 	// Fill batch data
@@ -129,7 +129,7 @@ void AppInterface::drawPlaneModelBatch(
 {
 	//CHange camera based on scene
 	planeModelRenderer.begin();
-	planeModelRenderer.initQuadBatch(batch.quadCount);
+	planeModelRenderer.initQuadBatch(batch.count);
 	planeModelRenderer.initBatchSize();
 
 	// Fill batch data
@@ -150,8 +150,8 @@ void AppInterface::drawLightBatch(
 )
 {
 	lightRenderer.begin();
-	lightRenderer.initBoxBatch(batch.boxCount);
-	lightRenderer.initSphereBatch(batch.sphereCount);
+	lightRenderer.initBoxBatch(batch.count);
+	lightRenderer.initSphereBatch(batch.count);
 	lightRenderer.initBatchSize();
 
 	// Fill batch data
