@@ -22,6 +22,10 @@ public:
 	virtual ~AppInterface();
 
 	void run();
+
+	void enqueueRenderCommand(std::function<void()> cmd);
+	void waitForRenderCommand();
+
 	void RenderThreadFunc();
 	void exitSimulator();
 

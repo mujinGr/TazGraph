@@ -38,73 +38,79 @@ void Graph::destroy() {
 
 void Graph::onEntry()
 {
+	getApp()->enqueueRenderCommand([this]() {
+		/////////////////////////////////////////////
+		getApp()->resourceManager.addGLSLProgram("color");
+		getApp()->resourceManager.addGLSLProgram("texture");
+		getApp()->resourceManager.addGLSLProgram("framebuffer");
+		getApp()->resourceManager.addGLSLProgram("light");
+
+		getApp()->resourceManager.addGLSLProgram("lineColor");
+		getApp()->resourceManager.addGLSLProgram("wireframeColor");
+
+		if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
+		{
+			std::cout << "Subsystems Initialised..." << std::endl;
+
+			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+			getApp()->resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
+			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
+			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
+			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
+
+			getApp()->resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
+			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
+			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
+			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
+
+			getApp()->resourceManager.getGLSLProgram("framebuffer")->compileAndLinkShaders("Src/Shaders/framebuffer.vert", "Src/Shaders/framebuffer.frag");
+			getApp()->resourceManager.getGLSLProgram("framebuffer")->addAttribute("inPos");
+			getApp()->resourceManager.getGLSLProgram("framebuffer")->addAttribute("inTexCoords");
+
+			getApp()->resourceManager.getGLSLProgram("light")->compileAndLinkShaders("Src/Shaders/colorLighting.vert", "Src/Shaders/colorLighting.frag");
+			getApp()->resourceManager.getGLSLProgram("light")->addAttribute("vertexPosition");
+			getApp()->resourceManager.getGLSLProgram("light")->addAttribute("vertexColor");
+			getApp()->resourceManager.getGLSLProgram("light")->addAttribute("vertexUV");
+
+			getApp()->resourceManager.getGLSLProgram("lineColor")->compileAndLinkShaders("Src/Shaders/lineColorShading.vert", "Src/Shaders/lineColorShading.gs", "Src/Shaders/lineColorShading.frag");
+			getApp()->resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexPosition");
+			getApp()->resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexColor");
+
+			getApp()->resourceManager.getGLSLProgram("wireframeColor")->compileAndLinkShaders("Src/Shaders/wireFrameColorShading.vert", "Src/Shaders/wireFrameColorShading.gs", "Src/Shaders/wireFrameColorShading.frag");
+			getApp()->resourceManager.getGLSLProgram("wireframeColor")->addAttribute("vertexPosition");
+			getApp()->resourceManager.getGLSLProgram("wireframeColor")->addAttribute("vertexColor");
+
+
+		}
+
+		getApp()->resourceManager.getGLSLProgram("framebuffer")->use();
+		glUniform1i(glGetUniformLocation(getApp()->resourceManager.getGLSLProgram("framebuffer")->getProgramID(), "screenTexture"), 0);
+		getApp()->resourceManager.getGLSLProgram("framebuffer")->unuse();
+
+		_viewportFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
+		_minimapFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
+
+		if (TTF_Init() == -1)
+		{
+			std::cout << "Error : SDL_TTF" << std::endl;
+		}
+
+		//add the textures to our texture library
+		TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
+		TextureManager::getInstance().Add_GLTexture("worldMap", "assets/Sprites/worldMap.png");
+		TextureManager::getInstance().Add_GLTexture("play-button", "assets/Sprites/images-removebg-preview.png");
+		TextureManager::getInstance().Add_GLTexture("pause-button", "assets/Sprites/pause.png");
+		TextureManager::getInstance().Add_GLTexture("treemap", "assets/Sprites/treemap.png");
+		TextureManager::getInstance().Add_GLTexture("sauronEye", "assets/Sprites/Eye-of-Sauron.png");
+		});
+	getApp()->waitForRenderCommand();
+
+
+
 	getApp()->getFPSLimiter().currentFrame = 0;
 	std::string mapName = DataManager::getInstance().mapToLoad;
 
-	/////////////////////////////////////////////
-	getApp()->resourceManager.addGLSLProgram("color");
-	getApp()->resourceManager.addGLSLProgram("texture");
-	getApp()->resourceManager.addGLSLProgram("framebuffer");
-	getApp()->resourceManager.addGLSLProgram("light");
-
-	getApp()->resourceManager.addGLSLProgram("lineColor");
-	getApp()->resourceManager.addGLSLProgram("wireframeColor");
-
-	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
-	{
-		std::cout << "Subsystems Initialised..." << std::endl;
-
-		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-		getApp()->resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
-		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
-		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
-		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
-
-		getApp()->resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
-		getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
-		getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
-		getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
-
-		getApp()->resourceManager.getGLSLProgram("framebuffer")->compileAndLinkShaders("Src/Shaders/framebuffer.vert", "Src/Shaders/framebuffer.frag");
-		getApp()->resourceManager.getGLSLProgram("framebuffer")->addAttribute("inPos");
-		getApp()->resourceManager.getGLSLProgram("framebuffer")->addAttribute("inTexCoords");
-
-		getApp()->resourceManager.getGLSLProgram("light")->compileAndLinkShaders("Src/Shaders/colorLighting.vert", "Src/Shaders/colorLighting.frag");
-		getApp()->resourceManager.getGLSLProgram("light")->addAttribute("vertexPosition");
-		getApp()->resourceManager.getGLSLProgram("light")->addAttribute("vertexColor");
-		getApp()->resourceManager.getGLSLProgram("light")->addAttribute("vertexUV");
-
-		getApp()->resourceManager.getGLSLProgram("lineColor")->compileAndLinkShaders("Src/Shaders/lineColorShading.vert", "Src/Shaders/lineColorShading.gs", "Src/Shaders/lineColorShading.frag");
-		getApp()->resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexPosition");
-		getApp()->resourceManager.getGLSLProgram("lineColor")->addAttribute("vertexColor");
-
-		getApp()->resourceManager.getGLSLProgram("wireframeColor")->compileAndLinkShaders("Src/Shaders/wireFrameColorShading.vert", "Src/Shaders/wireFrameColorShading.gs", "Src/Shaders/wireFrameColorShading.frag");
-		getApp()->resourceManager.getGLSLProgram("wireframeColor")->addAttribute("vertexPosition");
-		getApp()->resourceManager.getGLSLProgram("wireframeColor")->addAttribute("vertexColor");
-
-
-	}
-
-	getApp()->resourceManager.getGLSLProgram("framebuffer")->use();
-	glUniform1i(glGetUniformLocation(getApp()->resourceManager.getGLSLProgram("framebuffer")->getProgramID(), "screenTexture"), 0);
-	getApp()->resourceManager.getGLSLProgram("framebuffer")->unuse();
-
-	_viewportFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
-	_minimapFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
-
-	if (TTF_Init() == -1)
-	{
-		std::cout << "Error : SDL_TTF" << std::endl;
-	}
-
-	//add the textures to our texture library
-	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
-	TextureManager::getInstance().Add_GLTexture("worldMap", "assets/Sprites/worldMap.png");
-	TextureManager::getInstance().Add_GLTexture("play-button", "assets/Sprites/images-removebg-preview.png");
-	TextureManager::getInstance().Add_GLTexture("pause-button", "assets/Sprites/pause.png");
-	TextureManager::getInstance().Add_GLTexture("treemap", "assets/Sprites/treemap.png");
-	TextureManager::getInstance().Add_GLTexture("sauronEye", "assets/Sprites/Eye-of-Sauron.png");
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));

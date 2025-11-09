@@ -34,41 +34,45 @@ void MainMenuScreen::destroy()
 
 void MainMenuScreen::onEntry()
 {
-	getApp()->resourceManager.addGLSLProgram("texture");
-	getApp()->resourceManager.addGLSLProgram("color");
+	getApp()->enqueueRenderCommand([this]() {
+		getApp()->resourceManager.addGLSLProgram("texture");
+		getApp()->resourceManager.addGLSLProgram("color");
 
-	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
-	{
-		std::cout << "Subsystems Initialised..." << std::endl;
+		if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
+		{
+			std::cout << "Subsystems Initialised..." << std::endl;
 
-		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 
-		//InitShaders function from Bengine
-		getApp()->resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
-		getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
-		getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
-		getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
+			//InitShaders function from Bengine
+			getApp()->resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
+			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
+			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
+			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
 
-		getApp()->resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
-		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
-		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
-		getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
-	}
+			getApp()->resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
+			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
+			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
+			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
+		}
 
-	if (TTF_Init() == -1)
-	{
-		std::cout << "Error : SDL_TTF" << std::endl;
-	}
+		if (TTF_Init() == -1)
+		{
+			std::cout << "Error : SDL_TTF" << std::endl;
+		}
 
-	// Texture Loads
-	TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/menuBg.png");
-	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
+		// Texture Loads
+		TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/menuBg.png");
+		TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 
-	TextureManager::getInstance().Add_Font("arial", "assets/Fonts/arial.ttf", 14.0f);
-	TextureManager::getInstance().Add_Font("bold", "assets/Fonts/Figerona-VF.ttf", 16.0f);
-	ImGuiIO& io = ImGui::GetIO();
-	io.Fonts->Build();
+		TextureManager::getInstance().Add_Font("arial", "assets/Fonts/arial.ttf", 14.0f);
+		TextureManager::getInstance().Add_Font("bold", "assets/Fonts/Figerona-VF.ttf", 16.0f);
+		ImGuiIO& io = ImGui::GetIO();
+		io.Fonts->Build();
+		});
+
+	getApp()->waitForRenderCommand();
 
 
 	auto& Mainmenubackground(manager->addEntity<Empty>());

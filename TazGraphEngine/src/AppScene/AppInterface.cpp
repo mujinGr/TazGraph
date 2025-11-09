@@ -28,7 +28,6 @@ void AppInterface::run() {
 
 	const float DESIRED_FPS = 60;
 	const int MAX_PHYSICS_STEPS = 1;
-	//SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
 	if (!init()) return;
 
@@ -43,7 +42,6 @@ void AppInterface::run() {
 	Uint64 prevTicks = SDL_GetPerformanceCounter();
 
 	_limiter.setMaxFPS(60.0f);
-	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
 	_isRunning = true;
 	while (_isRunning) {
@@ -57,21 +55,15 @@ void AppInterface::run() {
 		prevTicks = newTicks;
 		float totalDeltaTime = frameTime / DESIRED_FRAMETIME;
 
-
 		{
 			ZoneScopedN("Input"); // Profile input section
-			Uint64 startInput = SDL_GetPerformanceCounter();
 			checkInput();
-			Uint64 endInput = SDL_GetPerformanceCounter();
-			float inputTime = static_cast<float>(endInput - startInput) / freq * 1000.0f;
-			//std::cout << "Input: " << inputTime << " ms" << std::endl;
 		}
 		int i = 0;
 
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
 			ZoneScopedN("Physics Step"); // Profile physics loop
 
-			Uint64 startUpdate = SDL_GetPerformanceCounter();
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
 			{
 				ZoneScopedN("Update");
@@ -82,8 +74,6 @@ void AppInterface::run() {
 				ZoneScopedN("UpdateUI");
 				updateUI(deltaTime);
 			}
-			Uint64 endUpdate = SDL_GetPerformanceCounter();
-			float updateTime = static_cast<float>(endUpdate - startUpdate) / freq * 1000.0f;
 
 			totalDeltaTime -= deltaTime;
 			i++;
@@ -91,32 +81,35 @@ void AppInterface::run() {
 
 
 		}
+
 		if (_isRunning) {
 			ZoneScopedN("PrepareDraw");
-			Uint64 startDraw = SDL_GetPerformanceCounter();
+
+			while (!frameConsumed.load(std::memory_order_acquire) && _isRunning) {
+				std::this_thread::sleep_for(std::chrono::microseconds(50));
+			}
+
 			prepareDraw();
-			Uint64 endDraw = SDL_GetPerformanceCounter();
-			float drawTime = static_cast<float>(endDraw - startDraw) / freq * 1000.0f;
-			//std::cout << "Draw: " << drawTime << " ms\n";
 		}
 		if (_isRunning) {
 			ZoneScopedN("RenderDraw");
-			Uint64 startDraw = SDL_GetPerformanceCounter();
-			renderDraw();
-			Uint64 endDraw = SDL_GetPerformanceCounter();
-			float drawTime = static_cast<float>(endDraw - startDraw) / freq * 1000.0f;
-			//std::cout << "Draw: " << drawTime << " ms\n";
-		}
-		{
-			ZoneScopedN("DrawUI"); // Profile UI rendering
-			Uint64 startUI = SDL_GetPerformanceCounter();
-			drawUI();
-			Uint64 endUI = SDL_GetPerformanceCounter();
-			float uiTime = static_cast<float>(endUI - startUI) / freq * 1000.0f;
-		}
-		{
-			ZoneScopedN("SwapBuffer");
-			_window.swapBuffer();
+			// Get the write index (opposite of active)
+			int writeIndex = 1 - activeIndex.load();
+
+			queues[writeIndex].Submit([this]() {
+				ZoneScopedN("Draw");
+				renderDraw();
+				});
+			queues[writeIndex].Submit([this]() {
+				ZoneScopedN("DrawUI");
+				drawUI();  // This calls ImGui rendering - MUST be on render thread
+				});
+			// Swap buffers - make write buffer active
+			activeIndex.store(writeIndex);
+
+			// Signal render thread that frame is ready
+			frameConsumed.store(false, std::memory_order_release);
+			frameReady.store(true, std::memory_order_release);
 		}
 
 		_limiter.end();
@@ -131,27 +124,66 @@ void AppInterface::run() {
 		FrameMark;
 		//std::cout << "UI: " << uiTime << " ms, Total Frame Time: " << frameTime << " ms, FPS: " << _limiter.fps << "\n";
 	}
-	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
+	//SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 }
 
-void AppInterface::RenderThreadFunc() {
-	// Make OpenGL context current on this thread
-	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
+void AppInterface::enqueueRenderCommand(std::function<void()> cmd) {
+	initQueue.Submit(std::move(cmd));
+	initCommandReady.store(true);
+}
 
-	// Initialize ImGui (OpenGL3 backend)
-	ImGui_ImplOpenGL3_Init("#version 430");
-	ImGui_ImplSDL2_InitForOpenGL(_window._sdlWindow, _window.glContext);
+void AppInterface::waitForRenderCommand() {
+	// Wait for render thread to complete the command
+	while (!initCommandComplete.load()) {
+		std::this_thread::sleep_for(std::chrono::microseconds(100));
+	}
+	// Reset for next command
+	initCommandComplete.store(false);
+	initCommandReady.store(false);
+}
+
+
+void AppInterface::RenderThreadFunc() {
+	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
+	tracy::SetThreadName("Render Thread");
 
 	while (_isRunning) {
-		int readIndex = activeIndex.load();
+		bool didSomething = false;
 
-		{
-			ZoneScopedN("SwapBuffer");
-			_window.swapBuffer();
+		if (initCommandReady.load()) {
+			std::cout << "Executing initialization command..." << std::endl;
+			initQueue.Execute();
+			initCommandComplete.store(true);
+			initCommandReady.store(false);
+			didSomething = true;
 		}
 
-		frameReady.store(false);
-		while (!frameReady.load() && _isRunning)
+		if (frameReady.load()) {
+
+			if (!_isRunning) break;
+
+			// Get the active queue to read from
+			int readIndex = activeIndex.load();
+
+			// Execute all rendering commands
+			{
+				ZoneScopedN("Execute Render Commands");
+				queues[readIndex].Execute();
+			}
+
+			// Swap OpenGL buffers - ONLY on render thread
+			{
+				ZoneScopedN("SwapBuffer");
+				_window.swapBuffer();
+			}
+
+			// Mark frame as consumed
+			frameReady.store(false, std::memory_order_release);
+			frameConsumed.store(true, std::memory_order_release);
+			didSomething = true;
+		}
+
+		if (!didSomething)
 			std::this_thread::sleep_for(std::chrono::microseconds(100));
 	}
 
@@ -160,6 +192,8 @@ void AppInterface::RenderThreadFunc() {
 	ImGui_ImplSDL2_Shutdown();
 
 	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
+
+
 }
 
 void AppInterface::exitSimulator() {
@@ -239,10 +273,13 @@ bool AppInterface::init() {
 	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
 	initRenderers();
+	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
+
+	_isRunning = true;
+	renderThread = std::thread(&AppInterface::RenderThreadFunc, this);
 
 	_sceneList->getCurrent()->onEntry();
 	_sceneList->getCurrent()->setRunning();
-	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 
 	return true;
 }
