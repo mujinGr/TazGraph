@@ -72,7 +72,8 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 	std::cout << "***   OpenGL Version: " << glGetString(GL_VERSION) << "    ***\n";
 	//Set VSYNC
 	SDL_GL_SetSwapInterval(0);
-
+	int interval = SDL_GL_GetSwapInterval();
+	std::cout << "VSync: " << (interval == 0 ? "OFF" : "ON") << std::endl;
 	// Enable alpha blend
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
