@@ -23,7 +23,7 @@ public:
 	void begin() override;
 	void end() override;
 
-	void initBatch(const Taz::RenderBatch& batch);
+	void initBatch(Taz::RenderBatch& batch);
 
 	void drawTriangle(
 		size_t v_index,
@@ -39,6 +39,8 @@ public:
 		const glm::vec4& uvRect,
 		GLuint texture
 	);
+
+	void endBatch(const Taz::RenderBatch& batch) override;
 
 	void renderBatch() override;
 

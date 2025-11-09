@@ -45,7 +45,7 @@ void AppInterface::drawBatch(const std::vector<EntityID>& entities, LightRendere
 }
 
 void AppInterface::prepareBatch(
-	const Taz::GECSRenderBatch& batch)
+	Taz::GECSRenderBatch& batch)
 {
 	switch (batch.renderer_type) {
 	case Taz::RenderBatch::RendererType::Line:
@@ -64,22 +64,18 @@ void AppInterface::prepareBatch(
 }
 
 void AppInterface::prepareLineBatch(
-	const Taz::GECSRenderBatch& batch
+	Taz::GECSRenderBatch& batch
 )
 {
 	//lineRenderer.initBatch(batch);
-	lineRenderer.begin();
 	lineRenderer.initBatch(batch);
 
 	drawBatch(batch.entities, lineRenderer);
 }
 
 void AppInterface::preparePlaneColorBatch(
-	const Taz::GECSRenderBatch& batch)
+	Taz::GECSRenderBatch& batch)
 {
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-
-	planeColorRenderer.begin();
 	planeColorRenderer.initBatch(batch);
 
 	// Fill batch data
@@ -87,11 +83,8 @@ void AppInterface::preparePlaneColorBatch(
 }
 
 void AppInterface::preparePlaneModelBatch(
-	const Taz::GECSRenderBatch& batch)
+	Taz::GECSRenderBatch& batch)
 {
-	planeModelRenderer.begin();
-
-	//CHange camera based on scene
 	planeModelRenderer.initBatch(batch);
 
 	// Fill batch data
@@ -99,11 +92,9 @@ void AppInterface::preparePlaneModelBatch(
 }
 
 void AppInterface::prepareLightBatch(
-	const Taz::GECSRenderBatch& batch
+	Taz::GECSRenderBatch& batch
 )
 {
-	lightRenderer.begin();
-
 	lightRenderer.initBatch(batch);
 
 	// Fill batch data
@@ -116,8 +107,6 @@ void AppInterface::renderBatch(
 	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
-	auto main_camera2D = dynamic_cast<const PerspectiveCamera*>(&camera);
-
 	switch (batch.renderer_type) {
 	case Taz::RenderBatch::RendererType::Line:
 		drawLineBatch(batch, frameData, camera);
@@ -140,12 +129,6 @@ void AppInterface::drawLineBatch(
 	ICamera& camera
 )
 {
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-	lineRenderer.begin();
-	lineRenderer.initBatch(batch);
-
-
-	drawBatch(batch.entities, lineRenderer);
 	// Setup shader and render
 	auto& shader = *resourceManager.getGLSLProgram(batch.shaderName);
 	resourceManager.setupShader(shader, camera);
@@ -155,7 +138,7 @@ void AppInterface::drawLineBatch(
 		glUniform2f(pLocation, batch.viewportSize.x, batch.viewportSize.y);
 	}
 
-	lineRenderer.end();
+	lineRenderer.endBatch(batch);
 	shader.unuse();
 
 }
@@ -165,13 +148,6 @@ void AppInterface::drawPlaneColorBatch(
 	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-	planeColorRenderer.begin();
-	planeColorRenderer.initBatch(batch);
-
-	// Fill batch data
-	drawBatch(batch.entities, planeColorRenderer);
-
 	// Setup shader and render
 	auto& shader = *resourceManager.getGLSLProgram(batch.shaderName);
 	resourceManager.setupShader(shader, camera);
@@ -179,7 +155,7 @@ void AppInterface::drawPlaneColorBatch(
 	GLint pLocation = shader.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(batch.rotationMatrix));
 
-	planeColorRenderer.end();
+	planeColorRenderer.endBatch(batch);
 	shader.unuse();
 
 }
@@ -189,17 +165,11 @@ void AppInterface::drawPlaneModelBatch(
 	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
-	//CHange camera based on scene
-	planeModelRenderer.begin();
-	planeModelRenderer.initBatch(batch);
-
-	// Fill batch data
-	drawBatch(batch.entities, planeModelRenderer);
 	// Setup shader and render
 	auto& shader = *resourceManager.getGLSLProgram(batch.shaderName);
 	resourceManager.setupShader(shader, camera);
 
-	planeModelRenderer.end();
+	planeModelRenderer.endBatch(batch);
 	shader.unuse();
 
 }
@@ -210,17 +180,11 @@ void AppInterface::drawLightBatch(
 	ICamera& camera
 )
 {
-	lightRenderer.begin();
-	lightRenderer.initBatch(batch);
-
-	// Fill batch data
-	drawBatch(batch.entities, lightRenderer);
-
 	// Setup shader and render
 	auto& shader = *resourceManager.getGLSLProgram(batch.shaderName);
 	resourceManager.setupShader(shader, camera);
 
-	lightRenderer.end();
+	lightRenderer.endBatch(batch);
 	shader.unuse();
 
 }

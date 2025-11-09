@@ -31,7 +31,7 @@ void PlaneModelRenderer::end() {
 }
 
 
-void PlaneModelRenderer::initBatch(const Taz::RenderBatch& batch)
+void PlaneModelRenderer::initBatch(Taz::RenderBatch& batch)
 {
 	auto initMeshBatch = [&](auto& mesh) {
 		mesh.batches.emplace_back();
@@ -44,6 +44,7 @@ void PlaneModelRenderer::initBatch(const Taz::RenderBatch& batch)
 		currentBatchIndex = _meshesElements[RECTANGLE_MESH_IDX].batches.size() - 1;
 		break;
 	}
+	batch.index = currentBatchIndex;
 
 }
 
@@ -70,6 +71,49 @@ void PlaneModelRenderer::draw(
 ) {
 
 	_meshesElements[RECTANGLE_MESH_IDX].batches[currentBatchIndex].instances[v_index] = TextureInstanceData(rectSize, position, mRotation, texture);
+}
+
+void PlaneModelRenderer::endBatch(const Taz::RenderBatch& batch) {
+	GLuint vao = 0;
+	GLuint instanceVBO = _vboInstances;
+	size_t instanceCount = 0;
+	const void* instanceData = nullptr;
+	size_t instanceDataSize = 0;
+	GLenum drawMode = GL_TRIANGLES;
+
+	switch (batch.mesh_type) {
+	case Taz::RenderBatch::MeshType::Quad: {
+		auto& mesh = _meshesElements[RECTANGLE_MESH_IDX];
+
+		if (mesh.batches.empty() || batch.index >= mesh.batches.size())
+			return;
+
+		auto& b = mesh.batches[batch.index];
+		if (b.instances.empty()) return;
+
+		vao = mesh.vao;
+		glBindVertexArray(vao);
+
+		for (auto& instance : b.instances) {
+			glBindTexture(GL_TEXTURE_2D, instance.texture);
+
+			glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(TextureInstanceData), nullptr, GL_DYNAMIC_DRAW);
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(TextureInstanceData), &instance);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+			glDrawElementsInstanced(drawMode, mesh.meshIndices, GL_UNSIGNED_INT, 0, 1);
+
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+
+		b.instances.clear();
+		break;
+	}
+	}
+
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void PlaneModelRenderer::renderBatch() {

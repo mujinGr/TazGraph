@@ -311,8 +311,19 @@ void Graph::prepareDraw()
 	//	getApp()->lineRenderer.renderElementsBatch();
 	//	glsl_wireframeColor.unuse();
 	//}
+	getApp()->planeColorRenderer.begin();
+	getApp()->lineRenderer.begin();
+	getApp()->planeModelRenderer.begin();
+	getApp()->lightRenderer.begin();
 
 	minimapPrepareDraw();
+
+	{
+		for (auto& batch : frameData.batches) {
+			getApp()->prepareBatch(batch);
+		}
+	}
+
 }
 
 void Graph::renderDraw()
@@ -398,6 +409,13 @@ void Graph::minimapPrepareDraw() {
 		minimapBatch.count = minimapBatch.entities.size();
 		minimapBatch.rotationMatrix = minimap_rotationMatrix;
 		minimap_frameData.batches.push_back(minimapBatch);
+	}
+
+	//! Prepare Draw Batches by Frame
+	{
+		for (auto& batch : minimap_frameData.batches) {
+			getApp()->prepareBatch(batch);
+		}
 	}
 
 

@@ -43,7 +43,7 @@ void LineRenderer::end() // on en d clear all indices reserved
 }
 
 
-void LineRenderer::initBatch(const Taz::RenderBatch& batch)
+void LineRenderer::initBatch(Taz::RenderBatch& batch)
 {
 	auto initMeshBatch = [&](auto& mesh) {
 		mesh.batches.emplace_back();
@@ -65,6 +65,7 @@ void LineRenderer::initBatch(const Taz::RenderBatch& batch)
 		currentBatchIndex = _meshesElements[BOX_MESH_IDX].batches.size() - 1;
 		break;
 	}
+	batch.index = currentBatchIndex;
 }
 
 // todo can be optimized, by having something like glyphs in planeModelRenederer where first you pass info in a vector and
@@ -95,6 +96,94 @@ void LineRenderer::drawCircle(const glm::vec2& center, const TazColor& color, fl
 {
 }
 
+void LineRenderer::endBatch(const Taz::RenderBatch& batch) {
+
+	GLuint vao = 0;
+	GLuint instanceVBO = _vboInstances;
+	size_t instanceCount = 0;
+	const void* instanceData = nullptr;
+	size_t instanceDataSize = 0;
+	GLenum drawMode = GL_LINES;
+
+	switch (batch.mesh_type) {
+	case Taz::RenderBatch::MeshType::Line: {
+		auto& mesh = _meshesArrays[LINE_MESH_IDX];
+
+		if (mesh.batches.empty() || batch.index >= mesh.batches.size())
+			return;
+
+		auto& b = mesh.batches[batch.index];
+		if (b.instances.empty()) return;
+
+		vao = mesh.vao;
+		instanceCount = b.instances.size();
+		instanceData = b.instances.data();
+		instanceDataSize = instanceCount * sizeof(LineInstanceData);
+
+		glBindVertexArray(vao);
+		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+		glBufferData(GL_ARRAY_BUFFER, instanceDataSize, instanceData, GL_DYNAMIC_DRAW);
+
+		glDrawArraysInstanced(drawMode, 0, 2, static_cast<GLsizei>(instanceCount));
+
+		b.instances.clear(); // optionally clear if reused
+		break;
+	}
+
+	case Taz::RenderBatch::MeshType::Quad: {
+		auto& mesh = _meshesElements[RECTANGLE_MESH_IDX];
+
+		if (mesh.batches.empty() || batch.index >= mesh.batches.size())
+			return;
+
+		auto& b = mesh.batches[batch.index];
+		if (b.instances.empty()) return;
+
+		vao = mesh.vao;
+		instanceCount = b.instances.size();
+		instanceData = b.instances.data();
+		instanceDataSize = instanceCount * sizeof(WireframeInstanceData);
+
+		glBindVertexArray(vao);
+		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+		glBufferData(GL_ARRAY_BUFFER, instanceDataSize, instanceData, GL_DYNAMIC_DRAW);
+
+		glDrawElementsInstanced(drawMode, mesh.meshIndices, GL_UNSIGNED_INT, 0,
+			static_cast<GLsizei>(instanceCount));
+
+		b.instances.clear();
+		break;
+	}
+
+	case Taz::RenderBatch::MeshType::Box: {
+		auto& mesh = _meshesElements[BOX_MESH_IDX];
+
+		if (mesh.batches.empty() || batch.index >= mesh.batches.size())
+			return;
+
+		auto& b = mesh.batches[batch.index];
+		if (b.instances.empty()) return;
+
+		vao = mesh.vao;
+		instanceCount = b.instances.size();
+		instanceData = b.instances.data();
+		instanceDataSize = instanceCount * sizeof(WireframeInstanceData);
+
+		glBindVertexArray(vao);
+		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+		glBufferData(GL_ARRAY_BUFFER, instanceDataSize, instanceData, GL_DYNAMIC_DRAW);
+
+		glDrawElementsInstanced(drawMode, mesh.meshIndices, GL_UNSIGNED_INT, 0,
+			static_cast<GLsizei>(instanceCount));
+
+		b.instances.clear();
+		break;
+	}
+	}
+
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
 
 void LineRenderer::renderBatch()
 {

@@ -38,6 +38,7 @@ namespace Taz
 		std::string shaderName;
 
 		size_t count = 0;
+		size_t index = 0;
 
 		// Additional shader uniforms
 		glm::mat4 rotationMatrix = glm::mat4(1.0f);
@@ -55,6 +56,8 @@ namespace Taz
 
 		virtual void begin();
 		virtual void end() = 0;
+
+		virtual void endBatch(const Taz::RenderBatch& batch) = 0;
 
 		GLuint _vboInstances;
 

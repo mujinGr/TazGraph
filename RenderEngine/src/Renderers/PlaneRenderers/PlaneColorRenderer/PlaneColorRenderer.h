@@ -22,7 +22,7 @@ public:
 	void begin();
 	void end();
 
-	void initBatch(const Taz::RenderBatch& batch);
+	void initBatch(Taz::RenderBatch& batch);
 
 	void drawTriangle(size_t v_index,
 		const glm::vec3& depth,
@@ -45,6 +45,8 @@ public:
 		const glm::vec3& position,
 		const glm::vec3& mRotation,
 		const TazColor& color);
+
+	void endBatch(const Taz::RenderBatch& batch) override;
 
 	void renderBatch() override;
 

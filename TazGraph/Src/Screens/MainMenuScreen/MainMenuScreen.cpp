@@ -147,6 +147,17 @@ void MainMenuScreen::prepareDraw()
 		frameData.batches.push_back(mainMenuBatch);
 
 	}
+
+	getApp()->planeColorRenderer.begin();
+	getApp()->lineRenderer.begin();
+	getApp()->planeModelRenderer.begin();
+	getApp()->lightRenderer.begin();
+
+	{
+		for (auto& batch : frameData.batches) {
+			getApp()->prepareBatch(batch);
+		}
+	}
 }
 
 void MainMenuScreen::renderDraw()
@@ -159,7 +170,6 @@ void MainMenuScreen::renderDraw()
 			getApp()->renderBatch(batch, frameData, *main_camera2D);
 		}
 	}
-	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void MainMenuScreen::checkInput() {
