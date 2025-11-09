@@ -23,11 +23,12 @@ void PlaneColorRenderer::begin() {
 	Taz::Renderer::begin();
 
 	for (auto& mesh : _meshesArrays) {
-		mesh.instances.clear();
+		mesh.batches.clear();
 	}
 	for (auto& mesh : _meshesElements) {
-		mesh.instances.clear();
+		mesh.batches.clear();
 	}
+
 }
 void PlaneColorRenderer::end() {
 	renderBatch();
@@ -35,40 +36,36 @@ void PlaneColorRenderer::end() {
 
 void PlaneColorRenderer::initBatch(const Taz::RenderBatch& batch)
 {
+	//! on each new batch
+			//!				`-->we push to both meshArrays and meshElements.
+			//!											`--> but only one of the meshes vectors sets the size
+
+	auto initMeshBatch = [&](auto& mesh) {
+		mesh.batches.emplace_back();
+		mesh.batches.back().instances.resize(batch.count);
+		};
+
 	switch (batch.mesh_type) {
-	case Taz::RenderBatch::MeshType::Triangle:
-		_triangleGlyphs_size = batch.count;
+	case Taz::RenderBatch::MeshType::Line:
+		initMeshBatch(_meshesArrays[TRIANGLE_MESH_IDX]);
+		currentBatchIndex = _meshesArrays[TRIANGLE_MESH_IDX].batches.size() - 1;
 		break;
 
 	case Taz::RenderBatch::MeshType::Quad:
-		_rectangleGlyphs_size = batch.count;
+		initMeshBatch(_meshesElements[RECTANGLE_MESH_IDX]);
+		currentBatchIndex = _meshesElements[RECTANGLE_MESH_IDX].batches.size() - 1;
 		break;
 
 	case Taz::RenderBatch::MeshType::Box:
-		_boxGlyphs_size = batch.count;
+		initMeshBatch(_meshesElements[BOX_MESH_IDX]);
+		currentBatchIndex = _meshesElements[BOX_MESH_IDX].batches.size() - 1;
 		break;
 
 	case Taz::RenderBatch::MeshType::Sphere:
-		_sphereGlyphs_size = batch.count;
+		initMeshBatch(_meshesElements[SPHERE_MESH_IDX]);
+		currentBatchIndex = _meshesElements[SPHERE_MESH_IDX].batches.size() - 1;
 		break;
 	}
-	//mesh Arrays
-	_meshesArrays[TRIANGLE_MESH_IDX].instances.resize(_triangleGlyphs_size);
-
-	_meshesArrays[RECTANGLE_MESH_IDX].instances.resize(0);
-	_meshesArrays[BOX_MESH_IDX].instances.resize(0);
-	_meshesArrays[SPHERE_MESH_IDX].instances.resize(0);
-
-
-	//mesh Elements
-
-	_meshesElements[TRIANGLE_MESH_IDX].instances.resize(0);
-
-	_meshesElements[RECTANGLE_MESH_IDX].instances.resize(_rectangleGlyphs_size);
-
-	_meshesElements[BOX_MESH_IDX].instances.resize(_boxGlyphs_size);
-
-	_meshesElements[SPHERE_MESH_IDX].instances.resize(_sphereGlyphs_size);
 
 }
 
@@ -80,7 +77,7 @@ void PlaneColorRenderer::drawTriangle(
 	const TazColor& color
 ) {
 	glm::vec2 size = glm::vec2(10.0f);
-	_meshesArrays[TRIANGLE_MESH_IDX].instances[v_index] = ColorInstanceData(size, position, cpuRotation, color);
+	_meshesArrays[TRIANGLE_MESH_IDX].batches[currentBatchIndex].instances[v_index] = ColorInstanceData(size, position, cpuRotation, color);
 }
 
 // we can generalize the renderer for multiple kinds of meshes (triangle made instead of planes) by creating
@@ -94,7 +91,7 @@ void PlaneColorRenderer::draw(
 	const glm::vec3& position,
 	const glm::vec3& mRotation,
 	const TazColor& color) {
-	_meshesElements[RECTANGLE_MESH_IDX].instances[v_index] = ColorInstanceData(rectSize, position, mRotation, color);
+	_meshesElements[RECTANGLE_MESH_IDX].batches[currentBatchIndex].instances[v_index] = ColorInstanceData(rectSize, position, mRotation, color);
 }
 
 void PlaneColorRenderer::drawBox(
@@ -103,7 +100,7 @@ void PlaneColorRenderer::drawBox(
 	const glm::vec3& position,
 	const glm::vec3& mRotation,
 	const TazColor& color) {
-	_meshesElements[BOX_MESH_IDX].instances[v_index] = ColorInstanceData(boxSize, position, mRotation, color);
+	_meshesElements[BOX_MESH_IDX].batches[currentBatchIndex].instances[v_index] = ColorInstanceData(boxSize, position, mRotation, color);
 }
 
 void PlaneColorRenderer::drawSphere(
@@ -113,63 +110,65 @@ void PlaneColorRenderer::drawSphere(
 	const glm::vec3& mRotation,
 	const TazColor& color)
 {
-	_meshesElements[SPHERE_MESH_IDX].instances[v_index] = ColorInstanceData(sphereSize, position, mRotation, color);
+	_meshesElements[SPHERE_MESH_IDX].batches[currentBatchIndex].instances[v_index] = ColorInstanceData(sphereSize, position, mRotation, color);
 }
 
 void PlaneColorRenderer::renderBatch() {
 
-	for (int i = 0; i < _meshesElements.size(); i++) { // different batch for each geometry
+	for (auto& mesh : _meshesElements) { // different batch for each geometry
+		for (auto& batch : mesh.batches) {
+			if (batch.instances.empty()) continue;
 
-		if (_meshesElements[i].instances.size() == 0) continue;
+			glBindVertexArray(mesh.vao);
 
-		glBindVertexArray(_meshesElements[i].vao);
+			glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
-		glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
+			glBufferData(GL_ARRAY_BUFFER,
+				batch.instances.size() * sizeof(ColorInstanceData),
+				nullptr,
+				GL_DYNAMIC_DRAW);
 
-		glBufferData(GL_ARRAY_BUFFER,
-			_meshesElements[i].instances.size() * sizeof(ColorInstanceData),
-			nullptr,
-			GL_DYNAMIC_DRAW);
+			glBufferSubData(GL_ARRAY_BUFFER, 0,
+				batch.instances.size() * sizeof(ColorInstanceData),
+				batch.instances.data());
 
-		glBufferSubData(GL_ARRAY_BUFFER, 0,
-			_meshesElements[i].instances.size() * sizeof(ColorInstanceData),
-			_meshesElements[i].instances.data());
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
-		glDrawElementsInstanced(
-			GL_TRIANGLES,
-			_meshesElements[i].meshIndices,
-			GL_UNSIGNED_INT,
-			0,
-			_meshesElements[i].instances.size()
-		);
+			glDrawElementsInstanced(
+				GL_TRIANGLES,
+				mesh.meshIndices,
+				GL_UNSIGNED_INT,
+				0,
+				batch.instances.size()
+			);
+		}
 	}
 
+	for (auto& mesh : _meshesArrays) { // different batch for each geometry
+		for (auto& batch : mesh.batches) {
+			if (batch.instances.empty()) continue;
 
-	for (int i = 0; i < _meshesArrays.size(); i++) {
+			glBindVertexArray(mesh.vao);
 
-		if (_meshesArrays[i].instances.size() == 0) continue;
+			glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
 
-		glBindVertexArray(_meshesArrays[i].vao);
+			glBufferData(GL_ARRAY_BUFFER, batch.instances.size() * sizeof(ColorInstanceData), nullptr, GL_DYNAMIC_DRAW);
 
-		glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
-
-		glBufferData(GL_ARRAY_BUFFER, _meshesArrays[i].instances.size() * sizeof(ColorInstanceData), nullptr, GL_DYNAMIC_DRAW);
-
-		glBufferSubData(GL_ARRAY_BUFFER, 0,
-			_meshesArrays[i].instances.size() * sizeof(ColorInstanceData),
-			_meshesArrays[i].instances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0,
+				batch.instances.size() * sizeof(ColorInstanceData),
+				batch.instances.data());
 
 
-		glDrawArraysInstanced(
-			GL_TRIANGLES,
-			0,
-			_meshesArrays[i].meshIndices,
-			_meshesArrays[i].instances.size()
-		);
+			glDrawArraysInstanced(
+				GL_TRIANGLES,
+				0,
+				mesh.meshIndices,
+				batch.instances.size()
+			);
+		}
 	}
+
 
 
 	glBindVertexArray(0);

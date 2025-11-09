@@ -350,25 +350,59 @@ struct BaseRenderer {
 	GLuint ibo = 0;
 };
 
-struct MeshRenderer : BaseRenderer {
+//! Instances
+struct BatchInstances {
+	std::string shaderName;
+
 	std::vector<InstanceData> instances;
 };
 
-struct ColorMeshRenderer : BaseRenderer {
+struct ColorInstances {
+	std::string shaderName;
+
 	std::vector<ColorInstanceData> instances;
 };
 
-struct LineMeshRenderer : BaseRenderer {
+struct LineInstances {
+	std::string shaderName;
+
 	std::vector<LineInstanceData> instances;
 };
 
-struct WireframeMeshRenderer : BaseRenderer {
+struct WireFrameInstances {
+	std::string shaderName;
+
 	std::vector<WireframeInstanceData> instances;
 };
 
-struct TextureMeshRenderer : BaseRenderer {
+struct TextureInstances {
+	std::string shaderName;
+
 	std::vector<TextureInstanceData> instances;
 };
+
+//! Meshes
+struct MeshRenderer : BaseRenderer {
+	//! Batches
+	std::vector< BatchInstances> batches;
+};
+
+struct ColorMeshRenderer : BaseRenderer {
+	std::vector< ColorInstances> batches;
+};
+
+struct LineMeshRenderer : BaseRenderer {
+	std::vector< LineInstances> batches;
+};
+
+struct WireframeMeshRenderer : BaseRenderer {
+	std::vector< WireFrameInstances> batches;
+};
+
+struct TextureMeshRenderer : BaseRenderer {
+	std::vector< TextureInstances> batches;
+};
+
 
 class GLSLProgram {
 public:

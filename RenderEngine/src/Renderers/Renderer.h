@@ -65,6 +65,8 @@ namespace Taz
 		size_t _sphereGlyphs_size = 0;
 
 		virtual void renderBatch() = 0;
+
+		size_t currentBatchIndex = 0;
 	};
 
 }
