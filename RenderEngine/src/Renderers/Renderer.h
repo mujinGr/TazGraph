@@ -58,12 +58,6 @@ namespace Taz
 
 		GLuint _vboInstances;
 
-		size_t _lineGlyphs_size = 0; //actual glyphs
-		size_t _triangleGlyphs_size = 0; //actual glyphs
-		size_t _rectangleGlyphs_size = 0; //actual glyphs
-		size_t _boxGlyphs_size = 0;
-		size_t _sphereGlyphs_size = 0;
-
 		virtual void renderBatch() = 0;
 
 		size_t currentBatchIndex = 0;
