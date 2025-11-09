@@ -50,28 +50,6 @@ void Graph::onEntry()
 	getApp()->resourceManager.addGLSLProgram("lineColor");
 	getApp()->resourceManager.addGLSLProgram("wireframeColor");
 
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
-	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
-
-
-	main_camera2D->init(); // Assuming a screen resolution of 800x600
-	main_camera2D->setPosition_X(main_camera2D->getPosition().x /*+ glm::vec2(
-		width / 2.0f,
-		height / 2.0f
-	)*/);
-	main_camera2D->setPosition_Y(main_camera2D->getPosition().y);
-	main_camera2D->setScale(1.0f);
-
-	hud_camera2D->init();
-	minimap_camera2D->init();
-
-	minimap_camera2D->setPosition_X(main_camera2D->getPosition().x);
-	minimap_camera2D->setPosition_Y(main_camera2D->getPosition().y);
-
-	AnimatorManager& animManager = AnimatorManager::getInstance();
-	animManager.InitializeAnimators();
-
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
 		std::cout << "Subsystems Initialised..." << std::endl;
@@ -108,6 +86,13 @@ void Graph::onEntry()
 
 	}
 
+	getApp()->resourceManager.getGLSLProgram("framebuffer")->use();
+	glUniform1i(glGetUniformLocation(getApp()->resourceManager.getGLSLProgram("framebuffer")->getProgramID(), "screenTexture"), 0);
+	getApp()->resourceManager.getGLSLProgram("framebuffer")->unuse();
+
+	_viewportFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
+	_minimapFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
+
 	if (TTF_Init() == -1)
 	{
 		std::cout << "Error : SDL_TTF" << std::endl;
@@ -120,6 +105,28 @@ void Graph::onEntry()
 	TextureManager::getInstance().Add_GLTexture("pause-button", "assets/Sprites/pause.png");
 	TextureManager::getInstance().Add_GLTexture("treemap", "assets/Sprites/treemap.png");
 	TextureManager::getInstance().Add_GLTexture("sauronEye", "assets/Sprites/Eye-of-Sauron.png");
+
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
+	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
+
+
+	main_camera2D->init(); // Assuming a screen resolution of 800x600
+	main_camera2D->setPosition_X(main_camera2D->getPosition().x /*+ glm::vec2(
+		width / 2.0f,
+		height / 2.0f
+	)*/);
+	main_camera2D->setPosition_Y(main_camera2D->getPosition().y);
+	main_camera2D->setScale(1.0f);
+
+	hud_camera2D->init();
+	minimap_camera2D->init();
+
+	minimap_camera2D->setPosition_X(main_camera2D->getPosition().x);
+	minimap_camera2D->setPosition_Y(main_camera2D->getPosition().y);
+
+	AnimatorManager& animManager = AnimatorManager::getInstance();
+	animManager.InitializeAnimators();
 
 	if (setManager(mapName)) {
 		auto& world_map(manager->addEntityNoId<Empty>());
@@ -140,12 +147,6 @@ void Graph::onEntry()
 	Music music = getApp()->getAudioEngine().loadMusic("Sounds/JPEGSnow.ogg");
 	music.play(-1);
 
-	getApp()->resourceManager.getGLSLProgram("framebuffer")->use();
-	glUniform1i(glGetUniformLocation(getApp()->resourceManager.getGLSLProgram("framebuffer")->getProgramID(), "screenTexture"), 0);
-	getApp()->resourceManager.getGLSLProgram("framebuffer")->unuse();
-
-	_viewportFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
-	_minimapFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight());
 
 	backgroundColor[0] = 0.407f;
 	backgroundColor[1] = 0.384f;

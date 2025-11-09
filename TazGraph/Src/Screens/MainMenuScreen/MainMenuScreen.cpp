@@ -34,29 +34,8 @@ void MainMenuScreen::destroy()
 
 void MainMenuScreen::onEntry()
 {
-	auto& Mainmenubackground(manager->addEntity<Empty>());
-
 	getApp()->resourceManager.addGLSLProgram("texture");
 	getApp()->resourceManager.addGLSLProgram("color");
-
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
-	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
-
-	main_camera2D->init(); // Assuming a screen resolution of 800x600
-	main_camera2D->setPosition_X(main_camera2D->getPosition().x /*+ glm::vec2(
-		width / 2.0f,
-		height / 2.0f
-	)*/);
-	main_camera2D->setPosition_Y(main_camera2D->getPosition().y);
-	main_camera2D->setScale(1.0f);
-
-	hud_camera2D->init(); // Assuming a screen resolution of 800x600
-	hud_camera2D->setPosition_X(hud_camera2D->getPosition().x /*+ glm::vec2(
-		width / 2.0f,
-		height / 2.0f
-	)*/);
-	hud_camera2D->setPosition_Y(hud_camera2D->getPosition().y);
-	hud_camera2D->setScale(1.0f);
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
@@ -90,6 +69,28 @@ void MainMenuScreen::onEntry()
 	TextureManager::getInstance().Add_Font("bold", "assets/Fonts/Figerona-VF.ttf", 16.0f);
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->Build();
+
+
+	auto& Mainmenubackground(manager->addEntity<Empty>());
+
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
+
+	main_camera2D->init(); // Assuming a screen resolution of 800x600
+	main_camera2D->setPosition_X(main_camera2D->getPosition().x /*+ glm::vec2(
+		width / 2.0f,
+		height / 2.0f
+	)*/);
+	main_camera2D->setPosition_Y(main_camera2D->getPosition().y);
+	main_camera2D->setScale(1.0f);
+
+	hud_camera2D->init(); // Assuming a screen resolution of 800x600
+	hud_camera2D->setPosition_X(hud_camera2D->getPosition().x /*+ glm::vec2(
+		width / 2.0f,
+		height / 2.0f
+	)*/);
+	hud_camera2D->setPosition_Y(hud_camera2D->getPosition().y);
+	hud_camera2D->setScale(1.0f);
 
 	if (!manager->grid)
 	{
