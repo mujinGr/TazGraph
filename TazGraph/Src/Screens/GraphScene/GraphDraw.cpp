@@ -22,6 +22,9 @@ void Graph::prepareDraw()
 	glm::vec3 cameraAimPos = main_camera2D->getAimPos();
 	glm::vec3 directionToCamera = glm::normalize(cameraAimPos - main_camera2D->eyePos);
 	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
+	int writeIndex = 1 - activeFrameIndex.load();
+
+	auto& frameData = frameDataBuffers[writeIndex];
 
 	rotationMatrix = getRotationMatrix(cameraEulerAngles);
 	frameData.batches.clear();
@@ -323,12 +326,14 @@ void Graph::prepareDraw()
 			getApp()->prepareBatch(batch);
 		}
 	}
-
+	activeFrameIndex.store(writeIndex);
 }
 
 void Graph::renderDraw()
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+	int readIndex = activeFrameIndex.load();
+	auto& frameData = frameDataBuffers[readIndex];
 
 	_viewportFramebuffer.Bind();
 	glDepthMask(GL_TRUE);
@@ -365,6 +370,9 @@ void Graph::renderDraw()
 
 
 void Graph::minimapPrepareDraw() {
+	int writeIndex = 1 - activeFrameIndex.load();
+
+	auto& minimap_frameData = minimap_frameDataBuffers[writeIndex];
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -422,6 +430,9 @@ void Graph::minimapPrepareDraw() {
 }
 
 void Graph::minimapRenderDraw() {
+	int readIndex = activeFrameIndex.load();
+	auto& minimap_frameData = minimap_frameDataBuffers[readIndex];
+
 	std::shared_ptr<OrthoCamera> minimap_camera2D =
 		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 

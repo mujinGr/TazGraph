@@ -123,14 +123,17 @@ void MainMenuScreen::update(float deltaTime)
 
 void MainMenuScreen::prepareDraw()
 {
+
+	int writeIndex = 1 - activeFrameIndex.load();
+
+	auto& frameData = frameDataBuffers[writeIndex];
+
 	auto& mainmenubackground(manager->getGroup<EmptyEntity>(Manager::groupBackgroundLayer));
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
 
-	glClearDepth(1.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+
 	//////////////////////////////////////
 	frameData.batches.clear();
 	//! Prepare Frame
@@ -158,12 +161,18 @@ void MainMenuScreen::prepareDraw()
 			getApp()->prepareBatch(batch);
 		}
 	}
+
+	activeFrameIndex.store(writeIndex);
 }
 
 void MainMenuScreen::renderDraw()
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
-
+	int readIndex = activeFrameIndex.load();
+	auto& frameData = frameDataBuffers[readIndex];
+	glClearDepth(1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 	//! render Frame
 	{
 		for (const auto& batch : frameData.batches) {

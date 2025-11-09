@@ -44,7 +44,13 @@ public:
 
 	RenderCommandQueue queues[2];
 	std::atomic<int> activeIndex = 0;
-	std::atomic<bool> frameReady = false;
+	std::atomic<bool> frameReady = false;// main thread produced frame
+	std::atomic<bool> frameConsumed = true;// render thread finished frame
+
+	RenderCommandQueue initQueue;
+	std::atomic<bool> initCommandReady{ false };
+	std::atomic<bool> initCommandComplete{ false };
+
 
 	PlaneModelRenderer planeModelRenderer;
 	PlaneColorRenderer planeColorRenderer;
