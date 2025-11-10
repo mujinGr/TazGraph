@@ -45,7 +45,7 @@ void AppInterface::drawBatch(const std::vector<EntityID>& entities, LightRendere
 }
 
 void AppInterface::prepareBatch(
-	const Taz::GECSRenderBatch& batch)
+	Taz::GECSRenderBatch& batch)
 {
 	switch (batch.renderer_type) {
 	case Taz::RenderBatch::RendererType::Line:
@@ -64,7 +64,7 @@ void AppInterface::prepareBatch(
 }
 
 void AppInterface::prepareLineBatch(
-	const Taz::GECSRenderBatch& batch
+	Taz::GECSRenderBatch& batch
 )
 {
 	//lineRenderer.initBatch(batch);
@@ -74,10 +74,8 @@ void AppInterface::prepareLineBatch(
 }
 
 void AppInterface::preparePlaneColorBatch(
-	const Taz::GECSRenderBatch& batch)
+	Taz::GECSRenderBatch& batch)
 {
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-
 	planeColorRenderer.initBatch(batch);
 
 	// Fill batch data
@@ -85,9 +83,8 @@ void AppInterface::preparePlaneColorBatch(
 }
 
 void AppInterface::preparePlaneModelBatch(
-	const Taz::GECSRenderBatch& batch)
+	Taz::GECSRenderBatch& batch)
 {
-	//CHange camera based on scene
 	planeModelRenderer.initBatch(batch);
 
 	// Fill batch data
@@ -95,7 +92,7 @@ void AppInterface::preparePlaneModelBatch(
 }
 
 void AppInterface::prepareLightBatch(
-	const Taz::GECSRenderBatch& batch
+	Taz::GECSRenderBatch& batch
 )
 {
 	lightRenderer.initBatch(batch);
@@ -106,32 +103,33 @@ void AppInterface::prepareLightBatch(
 
 
 void AppInterface::renderBatch(
-	const Taz::RenderBatch& batch,
+	const Taz::GECSRenderBatch& batch,
+	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
-	auto main_camera2D = dynamic_cast<const PerspectiveCamera*>(&camera);
-
 	switch (batch.renderer_type) {
 	case Taz::RenderBatch::RendererType::Line:
-		drawLineBatch(batch, camera);
+		drawLineBatch(batch, frameData, camera);
 		break;
 	case Taz::RenderBatch::RendererType::PlaneColor:
-		drawPlaneColorBatch(batch, camera);
+		drawPlaneColorBatch(batch, frameData, camera);
 		break;
 	case Taz::RenderBatch::RendererType::PlaneModel:
-		drawPlaneModelBatch(batch, camera);
+		drawPlaneModelBatch(batch, frameData, camera);
 		break;
 	case Taz::RenderBatch::RendererType::Light:
-		drawLightBatch(batch, camera);
+		drawLightBatch(batch, frameData, camera);
 		break;
 	}
 }
 
 void AppInterface::drawLineBatch(
-	const Taz::RenderBatch& batch,
+	const Taz::GECSRenderBatch& batch,
+	const Taz::FrameRenderData& frameData,
 	ICamera& camera
 )
 {
+	// Setup shader and render
 	auto& shader = *resourceManager.getGLSLProgram(batch.shaderName);
 	resourceManager.setupShader(shader, camera);
 
@@ -140,13 +138,14 @@ void AppInterface::drawLineBatch(
 		glUniform2f(pLocation, batch.viewportSize.x, batch.viewportSize.y);
 	}
 
-	lineRenderer.end();
+	lineRenderer.endBatch(batch);
 	shader.unuse();
 
 }
 
 void AppInterface::drawPlaneColorBatch(
-	const Taz::RenderBatch& batch,
+	const Taz::GECSRenderBatch& batch,
+	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
 	// Setup shader and render
@@ -156,26 +155,28 @@ void AppInterface::drawPlaneColorBatch(
 	GLint pLocation = shader.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(batch.rotationMatrix));
 
-	planeColorRenderer.end();
+	planeColorRenderer.endBatch(batch);
 	shader.unuse();
 
 }
 
 void AppInterface::drawPlaneModelBatch(
-	const Taz::RenderBatch& batch,
+	const Taz::GECSRenderBatch& batch,
+	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
 	// Setup shader and render
 	auto& shader = *resourceManager.getGLSLProgram(batch.shaderName);
 	resourceManager.setupShader(shader, camera);
 
-	planeModelRenderer.end();
+	planeModelRenderer.endBatch(batch);
 	shader.unuse();
 
 }
 
 void AppInterface::drawLightBatch(
-	const Taz::RenderBatch& batch,
+	const Taz::GECSRenderBatch& batch,
+	const Taz::FrameRenderData& frameData,
 	ICamera& camera
 )
 {
@@ -183,7 +184,7 @@ void AppInterface::drawLightBatch(
 	auto& shader = *resourceManager.getGLSLProgram(batch.shaderName);
 	resourceManager.setupShader(shader, camera);
 
-	lightRenderer.end();
+	lightRenderer.endBatch(batch);
 	shader.unuse();
 
 }

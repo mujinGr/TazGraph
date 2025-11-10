@@ -21,13 +21,11 @@ void Graph::prepareDraw()
 	glm::vec3 cameraAimPos = main_camera2D->getAimPos();
 	glm::vec3 directionToCamera = glm::normalize(cameraAimPos - main_camera2D->eyePos);
 	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
-
-	rotationMatrix = getRotationMatrix(cameraEulerAngles);
-
 	int writeIndex = 1 - activeFrameIndex.load();
 
 	auto& frameData = frameDataBuffers[writeIndex];
 
+	rotationMatrix = getRotationMatrix(cameraEulerAngles);
 	frameData.batches.clear();
 
 	// 0. Grid Rendering
@@ -36,6 +34,7 @@ void Graph::prepareDraw()
 		Taz::GECSRenderBatch gridBatch;
 		gridBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
 		gridBatch.mesh_type = Taz::RenderBatch::MeshType::Line;
+
 		gridBatch.shaderName = "lineColor";
 		gridBatch.entities = manager->collectEntities({
 			Manager::groupGridLinks,
@@ -109,6 +108,7 @@ void Graph::prepareDraw()
 		lightsBatch.renderer_type = Taz::RenderBatch::RendererType::Light;
 		lightsBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
 
+
 		lightsBatch.shaderName = "light";
 
 		lightsBatch.entities = manager->collectEntities({
@@ -125,6 +125,7 @@ void Graph::prepareDraw()
 		lightsBatch.renderer_type = Taz::RenderBatch::RendererType::Light;
 		lightsBatch.mesh_type = Taz::RenderBatch::MeshType::Sphere;
 
+
 		lightsBatch.shaderName = "light";
 
 		lightsBatch.entities = manager->collectEntities({
@@ -135,6 +136,7 @@ void Graph::prepareDraw()
 
 		frameData.batches.push_back(lightsBatch);
 	}
+
 	// 6. Path Links Batch (rendered without depth test)
 	{
 		Taz::GECSRenderBatch pathLinksBatch;
@@ -168,12 +170,12 @@ void Graph::prepareDraw()
 		portsBatch.count = portsBatch.entities.size();
 		frameData.batches.push_back(portsBatch);
 	}
-	manager->removeAllEntitiesFromEmptyGroup(Manager::groupSelectedEntities);
 	// 8.1. Selection Nodes Overlay Batch
 	{
 		Taz::GECSRenderBatch selectionBatch;
 		selectionBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
 		selectionBatch.mesh_type = Taz::RenderBatch::MeshType::Box;
+
 
 		selectionBatch.shaderName = "lineColor";
 
@@ -211,6 +213,7 @@ void Graph::prepareDraw()
 		selectionBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
 		selectionBatch.mesh_type = Taz::RenderBatch::MeshType::Box;
 
+
 		selectionBatch.shaderName = "lineColor";
 
 		size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
@@ -237,18 +240,14 @@ void Graph::prepareDraw()
 		frameData.batches.push_back(selectionBatch);
 	}
 
-	// Debug Rendering
+
+	//// Debug Rendering
 	//if (renderDebug) {
 	//	getApp()->lineRenderer.begin();
 	//	getApp()->resourceManager.setupShader(glsl_wireframeColor, *main_camera2D);
 
 	//	/*GLint viewportLoc = glsl_lineColor.getUniformLocation("_viewport");
 	//	glUniform4f(viewportLoc, 0.0f, 0.0f, 800.0f, 640.0f);*/
-
-
-	//	std::vector<Cell*> intercectedCells = manager->grid->getIntersectedCameraCells(*main_camera2D);
-
-	//	getApp()->lineRenderer.initBatchSize2(4);
 
 	//	getApp()->lineRenderer.initBatchSize2(
 	//		intercectedCells.size() +
@@ -257,8 +256,19 @@ void Graph::prepareDraw()
 	//		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size()
 	//	);
 
+	//	std::vector<Cell*> intercectedCells = manager->grid->getIntersectedCameraCells(*main_camera2D);
 
-	//	getApp()->lineRenderer.initBatchSize();
+	//	getApp()->lineRenderer.initQuadBatch(4);
+
+	//	getApp()->lineRenderer.initBoxBatch(
+	//		intercectedCells.size() +
+	//		manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0).size() +
+	//		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0).size() +
+	//		manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1).size()
+	//	);
+
+
+	//	getApp()->lineRenderer.initBatch();
 
 	//	size_t v_index = 0;
 
@@ -308,34 +318,28 @@ void Graph::prepareDraw()
 	//	getApp()->lineRenderer.end();
 	//	getApp()->lineRenderer.renderElementsBatch();
 	//	glsl_wireframeColor.unuse();
-
 	//}
-
-	getApp()->planeColorRenderer.begin();
-	getApp()->lineRenderer.begin();
-	getApp()->planeModelRenderer.begin();
-	getApp()->lightRenderer.begin();
-	//minimapPrepareDraw();
-
 	getApp()->planeColorRenderer.begin();
 	getApp()->lineRenderer.begin();
 	getApp()->planeModelRenderer.begin();
 	getApp()->lightRenderer.begin();
 
-	//! Prepare Draw Batches by Frame
+	minimapPrepareDraw();
+
 	{
-		for (const auto& batch : frameData.batches) {
+		for (auto& batch : frameData.batches) {
 			getApp()->prepareBatch(batch);
 		}
 	}
 	activeFrameIndex.store(writeIndex);
-
 }
 
 void Graph::renderDraw()
 {
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	int readIndex = activeFrameIndex.load();
 	auto& frameData = frameDataBuffers[readIndex];
+
 	_viewportFramebuffer.Bind();
 	glDepthMask(GL_TRUE);
 	////////////OPENGL USE
@@ -350,12 +354,10 @@ void Graph::renderDraw()
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	{
 		//! render Frame
 		for (const auto& batch : frameData.batches) {
-			getApp()->renderBatch(batch, *main_camera2D);
+			getApp()->renderBatch(batch, frameData, *main_camera2D);
 		}
 	}
 
@@ -373,6 +375,8 @@ void Graph::renderDraw()
 
 void Graph::minimapPrepareDraw() {
 	int writeIndex = 1 - activeFrameIndex.load();
+
+	auto& minimap_frameData = minimap_frameDataBuffers[writeIndex];
 
 	auto& frameData = frameDataBuffers[writeIndex];
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
@@ -405,33 +409,37 @@ void Graph::minimapPrepareDraw() {
 
 	glm::mat4 minimap_rotationMatrix = glm::mat4(1.0f);
 
+	minimap_frameData.batches.clear();
 	{
 		Taz::GECSRenderBatch minimapBatch;
 		minimapBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneColor;
+		minimapBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
 		minimapBatch.shaderName = "color";
 		minimapBatch.entities = manager->collectEntities({
 			Manager::groupMinimapNodes,
 			}, Taz::EntityType::Minimap);
 		minimapBatch.count = minimapBatch.entities.size();
-
 		minimapBatch.rotationMatrix = minimap_rotationMatrix;
-		frameData.batches.push_back(minimapBatch);
+		minimap_frameData.batches.push_back(minimapBatch);
 	}
+
 	//! Prepare Draw Batches by Frame
 	{
-		for (const auto& batch : frameData.batches) {
+		for (auto& batch : minimap_frameData.batches) {
 			getApp()->prepareBatch(batch);
 		}
 	}
+
+
 }
 
 void Graph::minimapRenderDraw() {
-
 	int readIndex = activeFrameIndex.load();
-	auto& frameData = frameDataBuffers[readIndex];
+	auto& minimap_frameData = minimap_frameDataBuffers[readIndex];
+
 	std::shared_ptr<OrthoCamera> minimap_camera2D =
 		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
-
 
 	_minimapFramebuffer.Bind();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -440,12 +448,10 @@ void Graph::minimapRenderDraw() {
 
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
 	{
 		//! render Frame
-		for (const auto& batch : frameData.batches) {
-			//getApp()->renderBatch(batch, *minimap_camera2D);
+		for (const auto& batch : minimap_frameData.batches) {
+			getApp()->renderBatch(batch, minimap_frameData, *minimap_camera2D);
 		}
 	}
 

@@ -22,8 +22,10 @@ public:
 	virtual ~AppInterface();
 
 	void run();
+
 	void enqueueRenderCommand(std::function<void()> cmd);
 	void waitForRenderCommand();
+
 	void RenderThreadFunc();
 	void exitSimulator();
 
@@ -46,14 +48,13 @@ public:
 
 	RenderCommandQueue queues[2];
 	std::atomic<int> activeIndex = 0;
-
-
 	std::atomic<bool> frameReady = false;// main thread produced frame
 	std::atomic<bool> frameConsumed = true;// render thread finished frame
 
 	RenderCommandQueue initQueue;
 	std::atomic<bool> initCommandReady{ false };
 	std::atomic<bool> initCommandComplete{ false };
+
 
 	PlaneModelRenderer planeModelRenderer;
 	PlaneColorRenderer planeColorRenderer;
@@ -63,24 +64,29 @@ public:
 	ResourceManager resourceManager;
 
 	void renderBatch(
-		const Taz::RenderBatch& batch,
+		const Taz::GECSRenderBatch& batch,
+		const Taz::FrameRenderData& frameData,
 		ICamera& camera
 	);
 
 	void drawLineBatch(
-		const Taz::RenderBatch& batch,
+		const Taz::GECSRenderBatch& batch,
+		const Taz::FrameRenderData& frameData,
 		ICamera& camera
 	);
 	void drawPlaneColorBatch(
-		const Taz::RenderBatch& batch,
+		const Taz::GECSRenderBatch& batch,
+		const Taz::FrameRenderData& frameData,
 		ICamera& camera
 	);
 	void drawPlaneModelBatch(
-		const Taz::RenderBatch& batch,
+		const Taz::GECSRenderBatch& batch,
+		const Taz::FrameRenderData& frameData,
 		ICamera& camera
 	);
 	void drawLightBatch(
-		const Taz::RenderBatch& batch,
+		const Taz::GECSRenderBatch& batch,
+		const Taz::FrameRenderData& frameData,
 		ICamera& camera
 	);
 
@@ -89,12 +95,12 @@ public:
 	void drawBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch);
 	void drawBatch(const std::vector<EntityID>& entities, LightRenderer& batch);
 
-	void prepareBatch(const Taz::GECSRenderBatch& batch);
+	void prepareBatch(Taz::GECSRenderBatch& batch);
 
-	void prepareLineBatch(const Taz::GECSRenderBatch& batch);
-	void preparePlaneColorBatch(const Taz::GECSRenderBatch& batch);
-	void preparePlaneModelBatch(const Taz::GECSRenderBatch& batch);
-	void prepareLightBatch(const Taz::GECSRenderBatch& batch);
+	void prepareLineBatch(Taz::GECSRenderBatch& batch);
+	void preparePlaneColorBatch(Taz::GECSRenderBatch& batch);
+	void preparePlaneModelBatch(Taz::GECSRenderBatch& batch);
+	void prepareLightBatch(Taz::GECSRenderBatch& batch);
 
 
 protected:

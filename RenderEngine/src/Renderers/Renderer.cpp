@@ -3,6 +3,7 @@
 
 Taz::Renderer::Renderer() :
 	_vboInstances(0)
+
 {
 
 }
@@ -16,9 +17,3 @@ void Taz::Renderer::init() {
 
 void Taz::Renderer::begin() {
 }
-
-void Taz::Renderer::end() {
-
-}
-
-

@@ -40,7 +40,6 @@ public:
 	virtual void prepareDraw() override;
 	virtual void renderDraw() override;
 
-
 	void minimapPrepareDraw();
 	void minimapRenderDraw();
 

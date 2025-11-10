@@ -1,5 +1,4 @@
-﻿
-/**
+﻿/**
  * @file Graph.cpp
 
 */
@@ -38,7 +37,6 @@ void Graph::destroy() {
 
 void Graph::onEntry()
 {
-
 	getApp()->enqueueRenderCommand([this]() {
 		/////////////////////////////////////////////
 		getApp()->resourceManager.addGLSLProgram("color");
@@ -49,10 +47,12 @@ void Graph::onEntry()
 		getApp()->resourceManager.addGLSLProgram("lineColor");
 		getApp()->resourceManager.addGLSLProgram("wireframeColor");
 
-
-
 		if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 		{
+			std::cout << "Subsystems Initialised..." << std::endl;
+
+			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
 			getApp()->resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
 			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
 			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
@@ -95,14 +95,13 @@ void Graph::onEntry()
 			std::cout << "Error : SDL_TTF" << std::endl;
 		}
 
+		//add the textures to our texture library
 		TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 		TextureManager::getInstance().Add_GLTexture("worldMap", "assets/Sprites/worldMap.png");
 		TextureManager::getInstance().Add_GLTexture("play-button", "assets/Sprites/images-removebg-preview.png");
 		TextureManager::getInstance().Add_GLTexture("pause-button", "assets/Sprites/pause.png");
 		TextureManager::getInstance().Add_GLTexture("treemap", "assets/Sprites/treemap.png");
 		TextureManager::getInstance().Add_GLTexture("sauronEye", "assets/Sprites/Eye-of-Sauron.png");
-
-
 		});
 	getApp()->waitForRenderCommand();
 
@@ -110,6 +109,7 @@ void Graph::onEntry()
 
 	getApp()->getFPSLimiter().currentFrame = 0;
 	std::string mapName = DataManager::getInstance().mapToLoad;
+
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -132,7 +132,6 @@ void Graph::onEntry()
 
 	AnimatorManager& animManager = AnimatorManager::getInstance();
 	animManager.InitializeAnimators();
-	//add the textures to our texture library
 
 	if (setManager(mapName)) {
 		auto& world_map(manager->addEntityNoId<Empty>());
@@ -149,8 +148,10 @@ void Graph::onEntry()
 
 	}
 
+
 	Music music = getApp()->getAudioEngine().loadMusic("Sounds/JPEGSnow.ogg");
 	music.play(-1);
+
 
 	backgroundColor[0] = 0.407f;
 	backgroundColor[1] = 0.384f;

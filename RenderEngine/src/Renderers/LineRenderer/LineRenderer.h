@@ -40,7 +40,7 @@ void main() {
 	void begin();
 	void end();
 
-	void initBatch(const Taz::RenderBatch& batch);
+	void initBatch(Taz::RenderBatch& batch);
 
 	void drawLine(size_t v_index,
 		const glm::vec3 srcPosition, const glm::vec3 destPosition,
@@ -57,6 +57,8 @@ void main() {
 		const glm::vec3& mRotation = glm::vec3(0),
 		const float width = 5.0f);
 	void drawCircle(const glm::vec2& center, const TazColor& color, float radius);
+
+	void endBatch(const Taz::RenderBatch& batch);
 
 	void renderBatch() override;
 

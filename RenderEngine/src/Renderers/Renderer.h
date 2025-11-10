@@ -23,6 +23,7 @@ namespace Taz
 			PlaneModel,
 			Light
 		};
+
 		RendererType renderer_type = RendererType::Line;
 
 		enum class MeshType {
@@ -37,12 +38,12 @@ namespace Taz
 		std::string shaderName;
 
 		size_t count = 0;
+		size_t index = 0;
 
 		// Additional shader uniforms
 		glm::mat4 rotationMatrix = glm::mat4(1.0f);
 		glm::vec2 viewportSize = glm::vec2(0.0f);
 	};
-
 
 
 
@@ -54,11 +55,15 @@ namespace Taz
 		virtual void init();
 
 		virtual void begin();
-		virtual void end();
+		virtual void end() = 0;
+
+		virtual void endBatch(const Taz::RenderBatch& batch) = 0;
 
 		GLuint _vboInstances;
 
 		virtual void renderBatch() = 0;
+
+		size_t currentBatchIndex = 0;
 	};
 
 }

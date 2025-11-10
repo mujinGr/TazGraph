@@ -28,7 +28,6 @@ void AppInterface::run() {
 
 	const float DESIRED_FPS = 60;
 	const int MAX_PHYSICS_STEPS = 1;
-	//SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
 	if (!init()) return;
 
@@ -44,7 +43,6 @@ void AppInterface::run() {
 	Uint64 prevTicks = SDL_GetPerformanceCounter();
 
 	_limiter.setMaxFPS(60.0f);
-	//SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 
 	while (_isRunning) {
 		ZoneScoped;
@@ -144,8 +142,8 @@ void AppInterface::waitForRenderCommand() {
 	initCommandReady.store(false);
 }
 
+
 void AppInterface::RenderThreadFunc() {
-	// Make OpenGL context current on this thread
 	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 	tracy::SetThreadName("Render Thread");
 
@@ -194,6 +192,8 @@ void AppInterface::RenderThreadFunc() {
 	ImGui_ImplSDL2_Shutdown();
 
 	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
+
+
 }
 
 void AppInterface::exitSimulator() {
@@ -272,6 +272,9 @@ bool AppInterface::init() {
 	CameraManager::getInstance().initializeCameras();
 
 	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
+	initRenderers();
+	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
+
 	initRenderers();
 	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 

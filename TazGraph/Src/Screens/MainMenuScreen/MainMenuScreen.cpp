@@ -40,6 +40,11 @@ void MainMenuScreen::onEntry()
 
 		if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 		{
+			std::cout << "Subsystems Initialised..." << std::endl;
+
+			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+
 			//InitShaders function from Bengine
 			getApp()->resourceManager.getGLSLProgram("texture")->compileAndLinkShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
 			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexPosition");
@@ -52,12 +57,11 @@ void MainMenuScreen::onEntry()
 			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
 		}
 
-		std::cout << "Shaders loaded successfully on render thread!" << std::endl;
-
 		if (TTF_Init() == -1)
 		{
 			std::cout << "Error : SDL_TTF" << std::endl;
 		}
+
 		// Texture Loads
 		TextureManager::getInstance().Add_GLTexture("graphnetwork", "assets/Sprites/menuBg.png");
 		TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
@@ -69,7 +73,6 @@ void MainMenuScreen::onEntry()
 		});
 
 	getApp()->waitForRenderCommand();
-
 
 
 	auto& Mainmenubackground(manager->addEntity<Empty>());
@@ -92,7 +95,6 @@ void MainMenuScreen::onEntry()
 	)*/);
 	hud_camera2D->setPosition_Y(hud_camera2D->getPosition().y);
 	hud_camera2D->setScale(1.0f);
-
 
 	if (!manager->grid)
 	{
@@ -126,6 +128,7 @@ void MainMenuScreen::update(float deltaTime)
 
 void MainMenuScreen::prepareDraw()
 {
+
 	int writeIndex = 1 - activeFrameIndex.load();
 
 	auto& frameData = frameDataBuffers[writeIndex];
@@ -134,6 +137,7 @@ void MainMenuScreen::prepareDraw()
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
+
 
 	//////////////////////////////////////
 	frameData.batches.clear();
@@ -156,31 +160,30 @@ void MainMenuScreen::prepareDraw()
 	getApp()->lineRenderer.begin();
 	getApp()->planeModelRenderer.begin();
 	getApp()->lightRenderer.begin();
-	//! Prepare Draw Batches by Frame
+
 	{
-		for (const auto& batch : frameData.batches) {
+		for (auto& batch : frameData.batches) {
 			getApp()->prepareBatch(batch);
 		}
 	}
+
 	activeFrameIndex.store(writeIndex);
 }
 
 void MainMenuScreen::renderDraw()
 {
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	int readIndex = activeFrameIndex.load();
 	auto& frameData = frameDataBuffers[readIndex];
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
-
 	//! render Frame
 	{
 		for (const auto& batch : frameData.batches) {
-			getApp()->renderBatch(batch, *main_camera2D);
+			getApp()->renderBatch(batch, frameData, *main_camera2D);
 		}
 	}
-	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void MainMenuScreen::checkInput() {

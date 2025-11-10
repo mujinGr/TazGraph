@@ -350,33 +350,32 @@ struct BaseRenderer {
 	GLuint ibo = 0;
 };
 
-
-//! Instances
-struct BatchInstances {
-	std::string shaderName;
+//! Batches
+struct SimpleBatch {
+	std::string shaderName; //todo: integrate it with renderers
 
 	std::vector<InstanceData> instances;
 };
 
-struct ColorInstances {
+struct ColorBatch {
 	std::string shaderName;
 
 	std::vector<ColorInstanceData> instances;
 };
 
-struct LineInstances {
+struct LineBatch {
 	std::string shaderName;
 
 	std::vector<LineInstanceData> instances;
 };
 
-struct WireFrameInstances {
+struct WireFrameBatch {
 	std::string shaderName;
 
 	std::vector<WireframeInstanceData> instances;
 };
 
-struct TextureInstances {
+struct TextureBatch {
 	std::string shaderName;
 
 	std::vector<TextureInstanceData> instances;
@@ -385,25 +384,26 @@ struct TextureInstances {
 //! Meshes
 struct MeshRenderer : BaseRenderer {
 	//! Batches
-	std::vector< BatchInstances> batches;
+	std::vector< SimpleBatch> batches;
 };
 
 struct ColorMeshRenderer : BaseRenderer {
-	std::vector< ColorInstances> batches;
+	std::vector< ColorBatch> batches;
 };
 
 struct LineMeshRenderer : BaseRenderer {
-	std::vector< LineInstances> batches;
+	std::vector< LineBatch> batches;
 };
 
 struct WireframeMeshRenderer : BaseRenderer {
-	std::vector< WireFrameInstances> batches;
+	std::vector< WireFrameBatch> batches;
 };
 
 struct TextureMeshRenderer : BaseRenderer {
-	std::vector< TextureInstances> batches;
+	std::vector< TextureBatch> batches;
 };
-//////////////////////////
+
+
 class GLSLProgram {
 public:
 	GLSLProgram() : _programID(0), _vertexShaderID(0), _geometryShaderID(0), _fragmentShaderID(0), _numAttributes(0)

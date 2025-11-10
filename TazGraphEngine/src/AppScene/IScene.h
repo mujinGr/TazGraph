@@ -94,7 +94,9 @@ public:
 
 	float backgroundColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 
+
 	Taz::FrameRenderData frameDataBuffers[2];
+	Taz::FrameRenderData minimap_frameDataBuffers[2];
 	std::atomic<int> activeFrameIndex = 0;
 
 protected:
