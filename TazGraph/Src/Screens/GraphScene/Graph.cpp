@@ -163,12 +163,7 @@ void Graph::onEntry()
 }
 
 void Graph::onExit() {
-	getApp()->planeModelRenderer.dispose();
-	getApp()->lineRenderer.dispose();
-	getApp()->planeColorRenderer.dispose();
-	getApp()->lightRenderer.dispose();
-
-	getApp()->resourceManager.disposeGLSLPrograms();
+	
 }
 
 

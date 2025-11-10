@@ -161,6 +161,17 @@ void AppInterface::waitForRenderCommand() {
 }
 void AppInterface::waitForRenderThreadExit() {
 	if (renderThread.joinable()) {
+
+		int writeIndex = 1 - activeIndex.load();
+
+		queues[writeIndex].Submit([this]() {
+			planeModelRenderer.dispose();
+			lineRenderer.dispose();
+			planeColorRenderer.dispose();
+			lightRenderer.dispose();
+			resourceManager.disposeGLSLPrograms();
+			});
+
 		// Signal the render thread to exit
 		_isRunning = false;
 
