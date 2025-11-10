@@ -190,6 +190,10 @@ void MainMenuScreen::checkInput() {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
+	if (requestExit) {
+		MainMenuScreen::onExitSimulator();
+	}
+
 	SDL_Event evnt;
 
 	while (SDL_PollEvent(&evnt)) {
@@ -223,9 +227,8 @@ void MainMenuScreen::updateUI(float deltaTime) {
 void MainMenuScreen::drawUI() {
 	_mainMenuLayer.setConfig({
 		   .onStartClicked = [this]() { MainMenuScreen::onStartSimulator(); },
-		   .onExitClicked = [this]() { MainMenuScreen::onExitSimulator(); }
+		   .onExitClicked = [this]() { requestExit = true; }
 		});
-
 
 	_mainMenuLayer.OnImGuiRender();
 

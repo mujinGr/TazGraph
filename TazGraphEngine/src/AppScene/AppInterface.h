@@ -26,6 +26,8 @@ public:
 	void enqueueRenderCommand(std::function<void()> cmd);
 	void waitForRenderCommand();
 
+	void waitForRenderThreadExit();
+
 	void RenderThreadFunc();
 	void exitSimulator();
 

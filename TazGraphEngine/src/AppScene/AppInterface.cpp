@@ -152,13 +152,34 @@ void AppInterface::enqueueRenderCommand(std::function<void()> cmd) {
 }
 
 void AppInterface::waitForRenderCommand() {
+	std::cout << "Waiting for render command..." << std::endl;
 	std::unique_lock<std::mutex> lock(initMutex);
 	initCV.wait(lock, [this]() {
 		return initCommandComplete.load();
 		});
 	initCommandComplete.store(false);
 }
+void AppInterface::waitForRenderThreadExit() {
+	if (renderThread.joinable()) {
+		// Signal the render thread to exit
+		_isRunning = false;
 
+		// Wake it up if it's waiting on any condition variable
+		{
+			std::lock_guard<std::mutex> lock(frameMutex);
+			frameReadyCV.notify_all();
+			frameConsumedCV.notify_all();
+		}
+		{
+			std::lock_guard<std::mutex> lock(initMutex);
+			initCV.notify_all();
+		}
+
+		// Wait for render thread to finish
+		renderThread.join();
+		std::cout << "[Main] Render thread has exited cleanly.\n";
+	}
+}
 
 void AppInterface::RenderThreadFunc() {
 	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
@@ -240,8 +261,9 @@ void AppInterface::exitSimulator() {
 		_sceneList->destroy();
 		_sceneList.reset();
 	}
-	_isRunning = false;
 
+	waitForRenderThreadExit();
+	// Set running flag and NOTIFY the condition variable
 	for (Thread& thread : threadPool.threads) {
 		thread.stop();
 	}
