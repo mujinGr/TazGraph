@@ -85,11 +85,18 @@ void AppInterface::run() {
 		if (_isRunning) {
 			ZoneScopedN("PrepareDraw");
 
-			while (!frameConsumed.load(std::memory_order_acquire) && _isRunning) {
-				std::this_thread::sleep_for(std::chrono::microseconds(50));
+			{
+				std::unique_lock<std::mutex> lock(frameMutex);
+				frameConsumedCV.wait(lock, [this]() {
+					return frameConsumed.load() || !_isRunning;
+					});
+
+				if (!_isRunning) break;
 			}
 
 			prepareDraw();
+
+
 		}
 		if (_isRunning) {
 			ZoneScopedN("RenderDraw");
@@ -104,12 +111,20 @@ void AppInterface::run() {
 				ZoneScopedN("DrawUI");
 				drawUI();  // This calls ImGui rendering - MUST be on render thread
 				});
+			queues[writeIndex].Submit([this]() {
+				ZoneScopedN("SwapBuffer");
+				_window.swapBuffer();  // This calls ImGui rendering - MUST be on render thread
+				});
 			// Swap buffers - make write buffer active
 			activeIndex.store(writeIndex);
 
-			// Signal render thread that frame is ready
-			frameConsumed.store(false, std::memory_order_release);
-			frameReady.store(true, std::memory_order_release);
+			// Signal frame ready
+			{
+				std::lock_guard<std::mutex> lock(frameMutex);
+				frameConsumed.store(false);
+				frameReady.store(true);
+			}
+			frameReadyCV.notify_one();
 		}
 
 		_limiter.end();
@@ -128,18 +143,20 @@ void AppInterface::run() {
 }
 
 void AppInterface::enqueueRenderCommand(std::function<void()> cmd) {
-	initQueue.Submit(std::move(cmd));
-	initCommandReady.store(true);
+	{
+		std::lock_guard<std::mutex> lock(initMutex);
+		initQueue.Submit(std::move(cmd));
+		initCommandReady.store(true);
+	}
+	initCV.notify_one();
 }
 
 void AppInterface::waitForRenderCommand() {
-	// Wait for render thread to complete the command
-	while (!initCommandComplete.load()) {
-		std::this_thread::sleep_for(std::chrono::microseconds(100));
-	}
-	// Reset for next command
+	std::unique_lock<std::mutex> lock(initMutex);
+	initCV.wait(lock, [this]() {
+		return initCommandComplete.load();
+		});
 	initCommandComplete.store(false);
-	initCommandReady.store(false);
 }
 
 
@@ -147,44 +164,62 @@ void AppInterface::RenderThreadFunc() {
 	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 	tracy::SetThreadName("Render Thread");
 
-	while (_isRunning) {
-		bool didSomething = false;
+	while (_isRunning)
+	{
+		bool shouldProcessFrame = false;
+		bool shouldProcessInit = false;
 
-		if (initCommandReady.load()) {
-			std::cout << "Executing initialization command..." << std::endl;
-			initQueue.Execute();
-			initCommandComplete.store(true);
-			initCommandReady.store(false);
-			didSomething = true;
-		}
+		{
+			std::unique_lock<std::mutex> lock(frameMutex);
 
-		if (frameReady.load()) {
+			// Wait for either frame ready OR a short timeout to check init commands
+			frameReadyCV.wait_for(lock, std::chrono::milliseconds(1), [this]() {
+				return frameReady.load() || !_isRunning;
+				});
 
 			if (!_isRunning) break;
 
-			// Get the active queue to read from
+			if (frameReady.load()) {
+				shouldProcessFrame = true;
+			}
+		}
+
+		// Check for init commands (without blocking frame rendering)
+		{
+			std::lock_guard<std::mutex> lock(initMutex);
+			if (initCommandReady.load()) {
+				shouldProcessInit = true;
+			}
+		}
+
+		// Process init commands first (higher priority)
+		if (shouldProcessInit) {
+			std::lock_guard<std::mutex> lock(initMutex);
+			if (initCommandReady.load()) {
+				std::cout << "Executing init command" << std::endl;
+				initQueue.Execute();
+				initCommandReady.store(false);
+				initCommandComplete.store(true);
+				initCV.notify_one();
+			}
+		}
+
+		// Process frame rendering
+		if (shouldProcessFrame) {
 			int readIndex = activeIndex.load();
 
-			// Execute all rendering commands
 			{
 				ZoneScopedN("Execute Render Commands");
 				queues[readIndex].Execute();
 			}
 
-			// Swap OpenGL buffers - ONLY on render thread
 			{
-				ZoneScopedN("SwapBuffer");
-				_window.swapBuffer();
+				std::lock_guard<std::mutex> lock(frameMutex);
+				frameReady.store(false);
+				frameConsumed.store(true);
 			}
-
-			// Mark frame as consumed
-			frameReady.store(false, std::memory_order_release);
-			frameConsumed.store(true, std::memory_order_release);
-			didSomething = true;
+			frameConsumedCV.notify_one();
 		}
-
-		if (!didSomething)
-			std::this_thread::sleep_for(std::chrono::microseconds(100));
 	}
 
 	// Cleanup ImGui before exiting

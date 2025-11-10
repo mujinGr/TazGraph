@@ -48,9 +48,8 @@ int main(int argc, char* argv[]) {
 		std::cout << "Initial step: " << initialStep << "\n";
 	}
 
-	App app(threadCount, openFile, initialTimestamp, initialStep);
-
-	app.run();
+	auto app = std::make_unique<App>(threadCount, openFile, initialTimestamp, initialStep);
+	app->run();
 
 	return 0;
 }

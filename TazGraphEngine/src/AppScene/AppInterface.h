@@ -46,12 +46,19 @@ public:
 	double initialTimestamp;
 	int initialStep;
 
+	std::mutex frameMutex;
+	std::condition_variable frameReadyCV;
+	std::condition_variable frameConsumedCV;
+	std::condition_variable initCommandCV;
+
 	RenderCommandQueue queues[2];
 	std::atomic<int> activeIndex = 0;
-	std::atomic<bool> frameReady = false;// main thread produced frame
-	std::atomic<bool> frameConsumed = true;// render thread finished frame
+	std::atomic<bool> frameReady{ false };
+	std::atomic<bool> frameConsumed{ true };
 
 	RenderCommandQueue initQueue;
+	std::mutex initMutex;
+	std::condition_variable initCV;
 	std::atomic<bool> initCommandReady{ false };
 	std::atomic<bool> initCommandComplete{ false };
 
