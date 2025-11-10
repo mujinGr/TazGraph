@@ -27,6 +27,7 @@ file(GLOB_RECURSE Source_Files
 "../vendors/implot/implot_items.cpp"
 "../vendors/ImGuizmo/ImGuizmo.cpp"
 "../vendors/tinyxml2/tinyxml2.cpp"
+"../vendors/tracy/public/TracyClient.cpp"
 "../vendors/DotParser/DotParser/DotParser.cpp"
 "../vendors/simdump/*.cpp"
 )
