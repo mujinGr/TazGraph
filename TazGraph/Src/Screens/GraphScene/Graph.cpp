@@ -105,10 +105,7 @@ void Graph::onEntry()
 		});
 	getApp()->waitForRenderCommand();
 
-
-
 	getApp()->getFPSLimiter().currentFrame = 0;
-	std::string mapName = DataManager::getInstance().mapToLoad;
 
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
@@ -133,22 +130,6 @@ void Graph::onEntry()
 	AnimatorManager& animManager = AnimatorManager::getInstance();
 	animManager.InitializeAnimators();
 
-	if (setManager(mapName)) {
-		auto& world_map(manager->addEntityNoId<Empty>());
-		AssetManager::CreateWorldMap(world_map);
-
-		manager->resetEntityId();
-
-		map->loadMap(
-			DataManager::getInstance().mapToLoad.c_str(),
-			std::bind(&AssetManager::AddDefaultNode, std::placeholders::_1, std::placeholders::_2),
-			std::bind(&AssetManager::AddDefaultLink, std::placeholders::_1),
-			&_app->threadPool
-		);
-
-	}
-
-
 	Music music = getApp()->getAudioEngine().loadMusic("Sounds/JPEGSnow.ogg");
 	music.play(-1);
 
@@ -163,7 +144,7 @@ void Graph::onEntry()
 }
 
 void Graph::onExit() {
-	
+
 }
 
 

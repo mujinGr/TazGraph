@@ -264,6 +264,7 @@ void AppInterface::RenderThreadFunc() {
 }
 
 void AppInterface::exitSimulator() {
+	waitForRenderThreadExit();
 	if (!_sceneList || !_sceneList->getCurrent())
 		return;
 
@@ -273,7 +274,6 @@ void AppInterface::exitSimulator() {
 		_sceneList.reset();
 	}
 
-	waitForRenderThreadExit();
 	// Set running flag and NOTIFY the condition variable
 	for (Thread& thread : threadPool.threads) {
 		thread.stop();
@@ -396,26 +396,35 @@ void AppInterface::update(float deltaTime) {
 		exitSimulator();
 		return;
 	}
+	while (
+		_sceneList->getCurrent()->getState() != SceneState::RUNNING &&
+		_sceneList->getCurrent()->getState() != SceneState::EXIT_APPLICATION
+		) {
+		switch (_sceneList->getCurrent()->getState()) {
+		case SceneState::CHANGE_NEXT:
+			_sceneList->getCurrent()->onExit();
+			_sceneList->moveNext();
+			if (_sceneList->getCurrent()) {
+				_sceneList->getCurrent()->setRunning();
+				_sceneList->getCurrent()->onEntry();
+			}
+			break;
+		case SceneState::CHANGE_PREVIOUS:
+			_sceneList->getCurrent()->onExit();
+			_sceneList->movePrevious();
+			if (_sceneList->getCurrent()) {
+				_sceneList->getCurrent()->setRunning();
+				//_sceneList->getCurrent()->onEntry();
+			}
+			break;
+		default:
+			break;
+		}
+	}
 
 	switch (_sceneList->getCurrent()->getState()) {
 	case SceneState::RUNNING:
 		_sceneList->getCurrent()->update(deltaTime);
-		break;
-	case SceneState::CHANGE_NEXT:
-		_sceneList->getCurrent()->onExit();
-		_sceneList->moveNext();
-		if (_sceneList->getCurrent()) {
-			_sceneList->getCurrent()->setRunning();
-			_sceneList->getCurrent()->onEntry();
-		}
-		break;
-	case SceneState::CHANGE_PREVIOUS:
-		_sceneList->getCurrent()->onExit();
-		_sceneList->movePrevious();
-		if (_sceneList->getCurrent()) {
-			_sceneList->getCurrent()->setRunning();
-			//_sceneList->getCurrent()->onEntry();
-		}
 		break;
 	case SceneState::EXIT_APPLICATION:
 		exitSimulator();

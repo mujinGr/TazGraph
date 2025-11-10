@@ -2,6 +2,25 @@
 
 void Graph::update(float deltaTime) //game objects updating
 {
+
+	std::string mapName = DataManager::getInstance().mapToLoad;
+
+	if (!mapName.empty() && setManager(mapName)) {
+		auto& world_map(manager->addEntityNoId<Empty>());
+		AssetManager::CreateWorldMap(world_map);
+
+		manager->resetEntityId();
+
+		map->loadMap(
+			DataManager::getInstance().mapToLoad.c_str(),
+			std::bind(&AssetManager::AddDefaultNode, std::placeholders::_1, std::placeholders::_2),
+			std::bind(&AssetManager::AddDefaultLink, std::placeholders::_1),
+			&_app->threadPool
+		);
+		DataManager::getInstance().mapToLoad = "";
+	}
+
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
