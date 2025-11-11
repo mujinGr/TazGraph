@@ -91,7 +91,7 @@ void TextPathParser::parse(Manager& manager,
 
 			addLinkFunc(link);
 
-			pathLinker.GetComponent<PathLinkerComponent>().addLink(&link);
+			pathLinker.GetComponent<PathLinkerComponent>().addLink(link.getId());
 			pathLinker.addGroup(Manager::groupPathLinksHolder);
 
 			linkEntities.push_back(&link);

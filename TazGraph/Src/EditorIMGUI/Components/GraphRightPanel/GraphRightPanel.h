@@ -7,7 +7,7 @@
 
 struct GraphRightConfig {
 	IScene* scene;
-	std::vector<std::pair<Entity*, glm::vec3>> c_selectedEntities;
+	std::vector<std::pair<EntityID, glm::vec3>> c_selectedEntities;
 };
 
 class GraphRightPanel : public UIElement

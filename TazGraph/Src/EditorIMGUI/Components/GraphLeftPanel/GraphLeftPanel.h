@@ -7,7 +7,7 @@
 struct GraphLeftConfig {
 	IScene* scene;
 	glm::vec2 sceneMouseCoords;
-	std::vector<std::pair<Entity*, glm::vec3>> c_selectedEntities;
+	std::vector<std::pair<EntityID, glm::vec3>> c_selectedEntities;
 };
 
 class GraphLeftPanel : public UIElement
@@ -36,5 +36,5 @@ public:
 
 	void OnImGuiRender() override;
 	void ChooseLayoutPanel();
-	void displayChildrenRecursive(Entity* entity, int depth);
+	void displayChildrenRecursive(EntityID entity, int depth);
 };

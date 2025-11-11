@@ -170,9 +170,10 @@ public:
 			auto& pathLinks = simPaths.second->GetComponent<PathLinkerComponent>().pathLinks;
 			auto toRemove = pathLinks;
 
-			for (auto* pathLink : toRemove) {
-				simPaths.second->GetComponent<PathLinkerComponent>().removeLink(pathLink);
+			for (auto pathLinkId : toRemove) {
+				simPaths.second->GetComponent<PathLinkerComponent>().removeLink(pathLinkId);
 				manager.updateInnerPathLinks = true;
+				Entity* pathLink = manager.getEntityFromId(pathLinkId);
 				pathLink->destroy();
 			}
 		}
@@ -212,7 +213,7 @@ public:
 				manager.grid->addLink(&link, manager.grid->getGridLevel());
 
 				// associate link with path linker
-				path.first->GetComponent<PathLinkerComponent>().addLink(&link);
+				path.first->GetComponent<PathLinkerComponent>().addLink(link.getId());
 
 			}
 		}

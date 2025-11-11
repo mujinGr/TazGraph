@@ -10,7 +10,7 @@ struct CustomFunctionsConfig {
 class CustomFunctions : public UIElement
 {
 private:
-	std::vector<std::pair<Entity*, glm::vec3>>* selectedEntities = nullptr;
+	std::vector<std::pair<EntityID, glm::vec3>>* selectedEntities = nullptr;
 	CustomFunctionsConfig config;
 
 public:
@@ -27,6 +27,6 @@ public:
 	void CalculateHeatMap();
 	void DrawCandlestickChart();
 
-	void setSelectedEntities(std::vector<std::pair<Entity*, glm::vec3 >>& m_selectedEntities);
+	void setSelectedEntities(std::vector<std::pair<EntityID, glm::vec3 >>& m_selectedEntities);
 	void setConfig(const CustomFunctionsConfig& cfg) { config = cfg; }
 };

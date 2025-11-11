@@ -180,14 +180,18 @@ void Graph::prepareDraw()
 		selectionBatch.shaderName = "lineColor";
 
 		size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
-			[](const auto& entry) {
-				return dynamic_cast<NodeEntity*>(entry.first) || dynamic_cast<EmptyEntity*>(entry.first);
+			[manager = this->manager](const auto& entry) {
+				Entity* ent = manager->getEntityFromId(entry.first);
+				return dynamic_cast<NodeEntity*>(ent)
+					|| dynamic_cast<EmptyEntity*>(ent);
 			});
 
 		selectionBatch.count = nodeCount;
 
 
-		for (auto& [entity, offset] : _selectedEntities) {
+		for (auto& [entityId, offset] : _selectedEntities) {
+			Entity* entity = manager->getEntityFromId(entityId);
+
 			Node* node = dynamic_cast<Node*>(entity);
 			Empty* empty = dynamic_cast<Empty*>(entity);
 
@@ -217,13 +221,16 @@ void Graph::prepareDraw()
 		selectionBatch.shaderName = "lineColor";
 
 		size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
-			[](const auto& entry) {
-				return dynamic_cast<LinkEntity*>(entry.first);
+			[manager = this->manager](const auto& entry) {
+				Entity* ent = manager->getEntityFromId(entry.first);
+				return dynamic_cast<LinkEntity*>(ent);
 			});
 
 		selectionBatch.count = linkCount;
 
-		for (auto& [entity, offset] : _selectedEntities) {
+		for (auto& [entityId, offset] : _selectedEntities) {
+			Entity* entity = manager->getEntityFromId(entityId);
+
 			Link* link = dynamic_cast<Link*>(entity);
 
 			if (link) {

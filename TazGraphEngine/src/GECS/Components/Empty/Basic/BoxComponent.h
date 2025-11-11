@@ -22,6 +22,9 @@ public:
 	}
 
 	void init() override {
+		if (transform == nullptr) {
+			entity->addComponent<TransformComponent>();
+		}
 		transform = &entity->GetComponent<TransformComponent>();
 
 	}

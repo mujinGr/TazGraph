@@ -149,7 +149,8 @@ void GraphLeftPanel::OnImGuiRender()
 					auto* pathHolder = config.scene->manager->getEntityFromId(pathHolderId);
 					auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
 
-					for (auto* link : pathLinks) {
+					for (auto linkId : pathLinks) {
+						Entity* link = config.scene->manager->getEntityFromId(linkId);
 						link->destroy();
 					}
 					config.scene->manager->updateInnerPathLinks = true;
@@ -398,8 +399,10 @@ void GraphLeftPanel::ChooseLayoutPanel() {
 	ImGui::PopStyleVar();
 }
 
-void GraphLeftPanel::displayChildrenRecursive(Entity* entity, int depth)
+void GraphLeftPanel::displayChildrenRecursive(EntityID entityId, int depth)
 {
+	Entity* entity = config.scene->manager->getEntityFromId(entityId);
+
 	if (!entity) return;
 
 	ImGui::Text("Selected Entity:");
@@ -444,7 +447,7 @@ void GraphLeftPanel::displayChildrenRecursive(Entity* entity, int depth)
 			bool childOpen = ImGui::TreeNodeEx(childLabel.c_str(), childFlags);
 
 			if (childOpen && !childEnt->children.empty()) {
-				displayChildrenRecursive(childEnt, depth + 1);
+				displayChildrenRecursive(child, depth + 1);
 				ImGui::TreePop();
 			}
 

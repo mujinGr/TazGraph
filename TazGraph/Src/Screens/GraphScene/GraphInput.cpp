@@ -88,27 +88,23 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				}
 				else if (activateMode == SDL_BUTTON_LEFT) {
 					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[node](const std::pair<Entity*, glm::vec3>& entry) {
-							return entry.first == node;
+						[nodeId](const std::pair<EntityID, glm::vec3>& entry) {
+							return entry.first == nodeId;
 						});
 
 					if (it == _selectedEntities.end()) { // Node not found
 						_selectedEntities.clear();
-						_selectedEntities.emplace_back(node, node->GetComponent<TransformComponent>().getPosition() - t);
+						_selectedEntities.emplace_back(nodeId, node->GetComponent<TransformComponent>().getPosition() - t);
 					}
 					else {
-						std::vector<std::pair<Entity*, glm::vec3>> updatedSelection;
+						std::vector<std::pair<EntityID, glm::vec3>> updatedSelection;
 						updatedSelection.reserve(_selectedEntities.size());
 
-						for (const auto& [entity, _] : _selectedEntities) {
-							Node* nodeEntity = dynamic_cast<Node*>(entity);
-							if (nodeEntity) {
-								glm::vec3 relativePos = nodeEntity->GetComponent<TransformComponent>().getPosition() - t;
-								updatedSelection.emplace_back(entity, relativePos);
-							}
-							else {
-								updatedSelection.emplace_back(entity, glm::vec3(0));
-							}
+						for (const auto& [entityId, _] : _selectedEntities) {
+							Entity* entity = manager->getEntityFromId(entityId);
+
+							glm::vec3 relativePos = entity->GetComponent<TransformComponent>().getPosition() - t;
+							updatedSelection.emplace_back(entityId, relativePos);
 						}
 
 						_selectedEntities = std::move(updatedSelection);
@@ -120,29 +116,25 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				else if (activateMode == CTRLD_LEFT_CLICK) {
 
 					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[node](const std::pair<Entity*, glm::vec3>& entry) {
-							return entry.first == node;
+						[nodeId](const std::pair<EntityID, glm::vec3>& entry) {
+							return entry.first == nodeId;
 						});
 
 
 					//! update selectedEntities relative positions to center
-					std::vector<std::pair<Entity*, glm::vec3>> updatedSelection;
+					std::vector<std::pair<EntityID, glm::vec3>> updatedSelection;
 					updatedSelection.reserve(_selectedEntities.size());
 
-					for (const auto& [entity, _] : _selectedEntities) {
-						Node* nodeEntity = dynamic_cast<Node*>(entity);
-						if (nodeEntity) {
-							glm::vec3 relativePos = nodeEntity->GetComponent<TransformComponent>().getPosition() - t;
-							updatedSelection.emplace_back(entity, relativePos);
-						}
-						else {
-							updatedSelection.emplace_back(entity, glm::vec3(0));
-						}
+					for (const auto& [entityId, _] : _selectedEntities) {
+						Entity* entity = manager->getEntityFromId(entityId);
+
+						glm::vec3 relativePos = entity->GetComponent<TransformComponent>().getPosition() - t;
+						updatedSelection.emplace_back(entityId, relativePos);
 					}
 
 					if (it == _selectedEntities.end()) {
 						glm::vec3 newNodeRelativePos = node->GetComponent<TransformComponent>().getPosition() - t;
-						updatedSelection.emplace_back(node, newNodeRelativePos);
+						updatedSelection.emplace_back(nodeId, newNodeRelativePos);
 					}
 
 					_selectedEntities = std::move(updatedSelection);
@@ -176,27 +168,23 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				}
 				else if (activateMode == SDL_BUTTON_LEFT) {
 					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[empty](const std::pair<Entity*, glm::vec3>& entry) {
-							return entry.first == empty;
+						[emptyId](const std::pair<EntityID, glm::vec3>& entry) {
+							return entry.first == emptyId;
 						});
 
 					if (it == _selectedEntities.end()) { // Empty not found
 						_selectedEntities.clear();
-						_selectedEntities.emplace_back(empty, empty->GetComponent<TransformComponent>().getPosition() - t);
+						_selectedEntities.emplace_back(emptyId, empty->GetComponent<TransformComponent>().getPosition() - t);
 					}
 					else {
-						std::vector<std::pair<Entity*, glm::vec3>> updatedSelection;
+						std::vector<std::pair<EntityID, glm::vec3>> updatedSelection;
 						updatedSelection.reserve(_selectedEntities.size());
 
-						for (const auto& [entity, _] : _selectedEntities) {
-							Empty* emptyEntity = dynamic_cast<Empty*>(entity);
-							if (emptyEntity) {
-								glm::vec3 relativePos = emptyEntity->GetComponent<TransformComponent>().getPosition() - t;
-								updatedSelection.emplace_back(entity, relativePos);
-							}
-							else {
-								updatedSelection.emplace_back(entity, glm::vec3(0));
-							}
+						for (const auto& [entityId, _] : _selectedEntities) {
+							Entity* entity = manager->getEntityFromId(entityId);
+
+							glm::vec3 relativePos = entity->GetComponent<TransformComponent>().getPosition() - t;
+							updatedSelection.emplace_back(entityId, relativePos);
 						}
 
 						_selectedEntities = std::move(updatedSelection);
@@ -208,29 +196,25 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				else if (activateMode == CTRLD_LEFT_CLICK) {
 
 					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[empty](const std::pair<Entity*, glm::vec3>& entry) {
-							return entry.first == empty;
+						[emptyId](const std::pair<EntityID, glm::vec3>& entry) {
+							return entry.first == emptyId;
 						});
 
 
 					//! update selectedEntities relative positions to center
-					std::vector<std::pair<Entity*, glm::vec3>> updatedSelection;
+					std::vector<std::pair<EntityID, glm::vec3>> updatedSelection;
 					updatedSelection.reserve(_selectedEntities.size());
 
-					for (const auto& [entity, _] : _selectedEntities) {
-						Empty* emptyEntity = dynamic_cast<Empty*>(entity);
-						if (emptyEntity) {
-							glm::vec3 relativePos = emptyEntity->GetComponent<TransformComponent>().getPosition() - t;
-							updatedSelection.emplace_back(entity, relativePos);
-						}
-						else {
-							updatedSelection.emplace_back(entity, glm::vec3(0));
-						}
+					for (const auto& [entityId, _] : _selectedEntities) {
+						Entity* entity = manager->getEntityFromId(entityId);
+
+						glm::vec3 relativePos = entity->GetComponent<TransformComponent>().getPosition() - t;
+						updatedSelection.emplace_back(entityId, relativePos);
 					}
 
 					if (it == _selectedEntities.end()) {
 						glm::vec3 newEmptyRelativePos = empty->GetComponent<TransformComponent>().getPosition() - t;
-						updatedSelection.emplace_back(empty, newEmptyRelativePos);
+						updatedSelection.emplace_back(emptyId, newEmptyRelativePos);
 					}
 
 					_selectedEntities = std::move(updatedSelection);
@@ -253,17 +237,19 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	if (minT < 0.0f) minT = 0.0f;
 
 	// Helper function to check if entity is already selected
-	auto isEntitySelected = [&](Entity* entity) {
+	auto isEntitySelected = [&](EntityID entity) {
 		return std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-			[entity](const std::pair<Entity*, glm::vec3>& entry) {
+			[entity](const std::pair<EntityID, glm::vec3>& entry) {
 				return entry.first == entity;
 			}) != _selectedEntities.end();
 		};
 
 
 	// Unified link selection handler
-	auto handleLinkSelection = [&](Entity* link, int mode) {
-		std::vector<Entity*> linksToSelect;
+	auto handleLinkSelection = [&](EntityID linkId, int mode) {
+		std::vector<EntityID> linksToSelect;
+
+		Entity* link = manager->getEntityFromId(linkId);
 
 		if (link->getParentEntity() &&
 			link->getParentEntity()->hasGroup(Manager::groupPathLinksHolder)) {
@@ -271,13 +257,13 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 				link->getParentEntity()->GetComponent<PathLinkerComponent>().pathLinks;
 
 			for (auto& pathLink : pathLinks) {
-				linksToSelect.push_back(static_cast<Entity*>(pathLink));
+				linksToSelect.push_back(pathLink);
 
 			}
 		}
 		else {
 			// Single link selection
-			linksToSelect.push_back(link);
+			linksToSelect.push_back(linkId);
 		}
 
 		// Apply selection based on mode
@@ -288,7 +274,8 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 		case SDL_BUTTON_LEFT:
 			_selectedEntities.clear(); // Clear previous selection
-			for (auto* linkToSelect : linksToSelect) {
+			for (auto linkToSelect : linksToSelect) {
+
 				if (!isEntitySelected(linkToSelect)) {
 					_selectedEntities.emplace_back(linkToSelect, glm::vec3(0));
 				}
@@ -303,7 +290,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 		case CTRLD_LEFT_CLICK:
 			// Add to selection (multi-select)
-			for (auto* linkToSelect : linksToSelect) {
+			for (auto linkToSelect : linksToSelect) {
 				if (!isEntitySelected(linkToSelect)) {
 					_selectedEntities.emplace_back(linkToSelect, glm::vec3(0));
 				}
@@ -327,7 +314,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			)) {
 
 				// Check if this link is part of a path and select accordingly
-				handleLinkSelection(link, activateMode); // true = select whole path if it's a path link
+				handleLinkSelection(linkId, activateMode); // true = select whole path if it's a path link
 				hasSelected = true;
 				break;
 			}
@@ -644,7 +631,9 @@ void Graph::checkInput() {
 					glm::vec3 center(0.0f);
 					int nodeEntitiesSize = 0;
 
-					for (const auto& [entity, _] : _selectedEntities) {
+					for (const auto& [entityId, _] : _selectedEntities) {
+						Entity* entity = manager->getEntityFromId(entityId);
+
 						Node* nodeEntity = dynamic_cast<Node*>(entity);
 						if (nodeEntity) {
 							center += nodeEntity->GetComponent<TransformComponent>().getPosition();
@@ -661,7 +650,9 @@ void Graph::checkInput() {
 
 					pointAtCenterAxis = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, center.z);
 
-					for (const auto& [entity, relativePos] : _selectedEntities) {
+					for (const auto& [entityId, relativePos] : _selectedEntities) {
+						Entity* entity = manager->getEntityFromId(entityId);
+
 						Node* nodeEntity = dynamic_cast<Node*>(entity);
 						if (nodeEntity) {
 							entity->GetComponent<TransformComponent>().setPosition_X(pointAtCenterAxis.x + relativePos.x);
@@ -776,12 +767,12 @@ void Graph::selectEntitiesInFrustum(int groupId, const SelectionFrustum& frustum
 		glm::vec3 centerPoint = entity->template GetComponent<TransformComponent>().getPosition();
 		if (isPointInFrustum(centerPoint, frustum)) {
 			auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-				[entity](const std::pair<Entity*, glm::vec3>& pair) {
-					return pair.first == entity;
+				[entityId](const std::pair<EntityID, glm::vec3>& pair) {
+					return pair.first == entityId;
 				});
 
 			if (it == _selectedEntities.end()) {
-				_selectedEntities.emplace_back(entity, centerPoint); // Store entity and its position
+				_selectedEntities.emplace_back(entityId, centerPoint); // Store entity and its position
 			}
 		}
 	}

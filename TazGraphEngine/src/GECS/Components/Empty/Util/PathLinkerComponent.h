@@ -5,8 +5,8 @@
 class PathLinkerComponent : public Component
 {
 public:
-	std::vector<LinkEntity*> innerLinks;
-	std::vector<LinkEntity*> pathLinks;
+	std::vector<EntityID> innerLinks;
+	std::vector<EntityID> pathLinks;
 
 	float width = 1.0f;   // default width
 	float last_width = 1.0f;   // default width
@@ -31,7 +31,8 @@ public:
 	void update(float deltaTime) override {
 
 		if (last_width != width || color != last_color) {
-			for (auto& pathLink : pathLinks) {
+			for (auto pathLinkId : pathLinks) {
+				auto* pathLink = entity->getManager()->getEntityFromId(pathLinkId);
 				pathLink->GetComponent<Line_w_Color>().setSrcColor(color);
 				pathLink->GetComponent<Line_w_Color>().setDestColor(color);
 				pathLink->GetComponent<Line_w_Color>().width = width;
@@ -46,17 +47,20 @@ public:
 	}
 
 	// Add a link to the path
-	void addLink(LinkEntity* link) {
-		if (link && std::find(pathLinks.begin(), pathLinks.end(), link) == pathLinks.end()) {
+	void addLink(EntityID linkId) {
+		LinkEntity* link = dynamic_cast<LinkEntity*>(entity->getManager()->getEntityFromId(linkId));
+
+		if (link &&
+			std::find(pathLinks.begin(), pathLinks.end(), linkId) == pathLinks.end()) {
 			link->GetComponent<Line_w_Color>().setSrcColor(color);
 			link->GetComponent<Line_w_Color>().setDestColor(color);
 			link->GetComponent<Line_w_Color>().width = width;
-			pathLinks.push_back(link);
+			pathLinks.push_back(linkId);
 		}
 	}
 
 	// Remove a link from the path
-	void removeLink(LinkEntity* link) {
+	void removeLink(EntityID link) {
 		pathLinks.erase(std::remove(pathLinks.begin(), pathLinks.end(), link), pathLinks.end());
 	}
 
@@ -70,8 +74,8 @@ public:
 
 	void createInnerLinks() {
 		for (size_t i = 1; i < pathLinks.size(); i++) {
-			LinkEntity* prevLink = pathLinks[i - 1];
-			LinkEntity* currLink = pathLinks[i];
+			LinkEntity* prevLink = dynamic_cast<LinkEntity*>(entity->getManager()->getEntityFromId(pathLinks[i - 1]));
+			LinkEntity* currLink = dynamic_cast<LinkEntity*>(entity->getManager()->getEntityFromId(pathLinks[i]));
 
 			// Validate nodes and ports for prevLink's toPort and currLink's fromPort
 			EntityID prevToNode = prevLink->getToNode();
@@ -94,17 +98,18 @@ public:
 
 			newInnerLink.addComponent<Line_w_Color>();
 
-			innerLinks.push_back(&newInnerLink);
+			innerLinks.push_back(newInnerLink.getId());
 
 			entity->getManager()->grid->addLink(&newInnerLink, entity->getManager()->grid->getGridLevel());
 		}
 	}
 
 	void removeInnerLinks() {
-		for (auto* innerLink : innerLinks) {
-			if (!innerLink) continue;
+		for (auto innerLinkId : innerLinks) {
+			Entity* innerEntity = entity->getManager()->getEntityFromId(innerLinkId);
+			if (!innerEntity) continue;
 
-			innerLink->destroy();
+			innerEntity->destroy();
 		}
 		innerLinks.clear();
 	}

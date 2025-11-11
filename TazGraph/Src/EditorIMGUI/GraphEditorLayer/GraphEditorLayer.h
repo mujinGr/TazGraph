@@ -22,7 +22,7 @@ struct GraphEditorLayerConfig {
 	glm::vec2 selectionWindowStartPos = glm::vec2(0);
 	glm::vec2 selectionWindowCurrentPos = glm::vec2(0);
 
-	std::vector<std::pair<Entity*, glm::vec3>>* selectedEntities;
+	std::vector<std::pair<EntityID, glm::vec3>>* selectedEntities;
 
 	Map* map = nullptr;
 
