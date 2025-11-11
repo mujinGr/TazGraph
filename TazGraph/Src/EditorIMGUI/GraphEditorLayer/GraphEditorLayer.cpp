@@ -218,22 +218,15 @@ void GraphEditorLayer::OnImGuiRender()
 		{
 			getSubcomponent<MenuDropdownPanel>()->getSubcomponent<LoadingUI>()->setConfig({});
 			getSubcomponent<MenuDropdownPanel>()->getSubcomponent<LoadingUI>()->OnImGuiRender();
+
 			char* loadMapPath = DataManager::getInstance().data.input;
 			if (strlen(loadMapPath) && !DataManager::getInstance().isLoading()) {
-
-				if (config.scene->setManager(std::string(loadMapPath)))
-				{
-					auto& world_map(manager->addEntityNoId<Empty>());
-					AssetManager::CreateWorldMap(world_map);
-
-					config.map->loadMap(
-						loadMapPath,
-						std::bind(&AssetManager::AddDefaultNode, std::placeholders::_1, std::placeholders::_2),
-						std::bind(&AssetManager::AddDefaultLink, std::placeholders::_1),
-						&config.scene->getApp()->threadPool
-					);
-				}
+				DataManager::getInstance().mapToLoad = loadMapPath;
 			}
+		}
+		if (!config.scene->getApp()->openFile.empty()) {
+			DataManager::getInstance().mapToLoad = 
+				config.scene->getApp()->openFile;
 		}
 		if (DataManager::getInstance().isLoadingPath()) {
 			DataManager::getInstance().setPathLoading(false);

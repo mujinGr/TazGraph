@@ -71,6 +71,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			if (std::holds_alternative<int>(nodeId) && std::get<int>(nodeId) < 0)
 				continue;
 			auto* node = manager->getEntityFromId(nodeId);
+			if (!node) continue;
 
 			glm::vec3 t;
 			TransformComponent* tempBod = &node->GetComponent<TransformComponent>();
@@ -317,6 +318,8 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			if (std::holds_alternative<int>(linkId) && std::get<int>(linkId) < 0)
 				continue;
 			auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
+
+			if (!link) continue;
 
 			if (rayIntersectsLineSegment(rayOrigin, rayDirection,
 				manager->getEntityFromId(link->getFromNode())->GetComponent<TransformComponent>().getPosition(),

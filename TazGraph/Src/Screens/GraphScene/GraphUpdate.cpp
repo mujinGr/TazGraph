@@ -17,6 +17,7 @@ void Graph::update(float deltaTime) //game objects updating
 			std::bind(&AssetManager::AddDefaultLink, std::placeholders::_1),
 			&_app->threadPool
 		);
+		last_showGrid = false;
 		DataManager::getInstance().mapToLoad = "";
 	}
 
@@ -34,12 +35,13 @@ void Graph::update(float deltaTime) //game objects updating
 	}
 	manager->refresh(main_camera2D.get());
 
-	/*glm::vec3 cameraAimPos = main_camera2D->getAimPos();
+	/*
+	glm::vec3 cameraAimPos = main_camera2D->getAimPos();
 
 	glm::vec3 directionToCamera = glm::normalize(cameraAimPos - main_camera2D->eyePos);
 
 	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
-		*/
+	*/
 	if (_firstLoop) {
 		manager->updateFully(deltaTime);
 	}
@@ -287,7 +289,9 @@ void Graph::update(float deltaTime) //game objects updating
 			vert_gridLink.addComponent<Line_w_Color>();
 			vert_gridLink.GetComponent<Line_w_Color>().width = 1.0f;
 			vert_gridLink.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 255, 64));
+
 			vert_gridLink.addGroup(Manager::groupGridLinks);
+
 			manager->grid->addLink(&vert_gridLink, manager->grid->getGridLevel());
 
 			// Horizontal lines (constant Y, varying X)
@@ -302,7 +306,6 @@ void Graph::update(float deltaTime) //game objects updating
 			hor_gridLink.addGroup(Manager::groupGridLinks);
 
 			manager->grid->addLink(&hor_gridLink, manager->grid->getGridLevel());
-
 		}
 	}
 
