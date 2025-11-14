@@ -9,6 +9,8 @@
 #include "../Components/GraphRightPanel/GraphRightPanel.h"
 #include "../../Map/Map.h"
 
+
+
 struct GraphEditorLayerConfig {
 	IScene* scene;
 	glm::vec2 viewportMousePosition;
@@ -22,7 +24,7 @@ struct GraphEditorLayerConfig {
 	glm::vec2 selectionWindowStartPos = glm::vec2(0);
 	glm::vec2 selectionWindowCurrentPos = glm::vec2(0);
 
-	std::vector<std::pair<EntityID, glm::vec3>>* selectedEntities;
+	std::vector<SelectedInfo>* selectedEntities;
 
 	Map* map = nullptr;
 

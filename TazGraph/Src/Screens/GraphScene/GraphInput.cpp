@@ -1,4 +1,4 @@
-#include "Graph.h"
+﻿#include "Graph.h"
 
 std::vector<Cell*> Graph::traversedCellsFromRay(
 	glm::vec3 rayOrigin,
@@ -68,164 +68,191 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	// ! Select Nodes
 	for (auto& trav_cell : trav_cells) {
 		for (auto& nodeId : trav_cell->nodes) {
+
 			if (std::holds_alternative<int>(nodeId) && std::get<int>(nodeId) < 0)
 				continue;
-			auto* node = manager->getEntityFromId(nodeId);
+
+			Entity* node = manager->getEntityFromId(nodeId);
 			if (!node) continue;
 
+			TransformComponent* tr = &node->GetComponent<TransformComponent>();
 			glm::vec3 t;
-			TransformComponent* tempBod = &node->GetComponent<TransformComponent>();
-			if (rayIntersectsBox(rayOrigin,
+
+			if (!rayIntersectsBox(
+				rayOrigin,
 				rayDirection,
-				glm::vec3(tempBod->position.x, tempBod->position.y, tempBod->position.z),
-				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, tempBod->position.z + tempBod->size.z),
-				t)) {
-
-				//std::cout << "Ray hit node: " << node->getId() << " at distance " << t.x << t.y << t.z << std::endl;
-				if (activateMode == SDL_BUTTON_RIGHT)
-				{
-					_displayedEntity = node;
-				}
-				else if (activateMode == SDL_BUTTON_LEFT) {
-					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[nodeId](const std::pair<EntityID, glm::vec3>& entry) {
-							return entry.first == nodeId;
-						});
-
-					if (it == _selectedEntities.end()) { // Node not found
-						_selectedEntities.clear();
-						_selectedEntities.emplace_back(nodeId, node->GetComponent<TransformComponent>().getPosition() - t);
-					}
-					else {
-						std::vector<std::pair<EntityID, glm::vec3>> updatedSelection;
-						updatedSelection.reserve(_selectedEntities.size());
-
-						for (const auto& [entityId, _] : _selectedEntities) {
-							Entity* entity = manager->getEntityFromId(entityId);
-
-							glm::vec3 relativePos = entity->GetComponent<TransformComponent>().getPosition() - t;
-							updatedSelection.emplace_back(entityId, relativePos);
-						}
-
-						_selectedEntities = std::move(updatedSelection);
-					}
-				}
-				else if (activateMode == ON_HOVER && _selectedEntities.empty()) {
-					_onHoverEntity = node;
-				}
-				else if (activateMode == CTRLD_LEFT_CLICK) {
-
-					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[nodeId](const std::pair<EntityID, glm::vec3>& entry) {
-							return entry.first == nodeId;
-						});
-
-
-					//! update selectedEntities relative positions to center
-					std::vector<std::pair<EntityID, glm::vec3>> updatedSelection;
-					updatedSelection.reserve(_selectedEntities.size());
-
-					for (const auto& [entityId, _] : _selectedEntities) {
-						Entity* entity = manager->getEntityFromId(entityId);
-
-						glm::vec3 relativePos = entity->GetComponent<TransformComponent>().getPosition() - t;
-						updatedSelection.emplace_back(entityId, relativePos);
-					}
-
-					if (it == _selectedEntities.end()) {
-						glm::vec3 newNodeRelativePos = node->GetComponent<TransformComponent>().getPosition() - t;
-						updatedSelection.emplace_back(nodeId, newNodeRelativePos);
-					}
-
-					_selectedEntities = std::move(updatedSelection);
-				}
-
-				hasSelected = true;
-				break;
+				tr->position,
+				tr->position + tr->size,
+				t))
+			{
+				continue;
 			}
-		}
 
-		if (hasSelected) return;
+			// --------------------------------------
+			// Primary click (left)
+			// --------------------------------------
+			if (activateMode == SDL_BUTTON_LEFT)
+			{
+				// check if selected already
+				auto it = std::find_if(
+					_selectedEntities.begin(), _selectedEntities.end(),
+					[&](const SelectedInfo& info) {
+						return info.realEntityId == nodeId;
+					});
+
+				if (it == _selectedEntities.end()) {
+					// not selected → new single selection
+					_selectedEntities.clear();
+
+					SelectedInfo info;
+					info.realEntityId = nodeId;
+					info.relativeOffset = tr->getPosition() - t;
+					info.overlayEntityId = -1; // created later in batch building
+
+					_selectedEntities.push_back(info);
+				}
+				else {
+					// already selected → update all offsets
+					for (auto& sel : _selectedEntities) {
+						Entity* e = manager->getEntityFromId(sel.realEntityId);
+						sel.relativeOffset = e->GetComponent<TransformComponent>().getPosition() - t;
+					}
+				}
+			}
+
+			// --------------------------------------
+			// Ctrl + Left (multi-select)
+			// --------------------------------------
+			else if (activateMode == CTRLD_LEFT_CLICK)
+			{
+				// Check if already selected
+				auto it = std::find_if(
+					_selectedEntities.begin(), _selectedEntities.end(),
+					[&](const SelectedInfo& info) {
+						return info.realEntityId == nodeId;
+					});
+
+				// Update all offsets first
+				for (auto& sel : _selectedEntities) {
+					Entity* e = manager->getEntityFromId(sel.realEntityId);
+					sel.relativeOffset = e->GetComponent<TransformComponent>().getPosition() - t;
+				}
+
+				// Add new if not selected
+				if (it == _selectedEntities.end())
+				{
+					SelectedInfo info;
+					info.realEntityId = nodeId;
+					info.relativeOffset = tr->getPosition() - t;
+					info.overlayEntityId = -1; // batch builder will create overlay
+					_selectedEntities.push_back(info);
+				}
+			}
+
+			// --------------------------------------
+			// Right-click = show inspector
+			// --------------------------------------
+			else if (activateMode == SDL_BUTTON_RIGHT) {
+				_displayedEntity = node;
+			}
+
+			// --------------------------------------
+			// Hover
+			// --------------------------------------
+			else if (activateMode == ON_HOVER && _selectedEntities.empty()) {
+				_onHoverEntity = node;
+			}
+
+			return; // STOP search
+		}
 	}
 	// ! Select Empties
 	for (auto& trav_cell : trav_cells) {
 		for (auto& emptyId : trav_cell->emptyEntities) {
+
 			if (std::holds_alternative<int>(emptyId) && std::get<int>(emptyId) < 0)
 				continue;
-			auto* empty = manager->getEntityFromId(emptyId);
 
+			Entity* empty = manager->getEntityFromId(emptyId);
+			if (!empty) continue;
+
+			TransformComponent* tr = &empty->GetComponent<TransformComponent>();
 			glm::vec3 t;
-			TransformComponent* tempBod = &empty->GetComponent<TransformComponent>();
-			if (rayIntersectsBox(rayOrigin,
+
+			if (!rayIntersectsBox(
+				rayOrigin,
 				rayDirection,
-				glm::vec3(tempBod->position.x, tempBod->position.y, empty->GetComponent<TransformComponent>().getPosition().z),
-				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, empty->GetComponent<TransformComponent>().getPosition().z + tempBod->size.z),
-				t)) {
-				//std::cout << "Ray hit empty: " << empty->getId() << " at distance " << t.x << t.y << t.z << std::endl;
-				if (activateMode == SDL_BUTTON_RIGHT)
-				{
-					_displayedEntity = empty;
-				}
-				else if (activateMode == SDL_BUTTON_LEFT) {
-					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[emptyId](const std::pair<EntityID, glm::vec3>& entry) {
-							return entry.first == emptyId;
-						});
-
-					if (it == _selectedEntities.end()) { // Empty not found
-						_selectedEntities.clear();
-						_selectedEntities.emplace_back(emptyId, empty->GetComponent<TransformComponent>().getPosition() - t);
-					}
-					else {
-						std::vector<std::pair<EntityID, glm::vec3>> updatedSelection;
-						updatedSelection.reserve(_selectedEntities.size());
-
-						for (const auto& [entityId, _] : _selectedEntities) {
-							Entity* entity = manager->getEntityFromId(entityId);
-
-							glm::vec3 relativePos = entity->GetComponent<TransformComponent>().getPosition() - t;
-							updatedSelection.emplace_back(entityId, relativePos);
-						}
-
-						_selectedEntities = std::move(updatedSelection);
-					}
-				}
-				else if (activateMode == ON_HOVER && _selectedEntities.empty()) {
-					_onHoverEntity = empty;
-				}
-				else if (activateMode == CTRLD_LEFT_CLICK) {
-
-					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[emptyId](const std::pair<EntityID, glm::vec3>& entry) {
-							return entry.first == emptyId;
-						});
-
-
-					//! update selectedEntities relative positions to center
-					std::vector<std::pair<EntityID, glm::vec3>> updatedSelection;
-					updatedSelection.reserve(_selectedEntities.size());
-
-					for (const auto& [entityId, _] : _selectedEntities) {
-						Entity* entity = manager->getEntityFromId(entityId);
-
-						glm::vec3 relativePos = entity->GetComponent<TransformComponent>().getPosition() - t;
-						updatedSelection.emplace_back(entityId, relativePos);
-					}
-
-					if (it == _selectedEntities.end()) {
-						glm::vec3 newEmptyRelativePos = empty->GetComponent<TransformComponent>().getPosition() - t;
-						updatedSelection.emplace_back(emptyId, newEmptyRelativePos);
-					}
-
-					_selectedEntities = std::move(updatedSelection);
-				}
-
-				hasSelected = true;
-				break;
+				tr->position,
+				tr->position + tr->size,
+				t))
+			{
+				continue;
 			}
-		}
 
-		if (hasSelected) return;
+			// --------------------------------------
+			// Primary click (left)
+			// --------------------------------------
+			if (activateMode == SDL_BUTTON_LEFT)
+			{
+				auto it = std::find_if(
+					_selectedEntities.begin(), _selectedEntities.end(),
+					[&](const SelectedInfo& info) {
+						return info.realEntityId == emptyId;
+					});
+
+				if (it == _selectedEntities.end()) {
+					_selectedEntities.clear();
+
+					SelectedInfo info;
+					info.realEntityId = emptyId;
+					info.relativeOffset = tr->getPosition() - t;
+					info.overlayEntityId = -1;
+
+					_selectedEntities.push_back(info);
+				}
+				else {
+					for (auto& sel : _selectedEntities) {
+						Entity* e = manager->getEntityFromId(sel.realEntityId);
+						sel.relativeOffset = e->GetComponent<TransformComponent>().getPosition() - t;
+					}
+				}
+			}
+
+			// --------------------------------------
+			// Ctrl + Left (multi-select)
+			// --------------------------------------
+			else if (activateMode == CTRLD_LEFT_CLICK)
+			{
+				auto it = std::find_if(
+					_selectedEntities.begin(), _selectedEntities.end(),
+					[&](const SelectedInfo& info) {
+						return info.realEntityId == emptyId;
+					});
+
+				for (auto& sel : _selectedEntities) {
+					Entity* e = manager->getEntityFromId(sel.realEntityId);
+					sel.relativeOffset = e->GetComponent<TransformComponent>().getPosition() - t;
+				}
+
+				if (it == _selectedEntities.end()) {
+					SelectedInfo info;
+					info.realEntityId = emptyId;
+					info.relativeOffset = tr->getPosition() - t;
+					info.overlayEntityId = -1;
+
+					_selectedEntities.push_back(info);
+				}
+			}
+
+			else if (activateMode == SDL_BUTTON_RIGHT) {
+				_displayedEntity = empty;
+			}
+			else if (activateMode == ON_HOVER && _selectedEntities.empty()) {
+				_onHoverEntity = empty;
+			}
+
+			return;
+		}
 	}
 
 	glm::vec3 pointAtMinDepth = main_camera2D->getPointOnRayAtZ(
@@ -239,8 +266,8 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	// Helper function to check if entity is already selected
 	auto isEntitySelected = [&](EntityID entity) {
 		return std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-			[entity](const std::pair<EntityID, glm::vec3>& entry) {
-				return entry.first == entity;
+			[entity](const SelectedInfo& entry) {
+				return entry.realEntityId == entity;
 			}) != _selectedEntities.end();
 		};
 
@@ -277,7 +304,13 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			for (auto linkToSelect : linksToSelect) {
 
 				if (!isEntitySelected(linkToSelect)) {
-					_selectedEntities.emplace_back(linkToSelect, glm::vec3(0));
+
+					SelectedInfo info;
+					info.realEntityId = linkToSelect;
+					info.relativeOffset = glm::vec3(0);
+					info.overlayEntityId = -1; // created later in batch building
+
+					_selectedEntities.push_back(info);
 				}
 			}
 			break;
@@ -292,7 +325,12 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			// Add to selection (multi-select)
 			for (auto linkToSelect : linksToSelect) {
 				if (!isEntitySelected(linkToSelect)) {
-					_selectedEntities.emplace_back(linkToSelect, glm::vec3(0));
+					SelectedInfo info;
+					info.realEntityId = linkToSelect;
+					info.relativeOffset = glm::vec3(0);
+					info.overlayEntityId = -1; // created later in batch building
+
+					_selectedEntities.push_back(info);
 				}
 			}
 			break;
@@ -624,51 +662,54 @@ void Graph::checkInput() {
 			if (_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
 				Uint32 currentTime = SDL_GetTicks();
 
-
-				if (!_selectedEntities.empty() && !_isDraggingSelectionBox) {
-					glm::vec3 pointAtCenterAxis = glm::vec3(0.0f);
-
+				// ============================================================
+				// DRAGGING SELECTED ENTITIES (no selection box active)
+				// ============================================================
+				if (!_selectedEntities.empty() && !_isDraggingSelectionBox)
+				{
 					glm::vec3 center(0.0f);
-					int nodeEntitiesSize = 0;
+					int count = 0;
 
-					for (const auto& [entityId, _] : _selectedEntities) {
-						Entity* entity = manager->getEntityFromId(entityId);
+					// ---- Compute average center of selected entities ----
+					for (const auto& sel : _selectedEntities)
+					{
+						Entity* entity = manager->getEntityFromId(sel.realEntityId);
+						if (!entity) continue;
 
-						Node* nodeEntity = dynamic_cast<Node*>(entity);
-						if (nodeEntity) {
-							center += nodeEntity->GetComponent<TransformComponent>().getPosition();
-							nodeEntitiesSize++;
-						}
-						Empty* emptyEntity = dynamic_cast<Empty*>(entity);
-						if (emptyEntity) {
-							center += emptyEntity->GetComponent<TransformComponent>().getPosition();
-							nodeEntitiesSize++;
-						}
+						center += entity->GetComponent<TransformComponent>().getPosition();
+						count++;
 					}
 
-					center /= nodeEntitiesSize;  // Include new node
+					if (count > 0)
+						center /= (float)count;
 
-					pointAtCenterAxis = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, center.z);
+					// Ray projected point at Z = center.z
+					glm::vec3 pointAtCenterAxis =
+						main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, center.z);
 
-					for (const auto& [entityId, relativePos] : _selectedEntities) {
-						Entity* entity = manager->getEntityFromId(entityId);
+					// ---- Move each selected entity using its relative offset ----
+					for (auto& sel : _selectedEntities)
+					{
+						Entity* entity = manager->getEntityFromId(sel.realEntityId);
+						if (!entity) continue;
 
-						Node* nodeEntity = dynamic_cast<Node*>(entity);
-						if (nodeEntity) {
-							entity->GetComponent<TransformComponent>().setPosition_X(pointAtCenterAxis.x + relativePos.x);
-							entity->GetComponent<TransformComponent>().setPosition_Y(pointAtCenterAxis.y + relativePos.y);
-						}
-						Empty* emptyEntity = dynamic_cast<Empty*>(entity);
-						if (emptyEntity) {
-							entity->GetComponent<TransformComponent>().setPosition_X(pointAtCenterAxis.x + relativePos.x);
-							entity->GetComponent<TransformComponent>().setPosition_Y(pointAtCenterAxis.y + relativePos.y);
-						}
+						glm::vec3 newPos = pointAtCenterAxis + sel.relativeOffset;
+
+						auto& tr = entity->GetComponent<TransformComponent>();
+						tr.setPosition_X(newPos.x);
+						tr.setPosition_Y(newPos.y);
+						// Z stays unchanged
 					}
 				}
-				else if (currentTime - _holdStartTime >= HOLD_TIME_FOR_SELECTION) {
 
+				// ============================================================
+				// BEGIN OR CONTINUE SELECTION BOX
+				// ============================================================
+				else if (currentTime - _holdStartTime >= HOLD_TIME_FOR_SELECTION)
+				{
 					if (!_isDraggingSelectionBox)
 					{
+						// Begin drag box
 						_selectionStartPos = _viewportMousePosition;
 						_selectionCurrentPos = _viewportMousePosition;
 
@@ -677,7 +718,9 @@ void Graph::checkInput() {
 
 						_isDraggingSelectionBox = true;
 					}
-					else {
+					else
+					{
+						// Continue drag box
 						_selectionCurrentPos = _viewportMousePosition;
 						_selectionWindowCurrentPos = _app->_inputManager.getMouseCoords();
 
@@ -767,12 +810,17 @@ void Graph::selectEntitiesInFrustum(int groupId, const SelectionFrustum& frustum
 		glm::vec3 centerPoint = entity->template GetComponent<TransformComponent>().getPosition();
 		if (isPointInFrustum(centerPoint, frustum)) {
 			auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-				[entityId](const std::pair<EntityID, glm::vec3>& pair) {
-					return pair.first == entityId;
+				[entityId](const SelectedInfo& pair) {
+					return pair.realEntityId == entityId;
 				});
 
 			if (it == _selectedEntities.end()) {
-				_selectedEntities.emplace_back(entityId, centerPoint); // Store entity and its position
+				SelectedInfo info;
+				info.realEntityId = entityId;
+				info.relativeOffset = centerPoint;
+				info.overlayEntityId = -1; // created later in batch building
+
+				_selectedEntities.push_back(info);
 			}
 		}
 	}

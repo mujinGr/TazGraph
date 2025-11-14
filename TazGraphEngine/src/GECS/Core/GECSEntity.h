@@ -120,12 +120,11 @@ public:
 
 
 class LinkEntity : public MultiCellEntity {
-protected:
-
+public:
 	//! When Node_to_Node
 	EntityID fromId = 0;
 	EntityID toId = 0;
-public:
+
 	enum class ConnectionType {
 		NODE_TO_NODE,
 		PORT_TO_PORT,

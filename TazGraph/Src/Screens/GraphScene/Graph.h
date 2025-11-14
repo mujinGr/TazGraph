@@ -66,7 +66,8 @@ private:
 	void performFrustumSelection();
 	bool onPauseGraph();
 
-	std::vector<std::pair<EntityID, glm::vec3>> _selectedEntities;
+	std::vector<SelectedInfo> _selectedEntities;
+
 	Entity* _displayedEntity = nullptr;
 	bool _sceneManagerActive = false;
 	Entity* _onHoverEntity = nullptr;

@@ -181,7 +181,7 @@ void Graph::prepareDraw()
 
 		size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
 			[manager = this->manager](const auto& entry) {
-				Entity* ent = manager->getEntityFromId(entry.first);
+				Entity* ent = manager->getEntityFromId(entry.realEntityId);
 				return dynamic_cast<NodeEntity*>(ent)
 					|| dynamic_cast<EmptyEntity*>(ent);
 			});
@@ -189,24 +189,35 @@ void Graph::prepareDraw()
 		selectionBatch.count = nodeCount;
 
 
-		for (auto& [entityId, offset] : _selectedEntities) {
-			Entity* entity = manager->getEntityFromId(entityId);
+		for (auto& sel : _selectedEntities) {
+			Entity* realEnt = manager->getEntityFromId(sel.realEntityId);
+			if (!realEnt) continue;
 
-			Node* node = dynamic_cast<Node*>(entity);
-			Empty* empty = dynamic_cast<Empty*>(entity);
+			Node* node = dynamic_cast<Node*>(realEnt);
+			Empty* empty = dynamic_cast<Empty*>(realEnt);
 
 			if (node || empty) {
-				auto& selectedEntity = manager->addEntity<Empty>();
-				selectedEntity.addGroup(Manager::groupSelectedEntities);
-				selectedEntity.addComponent<BoxComponent>();
-				manager->grid->addEmpty(&selectedEntity, manager->grid->getGridLevel());
 
-				auto& tr = entity->GetComponent<TransformComponent>();
-				glm::vec3 nodeBox_org(tr.position.x, tr.position.y, tr.position.z);
-				glm::vec3 nodeBox_size(tr.size.x, tr.size.y, tr.size.z);
+				// Reuse overlay entity, do NOT create new one
+				Entity* overlayEnt = manager->getEntityFromId(sel.overlayEntityId);
 
-				selectionBatch.count++;
-				selectionBatch.entities.push_back(selectedEntity.getId());
+				if (!overlayEnt || std::get<int>(sel.overlayEntityId) < 0) {
+					// Overlay somehow missing, recreate it
+					auto& newEnt = manager->addEntity<Empty>();
+					newEnt.addGroup(Manager::groupSelectedEntities);
+					newEnt.addComponent<BoxComponent>();
+					manager->grid->addEmpty(&newEnt, manager->grid->getGridLevel());
+					sel.overlayEntityId = newEnt.getId();
+					overlayEnt = &newEnt;
+				}
+
+				// Update overlay transform here to match real entity
+				overlayEnt->GetComponent<TransformComponent>().position =
+					realEnt->GetComponent<TransformComponent>().getPosition();
+				overlayEnt->GetComponent<TransformComponent>().size =
+					realEnt->GetComponent<TransformComponent>().size;
+
+				selectionBatch.entities.push_back(sel.overlayEntityId);
 			}
 		}
 		frameData.batches.push_back(selectionBatch);
@@ -222,28 +233,45 @@ void Graph::prepareDraw()
 
 		size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
 			[manager = this->manager](const auto& entry) {
-				Entity* ent = manager->getEntityFromId(entry.first);
+				Entity* ent = manager->getEntityFromId(entry.realEntityId);
 				return dynamic_cast<LinkEntity*>(ent);
 			});
 
 		selectionBatch.count = linkCount;
 
-		for (auto& [entityId, offset] : _selectedEntities) {
-			Entity* entity = manager->getEntityFromId(entityId);
+		for (auto& sel : _selectedEntities) {
+			LinkEntity* realEnt = dynamic_cast<LinkEntity*>(manager->getEntityFromId(sel.realEntityId));
+			if (!realEnt) continue;
 
-			Link* link = dynamic_cast<Link*>(entity);
+			Link* link = dynamic_cast<Link*>(realEnt);
 
 			if (link) {
-				auto& selectedEntity = manager->addEntity<Link>();
+				LinkEntity* overlayEnt = dynamic_cast<LinkEntity*>(manager->getEntityFromId(sel.overlayEntityId));
 
-				selectedEntity.addComponent<Line_w_Color>();
-				manager->grid->addLink(&selectedEntity, manager->grid->getGridLevel());
+				if (!overlayEnt) {
+					// Overlay somehow missing, recreate it
+					auto& newEnt = manager->addEntity<Link>();
+					newEnt.addGroup(Manager::groupSelectedEntities);
+					newEnt.addComponent<Line_w_Color>();
+					manager->grid->addLink(&newEnt, manager->grid->getGridLevel());
+					sel.overlayEntityId = newEnt.getId();
+					overlayEnt = &newEnt;
+				}
 
-				selectionBatch.count++;
-				selectionBatch.entities.push_back(selectedEntity.getId());
+				overlayEnt->fromId =
+					realEnt->fromId;
+				overlayEnt->toId =
+					realEnt->toId;
+
+				overlayEnt->fromPort =
+					realEnt->fromPort;
+				overlayEnt->toPort =
+					realEnt->toPort;
+
+				selectionBatch.entities.push_back(sel.overlayEntityId);
 			}
-
 		}
+
 		frameData.batches.push_back(selectionBatch);
 	}
 

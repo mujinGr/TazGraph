@@ -48,9 +48,9 @@ void CustomFunctions::CalculateDegree()
 
 	// Add selected entities (only nodes) as depth 0
 	for (auto& pair : *selectedEntities) {
-		Entity* entity = manager->getEntityFromId(pair.first);
+		Entity* entity = manager->getEntityFromId(pair.realEntityId);
 		if (auto* node = dynamic_cast<NodeEntity*>(entity)) {
-			currentDepthNodes.insert(pair.first);
+			currentDepthNodes.insert(pair.realEntityId);
 		}
 	}
 
@@ -185,6 +185,6 @@ void CustomFunctions::DrawCandlestickChart()
 
 }
 
-void CustomFunctions::setSelectedEntities(std::vector < std::pair<EntityID, glm::vec3 >>& m_selectedEntities) {
+void CustomFunctions::setSelectedEntities(std::vector < SelectedInfo>& m_selectedEntities) {
 	selectedEntities = &m_selectedEntities;
 }

@@ -84,7 +84,8 @@ void LineRenderer::drawRectangle(size_t v_index, const glm::vec2& rectSize,
 	_meshesElements[LINE_RECTANGLE_MESH_IDX].batches[currentBatchIndex].instances[v_index] = WireframeInstanceData(rectSize, position, mRotation, color, width);
 }
 
-void LineRenderer::drawBox(size_t v_index, const glm::vec3& rectSize,
+void LineRenderer::drawBox(size_t v_index,
+	const glm::vec3& rectSize,
 	const glm::vec3& position,
 	const TazColor& color,
 	const glm::vec3& mRotation,

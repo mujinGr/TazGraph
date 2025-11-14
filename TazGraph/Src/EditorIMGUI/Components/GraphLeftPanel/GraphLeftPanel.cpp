@@ -181,7 +181,7 @@ void GraphLeftPanel::OnImGuiRender()
 		ImGui::Separator();
 
 		if (config.c_selectedEntities.size() == 1) {
-			displayChildrenRecursive(config.c_selectedEntities.front().first, 0);
+			displayChildrenRecursive(config.c_selectedEntities.front().realEntityId, 0);
 		}
 
 		ImGui::EndChild();

@@ -37,6 +37,10 @@ public:
 		batch.drawBox(v_index, transform->size, transform->position, transform->rotation, color);
 	}
 
+	void draw(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
+		batch.drawBox(v_index, transform->size, transform->position, color, transform->rotation, 5.0f);
+	}
+
 	void draw(size_t v_index, LightRenderer& batch, TazGraphEngine::Window& window) {
 		batch.drawBox(v_index, transform->size, transform->position, transform->rotation, color);
 	}

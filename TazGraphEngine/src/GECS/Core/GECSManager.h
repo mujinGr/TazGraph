@@ -498,6 +498,9 @@ public:
 		{panelBackground, "panelBackground"},
 
 		{ groupGridLinks,"groupGridLinks" },
+
+		{ groupSelectedEntities, "groupSelectedEntities" },
+
 		//action
 		{ groupLinks_0,"groupLinks_0" },
 		{groupGroupLinks_0, "groupGroupLinks_0"},

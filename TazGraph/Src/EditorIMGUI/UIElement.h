@@ -4,6 +4,13 @@
 
 #include "../AssetManager/AssetManager.h"
 
+struct SelectedInfo {
+	EntityID realEntityId;     // the actual Node / Link selected
+	EntityID overlayEntityId;  // the entity used for rendering selection box
+	glm::vec3 relativeOffset;
+};
+
+
 class UIElement {
 public:
 	inline static std::unordered_map<std::type_index, UIElement*> uiComponentRegistry;
