@@ -86,6 +86,7 @@ public:
 	Manager* manager = nullptr;
 	std::string managerName = "";
 
+	bool last_renderDebug = false;
 	bool renderDebug = false;
 	bool showGrid = true;
 	bool last_showGrid = false;

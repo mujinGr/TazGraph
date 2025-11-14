@@ -36,6 +36,7 @@ namespace Taz
 		MeshType mesh_type = MeshType::Quad;
 
 		std::string shaderName;
+		std::string batchName;
 
 		size_t count = 0;
 		size_t index = 0;

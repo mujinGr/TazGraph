@@ -353,30 +353,35 @@ struct BaseRenderer {
 //! Batches
 struct SimpleBatch {
 	std::string shaderName; //todo: integrate it with renderers
+	std::string batchName; //todo: integrate it with renderers
 
 	std::vector<InstanceData> instances;
 };
 
 struct ColorBatch {
 	std::string shaderName;
+	std::string batchName;
 
 	std::vector<ColorInstanceData> instances;
 };
 
 struct LineBatch {
 	std::string shaderName;
+	std::string batchName;
 
 	std::vector<LineInstanceData> instances;
 };
 
 struct WireFrameBatch {
 	std::string shaderName;
+	std::string batchName;
 
 	std::vector<WireframeInstanceData> instances;
 };
 
 struct TextureBatch {
 	std::string shaderName;
+	std::string batchName;
 
 	std::vector<TextureInstanceData> instances;
 };

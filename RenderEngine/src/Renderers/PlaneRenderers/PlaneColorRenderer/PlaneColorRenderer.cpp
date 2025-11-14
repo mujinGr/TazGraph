@@ -42,6 +42,7 @@ void PlaneColorRenderer::initBatch(Taz::RenderBatch& batch)
 
 	auto initMeshBatch = [&](auto& mesh) {
 		mesh.batches.emplace_back();
+		mesh.batches.back().batchName = batch.batchName;
 		mesh.batches.back().instances.resize(batch.count);
 		};
 

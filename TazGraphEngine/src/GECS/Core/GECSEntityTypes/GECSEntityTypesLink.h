@@ -169,6 +169,10 @@ public:
 		else if (type == ConnectionType::DIRECT_POSITIONS) {
 			// it is as is
 		}
+		else {
+			TazGraphEngine::ConsoleLogger::error("type doesn't exist for link");
+		}
+
 		updateConnectionPositions();
 	}
 

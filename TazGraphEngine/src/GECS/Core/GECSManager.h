@@ -460,6 +460,9 @@ public:
 		groupGridLinks,
 
 		groupSelectedEntities,
+
+		groupDebugBoxEntities,
+		groupDebugRectangleEntities,
 		//action
 		groupLinks_0,
 		groupGroupLinks_0,
@@ -501,6 +504,8 @@ public:
 
 		{ groupSelectedEntities, "groupSelectedEntities" },
 
+		{groupDebugBoxEntities, "groupDebugBoxEntities"},
+		{groupDebugRectangleEntities, "groupDebugRectangleEntities"},
 		//action
 		{ groupLinks_0,"groupLinks_0" },
 		{groupGroupLinks_0, "groupGroupLinks_0"},
