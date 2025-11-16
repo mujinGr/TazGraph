@@ -21,7 +21,6 @@ public:
 	void init() override;
 
 	void begin() override;
-	void end() override;
 
 	void initBatch(Taz::RenderBatch& batch);
 
@@ -41,8 +40,6 @@ public:
 	);
 
 	void endBatch(const Taz::RenderBatch& batch) override;
-
-	void renderBatch() override;
 
 	void dispose();
 private:

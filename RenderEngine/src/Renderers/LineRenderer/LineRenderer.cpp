@@ -37,10 +37,6 @@ void LineRenderer::begin()
 	}
 }
 
-void LineRenderer::end() // on en d clear all indices reserved
-{
-	renderBatch();
-}
 
 
 void LineRenderer::initBatch(Taz::RenderBatch& batch)
@@ -102,6 +98,7 @@ void LineRenderer::endBatch(const Taz::RenderBatch& batch) {
 
 	GLuint vao = 0;
 	GLuint instanceVBO = _vboInstances;
+	GLuint wireframeInstanceVBO = _vboWireframeInstances;
 	size_t instanceCount = 0;
 	const void* instanceData = nullptr;
 	size_t instanceDataSize = 0;
@@ -147,8 +144,10 @@ void LineRenderer::endBatch(const Taz::RenderBatch& batch) {
 		instanceDataSize = instanceCount * sizeof(WireframeInstanceData);
 
 		glBindVertexArray(vao);
-		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, wireframeInstanceVBO);
 		glBufferData(GL_ARRAY_BUFFER, instanceDataSize, instanceData, GL_DYNAMIC_DRAW);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glDrawElementsInstanced(drawMode, mesh.meshIndices, GL_UNSIGNED_INT, 0,
 			static_cast<GLsizei>(instanceCount));
@@ -172,8 +171,11 @@ void LineRenderer::endBatch(const Taz::RenderBatch& batch) {
 		instanceDataSize = instanceCount * sizeof(WireframeInstanceData);
 
 		glBindVertexArray(vao);
-		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, wireframeInstanceVBO);
 		glBufferData(GL_ARRAY_BUFFER, instanceDataSize, instanceData, GL_DYNAMIC_DRAW);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, instanceDataSize, instanceData);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glDrawElementsInstanced(drawMode, mesh.meshIndices, GL_UNSIGNED_INT, 0,
 			static_cast<GLsizei>(instanceCount));
@@ -182,84 +184,6 @@ void LineRenderer::endBatch(const Taz::RenderBatch& batch) {
 		break;
 	}
 	}
-
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-void LineRenderer::renderBatch()
-{
-	for (auto& mesh : _meshesArrays) { // different batch for each geometry
-		for (auto& batch : mesh.batches) {
-			if (batch.instances.empty()) continue;
-
-			/*auto& shader = *resourceManager.getGLSLProgram(batch.shaderName);
-			resourceManager.setupShader(shader, camera);
-
-			if (batch.viewportSize != glm::vec2(0.0f)) {
-				GLint pLocation = shader.getUniformLocation("viewportSize");
-				glUniform2f(pLocation, batch.viewportSize.x, batch.viewportSize.y);
-			}*/
-
-			glBindVertexArray(mesh.vao);
-
-			glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
-
-			glBufferData(GL_ARRAY_BUFFER
-				, batch.instances.size() * sizeof(LineInstanceData),
-				batch.instances.data(),
-				GL_DYNAMIC_DRAW);
-
-			glBufferSubData(GL_ARRAY_BUFFER, 0,
-				batch.instances.size() * sizeof(LineInstanceData),
-				batch.instances.data());
-
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
-			glDrawArraysInstanced(
-				GL_LINES,
-				0,
-				2,
-				static_cast<GLsizei>(batch.instances.size())
-			);
-		}
-	}
-
-
-	renderElementsBatch();
-}
-
-void LineRenderer::renderElementsBatch() {
-	for (auto& mesh : _meshesElements) { // different batch for each geometry
-		for (auto& batch : mesh.batches) {
-			if (batch.instances.empty()) continue;
-
-			glBindVertexArray(mesh.vao);
-
-			glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
-
-			glBufferData(GL_ARRAY_BUFFER
-				, batch.instances.size() * sizeof(WireframeInstanceData),
-				batch.instances.data(),
-				GL_DYNAMIC_DRAW);
-
-			glBufferSubData(GL_ARRAY_BUFFER, 0,
-				batch.instances.size() * sizeof(WireframeInstanceData),
-				batch.instances.data());
-
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-			glDrawElementsInstanced(
-				GL_LINES,
-				mesh.meshIndices,
-				GL_UNSIGNED_INT,
-				0,
-				batch.instances.size()
-			);
-		}
-	}
-
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -290,7 +214,7 @@ void LineRenderer::createInstancesVBO() {
 }
 
 void LineRenderer::createWireframeInstancesVBO() {
-	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
+	glBindBuffer(GL_ARRAY_BUFFER, _vboWireframeInstances);
 
 	glEnableVertexAttribArray(1); // instance TazSize
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(WireframeInstanceData), (void*)offsetof(WireframeInstanceData, size));
@@ -363,6 +287,7 @@ void LineRenderer::createVertexArray() {
 
 		createInstancesVBO();
 	}
+	glGenBuffers(1, &_vboWireframeInstances);
 
 	for (int i = 0; i < _meshesElements.size(); i++) {
 
@@ -397,5 +322,8 @@ void LineRenderer::dispose()
 
 	if (_vboInstances) {
 		glDeleteBuffers(1, &_vboInstances);
+	}
+	if (_vboWireframeInstances) {
+		glDeleteBuffers(1, &_vboWireframeInstances);
 	}
 }

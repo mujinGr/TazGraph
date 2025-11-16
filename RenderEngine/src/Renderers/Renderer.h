@@ -56,13 +56,10 @@ namespace Taz
 		virtual void init();
 
 		virtual void begin();
-		virtual void end() = 0;
 
 		virtual void endBatch(const Taz::RenderBatch& batch) = 0;
 
 		GLuint _vboInstances;
-
-		virtual void renderBatch() = 0;
 
 		size_t currentBatchIndex = 0;
 	};

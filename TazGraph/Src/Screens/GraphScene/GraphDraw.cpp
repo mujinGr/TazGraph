@@ -192,7 +192,7 @@ void Graph::prepareDraw()
 
 
 		selectionBatch.batchName = manager->getGroupName(Manager::groupSelectedEntities);
-		selectionBatch.shaderName = "lineColor";
+		selectionBatch.shaderName = "wireframeColor";
 
 		size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
 			[manager = this->manager](const auto& entry) {
@@ -269,6 +269,11 @@ void Graph::prepareDraw()
 					auto& newEnt = manager->addEntity<Link>();
 					newEnt.addGroup(Manager::groupSelectedEntities);
 					newEnt.addComponent<Line_w_Color>();
+
+					newEnt.GetComponent<Line_w_Color>().setDestColor(TazColor(255,255,0,255));
+					newEnt.GetComponent<Line_w_Color>().setSrcColor(TazColor(255,255,0,255));
+					newEnt.GetComponent<Line_w_Color>().width = 10;
+
 					manager->grid->addLink(&newEnt, manager->grid->getGridLevel());
 					sel.overlayEntityId = newEnt.getId();
 					overlayEnt = &newEnt;

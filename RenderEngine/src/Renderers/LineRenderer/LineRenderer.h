@@ -60,10 +60,6 @@ void main() {
 
 	void endBatch(const Taz::RenderBatch& batch);
 
-	void renderBatch() override;
-
-	void renderElementsBatch();
-
 	void dispose();
 
 	int box_edgePairs[12][2] = {
@@ -79,6 +75,8 @@ private:
 
 	std::vector<LineMeshRenderer> _meshesArrays;
 	std::vector<WireframeMeshRenderer> _meshesElements;
+
+	GLuint _vboWireframeInstances;
 
 	size_t currentBatchIndex = 0;
 

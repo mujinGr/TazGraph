@@ -21,7 +21,6 @@ public:
 	void init();
 
 	void begin();
-	void end();
 
 	void initBatch(Taz::RenderBatch& batch);
 
@@ -48,8 +47,6 @@ public:
 		const TazColor& color);
 
 	void endBatch(const Taz::RenderBatch& batch) override;
-
-	void renderBatch() override;
 
 	void dispose();
 

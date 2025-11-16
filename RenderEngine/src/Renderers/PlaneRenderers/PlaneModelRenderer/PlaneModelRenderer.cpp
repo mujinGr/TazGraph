@@ -25,11 +25,6 @@ void PlaneModelRenderer::begin() {
 	}
 
 }
-void PlaneModelRenderer::end() {
-	//set up all pointers for fast sorting
-	renderBatch();
-}
-
 
 void PlaneModelRenderer::initBatch(Taz::RenderBatch& batch)
 {
@@ -116,46 +111,6 @@ void PlaneModelRenderer::endBatch(const Taz::RenderBatch& batch) {
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
-
-void PlaneModelRenderer::renderBatch() {
-
-	for (auto& mesh : _meshesElements) { // different batch for each geometry
-		for (auto& batch : mesh.batches) {
-			if (batch.instances.empty()) continue;
-
-
-			glBindVertexArray(mesh.vao);
-			for (int i = 0; i < batch.instances.size(); i++) {
-				glBindTexture(GL_TEXTURE_2D, batch.instances[i].texture);
-
-				glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
-				glBufferData(GL_ARRAY_BUFFER,
-					sizeof(TextureInstanceData),
-					nullptr,
-					GL_DYNAMIC_DRAW);
-
-				glBufferSubData(GL_ARRAY_BUFFER, 0,
-					sizeof(TextureInstanceData),
-					&batch.instances[i]);
-
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
-				glDrawElementsInstanced(
-					GL_TRIANGLES,
-					mesh.meshIndices,
-					GL_UNSIGNED_INT,
-					0,
-					1
-				);
-			}
-			glBindVertexArray(0);
-
-		}
-	}
-
-}
-
 
 void PlaneModelRenderer::createInstancesVBO() {
 	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);

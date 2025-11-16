@@ -30,9 +30,6 @@ void PlaneColorRenderer::begin() {
 	}
 
 }
-void PlaneColorRenderer::end() {
-	renderBatch();
-}
 
 void PlaneColorRenderer::initBatch(Taz::RenderBatch& batch)
 {
@@ -221,67 +218,6 @@ void PlaneColorRenderer::endBatch(const Taz::RenderBatch& batch) {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void PlaneColorRenderer::renderBatch() {
-
-	for (auto& mesh : _meshesElements) { // different batch for each geometry
-		for (auto& batch : mesh.batches) {
-			if (batch.instances.empty()) continue;
-
-			glBindVertexArray(mesh.vao);
-
-			glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
-
-			glBufferData(GL_ARRAY_BUFFER,
-				batch.instances.size() * sizeof(ColorInstanceData),
-				nullptr,
-				GL_DYNAMIC_DRAW);
-
-			glBufferSubData(GL_ARRAY_BUFFER, 0,
-				batch.instances.size() * sizeof(ColorInstanceData),
-				batch.instances.data());
-
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
-			glDrawElementsInstanced(
-				GL_TRIANGLES,
-				mesh.meshIndices,
-				GL_UNSIGNED_INT,
-				0,
-				batch.instances.size()
-			);
-		}
-	}
-
-	for (auto& mesh : _meshesArrays) { // different batch for each geometry
-		for (auto& batch : mesh.batches) {
-			if (batch.instances.empty()) continue;
-
-			glBindVertexArray(mesh.vao);
-
-			glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
-
-			glBufferData(GL_ARRAY_BUFFER, batch.instances.size() * sizeof(ColorInstanceData), nullptr, GL_DYNAMIC_DRAW);
-
-			glBufferSubData(GL_ARRAY_BUFFER, 0,
-				batch.instances.size() * sizeof(ColorInstanceData),
-				batch.instances.data());
-
-
-			glDrawArraysInstanced(
-				GL_TRIANGLES,
-				0,
-				mesh.meshIndices,
-				batch.instances.size()
-			);
-		}
-	}
-
-
-
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
 
 void PlaneColorRenderer::createInstancesVBO() {
 	glBindBuffer(GL_ARRAY_BUFFER, _vboInstances);
