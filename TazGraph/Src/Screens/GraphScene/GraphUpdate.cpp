@@ -6,9 +6,6 @@ void Graph::update(float deltaTime) //game objects updating
 	std::string mapName = DataManager::getInstance().mapToLoad;
 
 	if (!mapName.empty() && setManager(mapName)) {
-		auto& world_map(manager->addEntityNoId<Empty>());
-		AssetManager::CreateWorldMap(world_map);
-
 		manager->resetEntityId();
 
 		map->loadMap(

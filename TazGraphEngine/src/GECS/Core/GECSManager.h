@@ -114,6 +114,8 @@ public:
 				}
 				});
 
+			movedNodes.clear();
+
 			//! UPDATE
 			_threader->parallel(visible_emptyEntities.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {

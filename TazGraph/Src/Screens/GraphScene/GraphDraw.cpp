@@ -221,6 +221,7 @@ void Graph::prepareDraw()
 					auto& newEnt = manager->addEntity<Empty>();
 					newEnt.addGroup(Manager::groupSelectedEntities);
 					newEnt.addComponent<BoxComponent>();
+					newEnt.GetComponent<BoxComponent>().color = TazColor(255,255,0,255);
 					manager->grid->addEmpty(&newEnt, manager->grid->getGridLevel());
 					sel.overlayEntityId = newEnt.getId();
 					overlayEnt = &newEnt;

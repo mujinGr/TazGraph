@@ -37,8 +37,8 @@ public:
 				removeFromCell();
 				manager.grid->addNode(this, newCell);
 
-				manager.movedNodes.push_back(id);
 			}
+				manager.movedNodes.push_back(id);
 
 			// update arrowheads
 			for (auto& linkId : inLinks) {
