@@ -1,7 +1,7 @@
 #include "GECSManager.h"
 
 void Manager::updateActiveEntities() {
-	std::vector<EntityID> toBeRemoved;
+	std::vector<EntityID> empty_toBeRemoved;
 	std::vector<EntityID> nodes_toBeRemoved;
 	std::vector<EntityID> links_toBeRemoved;
 
@@ -10,7 +10,7 @@ void Manager::updateActiveEntities() {
 		auto* ent = getEntityFromId(v_entityId);
 		if (ent->isActive()) {
 			ent->removeFromCell();
-			toBeRemoved.push_back(v_entityId);
+			empty_toBeRemoved.push_back(v_entityId);
 		}
 	}
 
@@ -39,7 +39,7 @@ void Manager::updateActiveEntities() {
 			auto* ent = getEntityFromId(entityId);
 			if (!ent->isActive()) {
 				ent->removeFromCell();
-				toBeRemoved.push_back(entityId);
+				empty_toBeRemoved.push_back(entityId);
 			}
 		}
 	}
@@ -67,13 +67,13 @@ void Manager::updateActiveEntities() {
 		for (auto i(0u); i < maxGroups; i++) {
 			auto& group(visible_groupedEmptyEntities[i]);
 			group.erase(std::remove_if(std::begin(group), std::end(group),
-				[this, &toBeRemoved, i](EntityID mEntity) {
+				[this, &empty_toBeRemoved, i](EntityID mEntity) {
 					return !entities[mEntity]->isActive()
 						|| !entities[mEntity]->hasGroup(i);
 				}), group.end());
 			auto& m_group(groupedEmptyEntities[i]);
 			m_group.erase(std::remove_if(std::begin(m_group), std::end(m_group),
-				[this, &toBeRemoved, i](EntityID mEntity) {
+				[this, &empty_toBeRemoved, i](EntityID mEntity) {
 					return !entities[mEntity]->isActive()
 						|| !entities[mEntity]->hasGroup(i);
 				}), m_group.end());
@@ -113,8 +113,8 @@ void Manager::updateActiveEntities() {
 
 
 	visible_emptyEntities.erase(std::remove_if(visible_emptyEntities.begin(), visible_emptyEntities.end(),
-		[&toBeRemoved](EntityID mEntity) {
-			return std::find(toBeRemoved.begin(), toBeRemoved.end(), mEntity) != toBeRemoved.end();
+		[&empty_toBeRemoved](EntityID mEntity) {
+			return std::find(empty_toBeRemoved.begin(), empty_toBeRemoved.end(), mEntity) != empty_toBeRemoved.end();
 		}),
 		visible_emptyEntities.end());
 	visible_nodes.erase(std::remove_if(visible_nodes.begin(), visible_nodes.end(),
@@ -131,11 +131,11 @@ void Manager::updateActiveEntities() {
 
 	std::vector<EntityID> idsToRemove;
 	idsToRemove.reserve(
-		toBeRemoved.size() + nodes_toBeRemoved.size() + links_toBeRemoved.size()
+		empty_toBeRemoved.size() + nodes_toBeRemoved.size() + links_toBeRemoved.size()
 	);
 
 	// collect all ids
-	for (auto e : toBeRemoved)
+	for (auto e : empty_toBeRemoved)
 		idsToRemove.push_back(e);
 	for (auto e : nodes_toBeRemoved)
 		idsToRemove.push_back(e);

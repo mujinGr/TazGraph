@@ -189,7 +189,7 @@ void Graph::update(float deltaTime) //game objects updating
 		}
 	}
 
-	if ((manager->last_arrowheadsEnabled != manager->arrowheadsEnabled) || manager->updateInnerPathLinks) {
+	if ((manager->last_arrowheadsEnabled != manager->arrowheadsEnabled) || (manager->arrowheadsEnabled && manager->updateInnerPathLinks)) {
 		manager->last_arrowheadsEnabled = manager->arrowheadsEnabled;
 
 		if (manager->arrowheadsEnabled) {

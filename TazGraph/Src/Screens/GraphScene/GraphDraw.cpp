@@ -221,7 +221,7 @@ void Graph::prepareDraw()
 					auto& newEnt = manager->addEntity<Empty>();
 					newEnt.addGroup(Manager::groupSelectedEntities);
 					newEnt.addComponent<BoxComponent>();
-					newEnt.GetComponent<BoxComponent>().color = TazColor(255,255,0,255);
+					newEnt.GetComponent<BoxComponent>().color = TazColor(255, 255, 0, 255);
 					manager->grid->addEmpty(&newEnt, manager->grid->getGridLevel());
 					sel.overlayEntityId = newEnt.getId();
 					overlayEnt = &newEnt;
@@ -265,17 +265,18 @@ void Graph::prepareDraw()
 			if (link) {
 				Link* overlayEnt = dynamic_cast<Link*>(manager->getEntityFromId(sel.overlayEntityId));
 
-				if (!overlayEnt) {
+				if (!overlayEnt || std::get<int>(sel.overlayEntityId) < 0) {
 					// Overlay somehow missing, recreate it
 					auto& newEnt = manager->addEntity<Link>();
 					newEnt.addGroup(Manager::groupSelectedEntities);
 					newEnt.addComponent<Line_w_Color>();
 
-					newEnt.GetComponent<Line_w_Color>().setDestColor(TazColor(255,255,0,255));
-					newEnt.GetComponent<Line_w_Color>().setSrcColor(TazColor(255,255,0,255));
+					newEnt.GetComponent<Line_w_Color>().setDestColor(TazColor(255, 255, 0, 255));
+					newEnt.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 0, 255));
 					newEnt.GetComponent<Line_w_Color>().width = 10;
 
 					manager->grid->addLink(&newEnt, manager->grid->getGridLevel());
+
 					sel.overlayEntityId = newEnt.getId();
 					overlayEnt = &newEnt;
 				}
@@ -372,7 +373,7 @@ void Graph::prepareDraw()
 			debugBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
 			debugBatch.mesh_type = Taz::RenderBatch::MeshType::Box;
 
-			debugBatch.batchName = manager->getGroupName(Manager::groupGridLinks);
+			debugBatch.batchName = manager->getGroupName(Manager::groupDebugBoxEntities);
 			debugBatch.shaderName = "lineColor";
 
 			debugBatch.entities = manager->collectEntities({
@@ -395,7 +396,7 @@ void Graph::prepareDraw()
 			debugBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
 			debugBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
 
-			debugBatch.batchName = manager->getGroupName(Manager::groupGridLinks);
+			debugBatch.batchName = manager->getGroupName(Manager::groupDebugRectangleEntities);
 			debugBatch.shaderName = "lineColor";
 
 			debugBatch.entities = manager->collectEntities({

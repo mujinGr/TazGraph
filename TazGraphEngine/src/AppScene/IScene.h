@@ -88,6 +88,7 @@ public:
 
 	bool last_renderDebug = false;
 	bool renderDebug = false;
+
 	bool showGrid = true;
 	bool last_showGrid = false;
 
