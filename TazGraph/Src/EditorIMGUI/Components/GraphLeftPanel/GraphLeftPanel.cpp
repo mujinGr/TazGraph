@@ -68,14 +68,14 @@ void GraphLeftPanel::OnImGuiRender()
 				for (auto nodeId : config.scene->manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
 					auto* node = config.scene->manager->getEntityFromId(nodeId);
 
-					auto& textLabel = config.scene->manager->addEntity<Empty>();
+					auto& textLabel = config.scene->manager->addEntityFromParent<Empty>(node, "label");
 
 					textLabel.addGroup(Manager::textLabels);
 
 					textLabel.addComponent<TransformComponent>(0.0f);
 					textLabel.GetComponent<TransformComponent>().local_position = glm::vec3(0);
 					node->children["label"] = textLabel.getId();
-					config.scene->manager->getEntityFromId(node->children["label"])->setParentEntity(node, "label");
+					config.scene->manager->getEntityFromId(node->children["label"])->setParentEntity(node);
 					config.scene->manager->getEntityFromId(node->children["label"])->GetComponent<TransformComponent>().initChild();
 				}
 			}
@@ -90,7 +90,6 @@ void GraphLeftPanel::OnImGuiRender()
 					node.children.erase("label");
 				}
 			}
-			config.scene->manager->aboutTo_updateActiveEntities();
 		}
 		ImGui::PopStyleColor(1);
 
@@ -103,7 +102,7 @@ void GraphLeftPanel::OnImGuiRender()
 		if (ImGui::Button(config.scene->manager->arrowheadsEnabled ? "Disable Arrowheads" : "Enable Arrowheads")) {
 			config.scene->manager->arrowheadsEnabled = !config.scene->manager->arrowheadsEnabled;
 			config.scene->manager->updateInnerPathLinks = true;
-			//manager.setArrowheadsEnabled(arrowheadsEnabled); // Call function to apply change
+
 		}
 
 		ImGui::Separator();
@@ -181,6 +180,8 @@ void GraphLeftPanel::OnImGuiRender()
 		ImGui::Separator();
 
 		if (config.c_selectedEntities.size() == 1) {
+			ImGui::Text("Selected Entity:");
+
 			displayChildrenRecursive(config.c_selectedEntities.front().realEntityId, 0);
 		}
 
@@ -405,10 +406,19 @@ void GraphLeftPanel::displayChildrenRecursive(EntityID entityId, int depth)
 
 	if (!entity) return;
 
-	ImGui::Text("Selected Entity:");
-
 	std::string entityIdStr = EntityIDUtils::toString(entity->getId());
 	std::string label = "ID: " + entityIdStr;
+
+	if (Link* linkEntity = dynamic_cast<Link*>(entity)) {
+		label = label + "\nIds: (f:" + EntityIDUtils::toString(linkEntity->fromId)
+			+ ", t:" + EntityIDUtils::toString(linkEntity->toId) + ")";
+
+		label = label + "\nPorts: (f:" + EntityIDUtils::toString(linkEntity->fromPort)
+			+ ", t:" + EntityIDUtils::toString(linkEntity->toPort) + ")";
+
+		label = label + "\nSlots: (f:" + EntityIDUtils::toString(linkEntity->fromSlotIndex)
+			+ ", t:" + EntityIDUtils::toString(linkEntity->toSlotIndex) + ")";
+	}
 
 	ImGuiTreeNodeFlags baseFlags =
 		ImGuiTreeNodeFlags_OpenOnArrow |
@@ -432,7 +442,7 @@ void GraphLeftPanel::displayChildrenRecursive(EntityID entityId, int depth)
 			std::string childIdStr = EntityIDUtils::toString(childId);
 
 			// Print both index and entity ID
-			std::string childLabel = "[" + childIdStr + "] - " + EntityIDUtils::toString(childEnt->getId());
+			std::string childLabel = "[" + childIdStr + "] -> " + EntityIDUtils::toString(childEnt->getId());
 
 			ImGuiTreeNodeFlags childFlags =
 				ImGuiTreeNodeFlags_OpenOnArrow |

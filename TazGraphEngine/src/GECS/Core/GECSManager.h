@@ -97,7 +97,8 @@ public:
 					for (auto& link : ent->getInLinks()) {
 						auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
 
-						linkEntity->updateConnection(linkEntity->type);
+						linkEntity->setConnectionType(linkEntity->type);
+						linkEntity->updateConnection();
 					}
 				}
 				});
@@ -109,7 +110,8 @@ public:
 					for (auto& link : ent->getOutLinks()) {
 						auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
 
-						linkEntity->updateConnection(linkEntity->type);
+						linkEntity->setConnectionType(linkEntity->type);
+						linkEntity->updateConnection();
 					}
 				}
 				});
@@ -173,7 +175,8 @@ public:
 				for (auto& link : ent->getInLinks()) {
 					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
 
-					linkEntity->updateConnection(linkEntity->type);
+					linkEntity->setConnectionType(linkEntity->type);
+					linkEntity->updateConnection();
 				}
 			}
 
@@ -183,7 +186,8 @@ public:
 				for (auto& link : ent->getOutLinks()) {
 					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
 
-					linkEntity->updateConnection(linkEntity->type);
+					linkEntity->setConnectionType(linkEntity->type);
+					linkEntity->updateConnection();
 				}
 			}
 
@@ -355,12 +359,14 @@ public:
 	T& addEntityNoId(TArgs&&... mArgs)
 	{
 		T* e(new T(*this, std::forward<TArgs>(mArgs)...));
-		e->setId(negativeEntityId--);
-		std::unique_ptr<T> uPtr{ e };
 		{
 			std::unique_lock lock(entities_mtx);
+			e->setId(negativeEntityId--);
+			std::unique_ptr<T> uPtr{ e };
 			entities.emplace(e->getId(), std::move(uPtr));
 		}
+
+		aboutTo_updateActiveEntities();
 
 		return *e;
 	}
@@ -369,12 +375,45 @@ public:
 	T& addEntity(TArgs&&... mArgs)
 	{
 		T* e(new T(*this, std::forward<TArgs>(mArgs)...));
-		e->setId(lastEntityId++);
-		std::unique_ptr<T> uPtr{ e };
 		{
 			std::unique_lock lock(entities_mtx);
+			e->setId(lastEntityId++);
+			std::unique_ptr<T> uPtr{ e };
 			entities.emplace(e->getId(), std::move(uPtr));
 		}
+
+		aboutTo_updateActiveEntities();
+
+		return *e;
+	}
+	
+	template <typename T, typename... TArgs>
+	T& addEntityFromParent(Entity* pEntity, const char* newID = "", TArgs&&... mArgs)
+	{
+		T* e(new T(*this, std::forward<TArgs>(mArgs)...));
+		{
+			std::unique_lock lock(entities_mtx);
+
+			if ((newID != NULL) && (newID[0] != '\0')) {
+				e->setId((pEntity ?
+					EntityIDUtils::toString(pEntity->getId()) 
+					: "") 
+					+ "-" + newID
+				);
+			}
+			else {
+				e->setId((pEntity ?
+					EntityIDUtils::toString(pEntity->getId()) 
+					: "") 
+					+ "-" + EntityIDUtils::toString(negativeEntityId--)
+				);
+			}
+
+			std::unique_ptr<T> uPtr{ e };
+			entities.emplace(e->getId(), std::move(uPtr));
+		}
+
+		aboutTo_updateActiveEntities();
 
 		return *e;
 	}

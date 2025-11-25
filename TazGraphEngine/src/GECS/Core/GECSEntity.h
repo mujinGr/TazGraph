@@ -19,14 +19,8 @@ public:
 		return parent_entity;
 	}
 
-	void setParentEntity(Entity* pEntity, const char* newID = "") override {
+	void setParentEntity(Entity* pEntity) override {
 		parent_entity = pEntity;
-		if ((newID != NULL) && (newID[0] == '\0')) {
-			id = (parent_entity ? EntityIDUtils::toString(parent_entity->getId()) : "") + newID;
-		}
-		else {
-			id = (parent_entity ? EntityIDUtils::toString(parent_entity->getId()) : "") + EntityIDUtils::toString(id);
-		}
 	}
 
 	void removeFromCell() override {
@@ -43,7 +37,7 @@ public:
 		std::scoped_lock lock(cell->mtx); // automatically releases when leaving scope
 
 		auto& entities = cell->emptyEntities;
-		auto it = std::find(entities.begin(), entities.end(), id);
+		auto it = std::find(entities.begin(), entities.end(), getId());
 		if (it != entities.end())
 			entities.erase(it);
 	}
@@ -74,7 +68,7 @@ public:
 		std::scoped_lock lock(cell->mtx); // automatically releases when leaving scope
 
 		auto& entities = cell->nodes;
-		auto it = std::find(entities.begin(), entities.end(), id);
+		auto it = std::find(entities.begin(), entities.end(), getId());
 		if (it != entities.end())
 			entities.erase(it);
 	}
@@ -192,7 +186,7 @@ public:
 			std::scoped_lock lock(cell->mtx);
 
 			auto& links = cell->links;
-			auto it = std::find(links.begin(), links.end(), id);
+			auto it = std::find(links.begin(), links.end(), getId());
 			if (it != links.end()) {
 				links.erase(it);
 			}
@@ -207,7 +201,9 @@ public:
 		return toId;
 	}
 
-	virtual void updateConnection(ConnectionType setType) {}
+	virtual void setConnectionType(ConnectionType setType) {}
+
+	virtual void updateConnection() {}
 
 	virtual void updateArrowHeads() {}
 

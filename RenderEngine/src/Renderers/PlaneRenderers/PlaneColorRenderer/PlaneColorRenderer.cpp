@@ -44,7 +44,7 @@ void PlaneColorRenderer::initBatch(Taz::RenderBatch& batch)
 		};
 
 	switch (batch.mesh_type) {
-	case Taz::RenderBatch::MeshType::Line:
+	case Taz::RenderBatch::MeshType::Triangle:
 		initMeshBatch(_meshesArrays[TRIANGLE_MESH_IDX]);
 		currentBatchIndex = _meshesArrays[TRIANGLE_MESH_IDX].batches.size() - 1;
 		break;

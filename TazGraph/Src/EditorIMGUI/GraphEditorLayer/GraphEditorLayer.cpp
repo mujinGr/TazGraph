@@ -211,7 +211,6 @@ void GraphEditorLayer::OnImGuiRender()
 				}
 
 				main_camera2D->makeCameraDirty();
-				manager->aboutTo_updateActiveEntities();
 			}
 		}
 		if (DataManager::getInstance().isLoading())
@@ -240,7 +239,6 @@ void GraphEditorLayer::OnImGuiRender()
 			std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 			main_camera2D->makeCameraDirty();
-			manager->aboutTo_updateActiveEntities();
 		}
 		if (DataManager::getInstance().isGoingBack()) {
 			config.scene->currentState = SceneState::CHANGE_PREVIOUS;

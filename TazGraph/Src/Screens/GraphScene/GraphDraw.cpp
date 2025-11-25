@@ -291,6 +291,11 @@ void Graph::prepareDraw()
 				overlayEnt->toPort =
 					realEnt->toPort;
 
+				overlayEnt->fromSlotIndex =
+					realEnt->fromSlotIndex;
+				overlayEnt->toSlotIndex =
+					realEnt->toSlotIndex;
+
 				overlayEnt->type = realEnt->type;
 				overlayEnt->updateConnectionPositions();
 

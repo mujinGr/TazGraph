@@ -143,8 +143,11 @@ public:
 		}
 	}
 
-	void updateConnection(ConnectionType setType) override {
+	void setConnectionType(ConnectionType setType) override {
 		type = setType;
+	}
+
+	void updateConnection() override {
 
 		if (type == ConnectionType::NODE_TO_NODE) {
 			fromPort = -1;
@@ -154,8 +157,8 @@ public:
 			NodeEntity* from = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getFromNode()));
 			NodeEntity* to = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getToNode()));
 
-			TransformComponent* toTR = &to->GetComponent<TransformComponent>();
 			TransformComponent* fromTR = &from->GetComponent<TransformComponent>();
+			TransformComponent* toTR = &to->GetComponent<TransformComponent>();
 
 			EntityID newFromPort = getBestPortForConnection(fromTR->getPosition(), toTR->getPosition());
 			EntityID newToPort = getBestPortForConnection(toTR->getPosition(), fromTR->getPosition());
@@ -237,7 +240,7 @@ public:
 		float offset = 10.0f;
 		glm::vec3 arrowHeadPos = toConnectionPoint - unitDirection * offset;
 
-		auto& temp_arrowHead = getManager()->addEntityNoId<Empty>();
+		auto& temp_arrowHead = getManager()->addEntityFromParent<Empty>(this, LinkChildren_ToString(ARROWHEAD));
 
 		// Calculate rotation based on the direction between slots
 		float angleRadians = -atan2(direction.y, direction.x);
@@ -251,7 +254,7 @@ public:
 		temp_arrowHead.GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleRadians + glm::half_pi<float>()));
 
 		temp_arrowHead.addGroup(Manager::groupArrowHeads_0);
-		temp_arrowHead.setParentEntity(this, LinkChildren_ToString(ARROWHEAD));
+		temp_arrowHead.setParentEntity(this);
 		manager.grid->addEmpty(&temp_arrowHead, manager.grid->getGridLevel());
 		children[LinkChildren_ToString(ARROWHEAD)] = temp_arrowHead.getId();
 	}
@@ -302,7 +305,7 @@ public:
 			}
 
 			// Create new slot
-			auto& newSlot = node->getManager()->addEntityNoId<Empty>();
+			auto& newSlot = node->getManager()->addEntityFromParent<Empty>(newPortEntity);
 			newSlot.addGroup(Manager::groupPortSlots);
 			TransformComponent& portTransform = newPortEntity->GetComponent<TransformComponent>();
 			newSlot.addComponent<TransformComponent>(
@@ -388,18 +391,19 @@ public:
 
 
 		if (from) {
-			from->removeOutLink(id);
+			from->removeOutLink(getId());
 			removeSlotFromNode(from, fromPort, fromSlotIndex, true);
 		}
 		if (to) {
-			to->removeInLink(id);
+			to->removeInLink(getId());
 			removeSlotFromNode(to, toPort, toSlotIndex, false);
 		}
 
 		removeArrowHead();
-		updateConnection(LinkEntity::ConnectionType::NODE_TO_NODE);
+		setConnectionType(LinkEntity::ConnectionType::NODE_TO_NODE);
+		updateConnection();
 
-		manager.aboutTo_updateActiveEntities();
+		manager.aboutTo_updateActiveEntities();//? cant have it at destroy in baseclass
 	}
 
 	std::vector<EntityID> getSlots(Entity* portEntity) const {

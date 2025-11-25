@@ -6,7 +6,14 @@ void Graph::clearSelectedEntities() {
 		Entity* overlayEnt =
 			manager->getEntityFromId(sel.overlayEntityId);
 
-		overlayEnt->destroy();
+		Link* link = dynamic_cast<Link*>(overlayEnt);
+
+		if (link) {
+			overlayEnt->Entity::destroy();
+		}
+		else {
+			overlayEnt->destroy();
+		}
 	}
 
 	_selectedEntities.clear();
@@ -391,6 +398,7 @@ void Graph::checkInput() {
 	while (SDL_PollEvent(&evnt)) {
 		ImGui_ImplSDL2_ProcessEvent(&evnt);
 		_app->onSDLEvent(evnt);
+		std::cout << cameraVelocityX << std::endl;
 
 		glm::vec2 mouseCoordsVec = _viewportMousePosition; // in graph we have another variable for the worldCoords of mouse
 
@@ -439,78 +447,7 @@ void Graph::checkInput() {
 				return;
 			}
 
-			float accelerationX = 0.0f;
-			float accelerationY = 0.0f;
-			float accelerationZ = 0.0f;
-			float deltaTime = _app->getFPSLimiter().frameTime / 1000.0f; // Convert to seconds
 
-			cameraMaxVelocity = manager->grid->getCellSize(); // Adjust multiplier as needed
-
-			if (_app->_inputManager.isKeyPressed(SDLK_w) ||
-				_app->_inputManager.isKeyPressed(SDLK_s)) {
-				cameraVelocityY = 0;
-			}
-			if (_app->_inputManager.isKeyPressed(SDLK_a) ||
-				_app->_inputManager.isKeyPressed(SDLK_d)) {
-				cameraVelocityX = 0;
-			}
-			if (_app->_inputManager.isKeyPressed(SDLK_e) ||
-				_app->_inputManager.isKeyPressed(SDLK_r)) {
-				cameraVelocityZ = 0;
-			}
-
-			// Apply input acceleration
-			if (_app->_inputManager.isKeyDown(SDLK_w)) {
-				accelerationY += cameraAcceleration;
-			}
-			else if (_app->_inputManager.isKeyDown(SDLK_s)) {
-				accelerationY -= cameraAcceleration;
-			}
-			else {
-				cameraVelocityY = 0;
-			}
-			if (_app->_inputManager.isKeyDown(SDLK_a)) {
-				accelerationX -= cameraAcceleration;
-			}
-			else if (_app->_inputManager.isKeyDown(SDLK_d)) {
-				accelerationX += cameraAcceleration;
-			}
-			else {
-				cameraVelocityX = 0;
-			}
-			if (_app->_inputManager.isKeyDown(SDLK_e)) {
-				accelerationZ += cameraAcceleration;
-			}
-			else if (_app->_inputManager.isKeyDown(SDLK_r)) {
-				accelerationZ -= cameraAcceleration;
-			}
-			else {
-				cameraVelocityZ = 0;
-			}
-
-			cameraVelocityX += accelerationX * deltaTime * 0.1f * cameraMaxVelocity;
-			cameraVelocityY += accelerationY * deltaTime * 0.1f * cameraMaxVelocity;
-			cameraVelocityZ += accelerationZ * deltaTime * 0.1f * cameraMaxVelocity;
-
-			// Clamp velocity to maximum
-			cameraVelocityX = std::clamp(cameraVelocityX, -cameraMaxVelocity, cameraMaxVelocity);
-			cameraVelocityY = std::clamp(cameraVelocityY, -cameraMaxVelocity, cameraMaxVelocity);
-			cameraVelocityZ = std::clamp(cameraVelocityZ, -cameraMaxVelocity, cameraMaxVelocity);
-
-			// Apply movement directly with velocity
-			const float minVelocity = 0.01f;
-
-			if (std::abs(cameraVelocityX) > minVelocity) {
-				main_camera2D->movePosition_Hor(cameraVelocityX);
-			}
-
-			if (std::abs(cameraVelocityY) > minVelocity) {
-				main_camera2D->movePosition_Vert(cameraVelocityY);
-			}
-
-			if (std::abs(cameraVelocityZ) > minVelocity) {
-				main_camera2D->movePosition_Forward(cameraVelocityZ);
-			}
 
 			break;
 		}
@@ -784,6 +721,79 @@ void Graph::checkInput() {
 				_selectionWindowCurrentPos = glm::vec2(0);
 			}
 		}
+	}
+
+	float accelerationX = 0.0f;
+	float accelerationY = 0.0f;
+	float accelerationZ = 0.0f;
+	float deltaTime = _app->getFPSLimiter().frameTime / 1000.0f; // Convert to seconds
+
+	cameraMaxVelocity = manager->grid->getCellSize(); // Adjust multiplier as needed
+
+	if (_app->_inputManager.isKeyPressed(SDLK_w) ||
+		_app->_inputManager.isKeyPressed(SDLK_s)) {
+		cameraVelocityY = 0;
+	}
+	if (_app->_inputManager.isKeyPressed(SDLK_a) ||
+		_app->_inputManager.isKeyPressed(SDLK_d)) {
+		cameraVelocityX = 0;
+	}
+	if (_app->_inputManager.isKeyPressed(SDLK_e) ||
+		_app->_inputManager.isKeyPressed(SDLK_r)) {
+		cameraVelocityZ = 0;
+	}
+
+	// Apply input acceleration
+	if (_app->_inputManager.isKeyDown(SDLK_w)) {
+		accelerationY += cameraAcceleration;
+	}
+	else if (_app->_inputManager.isKeyDown(SDLK_s)) {
+		accelerationY -= cameraAcceleration;
+	}
+	else {
+		cameraVelocityY = 0;
+	}
+	if (_app->_inputManager.isKeyDown(SDLK_a)) {
+		accelerationX -= cameraAcceleration;
+	}
+	else if (_app->_inputManager.isKeyDown(SDLK_d)) {
+		accelerationX += cameraAcceleration;
+	}
+	else {
+		cameraVelocityX = 0;
+	}
+	if (_app->_inputManager.isKeyDown(SDLK_e)) {
+		accelerationZ += cameraAcceleration;
+	}
+	else if (_app->_inputManager.isKeyDown(SDLK_r)) {
+		accelerationZ -= cameraAcceleration;
+	}
+	else {
+		cameraVelocityZ = 0;
+	}
+
+	cameraVelocityX += accelerationX * deltaTime * 0.1f * cameraMaxVelocity;
+	cameraVelocityY += accelerationY * deltaTime * 0.1f * cameraMaxVelocity;
+	cameraVelocityZ += accelerationZ * deltaTime * 0.1f * cameraMaxVelocity;
+
+	// Clamp velocity to maximum
+	cameraVelocityX = std::clamp(cameraVelocityX, -cameraMaxVelocity, cameraMaxVelocity);
+	cameraVelocityY = std::clamp(cameraVelocityY, -cameraMaxVelocity, cameraMaxVelocity);
+	cameraVelocityZ = std::clamp(cameraVelocityZ, -cameraMaxVelocity, cameraMaxVelocity);
+
+	// Apply movement directly with velocity
+	const float minVelocity = 0.01f;
+
+	if (std::abs(cameraVelocityX) > minVelocity) {
+		main_camera2D->movePosition_Hor(cameraVelocityX);
+	}
+
+	if (std::abs(cameraVelocityY) > minVelocity) {
+		main_camera2D->movePosition_Vert(cameraVelocityY);
+	}
+
+	if (std::abs(cameraVelocityZ) > minVelocity) {
+		main_camera2D->movePosition_Forward(cameraVelocityZ);
 	}
 }
 

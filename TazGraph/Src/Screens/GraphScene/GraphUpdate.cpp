@@ -184,7 +184,8 @@ void Graph::update(float deltaTime) //game objects updating
 		{
 			auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
 
-			link->updateConnection(LinkEntity::ConnectionType::PORT_TO_PORT);
+			link->setConnectionType(LinkEntity::ConnectionType::PORT_TO_PORT);
+			link->updateConnection();
 			link->addArrowHead();
 		}
 	}
@@ -198,7 +199,8 @@ void Graph::update(float deltaTime) //game objects updating
 			{
 				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
 
-				link->updateConnection(LinkEntity::ConnectionType::PORT_TO_PORT);
+				link->setConnectionType(LinkEntity::ConnectionType::PORT_TO_PORT);
+				link->updateConnection();
 			}
 
 		}
@@ -208,28 +210,33 @@ void Graph::update(float deltaTime) //game objects updating
 			for (auto linkId : manager->getGroup<LinkEntity>(Manager::groupLinks_0)) {
 				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
 
-				link->updateConnection(LinkEntity::ConnectionType::NODE_TO_NODE);
+				link->setConnectionType(LinkEntity::ConnectionType::NODE_TO_NODE);
+				link->updateConnection();
 				link->removeArrowHead();
 			}
 			for (auto linkId : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
 				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
-				link->updateConnection(LinkEntity::ConnectionType::NODE_TO_NODE);
+				link->setConnectionType(LinkEntity::ConnectionType::NODE_TO_NODE);
+				link->updateConnection();
 				link->removeArrowHead();
 			}
 			for (auto linkId : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
 				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
-				link->updateConnection(LinkEntity::ConnectionType::NODE_TO_NODE);
+				link->setConnectionType(LinkEntity::ConnectionType::NODE_TO_NODE);
+				link->updateConnection();
 				link->removeArrowHead();
 			}
 
 			for (auto linkId : manager->getGroup<LinkEntity>(Manager::groupPathLinks)) {
 				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
-				link->updateConnection(LinkEntity::ConnectionType::NODE_TO_NODE);
+				link->setConnectionType(LinkEntity::ConnectionType::NODE_TO_NODE);
+				link->updateConnection();
 				link->removeArrowHead();
 			}
 			for (auto linkId : manager->getGroup<LinkEntity>(Manager::groupPathInnerLinks)) {
 				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
-				link->updateConnection(LinkEntity::ConnectionType::NODE_TO_NODE);
+				link->setConnectionType(LinkEntity::ConnectionType::NODE_TO_NODE);
+				link->updateConnection();
 				link->removeArrowHead();
 			}
 			//todo remove all ports

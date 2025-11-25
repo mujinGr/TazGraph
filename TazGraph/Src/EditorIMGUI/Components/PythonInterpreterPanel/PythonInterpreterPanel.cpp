@@ -554,7 +554,6 @@ void PythonInterpreterPanel::runScript() {
 		py::object output = py::eval("sys.stdout.getvalue()");
 		_outputText = output.cast<std::string>();
 
-		config.scene->manager->aboutTo_updateActiveEntities();
 	}
 	catch (const std::exception& e) {
 		_outputText = std::string("Python error: ") + e.what();
@@ -590,7 +589,6 @@ void PythonInterpreterPanel::runUpdateScript(float deltaTime) {
 		py::object output = py::eval("sys.stdout.getvalue()");
 		_updateOutputText = output.cast<std::string>();
 
-		config.scene->manager->aboutTo_updateActiveEntities();
 	}
 	catch (const std::exception& e) {
 		_updateOutputText = std::string("Python error: ") + e.what();

@@ -111,7 +111,7 @@ private:
 	float cameraVelocityX = 0.0f;
 	float cameraVelocityY = 0.0f;
 	float cameraVelocityZ = 0.0f;
-	float cameraAcceleration = 50.0f;
+	float cameraAcceleration = 10.0f;
 	float cameraMaxVelocity = 200.0f;
 	float cameraFriction = 0.9f;
 };

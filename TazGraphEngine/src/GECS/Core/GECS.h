@@ -215,8 +215,9 @@ namespace EntityIDUtils {
 
 class Entity
 {
-protected:
+private:
 	EntityID id = 0;
+protected:
 
 	bool active = true; // false if about to delete
 	bool hidden = false; // true if not do updates
@@ -237,7 +238,9 @@ public:
 	//! child_index(id) -> real_entity_id
 	std::map < EntityID, EntityID> children;
 
-	void setId(EntityID m_id) { id = m_id; }
+	//? IT IS FORBIDDEN TO USE setId!!!!!!!!!!!!!!!!!!!!!!
+	void setId(EntityID m_id) { id = m_id; } 
+
 	EntityID getId() { return id; }
 
 	void hide() {
@@ -461,7 +464,7 @@ public:
 		return nullptr;
 	}
 
-	virtual void setParentEntity(Entity* pEntity, const char* newID = "") {}
+	virtual void setParentEntity(Entity* pEntity) {}
 
 	virtual void imgui_print() {}
 

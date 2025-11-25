@@ -38,7 +38,7 @@ public:
 				manager.grid->addNode(this, newCell);
 
 			}
-				manager.movedNodes.push_back(id);
+			manager.movedNodes.push_back(getId());
 
 			// update arrowheads
 			for (auto& linkId : inLinks) {
@@ -88,7 +88,7 @@ public:
 
 	void destroy() {
 		Entity::destroy();
-		manager.aboutTo_updateActiveEntities();
+		manager.aboutTo_updateActiveEntities();//? cant have it at destroy in baseclass
 	}
 
 	void addPorts() {
@@ -101,13 +101,13 @@ public:
 				return;
 			}
 
-			auto& port = getManager()->addEntityNoId<Empty>();
+			auto& port = getManager()->addEntityFromParent<Empty>(this, t_portName);
 			port.addGroup(Manager::groupPorts);
 			port.addComponent<TransformComponent>(glm::vec3(0), glm::vec3(0), 1.0f);
 
 
 			children[t_portName] = port.getId();
-			getManager()->getEntityFromId(children[t_portName])->setParentEntity(this, t_portName);
+			getManager()->getEntityFromId(children[t_portName])->setParentEntity(this);
 			getManager()->getEntityFromId(children[t_portName])->GetComponent<TransformComponent>().local_normal_position = localPosition;
 			getManager()->getEntityFromId(children[t_portName])->GetComponent<TransformComponent>().initChild();
 			getManager()->getEntityFromId(children[t_portName])->addComponent<PortComponent>(isHorizontal);

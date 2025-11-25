@@ -25,7 +25,8 @@ public:
 	}
 
 	void init() override {
-		entity->updateConnection(entity->type);
+		entity->setConnectionType(entity->type);
+		entity->updateConnection();
 	}
 
 	void update(float deltaTime) override {

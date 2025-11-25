@@ -23,7 +23,6 @@ void SceneControlPanel::OnImGuiRender()
 
 			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
 			empty.addGroup(Manager::groupEmpties);
-			config.scene->manager->aboutTo_updateActiveEntities();
 			// todo here we also have choose shape option
 		}
 
@@ -52,7 +51,6 @@ void SceneControlPanel::OnImGuiRender()
 
 			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
 			empty.addGroup(Manager::groupSphereEmpties);
-			config.scene->manager->aboutTo_updateActiveEntities();
 		}
 
 		ImGui::Separator();
@@ -71,7 +69,6 @@ void SceneControlPanel::OnImGuiRender()
 
 			config.scene->manager->grid->addNode(&node, config.scene->manager->grid->getGridLevel());
 			node.addGroup(Manager::groupNodes_0);
-			config.scene->manager->aboutTo_updateActiveEntities();
 		}
 
 		ImGui::Separator();
@@ -94,7 +91,6 @@ void SceneControlPanel::OnImGuiRender()
 
 				link.addGroup(Manager::groupLinks_0);
 				config.scene->manager->grid->addLink(&link, config.scene->manager->grid->getGridLevel());
-				config.scene->manager->aboutTo_updateActiveEntities();
 				errorMessage = ""; // Clear error if successful
 			}
 			else {
