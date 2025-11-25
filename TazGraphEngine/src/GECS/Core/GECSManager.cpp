@@ -8,7 +8,7 @@ void Manager::updateActiveEntities() {
 	for (auto v_entityId : visible_emptyEntities)
 	{
 		auto* ent = getEntityFromId(v_entityId);
-		if (ent->isActive()) {
+		if (!ent->isActive()) {
 			ent->removeFromCell();
 			empty_toBeRemoved.push_back(v_entityId);
 		}

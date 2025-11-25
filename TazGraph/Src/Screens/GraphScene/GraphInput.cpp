@@ -1,5 +1,17 @@
 ﻿#include "Graph.h"
 
+void Graph::clearSelectedEntities() {
+
+	for (auto& sel : _selectedEntities) {
+		Entity* overlayEnt =
+			manager->getEntityFromId(sel.overlayEntityId);
+
+		overlayEnt->destroy();
+	}
+
+	_selectedEntities.clear();
+}
+
 std::vector<Cell*> Graph::traversedCellsFromRay(
 	glm::vec3 rayOrigin,
 	glm::vec3 rayDirection,
@@ -102,7 +114,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 				if (it == _selectedEntities.end()) {
 					// not selected → new single selection
-					_selectedEntities.clear();
+					clearSelectedEntities();
 
 					SelectedInfo info;
 					info.realEntityId = nodeId;
@@ -201,7 +213,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 					});
 
 				if (it == _selectedEntities.end()) {
-					_selectedEntities.clear();
+					clearSelectedEntities();
 
 					SelectedInfo info;
 					info.realEntityId = emptyId;
@@ -300,7 +312,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			break;
 
 		case SDL_BUTTON_LEFT:
-			_selectedEntities.clear(); // Clear previous selection
+			clearSelectedEntities(); // Clear previous selection
 			for (auto linkToSelect : linksToSelect) {
 
 				if (!isEntitySelected(linkToSelect)) {
@@ -361,7 +373,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 	}
 
 	if (!hasSelected && activateMode == SDL_BUTTON_LEFT) {
-		_selectedEntities.clear();
+		clearSelectedEntities();
 	}
 }
 
@@ -785,7 +797,7 @@ void Graph::performFrustumSelection() {
 	bool isValid = frustum.createFromSelectionBox(_selectionStartPos, _selectionCurrentPos, main_camera2D.get());
 
 	if (isValid) {
-		_selectedEntities.clear();
+		clearSelectedEntities();
 		// Select entities based on current grid level
 		switch (manager->grid->getGridLevel()) {
 		case Grid::Level::Basic:

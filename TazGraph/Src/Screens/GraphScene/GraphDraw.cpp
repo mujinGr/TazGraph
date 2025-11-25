@@ -214,7 +214,7 @@ void Graph::prepareDraw()
 			if (node || empty) {
 
 				// Reuse overlay entity, do NOT create new one
-				Entity* overlayEnt = manager->getEntityFromId(sel.overlayEntityId);
+				Empty* overlayEnt = dynamic_cast<Empty*>(manager->getEntityFromId(sel.overlayEntityId));
 
 				if (!overlayEnt || std::get<int>(sel.overlayEntityId) < 0) {
 					// Overlay somehow missing, recreate it

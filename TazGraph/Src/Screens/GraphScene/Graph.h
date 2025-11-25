@@ -54,6 +54,8 @@ public:
 
 private:
 
+	void clearSelectedEntities();
+
 	std::vector<Cell*> traversedCellsFromRay(glm::vec3 rayOrigin,
 		glm::vec3 rayDirection,
 		float maxDistance);
