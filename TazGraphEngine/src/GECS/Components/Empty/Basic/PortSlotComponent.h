@@ -36,7 +36,7 @@ public:
 
 		// Calculate and set our position
 		glm::vec3 newPosition = getSlotPosition();
-		transform->position = newPosition;
+		transform->local_position = newPosition;
 	}
 
 	glm::vec3 getSlotPosition() const {
@@ -47,8 +47,6 @@ public:
 				GetComponent<TransformComponent>().getPosition();
 		}
 
-		glm::vec3 basePos = entity->getParentEntity()->
-			GetComponent<TransformComponent>().getPosition();
 		glm::vec3 offset(0.0f);
 
 		if (!entity->getParentEntity()->isVertical) {
@@ -58,7 +56,7 @@ public:
 			offset.y = (static_cast<float>(index) - (childrenSize - 1) / 2.0f) * entity->getParentEntity()->slotSpacing;
 		}
 
-		return basePos + offset;
+		return offset;
 	}
 
 	void draw(size_t v_index, PlaneColorRenderer& batch, TazGraphEngine::Window& window) {

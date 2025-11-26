@@ -81,13 +81,6 @@ public:
 		{
 			Entity* parent = entity->getParentEntity();
 			TransformComponent* parentTR = &parent->GetComponent<TransformComponent>();
-			if (
-				parentTR->position == parentTR->last_position
-				&& parentTR->size == parentTR->last_size
-				&& parentTR->velocity == parentTR->last_velocity
-				) {
-				return;
-			}
 			if (!glm::all(glm::equal(local_normal_position, glm::vec3(0.0f)))) {
 				position = parentTR->getPosition() + local_normal_position * parentTR->size / 2.0f;
 			}
@@ -110,11 +103,7 @@ public:
 		position.x += velocity.x * speed * deltaTime;
 		position.y += velocity.y * speed * deltaTime;
 
-		velocity *= 0.98f;
-
-
-		//todo dont update the children on every iteration
-		// todo do this for component when needed		
+		velocity *= 0.98f;	
 
 	}
 

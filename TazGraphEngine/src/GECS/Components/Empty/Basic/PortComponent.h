@@ -44,7 +44,7 @@ public:
 				entity->slotSpacing = transform->size.x;
 		}
 		else { // Vertical
-			if (entity->children.size() > 1)
+			if (childrenSize > 1)
 				entity->slotSpacing = transform->size.y / childrenSize;
 			else
 				entity->slotSpacing = transform->size.y;

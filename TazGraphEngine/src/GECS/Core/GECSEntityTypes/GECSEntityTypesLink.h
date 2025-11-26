@@ -189,9 +189,17 @@ public:
 		std::map<EntityID, EntityID> updatedChildren;
 
 		for (auto& [slotIndex, entityId] : portEntity->children) {
+			Entity* slot = portEntity->getManager()->getEntityFromId(entityId);
+
 			if (std::get<int>(slotIndex) > slotIndexToRemove) {
 				// Shift index down by 1
-				updatedChildren[std::get<int>(slotIndex) - 1] = entityId;
+				int newIndex = std::get<int>(slotIndex) - 1;
+
+				if (slot->hasComponent<PortSlotComponent>()) {
+					slot->GetComponent<PortSlotComponent>().index = newIndex;
+				}
+
+				updatedChildren[newIndex] = entityId;
 			}
 			else {
 				// Keep same index
@@ -289,6 +297,23 @@ public:
 
 		updateConnectionPositions();
 	}
+
+	void updatePortSlots() override {
+		NodeEntity* from = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getFromNode()));
+		NodeEntity* to = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getToNode()));
+
+		Entity* from_port = getManager()->getEntityFromId(from->children[fromPort]);
+		from_port->update(0.0f);
+		Entity* to_port = getManager()->getEntityFromId(to->children[toPort]);
+		to_port->update(0.0f);
+
+
+		Entity* from_port_slot = getManager()->getEntityFromId(from_port->children[fromSlotIndex]);
+		from_port_slot->update(0.0f);
+		Entity* to_port_slot = getManager()->getEntityFromId(to_port->children[toSlotIndex]);
+		to_port_slot->update(0.0f);
+	}
+
 
 	void updateConnectionPositions() {
 		if (type == ConnectionType::NODE_TO_NODE) {
@@ -484,21 +509,6 @@ public:
 		}
 		return slots;
 	}
-
-	// Get slot by index
-	EntityID getSlotByIndex(Entity* portEntity, int index) const {
-		for (const auto& [id, child] : portEntity->children) {
-			auto* ent = portEntity->getManager()->getEntityFromId(child);
-
-			if (ent->hasComponent<PortSlotComponent>() &&
-				ent->GetComponent<PortSlotComponent>().index == index) {
-				return child;
-			}
-		}
-		TazGraphEngine::ConsoleLogger::error("index doesn't have entity");
-		return nullptr;
-	}
-
 
 	// Remove slot by index
 	bool removeSlot(Entity* portEntity, int index) {

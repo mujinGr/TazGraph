@@ -187,6 +187,33 @@ void Graph::update(float deltaTime) //game objects updating
 			link->setConnectionType(LinkEntity::ConnectionType::PORT_TO_PORT);
 			link->updateConnection();
 			link->addArrowHead();
+		}	
+		for (auto linkId : manager->getGroup<LinkEntity>(manager->grid->getGridLevel() == Grid::Level::Basic ? Manager::Manager::groupLinks_0 :
+			(manager->grid->getGridLevel() == Grid::Level::Outer1 ? Manager::Manager::groupGroupLinks_0 :
+				Manager::groupGroupLinks_1
+				)))
+		{
+			auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
+			link->updateConnection();
+			link->updatePortSlots();
+		}
+		for (auto linkId : manager->getGroup<LinkEntity>(manager->grid->getGridLevel() == Grid::Level::Basic ? Manager::Manager::groupLinks_0 :
+			(manager->grid->getGridLevel() == Grid::Level::Outer1 ? Manager::Manager::groupGroupLinks_0 :
+				Manager::groupGroupLinks_1
+				)))
+		{
+			auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
+			link->updateConnection();
+			link->updatePortSlots();
+		}
+		for (auto linkId : manager->getGroup<LinkEntity>(manager->grid->getGridLevel() == Grid::Level::Basic ? Manager::Manager::groupLinks_0 :
+			(manager->grid->getGridLevel() == Grid::Level::Outer1 ? Manager::Manager::groupGroupLinks_0 :
+				Manager::groupGroupLinks_1
+				)))
+		{
+			auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
+			link->updateConnection();
+			link->updatePortSlots();
 		}
 	}
 

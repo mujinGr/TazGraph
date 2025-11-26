@@ -204,6 +204,8 @@ public:
 	virtual void setConnectionType(ConnectionType setType) {}
 
 	virtual void updateConnection() {}
+	
+	virtual void updatePortSlots() {}
 
 	virtual void updateArrowHeads() {}
 
