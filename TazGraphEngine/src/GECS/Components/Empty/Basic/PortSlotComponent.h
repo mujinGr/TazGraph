@@ -42,7 +42,7 @@ public:
 	glm::vec3 getSlotPosition() const {
 		size_t childrenSize = entity->getParentEntity()->children.size();
 		if (index >= childrenSize) {
-			TazGraphEngine::ConsoleLogger::error("Port Slot index wrong");
+			//TazGraphEngine::ConsoleLogger::error("Port Slot index wrong");
 			return entity->getParentEntity()->
 				GetComponent<TransformComponent>().getPosition();
 		}

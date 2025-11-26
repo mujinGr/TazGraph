@@ -398,7 +398,6 @@ void Graph::checkInput() {
 	while (SDL_PollEvent(&evnt)) {
 		ImGui_ImplSDL2_ProcessEvent(&evnt);
 		_app->onSDLEvent(evnt);
-		std::cout << cameraVelocityX << std::endl;
 
 		glm::vec2 mouseCoordsVec = _viewportMousePosition; // in graph we have another variable for the worldCoords of mouse
 

@@ -97,7 +97,6 @@ public:
 					for (auto& link : ent->getInLinks()) {
 						auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
 
-						linkEntity->setConnectionType(linkEntity->type);
 						linkEntity->updateConnection();
 					}
 				}
@@ -110,7 +109,6 @@ public:
 					for (auto& link : ent->getOutLinks()) {
 						auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
 
-						linkEntity->setConnectionType(linkEntity->type);
 						linkEntity->updateConnection();
 					}
 				}
@@ -146,7 +144,6 @@ public:
 					}
 				}
 				});
-
 		}
 
 		//! FOR MAIN MENU
@@ -175,7 +172,6 @@ public:
 				for (auto& link : ent->getInLinks()) {
 					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
 
-					linkEntity->setConnectionType(linkEntity->type);
 					linkEntity->updateConnection();
 				}
 			}
@@ -186,7 +182,6 @@ public:
 				for (auto& link : ent->getOutLinks()) {
 					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
 
-					linkEntity->setConnectionType(linkEntity->type);
 					linkEntity->updateConnection();
 				}
 			}
@@ -386,7 +381,7 @@ public:
 
 		return *e;
 	}
-	
+
 	template <typename T, typename... TArgs>
 	T& addEntityFromParent(Entity* pEntity, const char* newID = "", TArgs&&... mArgs)
 	{
@@ -396,15 +391,15 @@ public:
 
 			if ((newID != NULL) && (newID[0] != '\0')) {
 				e->setId((pEntity ?
-					EntityIDUtils::toString(pEntity->getId()) 
-					: "") 
+					EntityIDUtils::toString(pEntity->getId())
+					: "")
 					+ "-" + newID
 				);
 			}
 			else {
 				e->setId((pEntity ?
-					EntityIDUtils::toString(pEntity->getId()) 
-					: "") 
+					EntityIDUtils::toString(pEntity->getId())
+					: "")
 					+ "-" + EntityIDUtils::toString(negativeEntityId--)
 				);
 			}

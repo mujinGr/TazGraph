@@ -147,6 +147,117 @@ public:
 		type = setType;
 	}
 
+	// ========== HELPER: Find next available slot index ==========
+
+	int findNextAvailableSlotIndex(Entity* portEntity) {
+		if (!portEntity || portEntity->children.empty()) {
+			return 0;
+		}
+
+		// Find the highest existing index
+		int maxIndex = -1;
+		for (const auto& [slotIndex, entityId] : portEntity->children) {
+			if (std::get<int>(slotIndex) > maxIndex) {
+				maxIndex = std::get<int>(slotIndex);
+			}
+		}
+
+		return maxIndex + 1;
+	}
+
+	// ========== HELPER: Remove slot and reindex remaining slots ==========
+
+	void removeSlotAndReindex(Entity* portEntity, int slotIndexToRemove) {
+		if (!portEntity) return;
+
+		// Find and remove the slot
+		auto it = portEntity->children.find(slotIndexToRemove);
+		if (it == portEntity->children.end()) {
+			return; // Slot doesn't exist
+		}
+
+		// Delete the slot entity
+		Entity* slotEntity = getManager()->getEntityFromId(it->second);
+		if (slotEntity) {
+			slotEntity->destroy();
+		}
+
+		// Remove from map
+		portEntity->children.erase(it);
+
+		// Reindex all slots with higher indices
+		std::map<EntityID, EntityID> updatedChildren;
+
+		for (auto& [slotIndex, entityId] : portEntity->children) {
+			if (std::get<int>(slotIndex) > slotIndexToRemove) {
+				// Shift index down by 1
+				updatedChildren[std::get<int>(slotIndex) - 1] = entityId;
+			}
+			else {
+				// Keep same index
+				updatedChildren[slotIndex] = entityId;
+			}
+		}
+
+		portEntity->children = std::move(updatedChildren);
+	}
+
+	int assignSlotIndex(NodeEntity* node, EntityID newPort, EntityID oldPort, int oldSlotIndex) {
+		// If port changed, remove link from old port's slots
+		if (std::holds_alternative<std::string>(oldPort) &&
+			!std::get<std::string>(oldPort).empty() &&
+			oldPort != newPort) {
+
+			Entity* oldPortEntity = getManager()->getEntityFromId(node->children[oldPort]);
+
+			if (oldPortEntity && oldPortEntity->hasComponent<PortComponent>()) {
+				removeSlotAndReindex(oldPortEntity, oldSlotIndex);
+				updateLinksSlotIndices(node, oldPort, oldSlotIndex, true);
+				updateLinksSlotIndices(node, oldPort, oldSlotIndex, false);
+			}
+		}
+
+		// If port changed or first assignment, create new slot
+		if (oldPort != newPort) {
+			if (std::get<std::string>(newPort).empty() || !node->children.contains(newPort)) {
+				return -1;
+			}
+
+			Entity* newPortEntity = getManager()->getEntityFromId(node->children[newPort]);
+			if (!newPortEntity || !newPortEntity->hasComponent<PortComponent>()) {
+				return -1;
+			}
+
+			// Find the next available slot index
+			int newSlotIndex = findNextAvailableSlotIndex(newPortEntity);
+
+			// Create new slot
+			auto& newSlot = node->getManager()->addEntityFromParent<Empty>(newPortEntity);
+			newSlot.addGroup(Manager::groupPortSlots);
+
+			TransformComponent& portTransform = newPortEntity->GetComponent<TransformComponent>();
+			newSlot.addComponent<TransformComponent>(
+				portTransform.position,
+				glm::vec3(1),
+				1.0f
+			);
+
+			newSlot.addComponent<Rectangle_w_Color>();
+			newSlot.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, 250, 0, 255));
+			newSlot.setParentEntity(newPortEntity);
+
+			// Add to port with explicit index
+			newPortEntity->children[newSlotIndex] = newSlot.getId();
+
+			auto& slotComp = newSlot.addComponent<PortSlotComponent>();
+			slotComp.index = newSlotIndex;
+
+			return newSlotIndex;
+		}
+
+		return oldSlotIndex;
+	}
+
 	void updateConnection() override {
 
 		if (type == ConnectionType::NODE_TO_NODE) {
@@ -280,50 +391,6 @@ public:
 		}
 	}
 
-	int assignSlotIndex(NodeEntity* node, EntityID newPort, EntityID oldPort, int oldSlotIndex) {
-		// If port changed, remove link from old port's slots
-		if (std::holds_alternative<std::string>(oldPort) &&
-			!std::get<std::string>(oldPort).empty() &&
-			oldPort != newPort) {
-
-			Entity* oldPortEntity = getManager()->getEntityFromId(node->children[oldPort]);
-			if (oldPortEntity && oldPortEntity->hasComponent<PortComponent>()) {
-				removeSlot(oldPortEntity, oldSlotIndex);
-				updateLinksSlotIndices(node, oldPort, oldSlotIndex, true);
-				updateLinksSlotIndices(node, oldPort, oldSlotIndex, false);
-			}
-		}
-
-		if (oldPort != newPort) {
-			if (std::get<std::string>(newPort).empty() || !node->children.contains(newPort)) {
-				return -1;
-			}
-
-			Entity* newPortEntity = getManager()->getEntityFromId(node->children[newPort]);
-			if (!newPortEntity || !newPortEntity->hasComponent<PortComponent>()) {
-				return -1;
-			}
-
-			// Create new slot
-			auto& newSlot = node->getManager()->addEntityFromParent<Empty>(newPortEntity);
-			newSlot.addGroup(Manager::groupPortSlots);
-			TransformComponent& portTransform = newPortEntity->GetComponent<TransformComponent>();
-			newSlot.addComponent<TransformComponent>(
-				portTransform.position,
-				glm::vec3(1),
-				1.0f
-			);
-			newSlot.addComponent<Rectangle_w_Color>();
-			newSlot.GetComponent<Rectangle_w_Color>().setColor(TazColor(0, 250, 0, 255));
-			newSlot.setParentEntity(newPortEntity);
-
-			// Add to port and get the assigned index
-			int newSlotIndex = addSlot(newPortEntity, newSlot.getId());
-			return newSlotIndex;
-		}
-
-		return oldSlotIndex;
-	}
 
 	void updateLinksSlotIndices(NodeEntity* node, EntityID portIndex, int removedSlotIndex, bool isFrom) {
 
@@ -432,26 +499,6 @@ public:
 		return nullptr;
 	}
 
-	// Add slot with auto-indexing
-	int addSlot(Entity* portEntity, EntityID slot) {
-		// Find max index
-		int maxIndex = -1;
-		for (const auto& [id, child] : portEntity->children) {
-			auto* ent = portEntity->getManager()->getEntityFromId(child);
-
-			if (ent->hasComponent<PortSlotComponent>()) {
-				maxIndex = std::max(maxIndex, ent->GetComponent<PortSlotComponent>().index);
-			}
-		}
-		auto* slotEnt = portEntity->getManager()->getEntityFromId(slot);
-
-		int newIndex = maxIndex + 1;
-		auto& slotComp = slotEnt->addComponent<PortSlotComponent>();
-		slotComp.index = newIndex;
-
-		portEntity->children[newIndex] = slot; // Use index as key
-		return newIndex;
-	}
 
 	// Remove slot by index
 	bool removeSlot(Entity* portEntity, int index) {
