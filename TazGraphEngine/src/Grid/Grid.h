@@ -64,9 +64,6 @@ public:
 
 	std::vector<Cell*> getIntersectedCameraCells(ICamera& camera);
 
-	std::vector<EntityID> getLinksInCameraCells();
-
-
 	bool gridLevelChanged();
 
 	Level getGridLevel();

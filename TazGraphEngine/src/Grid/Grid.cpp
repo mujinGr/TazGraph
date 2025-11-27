@@ -392,12 +392,3 @@ int Grid::getLevelCellScale(Level level) {
 	return gridLevels[level];
 }
 
-std::vector<EntityID> Grid::getLinksInCameraCells() {
-	std::unordered_set<EntityID> uniqueLinkIds;
-
-	for (auto& cell : interceptedCells) {
-		uniqueLinkIds.insert(cell->links.begin(), cell->links.end());
-	}
-
-	return std::vector<EntityID>(uniqueLinkIds.begin(), uniqueLinkIds.end());
-}

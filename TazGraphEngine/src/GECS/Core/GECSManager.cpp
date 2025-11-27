@@ -151,9 +151,9 @@ void Manager::updateActiveEntities() {
 }
 
 void Manager::updateVisibleEntities() {
-	visible_emptyEntities = grid->getGridLevel() ? getRevealedEntitiesInCameraCells<EmptyEntity>() : getEntitiesInCameraCells<EmptyEntity>();
-	visible_nodes = grid->getGridLevel() ? getRevealedEntitiesInCameraCells<NodeEntity>() : getEntitiesInCameraCells<NodeEntity>();
-	visible_links = grid->getLinksInCameraCells();
+	visible_emptyEntities = getRevealedEntitiesInCameraCells<EmptyEntity>();
+	visible_nodes = getRevealedEntitiesInCameraCells<NodeEntity>();
+	visible_links = getRevealedEntitiesInCameraCells<LinkEntity>();
 
 	for (auto& vgroup : visible_groupedEmptyEntities) {
 		vgroup.clear();
@@ -332,7 +332,7 @@ std::vector<EntityID> Manager::getRevealedEntitiesInCameraCells() {
 		for (auto& cell : grid->interceptedCells) {
 			for (auto& linkId : cell->links) {
 
-				auto& link = getEntityFromId(linkId);
+				auto* link = getEntityFromId(linkId);
 
 				if (!link->isHidden()) {
 					if (uniqueIds.find(linkId) == uniqueIds.end()) {
@@ -350,45 +350,4 @@ std::vector<EntityID> Manager::getRevealedEntitiesInCameraCells() {
 	}
 	return result;
 
-}
-
-// loops through the intrecepted cells and just get the entities
-template <typename T>
-std::vector<EntityID> Manager::getEntitiesInCameraCells() {
-	std::vector<EntityID> result;
-
-	if constexpr (std::is_same_v<T, NodeEntity>) {
-		for (auto& cell : grid->interceptedCells) {
-			result.insert(result.end(), cell->nodes.begin(), cell->nodes.end());
-		}
-
-		for (auto& cell : grid->interceptedCells) {
-			for (auto& entityID : cell->nodes) {
-				auto* entity = getEntityFromId(entityID);
-				if (!entity->isHidden()) {
-					// Also include children(ports) if they exist
-					for (auto& port : entity->children) {
-						if (hasEntity(port.second) && !getEntityFromId(port.second)->isHidden()) {
-							visible_emptyEntities.push_back(port.second);
-
-							if (getEntityFromId(port.second)->hasComponent<PortComponent>()) {
-								for (auto& portSlots : getEntityFromId(port.second)->children)
-									visible_emptyEntities.push_back(portSlots.second);
-							}
-						}
-					}
-				}
-			}
-		}
-
-	}
-	else if constexpr (std::is_same_v<T, EmptyEntity>) {
-		for (auto& cell : grid->interceptedCells) {
-			result.insert(result.end(), cell->emptyEntities.begin(), cell->emptyEntities.end());
-		}
-	}
-	else {
-		static_assert(sizeof(T) == 0, "Unsupported entity type.");
-	}
-	return result;
 }
