@@ -579,6 +579,8 @@ public:
 	void setComponentNames();
 	template<typename T>
 	std::vector<Entity*> getRevealedEntitiesInCameraCells();
+	template<typename T>
+	std::vector<EntityID> getEntitiesInCameraCells();
 
 	std::vector<Entity*> collectEntities(
 		std::initializer_list<Manager::groupLabels> groupNames,
