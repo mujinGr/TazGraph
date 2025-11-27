@@ -85,15 +85,15 @@ void GraphMLMapParser::parse(Manager& manager,
 	}
 
 
-	for (auto nodeId : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
-		auto* node = dynamic_cast<NodeEntity*>(manager.getEntityFromId(nodeId));
-		manager.grid->addNode(node, manager.grid->getGridLevel());
+	for (auto* node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+		auto* node_entity = dynamic_cast<NodeEntity*>(node);
+		manager.grid->addNode(node_entity, manager.grid->getGridLevel());
 	}
 
-	for (auto linkId : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
-		auto* link = dynamic_cast<LinkEntity*>(manager.getEntityFromId(linkId));
+	for (auto* link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
+		auto* link_entity = dynamic_cast<LinkEntity*>(link);
 
-		manager.grid->addLink(link, manager.grid->getGridLevel());
+		manager.grid->addLink(link_entity, manager.grid->getGridLevel());
 	}
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));

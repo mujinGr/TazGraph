@@ -99,10 +99,10 @@ public:
 		ICamera& camera
 	);
 
-	void drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch);
-	void drawBatch(const std::vector<EntityID>& entities, PlaneColorRenderer& batch);
-	void drawBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch);
-	void drawBatch(const std::vector<EntityID>& entities, LightRenderer& batch);
+	void drawBatch(const std::vector<Entity*>& entities, LineRenderer& batch);
+	void drawBatch(const std::vector<Entity*>& entities, PlaneColorRenderer& batch);
+	void drawBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch);
+	void drawBatch(const std::vector<Entity*>& entities, LightRenderer& batch);
 
 	void prepareBatch(Taz::GECSRenderBatch& batch);
 

@@ -26,8 +26,9 @@ void TextMapParser::writeFile(std::string m_fileName, Manager& manager)
 
 	file << "Total number of nodes: " << nodes.size() << "\n";
 
-	for (auto entityId : nodes) {
-		auto* entity = manager.getEntityFromId(entityId);
+	for (auto* entity : nodes) {
+		NodeEntity* node_entity = dynamic_cast<NodeEntity*>(entity);
+
 		if (entity->hasComponent<TransformComponent>()) {
 			TransformComponent& tc = entity->GetComponent<TransformComponent>();
 			file << EntityIDUtils::toString(entity->getId()) << "\t"; // id is the index in the vector of entities
@@ -40,11 +41,11 @@ void TextMapParser::writeFile(std::string m_fileName, Manager& manager)
 
 	file << "Total number of links: " << links.size() << "\n";
 
-	for (auto entityId : links) {
-		auto* entity = dynamic_cast<LinkEntity*>(manager.getEntityFromId(entityId));
-		file << EntityIDUtils::toString(entity->getId()) << "\t";
-		file << EntityIDUtils::toString(entity->getFromNode()) << "\t";
-		file << EntityIDUtils::toString(entity->getToNode()) << "\n";
+	for (auto* entity : links) {
+		LinkEntity* link_entity = dynamic_cast<LinkEntity*>(entity);
+		file << EntityIDUtils::toString(link_entity->getId()) << "\t";
+		file << EntityIDUtils::toString(link_entity->getFromNode()) << "\t";
+		file << EntityIDUtils::toString(link_entity->getToNode()) << "\n";
 	}
 
 	file.close();
@@ -182,16 +183,16 @@ void TextMapParser::parse(Manager& manager,
 	//! Set grid size
 	manager.grid->setSize(2 * maxDistance);
 
-	for (auto nodeId : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
-		auto* entity = dynamic_cast<NodeEntity*>(manager.getEntityFromId(nodeId));
+	for (auto* node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+		NodeEntity* node_entity = dynamic_cast<NodeEntity*>(node);
 
-		manager.grid->addNode(entity, manager.grid->getGridLevel());
+		manager.grid->addNode(node_entity, manager.grid->getGridLevel());
 	}
 
-	for (auto linkId : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
-		auto* entity = dynamic_cast<LinkEntity*>(manager.getEntityFromId(linkId));
+	for (auto link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
+		LinkEntity* link_entity = dynamic_cast<LinkEntity*>(link);
 
-		manager.grid->addLink(entity, manager.grid->getGridLevel());
+		manager.grid->addLink(link_entity, manager.grid->getGridLevel());
 	}
 
 	//! Set camera based on map loaded

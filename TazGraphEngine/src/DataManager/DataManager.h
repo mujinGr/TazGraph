@@ -9,7 +9,7 @@ namespace fs = std::filesystem;
 
 namespace Taz {
 	struct GECSRenderBatch : RenderBatch {
-		std::vector<EntityID> entities;
+		std::vector<Entity*> entities;
 	};
 
 	struct FrameRenderData {

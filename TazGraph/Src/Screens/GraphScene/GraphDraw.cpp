@@ -233,7 +233,7 @@ void Graph::prepareDraw()
 				overlayEnt->GetComponent<TransformComponent>().size =
 					realEnt->GetComponent<TransformComponent>().size;
 
-				selectionBatch.entities.push_back(sel.overlayEntityId);
+				selectionBatch.entities.push_back(manager->getEntityFromId(sel.overlayEntityId));
 			}
 		}
 		frameData.batches.push_back(selectionBatch);
@@ -299,7 +299,7 @@ void Graph::prepareDraw()
 				overlayEnt->type = realEnt->type;
 				overlayEnt->updateConnectionPositions();
 
-				selectionBatch.entities.push_back(sel.overlayEntityId);
+				selectionBatch.entities.push_back(manager->getEntityFromId(sel.overlayEntityId));
 			}
 		}
 
@@ -363,9 +363,8 @@ void Graph::prepareDraw()
 	   manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1)
 			})
 		{
-			for (auto id : group)
+			for (auto* ent : group)
 			{
-				Entity* ent = manager->getEntityFromId(id);
 				if (ent && ent->hasComponent<TransformComponent>())
 					addBoxFromEntity(ent);
 			}

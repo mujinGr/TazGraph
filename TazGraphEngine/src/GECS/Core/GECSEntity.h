@@ -6,7 +6,7 @@ class LinkEntity;
 
 class EmptyEntity : public CellEntity {
 protected:
-	Entity* parent_entity = nullptr;
+	Entity* parent_entity = nullptr; //! the object doesnt move, so we can have pointer
 public:
 
 	EmptyEntity(Manager& mManager) : CellEntity(mManager) {}

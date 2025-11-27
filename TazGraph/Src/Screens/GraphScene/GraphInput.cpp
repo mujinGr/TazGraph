@@ -471,19 +471,17 @@ void Graph::checkInput() {
 			selectEntityFromRay(rayOrigin, rayDirection, ON_HOVER);
 
 			auto resetAlphaForEntities = [](Manager* manager,
-				const std::vector<EntityID>& nodeGroup,
-				const std::vector<EntityID>& linkGroup)
+				const std::vector<Entity*>& nodeGroup,
+				const std::vector<Entity*>& linkGroup)
 				{
-					for (EntityID nodeId : nodeGroup) {
-						auto* node = manager->getEntityFromId(nodeId);
+					for (Entity* node : nodeGroup) {
 						if (node->hasComponent<Rectangle_w_Color>()) {
 							auto& rect = node->GetComponent<Rectangle_w_Color>();
 							rect.color.a = rect.default_color.a;
 						}
 					}
 
-					for (EntityID linkId : linkGroup) {
-						auto* link = manager->getEntityFromId(linkId);
+					for (Entity* link : linkGroup) {
 						if (link->hasComponent<Line_w_Color>()) {
 							auto& line = link->GetComponent<Line_w_Color>();
 							line.src_color.a = line.default_src_color.a;
@@ -549,11 +547,10 @@ void Graph::checkInput() {
 				}
 
 				// --- Helper lambda to set alpha on entities ---
-				auto applyAlpha = [&](const std::vector<EntityID>& nodeIds,
-					const std::vector<EntityID>& linkIds)
+				auto applyAlpha = [&](const std::vector<Entity*>& nodeIds,
+					const std::vector<Entity*>& linkIds)
 					{
-						for (EntityID nodeId : nodeIds) {
-							auto* node = manager->getEntityFromId(nodeId);
+						for (Entity* node : nodeIds) {
 							if (node->hasComponent<Rectangle_w_Color>()) {
 								auto& rect = node->GetComponent<Rectangle_w_Color>();
 								rect.color.a = (connectedEntities.empty() || connectedEntities.count(node))
@@ -561,8 +558,7 @@ void Graph::checkInput() {
 							}
 						}
 
-						for (EntityID linkId : linkIds) {
-							auto* link = manager->getEntityFromId(linkId);
+						for (Entity* link : linkIds) {
 							if (link->hasComponent<Line_w_Color>()) {
 								auto& line = link->GetComponent<Line_w_Color>();
 								int alpha = (connectedEntities.empty() || connectedEntities.count(link))
@@ -826,18 +822,17 @@ void Graph::performFrustumSelection() {
 
 template<typename EntityType>
 void Graph::selectEntitiesInFrustum(int groupId, const SelectionFrustum& frustum) {
-	for (EntityID entityId : manager->getGroup<EntityType>(groupId)) {
-		auto* entity = manager->getEntityFromId(entityId);
+	for (Entity* entity : manager->getGroup<EntityType>(groupId)) {
 		glm::vec3 centerPoint = entity->template GetComponent<TransformComponent>().getPosition();
 		if (isPointInFrustum(centerPoint, frustum)) {
 			auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-				[entityId](const SelectedInfo& pair) {
-					return pair.realEntityId == entityId;
+				[entity](const SelectedInfo& pair) {
+					return pair.realEntityId == entity->getId();
 				});
 
 			if (it == _selectedEntities.end()) {
 				SelectedInfo info;
-				info.realEntityId = entityId;
+				info.realEntityId = entity->getId();
 				info.relativeOffset = centerPoint;
 				info.overlayEntityId = -1; // created later in batch building
 

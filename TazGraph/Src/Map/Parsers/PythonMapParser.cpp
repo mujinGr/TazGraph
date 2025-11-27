@@ -152,16 +152,16 @@ void PythonMapParser::parse(Manager& manager,
 
 	manager.grid->setSize(2 * maxDistance);
 
-	for (auto nodeId : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
-		auto* node = dynamic_cast<NodeEntity*>(manager.getEntityFromId(nodeId));
+	for (auto* node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+		NodeEntity* node_entity = dynamic_cast<NodeEntity*>(node);
 
-		manager.grid->addNode(node, manager.grid->getGridLevel());
+		manager.grid->addNode(node_entity, manager.grid->getGridLevel());
 	}
 
-	for (auto linkId : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
-		auto* link = dynamic_cast<LinkEntity*>(manager.getEntityFromId(linkId));
+	for (auto* link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
+		LinkEntity* link_entity = dynamic_cast<LinkEntity*>(link);
 
-		manager.grid->addLink(link, manager.grid->getGridLevel());
+		manager.grid->addLink(link_entity, manager.grid->getGridLevel());
 	}
 
 

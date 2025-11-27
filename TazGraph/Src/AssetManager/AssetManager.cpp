@@ -136,12 +136,12 @@ void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 
 	std::unordered_set<std::pair<EntityID, EntityID>, PairHash> existingLinks;
 
-	for (const auto& c_linkId : child_links) {
-		auto* c_link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(c_linkId));
-		if (c_link->isHidden()) {
+	for (const auto& c_link : child_links) {
+		auto* c_link_entity = dynamic_cast<LinkEntity*>(c_link);
+		if (c_link_entity->isHidden()) {
 			// Get the parent group nodes of the source and target
-			auto fromNodeId = c_link->getFromNode();
-			auto toNodeId = c_link->getToNode();
+			auto fromNodeId = c_link_entity->getFromNode();
+			auto toNodeId = c_link_entity->getToNode();
 			auto* fromParent = manager->getEntityFromId(fromNodeId)->getParentEntity();
 			auto* toParent = manager->getEntityFromId(toNodeId)->getParentEntity();
 
@@ -172,26 +172,18 @@ void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 void AssetManager::ungroupLayout(Manager* manager, Grid::Level m_level) {
 	// first destroy the group nodes
 	if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
-		for (auto& groupNodeId : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
-			auto* groupNode = dynamic_cast<NodeEntity*>(manager->getEntityFromId(groupNodeId));
-
+		for (auto* groupNode : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
 			groupNode->destroy();
 		}
-		for (auto& linkId : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
-			auto* link = dynamic_cast<NodeEntity*>(manager->getEntityFromId(linkId));
-
+		for (auto* link : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
 			link->destroy();
 		}
 	}
 	else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
-		for (auto& groupNodeId : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
-			auto* groupNode = dynamic_cast<NodeEntity*>(manager->getEntityFromId(groupNodeId));
-
+		for (auto* groupNode : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
 			groupNode->destroy();
 		}
-		for (auto& linkId : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
-			auto* link = dynamic_cast<NodeEntity*>(manager->getEntityFromId(linkId));
-
+		for (auto* link : manager->getGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
 			link->destroy();
 		}
 	}
@@ -204,9 +196,7 @@ void AssetManager::ungroupLayout(Manager* manager, Grid::Level m_level) {
 	}
 
 	// reveal all the hidden nodes
-	for (auto& entityId : manager->getGroup<NodeEntity>(label)) {
-		auto* entity = dynamic_cast<NodeEntity*>(manager->getEntityFromId(entityId));
-
+	for (auto* entity : manager->getGroup<NodeEntity>(label)) {
 		if (entity->isHidden()) {
 			// ! update the nodes' position based on the parent position
 			TransformComponent* parent_tr = &entity->getParentEntity()->GetComponent<TransformComponent>();
@@ -220,10 +210,8 @@ void AssetManager::ungroupLayout(Manager* manager, Grid::Level m_level) {
 
 		}
 	}
-	for (auto& linkId : manager->getGroup<LinkEntity>(link_label)) {
-		auto* c_link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
-
-		c_link->reveal();
+	for (auto* link : manager->getGroup<LinkEntity>(link_label)) {
+		link->reveal();
 	}
 }
 

@@ -24,19 +24,21 @@ private:
 	Threader* _threader = nullptr;
 	int lastEntityId = 0;
 	int negativeEntityId = -1;
+	//! entity objects dont move in heap
+	//! only the pointers can move in the structure
 	std::unordered_map<EntityID, std::unique_ptr<Entity>> entities;
 
-	std::array<std::vector<EntityID>, maxGroups> groupedEmptyEntities;
-	std::array<std::vector<EntityID>, maxGroups> groupedNodeEntities;
-	std::array<std::vector<EntityID>, maxGroups> groupedLinkEntities;
+	std::array<std::vector<Entity*>, maxGroups> groupedEmptyEntities;
+	std::array<std::vector<Entity*>, maxGroups> groupedNodeEntities;
+	std::array<std::vector<Entity*>, maxGroups> groupedLinkEntities;
 
-	std::vector<EntityID> visible_emptyEntities;
-	std::vector<EntityID> visible_nodes;
-	std::vector<EntityID> visible_links;
+	std::vector<Entity*> visible_emptyEntities;
+	std::vector<Entity*> visible_nodes;
+	std::vector<Entity*> visible_links;
 
-	std::array<std::vector<EntityID>, maxGroups> visible_groupedEmptyEntities;
-	std::array<std::vector<EntityID>, maxGroups> visible_groupedNodeEntities;
-	std::array<std::vector<EntityID>, maxGroups> visible_groupedLinkEntities;
+	std::array<std::vector<Entity*>, maxGroups> visible_groupedEmptyEntities;
+	std::array<std::vector<Entity*>, maxGroups> visible_groupedNodeEntities;
+	std::array<std::vector<Entity*>, maxGroups> visible_groupedLinkEntities;
 
 	bool _update_active_entities = false;
 public:
@@ -119,8 +121,8 @@ public:
 			//! UPDATE
 			_threader->parallel(visible_emptyEntities.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					if (getEntityFromId(visible_emptyEntities[i])->isActive()) {
-						getEntityFromId(visible_emptyEntities[i])->update(deltaTime);
+					if (visible_emptyEntities[i]) {
+						visible_emptyEntities[i]->update(deltaTime);
 					}
 				}
 				});
@@ -128,8 +130,8 @@ public:
 
 			_threader->parallel(visible_nodes.size(), [&](int start, int end) {
 				for (int i = start; i < end; i++) {
-					if (getEntityFromId(visible_nodes[i])->isActive()) {
-						getEntityFromId(visible_nodes[i])->update(deltaTime);
+					if (visible_nodes[i]) {
+						visible_nodes[i]->update(deltaTime);
 					}
 				}
 
@@ -139,8 +141,8 @@ public:
 			_threader->parallel(visible_links.size(), [&](int start, int end) {
 
 				for (int i = start; i < end; i++) {
-					if (getEntityFromId(visible_links[i])->isActive()) {
-						getEntityFromId(visible_links[i])->update(deltaTime);
+					if (visible_links[i]) {
+						visible_links[i]->update(deltaTime);
 					}
 				}
 				});
@@ -189,28 +191,25 @@ public:
 			movedNodes.clear();
 
 			for (auto& e : visible_emptyEntities) {
-				auto* ent = getEntityFromId(e);
-				if (!ent->isActive()) continue;
+				if (!e->isActive()) continue;
 
-				ent->update(deltaTime);
+				e->update(deltaTime);
 			}
 
 			if (arrowheadsEnabled) {
 				for (auto& e : visible_nodes) {
-					auto* ent = getEntityFromId(e);
-					if (!ent->isActive()) continue;
+					if (!e->isActive()) continue;
 
-					ent->update(deltaTime);
+					e->update(deltaTime);
 
 				}
 			}
 
 
 			for (auto& e : visible_links) {
-				auto* ent = getEntityFromId(e);
-				if (!ent->isActive()) continue;
+				if (!e->isActive()) continue;
 
-				ent->update(deltaTime);
+				e->update(deltaTime);
 			}
 		}
 	}
@@ -261,17 +260,17 @@ public:
 
 	void AddToGroup(EmptyEntity* mEntity, Group mGroup)
 	{
-		groupedEmptyEntities[mGroup].emplace_back(mEntity->getId());
+		groupedEmptyEntities[mGroup].emplace_back(mEntity);
 	}
 
 	void AddToGroup(NodeEntity* mEntity, Group mGroup)
 	{
-		groupedNodeEntities[mGroup].emplace_back(mEntity->getId());
+		groupedNodeEntities[mGroup].emplace_back(mEntity);
 	}
 
 	void AddLinkToGroup(LinkEntity* mEntity, Group mGroup)
 	{
-		groupedLinkEntities[mGroup].emplace_back(mEntity->getId());
+		groupedLinkEntities[mGroup].emplace_back(mEntity);
 	}
 
 	const std::unordered_map<EntityID, std::unique_ptr<Entity>>& getEntities() const {
@@ -279,7 +278,7 @@ public:
 	}
 
 	template <typename T>
-	std::vector<EntityID> getVisible() {
+	std::vector<Entity*> getVisible() {
 		if constexpr (std::is_same_v<T, EmptyEntity>) {
 			return visible_emptyEntities;
 		}
@@ -295,7 +294,7 @@ public:
 	}
 
 	template <typename T>
-	std::vector<EntityID>& getVisibleGroup(Group mGroup) {
+	std::vector<Entity*>& getVisibleGroup(Group mGroup) {
 		if constexpr (std::is_same_v<T, EmptyEntity>) {
 			return visible_groupedEmptyEntities[mGroup];
 		}
@@ -311,7 +310,7 @@ public:
 	}
 
 	template <typename T>
-	void getAllTypeEntities(std::vector<EntityID>& output) {
+	void getAllTypeEntities(std::vector<Entity*>& output) {
 		output.clear();
 
 		if constexpr (std::is_same_v<T, EmptyEntity>) {
@@ -335,7 +334,7 @@ public:
 	}
 
 	template <typename T>
-	std::vector<EntityID>& getGroup(Group mGroup) {
+	std::vector<Entity*>& getGroup(Group mGroup) {
 		if constexpr (std::is_same_v<T, EmptyEntity>) {
 			return groupedEmptyEntities[mGroup];
 		}
@@ -451,7 +450,7 @@ public:
 		auto& entitiesInGroup = groupedNodeEntities[mGroup];
 
 		for (auto entityId : entitiesInGroup) {
-			getEntityFromId(entityId)->destroy();
+			entityId->destroy();
 		}
 	}
 
@@ -459,7 +458,7 @@ public:
 		auto& entitiesInGroup = groupedEmptyEntities[mGroup];
 
 		for (auto entityId : entitiesInGroup) {
-			getEntityFromId(entityId)->destroy();
+			entityId->destroy();
 		}
 	}
 
@@ -467,7 +466,7 @@ public:
 		auto& entitiesInGroup = groupedLinkEntities[mGroup];
 
 		for (auto entityId : entitiesInGroup) {
-			getEntityFromId(entityId)->destroy();
+			entityId->destroy();
 		}
 	}
 
@@ -579,11 +578,9 @@ public:
 
 	void setComponentNames();
 	template<typename T>
-	std::vector<EntityID> getRevealedEntitiesInCameraCells();
-	template<typename T>
-	std::vector<EntityID> getEntitiesInCameraCells();
+	std::vector<Entity*> getRevealedEntitiesInCameraCells();
 
-	std::vector<EntityID> collectEntities(
+	std::vector<Entity*> collectEntities(
 		std::initializer_list<Manager::groupLabels> groupNames,
 		Taz::EntityType type);
 

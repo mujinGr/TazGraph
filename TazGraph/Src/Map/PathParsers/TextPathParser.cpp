@@ -98,10 +98,10 @@ void TextPathParser::parse(Manager& manager,
 		}
 	}
 
-	for (auto linkId : manager.getGroup<LinkEntity>(Manager::groupPathLinks)) {
-		auto* link = dynamic_cast<LinkEntity*>(manager.getEntityFromId(linkId));
+	for (auto* link : manager.getGroup<LinkEntity>(Manager::groupPathLinks)) {
+		auto* link_entity = dynamic_cast<LinkEntity*>(link);
 
-		manager.grid->addLink(link, manager.grid->getGridLevel());
+		manager.grid->addLink(link_entity, manager.grid->getGridLevel());
 	}
 	manager.updateInnerPathLinks = true;
 
