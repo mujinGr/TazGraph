@@ -79,10 +79,7 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_LINE_SMOOTH);
-	glEnable(GL_POLYGON_SMOOTH);
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+
 	SDL_GL_MakeCurrent(_sdlWindow, nullptr);
 
 	return 0;
