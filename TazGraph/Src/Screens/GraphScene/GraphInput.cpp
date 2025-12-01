@@ -690,7 +690,7 @@ void Graph::checkInput() {
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
 				_app->_inputManager.setPanningPoint(_viewportMousePosition);
-				main_camera2D->setPanningAimPos(main_camera2D->getAimPos());
+				main_camera2D->setPanningAimPos(main_camera2D->getAimPos() - main_camera2D->getPosition());
 			}
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
 				std::cout << "right-clicked at: " << _viewportMousePosition.x << " - " << _viewportMousePosition.y << std::endl;
