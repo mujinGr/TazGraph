@@ -2,6 +2,7 @@
 
 void Graph::update(float deltaTime) //game objects updating
 {
+	ZoneScopedN("Graph-Update");
 
 	std::string mapName = DataManager::getInstance().mapToLoad;
 

@@ -22,6 +22,7 @@ void Graph::updateUI(float deltaTime) {
 }
 
 void Graph::drawUI() {
+	ZoneScopedN("Graph-DrawUI");
 
 	_graphEditorLayer.setConfig(
 		{

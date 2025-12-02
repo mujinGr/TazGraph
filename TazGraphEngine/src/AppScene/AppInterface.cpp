@@ -58,7 +58,8 @@ void AppInterface::run() {
 		{
 			ZoneScopedN("Input"); // Profile input section
 			checkInput();
-		}
+		};
+
 		int i = 0;
 
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
@@ -66,12 +67,10 @@ void AppInterface::run() {
 
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
 			{
-				ZoneScopedN("Update");
 				update(deltaTime);
 			}
 
 			{
-				ZoneScopedN("UpdateUI");
 				updateUI(deltaTime);
 			}
 
@@ -83,8 +82,6 @@ void AppInterface::run() {
 		}
 
 		if (_isRunning) {
-			ZoneScopedN("PrepareDraw");
-
 			{
 				std::unique_lock<std::mutex> lock(frameMutex);
 				frameConsumedCV.wait(lock, [this]() {
@@ -99,21 +96,17 @@ void AppInterface::run() {
 
 		}
 		if (_isRunning) {
-			ZoneScopedN("RenderDraw");
 			// Get the write index (opposite of active)
 			int writeIndex = 1 - activeIndex.load();
 
 			queues[writeIndex].Submit([this]() {
-				ZoneScopedN("Draw");
 				renderDraw();
 				});
 			queues[writeIndex].Submit([this]() {
-				ZoneScopedN("DrawUI");
 				drawUI();  // This calls ImGui rendering - MUST be on render thread
 				});
 			queues[writeIndex].Submit([this]() {
-				ZoneScopedN("SwapBuffer");
-				_window.swapBuffer();  // This calls ImGui rendering - MUST be on render thread
+				swapBuffer();  // This calls ImGui rendering - MUST be on render thread
 				});
 			// Swap buffers - make write buffer active
 			activeIndex.store(writeIndex);
@@ -477,4 +470,14 @@ void AppInterface::drawUI()
 	}
 	// Rendering
 	_sceneList->getCurrent()->EndRender();
+}
+
+void AppInterface::swapBuffer()
+{
+	if (!_sceneList || !_sceneList->getCurrent())
+		return;
+
+	if (_sceneList->getCurrent()->getState() == SceneState::RUNNING) {
+		_sceneList->getCurrent()->SwapBufferDraw();
+	}
 }

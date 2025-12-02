@@ -122,6 +122,8 @@ protected:
 	virtual void updateUI(float deltaTime);
 	virtual void drawUI();
 
+	virtual void swapBuffer();
+
 	bool init();
 	void initRenderers();
 	bool initSystems();

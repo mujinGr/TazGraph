@@ -250,6 +250,10 @@ void MainMenuScreen::drawUI() {
 	}
 }
 
+void MainMenuScreen::SwapBufferDraw() {
+	getApp()->_window.swapBuffer();
+}
+
 void MainMenuScreen::EndRender() {
 	ImGuiInterface::EndRender();
 }

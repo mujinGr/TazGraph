@@ -3,7 +3,8 @@
 
 void Graph::prepareDraw()
 {
-	ZoneScoped;
+	ZoneScopedN("Graph-prepareDraw");
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D =
@@ -428,6 +429,7 @@ void Graph::prepareDraw()
 
 void Graph::renderDraw()
 {
+	ZoneScopedN("Graph-RenderDraw");
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	int readIndex = activeFrameIndex.load();
 	auto& frameData = frameDataBuffers[readIndex];
@@ -555,4 +557,9 @@ void Graph::minimapRenderDraw() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	_minimapFramebuffer.Unbind();
+}
+
+void Graph::SwapBufferDraw() {
+	ZoneScopedN("Graph-SwapBuffer");
+	getApp()->_window.swapBuffer();
 }
