@@ -522,6 +522,8 @@ public:
 		groupEmpties,
 		groupSphereEmpties,
 
+		groupWireframeSphereEmpties,
+
 		groupRenderSprites,
 
 		groupPorts,
@@ -562,6 +564,8 @@ public:
 
 		{ groupEmpties,"groupEmpties" },
 		{ groupSphereEmpties,"groupSphereEmpties" },
+
+		{ groupWireframeSphereEmpties,"groupWireframeSphereEmpties" },
 
 		{ groupColliders,"groupColliders" },
 		{ groupRenderSprites,"groupRenderSprites" },

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../../Vertex.h"
-#include "../../../GLSLProgram.h"
 #include "../../Renderer.h"
 
 // init --_

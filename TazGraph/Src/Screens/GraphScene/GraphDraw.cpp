@@ -117,7 +117,7 @@ void Graph::prepareDraw()
 	{
 		Taz::GECSRenderBatch lightsBatch;
 		lightsBatch.renderer_type = Taz::RenderBatch::RendererType::Light;
-		lightsBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+		lightsBatch.mesh_type = Taz::RenderBatch::MeshType::Box;
 
 
 		lightsBatch.batchName = manager->getGroupName(Manager::groupEmpties);
@@ -148,6 +148,24 @@ void Graph::prepareDraw()
 		lightsBatch.count = lightsBatch.entities.size();
 
 		frameData.batches.push_back(lightsBatch);
+	}
+
+	// 5.3. WireFrame Sphere Batch
+	{
+		Taz::GECSRenderBatch wireframeSphereBatch;
+		wireframeSphereBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		wireframeSphereBatch.mesh_type = Taz::RenderBatch::MeshType::Sphere;
+
+		wireframeSphereBatch.batchName = manager->getGroupName(Manager::groupWireframeSphereEmpties);
+		wireframeSphereBatch.shaderName = "wireframeColor";
+
+		wireframeSphereBatch.entities = manager->collectVisibleEntities({
+			Manager::groupWireframeSphereEmpties
+			}, Taz::EntityType::Empty);
+
+		wireframeSphereBatch.count = wireframeSphereBatch.entities.size();
+
+		frameData.batches.push_back(wireframeSphereBatch);
 	}
 
 	// 6. Path Links Batch (rendered without depth test)
@@ -325,7 +343,7 @@ void Graph::prepareDraw()
 
 			c.size = size;
 			c.position = pos;
-			
+
 			r.color = TazColor(255, 0, 255, 255);
 
 			return e.getId();

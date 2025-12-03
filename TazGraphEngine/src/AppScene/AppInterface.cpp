@@ -340,9 +340,6 @@ bool AppInterface::init() {
 	initRenderers();
 	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 
-	initRenderers();
-	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
-
 	_isRunning = true;
 	renderThread = std::thread(&AppInterface::RenderThreadFunc, this);
 
@@ -359,6 +356,11 @@ void AppInterface::initRenderers() {
 		lightRenderer.sphereIndices);
 
 	lightRenderer.init();
+
+	generateSphereMeshWireframe(
+		lineRenderer.sphereVertices,
+		lineRenderer.sphereIndices
+	);
 
 	lineRenderer.init();
 	generateSphereMesh(
