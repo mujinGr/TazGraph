@@ -103,7 +103,7 @@ public:
 		position.x += velocity.x * speed * deltaTime;
 		position.y += velocity.y * speed * deltaTime;
 
-		velocity *= 0.98f;	
+		velocity *= 0.98f;
 
 	}
 
@@ -198,7 +198,7 @@ public:
 			modifyPosition = true;
 		}
 		if (modifyPosition && !otherComponents.empty()) {
-			for (auto* comp : otherComponents) {
+			for (auto& comp : otherComponents) {
 				if (auto* other = dynamic_cast<TransformComponent*>(comp)) {
 					other->position = position;
 				}

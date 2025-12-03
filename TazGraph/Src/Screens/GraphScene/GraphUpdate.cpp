@@ -47,7 +47,7 @@ void Graph::update(float deltaTime) //game objects updating
 		manager->update(deltaTime);
 	}
 
-	for (auto node : manager->getVisibleGroup<NodeEntity>(Manager::groupColliders)) {
+	for (auto& node : manager->getVisibleGroup<NodeEntity>(Manager::groupColliders)) {
 		node->GetComponent<ColliderComponent>().collisionPhysics();
 	}
 
@@ -92,7 +92,7 @@ void Graph::update(float deltaTime) //game objects updating
 				for (int x = Min_WIDTH_CELL; x <= Max_WIDTH_CELL; x++) {
 					Cell* cell = manager->grid->getCell(x, y, z, Grid::Basic);
 					if (cell != nullptr) {
-						for (auto nodeId : cell->nodes) {
+						for (auto& nodeId : cell->nodes) {
 							auto* node = manager->getEntityFromId(nodeId);
 
 							if (node != nullptr) {
@@ -122,7 +122,7 @@ void Graph::update(float deltaTime) //game objects updating
 
 			if (cell != nullptr) {
 				// Process all nodes in this cell
-				for (auto nodeId : cell->nodes) {
+				for (auto& nodeId : cell->nodes) {
 					auto* node = manager->getEntityFromId(nodeId);
 
 					if (node != nullptr) {

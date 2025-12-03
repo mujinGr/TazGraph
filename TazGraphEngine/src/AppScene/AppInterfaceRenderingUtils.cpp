@@ -100,6 +100,8 @@ void AppInterface::renderBatch(
 	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
+	if (batch.count == 0) return;
+
 	switch (batch.renderer_type) {
 	case Taz::RenderBatch::RendererType::Line:
 		drawLineBatch(batch, frameData, camera);

@@ -56,15 +56,12 @@ void AppInterface::run() {
 		float totalDeltaTime = frameTime / DESIRED_FRAMETIME;
 
 		{
-			ZoneScopedN("Input"); // Profile input section
 			checkInput();
 		};
 
 		int i = 0;
 
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
-			ZoneScopedN("Physics Step"); // Profile physics loop
-
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
 			{
 				update(deltaTime);
@@ -100,6 +97,13 @@ void AppInterface::run() {
 			int writeIndex = 1 - activeIndex.load();
 
 			queues[writeIndex].Submit([this]() {
+				// Process ImGui events on render thread
+				{
+					std::lock_guard<std::mutex> lock(imguiEventsMutex);
+					for (auto& event : imguiEvents) {
+						ImGui_ImplSDL2_ProcessEvent(&event);
+					}
+				}
 				renderDraw();
 				});
 			queues[writeIndex].Submit([this]() {

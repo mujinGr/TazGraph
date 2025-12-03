@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_0001832FD0E54B2AA9CD6CD01B9D3A07"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_01CC2EE37A924E08963686D4326099CC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -27,7 +33,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_0295E622D05E4AC4927BFED6F3E0A7C9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_03BBB345BF5C4799841A0A6835C7E204"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0893F9203EA84CA48B858D64AC488159"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -45,8 +63,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_0F3AB9F6FD7642F4A509209A1D7B575B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_0FD0C7DA22BA76571EF3742911100B99"
         "OwnerKey" = "8:_1F0B2F8EEE334FA095BC2F35181FF4E7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_11FBA4DE9CEA40C18570CBE1BD6D8562"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -69,6 +99,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_1C03DF93D2D64FE48409C0383227DC4D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1F0B2F8EEE334FA095BC2F35181FF4E7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -76,6 +112,12 @@
         "Entry"
         {
         "MsmKey" = "8:_20545BE9D4D5445B87C5A3A53956E8D8"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_21D9C3CF806641D182C91F6F282ED01D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -105,6 +147,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_298B9EE910E94F6BBB7AC548F95B00DE"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2DA8A545DBB34BFDBF3D0C1B4A3F5611"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -123,7 +171,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_312A94DB4C1444D583EFA72630748E03"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_35D6C5FD064B4E29B72254377ACC67EA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_381F336B2B6541EB8D0D8E0B616E4240"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3A04F8E49FE341CA80B1993A5031A638"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -153,6 +219,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_4A948BD948AC4DE6AA4C43FA876B0E3F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4ABC67A16B3841859E16F6CA378918E5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -161,6 +233,18 @@
         {
         "MsmKey" = "8:_4AD526AA47478BBEF7F38A7C282608E9"
         "OwnerKey" = "8:_1F0B2F8EEE334FA095BC2F35181FF4E7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4C32867D290C4370B0C76A2E9FEE2C27"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4D11ECD01353471DBA89071E46B0B33B"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -177,8 +261,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_5532343CA7DE43CF83E58B62F76B81BD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_55AFD49A8CF016A8524AA5D6D888F1C5"
         "OwnerKey" = "8:_1F0B2F8EEE334FA095BC2F35181FF4E7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5717566BA51946C6A148005E92E9AFA7"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -190,6 +286,12 @@
         "Entry"
         {
         "MsmKey" = "8:_5E085532242A45AA9CB8E85903D089AA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_61E6D3452B3D45F4AF1C93C1069332C0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -219,7 +321,31 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_6AD51C10CBB140928A3A256764CA7A75"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6BE4DE894167438CBB5D4CECC3616809"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6D539CE7015E4B178DEBA46A91F01F41"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6ED861A2C9C841729C205A198952CF45"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_71024528FED449D1A8DB7AF7CD637066"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -237,6 +363,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_79CA359A347E4E15A6F8EAD458B613C4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7A52AFA4A20F4C99A86D7D5DC5623639"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -244,6 +376,12 @@
         "Entry"
         {
         "MsmKey" = "8:_7C7051D67EF045379CF93A7BD81DCC66"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_804DBE6076EF44169858C5230D11165E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -261,7 +399,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_861D343F0431409D81F1D49A3046FA45"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_865272A13E6F45D49E21704BD827A03E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_8996BD1F07884F0BB076F9911CEBA2FC"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8E3504B900C848E5A2F18757303E2283"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -291,6 +447,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_975EF28A0D7A40D59742E73419599377"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_990C3BE3B64449418603745DDD92D8AB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9D40A8CD6D084AF699B0C5C3A832BB4A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -315,7 +483,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_A3D4FC8BA30E455AB94E5E217A8B20C8"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A498110CF9E3450D8486700D16331C25"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A6A0F975A20B4C339793691227382D08"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A81E195A4A954D0E8258C370E635803A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -335,6 +521,12 @@
         {
         "MsmKey" = "8:_AA8BDD8EB01ED2FC55B1A513B568037D"
         "OwnerKey" = "8:_1F0B2F8EEE334FA095BC2F35181FF4E7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B1A037D412964030A3B31214EB2671B5"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -375,6 +567,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_BA009A5C6B2B40A586B4C6B770BEF580"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_BC55FEDFADF12BB9510E1A243DCB4AB2"
         "OwnerKey" = "8:_1F0B2F8EEE334FA095BC2F35181FF4E7"
         "MsmSig" = "8:_UNDEFINED"
@@ -387,13 +585,31 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C0887CD75CEE4089B76C60A0C20FB4F6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C6260334D04746C08CE2377F48780D52"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_C8DD0A0D6F974303B1E9692AC660EEE0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_CAB3D4ADB10249C4927AF4199375EEB9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CB6B8858A26E4696938D16301FAB81A1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -447,6 +663,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_E5109D57D91448158A7BF718938A3DA3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_E99F77B44FB993170E55E73F824B0D86"
         "OwnerKey" = "8:_1F0B2F8EEE334FA095BC2F35181FF4E7"
         "MsmSig" = "8:_UNDEFINED"
@@ -454,6 +676,30 @@
         "Entry"
         {
         "MsmKey" = "8:_EA99D73D413E44A28A1ACE2249841977"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EC5022C840754CA0AFCC53E9AEB3C4F1"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED9A7A0770244081B34C5EC9152A27C0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EEF332B1B35649D09A4C9B173D9157BD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F03CE95CB35149978280AFC77EB9ABFD"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -471,8 +717,32 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_F778AC8F97A04856B76967EA69D66034"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F83B2B409DB642EE85566FC491C60D86"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_F9C79107D89F536ECAD2E6AABF47C2AC"
         "OwnerKey" = "8:_1F0B2F8EEE334FA095BC2F35181FF4E7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F9F7BE9DC64D439E855354121EDE63C8"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FBC8D79923EA474688C42BD8E9B2BA02"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -560,6 +830,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0001832FD0E54B2AA9CD6CD01B9D3A07"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Animators\\RectangleAnimators\\RectangleFlashAnimatorComponent.h"
+            "TargetName" = "8:RectangleFlashAnimatorComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_01CC2EE37A924E08963686D4326099CC"
             {
             "SourcePath" = "8:..\\TazGraph\\assets\\Maps\\fan_in_small.simdmp"
@@ -600,12 +890,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0295E622D05E4AC4927BFED6F3E0A7C9"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Animators\\MovingAnimation.h"
+            "TargetName" = "8:MovingAnimation.h"
+            "Tag" = "8:"
+            "Folder" = "8:_75663BC57A02490380B4AF99BABF41E8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_03BBB345BF5C4799841A0A6835C7E204"
             {
             "SourcePath" = "8:..\\TazGraph\\Src\\Shaders\\lineColorShading.frag"
             "TargetName" = "8:lineColorShading.frag"
             "Tag" = "8:"
             "Folder" = "8:_F64AD87E15C94AABA0A7C0931BC4B1B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0893F9203EA84CA48B858D64AC488159"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Animators\\Animation.h"
+            "TargetName" = "8:Animation.h"
+            "Tag" = "8:"
+            "Folder" = "8:_75663BC57A02490380B4AF99BABF41E8"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -660,12 +990,32 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0F3AB9F6FD7642F4A509209A1D7B575B"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Basic\\SphereComponent.h"
+            "TargetName" = "8:SphereComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_6972FEE987FB4EC68295DA36DE851FEF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0FD0C7DA22BA76571EF3742911100B99"
             {
             "SourcePath" = "8:api-ms-win-crt-stdio-l1-1-0.dll"
             "TargetName" = "8:api-ms-win-crt-stdio-l1-1-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -678,6 +1028,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_11FBA4DE9CEA40C18570CBE1BD6D8562"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Util\\RigidBodyComponent.h"
+            "TargetName" = "8:RigidBodyComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_D8A8FF38BA384E36B0F7F1809D3CC95A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1288C5253EC74246B2D16111BAB420EA"
@@ -705,7 +1075,7 @@
             "SourcePath" = "8:python313.dll"
             "TargetName" = "8:python313.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -740,12 +1110,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1C03DF93D2D64FE48409C0383227DC4D"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Core\\CellEntity.h"
+            "TargetName" = "8:CellEntity.h"
+            "Tag" = "8:"
+            "Folder" = "8:_651C961093B541FB8B1B0E7918DB8B0E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_20545BE9D4D5445B87C5A3A53956E8D8"
             {
             "SourcePath" = "8:..\\TazGraph\\assets\\Sprites\\treemap.png"
             "TargetName" = "8:treemap.png"
             "Tag" = "8:"
             "Folder" = "8:_D7CB6F29B99B4BBE90014D40E4A8F343"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_21D9C3CF806641D182C91F6F282ED01D"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Core\\GECSEntity.h"
+            "TargetName" = "8:GECSEntity.h"
+            "Tag" = "8:"
+            "Folder" = "8:_651C961093B541FB8B1B0E7918DB8B0E"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -805,7 +1215,7 @@
             "SourcePath" = "8:api-ms-win-crt-filesystem-l1-1-0.dll"
             "TargetName" = "8:api-ms-win-crt-filesystem-l1-1-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -826,6 +1236,26 @@
             "TargetName" = "8:newNodeCreate.txt"
             "Tag" = "8:"
             "Folder" = "8:_2352E8D4EB304FF48BB43F7FB1C4D55C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_298B9EE910E94F6BBB7AC548F95B00DE"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Basic\\Rectangle_w_Color.h"
+            "TargetName" = "8:Rectangle_w_Color.h"
+            "Tag" = "8:"
+            "Folder" = "8:_6972FEE987FB4EC68295DA36DE851FEF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -865,7 +1295,7 @@
             "SourcePath" = "8:MSVCP140.dll"
             "TargetName" = "8:MSVCP140.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -900,6 +1330,46 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_312A94DB4C1444D583EFA72630748E03"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Basic\\EmptyPythonCodeComponent.h"
+            "TargetName" = "8:EmptyPythonCodeComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_6972FEE987FB4EC68295DA36DE851FEF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_35D6C5FD064B4E29B72254377ACC67EA"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Core\\GECSEntityTypes\\GECSEntityTypes.h"
+            "TargetName" = "8:GECSEntityTypes.h"
+            "Tag" = "8:"
+            "Folder" = "8:_8FD33722FB424290B74FA807F24D2920"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_381F336B2B6541EB8D0D8E0B616E4240"
             {
             "SourcePath" = "8:..\\TazGraph\\assets\\Sprites\\Screenshot_9.png"
@@ -920,12 +1390,32 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3A04F8E49FE341CA80B1993A5031A638"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Link\\Basic\\Line_w_Color.h"
+            "TargetName" = "8:Line_w_Color.h"
+            "Tag" = "8:"
+            "Folder" = "8:_C76EFE1355574869921D53110E3F46D8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3B9C885DE886FF750BB438FB85252767"
             {
             "SourcePath" = "8:api-ms-win-crt-convert-l1-1-0.dll"
             "TargetName" = "8:api-ms-win-crt-convert-l1-1-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -945,7 +1435,7 @@
             "SourcePath" = "8:glew32.dll"
             "TargetName" = "8:glew32.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1000,6 +1490,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4A948BD948AC4DE6AA4C43FA876B0E3F"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Basic\\PortComponent.h"
+            "TargetName" = "8:PortComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_6972FEE987FB4EC68295DA36DE851FEF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4ABC67A16B3841859E16F6CA378918E5"
             {
             "SourcePath" = "8:..\\TazGraph\\Src\\Shaders\\colorShading.frag"
@@ -1025,7 +1535,7 @@
             "SourcePath" = "8:api-ms-win-crt-locale-l1-1-0.dll"
             "TargetName" = "8:api-ms-win-crt-locale-l1-1-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1040,12 +1550,52 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4C32867D290C4370B0C76A2E9FEE2C27"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Core\\GECSEntityTypes\\GECSEntityTypesLink.h"
+            "TargetName" = "8:GECSEntityTypesLink.h"
+            "Tag" = "8:"
+            "Folder" = "8:_8FD33722FB424290B74FA807F24D2920"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D11ECD01353471DBA89071E46B0B33B"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\PythonCodeComponent.h"
+            "TargetName" = "8:PythonCodeComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_BA08E93AC7B14AF2AD3F18C698C13792"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4EC56BF092E50ABE6DC811A944C03693"
             {
             "SourcePath" = "8:api-ms-win-crt-runtime-l1-1-0.dll"
             "TargetName" = "8:api-ms-win-crt-runtime-l1-1-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1080,12 +1630,32 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5532343CA7DE43CF83E58B62F76B81BD"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\UtilComponents.h"
+            "TargetName" = "8:UtilComponents.h"
+            "Tag" = "8:"
+            "Folder" = "8:_4A38AD2AA3494549858B3AC83265EEAF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_55AFD49A8CF016A8524AA5D6D888F1C5"
             {
             "SourcePath" = "8:SDL2.dll"
             "TargetName" = "8:SDL2.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1100,12 +1670,32 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5717566BA51946C6A148005E92E9AFA7"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Core\\GECSManager.h"
+            "TargetName" = "8:GECSManager.h"
+            "Tag" = "8:"
+            "Folder" = "8:_651C961093B541FB8B1B0E7918DB8B0E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_58ECA53AF6E4D65F55C0B6E6B08ED4E1"
             {
             "SourcePath" = "8:api-ms-win-crt-math-l1-1-0.dll"
             "TargetName" = "8:api-ms-win-crt-math-l1-1-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1140,12 +1730,32 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_61E6D3452B3D45F4AF1C93C1069332C0"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Core\\GECSEntityTypes\\GECSEntityTypesEmpty.h"
+            "TargetName" = "8:GECSEntityTypesEmpty.h"
+            "Tag" = "8:"
+            "Folder" = "8:_8FD33722FB424290B74FA807F24D2920"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_64C327E638C04086CAE27D88AF5B6759"
             {
             "SourcePath" = "8:OPENGL32.dll"
             "TargetName" = "8:OPENGL32.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1220,12 +1830,92 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6AD51C10CBB140928A3A256764CA7A75"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Core\\SimulationStep.h"
+            "TargetName" = "8:SimulationStep.h"
+            "Tag" = "8:"
+            "Folder" = "8:_651C961093B541FB8B1B0E7918DB8B0E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6BE4DE894167438CBB5D4CECC3616809"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\templateComponent.h"
+            "TargetName" = "8:templateComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_BA08E93AC7B14AF2AD3F18C698C13792"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6D539CE7015E4B178DEBA46A91F01F41"
             {
             "SourcePath" = "8:..\\TazGraph\\Src\\Shaders\\lineColorShading.gs"
             "TargetName" = "8:lineColorShading.gs"
             "Tag" = "8:"
             "Folder" = "8:_F64AD87E15C94AABA0A7C0931BC4B1B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6ED861A2C9C841729C205A198952CF45"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Basic\\Triangle_w_Color.h"
+            "TargetName" = "8:Triangle_w_Color.h"
+            "Tag" = "8:"
+            "Folder" = "8:_6972FEE987FB4EC68295DA36DE851FEF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_71024528FED449D1A8DB7AF7CD637066"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Basic\\BoxComponent.h"
+            "TargetName" = "8:BoxComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_6972FEE987FB4EC68295DA36DE851FEF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1280,6 +1970,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_79CA359A347E4E15A6F8EAD458B613C4"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Core\\GECS.h"
+            "TargetName" = "8:GECS.h"
+            "Tag" = "8:"
+            "Folder" = "8:_651C961093B541FB8B1B0E7918DB8B0E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7A52AFA4A20F4C99A86D7D5DC5623639"
             {
             "SourcePath" = "8:..\\TazGraph\\assets\\Sprites\\block_networkMiserable.png"
@@ -1306,6 +2016,26 @@
             "TargetName" = "8:Screenshot_2.png"
             "Tag" = "8:"
             "Folder" = "8:_D7CB6F29B99B4BBE90014D40E4A8F343"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_804DBE6076EF44169858C5230D11165E"
+            {
+            "SourcePath" = "8:..\\TazGraph\\libvorbis-0.dll"
+            "TargetName" = "8:libvorbis-0.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1360,6 +2090,46 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_861D343F0431409D81F1D49A3046FA45"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Util\\MainMenuBackground.h"
+            "TargetName" = "8:MainMenuBackground.h"
+            "Tag" = "8:"
+            "Folder" = "8:_D8A8FF38BA384E36B0F7F1809D3CC95A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_865272A13E6F45D49E21704BD827A03E"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Basic\\TransformComponent.h"
+            "TargetName" = "8:TransformComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_6972FEE987FB4EC68295DA36DE851FEF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8996BD1F07884F0BB076F9911CEBA2FC"
             {
             "SourcePath" = "8:..\\TazGraph\\Src\\Shaders\\textureBright.vert"
@@ -1380,12 +2150,32 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E3504B900C848E5A2F18757303E2283"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Core\\GECSManager.cpp"
+            "TargetName" = "8:GECSManager.cpp"
+            "Tag" = "8:"
+            "Folder" = "8:_651C961093B541FB8B1B0E7918DB8B0E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8EDC0F081F522E4141857780336CAF91"
             {
             "SourcePath" = "8:api-ms-win-crt-time-l1-1-0.dll"
             "TargetName" = "8:api-ms-win-crt-time-l1-1-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1405,7 +2195,7 @@
             "SourcePath" = "8:SDL2_mixer.dll"
             "TargetName" = "8:SDL2_mixer.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1446,6 +2236,46 @@
             "TargetName" = "8:grid_collision.png"
             "Tag" = "8:"
             "Folder" = "8:_D7CB6F29B99B4BBE90014D40E4A8F343"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_975EF28A0D7A40D59742E73419599377"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Link\\Basic\\LinkPythonCodeComponent.h"
+            "TargetName" = "8:LinkPythonCodeComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_C76EFE1355574869921D53110E3F46D8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_990C3BE3B64449418603745DDD92D8AB"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Animators\\MovingAnimatorComponent.h"
+            "TargetName" = "8:MovingAnimatorComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_75663BC57A02490380B4AF99BABF41E8"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1505,7 +2335,7 @@
             "SourcePath" = "8:api-ms-win-crt-string-l1-1-0.dll"
             "TargetName" = "8:api-ms-win-crt-string-l1-1-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1525,7 +2355,27 @@
             "SourcePath" = "8:..\\TazGraph\\Sounds\\JPEGSnow.ogg"
             "TargetName" = "8:JPEGSnow.ogg"
             "Tag" = "8:"
-            "Folder" = "8:_9758B99326A8405AA8C899C2CD51103D"
+            "Folder" = "8:_412CE61A796348D9850EE6596F9D4E43"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A3D4FC8BA30E455AB94E5E217A8B20C8"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Animators\\AnimatorManager.h"
+            "TargetName" = "8:AnimatorManager.h"
+            "Tag" = "8:"
+            "Folder" = "8:_75663BC57A02490380B4AF99BABF41E8"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1546,6 +2396,46 @@
             "TargetName" = "8:framebuffer.vert"
             "Tag" = "8:"
             "Folder" = "8:_F64AD87E15C94AABA0A7C0931BC4B1B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A6A0F975A20B4C339793691227382D08"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Animators\\RectangleAnimators\\RectangleFlashAnimatorComponent.h"
+            "TargetName" = "8:RectangleFlashAnimatorComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_6D59FC80D18848DBBADC1F5D47F02F34"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A81E195A4A954D0E8258C370E635803A"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Basic\\SpriteComponent.h"
+            "TargetName" = "8:SpriteComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_6972FEE987FB4EC68295DA36DE851FEF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1585,7 +2475,7 @@
             "SourcePath" = "8:api-ms-win-crt-heap-l1-1-0.dll"
             "TargetName" = "8:api-ms-win-crt-heap-l1-1-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1605,7 +2495,7 @@
             "SourcePath" = "8:SDL2_ttf.dll"
             "TargetName" = "8:SDL2_ttf.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1618,6 +2508,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B1A037D412964030A3B31214EB2671B5"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Core\\GECSUtil.h"
+            "TargetName" = "8:GECSUtil.h"
+            "Tag" = "8:"
+            "Folder" = "8:_651C961093B541FB8B1B0E7918DB8B0E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B3408A39CE374A54B137755CD8523791"
@@ -1740,12 +2650,32 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BA009A5C6B2B40A586B4C6B770BEF580"
+            {
+            "SourcePath" = "8:..\\TazGraph\\libvorbisfile-3.dll"
+            "TargetName" = "8:libvorbisfile-3.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BC55FEDFADF12BB9510E1A243DCB4AB2"
             {
             "SourcePath" = "8:VCRUNTIME140.dll"
             "TargetName" = "8:VCRUNTIME140.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1780,6 +2710,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C0887CD75CEE4089B76C60A0C20FB4F6"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Animators\\FlashAnimation.h"
+            "TargetName" = "8:FlashAnimation.h"
+            "Tag" = "8:"
+            "Folder" = "8:_75663BC57A02490380B4AF99BABF41E8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C6260334D04746C08CE2377F48780D52"
             {
             "SourcePath" = "8:..\\TazGraph\\assets\\Maps\\test_medium_save.txt"
@@ -1800,12 +2750,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C8DD0A0D6F974303B1E9692AC660EEE0"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Core\\GECSEntityTypes\\GECSEntityTypesNode.h"
+            "TargetName" = "8:GECSEntityTypesNode.h"
+            "Tag" = "8:"
+            "Folder" = "8:_8FD33722FB424290B74FA807F24D2920"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CAB3D4ADB10249C4927AF4199375EEB9"
             {
             "SourcePath" = "8:..\\TazGraph\\assets\\Maps\\network_large.py"
             "TargetName" = "8:network_large.py"
             "Tag" = "8:"
             "Folder" = "8:_F101979399234100B038A3CED452D2E5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CB6B8858A26E4696938D16301FAB81A1"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components.h"
+            "TargetName" = "8:Components.h"
+            "Tag" = "8:"
+            "Folder" = "8:_4A38AD2AA3494549858B3AC83265EEAF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1965,7 +2955,7 @@
             "SourcePath" = "8:SDL2_image.dll"
             "TargetName" = "8:SDL2_image.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1980,12 +2970,32 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E5109D57D91448158A7BF718938A3DA3"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Animators\\AnimatorComponent.h"
+            "TargetName" = "8:AnimatorComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_75663BC57A02490380B4AF99BABF41E8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E99F77B44FB993170E55E73F824B0D86"
             {
             "SourcePath" = "8:api-ms-win-crt-utility-l1-1-0.dll"
             "TargetName" = "8:api-ms-win-crt-utility-l1-1-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2020,12 +3030,92 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EC5022C840754CA0AFCC53E9AEB3C4F1"
+            {
+            "SourcePath" = "8:..\\TazGraph\\libogg-0.dll"
+            "TargetName" = "8:libogg-0.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ED9A7A0770244081B34C5EC9152A27C0"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Animators\\LineAnimators\\LineFlashAnimatorComponent.h"
+            "TargetName" = "8:LineFlashAnimatorComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_0F3625D482FF4AF49719777FE94AFC0E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EEF332B1B35649D09A4C9B173D9157BD"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Basic\\PortSlotComponent.h"
+            "TargetName" = "8:PortSlotComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_6972FEE987FB4EC68295DA36DE851FEF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F03CE95CB35149978280AFC77EB9ABFD"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Core\\GECS.cpp"
+            "TargetName" = "8:GECS.cpp"
+            "Tag" = "8:"
+            "Folder" = "8:_651C961093B541FB8B1B0E7918DB8B0E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F28B130261A28529273E5D8C56E52E28"
             {
             "SourcePath" = "8:api-ms-win-crt-environment-l1-1-0.dll"
             "TargetName" = "8:api-ms-win-crt-environment-l1-1-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2060,12 +3150,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F778AC8F97A04856B76967EA69D66034"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Util\\PathLinkerComponent.h"
+            "TargetName" = "8:PathLinkerComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_D8A8FF38BA384E36B0F7F1809D3CC95A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F83B2B409DB642EE85566FC491C60D86"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Animators\\FlashAnimatorComponent.h"
+            "TargetName" = "8:FlashAnimatorComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_75663BC57A02490380B4AF99BABF41E8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F9C79107D89F536ECAD2E6AABF47C2AC"
             {
             "SourcePath" = "8:VCRUNTIME140_1.dll"
             "TargetName" = "8:VCRUNTIME140_1.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2080,12 +3210,52 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F9F7BE9DC64D439E855354121EDE63C8"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Link\\Util\\SpringComponent.h"
+            "TargetName" = "8:SpringComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_345024F3636849AA929A0D86D3B79C52"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FBC8D79923EA474688C42BD8E9B2BA02"
+            {
+            "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Util\\ColliderComponent.h"
+            "TargetName" = "8:ColliderComponent.h"
+            "Tag" = "8:"
+            "Folder" = "8:_D8A8FF38BA384E36B0F7F1809D3CC95A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FC1EEEC99DD35016AB92D2F67C4DAAB2"
             {
             "SourcePath" = "8:IMM32.dll"
             "TargetName" = "8:IMM32.dll"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2127,64 +3297,108 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_83C6205F56524679A5DF924625E0D4D4"
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_1C634C63DCA14A60A2817A0135EDD7F6"
                     {
-                    "Name" = "8:assets"
+                    "Name" = "8:TazGraph"
                     "AlwaysCreate" = "11:FALSE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
-                    "Property" = "8:_06BDF5E2457E4688851685BAEF57F8BD"
+                    "Property" = "8:_E018285EEFF4473CB778D2B102FBBE9B"
                         "Folders"
                         {
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_11131BB49E6944658852C77669531034"
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_412CE61A796348D9850EE6596F9D4E43"
                             {
-                            "Name" = "8:Paths"
+                            "Name" = "8:Sounds"
                             "AlwaysCreate" = "11:FALSE"
                             "Condition" = "8:"
                             "Transitive" = "11:FALSE"
-                            "Property" = "8:_FFBB3CD3F9114770A6F28C7EC5BEC735"
+                            "Property" = "8:_296EF4803325490899BE01D539897CC0"
                                 "Folders"
                                 {
                                 }
                             }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_C625598AC4334EA28F5603EA3D30334D"
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_E2BA3CDDA82B4462B2F33DE2613CA25E"
                             {
-                            "Name" = "8:Fonts"
+                            "Name" = "8:assets"
                             "AlwaysCreate" = "11:FALSE"
                             "Condition" = "8:"
                             "Transitive" = "11:FALSE"
-                            "Property" = "8:_8911CC36C08B4519A0728C8B921313A0"
+                            "Property" = "8:_06BDF5E2457E4688851685BAEF57F8BD"
                                 "Folders"
                                 {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_D7CB6F29B99B4BBE90014D40E4A8F343"
-                            {
-                            "Name" = "8:Sprites"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_D2CCBCEEB47A420DBB4990D9682E04DE"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_F101979399234100B038A3CED452D2E5"
-                            {
-                            "Name" = "8:Maps"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_A6C147AADB944B96B3E78E0870F1F616"
-                                "Folders"
-                                {
-                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_2352E8D4EB304FF48BB43F7FB1C4D55C"
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_11131BB49E6944658852C77669531034"
                                     {
-                                    "Name" = "8:Polling"
+                                    "Name" = "8:Paths"
                                     "AlwaysCreate" = "11:FALSE"
                                     "Condition" = "8:"
                                     "Transitive" = "11:FALSE"
-                                    "Property" = "8:_4860A6960C294710AD85E214249219D2"
+                                    "Property" = "8:_FFBB3CD3F9114770A6F28C7EC5BEC735"
+                                        "Folders"
+                                        {
+                                        }
+                                    }
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_C625598AC4334EA28F5603EA3D30334D"
+                                    {
+                                    "Name" = "8:Fonts"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_8911CC36C08B4519A0728C8B921313A0"
+                                        "Folders"
+                                        {
+                                        }
+                                    }
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_D7CB6F29B99B4BBE90014D40E4A8F343"
+                                    {
+                                    "Name" = "8:Sprites"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_D2CCBCEEB47A420DBB4990D9682E04DE"
+                                        "Folders"
+                                        {
+                                        }
+                                    }
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_F101979399234100B038A3CED452D2E5"
+                                    {
+                                    "Name" = "8:Maps"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_A6C147AADB944B96B3E78E0870F1F616"
+                                        "Folders"
+                                        {
+                                            "{9EF0B969-E518-4E46-987F-47570745A589}:_2352E8D4EB304FF48BB43F7FB1C4D55C"
+                                            {
+                                            "Name" = "8:Polling"
+                                            "AlwaysCreate" = "11:FALSE"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "Property" = "8:_4860A6960C294710AD85E214249219D2"
+                                                "Folders"
+                                                {
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_EA11AD8E1AE048C3BD706E45B651A138"
+                            {
+                            "Name" = "8:Src"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_010B15C2F5B84E9BB73736280ABC12A2"
+                                "Folders"
+                                {
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_F64AD87E15C94AABA0A7C0931BC4B1B2"
+                                    {
+                                    "Name" = "8:Shaders"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_D7C984ACD41A4617856CB0C459C9F6C2"
                                         "Folders"
                                         {
                                         }
@@ -2193,35 +3407,189 @@
                             }
                         }
                     }
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_9758B99326A8405AA8C899C2CD51103D"
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_CFEE38E2D15E4B0185F6B63E4AAE80E2"
                     {
-                    "Name" = "8:Sounds"
+                    "Name" = "8:TazGraphEngine"
                     "AlwaysCreate" = "11:FALSE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
-                    "Property" = "8:_296EF4803325490899BE01D539897CC0"
+                    "Property" = "8:_D40FB162831B4A9683D2E3B7E5DC6A3C"
                         "Folders"
                         {
-                        }
-                    }
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_E73DD9CFA47F41F3B665D1E8C29EF8E0"
-                    {
-                    "Name" = "8:Src"
-                    "AlwaysCreate" = "11:FALSE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_010B15C2F5B84E9BB73736280ABC12A2"
-                        "Folders"
-                        {
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_F64AD87E15C94AABA0A7C0931BC4B1B2"
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_B277B3197CAD4555A37A9D4F970D2548"
                             {
-                            "Name" = "8:Shaders"
+                            "Name" = "8:src"
                             "AlwaysCreate" = "11:FALSE"
                             "Condition" = "8:"
                             "Transitive" = "11:FALSE"
-                            "Property" = "8:_D7C984ACD41A4617856CB0C459C9F6C2"
+                            "Property" = "8:_07AD84444F4543BA9EFF995CF44B7264"
                                 "Folders"
                                 {
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_4A38AD2AA3494549858B3AC83265EEAF"
+                                    {
+                                    "Name" = "8:GECS"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_CEAED60BA9DB46839E83D88B451EA08E"
+                                        "Folders"
+                                        {
+                                            "{9EF0B969-E518-4E46-987F-47570745A589}:_651C961093B541FB8B1B0E7918DB8B0E"
+                                            {
+                                            "Name" = "8:Core"
+                                            "AlwaysCreate" = "11:FALSE"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "Property" = "8:_795D7DC3F28544DEB788529184B9CE04"
+                                                "Folders"
+                                                {
+                                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_8FD33722FB424290B74FA807F24D2920"
+                                                    {
+                                                    "Name" = "8:GECSEntityTypes"
+                                                    "AlwaysCreate" = "11:FALSE"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "Property" = "8:_C8A07255C84644389C1009BAB7FCFFC5"
+                                                        "Folders"
+                                                        {
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            "{9EF0B969-E518-4E46-987F-47570745A589}:_75663BC57A02490380B4AF99BABF41E8"
+                                            {
+                                            "Name" = "8:Animators"
+                                            "AlwaysCreate" = "11:FALSE"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "Property" = "8:_61A996D43A5B449097CCDB6A451A963A"
+                                                "Folders"
+                                                {
+                                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_0F3625D482FF4AF49719777FE94AFC0E"
+                                                    {
+                                                    "Name" = "8:LineAnimators"
+                                                    "AlwaysCreate" = "11:FALSE"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "Property" = "8:_24E0FDB385454D99B9D49D9CD5770EC7"
+                                                        "Folders"
+                                                        {
+                                                        }
+                                                    }
+                                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_6D59FC80D18848DBBADC1F5D47F02F34"
+                                                    {
+                                                    "Name" = "8:RectangleAnimators"
+                                                    "AlwaysCreate" = "11:FALSE"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "Property" = "8:_F0B81B82322F49A19FFAD73F1591A7F2"
+                                                        "Folders"
+                                                        {
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            "{9EF0B969-E518-4E46-987F-47570745A589}:_BA08E93AC7B14AF2AD3F18C698C13792"
+                                            {
+                                            "Name" = "8:Components"
+                                            "AlwaysCreate" = "11:FALSE"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "Property" = "8:_FCD15E97712B4CF88D56893314D331B3"
+                                                "Folders"
+                                                {
+                                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_10E8C9A5FA1E42BF8588E6859FD4A9AF"
+                                                    {
+                                                    "Name" = "8:Link"
+                                                    "AlwaysCreate" = "11:FALSE"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "Property" = "8:_D0F1BF1931744760A84022D67D64A9CD"
+                                                        "Folders"
+                                                        {
+                                                            "{9EF0B969-E518-4E46-987F-47570745A589}:_345024F3636849AA929A0D86D3B79C52"
+                                                            {
+                                                            "Name" = "8:Util"
+                                                            "AlwaysCreate" = "11:FALSE"
+                                                            "Condition" = "8:"
+                                                            "Transitive" = "11:FALSE"
+                                                            "Property" = "8:_AA8B997FF70E436086C769CA1A122475"
+                                                                "Folders"
+                                                                {
+                                                                }
+                                                            }
+                                                            "{9EF0B969-E518-4E46-987F-47570745A589}:_C76EFE1355574869921D53110E3F46D8"
+                                                            {
+                                                            "Name" = "8:Basic"
+                                                            "AlwaysCreate" = "11:FALSE"
+                                                            "Condition" = "8:"
+                                                            "Transitive" = "11:FALSE"
+                                                            "Property" = "8:_AA8D02A38C214E75938682C116CFC02B"
+                                                                "Folders"
+                                                                {
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_E770DB0AB6124D5FB9A631D3EB3C1B91"
+                                                    {
+                                                    "Name" = "8:Node"
+                                                    "AlwaysCreate" = "11:FALSE"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "Property" = "8:_12FF326C827949E1A7DC414C2CA62893"
+                                                        "Folders"
+                                                        {
+                                                            "{9EF0B969-E518-4E46-987F-47570745A589}:_AB6EE295CF004A8BB84DD64A4B7D5D4E"
+                                                            {
+                                                            "Name" = "8:Basic"
+                                                            "AlwaysCreate" = "11:FALSE"
+                                                            "Condition" = "8:"
+                                                            "Transitive" = "11:FALSE"
+                                                            "Property" = "8:_C6FC14ED8ADE4FC69405E576D79A686C"
+                                                                "Folders"
+                                                                {
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_E95935F117104CA1A29B8CA61C107666"
+                                                    {
+                                                    "Name" = "8:Empty"
+                                                    "AlwaysCreate" = "11:FALSE"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "Property" = "8:_A3371F0E05ED4CB29C7CB439BA99D1C0"
+                                                        "Folders"
+                                                        {
+                                                            "{9EF0B969-E518-4E46-987F-47570745A589}:_6972FEE987FB4EC68295DA36DE851FEF"
+                                                            {
+                                                            "Name" = "8:Basic"
+                                                            "AlwaysCreate" = "11:FALSE"
+                                                            "Condition" = "8:"
+                                                            "Transitive" = "11:FALSE"
+                                                            "Property" = "8:_B20647B65E9D4CCE98D8F82940B9DB51"
+                                                                "Folders"
+                                                                {
+                                                                }
+                                                            }
+                                                            "{9EF0B969-E518-4E46-987F-47570745A589}:_D8A8FF38BA384E36B0F7F1809D3CC95A"
+                                                            {
+                                                            "Name" = "8:Util"
+                                                            "AlwaysCreate" = "11:FALSE"
+                                                            "Condition" = "8:"
+                                                            "Transitive" = "11:FALSE"
+                                                            "Property" = "8:_12BA976D165744EEA2D6DCE9DC77A0D5"
+                                                                "Folders"
+                                                                {
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2256,7 +3624,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SetupTazGraph"
         "ProductCode" = "8:{37418A61-8388-4349-8EEE-A35B065E761C}"
-        "PackageCode" = "8:{08967E00-8502-4060-9F70-7DB22635FBC5}"
+        "PackageCode" = "8:{6A11F056-4F2D-40A8-A907-64922BA79DF9}"
         "UpgradeCode" = "8:{19FB55AD-545C-49D0-98BD-2B39B484D3E5}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
@@ -2413,7 +3781,7 @@
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
             "Target" = "8:_1F0B2F8EEE334FA095BC2F35181FF4E7"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "WorkingFolder" = "8:_C33B51B48B52422EBE534564BA58530B"
             "Icon" = "8:"
             "Feature" = "8:"
@@ -2822,7 +4190,7 @@
             "SourcePath" = "8:..\\x64\\Release\\TazGraph.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_C33B51B48B52422EBE534564BA58530B"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"

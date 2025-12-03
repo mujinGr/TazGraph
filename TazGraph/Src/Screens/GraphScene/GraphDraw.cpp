@@ -43,7 +43,7 @@ void Graph::prepareDraw()
 
 		gridBatch.batchName = manager->getGroupName(Manager::groupGridLinks);
 		gridBatch.shaderName = "lineColor";
-		gridBatch.entities = manager->collectEntities({
+		gridBatch.entities = manager->collectVisibleEntities({
 			Manager::groupGridLinks,
 			}, Taz::EntityType::Link);
 		gridBatch.count = gridBatch.entities.size();
@@ -57,7 +57,7 @@ void Graph::prepareDraw()
 
 		nodesBatch.batchName = manager->getGroupName(Manager::groupNodes_0);
 		nodesBatch.shaderName = "color";
-		nodesBatch.entities = manager->collectEntities({
+		nodesBatch.entities = manager->collectVisibleEntities({
 			Manager::groupNodes_0,
 			Manager::groupGroupNodes_0,
 			Manager::groupGroupNodes_1
@@ -74,7 +74,7 @@ void Graph::prepareDraw()
 
 		linksBatch.batchName = manager->getGroupName(Manager::groupLinks_0);
 		linksBatch.shaderName = "lineColor";
-		linksBatch.entities = manager->collectEntities({
+		linksBatch.entities = manager->collectVisibleEntities({
 			Manager::groupLinks_0,
 			Manager::groupGroupLinks_0,
 			Manager::groupGroupLinks_1
@@ -91,7 +91,7 @@ void Graph::prepareDraw()
 
 		arrowsBatch.batchName = manager->getGroupName(Manager::groupArrowHeads_0);
 		arrowsBatch.shaderName = "color";
-		arrowsBatch.entities = manager->collectEntities({
+		arrowsBatch.entities = manager->collectVisibleEntities({
 			Manager::groupArrowHeads_0,
 			}, Taz::EntityType::Empty);
 
@@ -107,7 +107,7 @@ void Graph::prepareDraw()
 
 		spritesBatch.batchName = manager->getGroupName(Manager::groupRenderSprites);
 		spritesBatch.shaderName = "texture";
-		spritesBatch.entities = manager->collectEntities({
+		spritesBatch.entities = manager->collectVisibleEntities({
 			Manager::groupRenderSprites
 			}, Taz::EntityType::Empty);
 		spritesBatch.count = spritesBatch.entities.size();
@@ -123,7 +123,7 @@ void Graph::prepareDraw()
 		lightsBatch.batchName = manager->getGroupName(Manager::groupEmpties);
 		lightsBatch.shaderName = "light";
 
-		lightsBatch.entities = manager->collectEntities({
+		lightsBatch.entities = manager->collectVisibleEntities({
 			Manager::groupEmpties
 			}, Taz::EntityType::Empty);
 
@@ -141,7 +141,7 @@ void Graph::prepareDraw()
 		lightsBatch.batchName = manager->getGroupName(Manager::groupSphereEmpties);
 		lightsBatch.shaderName = "light";
 
-		lightsBatch.entities = manager->collectEntities({
+		lightsBatch.entities = manager->collectVisibleEntities({
 			Manager::groupSphereEmpties
 			}, Taz::EntityType::Empty);
 
@@ -158,7 +158,7 @@ void Graph::prepareDraw()
 
 		pathLinksBatch.batchName = manager->getGroupName(Manager::groupPathLinks);
 		pathLinksBatch.shaderName = "lineColor";
-		pathLinksBatch.entities = manager->collectEntities({
+		pathLinksBatch.entities = manager->collectVisibleEntities({
 			Manager::groupPathLinks,
 			Manager::groupPathInnerLinks
 			}, Taz::EntityType::Link);
@@ -178,7 +178,7 @@ void Graph::prepareDraw()
 
 		portsBatch.batchName = manager->getGroupName(Manager::groupPorts);
 		portsBatch.shaderName = "color";
-		portsBatch.entities = manager->collectEntities({
+		portsBatch.entities = manager->collectVisibleEntities({
 			Manager::groupPorts,
 			Manager::groupPortSlots
 			}, Taz::EntityType::Empty);
@@ -319,11 +319,15 @@ void Graph::prepareDraw()
 		auto makeQuad = [&](glm::vec3 size, glm::vec3 pos) {
 			auto& e = manager->addEntity<Empty>();
 			e.addGroup(Manager::groupDebugRectangleEntities);
-			e.addComponent<Rectangle_w_Color>();
+
 			auto& c = e.addComponent<TransformComponent>();
+			auto& r = e.addComponent<Rectangle_w_Color>();
 
 			c.size = size;
 			c.position = pos;
+			
+			r.color = TazColor(255, 0, 255, 255);
+
 			return e.getId();
 			};
 
@@ -332,16 +336,18 @@ void Graph::prepareDraw()
 		makeQuad({ ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2,0 }, { -ROW_CELL_SIZE / 4,  COLUMN_CELL_SIZE / 4, 0 });
 		makeQuad({ ROW_CELL_SIZE / 2, COLUMN_CELL_SIZE / 2,0 }, { ROW_CELL_SIZE / 4,  COLUMN_CELL_SIZE / 4, 0 });
 
-		for (auto cell : manager->grid->getIntersectedCameraCells(*main_camera2D))
+		for (auto& cell : manager->grid->getIntersectedCameraCells(*main_camera2D))
 		{
 			auto& e = manager->addEntity<Empty>();
 			e.addGroup(Manager::groupDebugBoxEntities);
 
-			e.addComponent<BoxComponent>();
 			auto& c = e.addComponent<TransformComponent>();
+			auto& b = e.addComponent<BoxComponent>();
 
 			c.size = cell->boundingBox_size;
 			c.position = cell->boundingBox_center;
+
+			b.color = TazColor(0, 255, 0, 100);
 		}
 
 		auto addBoxFromEntity = [&](Entity* ent) {
@@ -349,9 +355,10 @@ void Graph::prepareDraw()
 			e.addGroup(Manager::groupDebugBoxEntities);
 
 			auto& tr = ent->GetComponent<TransformComponent>();
-			e.addComponent<BoxComponent>();
 
 			auto& c = e.addComponent<TransformComponent>();
+			e.addComponent<BoxComponent>();
+
 			c.size = tr.size;
 			c.position = tr.position;
 
@@ -379,10 +386,10 @@ void Graph::prepareDraw()
 			debugBatch.mesh_type = Taz::RenderBatch::MeshType::Box;
 
 			debugBatch.batchName = manager->getGroupName(Manager::groupDebugBoxEntities);
-			debugBatch.shaderName = "lineColor";
+			debugBatch.shaderName = "wireframeColor";
 
 			debugBatch.entities = manager->collectEntities({
-				}, Taz::EntityType::Empty);
+				Manager::groupDebugBoxEntities }, Taz::EntityType::Empty);
 			debugBatch.count = debugBatch.entities.size();
 			debugBatch.viewportSize =
 				glm::vec2(
@@ -402,10 +409,10 @@ void Graph::prepareDraw()
 			debugBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
 
 			debugBatch.batchName = manager->getGroupName(Manager::groupDebugRectangleEntities);
-			debugBatch.shaderName = "lineColor";
+			debugBatch.shaderName = "wireframeColor";
 
 			debugBatch.entities = manager->collectEntities({
-				}, Taz::EntityType::Empty);
+				Manager::groupDebugRectangleEntities }, Taz::EntityType::Empty);
 			debugBatch.count = debugBatch.entities.size();
 			debugBatch.viewportSize =
 				glm::vec2(
@@ -510,7 +517,7 @@ void Graph::minimapPrepareDraw() {
 		minimapBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
 
 		minimapBatch.shaderName = "color";
-		minimapBatch.entities = manager->collectEntities({
+		minimapBatch.entities = manager->collectVisibleEntities({
 			Manager::groupMinimapNodes,
 			}, Taz::EntityType::Minimap);
 		minimapBatch.count = minimapBatch.entities.size();

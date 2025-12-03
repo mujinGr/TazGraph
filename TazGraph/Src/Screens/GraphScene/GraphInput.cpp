@@ -320,7 +320,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 		case SDL_BUTTON_LEFT:
 			clearSelectedEntities(); // Clear previous selection
-			for (auto linkToSelect : linksToSelect) {
+			for (auto& linkToSelect : linksToSelect) {
 
 				if (!isEntitySelected(linkToSelect)) {
 
@@ -342,7 +342,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 		case CTRLD_LEFT_CLICK:
 			// Add to selection (multi-select)
-			for (auto linkToSelect : linksToSelect) {
+			for (auto& linkToSelect : linksToSelect) {
 				if (!isEntitySelected(linkToSelect)) {
 					SelectedInfo info;
 					info.realEntityId = linkToSelect;
@@ -358,7 +358,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 	// Check individual links in trav_cells (now with path awareness)
 	for (auto& trav_cell : trav_cells) {
-		for (auto linkId : trav_cell->links) {
+		for (auto& linkId : trav_cell->links) {
 			if (std::holds_alternative<int>(linkId) && std::get<int>(linkId) < 0)
 				continue;
 			auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
@@ -386,6 +386,8 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 
 void Graph::checkInput() {
+	ZoneScopedN("Graph-Input");
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
@@ -395,8 +397,19 @@ void Graph::checkInput() {
 	}
 
 	SDL_Event evnt;
+
+	{
+		std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);
+		getApp()->imguiEvents.clear(); // Clear previous frame's events
+	}
+
+
 	while (SDL_PollEvent(&evnt)) {
-		ImGui_ImplSDL2_ProcessEvent(&evnt);
+		{
+			std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);
+			getApp()->imguiEvents.push_back(evnt);
+		}
+
 		_app->onSDLEvent(evnt);
 
 		glm::vec2 mouseCoordsVec = _viewportMousePosition; // in graph we have another variable for the worldCoords of mouse

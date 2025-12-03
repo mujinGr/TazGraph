@@ -179,7 +179,7 @@ public:
 	}
 
 	void removeEntityFromCell() override {
-		for (auto* cell : ownerCells) {
+		for (auto& cell : ownerCells) {
 			if (!cell) continue;
 
 			// Lock per-cell to prevent concurrent erase
@@ -204,7 +204,7 @@ public:
 	virtual void setConnectionType(ConnectionType setType) {}
 
 	virtual void updateConnection() {}
-	
+
 	virtual void updatePortSlots() {}
 
 	virtual void updateArrowHeads() {}

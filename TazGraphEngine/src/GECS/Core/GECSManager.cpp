@@ -5,7 +5,7 @@ void Manager::updateActiveEntities() {
 	std::vector<Entity*> nodes_toBeRemoved;
 	std::vector<Entity*> links_toBeRemoved;
 
-	for (auto v_entity : visible_emptyEntities)
+	for (auto& v_entity : visible_emptyEntities)
 	{
 		if (!v_entity->isActive()) {
 			v_entity->removeFromCell();
@@ -21,7 +21,7 @@ void Manager::updateActiveEntities() {
 		}
 	}
 
-	for (auto v_entity : visible_links)
+	for (auto& v_entity : visible_links)
 	{
 		if (!v_entity->isActive()) {
 			v_entity->removeFromCells();
@@ -32,7 +32,7 @@ void Manager::updateActiveEntities() {
 	// ! or instead of updating the groupedEntities when we see an inactive entity, update the groupedEntities the moment an entity goes
 	// ! inactive and wait until we about to delete more
 	for (auto& group : groupedEmptyEntities) {
-		for (auto entity : group) {
+		for (auto& entity : group) {
 			if (!entity->isActive()) {
 				entity->removeFromCell();
 				empty_toBeRemoved.push_back(entity);
@@ -40,7 +40,7 @@ void Manager::updateActiveEntities() {
 		}
 	}
 	for (auto& group : groupedNodeEntities) {
-		for (auto entity : group) {
+		for (auto& entity : group) {
 			if (!entity->isActive()) {
 				entity->removeFromCell();
 				nodes_toBeRemoved.push_back(entity);
@@ -48,7 +48,7 @@ void Manager::updateActiveEntities() {
 		}
 	}
 	for (auto& group : groupedLinkEntities) {
-		for (auto entity : group) {
+		for (auto& entity : group) {
 			if (!entity->isActive()) {
 				entity->removeFromCells();
 				links_toBeRemoved.push_back(entity);
@@ -129,11 +129,11 @@ void Manager::updateActiveEntities() {
 	);
 
 	// collect all ids
-	for (auto e : empty_toBeRemoved)
+	for (auto& e : empty_toBeRemoved)
 		toRemove.push_back(e);
-	for (auto e : nodes_toBeRemoved)
+	for (auto& e : nodes_toBeRemoved)
 		toRemove.push_back(e);
-	for (auto e : links_toBeRemoved)
+	for (auto& e : links_toBeRemoved)
 		toRemove.push_back(e);
 
 	// remove by id
@@ -159,7 +159,7 @@ void Manager::updateVisibleEntities() {
 		vgroup.clear();
 	}
 
-	for (auto ventity : visible_emptyEntities) {
+	for (auto& ventity : visible_emptyEntities) {
 		if (!ventity->isActive()) {
 			continue;
 		}
@@ -170,7 +170,7 @@ void Manager::updateVisibleEntities() {
 			}
 		}
 	}
-	for (auto ventity : visible_nodes) {
+	for (auto& ventity : visible_nodes) {
 		if (!ventity->isActive()) {
 			continue;
 		}
@@ -181,7 +181,7 @@ void Manager::updateVisibleEntities() {
 			}
 		}
 	}
-	for (auto ventity : visible_links) {
+	for (auto& ventity : visible_links) {
 		if (!ventity->isActive()) {
 			continue;
 		}
@@ -241,7 +241,7 @@ void Manager::setComponentNames()
 
 }
 
-std::vector<Entity*> Manager::collectEntities(
+std::vector<Entity*> Manager::collectVisibleEntities(
 	std::initializer_list<Manager::groupLabels> groupNames,
 	Taz::EntityType type
 )
@@ -269,6 +269,35 @@ std::vector<Entity*> Manager::collectEntities(
 	else if (type == Taz::EntityType::Minimap) {
 		for (const auto& groupName : groupNames) {
 			auto& group = getGroup<NodeEntity>(groupName);
+			result.insert(result.end(), group.begin(), group.end());
+		}
+	}
+
+	return result;
+}
+
+std::vector<Entity*> Manager::collectEntities(
+	std::initializer_list<Manager::groupLabels> groupNames,
+	Taz::EntityType type
+)
+{
+	std::vector<Entity*> result;
+
+	if (type == Taz::EntityType::Empty) {
+		for (const auto& groupName : groupNames) {
+			auto& group = getGroup<EmptyEntity>(groupName);
+			result.insert(result.end(), group.begin(), group.end());
+		}
+	}
+	else if (type == Taz::EntityType::Node) {
+		for (const auto& groupName : groupNames) {
+			auto& group = getGroup<NodeEntity>(groupName);
+			result.insert(result.end(), group.begin(), group.end());
+		}
+	}
+	else if (type == Taz::EntityType::Link) {
+		for (const auto& groupName : groupNames) {
+			auto& group = getGroup<LinkEntity>(groupName);
 			result.insert(result.end(), group.begin(), group.end());
 		}
 	}

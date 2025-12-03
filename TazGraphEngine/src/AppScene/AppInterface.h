@@ -64,6 +64,8 @@ public:
 	std::atomic<bool> initCommandReady{ false };
 	std::atomic<bool> initCommandComplete{ false };
 
+	std::vector<SDL_Event> imguiEvents;
+	std::mutex imguiEventsMutex;
 
 	PlaneModelRenderer planeModelRenderer;
 	PlaneColorRenderer planeColorRenderer;

@@ -449,24 +449,24 @@ public:
 	void removeAllEntitiesFromGroup(Group mGroup) {
 		auto& entitiesInGroup = groupedNodeEntities[mGroup];
 
-		for (auto entityId : entitiesInGroup) {
-			entityId->destroy();
+		for (auto& entity : entitiesInGroup) {
+			entity->destroy();
 		}
 	}
 
 	void removeAllEntitiesFromEmptyGroup(Group mGroup) {
 		auto& entitiesInGroup = groupedEmptyEntities[mGroup];
 
-		for (auto entityId : entitiesInGroup) {
-			entityId->destroy();
+		for (auto& entity : entitiesInGroup) {
+			entity->destroy();
 		}
 	}
 
 	void removeAllEntitiesFromLinkGroup(Group mGroup) {
 		auto& entitiesInGroup = groupedLinkEntities[mGroup];
 
-		for (auto entityId : entitiesInGroup) {
-			entityId->destroy();
+		for (auto& entity : entitiesInGroup) {
+			entity->destroy();
 		}
 	}
 
@@ -579,13 +579,13 @@ public:
 	void setComponentNames();
 	template<typename T>
 	std::vector<Entity*> getRevealedEntitiesInCameraCells();
-	template<typename T>
-	std::vector<EntityID> getEntitiesInCameraCells();
+
+	std::vector<Entity*> collectVisibleEntities(
+		std::initializer_list<Manager::groupLabels> groupNames,
+		Taz::EntityType type);
 
 	std::vector<Entity*> collectEntities(
 		std::initializer_list<Manager::groupLabels> groupNames,
 		Taz::EntityType type);
-
-
 
 };
