@@ -104,8 +104,8 @@ void SimDumpMapParser::parse(Manager& manager,
 
 		parsedNodes.push_back({
 			glm::vec3(x, y, 0.0f),
-			TazColor(it->color.r,it->color.g,it->color.b,it->color.alpha),
-			glm::vec3(it->size) });
+			TazColor(it->data.color.r,it->data.color.g,it->data.color.b,it->data.color.alpha),
+			glm::vec3(it->data.dimension) });
 
 		// Track global min/max
 		minPos.x = std::min(minPos.x, x);
@@ -121,8 +121,8 @@ void SimDumpMapParser::parse(Manager& manager,
 
 		parsedLinks.push_back(
 			SimulationStep::TazSimulationLink(
-				TazColor(it->color.r, it->color.g, it->color.b, it->color.alpha),
-				it->width
+				TazColor(it->data.color.r, it->data.color.g, it->data.color.b, it->data.color.alpha),
+				it->data.dimension
 			)
 		);
 	}
@@ -263,8 +263,8 @@ void SimDumpMapParser::createSteps(
 		for (auto it = reader.get_path_iterator();
 			it != reader.get_path_end(); ++it)
 		{
-			auto color = it->second.color;
-			float width = it->second.width;
+			auto color = it->second.data.color;
+			float width = it->second.data.dimension;
 			int id = it->first;
 
 			EmptyEntity* pathEntity = nullptr;

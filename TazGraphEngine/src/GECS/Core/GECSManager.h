@@ -382,6 +382,22 @@ public:
 	}
 
 	template <typename T, typename... TArgs>
+	T& addEntityWithId(int customId, TArgs&&... mArgs)
+	{
+		T* e(new T(*this, std::forward<TArgs>(mArgs)...));
+
+		{
+			std::unique_lock lock(entities_mtx);
+			e->setId(customId);
+			std::unique_ptr<T> uPtr{ e };
+			entities.emplace(customId, std::move(uPtr));
+		}
+
+		aboutTo_updateActiveEntities();
+		return *e;
+	}
+
+	template <typename T, typename... TArgs>
 	T& addEntityFromParent(Entity* pEntity, const char* newID = "", TArgs&&... mArgs)
 	{
 		T* e(new T(*this, std::forward<TArgs>(mArgs)...));
