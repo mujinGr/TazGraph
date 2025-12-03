@@ -64,6 +64,8 @@ public:
 	std::atomic<bool> initCommandReady{ false };
 	std::atomic<bool> initCommandComplete{ false };
 
+	std::vector<SDL_Event> imguiEvents;
+	std::mutex imguiEventsMutex;
 
 	PlaneModelRenderer planeModelRenderer;
 	PlaneColorRenderer planeColorRenderer;
@@ -99,10 +101,10 @@ public:
 		ICamera& camera
 	);
 
-	void drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch);
-	void drawBatch(const std::vector<EntityID>& entities, PlaneColorRenderer& batch);
-	void drawBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch);
-	void drawBatch(const std::vector<EntityID>& entities, LightRenderer& batch);
+	void drawBatch(const std::vector<Entity*>& entities, LineRenderer& batch);
+	void drawBatch(const std::vector<Entity*>& entities, PlaneColorRenderer& batch);
+	void drawBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch);
+	void drawBatch(const std::vector<Entity*>& entities, LightRenderer& batch);
 
 	void prepareBatch(Taz::GECSRenderBatch& batch);
 
@@ -121,6 +123,8 @@ protected:
 
 	virtual void updateUI(float deltaTime);
 	virtual void drawUI();
+
+	virtual void swapBuffer();
 
 	bool init();
 	void initRenderers();

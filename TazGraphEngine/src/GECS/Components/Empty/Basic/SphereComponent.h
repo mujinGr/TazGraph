@@ -34,6 +34,10 @@ public:
 		batch.drawSphere(v_index, transform->size, transform->getPosition(), transform->rotation, color);
 	}
 
+	void draw(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
+		batch.drawSphere(v_index, transform->size, transform->getPosition(), color, transform->rotation, 2.0f);
+	}
+
 	std::string GetComponentName() override {
 		return "SphereComponent";
 	}

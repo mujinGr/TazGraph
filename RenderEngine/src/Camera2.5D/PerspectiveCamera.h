@@ -77,8 +77,8 @@ public:
 		_cameraChange = true;
 	}
 
-	void moveAimPos(glm::vec3 startingAimPos, const glm::vec2 distance) {
-		aimPos = startingAimPos;
+	void moveAimPos(glm::vec3 startingAimDir, const glm::vec2 distance) {
+		aimPos = eyePos + startingAimDir;
 		const float sensitivity = 0.005f;
 
 		float yaw = distance.x * sensitivity;

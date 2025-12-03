@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../../GLSLProgram.h"
-
 #include "../Renderer.h"
 #include "../../Vertex.h"
 
@@ -56,6 +54,7 @@ void main() {
 		const TazColor& color,
 		const glm::vec3& mRotation = glm::vec3(0),
 		const float width = 5.0f);
+	void drawSphere(size_t v_index, const glm::vec3& rectSize, const glm::vec3& position, const TazColor& color, const glm::vec3& mRotation, const float width);
 	void drawCircle(const glm::vec2& center, const TazColor& color, float radius);
 
 	void endBatch(const Taz::RenderBatch& batch);
@@ -66,6 +65,14 @@ void main() {
 			{0, 1}, {1, 2}, {2, 3}, {3, 0}, // Bottom face
 			{4, 5}, {5, 6}, {6, 7}, {7, 4}, // Top face
 			{0, 4}, {1, 5}, {2, 6}, {3, 7}  // Vertical edges
+	};
+
+	std::vector<TazPosition> sphereVertices = {
+		// Generated vertices will go here
+	};
+
+	std::vector<GLuint> sphereIndices = {
+		// Generated indices will go here
 	};
 
 private:

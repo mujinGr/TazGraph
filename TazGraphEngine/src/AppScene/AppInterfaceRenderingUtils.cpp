@@ -1,46 +1,39 @@
 #include "./AppInterface.h"
 
 
-void AppInterface::drawBatch(const std::vector<EntityID>& entities, LineRenderer& batch) {
+void AppInterface::drawBatch(const std::vector<Entity*>& entities, LineRenderer& batch) {
 
 	threadPool.parallel(entities.size(), [&](int start, int end) {
 		for (int i = start; i < end; i++) {
-			auto* entity = _sceneList->getCurrent()->manager->getEntityFromId(entities[i]);
-			entity->draw(i, batch, _window);
+			entities[i]->draw(i, batch, _window);
 		}
 		});
 
 }
 
-void AppInterface::drawBatch(const std::vector<EntityID>& entities, PlaneColorRenderer& batch) {
+void AppInterface::drawBatch(const std::vector<Entity*>& entities, PlaneColorRenderer& batch) {
 
 	threadPool.parallel(entities.size(), [&](int start, int end) {
 		for (int i = start; i < end; i++) {
-			auto* entity = _sceneList->getCurrent()->manager->getEntityFromId(entities[i]);
-
-			entity->draw(i, batch, _window);
+			entities[i]->draw(i, batch, _window);
 		}
 		});
 }
 
-void AppInterface::drawBatch(const std::vector<EntityID>& entities, PlaneModelRenderer& batch) {
+void AppInterface::drawBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch) {
 	// before calling this make sure that reserved the right amount of memory
 
 	for (int i = 0; i < entities.size(); i++) {
-		auto* entity = _sceneList->getCurrent()->manager->getEntityFromId(entities[i]);
-
-		entity->draw(i, batch, _window);
+		entities[i]->draw(i, batch, _window);
 	}
 
 }
 
-void AppInterface::drawBatch(const std::vector<EntityID>& entities, LightRenderer& batch) {
+void AppInterface::drawBatch(const std::vector<Entity*>& entities, LightRenderer& batch) {
 	// before calling this make sure that reserved the right amount of memory
 
 	for (int i = 0; i < entities.size(); i++) {
-		auto* entity = _sceneList->getCurrent()->manager->getEntityFromId(entities[i]);
-
-		entity->draw(i, batch, _window);
+		entities[i]->draw(i, batch, _window);
 	}
 }
 
@@ -107,6 +100,8 @@ void AppInterface::renderBatch(
 	const Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
+	if (batch.count == 0) return;
+
 	switch (batch.renderer_type) {
 	case Taz::RenderBatch::RendererType::Line:
 		drawLineBatch(batch, frameData, camera);

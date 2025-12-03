@@ -148,7 +148,7 @@ void MainMenuScreen::prepareDraw()
 		mainMenuBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
 
 		mainMenuBatch.shaderName = "texture";
-		mainMenuBatch.entities = manager->collectEntities(
+		mainMenuBatch.entities = manager->collectVisibleEntities(
 			{ Manager::groupBackgroundLayer }
 		, Taz::EntityType::Empty);
 		mainMenuBatch.count = mainMenuBatch.entities.size();
@@ -195,9 +195,16 @@ void MainMenuScreen::checkInput() {
 	}
 
 	SDL_Event evnt;
+	{
+		std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);
+		getApp()->imguiEvents.clear(); // Clear previous frame's events
+	}
 
 	while (SDL_PollEvent(&evnt)) {
-		ImGui_ImplSDL2_ProcessEvent(&evnt);
+		{
+			std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);
+			getApp()->imguiEvents.push_back(evnt);
+		}
 		_app->onSDLEvent(evnt);
 
 		switch (evnt.type)
@@ -248,6 +255,10 @@ void MainMenuScreen::drawUI() {
 		_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 		currentState = SceneState::CHANGE_NEXT;
 	}
+}
+
+void MainMenuScreen::SwapBufferDraw() {
+	getApp()->_window.swapBuffer();
 }
 
 void MainMenuScreen::EndRender() {

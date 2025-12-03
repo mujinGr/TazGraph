@@ -43,6 +43,8 @@ public:
 	void minimapPrepareDraw();
 	void minimapRenderDraw();
 
+	virtual void SwapBufferDraw() override;
+
 	virtual void BeginRender() override;
 	virtual void updateUI(float deltaTime) override;
 	virtual void drawUI() override;

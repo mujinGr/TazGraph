@@ -248,6 +248,73 @@ static void generateSphereMesh(std::vector<TazLightVertex>& vertices, std::vecto
 	}
 }
 
+static void generateSphereMeshWireframe(
+	std::vector<TazPosition>& vertices,
+	std::vector<GLuint>& lineIndices,
+	float radius = 1.0f,
+	unsigned int sectorCount = 36,
+	unsigned int stackCount = 18)
+{
+	const float PI = 3.14159265359f;
+
+	vertices.clear();
+	lineIndices.clear();
+
+	for (unsigned int i = 0; i <= stackCount; ++i)
+	{
+		float stackAngle = PI / 2.0f - i * PI / stackCount;
+		float xy = radius * cosf(stackAngle);
+		float z = radius * sinf(stackAngle);
+
+		for (unsigned int j = 0; j <= sectorCount; ++j)
+		{
+			float sectorAngle = j * 2.0f * PI / sectorCount;
+
+			float x = xy * cosf(sectorAngle);
+			float y = xy * sinf(sectorAngle);
+
+			glm::vec3 pos(x, y, z);
+
+			vertices.push_back(pos);
+		}
+	}
+
+	for (unsigned int i = 0; i < stackCount; ++i)
+	{
+		unsigned int k1 = i * (sectorCount + 1);
+		unsigned int k2 = k1 + sectorCount + 1;
+
+		for (unsigned int j = 0; j < sectorCount; ++j, ++k1, ++k2)
+		{
+			if (i != 0)
+			{
+				// Wireframe lines for triangle 1
+				lineIndices.push_back(k1);
+				lineIndices.push_back(k2);
+
+				lineIndices.push_back(k2);
+				lineIndices.push_back(k1 + 1);
+
+				lineIndices.push_back(k1 + 1);
+				lineIndices.push_back(k1);
+			}
+
+			if (i != (stackCount - 1))
+			{
+				// Wireframe lines for triangle 2
+				lineIndices.push_back(k1 + 1);
+				lineIndices.push_back(k2);
+
+				lineIndices.push_back(k2);
+				lineIndices.push_back(k2 + 1);
+
+				lineIndices.push_back(k2 + 1);
+				lineIndices.push_back(k1 + 1);
+			}
+		}
+	}
+}
+
 struct InstanceData {
 
 	InstanceData() {}

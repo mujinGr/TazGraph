@@ -23,6 +23,8 @@ void LineRenderer::init()
 	_meshesElements[LINE_MESH_IDX].meshIndices = INDICES_LINE_OFFSET;
 	_meshesElements[RECTANGLE_MESH_IDX].meshIndices = QUAD_INDICES;
 	_meshesElements[BOX_MESH_IDX].meshIndices = INDICES_BOX_OFFSET;
+	_meshesElements[SPHERE_MESH_IDX].meshIndices = sphereIndices.size();
+
 }
 
 void LineRenderer::begin()
@@ -61,6 +63,10 @@ void LineRenderer::initBatch(Taz::RenderBatch& batch)
 		initMeshBatch(_meshesElements[BOX_MESH_IDX]);
 		currentBatchIndex = _meshesElements[BOX_MESH_IDX].batches.size() - 1;
 		break;
+	case Taz::RenderBatch::MeshType::Sphere:
+		initMeshBatch(_meshesElements[SPHERE_MESH_IDX]);
+		currentBatchIndex = _meshesElements[SPHERE_MESH_IDX].batches.size() - 1;
+		break;
 	}
 	batch.index = currentBatchIndex;
 }
@@ -90,6 +96,17 @@ void LineRenderer::drawBox(size_t v_index,
 {
 	_meshesElements[LINE_BOX_MESH_IDX].batches[currentBatchIndex].instances[v_index] = WireframeInstanceData(rectSize, position, mRotation, color, width);
 }
+
+void LineRenderer::drawSphere(size_t v_index,
+	const glm::vec3& rectSize,
+	const glm::vec3& position,
+	const TazColor& color,
+	const glm::vec3& mRotation,
+	const float width)
+{
+	_meshesElements[LINE_SPHERE_MESH_IDX].batches[currentBatchIndex].instances[v_index] = WireframeInstanceData(rectSize, position, mRotation, color, width);
+}
+
 void LineRenderer::drawCircle(const glm::vec2& center, const TazColor& color, float radius)
 {
 }
@@ -158,6 +175,34 @@ void LineRenderer::endBatch(const Taz::RenderBatch& batch) {
 
 	case Taz::RenderBatch::MeshType::Box: {
 		auto& mesh = _meshesElements[BOX_MESH_IDX];
+
+		if (mesh.batches.empty() || batch.index >= mesh.batches.size())
+			return;
+
+		auto& b = mesh.batches[batch.index];
+		if (b.instances.empty()) return;
+
+		vao = mesh.vao;
+		instanceCount = b.instances.size();
+		instanceData = b.instances.data();
+		instanceDataSize = instanceCount * sizeof(WireframeInstanceData);
+
+		glBindVertexArray(vao);
+		glBindBuffer(GL_ARRAY_BUFFER, wireframeInstanceVBO);
+		glBufferData(GL_ARRAY_BUFFER, instanceDataSize, instanceData, GL_DYNAMIC_DRAW);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, instanceDataSize, instanceData);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glDrawElementsInstanced(drawMode, mesh.meshIndices, GL_UNSIGNED_INT, 0,
+			static_cast<GLsizei>(instanceCount));
+
+		b.instances.clear();
+		break;
+	}
+
+	case Taz::RenderBatch::MeshType::Sphere: {
+		auto& mesh = _meshesElements[SPHERE_MESH_IDX];
 
 		if (mesh.batches.empty() || batch.index >= mesh.batches.size())
 			return;
@@ -276,6 +321,19 @@ void LineRenderer::createVertexArray() {
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[BOX_MESH_IDX].ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeWireframeIndices), cubeWireframeIndices, GL_STATIC_DRAW);
+
+	//!SPHERE STATICS
+	glBindVertexArray(_meshesElements[SPHERE_MESH_IDX].vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _meshesElements[SPHERE_MESH_IDX].vbo);
+	glBufferData(GL_ARRAY_BUFFER, sphereVertices.size() * sizeof(TazPosition), sphereVertices.data(), GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0); // aPos
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TazPosition), (void*)0);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshesElements[SPHERE_MESH_IDX].ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphereIndices.size() * sizeof(GLuint), sphereIndices.data(), GL_STATIC_DRAW);
+
 
 	////////////////////////////////////
 

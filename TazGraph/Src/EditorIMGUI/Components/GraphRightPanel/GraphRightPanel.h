@@ -28,8 +28,8 @@ public:
 
 	void availableFunctions();
 	void ShowAllEntities();
-	void DrawEntityJumpList(const char* labelId, const std::vector<EntityID>& vec);
+	void DrawEntityJumpList(const char* labelId, const std::vector<Entity*>& vec);
 
-	void DrawBulkComponentControls(const std::vector<EntityID>& entityVec, const std::string& componentCategory, const std::string& uniqueID);
+	void DrawBulkComponentControls(const std::vector<Entity*>& entityVec, const std::string& componentCategory, const std::string& uniqueID);
 	void CopyComponentValues(BaseComponent* source, BaseComponent* target, size_t size);
 };

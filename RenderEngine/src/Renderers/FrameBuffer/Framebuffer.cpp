@@ -76,14 +76,14 @@ Framebuffer::~Framebuffer()
 
 void Framebuffer::Bind()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, _multisampledFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
 }
 
 void Framebuffer::Unbind()
 {
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, _multisampledFBO);
+	/*glBindFramebuffer(GL_READ_FRAMEBUFFER, _multisampledFBO);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _FBO);
-	glBlitFramebuffer(0, 0, _width, _height, 0, 0, _width, _height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+	glBlitFramebuffer(0, 0, _width, _height, 0, 0, _width, _height, GL_COLOR_BUFFER_BIT, GL_NEAREST);*/
 
 	// Unbind to default framebuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

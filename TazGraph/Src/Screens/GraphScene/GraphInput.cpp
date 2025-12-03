@@ -320,7 +320,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 		case SDL_BUTTON_LEFT:
 			clearSelectedEntities(); // Clear previous selection
-			for (auto linkToSelect : linksToSelect) {
+			for (auto& linkToSelect : linksToSelect) {
 
 				if (!isEntitySelected(linkToSelect)) {
 
@@ -342,7 +342,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 		case CTRLD_LEFT_CLICK:
 			// Add to selection (multi-select)
-			for (auto linkToSelect : linksToSelect) {
+			for (auto& linkToSelect : linksToSelect) {
 				if (!isEntitySelected(linkToSelect)) {
 					SelectedInfo info;
 					info.realEntityId = linkToSelect;
@@ -358,7 +358,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 	// Check individual links in trav_cells (now with path awareness)
 	for (auto& trav_cell : trav_cells) {
-		for (auto linkId : trav_cell->links) {
+		for (auto& linkId : trav_cell->links) {
 			if (std::holds_alternative<int>(linkId) && std::get<int>(linkId) < 0)
 				continue;
 			auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
@@ -386,6 +386,8 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 
 void Graph::checkInput() {
+	ZoneScopedN("Graph-Input");
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
@@ -395,8 +397,19 @@ void Graph::checkInput() {
 	}
 
 	SDL_Event evnt;
+
+	{
+		std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);
+		getApp()->imguiEvents.clear(); // Clear previous frame's events
+	}
+
+
 	while (SDL_PollEvent(&evnt)) {
-		ImGui_ImplSDL2_ProcessEvent(&evnt);
+		{
+			std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);
+			getApp()->imguiEvents.push_back(evnt);
+		}
+
 		_app->onSDLEvent(evnt);
 
 		glm::vec2 mouseCoordsVec = _viewportMousePosition; // in graph we have another variable for the worldCoords of mouse
@@ -471,19 +484,17 @@ void Graph::checkInput() {
 			selectEntityFromRay(rayOrigin, rayDirection, ON_HOVER);
 
 			auto resetAlphaForEntities = [](Manager* manager,
-				const std::vector<EntityID>& nodeGroup,
-				const std::vector<EntityID>& linkGroup)
+				const std::vector<Entity*>& nodeGroup,
+				const std::vector<Entity*>& linkGroup)
 				{
-					for (EntityID nodeId : nodeGroup) {
-						auto* node = manager->getEntityFromId(nodeId);
+					for (Entity* node : nodeGroup) {
 						if (node->hasComponent<Rectangle_w_Color>()) {
 							auto& rect = node->GetComponent<Rectangle_w_Color>();
 							rect.color.a = rect.default_color.a;
 						}
 					}
 
-					for (EntityID linkId : linkGroup) {
-						auto* link = manager->getEntityFromId(linkId);
+					for (Entity* link : linkGroup) {
 						if (link->hasComponent<Line_w_Color>()) {
 							auto& line = link->GetComponent<Line_w_Color>();
 							line.src_color.a = line.default_src_color.a;
@@ -549,11 +560,10 @@ void Graph::checkInput() {
 				}
 
 				// --- Helper lambda to set alpha on entities ---
-				auto applyAlpha = [&](const std::vector<EntityID>& nodeIds,
-					const std::vector<EntityID>& linkIds)
+				auto applyAlpha = [&](const std::vector<Entity*>& nodeIds,
+					const std::vector<Entity*>& linkIds)
 					{
-						for (EntityID nodeId : nodeIds) {
-							auto* node = manager->getEntityFromId(nodeId);
+						for (Entity* node : nodeIds) {
 							if (node->hasComponent<Rectangle_w_Color>()) {
 								auto& rect = node->GetComponent<Rectangle_w_Color>();
 								rect.color.a = (connectedEntities.empty() || connectedEntities.count(node))
@@ -561,8 +571,7 @@ void Graph::checkInput() {
 							}
 						}
 
-						for (EntityID linkId : linkIds) {
-							auto* link = manager->getEntityFromId(linkId);
+						for (Entity* link : linkIds) {
 							if (link->hasComponent<Line_w_Color>()) {
 								auto& line = link->GetComponent<Line_w_Color>();
 								int alpha = (connectedEntities.empty() || connectedEntities.count(link))
@@ -694,7 +703,7 @@ void Graph::checkInput() {
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
 				_app->_inputManager.setPanningPoint(_viewportMousePosition);
-				main_camera2D->setPanningAimPos(main_camera2D->getAimPos());
+				main_camera2D->setPanningAimPos(main_camera2D->getAimPos() - main_camera2D->getPosition());
 			}
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
 				std::cout << "right-clicked at: " << _viewportMousePosition.x << " - " << _viewportMousePosition.y << std::endl;
@@ -826,18 +835,17 @@ void Graph::performFrustumSelection() {
 
 template<typename EntityType>
 void Graph::selectEntitiesInFrustum(int groupId, const SelectionFrustum& frustum) {
-	for (EntityID entityId : manager->getGroup<EntityType>(groupId)) {
-		auto* entity = manager->getEntityFromId(entityId);
+	for (Entity* entity : manager->getGroup<EntityType>(groupId)) {
 		glm::vec3 centerPoint = entity->template GetComponent<TransformComponent>().getPosition();
 		if (isPointInFrustum(centerPoint, frustum)) {
 			auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-				[entityId](const SelectedInfo& pair) {
-					return pair.realEntityId == entityId;
+				[entity](const SelectedInfo& pair) {
+					return pair.realEntityId == entity->getId();
 				});
 
 			if (it == _selectedEntities.end()) {
 				SelectedInfo info;
-				info.realEntityId = entityId;
+				info.realEntityId = entity->getId();
 				info.relativeOffset = centerPoint;
 				info.overlayEntityId = -1; // created later in batch building
 

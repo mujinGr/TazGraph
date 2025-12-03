@@ -31,6 +31,7 @@ public:
 	virtual void BeginRender() override;
 	virtual void updateUI(float deltaTime) override;
 	virtual void drawUI() override;
+	virtual void SwapBufferDraw() override;
 	virtual void EndRender() override;
 
 private:

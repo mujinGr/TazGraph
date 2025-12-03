@@ -41,6 +41,11 @@ public:
 		batch.draw(v_index, size, transform->getPosition(), transform->rotation, color);
 	}
 
+	void draw(size_t v_index, LineRenderer& batch, TazGraphEngine::Window& window) {
+		glm::vec2 size((float)transform->size.x, (float)transform->size.y);
+		batch.drawRectangle(v_index, size, transform->position, color, transform->rotation, 5.0f);
+	}
+
 	void setColor(TazColor clr) {
 		default_color = clr;
 		color = clr;

@@ -53,6 +53,19 @@ void SceneControlPanel::OnImGuiRender()
 			empty.addGroup(Manager::groupSphereEmpties);
 		}
 
+		if (ImGui::Button("Create Empty - Sphere Wireframe")) {
+			auto& empty(config.scene->manager->addEntity<Empty>());
+
+			glm::vec2 position(0, 0);
+
+			empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+
+			empty.addComponent<SphereComponent>();
+
+			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
+			empty.addGroup(Manager::groupWireframeSphereEmpties);
+		}
+
 		ImGui::Separator();
 
 		if (ImGui::Button("Create Node Entity")) {

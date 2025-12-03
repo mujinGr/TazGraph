@@ -56,22 +56,18 @@ void AppInterface::run() {
 		float totalDeltaTime = frameTime / DESIRED_FRAMETIME;
 
 		{
-			ZoneScopedN("Input"); // Profile input section
 			checkInput();
-		}
+		};
+
 		int i = 0;
 
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
-			ZoneScopedN("Physics Step"); // Profile physics loop
-
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
 			{
-				ZoneScopedN("Update");
 				update(deltaTime);
 			}
 
 			{
-				ZoneScopedN("UpdateUI");
 				updateUI(deltaTime);
 			}
 
@@ -83,8 +79,6 @@ void AppInterface::run() {
 		}
 
 		if (_isRunning) {
-			ZoneScopedN("PrepareDraw");
-
 			{
 				std::unique_lock<std::mutex> lock(frameMutex);
 				frameConsumedCV.wait(lock, [this]() {
@@ -99,21 +93,24 @@ void AppInterface::run() {
 
 		}
 		if (_isRunning) {
-			ZoneScopedN("RenderDraw");
 			// Get the write index (opposite of active)
 			int writeIndex = 1 - activeIndex.load();
 
 			queues[writeIndex].Submit([this]() {
-				ZoneScopedN("Draw");
+				// Process ImGui events on render thread
+				{
+					std::lock_guard<std::mutex> lock(imguiEventsMutex);
+					for (auto& event : imguiEvents) {
+						ImGui_ImplSDL2_ProcessEvent(&event);
+					}
+				}
 				renderDraw();
 				});
 			queues[writeIndex].Submit([this]() {
-				ZoneScopedN("DrawUI");
 				drawUI();  // This calls ImGui rendering - MUST be on render thread
 				});
 			queues[writeIndex].Submit([this]() {
-				ZoneScopedN("SwapBuffer");
-				_window.swapBuffer();  // This calls ImGui rendering - MUST be on render thread
+				swapBuffer();  // This calls ImGui rendering - MUST be on render thread
 				});
 			// Swap buffers - make write buffer active
 			activeIndex.store(writeIndex);
@@ -343,9 +340,6 @@ bool AppInterface::init() {
 	initRenderers();
 	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 
-	initRenderers();
-	SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
-
 	_isRunning = true;
 	renderThread = std::thread(&AppInterface::RenderThreadFunc, this);
 
@@ -362,6 +356,11 @@ void AppInterface::initRenderers() {
 		lightRenderer.sphereIndices);
 
 	lightRenderer.init();
+
+	generateSphereMeshWireframe(
+		lineRenderer.sphereVertices,
+		lineRenderer.sphereIndices
+	);
 
 	lineRenderer.init();
 	generateSphereMesh(
@@ -477,4 +476,14 @@ void AppInterface::drawUI()
 	}
 	// Rendering
 	_sceneList->getCurrent()->EndRender();
+}
+
+void AppInterface::swapBuffer()
+{
+	if (!_sceneList || !_sceneList->getCurrent())
+		return;
+
+	if (_sceneList->getCurrent()->getState() == SceneState::RUNNING) {
+		_sceneList->getCurrent()->SwapBufferDraw();
+	}
 }

@@ -50,6 +50,8 @@ public:
 	virtual void prepareDraw() = 0;
 	virtual void renderDraw() = 0;
 
+	virtual void SwapBufferDraw() = 0;
+
 	virtual void BeginRender() = 0;
 	virtual void updateUI(float deltaTime) = 0;
 	virtual void drawUI() = 0;

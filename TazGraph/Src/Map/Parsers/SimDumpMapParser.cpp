@@ -21,8 +21,7 @@ void SimDumpMapParser::writeFile(std::string m_fileName, Manager& manager)
 	std::unordered_map<EntityID, UInt32> nodeIdMap; // map ECS ID -> writer ID
 	nodeIdMap.reserve(nodes.size());
 
-	for (auto entityId : nodes) {
-		auto* entity = manager.getEntityFromId(entityId);
+	for (auto* entity : nodes) {
 		if (!entity->hasComponent<TransformComponent>())
 			continue;
 
@@ -44,8 +43,8 @@ void SimDumpMapParser::writeFile(std::string m_fileName, Manager& manager)
 	std::unordered_map<EntityID, UInt32> linkIdMap;
 	linkIdMap.reserve(links.size());
 
-	for (auto entityId : links) {
-		auto* entity = dynamic_cast<LinkEntity*>(manager.getEntityFromId(entityId));
+	for (auto* link : links) {
+		auto* entity = dynamic_cast<LinkEntity*>(link);
 
 		auto fromNode = entity->getFromNode();
 		auto toNode = entity->getToNode();

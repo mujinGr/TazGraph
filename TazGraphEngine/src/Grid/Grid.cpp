@@ -344,7 +344,9 @@ bool Grid::setIntersectedCameraCells(ICamera& camera) {
 	bool intersectedCellsChanged = false;
 	std::vector<Cell*> newInterceptedCells;
 
-	for (auto* cell : getCells(_level)) {
+	int i = 0;
+	for (auto& cell : getCells(_level)) {
+		i++;
 		glm::vec4 cellCenter(
 			cell->boundingBox_center,
 			1.0f);
@@ -391,4 +393,3 @@ int Grid::getLevelCellScale() {
 int Grid::getLevelCellScale(Level level) {
 	return gridLevels[level];
 }
-
