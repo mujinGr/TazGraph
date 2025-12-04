@@ -73,6 +73,11 @@ void HoverEntityPanel::OnImGuiRender()
 		char gridText[128];
 		safe_sprintf(gridText, "Grid: (%.2f, %.2f)", cellBox.x, cellBox.y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), gridText);
+		currentY += lineHeight;
+		if (node->hasComponent<SimDumpNodeData>()) {
+			safe_sprintf(idText, "Id_string: %s", node->GetComponent<SimDumpNodeData>().string_id.c_str());
+			drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
+		}
 	}
 
 	Link* link = dynamic_cast<Link*>(config.hoveredEntity);
@@ -80,6 +85,11 @@ void HoverEntityPanel::OnImGuiRender()
 		char idText[64];
 		safe_sprintf(idText, "Link Id: %s", EntityIDUtils::toString(config.hoveredEntity->getId()).c_str());
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
+		currentY += lineHeight;
+		if (link->hasComponent<SimDumpNodeData>()) {
+			safe_sprintf(idText, "Id_string: %s", link->GetComponent<SimDumpNodeData>().string_id.c_str());
+			drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
+		}
 	}
 
 	Empty* empty = dynamic_cast<Empty*>(config.hoveredEntity);
@@ -108,6 +118,12 @@ void HoverEntityPanel::OnImGuiRender()
 		char gridText[128];
 		safe_sprintf(gridText, "Grid: (%.2f, %.2f)", cellBox.x, cellBox.y);
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), gridText);
+		currentY += lineHeight;
+		
+		if (empty->hasComponent<SimDumpNodeData>()) {
+			safe_sprintf(idText, "Id_string: %s", empty->GetComponent<SimDumpNodeData>().string_id.c_str());
+			drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
+		}
 	}
 
 }

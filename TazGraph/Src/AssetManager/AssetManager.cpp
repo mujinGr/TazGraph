@@ -269,16 +269,16 @@ void AssetManager::AddPathLink(Entity& link)
 	link.GetComponent<Line_w_Color>().setDestColor(TazColor(40, 0, 255, 255));
 }
 
-void AssetManager::AddSimulationNode(Entity& node, glm::vec3 pos = glm::vec3(0))
+void AssetManager::AddSimulationNode(Entity& node, glm::vec3 pos = glm::vec3(0), std::string id_string = "")
 {
 	node.addComponent<RectangleFlashAnimatorComponent>();
 
 	node.addComponent<MovingAnimatorComponent>();
 
-	node.addComponent<SimDumpNodeData>("Action 1 example");
+	node.addComponent<SimDumpNodeData>(id_string);
 }
 
-void AssetManager::AddSimulationLink(Entity& link)
+void AssetManager::AddSimulationLink(Entity& link, std::string id_string = "")
 {
 	link.addComponent<LineFlashAnimatorComponent>();
 }

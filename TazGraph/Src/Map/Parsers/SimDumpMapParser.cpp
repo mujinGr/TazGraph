@@ -88,8 +88,8 @@ void SimDumpMapParser::closeFile() {
 }
 
 void SimDumpMapParser::parse(Manager& manager,
-	std::function<void(Entity&, glm::vec3)> addNodeFunc,
-	std::function<void(Entity&)> addLinkFunc)
+	std::function<void(Entity&, glm::vec3, std::string)> addNodeFunc,
+	std::function<void(Entity&, std::string)> addLinkFunc)
 {
 	sim_dump::FileReader reader(fileName);
 	assert(reader.is_file_valid());
@@ -175,8 +175,8 @@ void SimDumpMapParser::parse(Manager& manager,
 void SimDumpMapParser::createSteps(
 	sim_dump::FileReader& reader,
 	Manager& manager,
-	std::function<void(Entity&, glm::vec3)> addNodeFunc,
-	std::function<void(Entity&)> addLinkFunc) {
+	std::function<void(Entity&, glm::vec3, std::string)> addNodeFunc,
+	std::function<void(Entity&, std::string)> addLinkFunc) {
 
 
 
@@ -186,7 +186,6 @@ void SimDumpMapParser::createSteps(
 	for (auto it = reader.get_node_iterator(); it != reader.get_node_end(); ++it) {
 		auto& node = manager.addEntityWithId<Node>(i);
 		node.addGroup(Manager::groupNodes_0);
-
 		DataManager::getInstance().mapSimToGraphNodes[it->data.id] = &node;
 		i++;
 	}
@@ -203,13 +202,33 @@ void SimDumpMapParser::createSteps(
 	auto& linkEntities = DataManager::getInstance().mapSimToGraphLinks;
 	auto& pathEntities = DataManager::getInstance().mapSimToGraphPaths;
 
+	std::vector<int> nodeList;
+	nodeList.reserve(nodeEntities.size());
+	std::vector<int> linkList;
+	linkList.reserve(linkEntities.size());
+	std::vector<int> pathList;
+	pathList.reserve(pathEntities.size());
+
+	for (auto& kv : nodeEntities) {
+		nodeList.push_back(kv.first); // kv.second is Node*
+	}
+	for (auto& kv : linkEntities) {
+		linkList.push_back(kv.first); // kv.second is Node*
+	}
+	for (auto& kv : pathEntities) {
+		pathList.push_back(kv.first); // kv.second is Node*
+	}
+
 	if (_threader) {
-		_threader->parallel(nodeEntities.size(), [&](int start, int end) {
+		_threader->parallel(nodeList.size(), [&](int start, int end) {
 			for (int i = start; i < end; i++) {
-				nodeEntities[i]->addComponent<TransformComponent>(parsedNodes[i].position, parsedNodes[i].size, 1);
-				nodeEntities[i]->addComponent<Rectangle_w_Color>();
-				nodeEntities[i]->GetComponent<Rectangle_w_Color>().setColor(parsedNodes[i].color);
-				addNodeFunc(*nodeEntities[i], glm::vec3(0));
+				int key = nodeList[i];
+				std::string id_string = reader.get_entity_data_string(sim_dump::EntityType::NODE, key);
+
+				nodeEntities[key]->addComponent<TransformComponent>(parsedNodes[i].position, parsedNodes[i].size, 1);
+				nodeEntities[key]->addComponent<Rectangle_w_Color>();
+				nodeEntities[key]->GetComponent<Rectangle_w_Color>().setColor(parsedNodes[i].color);
+				addNodeFunc(*nodeEntities[key], glm::vec3(0), id_string);
 			}
 			});
 	}
@@ -217,11 +236,14 @@ void SimDumpMapParser::createSteps(
 	if (_threader) {
 		_threader->parallel(linkEntities.size(), [&](int start, int end) {
 			for (int i = start; i < end; i++) {
-				auto& lwc = linkEntities[i]->addComponent<Line_w_Color>();
+				int key = linkList[i];
+				std::string id_string = reader.get_entity_data_string(sim_dump::EntityType::LINK, key);
+
+				auto& lwc = linkEntities[key]->addComponent<Line_w_Color>();
 				lwc.setSrcColor(parsedLinks[i].color);
 				lwc.setDestColor(parsedLinks[i].color);
 				lwc.width = parsedLinks[i].width;
-				addLinkFunc(*linkEntities[i]);
+				addLinkFunc(*linkEntities[key], id_string);
 			}
 			});
 	}
