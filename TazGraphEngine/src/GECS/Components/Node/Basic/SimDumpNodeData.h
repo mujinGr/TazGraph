@@ -12,6 +12,11 @@ public:
 	{
 	}
 
+	SimDumpNodeData(std::string exampleString)
+	{
+		string_id = exampleString;
+	}
+
 
 	void init() override
 	{

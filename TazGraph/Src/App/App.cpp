@@ -1,8 +1,11 @@
 #include "App.h"
 
-App::App(int threadCount, std::string openFile,
+App::App(
+	int threadCount,
+	int msaa_samples,
+	std::string openFile,
 	double initialTimestamp,
-	int initialStep) : AppInterface(threadCount, openFile,
+	int initialStep) : AppInterface(threadCount, msaa_samples, openFile,
 		initialTimestamp,
 		initialStep) {
 

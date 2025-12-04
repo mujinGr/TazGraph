@@ -4,9 +4,11 @@ Framebuffer::Framebuffer() {
 
 }
 
-void Framebuffer::init(int windowWidth, int windowHeight) {
+void Framebuffer::init(int windowWidth, int windowHeight, bool enableMSAA, int MSAA_samples) {
 	_width = windowWidth;
 	_height = windowHeight;
+
+	_multisampleEnabled = enableMSAA;
 
 	glGenVertexArrays(1, &_rectVAO);
 	glGenBuffers(1, &_rectVBO);
@@ -18,9 +20,6 @@ void Framebuffer::init(int windowWidth, int windowHeight) {
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
-
-	int samples = 4; // Number of MSAA samples (2, 4, 8, or 16)
-
 	// Create multisampled framebuffer
 	glGenFramebuffers(1, &_multisampledFBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, _multisampledFBO);
@@ -28,13 +27,13 @@ void Framebuffer::init(int windowWidth, int windowHeight) {
 	// Create multisampled texture
 	glGenTextures(1, &_multisampledTexture);
 	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, _multisampledTexture);
-	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, GL_RGB, windowWidth, windowHeight, GL_TRUE);
+	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, MSAA_samples, GL_RGB, windowWidth, windowHeight, GL_TRUE);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, _multisampledTexture, 0);
 
 	// Create multisampled renderbuffer for depth and stencil
 	glGenRenderbuffers(1, &_multisampledRBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, _multisampledRBO);
-	glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH24_STENCIL8, windowWidth, windowHeight);
+	glRenderbufferStorageMultisample(GL_RENDERBUFFER, MSAA_samples, GL_DEPTH24_STENCIL8, windowWidth, windowHeight);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _multisampledRBO);
 
 	// Check if multisampled framebuffer is complete
@@ -76,15 +75,21 @@ Framebuffer::~Framebuffer()
 
 void Framebuffer::Bind()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
+	if (_multisampleEnabled) {
+		glBindFramebuffer(GL_FRAMEBUFFER, _multisampledFBO);
+	}
+	else {
+		glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
+	}
 }
 
 void Framebuffer::Unbind()
 {
-	/*glBindFramebuffer(GL_READ_FRAMEBUFFER, _multisampledFBO);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _FBO);
-	glBlitFramebuffer(0, 0, _width, _height, 0, 0, _width, _height, GL_COLOR_BUFFER_BIT, GL_NEAREST);*/
-
+	if (_multisampleEnabled) {
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, _multisampledFBO);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _FBO);
+		glBlitFramebuffer(0, 0, _width, _height, 0, 0, _width, _height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+	}
 	// Unbind to default framebuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

@@ -181,22 +181,21 @@ void SimDumpMapParser::createSteps(
 
 
 	// Create all nodes ONCE before the loop
-	for (UInt32 i = 0; i < reader.get_node_count(); i++) {
-		EntityID id_string = reader.get_entity_data_string(sim_dump::EntityType::NODE, i);
-		auto& node = manager.addEntityWithId<Node>(id_string);
+	int i = 0;
+
+	for (auto it = reader.get_node_iterator(); it != reader.get_node_end(); ++it) {
+		auto& node = manager.addEntityWithId<Node>(i);
 		node.addGroup(Manager::groupNodes_0);
 
-		DataManager::getInstance().mapSimToGraphNodes[i] = &node;
+		DataManager::getInstance().mapSimToGraphNodes[it->data.id] = &node;
+		i++;
 	}
-	UInt32 i = 0;
 	// Create all links ONCE before the loop  
 	for (auto it = reader.get_link_iterator(); it != reader.get_link_end(); ++it) {
-		EntityID id_string = reader.get_entity_data_string(sim_dump::EntityType::LINK, i);
-
-		auto& link = manager.addEntityWithId<Link>(id_string, (int)it->src_id, (int)it->dst_id);
+		auto& link = manager.addEntityWithId<Link>(i, (int)it->src_id, (int)it->dst_id);
 		link.addGroup(Manager::groupLinks_0);
 
-		DataManager::getInstance().mapSimToGraphLinks[i] = &link;
+		DataManager::getInstance().mapSimToGraphLinks[it->data.id] = &link;
 		i++;
 	}
 
@@ -226,7 +225,7 @@ void SimDumpMapParser::createSteps(
 			}
 			});
 	}
-
+	manager.setNewLastEntityId();
 	do {
 		SimulationStep step;
 		step.step_index = reader.get_current_step_index();

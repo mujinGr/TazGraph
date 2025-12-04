@@ -432,6 +432,29 @@ public:
 		lastEntityId = 0;
 	}
 
+	void setNewLastEntityId() {
+		std::unique_lock lock(entities_mtx);
+
+		int maxIntId = std::numeric_limits<int>::min();
+		bool foundInt = false;
+
+		for (const auto& [id, ptr] : entities)
+		{
+			if (std::holds_alternative<int>(id)) {
+				int value = std::get<int>(id);
+				if (value > maxIntId) {
+					maxIntId = value;
+					foundInt = true;
+				}
+			}
+		}
+
+		if (foundInt)
+			lastEntityId = maxIntId + 1;
+		else
+			lastEntityId = 0;   // or whatever default you want
+	}
+
 	inline Entity* getEntityFromId(EntityID mId) {
 		std::shared_lock lock(entities_mtx);
 		return entities[mId].get();

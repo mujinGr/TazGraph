@@ -16,7 +16,7 @@
 
 class AppInterface {
 public:
-	AppInterface(int threadCount, std::string openFile,
+	AppInterface(int threadCount, int msaa_samples, std::string openFile,
 		double initialTimestamp,
 		int initialStep);
 	virtual ~AppInterface();
@@ -44,6 +44,8 @@ public:
 	AudioEngine& getAudioEngine() { return _audioEngine; }
 
 	Threader threadPool;
+	int MSAA_samples;
+	bool useMSAA = false;
 	std::string openFile;
 	double initialTimestamp;
 	int initialStep;

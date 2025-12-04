@@ -459,6 +459,8 @@ void Graph::renderDraw()
 	int readIndex = activeFrameIndex.load();
 	auto& frameData = frameDataBuffers[readIndex];
 
+	Framebuffer::SetMultisample(_viewportFramebuffer._multisampleEnabled);
+
 	_viewportFramebuffer.Bind();
 	glDepthMask(GL_TRUE);
 	////////////OPENGL USE
@@ -559,6 +561,8 @@ void Graph::minimapRenderDraw() {
 
 	std::shared_ptr<OrthoCamera> minimap_camera2D =
 		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
+
+	Framebuffer::SetMultisample(_minimapFramebuffer._multisampleEnabled);
 
 	_minimapFramebuffer.Bind();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

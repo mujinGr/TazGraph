@@ -10,13 +10,21 @@
 
 using namespace std::chrono;
 
-AppInterface::AppInterface(int threadCount, std::string m_openFile,
+AppInterface::AppInterface(int threadCount,
+	int msaa_samples,
+	std::string m_openFile,
 	double m_initialTimestamp,
 	int m_initialStep) :
 	threadPool(threadCount),
+	MSAA_samples(msaa_samples),
 	openFile(m_openFile),
 	initialTimestamp(m_initialTimestamp),
 	initialStep(m_initialStep) {
+
+	if (msaa_samples > 1) {
+		useMSAA = true;
+	}
+
 	_sceneList = std::make_unique<SceneList>(this);
 }
 

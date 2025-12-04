@@ -274,6 +274,8 @@ void AssetManager::AddSimulationNode(Entity& node, glm::vec3 pos = glm::vec3(0))
 	node.addComponent<RectangleFlashAnimatorComponent>();
 
 	node.addComponent<MovingAnimatorComponent>();
+
+	node.addComponent<SimDumpNodeData>("Action 1 example");
 }
 
 void AssetManager::AddSimulationLink(Entity& link)

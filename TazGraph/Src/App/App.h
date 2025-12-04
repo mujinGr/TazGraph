@@ -7,7 +7,10 @@
 class App : public AppInterface
 {
 public:
-	App(int threadCount, std::string openFile,
+	App(
+		int threadCount,
+		int msaa_samples,
+		std::string openFile,
 		double initialTimestamp,
 		int initialStep);
 	~App();

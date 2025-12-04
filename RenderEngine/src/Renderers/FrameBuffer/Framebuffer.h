@@ -24,7 +24,19 @@ private:
 
 	unsigned int _multisampledFBO;
 	unsigned int _multisampledRBO;
+
 public:
+	bool _multisampleEnabled = false;
+
+	static void SetMultisample(bool enable) {
+		if (enable) {
+			glEnable(GL_MULTISAMPLE);
+		}
+		else {
+			glDisable(GL_MULTISAMPLE);
+		}
+	}
+
 	uint32_t _framebufferTexture;
 	uint32_t _multisampledTexture;
 
@@ -33,7 +45,7 @@ public:
 	Framebuffer();
 	~Framebuffer();
 
-	void init(int windowWidth, int windowHeight);
+	void init(int windowWidth, int windowHeight, bool enableMSAA, int MSAA_samples = 0);
 
 	void Bind();
 	void Unbind();

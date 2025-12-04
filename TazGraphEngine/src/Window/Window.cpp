@@ -35,8 +35,8 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1); //! BUFFERS
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);//! SAMPLES (request)
+	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1); //! BUFFERS
+	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);//! SAMPLES (request)
 	//Open an SDL window
 	_sdlWindow = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screenWidth, _screenHeight, flags);
 	if (_sdlWindow == nullptr) {
@@ -57,10 +57,10 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 		TazGraphEngine::ConsoleLogger::error("Could not initialize glew!");
 	}
 	int buffers, samples;
-	SDL_GL_GetAttribute(SDL_GL_MULTISAMPLEBUFFERS, &buffers);
-	SDL_GL_GetAttribute(SDL_GL_MULTISAMPLESAMPLES, &samples);
-	std::cout << "*** Multisample Buffers: " << buffers << " ***\n";
-	std::cout << "*** Multisample Samples: " << samples << " ***\n";
+	//SDL_GL_GetAttribute(SDL_GL_MULTISAMPLEBUFFERS, &buffers);
+	//SDL_GL_GetAttribute(SDL_GL_MULTISAMPLESAMPLES, &samples);
+	//std::cout << "*** Multisample Buffers: " << buffers << " ***\n";
+	//std::cout << "*** Multisample Samples: " << samples << " ***\n";
 	// this is setup of Imgui
 	ImGui::CreateContext();
 	ImPlot::CreateContext();
@@ -77,7 +77,7 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 	// Enable alpha blend
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_MULTISAMPLE);
+
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	SDL_GL_MakeCurrent(_sdlWindow, nullptr);

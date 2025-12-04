@@ -5,6 +5,7 @@
 int main(int argc, char* argv[]) {
 
 	int threadCount = 4; // Default
+	int msaaSamples = 1;
 	std::string openFile = "";
 	double initialTimestamp = 0.0;
 	int initialStep = 0;
@@ -19,6 +20,9 @@ int main(int argc, char* argv[]) {
 				std::cerr << "Invalid thread count. Must be > 0.\n";
 				return 1;
 			}
+		}
+		else if (arg.find("--MSAA=") == 0) {
+			msaaSamples = std::stoi(arg.substr(7)); // Length of "--initial-step="
 		}
 		else if (arg.find("--open-file=") == 0) {
 			openFile = arg.substr(12); // Length of "--open-file="
@@ -41,14 +45,16 @@ int main(int argc, char* argv[]) {
 	if (!openFile.empty()) {
 		std::cout << "Opening file: " << openFile << "\n";
 	}
+	{
+		std::cout << "MSAA: " << msaaSamples << "\n";
+	}
 	if (initialTimestamp != 0.0) {
 		std::cout << "Initial timestamp: " << initialTimestamp << "\n";
 	}
 	if (initialStep != 0) {
 		std::cout << "Initial step: " << initialStep << "\n";
 	}
-
-	auto app = std::make_unique<App>(threadCount, openFile, initialTimestamp, initialStep);
+	auto app = std::make_unique<App>(threadCount, msaaSamples, openFile, initialTimestamp, initialStep);
 	app->run();
 
 	return 0;

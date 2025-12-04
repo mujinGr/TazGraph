@@ -17,6 +17,8 @@
 
 #include "./Components/Link/Basic/Line_w_Color.h"
 
+#include "./Components/Node/Basic/SimDumpNodeData.h"
+
 #include "./Animators/AnimatorComponent.h"
 #include "./Animators/MovingAnimatorComponent.h"
 #include "./Animators/FlashAnimatorComponent.h"
