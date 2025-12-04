@@ -243,8 +243,8 @@ public:
 
 			_update_active_entities = false;
 
-			updateActiveEntities();
 			updateVisibleEntities();
+			updateActiveEntities();
 		}
 
 	}

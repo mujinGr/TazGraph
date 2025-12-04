@@ -33,12 +33,15 @@ public:
 			//this->GetComponent<TransformComponent>().update(0.0f);
 			Cell* newCell = manager.grid->getCell(*this, manager.grid->getGridLevel());
 			if (newCell != this->ownerCell) {
-				std::scoped_lock lock(manager.movedNodesMutex);
 				removeFromCell();
 				manager.grid->addNode(this, newCell);
-
 			}
-			manager.movedNodes.push_back(getId());
+
+			{
+				std::scoped_lock lock(manager.movedNodesMutex);
+
+				manager.movedNodes.push_back(getId());
+			}
 
 			// update arrowheads
 			for (auto& linkId : inLinks) {

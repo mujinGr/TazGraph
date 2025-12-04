@@ -402,7 +402,6 @@ public:
 
 		temp_arrowHead.addGroup(Manager::groupArrowHeads_0);
 		temp_arrowHead.setParentEntity(this);
-		manager.grid->addEmpty(&temp_arrowHead, manager.grid->getGridLevel());
 		children[LinkChildren_ToString(ARROWHEAD)] = temp_arrowHead.getId();
 	}
 

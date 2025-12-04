@@ -155,6 +155,10 @@ void Manager::updateVisibleEntities() {
 		vgroup.clear();
 	}
 
+	visible_nodes.clear();
+	visible_emptyEntities.clear();
+	visible_links.clear();
+
 	// Recursive lambda to add entity and all its children to visible_emptyEntities
 	std::function<void(Entity*)> addChildrenRecursively = [&](Entity* entity) {
 		if (!entity || entity->isHidden()) return;
