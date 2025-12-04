@@ -38,7 +38,13 @@ public:
 		: LinkEntity(mManager,
 			mfromPos, mtoPos)
 	{
+		
+	}
 
+	void onCreation() override {
+		// Now getId() is valid
+		dynamic_cast<NodeEntity*>(manager.getEntityFromId(fromId))->addOutLink(getId());
+		dynamic_cast<NodeEntity*>(manager.getEntityFromId(toId))->addInLink(getId());
 	}
 
 	void addGroup(Group mGroup) override {
@@ -372,15 +378,20 @@ public:
 		glm::vec3 direction = toConnectionPoint - fromConnectionPoint;
 		glm::vec3 unitDirection = glm::normalize(direction);
 
+		float linkWidth = this->GetComponent<Line_w_Color>().width;
+
+		float arrowheadWidth = linkWidth * 2.0f;   // Arrowhead width = 2x link width
+		float arrowheadHeight = arrowheadWidth * 2.0f; // Height = 2x width for good proportion
+
 		// Calculate arrowhead position (slightly offset from the target slot)
-		float offset = 10.0f;
+		float offset = arrowheadHeight * 0.6f;
 		glm::vec3 arrowHeadPos = toConnectionPoint - unitDirection * offset;
 
 		auto& temp_arrowHead = getManager()->addEntityFromParent<Empty>(this, LinkChildren_ToString(ARROWHEAD));
 
 		// Calculate rotation based on the direction between slots
 		float angleRadians = -atan2(direction.y, direction.x);
-		glm::vec3 arrowSize(5.0f, 10.0f, 0.0f);
+		glm::vec3 arrowSize(arrowheadWidth, arrowheadHeight, 0.0f);
 
 		temp_arrowHead.addComponent<TransformComponent>(arrowHeadPos, arrowSize, 1);
 		temp_arrowHead.addComponent<Triangle_w_Color>();

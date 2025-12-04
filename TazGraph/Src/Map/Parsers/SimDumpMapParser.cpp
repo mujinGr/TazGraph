@@ -88,8 +88,8 @@ void SimDumpMapParser::closeFile() {
 }
 
 void SimDumpMapParser::parse(Manager& manager,
-	std::function<void(Entity&, glm::vec3, std::string)> addNodeFunc,
-	std::function<void(Entity&, std::string)> addLinkFunc)
+	std::function<void(Entity&, glm::vec3)> addNodeFunc,
+	std::function<void(Entity&)> addLinkFunc)
 {
 	sim_dump::FileReader reader(fileName);
 	assert(reader.is_file_valid());
@@ -175,10 +175,8 @@ void SimDumpMapParser::parse(Manager& manager,
 void SimDumpMapParser::createSteps(
 	sim_dump::FileReader& reader,
 	Manager& manager,
-	std::function<void(Entity&, glm::vec3, std::string)> addNodeFunc,
-	std::function<void(Entity&, std::string)> addLinkFunc) {
-
-
+	std::function<void(Entity&, glm::vec3)> addNodeFunc,
+	std::function<void(Entity&)> addLinkFunc) {
 
 	// Create all nodes ONCE before the loop
 	int i = 0;
@@ -225,10 +223,11 @@ void SimDumpMapParser::createSteps(
 				int key = nodeList[i];
 				std::string id_string = reader.get_entity_data_string(sim_dump::EntityType::NODE, key);
 
+				nodeEntities[key]->addComponent<SimDumpData>(id_string);
 				nodeEntities[key]->addComponent<TransformComponent>(parsedNodes[i].position, parsedNodes[i].size, 1);
 				nodeEntities[key]->addComponent<Rectangle_w_Color>();
 				nodeEntities[key]->GetComponent<Rectangle_w_Color>().setColor(parsedNodes[i].color);
-				addNodeFunc(*nodeEntities[key], glm::vec3(0), id_string);
+				addNodeFunc(*nodeEntities[key], glm::vec3(0));
 			}
 			});
 	}
@@ -239,11 +238,12 @@ void SimDumpMapParser::createSteps(
 				int key = linkList[i];
 				std::string id_string = reader.get_entity_data_string(sim_dump::EntityType::LINK, key);
 
+				linkEntities[key]->addComponent<SimDumpData>(id_string);
 				auto& lwc = linkEntities[key]->addComponent<Line_w_Color>();
 				lwc.setSrcColor(parsedLinks[i].color);
 				lwc.setDestColor(parsedLinks[i].color);
 				lwc.width = parsedLinks[i].width;
-				addLinkFunc(*linkEntities[key], id_string);
+				addLinkFunc(*linkEntities[key]);
 			}
 			});
 	}
@@ -300,8 +300,12 @@ void SimDumpMapParser::createSteps(
 			else {
 				// Create a new one only if missing
 				auto& empty_pathHolder = manager.addEntity<Empty>();
+
+				std::string id_string = reader.get_entity_data_string(sim_dump::EntityType::PATH, it->second.data.id);
+
+				empty_pathHolder.addComponent<SimDumpData>(id_string);
 				empty_pathHolder.addComponent<PathLinkerComponent>();
-				//empty_pathHolder.addGroup(Manager::groupPathLinksHolder);
+				empty_pathHolder.addGroup(Manager::groupPathLinksHolder);
 				pathEntities[id] = &empty_pathHolder;
 				pathEntity = &empty_pathHolder;
 			}

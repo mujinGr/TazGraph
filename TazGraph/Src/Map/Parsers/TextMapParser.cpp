@@ -159,9 +159,6 @@ void TextMapParser::parse(Manager& manager,
 	for (const auto& parsedLink : parsedLinks) {
 		auto& link = manager.addEntity<Link>(parsedLink.fromId, parsedLink.toId);
 
-		dynamic_cast<NodeEntity*>(manager.getEntityFromId(link.getFromNode()))->addOutLink(link.getId());
-		dynamic_cast<NodeEntity*>(manager.getEntityFromId(link.getToNode()))->addInLink(link.getId());
-
 		link.addGroup(Manager::groupLinks_0);
 
 		linkEntities.push_back(&link);

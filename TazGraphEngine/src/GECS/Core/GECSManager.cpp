@@ -145,10 +145,6 @@ void Manager::updateActiveEntities() {
 }
 
 void Manager::updateVisibleEntities() {
-	visible_emptyEntities = getRevealedEntitiesInCameraCells<EmptyEntity>();
-	visible_nodes = getRevealedEntitiesInCameraCells<NodeEntity>();
-	visible_links = getRevealedEntitiesInCameraCells<LinkEntity>();
-
 	for (auto& vgroup : visible_groupedEmptyEntities) {
 		vgroup.clear();
 	}
@@ -159,37 +155,123 @@ void Manager::updateVisibleEntities() {
 		vgroup.clear();
 	}
 
-	for (auto& ventity : visible_emptyEntities) {
-		if (!ventity->isActive()) {
-			continue;
-		}
+	// Recursive lambda to add entity and all its children to visible_emptyEntities
+	std::function<void(Entity*)> addChildrenRecursively = [&](Entity* entity) {
+		if (!entity || entity->isHidden()) return;
 
-		for (unsigned i = 0; i < maxGroups; ++i) {
-			if (ventity->hasGroup(i)) {
-				visible_groupedEmptyEntities[i].push_back(ventity);
+		for (auto& childId : entity->children) {
+			if (hasEntity(childId.second)) {
+				Entity* childEnt = getEntityFromId(childId.second);
+				if (!childEnt->isHidden() && childEnt->isActive()) {
+
+					NodeEntity* node = dynamic_cast<NodeEntity*>(childEnt);
+					LinkEntity* link = dynamic_cast<LinkEntity*>(childEnt);
+					EmptyEntity* empty = dynamic_cast<EmptyEntity*>(childEnt);
+
+					if (node) {
+						visible_nodes.push_back(childEnt);
+
+						for (unsigned i = 0; i < maxGroups; ++i) {
+							if (childEnt->hasGroup(i)) {
+								visible_groupedNodeEntities[i].push_back(childEnt);
+							}
+
+						}
+					}
+					else if (empty) {
+						visible_emptyEntities.push_back(childEnt);
+
+						for (unsigned i = 0; i < maxGroups; ++i) {
+							if (childEnt->hasGroup(i)) {
+								visible_groupedEmptyEntities[i].push_back(childEnt);
+							}
+
+						}
+					}
+					else if (link) {
+						visible_links.push_back(childEnt);
+
+						for (unsigned i = 0; i < maxGroups; ++i) {
+							if (childEnt->hasGroup(i)) {
+								visible_groupedLinkEntities[i].push_back(childEnt);
+							}
+						}
+
+					}
+
+					// Recursively add this child's children
+					addChildrenRecursively(childEnt);
+				}
+			}
+		}
+		};
+
+	// Nodes
+	for (auto& cell : grid->interceptedCells) {
+		for (auto& entityId : cell->nodes) {
+			auto* ent = getEntityFromId(entityId);
+
+			if (!ent->isHidden() && ent->isActive()) {  // Check if the entity is visible
+				visible_nodes.push_back(ent);
+
+				for (unsigned i = 0; i < maxGroups; ++i) {
+					if (ent->hasGroup(i)) {
+						visible_groupedNodeEntities[i].push_back(ent);
+					}
+				}
+
+				addChildrenRecursively(ent);
 			}
 		}
 	}
-	for (auto& ventity : visible_nodes) {
-		if (!ventity->isActive()) {
-			continue;
-		}
+	// Empty
+	for (auto& cell : grid->interceptedCells) {
+		for (auto entityId : cell->emptyEntities) {
+			auto* entity = getEntityFromId(entityId);
 
-		for (unsigned i = 0; i < maxGroups; ++i) {
-			if (ventity->hasGroup(i)) {
-				visible_groupedNodeEntities[i].push_back(ventity);
+			if (!entity->isHidden() && entity->isActive()) {  // Check if the entity is visible
+				visible_emptyEntities.push_back(entity);
+
+				for (unsigned i = 0; i < maxGroups; ++i) {
+					if (entity->hasGroup(i)) {
+						visible_groupedEmptyEntities[i].push_back(entity);
+					}
+				}
+
+				addChildrenRecursively(entity);
 			}
 		}
 	}
-	for (auto& ventity : visible_links) {
-		if (!ventity->isActive()) {
-			continue;
-		}
 
-		for (unsigned i = 0; i < maxGroups; ++i) {
-			if (ventity->hasGroup(i)) {
-				visible_groupedLinkEntities[i].push_back(ventity);
+	// Links
+	std::unordered_set<EntityID> uniqueIds;
+
+	for (auto& cell : grid->interceptedCells) {
+		for (auto& linkId : cell->links) {
+
+			auto* link = getEntityFromId(linkId);
+
+			if (!link->isHidden()) {
+				if (uniqueIds.find(linkId) == uniqueIds.end()) {
+					uniqueIds.insert(linkId);
+				}
 			}
+		}
+	}
+	for (auto& entry : uniqueIds) {
+		Entity* e = getEntityFromId(entry); // or entities[id]
+		if (e && e->isActive() && !e->isHidden())
+		{
+			visible_links.push_back(e);
+
+			for (unsigned i = 0; i < maxGroups; ++i) {
+				if (e->hasGroup(i)) {
+					visible_groupedLinkEntities[i].push_back(e);
+				}
+			}
+
+			addChildrenRecursively(e);
+
 		}
 	}
 }
@@ -303,76 +385,4 @@ std::vector<Entity*> Manager::collectEntities(
 	}
 
 	return result;
-}
-
-
-;
-
-// loops through the intrecepted cells and just get the entities
-template <typename T>
-std::vector<Entity*> Manager::getRevealedEntitiesInCameraCells() {
-	std::vector<Entity*> result;
-
-	if constexpr (std::is_same_v<T, NodeEntity>) {
-		for (auto& cell : grid->interceptedCells) {
-			for (auto& entityId : cell->nodes) {
-				auto* ent = getEntityFromId(entityId);
-
-				if (!ent->isHidden()) {  // Check if the entity is visible
-					result.push_back(ent);
-
-					for (auto& port : ent->children) {
-						if (hasEntity(port.second)) {
-							Entity* childEnt = getEntityFromId(port.second);
-							if (!childEnt->isHidden()) {
-								visible_emptyEntities.push_back(childEnt);
-
-								if (childEnt->hasComponent<PortComponent>()) {
-									for (auto& portSlots : childEnt->children)
-										visible_emptyEntities.push_back(getEntityFromId(portSlots.second));
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	else if constexpr (std::is_same_v<T, EmptyEntity>) {
-		for (auto& cell : grid->interceptedCells) {
-			for (auto entityId : cell->emptyEntities) {
-				auto* entity = getEntityFromId(entityId);
-
-				if (!entity->isHidden()) {  // Check if the entity is visible
-					result.push_back(entity);
-				}
-			}
-		}
-	}
-	else if constexpr (std::is_same_v<T, LinkEntity>) {
-		std::unordered_set<EntityID> uniqueIds;
-
-		for (auto& cell : grid->interceptedCells) {
-			for (auto& linkId : cell->links) {
-
-				auto* link = getEntityFromId(linkId);
-
-				if (!link->isHidden()) {
-					if (uniqueIds.find(linkId) == uniqueIds.end()) {
-						uniqueIds.insert(linkId);
-					}
-				}
-			}
-		}
-		for (auto& entry : uniqueIds) {
-			Entity* e = getEntityFromId(entry); // or entities[id]
-			if (e)
-				result.push_back(e);
-		}
-	}
-	else {
-		static_assert(sizeof(T) == 0, "Unsupported entity type.");
-	}
-	return result;
-
 }

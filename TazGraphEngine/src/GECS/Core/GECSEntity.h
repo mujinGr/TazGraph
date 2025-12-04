@@ -5,8 +5,6 @@
 class LinkEntity;
 
 class EmptyEntity : public CellEntity {
-protected:
-	Entity* parent_entity = nullptr; //! the object doesnt move, so we can have pointer
 public:
 
 	EmptyEntity(Manager& mManager) : CellEntity(mManager) {}
@@ -15,13 +13,7 @@ public:
 		c->entity = this;
 	}
 
-	Entity* getParentEntity() override {
-		return parent_entity;
-	}
 
-	void setParentEntity(Entity* pEntity) override {
-		parent_entity = pEntity;
-	}
 
 	void removeFromCell() override {
 		if (this->ownerCell) {

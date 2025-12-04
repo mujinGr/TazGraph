@@ -17,16 +17,16 @@ public:
 
 	void parse(
 		Manager& manager,
-		std::function<void(Entity&, glm::vec3, std::string)> addNodeFunc,
-		std::function<void(Entity&, std::string)> addLinkFunc
+		std::function<void(Entity&, glm::vec3)> addNodeFunc,
+		std::function<void(Entity&)> addLinkFunc
 	) override;
 
 	void closeFile() override;
 
 private:
 	void createSteps(sim_dump::FileReader& reader, Manager& manager,
-		std::function<void(Entity&, glm::vec3, std::string)> addNodeFunc,
-		std::function<void(Entity&, std::string)> addLinkFunc);
+		std::function<void(Entity&, glm::vec3)> addNodeFunc,
+		std::function<void(Entity&)> addLinkFunc);
 
 	std::string fileName;
 	std::ifstream file;

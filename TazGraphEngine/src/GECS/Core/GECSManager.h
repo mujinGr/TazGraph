@@ -376,6 +376,8 @@ public:
 			entities.emplace(e->getId(), std::move(uPtr));
 		}
 
+		e->onCreation();
+
 		aboutTo_updateActiveEntities();
 
 		return *e;
@@ -620,8 +622,6 @@ public:
 	void scanComponentNames(const std::string& folderPath);
 
 	void setComponentNames();
-	template<typename T>
-	std::vector<Entity*> getRevealedEntitiesInCameraCells();
 
 	std::vector<Entity*> collectVisibleEntities(
 		std::initializer_list<Manager::groupLabels> groupNames,

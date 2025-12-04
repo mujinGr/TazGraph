@@ -292,7 +292,7 @@ void Graph::prepareDraw()
 
 					newEnt.GetComponent<Line_w_Color>().setDestColor(TazColor(255, 255, 0, 255));
 					newEnt.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 0, 255));
-					newEnt.GetComponent<Line_w_Color>().width = 10;
+					newEnt.GetComponent<Line_w_Color>().width = realEnt->GetComponent<Line_w_Color>().width*1.2f;
 
 					manager->grid->addLink(&newEnt, manager->grid->getGridLevel());
 

@@ -29,6 +29,6 @@ namespace AssetManager //this class created when we added projectiles, based on 
 	void AddDefaultLink(Entity& link);
 	void AddTreeLink(Entity& link);
 	void AddPathLink(Entity& link);
-	void AddSimulationNode(Entity& node, glm::vec3 mPosition, std::string id_string);
-	void AddSimulationLink(Entity& link, std::string id_string);
+	void AddSimulationNode(Entity& node, glm::vec3 mPosition);
+	void AddSimulationLink(Entity& link);
 };

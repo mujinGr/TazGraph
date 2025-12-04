@@ -48,6 +48,7 @@ public:
 		batch.drawTriangle(
 			v_index,
 			transform->getPosition(),
+			transform->size,
 			transform->rotation, color
 		);
 	}

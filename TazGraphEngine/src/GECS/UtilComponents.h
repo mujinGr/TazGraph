@@ -6,6 +6,7 @@
 #include "./Components/Empty/Util/RigidBodyComponent.h"
 #include "./Components/Empty/Util/PathLinkerComponent.h"
 #include "./Components/Empty/Util/MainMenuBackground.h"
+#include "./Components/Empty/Util/SimDumpData.h"
 
 #include "./Components/Link/Util/SpringComponent.h"
 

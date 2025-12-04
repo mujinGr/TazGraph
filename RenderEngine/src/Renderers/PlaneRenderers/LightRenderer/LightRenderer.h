@@ -23,9 +23,12 @@ public:
 
 	void initBatch(Taz::RenderBatch& batch);
 
-	void drawTriangle(size_t v_index,
-		const glm::vec3& depth,
-		const glm::vec3& cpuRotation, const TazColor& color);
+	void drawTriangle(
+		size_t v_index,
+		const glm::vec3& position,
+		const glm::vec3& size,
+		const glm::vec3& cpuRotation,
+		const TazColor& color);
 
 	void draw(size_t v_index,
 		const glm::vec2& rectSize,

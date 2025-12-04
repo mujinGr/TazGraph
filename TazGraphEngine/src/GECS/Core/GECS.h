@@ -229,6 +229,8 @@ protected:
 	std::optional<ComponentArray> nodeComponentArray;
 	std::optional<ComponentBitSet> nodeComponentBitSet;
 
+	Entity* parent_entity = nullptr; //! the object doesnt move, so we can have pointer
+
 	Manager& manager;
 public:
 	bool isVertical = false;
@@ -239,7 +241,7 @@ public:
 	std::map < EntityID, EntityID> children;
 
 	//? IT IS FORBIDDEN TO USE setId!!!!!!!!!!!!!!!!!!!!!!
-	void setId(EntityID m_id) { id = m_id; } 
+	void setId(EntityID m_id) { id = m_id; }
 
 	EntityID getId() { return id; }
 
@@ -296,6 +298,18 @@ public:
 			c->draw(e_index, batch, window);
 		}
 	}
+
+	virtual void onCreation() {
+	}
+
+	Entity* getParentEntity() {
+		return parent_entity;
+	}
+
+	void setParentEntity(Entity* pEntity) {
+		parent_entity = pEntity;
+	}
+
 	bool isActive() { return active; }
 	virtual void destroy() {
 		active = false;
@@ -459,12 +473,6 @@ public:
 	Manager* getManager() {
 		return &manager;
 	}
-
-	virtual Entity* getParentEntity() {
-		return nullptr;
-	}
-
-	virtual void setParentEntity(Entity* pEntity) {}
 
 	virtual void imgui_print() {}
 

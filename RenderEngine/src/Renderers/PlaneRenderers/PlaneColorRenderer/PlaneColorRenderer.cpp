@@ -72,10 +72,10 @@ void PlaneColorRenderer::initBatch(Taz::RenderBatch& batch)
 void PlaneColorRenderer::drawTriangle(
 	size_t v_index,
 	const glm::vec3& position,
+	const glm::vec3& size,
 	const glm::vec3& cpuRotation,
 	const TazColor& color
 ) {
-	glm::vec2 size = glm::vec2(10.0f);
 	_meshesArrays[TRIANGLE_MESH_IDX].batches[currentBatchIndex].instances[v_index] = ColorInstanceData(size, position, cpuRotation, color);
 }
 

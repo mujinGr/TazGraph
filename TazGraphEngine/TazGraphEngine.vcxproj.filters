@@ -296,7 +296,7 @@
     <ClInclude Include="src\AppScene\ScreenIndices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GECS\Components\Node\Basic\SimDumpNodeData.h">
+    <ClInclude Include="src\GECS\Components\Empty\Util\SimDumpData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

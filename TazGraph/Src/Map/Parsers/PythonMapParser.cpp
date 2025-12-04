@@ -129,9 +129,6 @@ void PythonMapParser::parse(Manager& manager,
 		auto& link = manager.addEntity<Link>(
 			parsedLink.from->getId(), parsedLink.to->getId());
 
-		parsedLink.from->addOutLink(link.getId());
-		parsedLink.to->addInLink(link.getId());
-
 		link.addGroup(Manager::groupLinks_0);
 
 		linkEntities.push_back(&link);

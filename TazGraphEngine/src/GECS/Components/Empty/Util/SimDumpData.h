@@ -1,18 +1,18 @@
 #pragma once
 
-#include "../../../Components.h"
+#include "../../../UtilComponents.h"
 
-class SimDumpNodeData : public Component //transform as in graphics, we have rotation and scale
+class SimDumpData : public Component //transform as in graphics, we have rotation and scale
 {
 public:
 	std::string string_id = "";
 
 
-	SimDumpNodeData()
+	SimDumpData()
 	{
 	}
 
-	SimDumpNodeData(std::string exampleString)
+	SimDumpData(std::string exampleString)
 	{
 		string_id = exampleString;
 	}
@@ -29,7 +29,7 @@ public:
 	}
 
 	std::string GetComponentName() override {
-		return "SimDumpNodeData";
+		return "SimDumpData";
 	}
 
 	void showGUI(std::vector<BaseComponent*> otherComponents = {}) override {
