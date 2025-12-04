@@ -182,7 +182,8 @@ void SimDumpMapParser::createSteps(
 
 	// Create all nodes ONCE before the loop
 	for (UInt32 i = 0; i < reader.get_node_count(); i++) {
-		auto& node = manager.addEntity<Node>();
+		EntityID id_string = reader.get_entity_data_string(sim_dump::EntityType::NODE, i);
+		auto& node = manager.addEntityWithId<Node>(id_string);
 		node.addGroup(Manager::groupNodes_0);
 
 		DataManager::getInstance().mapSimToGraphNodes[i] = &node;
@@ -190,7 +191,9 @@ void SimDumpMapParser::createSteps(
 	UInt32 i = 0;
 	// Create all links ONCE before the loop  
 	for (auto it = reader.get_link_iterator(); it != reader.get_link_end(); ++it) {
-		auto& link = manager.addEntity<Link>((int)it->src_id, (int)it->dst_id);
+		EntityID id_string = reader.get_entity_data_string(sim_dump::EntityType::LINK, i);
+
+		auto& link = manager.addEntityWithId<Link>(id_string, (int)it->src_id, (int)it->dst_id);
 		link.addGroup(Manager::groupLinks_0);
 
 		DataManager::getInstance().mapSimToGraphLinks[i] = &link;

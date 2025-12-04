@@ -382,7 +382,7 @@ public:
 	}
 
 	template <typename T, typename... TArgs>
-	T& addEntityWithId(int customId, TArgs&&... mArgs)
+	T& addEntityWithId(EntityID customId, TArgs&&... mArgs)
 	{
 		T* e(new T(*this, std::forward<TArgs>(mArgs)...));
 
