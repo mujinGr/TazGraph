@@ -3,6 +3,12 @@
 void Graph::clearSelectedEntities() {
 
 	for (auto& sel : _selectedEntities) {
+		if (
+			std::holds_alternative<int>(sel.overlayEntityId) &&
+			std::get<int>(sel.overlayEntityId) < 0
+			) {
+			continue;
+		}
 		Entity* overlayEnt =
 			manager->getEntityFromId(sel.overlayEntityId);
 

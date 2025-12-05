@@ -12,7 +12,7 @@ Grid::~Grid()
 }
 
 void Grid::setSize(int gridDimensionSize) {
-	gridDimensionSize = std::max(gridDimensionSize, 100 * AXIS_CELLS);
+	gridDimensionSize = std::max(gridDimensionSize, CELL_SIZE * AXIS_CELLS);
 
 	gridDimensionSize -= gridDimensionSize % AXIS_CELLS;
 	_cellSize = gridDimensionSize / AXIS_CELLS;

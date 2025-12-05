@@ -261,34 +261,33 @@ void SimDumpMapParser::createSteps(
 		// nodes
 		step.nodes.resize(reader.get_node_count());
 
-		for (UInt32 i = 0; i < reader.get_node_count(); i++) {
-			auto pos = reader.get_node_position(i);
-			auto color = reader.get_entity_color(EntityType::NODE, i);
-			float size = reader.get_entity_width(EntityType::NODE, i);
+		for (UInt32 j = 0; j < reader.get_node_count(); j++) {
+			auto pos = reader.get_node_position(j);
+			auto color = reader.get_entity_color(EntityType::NODE, j);
+			float size = reader.get_entity_width(EntityType::NODE, j);
 
-			step.nodes[i].second.position = glm::vec3(pos.first, pos.second, 0.0f);
-			step.nodes[i].second.color = TazColor(color.r, color.g, color.b, color.alpha);
-			step.nodes[i].second.size = glm::vec3(size);
+			step.nodes[j].second.position = glm::vec3(pos.first, pos.second, 0.0f);
+			step.nodes[j].second.color = TazColor(color.r, color.g, color.b, color.alpha);
+			step.nodes[j].second.size = glm::vec3(size);
 
-			step.nodes[i].first = nodeEntities[i];
+			step.nodes[j].first = nodeEntities[j];
 		}
 
 		// links
 		step.links.resize(reader.get_link_count());
 
-		for (UInt32 i = 0; i < reader.get_link_count(); i++) {
-			auto color = reader.get_entity_color(EntityType::LINK, i);
-			float width = reader.get_entity_width(EntityType::LINK, i);
+		for (UInt32 j = 0; j < reader.get_link_count(); j++) {
+			auto color = reader.get_entity_color(EntityType::LINK, j);
+			float width = reader.get_entity_width(EntityType::LINK, j);
 
-			step.links[i].second.color = TazColor(color.r, color.g, color.b, color.alpha);
-			step.links[i].second.width = width;
+			step.links[j].second.color = TazColor(color.r, color.g, color.b, color.alpha);
+			step.links[j].second.width = width;
 
-			step.links[i].first = linkEntities[i];
+			step.links[j].first = linkEntities[j];
 		}
 
 		step.paths.resize(reader.get_path_count());
 		// paths
-		UInt32 i = 0;
 		for (auto it = reader.get_path_iterator();
 			it != reader.get_path_end(); ++it)
 		{
@@ -304,7 +303,7 @@ void SimDumpMapParser::createSteps(
 			}
 			else {
 				// Create a new one only if missing
-				auto& empty_pathHolder = manager.addEntity<Empty>();
+				auto& empty_pathHolder = manager.addEntityWithId<Empty>(i);
 
 				std::string id_string = reader.get_entity_data_string(sim_dump::EntityType::PATH, it->second.data.id);
 

@@ -54,7 +54,7 @@ void Minimap::DrawCameraFrustumOnMinimap(ImVec2 minimapPos, float minimapSize) {
 	std::shared_ptr<OrthoCamera> minimap_camera2D =
 		std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 
-	glm::mat4 tempProj = glm::perspective(glm::radians(main_camera2D->fov), main_camera2D->aspect, 5.0f, 5000.0f); // instead of 1,000,000
+	glm::mat4 tempProj = glm::perspective(glm::radians(main_camera2D->fov), main_camera2D->aspect, 5.0f, 1000.0f); // instead of 1,000,000
 	glm::mat4 invViewProj = glm::inverse(tempProj * main_camera2D->getViewMatrix());
 	// Get inverse matrices to reconstruct frustum
 	//glm::mat4 invViewProj = glm::inverse(main_camera2D->getProjMatrix() * main_camera2D->getViewMatrix());
