@@ -288,7 +288,7 @@ void Graph::update(float deltaTime) //game objects updating
 			if (manager->arrowheadsEnabled) {
 				for (auto* pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
 				{
-					pathLinker->GetComponent<PathLinkerComponent>().createInnerLinks();
+					//pathLinker->GetComponent<PathLinkerComponent>().createInnerLinks();
 				}
 			}
 			manager->updateInnerPathLinks = false;
