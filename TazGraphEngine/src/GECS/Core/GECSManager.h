@@ -151,58 +151,17 @@ public:
 		//! FOR MAIN MENU
 		else {
 
-			//! CELL UPDATE
-
-			for (auto& e : movedNodes) {
-				auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(e));
-
-				for (auto& link : ent->getInLinks()) {
-					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
-
-					linkEntity->cellUpdate();
-				}
-				for (auto& link : ent->getOutLinks()) {
-					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
-
-					linkEntity->cellUpdate();
-				}
-			}
-
-			for (auto& e : movedNodes) {
-				auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(e));
-
-				for (auto& link : ent->getInLinks()) {
-					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
-
-					linkEntity->updateConnection();
-				}
-			}
-
-			for (auto& e : movedNodes) {
-				auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(e));
-
-				for (auto& link : ent->getOutLinks()) {
-					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
-
-					linkEntity->updateConnection();
-				}
-			}
-
-			movedNodes.clear();
-
 			for (auto& e : visible_emptyEntities) {
 				if (!e->isActive()) continue;
 
 				e->update(deltaTime);
 			}
 
-			if (arrowheadsEnabled) {
-				for (auto& e : visible_nodes) {
-					if (!e->isActive()) continue;
+			for (auto& e : visible_nodes) {
+				if (!e->isActive()) continue;
 
-					e->update(deltaTime);
+				e->update(deltaTime);
 
-				}
 			}
 
 
@@ -360,6 +319,8 @@ public:
 			entities.emplace(e->getId(), std::move(uPtr));
 		}
 
+		e->onCreation();
+
 		aboutTo_updateActiveEntities();
 
 		return *e;
@@ -394,6 +355,8 @@ public:
 			std::unique_ptr<T> uPtr{ e };
 			entities.emplace(customId, std::move(uPtr));
 		}
+
+		e->onCreation();
 
 		aboutTo_updateActiveEntities();
 		return *e;

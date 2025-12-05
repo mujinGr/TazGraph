@@ -189,7 +189,12 @@ void SimDumpMapParser::createSteps(
 	}
 	// Create all links ONCE before the loop  
 	for (auto it = reader.get_link_iterator(); it != reader.get_link_end(); ++it) {
-		auto& link = manager.addEntityWithId<Link>(i, (int)it->src_id, (int)it->dst_id);
+		EntityID worldSrc_NodeId =
+			DataManager::getInstance().mapSimToGraphNodes[it->src_id]->getId();
+		EntityID worldDest_NodeId =
+			DataManager::getInstance().mapSimToGraphNodes[it->dst_id]->getId();
+
+		auto& link = manager.addEntityWithId<Link>(i, worldSrc_NodeId, worldDest_NodeId);
 		link.addGroup(Manager::groupLinks_0);
 
 		DataManager::getInstance().mapSimToGraphLinks[it->data.id] = &link;
