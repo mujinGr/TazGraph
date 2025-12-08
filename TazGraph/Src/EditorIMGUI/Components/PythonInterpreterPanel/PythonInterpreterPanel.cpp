@@ -222,6 +222,11 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 void PythonInterpreterPanel::update(float deltaTime) {
 	UIElement::update(deltaTime);
 
+	if (readyToExecute) {
+		runScript();
+		readyToExecute = false;
+	}
+
 	double now = ImGui::GetTime();
 
 	if (!updatePaused &&
@@ -355,7 +360,7 @@ void PythonInterpreterPanel::OnImGuiRender2() {
 
 		if (currentScriptType == ScriptType::OneOff) {
 			if (ImGui::Button("Run")) {
-				runScript();
+				readyToExecute = true;
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Clear Output")) {
@@ -485,7 +490,7 @@ void PythonInterpreterPanel::innerTable() {
 
 		if (currentScriptType == ScriptType::OneOff) {
 			if (ImGui::Button("Run")) {
-				runScript();
+				readyToExecute = true;
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Clear Output")) {

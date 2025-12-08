@@ -52,6 +52,9 @@ public:
 
 	bool init = true;
 
+
+	bool readyToExecute = false;
+
 	ImGuiChildFlags flags = ImGuiChildFlags_ResizeY | ImGuiWindowFlags_NoSavedSettings;
 
 	PythonInterpreterPanel();
