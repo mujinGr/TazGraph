@@ -95,7 +95,9 @@ public:
 				prevLink->toSlotIndex, currLink->fromSlotIndex
 			);
 			newInnerLink.addGroup(Manager::groupPathInnerLinks);  // or a dedicated group for inner links
-
+			newInnerLink.setConnectionType(LinkEntity::ConnectionType::GHOST_PORT_TO_PORT);
+			// first inner link comp so lineWColor init doesnt trigger
+			newInnerLink.addComponent<InnerLink>(prevLink->getId(), currLink->getId());
 			newInnerLink.addComponent<Line_w_Color>();
 
 			innerLinks.push_back(newInnerLink.getId());

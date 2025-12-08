@@ -114,7 +114,8 @@ public:
 	enum class ConnectionType {
 		NODE_TO_NODE,
 		PORT_TO_PORT,
-		DIRECT_POSITIONS
+		DIRECT_POSITIONS,
+		GHOST_PORT_TO_PORT
 	};
 	ConnectionType type = ConnectionType::NODE_TO_NODE;
 

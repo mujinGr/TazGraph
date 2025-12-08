@@ -53,8 +53,6 @@ public:
 	bool arrowheadsEnabled = false;
 	bool last_arrowheadsEnabled = false;
 
-	bool updateInnerPathLinks = false;
-
 	std::unordered_map<std::string, std::vector<std::string>> componentNames;
 
 	std::unique_ptr<Grid> grid;
@@ -79,7 +77,6 @@ public:
 			for (auto& e : movedNodes) {
 				auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(e));
 
-				updateInnerPathLinks = true;
 				for (auto& linkId : ent->getInLinks()) {
 					auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(linkId));
 
@@ -111,7 +108,65 @@ public:
 					for (auto& link : ent->getOutLinks()) {
 						auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
 
+						// skip inner links for now
+						if (arrowheadsEnabled &&
+							linkEntity->type == LinkEntity::ConnectionType::GHOST_PORT_TO_PORT)
+							continue;
+
 						linkEntity->updateConnection();
+					}
+				}
+				});
+
+			_threader->parallel(movedNodes.size(), [&](int start, int end) {
+				for (int i = start; i < end; i++) {
+					auto* ent = dynamic_cast<NodeEntity*>(getEntityFromId(movedNodes[i]));
+
+					if (arrowheadsEnabled) {
+						// loop through inner links
+						// also loop through innner links of adjacent nodes
+						for (auto& link : ent->getOutLinks()) {
+							auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
+
+							if (
+								linkEntity->type == LinkEntity::ConnectionType::GHOST_PORT_TO_PORT)
+							{
+								linkEntity->updateConnection();
+							}
+							else {
+								NodeEntity* toNode = dynamic_cast<NodeEntity*>(getEntityFromId(linkEntity->toId));
+
+								for (auto& link : toNode->getOutLinks()) {
+									auto* adjacent_linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
+
+									if (
+										adjacent_linkEntity->type == LinkEntity::ConnectionType::GHOST_PORT_TO_PORT)
+									{
+										adjacent_linkEntity->updateConnection();
+									}
+								}
+							}
+						}
+						// also loop through innner links of adjacent nodes
+						for (auto& link : ent->getInLinks()) {
+							auto* linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
+
+							if (
+								linkEntity->type != LinkEntity::ConnectionType::GHOST_PORT_TO_PORT)
+							{
+								NodeEntity* fromNode = dynamic_cast<NodeEntity*>(getEntityFromId(linkEntity->fromId));
+
+								for (auto& link : fromNode->getOutLinks()) {
+									auto* adjacent_linkEntity = dynamic_cast<LinkEntity*>(getEntityFromId(link));
+
+									if (
+										adjacent_linkEntity->type == LinkEntity::ConnectionType::GHOST_PORT_TO_PORT)
+									{
+										adjacent_linkEntity->updateConnection();
+									}
+								}
+							}
+						}
 					}
 				}
 				});

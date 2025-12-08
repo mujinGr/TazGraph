@@ -212,6 +212,7 @@
     <ClInclude Include="src\DataManager\DataManager.h" />
     <ClInclude Include="src\GECS\Components\Empty\Util\MainMenuBackground.h" />
     <ClInclude Include="src\GECS\Components\Empty\Util\SimDumpData.h" />
+    <ClInclude Include="src\GECS\Components\Link\Basic\InnerLink.h" />
     <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesEmpty.h" />
     <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesLink.h" />
     <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesNode.h" />

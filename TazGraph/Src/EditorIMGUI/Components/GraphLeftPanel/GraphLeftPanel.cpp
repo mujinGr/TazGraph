@@ -99,8 +99,6 @@ void GraphLeftPanel::OnImGuiRender()
 
 		if (ImGui::Button(config.scene->manager->arrowheadsEnabled ? "Disable Arrowheads" : "Enable Arrowheads")) {
 			config.scene->manager->arrowheadsEnabled = !config.scene->manager->arrowheadsEnabled;
-			config.scene->manager->updateInnerPathLinks = true;
-
 		}
 
 		ImGui::Separator();
@@ -149,7 +147,6 @@ void GraphLeftPanel::OnImGuiRender()
 						Entity* link = config.scene->manager->getEntityFromId(linkId);
 						link->destroy();
 					}
-					config.scene->manager->updateInnerPathLinks = true;
 				}
 				config.scene->manager->removeAllEntitiesFromEmptyGroup(Manager::groupPathLinksHolder);
 			}

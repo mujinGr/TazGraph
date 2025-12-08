@@ -38,7 +38,7 @@ public:
 		: LinkEntity(mManager,
 			mfromPos, mtoPos)
 	{
-		
+
 	}
 
 	void onCreation() override {
@@ -297,6 +297,19 @@ public:
 		else if (type == ConnectionType::DIRECT_POSITIONS) {
 			// it is as is
 		}
+		else if (type == ConnectionType::GHOST_PORT_TO_PORT) {
+			// get adjacen path links ports and slots
+			InnerLink* iL = &GetComponent<InnerLink>();
+
+			LinkEntity* iL_1 = dynamic_cast<LinkEntity*>(manager.getEntityFromId(iL->first_pathLink));
+			LinkEntity* iL_2 = dynamic_cast<LinkEntity*>(manager.getEntityFromId(iL->second_pathLink));
+
+			fromPort = iL_1->toPort;
+			toPort = iL_2->fromPort;
+
+			fromSlotIndex = iL_1->toSlotIndex;
+			toSlotIndex = iL_2->fromSlotIndex;
+		}
 		else {
 			TazGraphEngine::ConsoleLogger::error("type doesn't exist for link");
 		}
@@ -333,7 +346,10 @@ public:
 				GetComponent<TransformComponent>()
 				.getPosition();
 		}
-		else if (type == ConnectionType::PORT_TO_PORT) {
+		else if (
+			type == ConnectionType::PORT_TO_PORT ||
+			type == ConnectionType::GHOST_PORT_TO_PORT
+			) {
 			NodeEntity* from = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getFromNode()));
 			NodeEntity* to = dynamic_cast<NodeEntity*>(manager.getEntityFromId(getToNode()));
 
@@ -343,7 +359,9 @@ public:
 			if (!fromPortEntity || !toPortEntity ||
 				fromSlotIndex >= fromPortEntity->children.size() ||
 				toSlotIndex >= toPortEntity->children.size()) {
-				TazGraphEngine::ConsoleLogger::error("updateConnectionPositions port-port");
+				TazGraphEngine::ConsoleLogger::error(type == ConnectionType::PORT_TO_PORT ?
+					"updateConnectionPositions port-port"
+					: "updateConnectionPositions Ghost port-port");
 			}
 
 			fromPos = getManager()->getEntityFromId(fromPortEntity->children[fromSlotIndex])
@@ -433,8 +451,10 @@ public:
 		if (isFrom) {
 			for (auto& linkEntityId : node->getOutLinks()) {
 				auto* linkEntity = dynamic_cast<LinkEntity*>(manager.getEntityFromId(linkEntityId));
+
 				if (EntityIDUtils::areEqual(linkEntity->fromPort, portIndex) &&
-					linkEntity->fromSlotIndex > removedSlotIndex) {
+					linkEntity->fromSlotIndex > removedSlotIndex &&
+					linkEntity->type != ConnectionType::GHOST_PORT_TO_PORT) {
 					linkEntity->fromSlotIndex--;
 				}
 			}
@@ -444,7 +464,8 @@ public:
 				auto* linkEntity = dynamic_cast<LinkEntity*>(manager.getEntityFromId(linkEntityId));
 
 				if (EntityIDUtils::areEqual(linkEntity->toPort, portIndex) &&
-					linkEntity->toSlotIndex > removedSlotIndex) {
+					linkEntity->toSlotIndex > removedSlotIndex &&
+					linkEntity->type != ConnectionType::GHOST_PORT_TO_PORT) {
 					linkEntity->toSlotIndex--;
 				}
 			}

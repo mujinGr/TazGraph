@@ -176,6 +176,7 @@ void Graph::update(float deltaTime) //game objects updating
 		}
 
 		//todo change each links from and to entities (empty entitites - ports)
+		//! repeatively updateConnection due to bugs in this part
 		for (auto* link : manager->getGroup<LinkEntity>(manager->grid->getGridLevel() == Grid::Level::Basic ? Manager::Manager::groupLinks_0 :
 			(manager->grid->getGridLevel() == Grid::Level::Outer1 ? Manager::Manager::groupGroupLinks_0 :
 				Manager::groupGroupLinks_1
@@ -214,22 +215,24 @@ void Graph::update(float deltaTime) //game objects updating
 			link_entity->updateConnection();
 			link_entity->updatePortSlots();
 		}
+		// PATH LINKS UPDATE
+		for (auto* link : manager->getGroup<LinkEntity>(Manager::groupPathLinks))
+		{
+			auto* link_entity = dynamic_cast<LinkEntity*>(link);
+
+			link_entity->setConnectionType(LinkEntity::ConnectionType::PORT_TO_PORT);
+			link_entity->updateConnection();
+		}
+
+		for (auto* pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
+		{
+			pathLinker->GetComponent<PathLinkerComponent>().createInnerLinks();
+		}
 	}
 
-	if ((manager->last_arrowheadsEnabled != manager->arrowheadsEnabled) || (manager->arrowheadsEnabled && manager->updateInnerPathLinks)) {
+	if (manager->last_arrowheadsEnabled != manager->arrowheadsEnabled) {
 		manager->last_arrowheadsEnabled = manager->arrowheadsEnabled;
 
-		if (manager->arrowheadsEnabled) {
-
-			for (auto* link : manager->getGroup<LinkEntity>(Manager::groupPathLinks))
-			{
-				auto* link_entity = dynamic_cast<LinkEntity*>(link);
-
-				link_entity->setConnectionType(LinkEntity::ConnectionType::PORT_TO_PORT);
-				link_entity->updateConnection();
-			}
-
-		}
 		if (!manager->arrowheadsEnabled) {
 
 			//todo change each links from and to entities (from ports, to center of nodes)
@@ -278,20 +281,11 @@ void Graph::update(float deltaTime) //game objects updating
 				auto* node_entity = dynamic_cast<NodeEntity*>(node);
 				node_entity->removePorts();
 			}
-		}
 
-		if (manager->updateInnerPathLinks) {
 			for (auto* pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
 			{
 				pathLinker->GetComponent<PathLinkerComponent>().removeInnerLinks();
 			}
-			if (manager->arrowheadsEnabled) {
-				for (auto* pathLinker : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
-				{
-					//pathLinker->GetComponent<PathLinkerComponent>().createInnerLinks();
-				}
-			}
-			manager->updateInnerPathLinks = false;
 		}
 
 		manager->aboutTo_updateActiveEntities();

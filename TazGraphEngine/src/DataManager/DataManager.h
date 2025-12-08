@@ -172,7 +172,6 @@ public:
 
 			for (auto pathLinkId : toRemove) {
 				simPaths.second->GetComponent<PathLinkerComponent>().removeLink(pathLinkId);
-				manager.updateInnerPathLinks = true;
 				Entity* pathLink = manager.getEntityFromId(pathLinkId);
 				pathLink->destroy();
 			}
@@ -217,6 +216,5 @@ public:
 
 			}
 		}
-		manager.updateInnerPathLinks = true;
 	}
 };

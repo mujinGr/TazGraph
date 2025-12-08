@@ -13,6 +13,7 @@ namespace TazGraphEngine {
 		static void error(const std::string& errorMessage) {
 			printCurrentTime();
 			std::cerr << " [ERROR] " << errorMessage << std::endl;
+			std::abort();
 		}
 
 	private:

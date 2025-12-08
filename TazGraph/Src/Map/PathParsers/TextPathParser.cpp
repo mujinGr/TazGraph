@@ -31,9 +31,6 @@ void TextPathParser::parse(Manager& manager,
 	}
 
 
-
-	std::vector<Entity*> linkEntities;
-
 	for (const std::string& line : linkLines) {
 		std::stringstream ss(line);
 
@@ -69,6 +66,8 @@ void TextPathParser::parse(Manager& manager,
 		}
 
 		auto& pathLinker = manager.addEntity<Empty>();
+		pathLinker.addGroup(Manager::groupPathLinksHolder);
+		
 		auto& plc = pathLinker.addComponent<PathLinkerComponent>();
 
 		// parse optional attributes
@@ -92,9 +91,6 @@ void TextPathParser::parse(Manager& manager,
 			addLinkFunc(link);
 
 			pathLinker.GetComponent<PathLinkerComponent>().addLink(link.getId());
-			pathLinker.addGroup(Manager::groupPathLinksHolder);
-
-			linkEntities.push_back(&link);
 		}
 	}
 
@@ -103,6 +99,20 @@ void TextPathParser::parse(Manager& manager,
 
 		manager.grid->addLink(link_entity, manager.grid->getGridLevel());
 	}
-	manager.updateInnerPathLinks = true;
 
+	// PATH LINKS UPDATE
+	if (manager.arrowheadsEnabled) {
+		for (auto* link : manager.getGroup<LinkEntity>(Manager::groupPathLinks))
+		{
+			auto* link_entity = dynamic_cast<LinkEntity*>(link);
+
+			link_entity->setConnectionType(LinkEntity::ConnectionType::PORT_TO_PORT);
+			link_entity->updateConnection();
+		}
+
+		for (auto* pathLinker : manager.getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
+		{
+			pathLinker->GetComponent<PathLinkerComponent>().createInnerLinks();
+		}
+	}
 }

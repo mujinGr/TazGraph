@@ -168,7 +168,7 @@ void Graph::prepareDraw()
 		frameData.batches.push_back(wireframeSphereBatch);
 	}
 
-	// 6. Path Links Batch (rendered without depth test)
+	// 6. Path Links Batch
 	{
 		Taz::GECSRenderBatch pathLinksBatch;
 		pathLinksBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
@@ -292,7 +292,7 @@ void Graph::prepareDraw()
 
 					newEnt.GetComponent<Line_w_Color>().setDestColor(TazColor(255, 255, 0, 255));
 					newEnt.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 0, 255));
-					newEnt.GetComponent<Line_w_Color>().width = realEnt->GetComponent<Line_w_Color>().width*1.2f;
+					newEnt.GetComponent<Line_w_Color>().width = realEnt->GetComponent<Line_w_Color>().width * 1.2f;
 
 					manager->grid->addLink(&newEnt, manager->grid->getGridLevel());
 
@@ -467,7 +467,7 @@ void Graph::renderDraw()
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 
 	glClearDepth(1.0);
-	glDepthFunc(GL_LESS);
+	glDepthFunc(GL_LEQUAL);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 

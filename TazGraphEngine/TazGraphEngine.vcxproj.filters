@@ -299,5 +299,8 @@
     <ClInclude Include="src\GECS\Components\Empty\Util\SimDumpData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\GECS\Components\Link\Basic\InnerLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

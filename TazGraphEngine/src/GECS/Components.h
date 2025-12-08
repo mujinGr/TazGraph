@@ -16,6 +16,7 @@
 #include "./Components/Empty/Basic/PortComponent.h"
 
 #include "./Components/Link/Basic/Line_w_Color.h"
+#include "./Components/Link/Basic/InnerLink.h"
 
 
 #include "./Animators/AnimatorComponent.h"

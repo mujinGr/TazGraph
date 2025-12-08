@@ -16,8 +16,6 @@ void SimDumpPathParser::parse(Manager& manager,
 	std::function<void(Entity&)> addLinkFunc)
 {
 
-	manager.updateInnerPathLinks = true;
-
 }
 
 void SimDumpPathParser::parse(Manager& manager,
