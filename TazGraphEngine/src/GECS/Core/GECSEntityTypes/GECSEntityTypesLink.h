@@ -40,11 +40,22 @@ public:
 	{
 
 	}
+	
+	Link(
+		Manager& mManager,
+		ConnectionType m_type
+	)
+		: LinkEntity(mManager)
+	{
+		type = m_type;
+	}
 
 	void onCreation() override {
 		// Now getId() is valid
-		dynamic_cast<NodeEntity*>(manager.getEntityFromId(fromId))->addOutLink(getId());
-		dynamic_cast<NodeEntity*>(manager.getEntityFromId(toId))->addInLink(getId());
+		if (type != ConnectionType::DIRECT_POSITIONS) {
+			dynamic_cast<NodeEntity*>(manager.getEntityFromId(fromId))->addOutLink(getId());
+			dynamic_cast<NodeEntity*>(manager.getEntityFromId(toId))->addInLink(getId());
+		}
 	}
 
 	void addGroup(Group mGroup) override {

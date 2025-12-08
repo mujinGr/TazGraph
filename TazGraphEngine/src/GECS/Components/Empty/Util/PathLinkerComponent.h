@@ -55,6 +55,7 @@ public:
 			link->GetComponent<Line_w_Color>().setSrcColor(color);
 			link->GetComponent<Line_w_Color>().setDestColor(color);
 			link->GetComponent<Line_w_Color>().width = width;
+			link->setParentEntity(entity);
 			pathLinks.push_back(linkId);
 		}
 	}

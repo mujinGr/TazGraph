@@ -184,7 +184,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			// --------------------------------------
 			// Hover
 			// --------------------------------------
-			else if (activateMode == ON_HOVER && _selectedEntities.empty()) {
+			else if (activateMode == ON_HOVER) {
 				_onHoverEntity = node;
 			}
 
@@ -272,7 +272,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			else if (activateMode == SDL_BUTTON_RIGHT) {
 				_displayedEntity = empty;
 			}
-			else if (activateMode == ON_HOVER && _selectedEntities.empty()) {
+			else if (activateMode == ON_HOVER ) {
 				_onHoverEntity = empty;
 			}
 
@@ -341,9 +341,7 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			break;
 
 		case ON_HOVER:
-			if (_selectedEntities.empty()) {
-				_onHoverEntity = link; // Still hover just the individual link
-			}
+			_onHoverEntity = link; // Still hover just the individual link
 			break;
 
 		case CTRLD_LEFT_CLICK:

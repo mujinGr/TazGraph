@@ -49,7 +49,8 @@ public:
 				if (link->type == LinkEntity::ConnectionType::PORT_TO_PORT)
 					link->updateArrowHeads();
 
-				for (auto& depthLinkId : dynamic_cast<NodeEntity*>(manager.getEntityFromId(link->getFromNode()))->getInLinks()) {
+				auto* nodeFrom = dynamic_cast<NodeEntity*>(manager.getEntityFromId(link->getFromNode()));
+				for (auto& depthLinkId : nodeFrom->getInLinks()) {
 					auto* depthLink = dynamic_cast<LinkEntity*>(manager.getEntityFromId(depthLinkId));
 					if (depthLink->type == LinkEntity::ConnectionType::PORT_TO_PORT)
 						depthLink->updateArrowHeads();

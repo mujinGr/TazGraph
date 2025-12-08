@@ -6,6 +6,7 @@ void Graph::update(float deltaTime) //game objects updating
 
 	std::string mapName = DataManager::getInstance().mapToLoad;
 
+	// on Graph Load / Graph Change
 	if (!mapName.empty() && setManager(mapName)) {
 		manager->resetEntityId();
 
@@ -17,6 +18,7 @@ void Graph::update(float deltaTime) //game objects updating
 		);
 		last_showGrid = false;
 		DataManager::getInstance().mapToLoad = "";
+		_selectedEntities.clear();
 	}
 
 
@@ -215,6 +217,7 @@ void Graph::update(float deltaTime) //game objects updating
 			link_entity->updateConnection();
 			link_entity->updatePortSlots();
 		}
+
 		// PATH LINKS UPDATE
 		for (auto* link : manager->getGroup<LinkEntity>(Manager::groupPathLinks))
 		{

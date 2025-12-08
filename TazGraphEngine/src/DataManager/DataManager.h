@@ -177,6 +177,7 @@ public:
 			}
 		}
 
+		// Paths
 		for (size_t i = 0; i < manager.steps[transitionToStep].paths.size(); i++) {
 
 			auto& path = manager.
@@ -214,6 +215,22 @@ public:
 				// associate link with path linker
 				path.first->GetComponent<PathLinkerComponent>().addLink(link.getId());
 
+			}
+		}
+
+		// PATH LINKS UPDATE
+		if (manager.arrowheadsEnabled) {
+			for (auto* link : manager.getGroup<LinkEntity>(Manager::groupPathLinks))
+			{
+				auto* link_entity = dynamic_cast<LinkEntity*>(link);
+
+				link_entity->setConnectionType(LinkEntity::ConnectionType::PORT_TO_PORT);
+				link_entity->updateConnection();
+			}
+
+			for (auto* pathLinker : manager.getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
+			{
+				pathLinker->GetComponent<PathLinkerComponent>().createInnerLinks();
 			}
 		}
 	}

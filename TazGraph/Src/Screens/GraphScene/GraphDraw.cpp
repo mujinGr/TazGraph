@@ -66,6 +66,127 @@ void Graph::prepareDraw()
 		nodesBatch.rotationMatrix = rotationMatrix;
 		frameData.batches.push_back(nodesBatch);
 	}
+	// 8.1. Selection Nodes Overlay Batch
+	{
+		Taz::GECSRenderBatch selectionBatch;
+		selectionBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		selectionBatch.mesh_type = Taz::RenderBatch::MeshType::Box;
+
+
+		selectionBatch.batchName = manager->getGroupName(Manager::groupSelectedEntities);
+		selectionBatch.shaderName = "wireframeColor";
+
+		size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
+			[manager = this->manager](const auto& entry) {
+				Entity* ent = manager->getEntityFromId(entry.realEntityId);
+				return dynamic_cast<NodeEntity*>(ent)
+					|| dynamic_cast<EmptyEntity*>(ent);
+			});
+
+		selectionBatch.count = nodeCount;
+
+
+		for (auto& sel : _selectedEntities) {
+			Entity* realEnt = manager->getEntityFromId(sel.realEntityId);
+			if (!realEnt) continue;
+
+			Node* node = dynamic_cast<Node*>(realEnt);
+			Empty* empty = dynamic_cast<Empty*>(realEnt);
+
+			if (node || empty) {
+
+				// Reuse overlay entity, do NOT create new one
+				Empty* overlayEnt = dynamic_cast<Empty*>(manager->getEntityFromId(sel.overlayEntityId));
+
+				if (!overlayEnt || std::get<int>(sel.overlayEntityId) < 0) {
+					// Overlay somehow missing, recreate it
+					auto& newEnt = manager->addEntity<Empty>();
+					newEnt.addGroup(Manager::groupSelectedEntities);
+					newEnt.addComponent<BoxComponent>();
+					newEnt.GetComponent<BoxComponent>().color = TazColor(255, 255, 0, 255);
+					manager->grid->addEmpty(&newEnt, manager->grid->getGridLevel());
+					sel.overlayEntityId = newEnt.getId();
+					overlayEnt = &newEnt;
+				}
+
+				// Update overlay transform here to match real entity
+				overlayEnt->GetComponent<TransformComponent>().position =
+					realEnt->GetComponent<TransformComponent>().getPosition();
+				overlayEnt->GetComponent<TransformComponent>().size =
+					realEnt->GetComponent<TransformComponent>().size;
+
+				selectionBatch.entities.push_back(manager->getEntityFromId(sel.overlayEntityId));
+			}
+		}
+		frameData.batches.push_back(selectionBatch);
+	}
+	// 8.2. Selection Links Overlay Batch
+	{
+		Taz::GECSRenderBatch selectionBatch;
+		selectionBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		selectionBatch.mesh_type = Taz::RenderBatch::MeshType::Line;
+
+
+		selectionBatch.batchName = manager->getGroupName(Manager::groupSelectedEntities);
+		selectionBatch.shaderName = "lineColor";
+
+		size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
+			[manager = this->manager](const auto& entry) {
+				Entity* ent = manager->getEntityFromId(entry.realEntityId);
+				return dynamic_cast<LinkEntity*>(ent);
+			});
+
+		selectionBatch.count = linkCount;
+
+		for (auto& sel : _selectedEntities) {
+			LinkEntity* realEnt = dynamic_cast<LinkEntity*>(manager->getEntityFromId(sel.realEntityId));
+			if (!realEnt) continue;
+
+			Link* link = dynamic_cast<Link*>(realEnt);
+
+			if (link) {
+				Link* overlayEnt = dynamic_cast<Link*>(manager->getEntityFromId(sel.overlayEntityId));
+
+				if (!overlayEnt || std::get<int>(sel.overlayEntityId) < 0) {
+					// Overlay somehow missing, recreate it
+					auto& newEnt = manager->addEntity<Link>(LinkEntity::ConnectionType::DIRECT_POSITIONS);
+					newEnt.addGroup(Manager::groupSelectedEntities);
+					newEnt.addComponent<Line_w_Color>();
+
+					newEnt.GetComponent<Line_w_Color>().setDestColor(TazColor(255, 255, 0, 255));
+					newEnt.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 0, 255));
+					newEnt.GetComponent<Line_w_Color>().width = realEnt->GetComponent<Line_w_Color>().width + 4.0f;
+
+					manager->grid->addLink(&newEnt, manager->grid->getGridLevel());
+
+					sel.overlayEntityId = newEnt.getId();
+					overlayEnt = &newEnt;
+				}
+
+				overlayEnt->fromId =
+					realEnt->fromId;
+				overlayEnt->toId =
+					realEnt->toId;
+
+				overlayEnt->fromPort =
+					realEnt->fromPort;
+				overlayEnt->toPort =
+					realEnt->toPort;
+
+				overlayEnt->fromSlotIndex =
+					realEnt->fromSlotIndex;
+				overlayEnt->toSlotIndex =
+					realEnt->toSlotIndex;
+
+				overlayEnt->type = realEnt->type;
+				overlayEnt->updateConnectionPositions();
+
+				selectionBatch.entities.push_back(manager->getEntityFromId(sel.overlayEntityId));
+			}
+		}
+
+		frameData.batches.push_back(selectionBatch);
+	}
 	// 2. Link Rendering
 	{
 		Taz::GECSRenderBatch linksBatch;
@@ -203,127 +324,7 @@ void Graph::prepareDraw()
 		portsBatch.count = portsBatch.entities.size();
 		frameData.batches.push_back(portsBatch);
 	}
-	// 8.1. Selection Nodes Overlay Batch
-	{
-		Taz::GECSRenderBatch selectionBatch;
-		selectionBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
-		selectionBatch.mesh_type = Taz::RenderBatch::MeshType::Box;
 
-
-		selectionBatch.batchName = manager->getGroupName(Manager::groupSelectedEntities);
-		selectionBatch.shaderName = "wireframeColor";
-
-		size_t nodeCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
-			[manager = this->manager](const auto& entry) {
-				Entity* ent = manager->getEntityFromId(entry.realEntityId);
-				return dynamic_cast<NodeEntity*>(ent)
-					|| dynamic_cast<EmptyEntity*>(ent);
-			});
-
-		selectionBatch.count = nodeCount;
-
-
-		for (auto& sel : _selectedEntities) {
-			Entity* realEnt = manager->getEntityFromId(sel.realEntityId);
-			if (!realEnt) continue;
-
-			Node* node = dynamic_cast<Node*>(realEnt);
-			Empty* empty = dynamic_cast<Empty*>(realEnt);
-
-			if (node || empty) {
-
-				// Reuse overlay entity, do NOT create new one
-				Empty* overlayEnt = dynamic_cast<Empty*>(manager->getEntityFromId(sel.overlayEntityId));
-
-				if (!overlayEnt || std::get<int>(sel.overlayEntityId) < 0) {
-					// Overlay somehow missing, recreate it
-					auto& newEnt = manager->addEntity<Empty>();
-					newEnt.addGroup(Manager::groupSelectedEntities);
-					newEnt.addComponent<BoxComponent>();
-					newEnt.GetComponent<BoxComponent>().color = TazColor(255, 255, 0, 255);
-					manager->grid->addEmpty(&newEnt, manager->grid->getGridLevel());
-					sel.overlayEntityId = newEnt.getId();
-					overlayEnt = &newEnt;
-				}
-
-				// Update overlay transform here to match real entity
-				overlayEnt->GetComponent<TransformComponent>().position =
-					realEnt->GetComponent<TransformComponent>().getPosition();
-				overlayEnt->GetComponent<TransformComponent>().size =
-					realEnt->GetComponent<TransformComponent>().size;
-
-				selectionBatch.entities.push_back(manager->getEntityFromId(sel.overlayEntityId));
-			}
-		}
-		frameData.batches.push_back(selectionBatch);
-	}
-	// 8.2. Selection Links Overlay Batch
-	{
-		Taz::GECSRenderBatch selectionBatch;
-		selectionBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
-		selectionBatch.mesh_type = Taz::RenderBatch::MeshType::Line;
-
-
-		selectionBatch.batchName = manager->getGroupName(Manager::groupSelectedEntities);
-		selectionBatch.shaderName = "lineColor";
-
-		size_t linkCount = std::count_if(_selectedEntities.begin(), _selectedEntities.end(),
-			[manager = this->manager](const auto& entry) {
-				Entity* ent = manager->getEntityFromId(entry.realEntityId);
-				return dynamic_cast<LinkEntity*>(ent);
-			});
-
-		selectionBatch.count = linkCount;
-
-		for (auto& sel : _selectedEntities) {
-			LinkEntity* realEnt = dynamic_cast<LinkEntity*>(manager->getEntityFromId(sel.realEntityId));
-			if (!realEnt) continue;
-
-			Link* link = dynamic_cast<Link*>(realEnt);
-
-			if (link) {
-				Link* overlayEnt = dynamic_cast<Link*>(manager->getEntityFromId(sel.overlayEntityId));
-
-				if (!overlayEnt || std::get<int>(sel.overlayEntityId) < 0) {
-					// Overlay somehow missing, recreate it
-					auto& newEnt = manager->addEntity<Link>();
-					newEnt.addGroup(Manager::groupSelectedEntities);
-					newEnt.addComponent<Line_w_Color>();
-
-					newEnt.GetComponent<Line_w_Color>().setDestColor(TazColor(255, 255, 0, 255));
-					newEnt.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 0, 255));
-					newEnt.GetComponent<Line_w_Color>().width = realEnt->GetComponent<Line_w_Color>().width * 1.2f;
-
-					manager->grid->addLink(&newEnt, manager->grid->getGridLevel());
-
-					sel.overlayEntityId = newEnt.getId();
-					overlayEnt = &newEnt;
-				}
-
-				overlayEnt->fromId =
-					realEnt->fromId;
-				overlayEnt->toId =
-					realEnt->toId;
-
-				overlayEnt->fromPort =
-					realEnt->fromPort;
-				overlayEnt->toPort =
-					realEnt->toPort;
-
-				overlayEnt->fromSlotIndex =
-					realEnt->fromSlotIndex;
-				overlayEnt->toSlotIndex =
-					realEnt->toSlotIndex;
-
-				overlayEnt->type = realEnt->type;
-				overlayEnt->updateConnectionPositions();
-
-				selectionBatch.entities.push_back(manager->getEntityFromId(sel.overlayEntityId));
-			}
-		}
-
-		frameData.batches.push_back(selectionBatch);
-	}
 
 	if (last_renderDebug && !renderDebug) {
 		last_renderDebug = renderDebug;

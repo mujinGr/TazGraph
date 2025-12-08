@@ -20,25 +20,28 @@ void Framebuffer::init(int windowWidth, int windowHeight, bool enableMSAA, int M
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
-	// Create multisampled framebuffer
-	glGenFramebuffers(1, &_multisampledFBO);
-	glBindFramebuffer(GL_FRAMEBUFFER, _multisampledFBO);
 
-	// Create multisampled texture
-	glGenTextures(1, &_multisampledTexture);
-	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, _multisampledTexture);
-	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, MSAA_samples, GL_RGB, windowWidth, windowHeight, GL_TRUE);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, _multisampledTexture, 0);
+	if (_multisampleEnabled) {
+		// Create multisampled framebuffer
+		glGenFramebuffers(1, &_multisampledFBO);
+		glBindFramebuffer(GL_FRAMEBUFFER, _multisampledFBO);
 
-	// Create multisampled renderbuffer for depth and stencil
-	glGenRenderbuffers(1, &_multisampledRBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, _multisampledRBO);
-	glRenderbufferStorageMultisample(GL_RENDERBUFFER, MSAA_samples, GL_DEPTH24_STENCIL8, windowWidth, windowHeight);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _multisampledRBO);
+		// Create multisampled texture
+		glGenTextures(1, &_multisampledTexture);
+		glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, _multisampledTexture);
+		glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, MSAA_samples, GL_RGB, windowWidth, windowHeight, GL_TRUE);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, _multisampledTexture, 0);
 
-	// Check if multisampled framebuffer is complete
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		std::cout << "ERROR: Multisampled Framebuffer is not complete!" << std::endl;
+		// Create multisampled renderbuffer for depth and stencil
+		glGenRenderbuffers(1, &_multisampledRBO);
+		glBindRenderbuffer(GL_RENDERBUFFER, _multisampledRBO);
+		glRenderbufferStorageMultisample(GL_RENDERBUFFER, MSAA_samples, GL_DEPTH24_STENCIL8, windowWidth, windowHeight);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _multisampledRBO);
+
+		// Check if multisampled framebuffer is complete
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+			std::cout << "ERROR: Multisampled Framebuffer is not complete!" << std::endl;
+	}
 
 	// Create regular framebuffer for resolving (this is what you'll actually read from)
 	glGenFramebuffers(1, &_FBO);
