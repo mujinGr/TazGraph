@@ -160,7 +160,16 @@ void AppInterface::drawPlaneColorBatch(
 	GLint pLocation = shader.getUniformLocation("rotationMatrix");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(batch.rotationMatrix));
 
-	planeColorRenderer.endBatch(batch);
+	if (batch.batchName == "groupArrowHeads_0"
+		) {
+		glEnable(GL_POLYGON_OFFSET_FILL);
+		glPolygonOffset(0.0f, -1.0f);
+		lineRenderer.endBatch(batch);
+		glDisable(GL_POLYGON_OFFSET_FILL);
+	}
+	else {
+		planeColorRenderer.endBatch(batch);
+	}
 	shader.unuse();
 
 }
