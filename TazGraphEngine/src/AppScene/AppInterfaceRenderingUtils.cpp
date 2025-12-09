@@ -133,7 +133,17 @@ void AppInterface::drawLineBatch(
 		glUniform2f(pLocation, batch.viewportSize.x, batch.viewportSize.y);
 	}
 
-	lineRenderer.endBatch(batch);
+	if (batch.batchName == "groupPathLinks"
+		) {
+		glEnable(GL_POLYGON_OFFSET_FILL);
+		glPolygonOffset(0.0f, -1.0f);
+		lineRenderer.endBatch(batch);
+		glDisable(GL_POLYGON_OFFSET_FILL);
+	}
+	else {
+		lineRenderer.endBatch(batch);
+	}
+
 	shader.unuse();
 
 }

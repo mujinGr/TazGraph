@@ -192,7 +192,9 @@ inline bool rayIntersectsLineSegment(
 	const glm::vec3& rayOrigin,
 	const glm::vec3& rayDirection,
 	const glm::vec3& segmentStart,
-	const glm::vec3& segmentEnd
+	const glm::vec3& segmentEnd,
+	glm::vec3& intersectionPoint,
+	float* tOut = nullptr
 ) {
 	glm::vec3 lineVec = segmentEnd - segmentStart;
 	glm::vec3 w = rayOrigin - segmentStart;
@@ -226,11 +228,15 @@ inline bool rayIntersectsLineSegment(
 	float distance = glm::distance(pointOnRay, pointOnSegment);
 
 	if (distance <= LINE_THRESHOLD) {
+		intersectionPoint = pointOnSegment;
+		if (tOut) {
+			*tOut = distance;
+		}
+
 		return true;
 	}
 
 	return false;
-
 }
 
 inline bool checkCircleLineCollision(glm::vec2 center, int circleRadius, glm::vec2 lineStartPoint, glm::vec2 lineEndPoint) {

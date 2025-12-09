@@ -120,6 +120,25 @@ void Graph::prepareDraw()
 		}
 		frameData.batches.push_back(selectionBatch);
 	}
+
+	// 2. Link Rendering
+	{
+		Taz::GECSRenderBatch linksBatch;
+		linksBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
+		linksBatch.mesh_type = Taz::RenderBatch::MeshType::Line;
+
+		linksBatch.batchName = manager->getGroupName(Manager::groupLinks_0);
+		linksBatch.shaderName = "lineColor";
+		linksBatch.entities = manager->collectVisibleEntities({
+			Manager::groupLinks_0,
+			Manager::groupGroupLinks_0,
+			Manager::groupGroupLinks_1
+			}, Taz::EntityType::Link);
+		linksBatch.count = linksBatch.entities.size();
+		frameData.batches.push_back(linksBatch);
+
+	}
+
 	// 8.2. Selection Links Overlay Batch
 	{
 		Taz::GECSRenderBatch selectionBatch;
@@ -186,23 +205,6 @@ void Graph::prepareDraw()
 		}
 
 		frameData.batches.push_back(selectionBatch);
-	}
-	// 2. Link Rendering
-	{
-		Taz::GECSRenderBatch linksBatch;
-		linksBatch.renderer_type = Taz::RenderBatch::RendererType::Line;
-		linksBatch.mesh_type = Taz::RenderBatch::MeshType::Line;
-
-		linksBatch.batchName = manager->getGroupName(Manager::groupLinks_0);
-		linksBatch.shaderName = "lineColor";
-		linksBatch.entities = manager->collectVisibleEntities({
-			Manager::groupLinks_0,
-			Manager::groupGroupLinks_0,
-			Manager::groupGroupLinks_1
-			}, Taz::EntityType::Link);
-		linksBatch.count = linksBatch.entities.size();
-		frameData.batches.push_back(linksBatch);
-
 	}
 	// 3. ArrowHeads Batch
 	{
@@ -468,7 +470,7 @@ void Graph::renderDraw()
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 
 	glClearDepth(1.0);
-	glDepthFunc(GL_LEQUAL);
+	glDepthFunc(GL_LESS); // GL_LESS gives higher fps than GL_EQUAL
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
