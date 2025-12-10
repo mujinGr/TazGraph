@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 		}
 		else {
 			std::cerr << "Unknown argument: " << arg << "\n";
-			std::cerr << "Usage: " << argv[0] << " [--num-threads=X] [--open-file=Y] [--initial-timestamp=Z] [--initial-step=W]\n";
+			std::cerr << "Usage: " << argv[0] << " [--num-threads=X] [--open-file=Y] [--initial-timestamp=Z] [--initial-step=W] [--MSAA=V]\n";
 			return 1;
 		}
 	}

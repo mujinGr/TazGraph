@@ -31,7 +31,7 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 		flags |= SDL_WINDOW_BORDERLESS;
 	}
 
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
@@ -66,7 +66,7 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 	ImPlot::CreateContext();
 	// Setup Platform/Renderer bindings
 	ImGui_ImplSDL2_InitForOpenGL(_sdlWindow, &glContext);
-	ImGui_ImplOpenGL3_Init("#version 430"); // Or whatever GLSL version suits your needs
+	ImGui_ImplOpenGL3_Init("#version 330"); // Or whatever GLSL version suits your needs
 
 	//Check the OpenGL version
 	//std::cout << "***   OpenGL Version: " << glGetString(GL_VERSION) << "    ***\n";

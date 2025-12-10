@@ -1,4 +1,4 @@
-#version 430
+#version 330
 
 #define WORLD_SPACE_MODE 1
 
