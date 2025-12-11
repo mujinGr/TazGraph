@@ -137,14 +137,14 @@ public:
 			NodeEntity* t_node = node.first;
 
 			if (t_node->hasComponent<TransformComponent>() &&
-				t_node->hasComponent<MovingAnimatorComponent>() &&
+				//t_node->hasComponent<MovingAnimatorComponent>() &&
 				t_node->hasComponent<RectangleFlashAnimatorComponent>()
 				) {
 
 				auto& tc = t_node->GetComponent<TransformComponent>();
 
-				t_node->GetComponent<MovingAnimatorComponent>().Play("StepMove",
-					node.second.position - t_node->GetComponent<TransformComponent>().getPosition());
+				/*t_node->GetComponent<MovingAnimatorComponent>().Play("StepMove",*/
+				tc.position = node.second.position;
 
 				tc.size = glm::vec3(node.second.size);
 

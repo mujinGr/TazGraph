@@ -87,7 +87,11 @@ void HoverEntityPanel::OnImGuiRender()
 		drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
 		currentY += lineHeight;
 		if (link->hasComponent<SimDumpData>()) {
-			safe_sprintf(idText, "Id_string: %s", link->GetComponent<SimDumpData>().string_id.c_str());
+			const SimDumpData& d = link->GetComponent<SimDumpData>();
+			std::string safe_id = d.string_id;     // guaranteed to be null-terminated inside std::string
+			safe_id.push_back('\0');
+			char idText[256];
+			safe_sprintf(idText, sizeof(idText), "Id_string: %s", safe_id.c_str());
 			drawList->AddText(ImVec2(textX, currentY), IM_COL32(200, 200, 200, 255), idText);
 		}
 	}
