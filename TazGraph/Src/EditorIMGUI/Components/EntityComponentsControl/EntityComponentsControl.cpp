@@ -62,11 +62,11 @@ void EntityComponentsControlPanel::OnImGuiRender()
 
 		if (hasComponent && ImGui::CollapsingHeader("Script"))
 		{
-			getSubcomponent<PythonInterpreterPanel>()->setConfig({
+			/*getSubcomponent<PythonInterpreterPanel>()->setConfig({
 				.scene = config.scene,
 				});
 
-			getSubcomponent<PythonInterpreterPanel>()->OnImGuiRender2();
+			getSubcomponent<PythonInterpreterPanel>()->OnImGuiRender2();*/
 		}
 
 		config.displayedEntity->imgui_print();

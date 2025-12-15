@@ -7,7 +7,6 @@
 #include "../DataManager/DataManager.h"
 
 
-
 using namespace std::chrono;
 
 AppInterface::AppInterface(int threadCount,
@@ -144,7 +143,6 @@ void AppInterface::run() {
 		FrameMark;
 		//std::cout << "UI: " << uiTime << " ms, Total Frame Time: " << frameTime << " ms, FPS: " << _limiter.fps << "\n";
 	}
-	//SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 }
 
 void AppInterface::enqueueRenderCommand(std::function<void()> cmd) {
@@ -338,6 +336,7 @@ bool AppInterface::init() {
 	if (!initSystems()) return false;
 
 	onInit();
+
 	addScenes();
 
 	_audioEngine.init();

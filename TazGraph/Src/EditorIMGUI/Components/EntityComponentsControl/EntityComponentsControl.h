@@ -17,7 +17,7 @@ private:
 
 public:
 	EntityComponentsControlPanel() {
-		addUIComponent<PythonInterpreterPanel>();
+		//addUIComponent<PythonInterpreterPanel>();
 	}
 
 	void setConfig(const EntityComponentsConfig& cfg) { config = cfg; }

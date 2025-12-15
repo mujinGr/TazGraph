@@ -25,7 +25,7 @@ public:
 	GraphMiddlePanel() {
 		addUIComponent<GraphTopBar>();
 		addUIComponent<ViewportPanel>();
-		addUIComponent<PythonInterpreterPanel>();
+		//addUIComponent<PythonInterpreterPanel>();
 	}
 
 	void setConfig(const GraphMiddlePanelConfig& cfg) { config = cfg; }
