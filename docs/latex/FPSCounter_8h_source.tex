@@ -1,23 +1,23 @@
 \doxysection{FPSCounter.\+h}
-\hypertarget{FPSCounter_8h_source}{}\label{FPSCounter_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/FPSCounter.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/FPSCounter.h}}
+\hypertarget{FPSCounter_8h_source}{}\label{FPSCounter_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/MenuDropdown/FPSCounter.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/MenuDropdown/FPSCounter.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}../UIElement.h"{}}}
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <Camera2.5D/CameraManager.h>}}
-\DoxyCodeLine{00004\ }
-\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classFPSCounter}{FPSCounter}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}\ \{}
-\DoxyCodeLine{00006\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keywordtype}{float}\ cameraRotationZ\ =\ 0;}
-\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classBaseFPSLimiter}{BaseFPSLimiter}}*\ baseFPSLimiter;}
-\DoxyCodeLine{00009\ }
-\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}../../UIElement.h"{}}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classFPSCounter}{FPSCounter}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}\ \{}
+\DoxyCodeLine{00005\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00006\ \ \ \ \ \mbox{\hyperlink{classBaseFPSLimiter}{BaseFPSLimiter}}*\ baseFPSLimiter\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{bool}\ showFPS\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00010\ }
 \DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classFPSCounter}{FPSCounter}}()\ =\ \textcolor{keywordflow}{default};}
 \DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{classFPSCounter}{\string~FPSCounter}}()\ \textcolor{keyword}{override}\ =\ \textcolor{keywordflow}{default};}
 \DoxyCodeLine{00013\ }
 \DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\textcolor{keyword}{\ override}}
 \DoxyCodeLine{00015\ \textcolor{keyword}{\ \ \ \ }\{}
-\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ ImGui::Begin(\textcolor{stringliteral}{"{}Performance"{}});}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ ImGui::Begin(\textcolor{stringliteral}{"{}Performance"{}},\ \&showFPS);}
 \DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}FPS:\ \%f"{}},\ baseFPSLimiter-\/>fps);}
 \DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImPlot::BeginPlot(\textcolor{stringliteral}{"{}FPS\ Plot"{}}))\ \{}
 \DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ plot\_count\ =\ std::min(baseFPSLimiter-\/>fps\_history\_count,}
@@ -27,14 +27,14 @@
 \DoxyCodeLine{00023\ }
 \DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ ImPlot::SetupAxesLimits(0,\ 100,\ 0,\ 200);}
 \DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ ImPlot::PlotLine(\textcolor{stringliteral}{"{}FPS"{}},\ \&baseFPSLimiter-\/>fpsHistory[0],\ plot\_count);}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ ImPlot::PlotLine(\textcolor{stringliteral}{"{}FPS"{}},\ baseFPSLimiter-\/>fpsHistory,\ plot\_count);}
 \DoxyCodeLine{00027\ }
 \DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ ImPlot::EndPlot();}
 \DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ ImGui::End();}
 \DoxyCodeLine{00031\ \ \ \ \ \};}
 \DoxyCodeLine{00032\ }
-\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ setLimiter(\textcolor{keyword}{const}\ \mbox{\hyperlink{classBaseFPSLimiter}{BaseFPSLimiter}}\&\ m\_baseFPSLimiter)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ setLimiter(\mbox{\hyperlink{classBaseFPSLimiter}{BaseFPSLimiter}}\&\ m\_baseFPSLimiter)\ \{}
 \DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ baseFPSLimiter\ =\ \&m\_baseFPSLimiter;}
 \DoxyCodeLine{00035\ \ \ \ \ \}}
 \DoxyCodeLine{00036\ }

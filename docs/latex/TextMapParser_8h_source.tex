@@ -10,16 +10,18 @@
 \DoxyCodeLine{00006\ \ \ \ \ \mbox{\hyperlink{classTextMapParser}{TextMapParser}}();}
 \DoxyCodeLine{00007\ \ \ \ \ \textcolor{keywordtype}{void}\ readFile(std::string\ m\_fileName)\ \textcolor{keyword}{override};}
 \DoxyCodeLine{00008\ }
-\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classTextMapParser_afcd3244feffeb316fc446e62ed4f50a4}{parse}}(}
-\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}\&\ manager,}
-\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3)>\ addNodeFunc,}
-\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&)>\ addLinkFunc}
-\DoxyCodeLine{00013\ \ \ \ \ )\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ closeFile()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{void}\ writeFile(std::string\ m\_fileName,\ \mbox{\hyperlink{classManager}{Manager}}\&\ manager)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classTextMapParser_afcd3244feffeb316fc446e62ed4f50a4}{parse}}(}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}\&\ manager,}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3)>\ addNodeFunc,}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&)>\ addLinkFunc}
+\DoxyCodeLine{00015\ \ \ \ \ )\ \textcolor{keyword}{override};}
 \DoxyCodeLine{00016\ }
-\DoxyCodeLine{00017\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00018\ \ \ \ \ std::ifstream\ file;}
-\DoxyCodeLine{00019\ \};}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ closeFile()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00020\ \ \ \ \ std::ifstream\ file;}
+\DoxyCodeLine{00021\ \};}
 
 \end{DoxyCode}

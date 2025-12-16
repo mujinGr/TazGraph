@@ -1,5 +1,5 @@
 \doxysection{Threader.\+h}
-\hypertarget{Threader_8h_source}{}\label{Threader_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Threader/Threader.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Threader/Threader.h}}
+\hypertarget{Threader_8h_source}{}\label{Threader_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/Threader/Threader.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/Threader/Threader.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
@@ -98,9 +98,9 @@
 \DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ threads.emplace\_back(t\_queue,\ i);}
 \DoxyCodeLine{00095\ \ \ \ \ \}}
 \DoxyCodeLine{00096\ }
-\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ parallel(\textcolor{keywordtype}{int}\ num\_obj,\ std::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)>\&\&\ callback)\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ parallel(\textcolor{keywordtype}{size\_t}\ num\_obj,\ std::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)>\&\&\ callback)\ \{}
 \DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (num\_obj\ ==\ 0)\ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ slice\_size\ =\ num\_obj\ /\ num\_threads;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ slice\_size\ =\ (int)num\_obj\ /\ num\_threads;}
 \DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ num\_threads;\ i++)\ \{}
 \DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ start\ =\ i\ *\ slice\_size;}
 \DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ end\ =\ start\ +\ slice\_size;}
@@ -108,7 +108,7 @@
 \DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (slice\_size\ *\ num\_threads\ <\ num\_obj)\ \{}
 \DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ start\ =\ slice\_size\ *\ num\_threads;}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ callback(start,\ num\_obj);}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ callback(start,\ (\textcolor{keywordtype}{int})num\_obj);}
 \DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{comment}{//todo\ this\ may\ be\ done\ only\ at\ specific\ times}}
 \DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ t\_queue.waitUntilDone();}

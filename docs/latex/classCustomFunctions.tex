@@ -11,11 +11,12 @@ Inheritance diagram for Custom\+Functions\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Custom\+Functions\+:\nopagebreak
+Collaboration diagram for Custom\+Functions\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=181pt]{classCustomFunctions__coll__graph}
+\includegraphics[width=218pt]{classCustomFunctions__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -38,13 +39,20 @@ void {\bfseries Calculate\+Heat\+Map} ()
 \Hypertarget{classCustomFunctions_a21713565a2b31c12780f60ada699961a}\label{classCustomFunctions_a21713565a2b31c12780f60ada699961a} 
 void {\bfseries Draw\+Candlestick\+Chart} ()
 \item 
-\Hypertarget{classCustomFunctions_a59fd265934fc7a8a5ea01bc67e6abe99}\label{classCustomFunctions_a59fd265934fc7a8a5ea01bc67e6abe99} 
-void {\bfseries set\+Selected\+Entities} (std\+::vector$<$ std\+::pair$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}, glm\+::vec3 $>$ $>$ \&m\+\_\+selected\+Entities)
+\Hypertarget{classCustomFunctions_a1f608f8ad797fbe95dac487e55432a84}\label{classCustomFunctions_a1f608f8ad797fbe95dac487e55432a84} 
+void {\bfseries set\+Selected\+Entities} (std\+::vector$<$ \mbox{\hyperlink{structSelectedInfo}{Selected\+Info}} $>$ \&m\+\_\+selected\+Entities)
+\item 
+\Hypertarget{classCustomFunctions_a86d08177e712617f0237ddf79e3375c8}\label{classCustomFunctions_a86d08177e712617f0237ddf79e3375c8} 
+void {\bfseries set\+Config} (const \mbox{\hyperlink{structCustomFunctionsConfig}{Custom\+Functions\+Config}} \&cfg)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
 \begin{DoxyCompactItemize}
 \item 
 virtual void {\bfseries update} (float delta\+Time=0.\+0f)
+\item 
+{\footnotesize template$<$typename T , typename... Args$>$ }\\void {\bfseries add\+UIComponent} (Args \&\&... args)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries get\+Subcomponent} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -55,7 +63,24 @@ bool {\bfseries is\+Script\+Results\+Open} = false
 \Hypertarget{classCustomFunctions_a2e4e9ef9445fed5873fd630378fbe42d}\label{classCustomFunctions_a2e4e9ef9445fed5873fd630378fbe42d} 
 int {\bfseries activated\+Script\+Shown} = 0
 \end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$ $>$ {\bfseries subcomponents}
+\item 
+\mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} {\bfseries parent} = nullptr
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T \texorpdfstring{$\ast$}{*} {\bfseries get\+UIComponent} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unordered\+\_\+map$<$ std\+::type\+\_\+index, \mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries ui\+Component\+Registry}
+\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
 \begin{DoxyCompactItemize}
 \item 

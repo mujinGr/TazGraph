@@ -3,7 +3,8 @@
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{classFramebuffer_a85c5a66a5bf899a976d0e9c7dcfa1862}{init}} (int window\+Width, int window\+Height)
+\Hypertarget{classFramebuffer_a523fbd5364bda1f3b24c16bfe8d3a654}\label{classFramebuffer_a523fbd5364bda1f3b24c16bfe8d3a654} 
+void {\bfseries init} (int window\+Width, int window\+Height, bool enable\+MSAA, int MSAA\+\_\+samples=0)
 \item 
 \Hypertarget{classFramebuffer_a967f1ba7c5cf4f631c4d7f8e646c5ac0}\label{classFramebuffer_a967f1ba7c5cf4f631c4d7f8e646c5ac0} 
 void {\bfseries Bind} ()
@@ -11,24 +12,33 @@ void {\bfseries Bind} ()
 \Hypertarget{classFramebuffer_ab90a3724b38bd453635deb7e2d2fb619}\label{classFramebuffer_ab90a3724b38bd453635deb7e2d2fb619} 
 void {\bfseries Unbind} ()
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classFramebuffer_aebe136b8795fe796f7bbe9c6517dfb13}\label{classFramebuffer_aebe136b8795fe796f7bbe9c6517dfb13} 
+static void {\bfseries Set\+Multisample} (bool enable)
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
+\Hypertarget{classFramebuffer_a157b22618ba4a2efac2cace4c1abc571}\label{classFramebuffer_a157b22618ba4a2efac2cace4c1abc571} 
+bool {\bfseries \+\_\+multisample\+Enabled} = false
+\item 
 \Hypertarget{classFramebuffer_a99a5bee28d01147038d965761f2cfb94}\label{classFramebuffer_a99a5bee28d01147038d965761f2cfb94} 
 uint32\+\_\+t {\bfseries \+\_\+framebuffer\+Texture}
+\item 
+\Hypertarget{classFramebuffer_aed28df9fff430936f5448a8c8efee0ba}\label{classFramebuffer_aed28df9fff430936f5448a8c8efee0ba} 
+uint32\+\_\+t {\bfseries \+\_\+multisampled\+Texture}
+\item 
+\Hypertarget{classFramebuffer_af27bf1f68f7da2b7b3c48190356245bc}\label{classFramebuffer_af27bf1f68f7da2b7b3c48190356245bc} 
+int {\bfseries \+\_\+width}
+\item 
+\Hypertarget{classFramebuffer_a63e2b3d16786239f6f2342733fc3b722}\label{classFramebuffer_a63e2b3d16786239f6f2342733fc3b722} 
+int {\bfseries \+\_\+height}
 \end{DoxyCompactItemize}
 
 
-\doxysubsection{Member Function Documentation}
-\Hypertarget{classFramebuffer_a85c5a66a5bf899a976d0e9c7dcfa1862}\label{classFramebuffer_a85c5a66a5bf899a976d0e9c7dcfa1862} 
-\index{Framebuffer@{Framebuffer}!init@{init}}
-\index{init@{init}!Framebuffer@{Framebuffer}}
-\doxysubsubsection{\texorpdfstring{init()}{init()}}
-{\footnotesize\ttfamily void Framebuffer\+::init (\begin{DoxyParamCaption}\item[{int}]{window\+Width,  }\item[{int}]{window\+Height }\end{DoxyParamCaption})}
-
-invalidate()
-
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Frame\+Buffer/Framebuffer.\+h\item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Frame\+Buffer/Framebuffer.\+cpp\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Render\+Engine/src/\+Renderers/\+Frame\+Buffer/Framebuffer.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Render\+Engine/src/\+Renderers/\+Frame\+Buffer/Framebuffer.\+cpp\end{DoxyCompactItemize}

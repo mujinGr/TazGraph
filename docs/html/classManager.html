@@ -83,31 +83,35 @@ Public Types</h2></td></tr>
 <tr class="memitem:a32a97005c583ad3ff1a5917aab24c98d" id="r_a32a97005c583ad3ff1a5917aab24c98d"><td class="memItemLeft" align="right" valign="top"><a id="a32a97005c583ad3ff1a5917aab24c98d" name="a32a97005c583ad3ff1a5917aab24c98d"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>groupLabels</b> : std::size_t { <br />
 &#160;&#160;<b>groupBackgroundLayer</b>
 , <b>panelBackground</b>
+, <b>groupGridLinks</b>
+, <b>groupSelectedEntities</b>
+, <br />
+&#160;&#160;<b>groupDebugBoxEntities</b>
+, <b>groupDebugRectangleEntities</b>
 , <b>groupLinks_0</b>
 , <b>groupGroupLinks_0</b>
 , <br />
 &#160;&#160;<b>groupGroupLinks_1</b>
-, <b>groupPathLinks_0</b>
-, <b>groupPathLinks_1</b>
-, <b>groupPathLinks_2</b>
-, <br />
-&#160;&#160;<b>groupPathInnerLinks</b>
+, <b>groupPathLinks</b>
+, <b>groupPathInnerLinks</b>
 , <b>groupPathLinksHolder</b>
-, <b>groupArrowHeads_0</b>
+, <br />
+&#160;&#160;<b>groupArrowHeads_0</b>
 , <b>groupNodes_0</b>
-, <br />
-&#160;&#160;<b>groupGroupNodes_0</b>
+, <b>groupGroupNodes_0</b>
 , <b>groupGroupNodes_1</b>
-, <b>groupMinimapNodes</b>
-, <b>groupColliders</b>
 , <br />
-&#160;&#160;<b>groupEmpties</b>
+&#160;&#160;<b>groupMinimapNodes</b>
+, <b>groupColliders</b>
+, <b>groupEmpties</b>
 , <b>groupSphereEmpties</b>
+, <br />
+&#160;&#160;<b>groupWireframeSphereEmpties</b>
 , <b>groupRenderSprites</b>
 , <b>groupPorts</b>
+, <b>groupPortSlots</b>
 , <br />
-&#160;&#160;<b>groupPortSlots</b>
-, <b>buttonLabels</b>
+&#160;&#160;<b>textLabels</b>
 <br />
  }</td></tr>
 <tr class="separator:a32a97005c583ad3ff1a5917aab24c98d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,21 +147,25 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>AddToGroup</b> (<a cl
 <tr class="memitem:a5b299f9cd1f4ffa7a0f453f9f13accdd" id="r_a5b299f9cd1f4ffa7a0f453f9f13accdd"><td class="memItemLeft" align="right" valign="top"><a id="a5b299f9cd1f4ffa7a0f453f9f13accdd" name="a5b299f9cd1f4ffa7a0f453f9f13accdd"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>AddLinkToGroup</b> (<a class="el" href="classLinkEntity.html">LinkEntity</a> *mEntity, Group mGroup)</td></tr>
 <tr class="separator:a5b299f9cd1f4ffa7a0f453f9f13accdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6577eaeef8939cf184b170c28c8d9a1b" id="r_a6577eaeef8939cf184b170c28c8d9a1b"><td class="memItemLeft" align="right" valign="top"><a id="a6577eaeef8939cf184b170c28c8d9a1b" name="a6577eaeef8939cf184b170c28c8d9a1b"></a>
-const std::vector&lt; std::unique_ptr&lt; <a class="el" href="classEntity.html">Entity</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getEntities</b> () const</td></tr>
-<tr class="separator:a6577eaeef8939cf184b170c28c8d9a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a94a8aa10071c303d7a1e9940ab146c" id="r_a7a94a8aa10071c303d7a1e9940ab146c"><td class="memTemplParams" colspan="2"><a id="a7a94a8aa10071c303d7a1e9940ab146c" name="a7a94a8aa10071c303d7a1e9940ab146c"></a>
+<tr class="memitem:a8a9d573a00ec8108e2d555968fbf5324" id="r_a8a9d573a00ec8108e2d555968fbf5324"><td class="memItemLeft" align="right" valign="top"><a id="a8a9d573a00ec8108e2d555968fbf5324" name="a8a9d573a00ec8108e2d555968fbf5324"></a>
+const std::unordered_map&lt; EntityID, std::unique_ptr&lt; <a class="el" href="classEntity.html">Entity</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getEntities</b> () const</td></tr>
+<tr class="separator:a8a9d573a00ec8108e2d555968fbf5324"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ac4d2b6c1f34954eeb72b4b67ac407c" id="r_a7ac4d2b6c1f34954eeb72b4b67ac407c"><td class="memTemplParams" colspan="2"><a id="a7ac4d2b6c1f34954eeb72b4b67ac407c" name="a7ac4d2b6c1f34954eeb72b4b67ac407c"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a7a94a8aa10071c303d7a1e9940ab146c"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; T * &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getVisible</b> ()</td></tr>
-<tr class="separator:a7a94a8aa10071c303d7a1e9940ab146c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10ef135cf0a370e7dbc416084dc36627" id="r_a10ef135cf0a370e7dbc416084dc36627"><td class="memTemplParams" colspan="2"><a id="a10ef135cf0a370e7dbc416084dc36627" name="a10ef135cf0a370e7dbc416084dc36627"></a>
+<tr class="memitem:a7ac4d2b6c1f34954eeb72b4b67ac407c"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classEntity.html">Entity</a> * &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getVisible</b> ()</td></tr>
+<tr class="separator:a7ac4d2b6c1f34954eeb72b4b67ac407c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add61cbe37da367a30b00d4783651522d" id="r_add61cbe37da367a30b00d4783651522d"><td class="memTemplParams" colspan="2"><a id="add61cbe37da367a30b00d4783651522d" name="add61cbe37da367a30b00d4783651522d"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a10ef135cf0a370e7dbc416084dc36627"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; T * &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getVisibleGroup</b> (Group mGroup)</td></tr>
-<tr class="separator:a10ef135cf0a370e7dbc416084dc36627"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab905f51ef4a48f603b5a1beabe88b1b2" id="r_ab905f51ef4a48f603b5a1beabe88b1b2"><td class="memTemplParams" colspan="2"><a id="ab905f51ef4a48f603b5a1beabe88b1b2" name="ab905f51ef4a48f603b5a1beabe88b1b2"></a>
+<tr class="memitem:add61cbe37da367a30b00d4783651522d"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classEntity.html">Entity</a> * &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getVisibleGroup</b> (Group mGroup)</td></tr>
+<tr class="separator:add61cbe37da367a30b00d4783651522d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0328429f920b814450779896e16e8aa0" id="r_a0328429f920b814450779896e16e8aa0"><td class="memTemplParams" colspan="2"><a id="a0328429f920b814450779896e16e8aa0" name="a0328429f920b814450779896e16e8aa0"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ab905f51ef4a48f603b5a1beabe88b1b2"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; T * &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getGroup</b> (Group mGroup)</td></tr>
-<tr class="separator:ab905f51ef4a48f603b5a1beabe88b1b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0328429f920b814450779896e16e8aa0"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getAllTypeEntities</b> (std::vector&lt; <a class="el" href="classEntity.html">Entity</a> * &gt; &amp;output)</td></tr>
+<tr class="separator:a0328429f920b814450779896e16e8aa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65ba0d9aaf68b762b9e65334e407690a" id="r_a65ba0d9aaf68b762b9e65334e407690a"><td class="memTemplParams" colspan="2"><a id="a65ba0d9aaf68b762b9e65334e407690a" name="a65ba0d9aaf68b762b9e65334e407690a"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a65ba0d9aaf68b762b9e65334e407690a"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classEntity.html">Entity</a> * &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getGroup</b> (Group mGroup)</td></tr>
+<tr class="separator:a65ba0d9aaf68b762b9e65334e407690a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af839738bd35efac781777d59869b166c" id="r_af839738bd35efac781777d59869b166c"><td class="memTemplParams" colspan="2"><a id="af839738bd35efac781777d59869b166c" name="af839738bd35efac781777d59869b166c"></a>
 template&lt;typename T , typename... TArgs&gt; </td></tr>
 <tr class="memitem:af839738bd35efac781777d59869b166c"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>addEntityNoId</b> (TArgs &amp;&amp;... mArgs)</td></tr>
@@ -166,12 +174,26 @@ template&lt;typename T , typename... TArgs&gt; </td></tr>
 template&lt;typename T , typename... TArgs&gt; </td></tr>
 <tr class="memitem:aaa2916c8b53554fdcca9e6d927480090"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>addEntity</b> (TArgs &amp;&amp;... mArgs)</td></tr>
 <tr class="separator:aaa2916c8b53554fdcca9e6d927480090"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab82db2ba3427b17682a1584a809a0c62" id="r_ab82db2ba3427b17682a1584a809a0c62"><td class="memTemplParams" colspan="2"><a id="ab82db2ba3427b17682a1584a809a0c62" name="ab82db2ba3427b17682a1584a809a0c62"></a>
+template&lt;typename T , typename... TArgs&gt; </td></tr>
+<tr class="memitem:ab82db2ba3427b17682a1584a809a0c62"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>addEntityWithId</b> (EntityID customId, TArgs &amp;&amp;... mArgs)</td></tr>
+<tr class="separator:ab82db2ba3427b17682a1584a809a0c62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affea0023c830ed37cdf7b0a15e4e5275" id="r_affea0023c830ed37cdf7b0a15e4e5275"><td class="memTemplParams" colspan="2"><a id="affea0023c830ed37cdf7b0a15e4e5275" name="affea0023c830ed37cdf7b0a15e4e5275"></a>
+template&lt;typename T , typename... TArgs&gt; </td></tr>
+<tr class="memitem:affea0023c830ed37cdf7b0a15e4e5275"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>addEntityFromParent</b> (<a class="el" href="classEntity.html">Entity</a> *pEntity, const char *newID=&quot;&quot;, TArgs &amp;&amp;... mArgs)</td></tr>
+<tr class="separator:affea0023c830ed37cdf7b0a15e4e5275"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a541ebe670564f432dc2490eff55935ab" id="r_a541ebe670564f432dc2490eff55935ab"><td class="memItemLeft" align="right" valign="top"><a id="a541ebe670564f432dc2490eff55935ab" name="a541ebe670564f432dc2490eff55935ab"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>resetEntityId</b> ()</td></tr>
 <tr class="separator:a541ebe670564f432dc2490eff55935ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bd4b165a509b2e6859dd5f7afdbc9f2" id="r_a3bd4b165a509b2e6859dd5f7afdbc9f2"><td class="memItemLeft" align="right" valign="top"><a id="a3bd4b165a509b2e6859dd5f7afdbc9f2" name="a3bd4b165a509b2e6859dd5f7afdbc9f2"></a>
-<a class="el" href="classEntity.html">Entity</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getEntityFromId</b> (unsigned int mId)</td></tr>
-<tr class="separator:a3bd4b165a509b2e6859dd5f7afdbc9f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a329878859983a5bb8b1eafc1878761a7" id="r_a329878859983a5bb8b1eafc1878761a7"><td class="memItemLeft" align="right" valign="top"><a id="a329878859983a5bb8b1eafc1878761a7" name="a329878859983a5bb8b1eafc1878761a7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setNewLastEntityId</b> ()</td></tr>
+<tr class="separator:a329878859983a5bb8b1eafc1878761a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98a622e3525d41d42668f2fe6e9f6953" id="r_a98a622e3525d41d42668f2fe6e9f6953"><td class="memItemLeft" align="right" valign="top"><a id="a98a622e3525d41d42668f2fe6e9f6953" name="a98a622e3525d41d42668f2fe6e9f6953"></a>
+<a class="el" href="classEntity.html">Entity</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getEntityFromId</b> (EntityID mId)</td></tr>
+<tr class="separator:a98a622e3525d41d42668f2fe6e9f6953"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2201be339a3b8246f452065b6c8c726a" id="r_a2201be339a3b8246f452065b6c8c726a"><td class="memItemLeft" align="right" valign="top"><a id="a2201be339a3b8246f452065b6c8c726a" name="a2201be339a3b8246f452065b6c8c726a"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasEntity</b> (EntityID mId)</td></tr>
+<tr class="separator:a2201be339a3b8246f452065b6c8c726a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae41afb4980d72271e4acdad182de3abb" id="r_ae41afb4980d72271e4acdad182de3abb"><td class="memItemLeft" align="right" valign="top"><a id="ae41afb4980d72271e4acdad182de3abb" name="ae41afb4980d72271e4acdad182de3abb"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>clearAllEntities</b> ()</td></tr>
 <tr class="separator:ae41afb4980d72271e4acdad182de3abb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -187,9 +209,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>removeAllEntitiesFrom
 <tr class="memitem:abe47e3b02119cde9ced53ba018513117" id="r_abe47e3b02119cde9ced53ba018513117"><td class="memItemLeft" align="right" valign="top"><a id="abe47e3b02119cde9ced53ba018513117" name="abe47e3b02119cde9ced53ba018513117"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>removeAllEntitiesFromLinkGroup</b> (Group mGroup)</td></tr>
 <tr class="separator:abe47e3b02119cde9ced53ba018513117"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33b0350f7de4236e8ba3f7467cd20018" id="r_a33b0350f7de4236e8ba3f7467cd20018"><td class="memItemLeft" align="right" valign="top"><a id="a33b0350f7de4236e8ba3f7467cd20018" name="a33b0350f7de4236e8ba3f7467cd20018"></a>
-std::vector&lt; <a class="el" href="classEntity.html">Entity</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>adjacentEntities</b> (<a class="el" href="classEntity.html">Entity</a> *mainEntity, Group group)</td></tr>
-<tr class="separator:a33b0350f7de4236e8ba3f7467cd20018"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a345ffca9efa85b1ee126e85c17926bac" id="r_a345ffca9efa85b1ee126e85c17926bac"><td class="memItemLeft" align="right" valign="top"><a id="a345ffca9efa85b1ee126e85c17926bac" name="a345ffca9efa85b1ee126e85c17926bac"></a>
+std::vector&lt; EntityID &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>adjacentEntities</b> (<a class="el" href="classEntity.html">Entity</a> *mainEntity, Group group)</td></tr>
+<tr class="separator:a345ffca9efa85b1ee126e85c17926bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a899dd5c5522e4ab16b56fcb6a486e6c9" id="r_a899dd5c5522e4ab16b56fcb6a486e6c9"><td class="memItemLeft" align="right" valign="top"><a id="a899dd5c5522e4ab16b56fcb6a486e6c9" name="a899dd5c5522e4ab16b56fcb6a486e6c9"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getGroupName</b> (Group mGroup) const</td></tr>
 <tr class="separator:a899dd5c5522e4ab16b56fcb6a486e6c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,24 +221,36 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>scanComponentNames</b
 <tr class="memitem:ab83a1f15acb31b04c99f80d7f6585280" id="r_ab83a1f15acb31b04c99f80d7f6585280"><td class="memItemLeft" align="right" valign="top"><a id="ab83a1f15acb31b04c99f80d7f6585280" name="ab83a1f15acb31b04c99f80d7f6585280"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setComponentNames</b> ()</td></tr>
 <tr class="separator:ab83a1f15acb31b04c99f80d7f6585280"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55454d04ca7db4e7dda735a016cd73ed" id="r_a55454d04ca7db4e7dda735a016cd73ed"><td class="memItemLeft" align="right" valign="top"><a id="a55454d04ca7db4e7dda735a016cd73ed" name="a55454d04ca7db4e7dda735a016cd73ed"></a>
+std::vector&lt; <a class="el" href="classEntity.html">Entity</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>collectVisibleEntities</b> (std::initializer_list&lt; Manager::groupLabels &gt; groupNames, Taz::EntityType type)</td></tr>
+<tr class="separator:a55454d04ca7db4e7dda735a016cd73ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ccce61cbca1a6067cba301cce389944" id="r_a5ccce61cbca1a6067cba301cce389944"><td class="memItemLeft" align="right" valign="top"><a id="a5ccce61cbca1a6067cba301cce389944" name="a5ccce61cbca1a6067cba301cce389944"></a>
+std::vector&lt; <a class="el" href="classEntity.html">Entity</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>collectEntities</b> (std::initializer_list&lt; Manager::groupLabels &gt; groupNames, Taz::EntityType type)</td></tr>
+<tr class="separator:a5ccce61cbca1a6067cba301cce389944"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:af8246157c5300e65a5d6de62d79aa238" id="r_af8246157c5300e65a5d6de62d79aa238"><td class="memItemLeft" align="right" valign="top"><a id="af8246157c5300e65a5d6de62d79aa238" name="af8246157c5300e65a5d6de62d79aa238"></a>
-std::vector&lt; <a class="el" href="classNodeEntity.html">NodeEntity</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>movedNodes</b></td></tr>
-<tr class="separator:af8246157c5300e65a5d6de62d79aa238"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa114b9fff270f7761dc3d48bcaa14e89" id="r_aa114b9fff270f7761dc3d48bcaa14e89"><td class="memItemLeft" align="right" valign="top"><a id="aa114b9fff270f7761dc3d48bcaa14e89" name="aa114b9fff270f7761dc3d48bcaa14e89"></a>
+std::vector&lt; <a class="el" href="structSimulationStep.html">SimulationStep</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>steps</b></td></tr>
+<tr class="separator:aa114b9fff270f7761dc3d48bcaa14e89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73d28f92d91050f25c0c277a76e18a74" id="r_a73d28f92d91050f25c0c277a76e18a74"><td class="memItemLeft" align="right" valign="top"><a id="a73d28f92d91050f25c0c277a76e18a74" name="a73d28f92d91050f25c0c277a76e18a74"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>currentStep</b> = 0</td></tr>
+<tr class="separator:a73d28f92d91050f25c0c277a76e18a74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a140661a2e65e3d943b71a61cf29d5d62" id="r_a140661a2e65e3d943b71a61cf29d5d62"><td class="memItemLeft" align="right" valign="top"><a id="a140661a2e65e3d943b71a61cf29d5d62" name="a140661a2e65e3d943b71a61cf29d5d62"></a>
+std::vector&lt; EntityID &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>movedNodes</b></td></tr>
+<tr class="separator:a140661a2e65e3d943b71a61cf29d5d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22aed15a402a10cdcca3d32b991dc355" id="r_a22aed15a402a10cdcca3d32b991dc355"><td class="memItemLeft" align="right" valign="top"><a id="a22aed15a402a10cdcca3d32b991dc355" name="a22aed15a402a10cdcca3d32b991dc355"></a>
 std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>movedNodesMutex</b></td></tr>
 <tr class="separator:a22aed15a402a10cdcca3d32b991dc355"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa00474aac1c0a28c8c3bf45d5236e7ab" id="r_aa00474aac1c0a28c8c3bf45d5236e7ab"><td class="memItemLeft" align="right" valign="top"><a id="aa00474aac1c0a28c8c3bf45d5236e7ab" name="aa00474aac1c0a28c8c3bf45d5236e7ab"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>idTextEnabled</b> = false</td></tr>
+<tr class="separator:aa00474aac1c0a28c8c3bf45d5236e7ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acda43c0b252ac93d75fef699cc406c31" id="r_acda43c0b252ac93d75fef699cc406c31"><td class="memItemLeft" align="right" valign="top"><a id="acda43c0b252ac93d75fef699cc406c31" name="acda43c0b252ac93d75fef699cc406c31"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>arrowheadsEnabled</b> = false</td></tr>
 <tr class="separator:acda43c0b252ac93d75fef699cc406c31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab95d9dabda4987fec0d44d38a5e85c1d" id="r_ab95d9dabda4987fec0d44d38a5e85c1d"><td class="memItemLeft" align="right" valign="top"><a id="ab95d9dabda4987fec0d44d38a5e85c1d" name="ab95d9dabda4987fec0d44d38a5e85c1d"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>last_arrowheadsEnabled</b> = false</td></tr>
 <tr class="separator:ab95d9dabda4987fec0d44d38a5e85c1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad68c2705e5ad7f013293017c25b63729" id="r_ad68c2705e5ad7f013293017c25b63729"><td class="memItemLeft" align="right" valign="top"><a id="ad68c2705e5ad7f013293017c25b63729" name="ad68c2705e5ad7f013293017c25b63729"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>updateInnerPathLinks</b> = false</td></tr>
-<tr class="separator:ad68c2705e5ad7f013293017c25b63729"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c87bfd50acbc3bdf3afe77df4092f3c" id="r_a4c87bfd50acbc3bdf3afe77df4092f3c"><td class="memItemLeft" align="right" valign="top"><a id="a4c87bfd50acbc3bdf3afe77df4092f3c" name="a4c87bfd50acbc3bdf3afe77df4092f3c"></a>
 std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>componentNames</b></td></tr>
 <tr class="separator:a4c87bfd50acbc3bdf3afe77df4092f3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -252,17 +286,15 @@ const std::unordered_map&lt; Group, std::string &gt;&#160;</td><td class="memIte
 </table>
 </div><div class="memdoc">
 <p>THREADER CHECK</p>
-<p>CELL UPDATE</p>
 <p>UPDATE LINK CELLS</p>
 <p>UPDATE</p>
 <p>FOR MAIN MENU</p>
-<p>CELL UPDATE</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Core/<a class="el" href="GECSManager_8h_source.html">GECSManager.h</a></li>
-<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Core/<b>GECSManager.cpp</b></li>
+<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Core/<a class="el" href="GECSManager_8h_source.html">GECSManager.h</a></li>
+<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Core/<b>GECSManager.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

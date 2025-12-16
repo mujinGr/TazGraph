@@ -1,38 +1,49 @@
 \doxysection{Graph\+Top\+Bar.\+h}
-\hypertarget{GraphTopBar_8h_source}{}\label{GraphTopBar_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/GraphTopBar/GraphTopBar.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/GraphTopBar/GraphTopBar.h}}
+\hypertarget{GraphTopBar_8h_source}{}\label{GraphTopBar_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/GraphMiddlePanel/GraphTopBar/GraphTopBar.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/GraphMiddlePanel/GraphTopBar/GraphTopBar.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../UIElement.h"{}}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <AppScene/AppInterface.h>}}
-\DoxyCodeLine{00005\ }
-\DoxyCodeLine{00006\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structGraphTopConfig}{GraphTopConfig}}\ \{}
-\DoxyCodeLine{00007\ \ \ \ \ \mbox{\hyperlink{classBaseFPSLimiter}{BaseFPSLimiter}}*\ c\_fpsLimiter;}
-\DoxyCodeLine{00008\ \ \ \ \ std::unordered\_map<std::string,\ Manager*>*\ c\_graphNames\ =\ \{}
-\DoxyCodeLine{00009\ \ \ \ \ \};}
-\DoxyCodeLine{00010\ \ \ \ \ std::string*\ c\_currentActive;}
-\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ c\_manager;}
-\DoxyCodeLine{00012\ \};}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../../UIElement.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structGraphTopConfig}{GraphTopConfig}}\ \{}
+\DoxyCodeLine{00006\ \ \ \ \ \mbox{\hyperlink{classIScene}{IScene}}*\ scene;}
+\DoxyCodeLine{00007\ \};}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGraphTopBar}{GraphTopBar}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
+\DoxyCodeLine{00010\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{bool}\ interpolation\_running\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00013\ }
-\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGraphTopBar}{GraphTopBar}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
-\DoxyCodeLine{00015\ \{}
-\DoxyCodeLine{00016\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{bool}\ interpolation\_running\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{double}\ interpolation\ =\ 0.0f;}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{double}\ interpolation\_speed\ =\ 0.01f;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{bool}\ autoInterpolate\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00018\ }
-\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{float}\ interpolation\ =\ 0.0f;}
-\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{float}\ interpolation\_speed\ =\ 0.01f;}
-\DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \ \ std::string\ currentActive;}
+\DoxyCodeLine{00019\ \ \ \ \ std::string\ currentActive;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{structGraphTopConfig}{GraphTopConfig}}\ config;}
+\DoxyCodeLine{00022\ \ \ \ \ std::string\ tabToClose\ =\ \textcolor{stringliteral}{"{}"{}};}
 \DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{structGraphTopConfig}{GraphTopConfig}}\ config;}
-\DoxyCodeLine{00025\ \ \ \ \ std::string\ tabToClose\ =\ \textcolor{stringliteral}{"{}"{}};}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structGraphTopConfig}{GraphTopConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00031\ \ \ \ \ std::string\ getTabToClose();}
-\DoxyCodeLine{00032\ \};}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{bool}\ inited\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structGraphTopConfig}{GraphTopConfig}}\&\ cfg)\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ config\ =\ cfg;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!inited)\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ interpolation\ =}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.scene-\/>getApp()-\/>initialTimestamp\ ?\ config.scene-\/>getApp()-\/>initialTimestamp\ :}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (config.scene-\/>getApp()-\/>initialStep\ ?\ cfg.scene-\/>manager-\/>steps[config.scene-\/>getApp()-\/>initialStep].timestamp\ :}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (cfg.scene-\/>manager-\/>steps.empty()\ ?}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0.0f\ :\ cfg.scene-\/>manager-\/>steps.begin()-\/>timestamp));}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ inited\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00042\ \ \ \ \ std::string\ getTabToClose();}
+\DoxyCodeLine{00043\ \};}
 
 \end{DoxyCode}

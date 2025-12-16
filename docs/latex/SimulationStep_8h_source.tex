@@ -1,0 +1,43 @@
+\doxysection{Simulation\+Step.\+h}
+\hypertarget{SimulationStep_8h_source}{}\label{SimulationStep_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Core/SimulationStep.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Core/SimulationStep.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <simdump/include/sim\_dump/datatypes.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}./GECSEntity.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSimulationStep}{SimulationStep}}\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSimulationStep_1_1TazSimulationNode}{TazSimulationNode}}\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ TazPosition\ position;}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ color;}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ TazSize\ size;}
+\DoxyCodeLine{00012\ \ \ \ \ \};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSimulationStep_1_1TazSimulationLink}{TazSimulationLink}}\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ color\ =\ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}(255,\ 255,\ 255,\ 255);}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ width\ =\ 10.0f;}
+\DoxyCodeLine{00018\ \ \ \ \ \};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSimulationStep_1_1TazSimulationPath}{TazSimulationPath}}\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ color;}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ width;}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ std::vector<EntityID>\ link\_ids;}
+\DoxyCodeLine{00024\ \ \ \ \ \};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ sim\_dump::UInt32\ step\_index;}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{double}\ timestamp;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{comment}{//\ node\ data}}
+\DoxyCodeLine{00030\ \ \ \ \ std::vector<std::pair<NodeEntity*,\ TazSimulationNode>>\ nodes;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{comment}{//\ link\ data}}
+\DoxyCodeLine{00033\ \ \ \ \ std::vector<\ std::pair<LinkEntity*,\ TazSimulationLink>>\ \ links;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{comment}{//\ path\ data}}
+\DoxyCodeLine{00036\ \ \ \ \ std::vector<std::pair<EmptyEntity*,\ TazSimulationPath>>\ paths;\ \textcolor{comment}{//\ pathId\ →\ (color,\ width)}}
+\DoxyCodeLine{00037\ \};}
+
+\end{DoxyCode}

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TazGraph Project: /mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/LineAnimators/LineFlashAnimatorComponent.h Source File</title>
+<title>TazGraph Project: /mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Animators/LineAnimators/LineFlashAnimatorComponent.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -74,7 +74,7 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_b651ad071ea0015b9e78c24c646b3ca0.html">TazGraphEngine</a></li><li class="navelem"><a class="el" href="dir_b248dd036d709d24ab0c1971083770f3.html">GECS</a></li><li class="navelem"><a class="el" href="dir_bdb1b9f6f5872ad947a647fcb9f77180.html">Animators</a></li><li class="navelem"><a class="el" href="dir_b2da113b87181c61a8f305055874c5cc.html">LineAnimators</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_b651ad071ea0015b9e78c24c646b3ca0.html">TazGraphEngine</a></li><li class="navelem"><a class="el" href="dir_6aff9ad979ac026231edea2fc9bfcf99.html">src</a></li><li class="navelem"><a class="el" href="dir_b45bb9ff32e1e480db7f04d864c5d0c3.html">GECS</a></li><li class="navelem"><a class="el" href="dir_8aca30a7d785d1934e4790faeaf9d312.html">Animators</a></li><li class="navelem"><a class="el" href="dir_b010101dc5260d925ed826cd0f22d49c.html">LineAnimators</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -148,40 +148,38 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <a class="code hl_struct" href="structAnimatorManager.html">AnimatorManager</a>&amp; animManager = AnimatorManager::getInstance();</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        animationName = animName;</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <a class="code hl_variable" href="classLineFlashAnimatorComponent.html#afaec4785ec0ee3a7c0413e1ea5a898f2">line</a>-&gt;SetFlashAnimation(</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            animManager.flash_animations[animationName].indexX, animManager.flash_animations[animationName].indexY,</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            animManager.flash_animations[animationName].total_frames, animManager.flash_animations[animationName].speed,</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            animManager.flash_animations[animationName].type,</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            animManager.flash_animations[animationName].getSpeedsAsVector(),</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            animManager.flash_animations[animationName].flashColor,</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            reps ? reps : animManager.flash_animations[animationName].reps</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        );</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordtype">void</span> resetAnimation() {</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <a class="code hl_struct" href="structAnimatorManager.html">AnimatorManager</a>&amp; animManager = AnimatorManager::getInstance();</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        animationName = <span class="stringliteral">&quot;Default&quot;</span>;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <a class="code hl_variable" href="classLineFlashAnimatorComponent.html#afaec4785ec0ee3a7c0413e1ea5a898f2">line</a>-&gt;SetFlashAnimation(</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            animManager.flash_animations[animationName].indexX, animManager.flash_animations[animationName].indexY,</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            animManager.flash_animations[animationName].total_frames, animManager.flash_animations[animationName].speed,</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            animManager.flash_animations[animationName].type,</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            animManager.flash_animations[animationName].getSpeedsAsVector(),</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            animManager.flash_animations[animationName].flashColor);</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    std::string getPlayName()</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    {</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="keywordflow">return</span> animationName;</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    }</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>};</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            animManager.flash_animations[animationName].total_frames, animManager.flash_animations[animationName].speed,</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            animManager.flash_animations[animationName].type,</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            animManager.flash_animations[animationName].getSpeedsAsVector(),</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            animManager.flash_animations[animationName].flashColor,</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            reps ? reps : animManager.flash_animations[animationName].reps</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        );</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">void</span> resetAnimation() {</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <a class="code hl_struct" href="structAnimatorManager.html">AnimatorManager</a>&amp; animManager = AnimatorManager::getInstance();</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        animationName = <span class="stringliteral">&quot;Default&quot;</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <a class="code hl_variable" href="classLineFlashAnimatorComponent.html#afaec4785ec0ee3a7c0413e1ea5a898f2">line</a>-&gt;SetFlashAnimation(</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            animManager.flash_animations[animationName].total_frames, animManager.flash_animations[animationName].speed,</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            animManager.flash_animations[animationName].type,</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            animManager.flash_animations[animationName].getSpeedsAsVector(),</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            animManager.flash_animations[animationName].flashColor);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    }</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    std::string getPlayName()</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keywordflow">return</span> animationName;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    }</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>};</div>
 </div>
-<div class="ttc" id="aclassEntity_html_aafe23d7d7ea7f427ca40454edcae460e"><div class="ttname"><a href="classEntity.html#aafe23d7d7ea7f427ca40454edcae460e">Entity::addComponent</a></div><div class="ttdeci">T &amp; addComponent(TArgs &amp;&amp;... mArgs)</div><div class="ttdoc">have addScript function</div><div class="ttdef"><b>Definition</b> GECS.h:251</div></div>
+<div class="ttc" id="aclassEntity_html_aafe23d7d7ea7f427ca40454edcae460e"><div class="ttname"><a href="classEntity.html#aafe23d7d7ea7f427ca40454edcae460e">Entity::addComponent</a></div><div class="ttdeci">T &amp; addComponent(TArgs &amp;&amp;... mArgs)</div><div class="ttdoc">have addScript function</div><div class="ttdef"><b>Definition</b> GECS.h:338</div></div>
 <div class="ttc" id="aclassLineFlashAnimatorComponent_html"><div class="ttname"><a href="classLineFlashAnimatorComponent.html">LineFlashAnimatorComponent</a></div><div class="ttdef"><b>Definition</b> LineFlashAnimatorComponent.h:14</div></div>
 <div class="ttc" id="aclassLineFlashAnimatorComponent_html_afaec4785ec0ee3a7c0413e1ea5a898f2"><div class="ttname"><a href="classLineFlashAnimatorComponent.html#afaec4785ec0ee3a7c0413e1ea5a898f2">LineFlashAnimatorComponent::line</a></div><div class="ttdeci">Line_w_Color * line</div><div class="ttdoc">also we use MovingAnimator instead of simple Animator so that entities use less memory and we use it ...</div><div class="ttdef"><b>Definition</b> LineFlashAnimatorComponent.h:17</div></div>
 <div class="ttc" id="aclassLine__w__Color_html"><div class="ttname"><a href="classLine__w__Color.html">Line_w_Color</a></div><div class="ttdef"><b>Definition</b> Line_w_Color.h:6</div></div>
-<div class="ttc" id="aclassLinkComponent_html"><div class="ttname"><a href="classLinkComponent.html">LinkComponent</a></div><div class="ttdef"><b>Definition</b> GECS.h:135</div></div>
-<div class="ttc" id="aclassPlaneModelRenderer_html"><div class="ttname"><a href="classPlaneModelRenderer.html">PlaneModelRenderer</a></div><div class="ttdef"><b>Definition</b> PlaneModelRenderer.h:21</div></div>
-<div class="ttc" id="aclassTazGraphEngine_1_1Window_html"><div class="ttname"><a href="classTazGraphEngine_1_1Window.html">TazGraphEngine::Window</a></div><div class="ttdef"><b>Definition</b> Window.h:18</div></div>
+<div class="ttc" id="aclassLinkComponent_html"><div class="ttname"><a href="classLinkComponent.html">LinkComponent</a></div><div class="ttdef"><b>Definition</b> GECS.h:134</div></div>
+<div class="ttc" id="aclassPlaneModelRenderer_html"><div class="ttname"><a href="classPlaneModelRenderer.html">PlaneModelRenderer</a></div><div class="ttdef"><b>Definition</b> PlaneModelRenderer.h:15</div></div>
+<div class="ttc" id="aclassTazGraphEngine_1_1Window_html"><div class="ttname"><a href="classTazGraphEngine_1_1Window.html">TazGraphEngine::Window</a></div><div class="ttdef"><b>Definition</b> Window.h:12</div></div>
 <div class="ttc" id="astructAnimatorManager_html"><div class="ttname"><a href="structAnimatorManager.html">AnimatorManager</a></div><div class="ttdef"><b>Definition</b> AnimatorManager.h:10</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

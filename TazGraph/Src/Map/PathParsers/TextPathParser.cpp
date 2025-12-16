@@ -11,6 +11,10 @@ void TextPathParser::readFile(std::string m_fileName) {
 	}
 }
 
+void TextPathParser::writeFile(std::string m_fileName, Manager& manager)
+{
+}
+
 void TextPathParser::closeFile() {
 	file.close();
 }
@@ -26,50 +30,89 @@ void TextPathParser::parse(Manager& manager,
 		linkLines.push_back(line);
 	}
 
-    
 
-    std::vector<Entity*> linkEntities;
+	for (const std::string& line : linkLines) {
+		std::stringstream ss(line);
 
-    for (const std::string& line : linkLines) {
-        std::stringstream ss(line);
-        std::string token;
-        std::vector<int> ids;
+		std::string idsPart, colorPart;
+		float width = 1.0f;
 
-        auto& pathLinker = manager.addEntity<Empty>();
-        pathLinker.addComponent<PathLinkerComponent>();
+		ss >> idsPart >> colorPart >> width;
 
-        while (std::getline(ss, token, '-')) {
-            ids.push_back(std::stoi(token));
-        }
+		// Parse IDs (split by '-')
+		std::vector<int> ids;
+		std::stringstream idStream(idsPart);
+		std::string token;
+		while (std::getline(idStream, token, '-')) {
+			ids.push_back(std::stoi(token));
+		}
 
-        for (size_t i = 1; i < ids.size(); ++i) {
-            int idA = ids[i - 1];
-            int idB = ids[i];
+		// Check each entity and collect missing IDs
+		std::vector<int> missingIds;
+		for (int id : ids) {
+			if (!manager.hasEntity(id)) {
+				missingIds.push_back(id);
+			}
+		}
 
-            auto& link = manager.addEntity<Link>(idA, idB);
+		if (!missingIds.empty()) {
+			std::cerr << "Error in line: " << line << std::endl;
+			std::cerr << "Missing entities with IDs: ";
+			for (int missingId : missingIds) {
+				std::cerr << missingId << " ";
+			}
+			std::cerr << std::endl;
+			continue; // Skip to next line
+		}
 
-            link.addGroup(Manager::groupPathLinks_0);
+		auto& pathLinker = manager.addEntity<Empty>();
+		pathLinker.addGroup(Manager::groupPathLinksHolder);
+		
+		auto& plc = pathLinker.addComponent<PathLinkerComponent>();
 
-            pathLinker.GetComponent<PathLinkerComponent>().addLink(&link);
-            pathLinker.addGroup(Manager::groupPathLinksHolder);
+		// parse optional attributes
+		if (colorPart.size() == 7 && colorPart[0] == '#') {
+			int r = std::stoi(colorPart.substr(1, 2), nullptr, 16);
+			int g = std::stoi(colorPart.substr(3, 2), nullptr, 16);
+			int b = std::stoi(colorPart.substr(5, 2), nullptr, 16);
+			plc.color = TazColor(r, g, b, 255);
+		}
 
-            linkEntities.push_back(&link);
-        }
-    }
+		plc.width = width;
 
-    for (int i = 0; i < linkEntities.size(); i++) {
-        addLinkFunc(*linkEntities[i]);
-    }
+		for (size_t i = 1; i < ids.size(); ++i) {
+			int idA = ids[i - 1];
+			int idB = ids[i];
 
-    for (auto& link : manager.getGroup<LinkEntity>(Manager::groupPathLinks_0)) {
-        manager.grid->addLink(link, manager.grid->getGridLevel());
-    }
-    manager.updateInnerPathLinks = true;
+			auto& link = manager.addEntity<Link>(idA, idB);
 
-    //for (auto& link : manager.getGroup<LinkEntity>(Manager::groupPathLinks_1)) {
-    //    manager.grid->addLink(link, manager.grid->getGridLevel());
-    //}
-    //for (auto& link : manager.getGroup<LinkEntity>(Manager::groupPathLinks_2)) {
-    //    manager.grid->addLink(link, manager.grid->getGridLevel());
-    //}
+			link.addGroup(Manager::groupPathLinks);
+
+			addLinkFunc(link);
+
+			pathLinker.GetComponent<PathLinkerComponent>().addLink(link.getId());
+		}
+	}
+
+	for (auto* link : manager.getGroup<LinkEntity>(Manager::groupPathLinks)) {
+		auto* link_entity = dynamic_cast<LinkEntity*>(link);
+
+		manager.grid->addLink(link_entity, manager.grid->getGridLevel());
+	}
+
+	// PATH LINKS UPDATE
+	if (manager.arrowheadsEnabled) {
+		for (auto* link : manager.getGroup<LinkEntity>(Manager::groupPathLinks))
+		{
+			auto* link_entity = dynamic_cast<LinkEntity*>(link);
+
+			link_entity->setConnectionType(LinkEntity::ConnectionType::PORT_TO_PORT);
+			link_entity->updateConnection();
+		}
+
+		for (auto* pathLinker : manager.getGroup<EmptyEntity>(Manager::groupPathLinksHolder))
+		{
+			pathLinker->GetComponent<PathLinkerComponent>().createInnerLinks();
+		}
+	}
 }

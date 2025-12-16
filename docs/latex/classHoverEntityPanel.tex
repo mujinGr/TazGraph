@@ -11,11 +11,12 @@ Inheritance diagram for Hover\+Entity\+Panel\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Hover\+Entity\+Panel\+:\nopagebreak
+Collaboration diagram for Hover\+Entity\+Panel\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=324pt]{classHoverEntityPanel__coll__graph}
+\includegraphics[width=218pt]{classHoverEntityPanel__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -30,20 +31,29 @@ void \mbox{\hyperlink{classHoverEntityPanel_a81b2a81739a136ec831954eec136f849}{O
 \begin{DoxyCompactItemize}
 \item 
 virtual void {\bfseries update} (float delta\+Time=0.\+0f)
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Public Attributes}
-\begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classHoverEntityPanel_a7c05b5e310f4837dd2f69f045ff626b7}\label{classHoverEntityPanel_a7c05b5e310f4837dd2f69f045ff626b7} 
-\mbox{\hyperlink{classLoadingUI}{Loading\+UI}} {\bfseries loading\+UI}
+{\footnotesize template$<$typename T , typename... Args$>$ }\\void {\bfseries add\+UIComponent} (Args \&\&... args)
 \item 
-\Hypertarget{classHoverEntityPanel_a076e74836e49d106f5b6e320e74ae243}\label{classHoverEntityPanel_a076e74836e49d106f5b6e320e74ae243} 
-\mbox{\hyperlink{classSavingUI}{Saving\+UI}} {\bfseries saving\+UI}
-\item 
-\Hypertarget{classHoverEntityPanel_aba6a0806f3b81080852064bce717fa35}\label{classHoverEntityPanel_aba6a0806f3b81080852064bce717fa35} 
-\mbox{\hyperlink{classNewMapUI}{New\+Map\+UI}} {\bfseries new\+Map\+UI}
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries get\+Subcomponent} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T \texorpdfstring{$\ast$}{*} {\bfseries get\+UIComponent} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$ $>$ {\bfseries subcomponents}
+\item 
+\mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} {\bfseries parent} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unordered\+\_\+map$<$ std\+::type\+\_\+index, \mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries ui\+Component\+Registry}
+\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
 \begin{DoxyCompactItemize}
 \item 
@@ -68,5 +78,5 @@ Implements \mbox{\hyperlink{classUIElement}{UIElement}}.
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Hover\+Entity\+Panel/Hover\+Entity\+Panel.\+h\item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Hover\+Entity\+Panel/Hover\+Entity\+Panel.\+cpp\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Graph\+Middle\+Panel/\+Viewport\+Panel/\+Hover\+Entity\+Panel/Hover\+Entity\+Panel.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Graph\+Middle\+Panel/\+Viewport\+Panel/\+Hover\+Entity\+Panel/Hover\+Entity\+Panel.\+cpp\end{DoxyCompactItemize}

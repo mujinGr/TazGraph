@@ -16,12 +16,11 @@ x64/
 
 .vs/
 .vscode/
-deps/*
 build/
 
 *.bak
 *.tmp
 *.temp
 
-*.sln
 TazGraph/imgui.ini
+TazGraph/assets/Maps/*.simdmp

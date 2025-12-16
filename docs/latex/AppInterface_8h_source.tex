@@ -1,13 +1,13 @@
 \doxysection{App\+Interface.\+h}
-\hypertarget{AppInterface_8h_source}{}\label{AppInterface_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/AppScene/AppInterface.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/AppScene/AppInterface.h}}
+\hypertarget{AppInterface_8h_source}{}\label{AppInterface_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/AppScene/AppInterface.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/AppScene/AppInterface.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../InputManager/InputManager.h"{}}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../Window/Window.h"{}}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../pch.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../InputManager/InputManager.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../Window/Window.h"{}}}
 \DoxyCodeLine{00007\ }
 \DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}SceneList.h"{}}}
 \DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../BaseFPSLimiter/BaseFPSLimiter.h"{}}}
@@ -15,51 +15,138 @@
 \DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../AudioEngine/AudioEngine.h"{}}}
 \DoxyCodeLine{00012\ }
 \DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}../Threader/Threader.h"{}}}
-\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}../Threader/RenderCommandQueue.h"{}}}
 \DoxyCodeLine{00015\ }
-\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classSceneList}{SceneList}};}
-\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classIScene}{IScene}};}
-\DoxyCodeLine{00018\ }
-\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classAppInterface}{AppInterface}}\ \{}
-\DoxyCodeLine{00020\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{classAppInterface}{AppInterface}}(\textcolor{keywordtype}{int}\ threadCount);}
-\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classAppInterface}{\string~AppInterface}}();}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ run();}
-\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ exitSimulator();}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classAppInterface}{AppInterface}}\ \{}
+\DoxyCodeLine{00018\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{classAppInterface}{AppInterface}}(\textcolor{keywordtype}{int}\ threadCount,\ \textcolor{keywordtype}{int}\ msaa\_samples,\ std::string\ openFile,}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ initialTimestamp,}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ initialStep,}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ usePython);}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classAppInterface}{\string~AppInterface}}();}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ run();}
 \DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onInit()\ =\ 0;}
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ addScenes()\ =\ 0;}
-\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onExit()\ =\ 0;}
-\DoxyCodeLine{00030\ }
-\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ onSDLEvent(SDL\_Event\&\ evnt);}
-\DoxyCodeLine{00032\ }
-\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{classInputManager}{InputManager}}\ \_inputManager;}
-\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\ \_window;}
-\DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{classBaseFPSLimiter}{BaseFPSLimiter}}\&\ getFPSLimiter()\ \{\ \textcolor{keywordflow}{return}\ \_limiter;\ \}}
-\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{classAudioEngine}{AudioEngine}}\&\ getAudioEngine()\ \{\ \textcolor{keywordflow}{return}\ \_audioEngine;\ \}}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ enqueueRenderCommand(std::function<\textcolor{keywordtype}{void}()>\ cmd);}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ waitForRenderCommand();}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ waitForRenderThreadExit();}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ RenderThreadFunc();}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ exitSimulator();}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onInit()\ =\ 0;}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ addScenes()\ =\ 0;}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onExit()\ =\ 0;}
 \DoxyCodeLine{00038\ }
-\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{structThreader}{Threader}}\ threadPool;}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ onSDLEvent(SDL\_Event\&\ evnt);}
 \DoxyCodeLine{00040\ }
-\DoxyCodeLine{00041\ \textcolor{keyword}{protected}:}
-\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ checkInput();}
-\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime);}
-\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw();}
-\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ updateUI(\textcolor{keywordtype}{float}\ deltaTime);}
-\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ drawUI();}
-\DoxyCodeLine{00047\ }
-\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{bool}\ init();}
-\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{bool}\ initSystems();}
-\DoxyCodeLine{00050\ }
-\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{classBaseFPSLimiter}{BaseFPSLimiter}}\ \_limiter;}
-\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{classAudioEngine}{AudioEngine}}\ \_audioEngine;}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \ \ \ \ std::unique\_ptr<SceneList>\ \_sceneList\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{classIScene}{IScene}}*\ \_currentScene\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_isRunning\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00057\ }
-\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ SCALE\_SPEED\ =\ 0.1f;}
-\DoxyCodeLine{00059\ \};}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{classInputManager}{InputManager}}\ \_inputManager;}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\ \_window;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{classBaseFPSLimiter}{BaseFPSLimiter}}\&\ getFPSLimiter()\ \{\ \textcolor{keywordflow}{return}\ \_limiter;\ \}}
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{classAudioEngine}{AudioEngine}}\&\ getAudioEngine()\ \{\ \textcolor{keywordflow}{return}\ \_audioEngine;\ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{structThreader}{Threader}}\ threadPool;}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{int}\ MSAA\_samples;}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{bool}\ useMSAA\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00050\ \ \ \ \ std::string\ openFile;}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{double}\ initialTimestamp;}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{int}\ initialStep;}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{bool}\ usePython\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ std::mutex\ frameMutex;}
+\DoxyCodeLine{00056\ \ \ \ \ std::condition\_variable\ frameReadyCV;}
+\DoxyCodeLine{00057\ \ \ \ \ std::condition\_variable\ frameConsumedCV;}
+\DoxyCodeLine{00058\ \ \ \ \ std::condition\_variable\ initCommandCV;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{structRenderCommandQueue}{RenderCommandQueue}}\ queues[2];}
+\DoxyCodeLine{00061\ \ \ \ \ std::atomic<int>\ activeIndex\ =\ 0;}
+\DoxyCodeLine{00062\ \ \ \ \ std::atomic<bool>\ frameReady\{\ \textcolor{keyword}{false}\ \};}
+\DoxyCodeLine{00063\ \ \ \ \ std::atomic<bool>\ frameConsumed\{\ \textcolor{keyword}{true}\ \};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \mbox{\hyperlink{structRenderCommandQueue}{RenderCommandQueue}}\ initQueue;}
+\DoxyCodeLine{00066\ \ \ \ \ std::mutex\ initMutex;}
+\DoxyCodeLine{00067\ \ \ \ \ std::condition\_variable\ initCV;}
+\DoxyCodeLine{00068\ \ \ \ \ std::atomic<bool>\ initCommandReady\{\ \textcolor{keyword}{false}\ \};}
+\DoxyCodeLine{00069\ \ \ \ \ std::atomic<bool>\ initCommandComplete\{\ \textcolor{keyword}{false}\ \};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ std::vector<SDL\_Event>\ imguiEvents;}
+\DoxyCodeLine{00072\ \ \ \ \ std::mutex\ imguiEventsMutex;}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\ planeModelRenderer;}
+\DoxyCodeLine{00075\ \ \ \ \ \mbox{\hyperlink{classPlaneColorRenderer}{PlaneColorRenderer}}\ planeColorRenderer;}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{classLineRenderer}{LineRenderer}}\ lineRenderer;}
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{classLightRenderer}{LightRenderer}}\ lightRenderer;}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{classResourceManager}{ResourceManager}}\ resourceManager;}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{void}\ renderBatch(}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz::GECSRenderBatch}}\&\ batch,}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz::FrameRenderData}}\&\ frameData,}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classICamera}{ICamera}}\&\ camera}
+\DoxyCodeLine{00085\ \ \ \ \ );}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{void}\ drawLineBatch(}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz::GECSRenderBatch}}\&\ batch,}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz::FrameRenderData}}\&\ frameData,}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classICamera}{ICamera}}\&\ camera}
+\DoxyCodeLine{00091\ \ \ \ \ );}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{void}\ drawPlaneColorBatch(}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz::GECSRenderBatch}}\&\ batch,}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz::FrameRenderData}}\&\ frameData,}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classICamera}{ICamera}}\&\ camera}
+\DoxyCodeLine{00096\ \ \ \ \ );}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ drawPlaneModelBatch(}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz::GECSRenderBatch}}\&\ batch,}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz::FrameRenderData}}\&\ frameData,}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classICamera}{ICamera}}\&\ camera}
+\DoxyCodeLine{00101\ \ \ \ \ );}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{void}\ drawLightBatch(}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz::GECSRenderBatch}}\&\ batch,}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz::FrameRenderData}}\&\ frameData,}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classICamera}{ICamera}}\&\ camera}
+\DoxyCodeLine{00106\ \ \ \ \ );}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ drawBatch(\textcolor{keyword}{const}\ std::vector<Entity*>\&\ entities,\ \mbox{\hyperlink{classLineRenderer}{LineRenderer}}\&\ batch);}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{void}\ drawBatch(\textcolor{keyword}{const}\ std::vector<Entity*>\&\ entities,\ \mbox{\hyperlink{classPlaneColorRenderer}{PlaneColorRenderer}}\&\ batch);}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{void}\ drawBatch(\textcolor{keyword}{const}\ std::vector<Entity*>\&\ entities,\ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\&\ batch);}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordtype}{void}\ drawBatch(\textcolor{keyword}{const}\ std::vector<Entity*>\&\ entities,\ \mbox{\hyperlink{classLightRenderer}{LightRenderer}}\&\ batch);}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{void}\ prepareBatch(\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz::GECSRenderBatch}}\&\ batch);}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{void}\ prepareLineBatch(\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz::GECSRenderBatch}}\&\ batch);}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordtype}{void}\ preparePlaneColorBatch(\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz::GECSRenderBatch}}\&\ batch);}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{void}\ preparePlaneModelBatch(\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz::GECSRenderBatch}}\&\ batch);}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{void}\ prepareLightBatch(\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz::GECSRenderBatch}}\&\ batch);}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ checkInput();}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime);}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ prepareDraw();}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ renderDraw();}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ updateUI(\textcolor{keywordtype}{float}\ deltaTime);}
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ drawUI();}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ swapBuffer();}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordtype}{bool}\ init();}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordtype}{void}\ initRenderers();}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordtype}{bool}\ initSystems();}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \ \ \mbox{\hyperlink{classBaseFPSLimiter}{BaseFPSLimiter}}\ \_limiter;}
+\DoxyCodeLine{00138\ \ \ \ \ \mbox{\hyperlink{classAudioEngine}{AudioEngine}}\ \_audioEngine;}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ std::unique\_ptr<SceneList>\ \_sceneList\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_isRunning\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ SCALE\_SPEED\ =\ 0.1f;}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \ \ \ \ std::thread\ renderThread;}
+\DoxyCodeLine{00146\ \};}
 
 \end{DoxyCode}

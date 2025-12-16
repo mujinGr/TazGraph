@@ -1,0 +1,6 @@
+<map id="HighlightBox" name="HighlightBox">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,80,112,105"/>
+<area shape="rect" id="Node000002" href="$classUIElement.html" title=" " alt="" coords="13,5,104,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="61,45,61,80,56,80,56,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="119,10,131,18,122,26,104,28,104,22,120,21,125,18,116,14"/>
+</map>

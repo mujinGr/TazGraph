@@ -1,0 +1,18 @@
+<map id="LinkPythonCodeComponent" name="LinkPythonCodeComponent">
+<area shape="rect" id="Node000001" title=" " alt="" coords="42,405,245,431"/>
+<area shape="rect" id="Node000002" href="$classPythonCodeComponent.html" title=" " alt="" coords="5,331,180,356"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,366,137,403,133,407,107,369"/>
+<area shape="rect" id="Node000003" href="$classLinkComponent.html" title=" " alt="" coords="204,331,328,356"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="236,365,164,407,162,403,233,361"/>
+<area shape="rect" id="Node000004" href="$classBaseComponent.html" title=" " alt="" coords="157,243,287,268"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="237,279,262,329,258,331,232,282"/>
+<area shape="rect" id="Node000005" href="$classLinkEntity.html" title=" " alt="" coords="311,243,397,268"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="334,279,280,332,276,328,331,276"/>
+<area shape="rect" id="Node000006" href="$classMultiCellEntity.html" title=" " alt="" coords="295,168,413,193"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="357,208,357,242,351,242,351,208"/>
+<area shape="rect" id="Node000007" href="$classEntity.html" title=" " alt="" coords="324,93,384,119"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="357,133,357,168,351,168,351,133"/>
+<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="399,98,411,106,402,114,385,116,384,110,400,109,405,106,397,102"/>
+<area shape="rect" id="Node000008" href="$classManager.html" title=" " alt="" coords="315,5,393,31"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="357,45,357,93,351,93,351,45"/>
+</map>

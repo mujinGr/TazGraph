@@ -11,11 +11,12 @@ Inheritance diagram for Menu\+Dropdown\+Panel\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Menu\+Dropdown\+Panel\+:\nopagebreak
+Collaboration diagram for Menu\+Dropdown\+Panel\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=324pt]{classMenuDropdownPanel__coll__graph}
+\includegraphics[width=227pt]{classMenuDropdownPanel__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -24,23 +25,35 @@ Collaboration diagram for Menu\+Dropdown\+Panel\+:\nopagebreak
 \Hypertarget{classMenuDropdownPanel_a7844823b0bbee4abf79b7c4a7ece7f9a}\label{classMenuDropdownPanel_a7844823b0bbee4abf79b7c4a7ece7f9a} 
 void {\bfseries set\+Config} (const \mbox{\hyperlink{structMenuDropdownConfig}{Menu\+Dropdown\+Config}} \&cfg)
 \item 
-void \mbox{\hyperlink{classMenuDropdownPanel_a771878e0bbe6f79a96b017a2530b877a}{update}} (float delta\+Time) override
-\item 
 void \mbox{\hyperlink{classMenuDropdownPanel_aa21b2aecd9e6a8d812e95fd808140d35}{On\+Im\+Gui\+Render}} () override
 \end{DoxyCompactItemize}
-\doxysubsubsection*{Public Attributes}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classMenuDropdownPanel_ab813ba3e672b76bcdcc1058630be21fa}\label{classMenuDropdownPanel_ab813ba3e672b76bcdcc1058630be21fa} 
-\mbox{\hyperlink{classLoadingUI}{Loading\+UI}} {\bfseries loading\+UI}
+virtual void {\bfseries update} (float delta\+Time=0.\+0f)
 \item 
-\Hypertarget{classMenuDropdownPanel_a0caf0123bc6c4ace724e40994994df32}\label{classMenuDropdownPanel_a0caf0123bc6c4ace724e40994994df32} 
-\mbox{\hyperlink{classSavingUI}{Saving\+UI}} {\bfseries saving\+UI}
+{\footnotesize template$<$typename T , typename... Args$>$ }\\void {\bfseries add\+UIComponent} (Args \&\&... args)
 \item 
-\Hypertarget{classMenuDropdownPanel_a0e07c94f0297c766b742be8ff9a0a8d6}\label{classMenuDropdownPanel_a0e07c94f0297c766b742be8ff9a0a8d6} 
-\mbox{\hyperlink{classNewMapUI}{New\+Map\+UI}} {\bfseries new\+Map\+UI}
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries get\+Subcomponent} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T \texorpdfstring{$\ast$}{*} {\bfseries get\+UIComponent} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$ $>$ {\bfseries subcomponents}
+\item 
+\mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} {\bfseries parent} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unordered\+\_\+map$<$ std\+::type\+\_\+index, \mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries ui\+Component\+Registry}
+\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
 \begin{DoxyCompactItemize}
 \item 
@@ -60,16 +73,6 @@ bool {\bfseries visible} = true
 
 
 Implements \mbox{\hyperlink{classUIElement}{UIElement}}.
-
-\Hypertarget{classMenuDropdownPanel_a771878e0bbe6f79a96b017a2530b877a}\label{classMenuDropdownPanel_a771878e0bbe6f79a96b017a2530b877a} 
-\index{MenuDropdownPanel@{MenuDropdownPanel}!update@{update}}
-\index{update@{update}!MenuDropdownPanel@{MenuDropdownPanel}}
-\doxysubsubsection{\texorpdfstring{update()}{update()}}
-{\footnotesize\ttfamily void Menu\+Dropdown\+Panel\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
-
-
-
-Reimplemented from \mbox{\hyperlink{classUIElement}{UIElement}}.
 
 
 

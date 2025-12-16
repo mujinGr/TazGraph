@@ -1,5 +1,5 @@
 \doxysection{Flash\+Animator\+Component.\+h}
-\hypertarget{FlashAnimatorComponent_8h_source}{}\label{FlashAnimatorComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/FlashAnimatorComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/FlashAnimatorComponent.h}}
+\hypertarget{FlashAnimatorComponent_8h_source}{}\label{FlashAnimatorComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Animators/FlashAnimatorComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Animators/FlashAnimatorComponent.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
@@ -44,56 +44,58 @@
 \DoxyCodeLine{00040\ }
 \DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override}}
 \DoxyCodeLine{00042\ \textcolor{keyword}{\ \ \ \ }\{}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sprite-\/>flash\_animation.hasFinished())\ \{\ \textcolor{comment}{//\ playing\ again\ animation}}
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ sprite-\/>flash\_animation.finished\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ sprite-\/>flash\_animation.times\_played\ =\ 0;}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ resetAnimation();}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00048\ }
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ sprite-\/>flash\_animation.advanceFrame(deltaTime);}
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ sprite-\/>setFlashFrame();}
-\DoxyCodeLine{00051\ \ \ \ \ \}}
-\DoxyCodeLine{00052\ }
-\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\&\ \ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\textcolor{keyword}{\ override}}
-\DoxyCodeLine{00054\ \textcolor{keyword}{\ \ \ \ }\{}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{comment}{//sprite-\/>draw(batch);}}
-\DoxyCodeLine{00056\ \ \ \ \ \}}
-\DoxyCodeLine{00057\ }
-\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ Play(std::string\ animName,\ \textcolor{keywordtype}{int}\ reps\ =\ 0)}
-\DoxyCodeLine{00059\ \ \ \ \ \{}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structAnimatorManager}{AnimatorManager}}\&\ animManager\ =\ AnimatorManager::getInstance();}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ animationName\ =\ animName;}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ sprite-\/>SetFlashAnimation(}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].indexX,\ animManager.flash\_animations[animationName].indexY,}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].total\_frames,\ animManager.flash\_animations[animationName].speed,}
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].type,}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].getSpeedsAsVector(),}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].flashColor,}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ reps\ ?\ reps\ :\ animManager.flash\_animations[animationName].reps}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00070\ \ \ \ \ \}}
-\DoxyCodeLine{00071\ }
-\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ resetAnimation()\ \{}
-\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structAnimatorManager}{AnimatorManager}}\&\ animManager\ =\ AnimatorManager::getInstance();}
-\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ animationName\ =\ \textcolor{stringliteral}{"{}Default"{}};}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ sprite-\/>SetFlashAnimation(}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].indexX,\ animManager.flash\_animations[animationName].indexY,}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].total\_frames,\ animManager.flash\_animations[animationName].speed,}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].type,}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].getSpeedsAsVector(),}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].flashColor);}
-\DoxyCodeLine{00081\ \ \ \ \ \}}
-\DoxyCodeLine{00082\ }
-\DoxyCodeLine{00083\ \ \ \ \ std::string\ getPlayName()}
-\DoxyCodeLine{00084\ \ \ \ \ \{}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ animationName;}
-\DoxyCodeLine{00086\ \ \ \ \ \}}
-\DoxyCodeLine{00087\ }
-\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroyTex()}
-\DoxyCodeLine{00089\ \ \ \ \ \{}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ sprite-\/>DestroyTex();}
-\DoxyCodeLine{00091\ \ \ \ \ \}}
-\DoxyCodeLine{00092\ }
-\DoxyCodeLine{00093\ \};}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (animationName\ ==\ \textcolor{stringliteral}{"{}Default"{}})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sprite-\/>flash\_animation.hasFinished())\ \{\ \textcolor{comment}{//\ playing\ again\ animation}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ sprite-\/>flash\_animation.finished\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ sprite-\/>flash\_animation.times\_played\ =\ 0;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ resetAnimation();}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ sprite-\/>flash\_animation.advanceFrame(deltaTime);}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ sprite-\/>setFlashFrame();}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00056\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{comment}{//sprite-\/>draw(batch);}}
+\DoxyCodeLine{00058\ \ \ \ \ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ Play(std::string\ animName,\ \textcolor{keywordtype}{int}\ reps\ =\ 0)}
+\DoxyCodeLine{00061\ \ \ \ \ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structAnimatorManager}{AnimatorManager}}\&\ animManager\ =\ AnimatorManager::getInstance();}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ animationName\ =\ animName;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ sprite-\/>SetFlashAnimation(}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].total\_frames,\ animManager.flash\_animations[animationName].speed,}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].type,}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].getSpeedsAsVector(),}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].flashColor,}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ reps\ ?\ reps\ :\ animManager.flash\_animations[animationName].reps}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ resetAnimation()\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ sprite-\/>animation.resetFrameIndex();}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structAnimatorManager}{AnimatorManager}}\&\ animManager\ =\ AnimatorManager::getInstance();}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ animationName\ =\ \textcolor{stringliteral}{"{}Default"{}};}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ sprite-\/>SetFlashAnimation(}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].total\_frames,\ animManager.flash\_animations[animationName].speed,}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].type,}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].getSpeedsAsVector(),}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ animManager.flash\_animations[animationName].flashColor);}
+\DoxyCodeLine{00083\ \ \ \ \ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ std::string\ getPlayName()}
+\DoxyCodeLine{00086\ \ \ \ \ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ animationName;}
+\DoxyCodeLine{00088\ \ \ \ \ \}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroyTex()}
+\DoxyCodeLine{00091\ \ \ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ sprite-\/>DestroyTex();}
+\DoxyCodeLine{00093\ \ \ \ \ \}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \};}
 
 \end{DoxyCode}

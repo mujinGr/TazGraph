@@ -1,43 +1,54 @@
 \doxysection{Line\+Renderer Class Reference}
 \hypertarget{classLineRenderer}{}\label{classLineRenderer}\index{LineRenderer@{LineRenderer}}
+
+
+Inheritance diagram for Line\+Renderer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=163pt]{classLineRenderer__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Line\+Renderer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=163pt]{classLineRenderer__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classLineRenderer_a7b2cb8b0327e5c415448da6e6d295f3f}\label{classLineRenderer_a7b2cb8b0327e5c415448da6e6d295f3f} 
-void {\bfseries init} ()
+void \mbox{\hyperlink{classLineRenderer_a7b2cb8b0327e5c415448da6e6d295f3f}{init}} ()
 \item 
-\Hypertarget{classLineRenderer_a24ecc849dbcc297d3a43d9e78c805952}\label{classLineRenderer_a24ecc849dbcc297d3a43d9e78c805952} 
-void {\bfseries begin} ()
+void \mbox{\hyperlink{classLineRenderer_a24ecc849dbcc297d3a43d9e78c805952}{begin}} ()
 \item 
 \Hypertarget{classLineRenderer_a0322c7b4e54296186da2a1ed820c060d}\label{classLineRenderer_a0322c7b4e54296186da2a1ed820c060d} 
 void {\bfseries end} ()
 \item 
-\Hypertarget{classLineRenderer_af66f18ec4a314e6efc8ea61781e19eaa}\label{classLineRenderer_af66f18ec4a314e6efc8ea61781e19eaa} 
-void {\bfseries init\+Batch\+Lines} (size\+\_\+t msize)
+\Hypertarget{classLineRenderer_a43996f2374ba9e4ed00b3ecbeed78601}\label{classLineRenderer_a43996f2374ba9e4ed00b3ecbeed78601} 
+void {\bfseries init\+Batch} (\mbox{\hyperlink{structTaz_1_1RenderBatch}{Taz\+::\+Render\+Batch}} \&batch)
 \item 
-\Hypertarget{classLineRenderer_a79703ac289f2d8acb298d4599c74e14e}\label{classLineRenderer_a79703ac289f2d8acb298d4599c74e14e} 
-void {\bfseries init\+Batch\+Squares} (size\+\_\+t msize)
+\Hypertarget{classLineRenderer_a1811954216a990a95b2d2194206fa4ed}\label{classLineRenderer_a1811954216a990a95b2d2194206fa4ed} 
+void {\bfseries draw\+Line} (size\+\_\+t v\+\_\+index, const glm\+::vec3 src\+Position, const glm\+::vec3 dest\+Position, const \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} \&src\+Color, const \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} \&dest\+Color, const float width=5.\+0f)
 \item 
-\Hypertarget{classLineRenderer_a2575cacf7bee1b35300016df3f6067ed}\label{classLineRenderer_a2575cacf7bee1b35300016df3f6067ed} 
-void {\bfseries init\+Batch\+Boxes} (size\+\_\+t msize)
+\Hypertarget{classLineRenderer_adb323f74b7f6254f69629a0c1b759f41}\label{classLineRenderer_adb323f74b7f6254f69629a0c1b759f41} 
+void {\bfseries draw\+Rectangle} (size\+\_\+t v\+\_\+index, const glm\+::vec2 \&rect\+Size, const glm\+::vec3 \&position, const \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} \&color, const glm\+::vec3 \&m\+Rotation=glm\+::vec3(0), const float width=5.\+0f)
 \item 
-\Hypertarget{classLineRenderer_a810cd016102ab7abd072132016dbce5c}\label{classLineRenderer_a810cd016102ab7abd072132016dbce5c} 
-void {\bfseries draw\+Line} (size\+\_\+t v\+\_\+index, const glm\+::vec3 src\+Position, const glm\+::vec3 dest\+Position, const \mbox{\hyperlink{structColor}{Color}} \&src\+Color, const \mbox{\hyperlink{structColor}{Color}} \&dest\+Color)
+\Hypertarget{classLineRenderer_a0732734fb0889ecbd5624fcc7e879899}\label{classLineRenderer_a0732734fb0889ecbd5624fcc7e879899} 
+void {\bfseries draw\+Box} (size\+\_\+t v\+\_\+index, const glm\+::vec3 \&rect\+Size, const glm\+::vec3 \&position, const \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} \&color, const glm\+::vec3 \&m\+Rotation=glm\+::vec3(0), const float width=5.\+0f)
 \item 
-\Hypertarget{classLineRenderer_a50313df4f115b10837b1b0bc7a23a3ff}\label{classLineRenderer_a50313df4f115b10837b1b0bc7a23a3ff} 
-void {\bfseries draw\+Rectangle} (size\+\_\+t v\+\_\+index, const glm\+::vec4 \&dest\+Rect, const \mbox{\hyperlink{structColor}{Color}} \&color, float angle, float z\+Index=0.\+0f)
+\Hypertarget{classLineRenderer_a1e04b25725de1f4fc78340bc4ec01f56}\label{classLineRenderer_a1e04b25725de1f4fc78340bc4ec01f56} 
+void {\bfseries draw\+Sphere} (size\+\_\+t v\+\_\+index, const glm\+::vec3 \&rect\+Size, const glm\+::vec3 \&position, const \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} \&color, const glm\+::vec3 \&m\+Rotation, const float width)
 \item 
-\Hypertarget{classLineRenderer_a0e58aa4a98214f5cdd4fc23cd64400db}\label{classLineRenderer_a0e58aa4a98214f5cdd4fc23cd64400db} 
-void {\bfseries draw\+Box} (size\+\_\+t v\+\_\+index, const glm\+::vec3 \&origin, const glm\+::vec3 \&size, const \mbox{\hyperlink{structColor}{Color}} \&color, float angle)
+\Hypertarget{classLineRenderer_a32ed47a8bedbe49dc016866c42b09782}\label{classLineRenderer_a32ed47a8bedbe49dc016866c42b09782} 
+void {\bfseries draw\+Circle} (const glm\+::vec2 \&center, const \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} \&color, float radius)
 \item 
-\Hypertarget{classLineRenderer_abc4df9f77346c2126df95c91e48f2cfc}\label{classLineRenderer_abc4df9f77346c2126df95c91e48f2cfc} 
-void {\bfseries draw\+Circle} (const glm\+::vec2 \&center, const \mbox{\hyperlink{structColor}{Color}} \&color, float radius)
-\item 
-\Hypertarget{classLineRenderer_a7a202d58c8e3c83e0421ebd57f542186}\label{classLineRenderer_a7a202d58c8e3c83e0421ebd57f542186} 
-void {\bfseries init\+Batch\+Size} ()
-\item 
-\Hypertarget{classLineRenderer_a25c66568849831818eb4f471de49a47d}\label{classLineRenderer_a25c66568849831818eb4f471de49a47d} 
-void {\bfseries render\+Batch} (float line\+Width)
+void \mbox{\hyperlink{classLineRenderer_aad5bf59e54858329ed5d1bcd27885354}{end\+Batch}} (const \mbox{\hyperlink{structTaz_1_1RenderBatch}{Taz\+::\+Render\+Batch}} \&batch)
 \item 
 \Hypertarget{classLineRenderer_a5d147289200b5a0ef25b91be46b178b6}\label{classLineRenderer_a5d147289200b5a0ef25b91be46b178b6} 
 void {\bfseries dispose} ()
@@ -50,7 +61,51 @@ const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classLineRenderer_a58e863
 const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classLineRenderer_a209a743489d1c7d81820cde12b9b2efc}{FRAG\+\_\+\+SRC}}
 \item 
 int \mbox{\hyperlink{classLineRenderer_a7e53e83a3a655e3cf3d158d98f89dcdb}{box\+\_\+edge\+Pairs}} \mbox{[}12\mbox{]}\mbox{[}2\mbox{]}
+\item 
+std\+::vector$<$ Taz\+Position $>$ \mbox{\hyperlink{classLineRenderer_a40717d2a618aa98032c7b9bfa7f36e7a}{sphere\+Vertices}}
+\item 
+std\+::vector$<$ GLuint $>$ \mbox{\hyperlink{classLineRenderer_a9ce3e8b2a29835c0721390102124ced4}{sphere\+Indices}}
 \end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classTaz_1_1Renderer}{Taz\+::\+Renderer}}}
+\begin{DoxyCompactItemize}
+\item 
+GLuint {\bfseries \+\_\+vbo\+Instances}
+\item 
+size\+\_\+t {\bfseries current\+Batch\+Index} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classLineRenderer_a24ecc849dbcc297d3a43d9e78c805952}\label{classLineRenderer_a24ecc849dbcc297d3a43d9e78c805952} 
+\index{LineRenderer@{LineRenderer}!begin@{begin}}
+\index{begin@{begin}!LineRenderer@{LineRenderer}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily void Line\+Renderer\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classTaz_1_1Renderer}{Taz\+::\+Renderer}}.
+
+\Hypertarget{classLineRenderer_aad5bf59e54858329ed5d1bcd27885354}\label{classLineRenderer_aad5bf59e54858329ed5d1bcd27885354} 
+\index{LineRenderer@{LineRenderer}!endBatch@{endBatch}}
+\index{endBatch@{endBatch}!LineRenderer@{LineRenderer}}
+\doxysubsubsection{\texorpdfstring{endBatch()}{endBatch()}}
+{\footnotesize\ttfamily void Line\+Renderer\+::end\+Batch (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structTaz_1_1RenderBatch}{Taz\+::\+Render\+Batch}} \&}]{batch }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classTaz_1_1Renderer}{Taz\+::\+Renderer}}.
+
+\Hypertarget{classLineRenderer_a7b2cb8b0327e5c415448da6e6d295f3f}\label{classLineRenderer_a7b2cb8b0327e5c415448da6e6d295f3f} 
+\index{LineRenderer@{LineRenderer}!init@{init}}
+\index{init@{init}!LineRenderer@{LineRenderer}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Line\+Renderer\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classTaz_1_1Renderer}{Taz\+::\+Renderer}}.
+
 
 
 \doxysubsection{Member Data Documentation}
@@ -88,6 +143,32 @@ int \mbox{\hyperlink{classLineRenderer_a7e53e83a3a655e3cf3d158d98f89dcdb}{box\+\
 \DoxyCodeLine{\textcolor{stringliteral}{\})"{}}}
 
 \end{DoxyCode}
+\Hypertarget{classLineRenderer_a9ce3e8b2a29835c0721390102124ced4}\label{classLineRenderer_a9ce3e8b2a29835c0721390102124ced4} 
+\index{LineRenderer@{LineRenderer}!sphereIndices@{sphereIndices}}
+\index{sphereIndices@{sphereIndices}!LineRenderer@{LineRenderer}}
+\doxysubsubsection{\texorpdfstring{sphereIndices}{sphereIndices}}
+{\footnotesize\ttfamily std\+::vector$<$GLuint$>$ Line\+Renderer\+::sphere\+Indices}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classLineRenderer_a40717d2a618aa98032c7b9bfa7f36e7a}\label{classLineRenderer_a40717d2a618aa98032c7b9bfa7f36e7a} 
+\index{LineRenderer@{LineRenderer}!sphereVertices@{sphereVertices}}
+\index{sphereVertices@{sphereVertices}!LineRenderer@{LineRenderer}}
+\doxysubsubsection{\texorpdfstring{sphereVertices}{sphereVertices}}
+{\footnotesize\ttfamily std\+::vector$<$Taz\+Position$>$ Line\+Renderer\+::sphere\+Vertices}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
 \Hypertarget{classLineRenderer_a58e8630a61ef51084a7668f9672fa99c}\label{classLineRenderer_a58e8630a61ef51084a7668f9672fa99c} 
 \index{LineRenderer@{LineRenderer}!VERT\_SRC@{VERT\_SRC}}
 \index{VERT\_SRC@{VERT\_SRC}!LineRenderer@{LineRenderer}}
@@ -116,5 +197,5 @@ int \mbox{\hyperlink{classLineRenderer_a7e53e83a3a655e3cf3d158d98f89dcdb}{box\+\
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Line\+Renderer/Line\+Renderer.\+h\item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Renderers/\+Line\+Renderer/Line\+Renderer.\+cpp\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Render\+Engine/src/\+Renderers/\+Line\+Renderer/Line\+Renderer.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Render\+Engine/src/\+Renderers/\+Line\+Renderer/Line\+Renderer.\+cpp\end{DoxyCompactItemize}

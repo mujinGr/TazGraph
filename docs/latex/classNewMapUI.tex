@@ -11,11 +11,12 @@ Inheritance diagram for New\+Map\+UI\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for New\+Map\+UI\+:\nopagebreak
+Collaboration diagram for New\+Map\+UI\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=150pt]{classNewMapUI__coll__graph}
+\includegraphics[width=202pt]{classNewMapUI__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -30,6 +31,10 @@ void \mbox{\hyperlink{classNewMapUI_ab6cd2b95673a97d6dfa4af3f596ef9fc}{On\+Im\+G
 \begin{DoxyCompactItemize}
 \item 
 virtual void {\bfseries update} (float delta\+Time=0.\+0f)
+\item 
+{\footnotesize template$<$typename T , typename... Args$>$ }\\void {\bfseries add\+UIComponent} (Args \&\&... args)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries get\+Subcomponent} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -40,7 +45,24 @@ int {\bfseries new\+Nodes\+Count} = 0
 \Hypertarget{classNewMapUI_a99051ef6e4434a22c2750c9b16b05cdd}\label{classNewMapUI_a99051ef6e4434a22c2750c9b16b05cdd} 
 int {\bfseries new\+Links\+Count} = 0
 \end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$ $>$ {\bfseries subcomponents}
+\item 
+\mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} {\bfseries parent} = nullptr
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T \texorpdfstring{$\ast$}{*} {\bfseries get\+UIComponent} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unordered\+\_\+map$<$ std\+::type\+\_\+index, \mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries ui\+Component\+Registry}
+\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
 \begin{DoxyCompactItemize}
 \item 

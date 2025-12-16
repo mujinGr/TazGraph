@@ -11,11 +11,12 @@ Inheritance diagram for Path\+Linker\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Path\+Linker\+Component\+:\nopagebreak
+Collaboration diagram for Path\+Linker\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=297pt]{classPathLinkerComponent__coll__graph}
+\includegraphics[width=350pt]{classPathLinkerComponent__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -27,15 +28,15 @@ void \mbox{\hyperlink{classPathLinkerComponent_a91b9a749d59587232ff8296022b7b985
 \item 
 void \mbox{\hyperlink{classPathLinkerComponent_ae0353d330025ac416bae0ddce8514837}{draw}} (size\+\_\+t v\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
 \item 
-\Hypertarget{classPathLinkerComponent_a9cf56572bf0617f46b6ef5239b7c7c02}\label{classPathLinkerComponent_a9cf56572bf0617f46b6ef5239b7c7c02} 
-void {\bfseries add\+Link} (\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*}link)
+\Hypertarget{classPathLinkerComponent_a7061254e1bfb0e566b38cf34f41bd91b}\label{classPathLinkerComponent_a7061254e1bfb0e566b38cf34f41bd91b} 
+void {\bfseries add\+Link} (Entity\+ID link\+Id)
 \item 
-\Hypertarget{classPathLinkerComponent_ac3f43278bddf4712910044bd97e9b421}\label{classPathLinkerComponent_ac3f43278bddf4712910044bd97e9b421} 
-void {\bfseries remove\+Link} (\mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*}link)
+\Hypertarget{classPathLinkerComponent_aa27cc08add19336e2a4a329bfdc7d349}\label{classPathLinkerComponent_aa27cc08add19336e2a4a329bfdc7d349} 
+void {\bfseries remove\+Link} (Entity\+ID link)
 \item 
 std\+::string \mbox{\hyperlink{classPathLinkerComponent_a53f6c4e00e1ed0af666660a66ba30bee}{Get\+Component\+Name}} () override
 \item 
-void \mbox{\hyperlink{classPathLinkerComponent_a5a9d550faf51562c7dbeb520e85b37e2}{show\+GUI}} () override
+void \mbox{\hyperlink{classPathLinkerComponent_a9ea2ca47f2cbcf0a176880bece6e1a67}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\}) override
 \item 
 \Hypertarget{classPathLinkerComponent_afcf0ba1ead8352ed5bcfb065b5d0ecce}\label{classPathLinkerComponent_afcf0ba1ead8352ed5bcfb065b5d0ecce} 
 void {\bfseries create\+Inner\+Links} ()
@@ -55,11 +56,23 @@ virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classL
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classPathLinkerComponent_a033bac054eac2f42cfcaa8eb99727ced}\label{classPathLinkerComponent_a033bac054eac2f42cfcaa8eb99727ced} 
-std\+::vector$<$ \mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries inner\+Links}
+\Hypertarget{classPathLinkerComponent_ad51a114c7caef9819e47c6b8302b0ef4}\label{classPathLinkerComponent_ad51a114c7caef9819e47c6b8302b0ef4} 
+std\+::vector$<$ Entity\+ID $>$ {\bfseries inner\+Links}
 \item 
-\Hypertarget{classPathLinkerComponent_aaad93099ce274d76be03dfa40cf6cf95}\label{classPathLinkerComponent_aaad93099ce274d76be03dfa40cf6cf95} 
-std\+::vector$<$ \mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries path\+Links}
+\Hypertarget{classPathLinkerComponent_a233e15ec8991be6abc21d092dc36dcc5}\label{classPathLinkerComponent_a233e15ec8991be6abc21d092dc36dcc5} 
+std\+::vector$<$ Entity\+ID $>$ {\bfseries path\+Links}
+\item 
+\Hypertarget{classPathLinkerComponent_aec8751ecc77557b9334d4f00c7dd6f02}\label{classPathLinkerComponent_aec8751ecc77557b9334d4f00c7dd6f02} 
+float {\bfseries width} = 1.\+0f
+\item 
+\Hypertarget{classPathLinkerComponent_ac28697e045251d9256241c2164249c94}\label{classPathLinkerComponent_ac28697e045251d9256241c2164249c94} 
+float {\bfseries last\+\_\+width} = 1.\+0f
+\item 
+\Hypertarget{classPathLinkerComponent_a997c19433c5acf9e49a7dc441aaf927c}\label{classPathLinkerComponent_a997c19433c5acf9e49a7dc441aaf927c} 
+\mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} {\bfseries color} = \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}}(0, 0, 0, 255)
+\item 
+\Hypertarget{classPathLinkerComponent_a2ec4a02c7de30160b870d1a14814ddc0}\label{classPathLinkerComponent_a2ec4a02c7de30160b870d1a14814ddc0} 
+\mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} {\bfseries last\+\_\+color} = \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}}(0, 0, 0, 255)
 \item 
 \Hypertarget{classPathLinkerComponent_af6aa28a7d01783da4cf71f8f80264647}\label{classPathLinkerComponent_af6aa28a7d01783da4cf71f8f80264647} 
 \mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
@@ -71,6 +84,8 @@ std\+::vector$<$ \mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstrin
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
+\item 
+bool {\bfseries modify\+Position} = false
 \item 
 Component\+ID {\bfseries id} = 0u
 \end{DoxyCompactItemize}
@@ -107,11 +122,11 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
-\Hypertarget{classPathLinkerComponent_a5a9d550faf51562c7dbeb520e85b37e2}\label{classPathLinkerComponent_a5a9d550faf51562c7dbeb520e85b37e2} 
+\Hypertarget{classPathLinkerComponent_a9ea2ca47f2cbcf0a176880bece6e1a67}\label{classPathLinkerComponent_a9ea2ca47f2cbcf0a176880bece6e1a67} 
 \index{PathLinkerComponent@{PathLinkerComponent}!showGUI@{showGUI}}
 \index{showGUI@{showGUI}!PathLinkerComponent@{PathLinkerComponent}}
 \doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}}
-{\footnotesize\ttfamily void Path\+Linker\+Component\+::show\+GUI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void Path\+Linker\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
@@ -131,4 +146,4 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Empty/\+Util/Path\+Linker\+Component.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Components/\+Empty/\+Util/Path\+Linker\+Component.\+h\end{DoxyCompactItemize}

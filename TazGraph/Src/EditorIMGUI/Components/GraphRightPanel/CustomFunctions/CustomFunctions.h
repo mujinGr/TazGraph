@@ -1,12 +1,17 @@
 #pragma once
 
 #include "../../../UIElement.h"
-#include <GECS/Core/GECSEntity.h>
 
-class CustomFunctions : public UIElement 
+struct CustomFunctionsConfig {
+	IScene* scene;
+};
+
+
+class CustomFunctions : public UIElement
 {
 private:
-	std::vector<std::pair<Entity*, glm::vec3>>* selectedEntities = nullptr;
+	std::vector<SelectedInfo>* selectedEntities = nullptr;
+	CustomFunctionsConfig config;
 
 public:
 
@@ -14,7 +19,7 @@ public:
 
 	bool isScriptResultsOpen = false;
 	int activatedScriptShown = 0;
-	
+
 	void default_renderUI();
 
 	void CalculateDegree();
@@ -22,6 +27,6 @@ public:
 	void CalculateHeatMap();
 	void DrawCandlestickChart();
 
-	void setSelectedEntities(std::vector<std::pair<Entity*, glm::vec3 >> & m_selectedEntities);
-
+	void setSelectedEntities(std::vector<SelectedInfo>& m_selectedEntities);
+	void setConfig(const CustomFunctionsConfig& cfg) { config = cfg; }
 };

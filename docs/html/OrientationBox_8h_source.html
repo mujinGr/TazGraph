@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TazGraph Project: /mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/OrientationBox/OrientationBox.h Source File</title>
+<title>TazGraph Project: /mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/GraphMiddlePanel/ViewportPanel/OrientationBox/OrientationBox.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -74,7 +74,7 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_09b1ff4369ed9fd91d5e250699b03ef2.html">TazGraph</a></li><li class="navelem"><a class="el" href="dir_3f423d6722606df6946b79f1f4f6c816.html">Src</a></li><li class="navelem"><a class="el" href="dir_348193136382623313fa0dac57b5dd0c.html">EditorIMGUI</a></li><li class="navelem"><a class="el" href="dir_f2305a85f4f806e711c61524fd0d4eac.html">Components</a></li><li class="navelem"><a class="el" href="dir_d2f2291ee7d1a61b3ac289c9ba127096.html">OrientationBox</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_09b1ff4369ed9fd91d5e250699b03ef2.html">TazGraph</a></li><li class="navelem"><a class="el" href="dir_3f423d6722606df6946b79f1f4f6c816.html">Src</a></li><li class="navelem"><a class="el" href="dir_348193136382623313fa0dac57b5dd0c.html">EditorIMGUI</a></li><li class="navelem"><a class="el" href="dir_f2305a85f4f806e711c61524fd0d4eac.html">Components</a></li><li class="navelem"><a class="el" href="dir_dae8a3370b791b7d3d6648dccfda6a43.html">GraphMiddlePanel</a></li><li class="navelem"><a class="el" href="dir_8b69b259ae91cc5d46acf784d5a1665b.html">ViewportPanel</a></li><li class="navelem"><a class="el" href="dir_9034233b4f8fc24808b1cd74dd83b249.html">OrientationBox</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -83,38 +83,35 @@ $(document).ready(function() { init_codefold(0); });
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;../../UIElement.h&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;../../../../UIElement.h&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;GECS/Components.h&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;GECS/UtilComponents.h&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;ImGuizmo/ImGuizmo.h&gt;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;BaseFPSLimiter/BaseFPSLimiter.h&gt;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="structOrientationBoxConfig.html">   10</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structOrientationBoxConfig.html">OrientationBoxConfig</a> {</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    ImVec2 viewportPos;</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    ImVec2 viewportSize;</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>};</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;TazGraphEngine.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="foldopen" id="foldopen00007" data-start="{" data-end="};">
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="structOrientationBoxConfig.html">    7</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structOrientationBoxConfig.html">OrientationBoxConfig</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    ImVec2 viewportPos;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    ImVec2 viewportSize;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>};</div>
 </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="foldopen" id="foldopen00016" data-start="{" data-end="};">
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classOrientationBox.html">   16</a></span><span class="keyword">class </span><a class="code hl_class" href="classOrientationBox.html">OrientationBox</a> : <span class="keyword">public</span> <a class="code hl_class" href="classUIElement.html">UIElement</a> {</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keywordtype">void</span> OnImGuiRender() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordtype">void</span> UpdateCameraFromMatrix();</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordtype">void</span> setConfig(<span class="keyword">const</span> <a class="code hl_struct" href="structOrientationBoxConfig.html">OrientationBoxConfig</a>&amp; cfg);</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    glm::mat4 _boxViewMatrix = glm::mat4(1.0f);</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <a class="code hl_struct" href="structOrientationBoxConfig.html">OrientationBoxConfig</a> config;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>};</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classOrientationBox.html">   13</a></span><span class="keyword">class </span><a class="code hl_class" href="classOrientationBox.html">OrientationBox</a> : <span class="keyword">public</span> <a class="code hl_class" href="classUIElement.html">UIElement</a> {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordtype">void</span> OnImGuiRender() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keywordtype">void</span> UpdateCameraFromMatrix();</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keywordtype">void</span> setConfig(<span class="keyword">const</span> <a class="code hl_struct" href="structOrientationBoxConfig.html">OrientationBoxConfig</a>&amp; cfg);</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    glm::mat4 _boxViewMatrix = glm::mat4(1.0f);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <a class="code hl_struct" href="structOrientationBoxConfig.html">OrientationBoxConfig</a> config;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>};</div>
 </div>
-<div class="ttc" id="aclassOrientationBox_html"><div class="ttname"><a href="classOrientationBox.html">OrientationBox</a></div><div class="ttdef"><b>Definition</b> OrientationBox.h:16</div></div>
-<div class="ttc" id="aclassUIElement_html"><div class="ttname"><a href="classUIElement.html">UIElement</a></div><div class="ttdef"><b>Definition</b> UIElement.h:21</div></div>
-<div class="ttc" id="astructOrientationBoxConfig_html"><div class="ttname"><a href="structOrientationBoxConfig.html">OrientationBoxConfig</a></div><div class="ttdef"><b>Definition</b> OrientationBox.h:10</div></div>
+<div class="ttc" id="aclassOrientationBox_html"><div class="ttname"><a href="classOrientationBox.html">OrientationBox</a></div><div class="ttdef"><b>Definition</b> OrientationBox.h:13</div></div>
+<div class="ttc" id="aclassUIElement_html"><div class="ttname"><a href="classUIElement.html">UIElement</a></div><div class="ttdef"><b>Definition</b> UIElement.h:14</div></div>
+<div class="ttc" id="astructOrientationBoxConfig_html"><div class="ttname"><a href="structOrientationBoxConfig.html">OrientationBoxConfig</a></div><div class="ttdef"><b>Definition</b> OrientationBox.h:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

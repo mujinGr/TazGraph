@@ -71,6 +71,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classFramebuffer-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Framebuffer Class Reference</div></div>
@@ -79,8 +80,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a85c5a66a5bf899a976d0e9c7dcfa1862" id="r_a85c5a66a5bf899a976d0e9c7dcfa1862"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFramebuffer.html#a85c5a66a5bf899a976d0e9c7dcfa1862">init</a> (int windowWidth, int windowHeight)</td></tr>
-<tr class="separator:a85c5a66a5bf899a976d0e9c7dcfa1862"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a523fbd5364bda1f3b24c16bfe8d3a654" id="r_a523fbd5364bda1f3b24c16bfe8d3a654"><td class="memItemLeft" align="right" valign="top"><a id="a523fbd5364bda1f3b24c16bfe8d3a654" name="a523fbd5364bda1f3b24c16bfe8d3a654"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> (int windowWidth, int windowHeight, bool enableMSAA, int MSAA_samples=0)</td></tr>
+<tr class="separator:a523fbd5364bda1f3b24c16bfe8d3a654"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a967f1ba7c5cf4f631c4d7f8e646c5ac0" id="r_a967f1ba7c5cf4f631c4d7f8e646c5ac0"><td class="memItemLeft" align="right" valign="top"><a id="a967f1ba7c5cf4f631c4d7f8e646c5ac0" name="a967f1ba7c5cf4f631c4d7f8e646c5ac0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Bind</b> ()</td></tr>
 <tr class="separator:a967f1ba7c5cf4f631c4d7f8e646c5ac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -88,45 +90,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Bind</b> ()</td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Unbind</b> ()</td></tr>
 <tr class="separator:ab90a3724b38bd453635deb7e2d2fb619"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:aebe136b8795fe796f7bbe9c6517dfb13" id="r_aebe136b8795fe796f7bbe9c6517dfb13"><td class="memItemLeft" align="right" valign="top"><a id="aebe136b8795fe796f7bbe9c6517dfb13" name="aebe136b8795fe796f7bbe9c6517dfb13"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>SetMultisample</b> (bool enable)</td></tr>
+<tr class="separator:aebe136b8795fe796f7bbe9c6517dfb13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a157b22618ba4a2efac2cace4c1abc571" id="r_a157b22618ba4a2efac2cace4c1abc571"><td class="memItemLeft" align="right" valign="top"><a id="a157b22618ba4a2efac2cace4c1abc571" name="a157b22618ba4a2efac2cace4c1abc571"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>_multisampleEnabled</b> = false</td></tr>
+<tr class="separator:a157b22618ba4a2efac2cace4c1abc571"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99a5bee28d01147038d965761f2cfb94" id="r_a99a5bee28d01147038d965761f2cfb94"><td class="memItemLeft" align="right" valign="top"><a id="a99a5bee28d01147038d965761f2cfb94" name="a99a5bee28d01147038d965761f2cfb94"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>_framebufferTexture</b></td></tr>
 <tr class="separator:a99a5bee28d01147038d965761f2cfb94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed28df9fff430936f5448a8c8efee0ba" id="r_aed28df9fff430936f5448a8c8efee0ba"><td class="memItemLeft" align="right" valign="top"><a id="aed28df9fff430936f5448a8c8efee0ba" name="aed28df9fff430936f5448a8c8efee0ba"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>_multisampledTexture</b></td></tr>
+<tr class="separator:aed28df9fff430936f5448a8c8efee0ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af27bf1f68f7da2b7b3c48190356245bc" id="r_af27bf1f68f7da2b7b3c48190356245bc"><td class="memItemLeft" align="right" valign="top"><a id="af27bf1f68f7da2b7b3c48190356245bc" name="af27bf1f68f7da2b7b3c48190356245bc"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>_width</b></td></tr>
+<tr class="separator:af27bf1f68f7da2b7b3c48190356245bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63e2b3d16786239f6f2342733fc3b722" id="r_a63e2b3d16786239f6f2342733fc3b722"><td class="memItemLeft" align="right" valign="top"><a id="a63e2b3d16786239f6f2342733fc3b722" name="a63e2b3d16786239f6f2342733fc3b722"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>_height</b></td></tr>
+<tr class="separator:a63e2b3d16786239f6f2342733fc3b722"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a85c5a66a5bf899a976d0e9c7dcfa1862" name="a85c5a66a5bf899a976d0e9c7dcfa1862"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a85c5a66a5bf899a976d0e9c7dcfa1862">&#9670;&#160;</a></span>init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Framebuffer::init </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>windowWidth</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>windowHeight</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>invalidate()</p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Renderers/FrameBuffer/<a class="el" href="Framebuffer_8h_source.html">Framebuffer.h</a></li>
-<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Renderers/FrameBuffer/<b>Framebuffer.cpp</b></li>
+<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/RenderEngine/src/Renderers/FrameBuffer/<a class="el" href="Framebuffer_8h_source.html">Framebuffer.h</a></li>
+<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/RenderEngine/src/Renderers/FrameBuffer/<b>Framebuffer.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

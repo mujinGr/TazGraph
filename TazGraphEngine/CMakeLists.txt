@@ -1,101 +1,39 @@
 message("\nInside TazGraphEngine Cmake...\n")
 
 set(PROJECT_NAME TazGraphEngine)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -z noexGGECStack")
 ################################################################################
 # Source groups
 ################################################################################
-set(Header_Files
-    "AudioEngine/AudioEngine.h"
-    "Camera2.5D/CameraManager.h"
-    "Camera2.5D/ICamera.h"
-    "Camera2.5D/OrthoCamera.h"
-    "Camera2.5D/PerspectiveCamera.h"
-    "Renderers/LineRenderer/LineRenderer.h"
-    "GECS/Animators/Animation.h"
-    "GECS/Animators/AnimatorComponent.h"
-    "GECS/Animators/AnimatorManager.h"
-    "GECS/Animators/FlashAnimation.h"
-    "GECS/Animators/FlashAnimatorComponent.h"
-    "GECS/Animators/LineAnimators/LineFlashAnimatorComponent.h"
-    "GECS/Animators/RectangleAnimators/RectangleFlashAnimatorComponent.h"
-    "GECS/Components/Empty/Util/ButtonComponent.h"
-    "GECS/Components/Empty/Util/ColliderComponent.h"
-    "GECS/Components.h"
-    "GECS/Core/GECS.h"
-    "GECS/Core/GECSManager.h"
-    "GECS/Core/CellEntity.h"
-    "GECS/Core/GECSEntity.h"
-    "GECS/Core/GECSEntityTypes.h"
-    "GECS/Components/Empty/Util/GridComponent.h"
-    "GECS/Components/Empty/Basic/Rectangle_w_Color.h"
-    "GECS/Components/Empty/Basic/BoxComponent.h"
-    "GECS/Components/Empty/Basic/SphereComponent.h"
-    "GECS/Components/Link/Basic/Line_w_Color.h"
-    "GECS/Components/Empty/Basic/Triangle_w_Color.h"
-    "GECS/Components/Empty/Util/RigidBodyComponent.h"
-    "GECS/Components/Empty/Basic/SpriteComponent.h"
-    "GECS/Components/Empty/Basic/TransformComponent.h"
-    "GLSLProgram.h"
-    "GLTexture.h"
-    "AppScene/IScene.h"
-    "AppScene/AppInterface.h"
-    "AppScene/SceneList.h"
-    "Grid/Grid.h"
-    "ImGuiInterface/ImGuiInterface.h"
-    "InputManager/InputManager.h"
-    "picoPNG.h"
-    "PNG_Letters.h"
-    "ResourceManager/ResourceManager.h"
-    "Renderers/FrameBuffer/Framebuffer.h"
-    "Renderers/PlaneRenderers/PlaneRenderer.h"
-    "Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h"
-    "Renderers/PlaneRenderers/PlaneColorRenderer/PlaneColorRenderer.h"
-    "Renderers/PlaneRenderers/LightRenderer/LightRenderer.h"
-    "TextureManager/TextureManager.h"
-    "BaseFPSLimiter/BaseFPSLimiter.h"
-    "Vertex.h"
-    "Window/Window.h"
-)
-source_group("Header Files" FILES ${Header_Files})
 
-set(Source_Files
-    "Camera2.5D/ICamera.cpp"
-    "AudioEngine/AudioEngine.cpp"
-    "Renderers/LineRenderer/LineRenderer.cpp"
-    "GECS/Core/GECS.cpp"
-    "GECS/Core/GECSManager.cpp"
-    "AppScene/IScene.cpp"
-    "AppScene/AppInterface.cpp"
-    "AppScene/ScreenIndices.h"
-    "AppScene/SceneList.cpp"
-    "Grid/Grid.cpp"
-    "ImGuiInterface/ImGuiInterface.cpp"
-    "../vendors/imgui/imgui.cpp"
-    "../vendors/imguiComboAutoselect/imgui_combo_autoselect.cpp"
-    "../vendors/imgui/imgui_demo.cpp"
-    "../vendors/imgui/imgui_draw.cpp"
-    "../vendors/imgui/backends/imgui_impl_opengl3.cpp"
-    "../vendors/imgui/backends/imgui_impl_sdl2.cpp"
-    "../vendors/imgui/imgui_tables.cpp"
-    "../vendors/imgui/imgui_widgets.cpp"
-    "../vendors/implot/implot.cpp"
-    "../vendors/implot/implot_items.cpp"
-    "../vendors/ImGuizmo/ImGuizmo.cpp"
-    "../vendors/tinyxml2/tinyxml2.cpp"
-    "../vendors/DotParser/DotParser/DotParser.cpp"
-    "InputManager/InputManager.cpp"
-    "PNG_Letters.cpp"
-    "ResourceManager/ResourceManager.cpp"
-    "Renderers/FrameBuffer/Framebuffer.cpp"
-    "Renderers/PlaneRenderers/PlaneRenderer.cpp"
-    "Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.cpp"
-    "Renderers/PlaneRenderers/PlaneColorRenderer/PlaneColorRenderer.cpp"
-    "Renderers/PlaneRenderers/LightRenderer/LightRenderer.cpp"
-    "TextureManager/TextureManager.cpp"
-    "BaseFPSLimiter/BaseFPSLimiter.cpp"
-    "Window/Window.cpp"
+# Grab all .h and .cpp files recursively from Src/
+file(GLOB_RECURSE Header_Files 
+"../TazGraphEngine/*.h"
 )
+file(GLOB_RECURSE Source_Files 
+"../TazGraphEngine/*.cpp"
+ "../vendors/imgui/imgui.cpp"
+"../vendors/ImGuiComboAutoselect/imgui_combo_autoselect.cpp"
+"../vendors/imgui/imgui_demo.cpp"
+"../vendors/imgui/imgui_draw.cpp"
+"../vendors/imgui/backends/imgui_impl_opengl3.cpp"
+"../vendors/imgui/backends/imgui_impl_sdl2.cpp"
+"../vendors/imgui/imgui_tables.cpp"
+"../vendors/imgui/imgui_widgets.cpp"
+"../vendors/implot/implot.cpp"
+"../vendors/implot/implot_items.cpp"
+"../vendors/ImGuizmo/ImGuizmo.cpp"
+"../vendors/tinyxml2/tinyxml2.cpp"
+"../vendors/tracy/public/TracyClient.cpp"
+"../vendors/DotParser/DotParser/DotParser.cpp"
+"../vendors/simdump/*.cpp"
+)
+
+# Organize headers in IDE (Visual Studio, Xcode, etc.)
+source_group("Header Files" FILES ${Header_Files})
 source_group("Source Files" FILES ${Source_Files})
 
 ################################################################################
@@ -140,6 +78,10 @@ include_directories(${OPENGL_INCLUDE_DIR})
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS}) # LIBS added at end
 
+find_package(Python3 REQUIRED COMPONENTS Development)
+include_directories(${Python3_INCLUDE_DIRS})
+
+
 #set(GLEW_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include/GL")
 #include_directories(${GLEW_INCLUDE_DIR})
 
@@ -171,6 +113,14 @@ include_directories(${JSONPARSER_INCLUDE_DIR})
 set(DOTPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/DotParser/DotParser")
 include_directories(${DOTPARSER_INCLUDE_DIR})
 
+set(PYBIND11_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/pybind11/include")
+include_directories(${PYBIND11_INCLUDE_DIR})
+
+set(DOTPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/simdump/include")
+include_directories(${DOTPARSER_INCLUDE_DIR})
+
+set(FILEBROWSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/imgui-filebrowser")
+include_directories(${FILEBROWSER_INCLUDE_DIR})
 #file(GLOB IMGUI_SOURCES ${PROJECT_NAME}/imgui/*.cpp)
 #target_sources(${PROJECT_NAME} PRIVATE ${IMGUI_SOURCES})
 
@@ -283,6 +233,16 @@ endif()
 ################################################################################
 # Dependencies
 ################################################################################
+set(RENDER_ENGINE_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/RenderEngine")
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${RENDER_ENGINE_INCLUDE_DIR}  
+)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    RenderEngine
+)
+
+
 if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
     set(ADDITIONAL_LIBRARY_DEPENDENCIES
         "$<$<CONFIG:Debug>:"
@@ -291,6 +251,7 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
             "SDL2_image;"
             "SDL2_ttf;"
             "SDL2_mixer;"
+	    "RenderEngine"
         ">"
     )
 endif()
@@ -306,6 +267,8 @@ message(STATUS "Linking SDL2_mixer with ${PROJECT_NAME} using ${SDL2_MIXER_LIBRA
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_image::SDL2_image)
 message(STATUS "Linking SDL2_image with ${PROJECT_NAME} using ${SDL2_IMAGE_LIBRARIES}")
 #target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE ${Python3_LIBRARIES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${GLEW_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENGL_LIBRARIES})

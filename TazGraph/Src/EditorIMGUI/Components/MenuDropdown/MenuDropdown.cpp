@@ -1,12 +1,5 @@
 #include "MenuDropdown.h"
 
-void MenuDropdownPanel::update(float deltaTime)
-{
-	loadingUI.update();
-	savingUI.update();
-	newMapUI.update();
-}
-
 void MenuDropdownPanel::OnImGuiRender()
 {
 	if (ImGui::BeginMenuBar())
@@ -25,7 +18,46 @@ void MenuDropdownPanel::OnImGuiRender()
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("Window"))
+		{
+			if (ImGui::MenuItem("Scene")) {
+				getSubcomponent<ScenePanel>()->showScenePanel =
+					!getSubcomponent<ScenePanel>()->showScenePanel;
+			}
+			if (ImGui::MenuItem("Camera")) {
+				getSubcomponent<CameraPanel>()->showCameraPanel=
+					!getSubcomponent<CameraPanel>()->showCameraPanel;
+			}
+			if (ImGui::MenuItem("FPS Counter")) {
+				getSubcomponent<FPSCounter>()->showFPS =
+					!getSubcomponent<FPSCounter>()->showFPS;
+			}
+			if (ImGui::MenuItem("Visible Entities Table")) {
+				getSubcomponent<VisibleEntitiesPanel>()->showVisibleEntities =
+					!getSubcomponent<VisibleEntitiesPanel>()->showVisibleEntities;
+			}
+			ImGui::EndMenu();
+		}
+
+
 		ImGui::EndMenuBar();
+	}
+
+	if (getSubcomponent<ScenePanel>()->showScenePanel) {
+		getSubcomponent<ScenePanel>()->setConfig({ .scene = config.scene });
+		getSubcomponent<ScenePanel>()->OnImGuiRender();
+	}
+	if (getSubcomponent<CameraPanel>()->showCameraPanel) {
+		getSubcomponent<CameraPanel>()->setConfig({});
+		getSubcomponent<CameraPanel>()->OnImGuiRender();
+	}
+	if (getSubcomponent<FPSCounter>()->showFPS) {
+		getSubcomponent<FPSCounter>()->setLimiter(config.scene->getApp()->getFPSLimiter());
+		getSubcomponent<FPSCounter>()->OnImGuiRender();
+	}
+	if (getSubcomponent<VisibleEntitiesPanel>()->showVisibleEntities) {
+		getSubcomponent<VisibleEntitiesPanel>()->setConfig({config.scene->manager});
+		getSubcomponent<VisibleEntitiesPanel>()->OnImGuiRender();
 	}
 
 }

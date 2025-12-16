@@ -11,55 +11,59 @@ Inheritance diagram for Link\+Entity\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Link\+Entity\+:\nopagebreak
+Collaboration diagram for Link\+Entity\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{classLinkEntity__coll__graph}
+\includegraphics[width=234pt]{classLinkEntity__coll__graph}
 \end{center}
 \end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classLinkEntity_a1f5da1d64e8ec57c18f27dc994d36193}\label{classLinkEntity_a1f5da1d64e8ec57c18f27dc994d36193} 
+enum class {\bfseries Connection\+Type} \{ {\bfseries NODE\+\_\+\+TO\+\_\+\+NODE}
+, {\bfseries PORT\+\_\+\+TO\+\_\+\+PORT}
+, {\bfseries DIRECT\+\_\+\+POSITIONS}
+, {\bfseries GHOST\+\_\+\+PORT\+\_\+\+TO\+\_\+\+PORT}
+ \}
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \Hypertarget{classLinkEntity_a808fc91e72da3f97bd2d1225b6e60b65}\label{classLinkEntity_a808fc91e72da3f97bd2d1225b6e60b65} 
 {\bfseries Link\+Entity} (\mbox{\hyperlink{classManager}{Manager}} \&m\+Manager)
 \item 
-\Hypertarget{classLinkEntity_ae21c0a882c79cfa532f271076410d491}\label{classLinkEntity_ae21c0a882c79cfa532f271076410d491} 
-{\bfseries Link\+Entity} (\mbox{\hyperlink{classManager}{Manager}} \&m\+Manager, unsigned int mfrom\+Id, unsigned int mto\+Id)
+\Hypertarget{classLinkEntity_aa034b9b9ef89fd142a54ffac1a16db43}\label{classLinkEntity_aa034b9b9ef89fd142a54ffac1a16db43} 
+{\bfseries Link\+Entity} (\mbox{\hyperlink{classManager}{Manager}} \&m\+Manager, Entity\+ID mfrom\+Id, Entity\+ID mto\+Id)
 \item 
-\Hypertarget{classLinkEntity_aa502335eaae2452d4081b2469e466172}\label{classLinkEntity_aa502335eaae2452d4081b2469e466172} 
-{\bfseries Link\+Entity} (\mbox{\hyperlink{classManager}{Manager}} \&m\+Manager, \mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*}mfrom, \mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*}mto)
+\Hypertarget{classLinkEntity_a9724b069e096841805bbb5c6fd452504}\label{classLinkEntity_a9724b069e096841805bbb5c6fd452504} 
+{\bfseries Link\+Entity} (\mbox{\hyperlink{classManager}{Manager}} \&m\+Manager, Entity\+ID mfrom\+Id, Entity\+ID mto\+Id, Entity\+ID m\+\_\+from\+Port, Entity\+ID m\+\_\+to\+Port, int m\+\_\+from\+Slot, int m\+\_\+to\+Slot)
 \item 
-\Hypertarget{classLinkEntity_ac24fcfca90dcd7989b54d5e7c1d376d9}\label{classLinkEntity_ac24fcfca90dcd7989b54d5e7c1d376d9} 
-{\bfseries Link\+Entity} (\mbox{\hyperlink{classManager}{Manager}} \&m\+Manager, unsigned int mfrom\+Id, unsigned int mto\+Id, \mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*}mfrom, \mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*}mto)
-\item 
-\Hypertarget{classLinkEntity_a1d4cf8953c745ba8cc81382c3bc96ae2}\label{classLinkEntity_a1d4cf8953c745ba8cc81382c3bc96ae2} 
-{\bfseries Link\+Entity} (\mbox{\hyperlink{classManager}{Manager}} \&m\+Manager, \mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*}mfrom, \mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*}mto, int m\+\_\+from\+Port, int m\+\_\+to\+Port, int m\+\_\+from\+Slot, int m\+\_\+to\+Slot)
+\Hypertarget{classLinkEntity_ab64d4caed3fa83567d8775ceefd5cd0b}\label{classLinkEntity_ab64d4caed3fa83567d8775ceefd5cd0b} 
+{\bfseries Link\+Entity} (\mbox{\hyperlink{classManager}{Manager}} \&m\+Manager, glm\+::vec3 mfrom, glm\+::vec3 mto)
 \item 
 void \mbox{\hyperlink{classLinkEntity_afcffa33aa668ad3849e92bd774d139fc}{set\+Component\+Entity}} (\mbox{\hyperlink{classLinkComponent}{Link\+Component}} \texorpdfstring{$\ast$}{*}c) override
 \item 
-\Hypertarget{classLinkEntity_a3780c0988cc84311ff7794bb4102b6c9}\label{classLinkEntity_a3780c0988cc84311ff7794bb4102b6c9} 
-void {\bfseries remove\+From\+Cells} ()
+void \mbox{\hyperlink{classLinkEntity_afab22702fa4ab987a0d158bbf20d7ac9}{remove\+From\+Cells}} () override
 \item 
-void \mbox{\hyperlink{classLinkEntity_ae7cd0125e88adda9ab3df37db915fa87}{remove\+Entity}} () override
+void \mbox{\hyperlink{classLinkEntity_a2267cc85e0fc1a12802ea017e5133e8f}{remove\+Entity\+From\+Cell}} () override
 \item 
-\Hypertarget{classLinkEntity_a1e38b8697462913d93d7864fe0ca11d9}\label{classLinkEntity_a1e38b8697462913d93d7864fe0ca11d9} 
-\mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*} {\bfseries get\+From\+Node} () const
+\Hypertarget{classLinkEntity_af7d32befc15778db4ad1ef08be7bf45a}\label{classLinkEntity_af7d32befc15778db4ad1ef08be7bf45a} 
+Entity\+ID {\bfseries get\+From\+Node} () const
 \item 
-\Hypertarget{classLinkEntity_a8eb771988e84640e1c7cc93aa05bff5f}\label{classLinkEntity_a8eb771988e84640e1c7cc93aa05bff5f} 
-\mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*} {\bfseries get\+To\+Node} () const
+\Hypertarget{classLinkEntity_aca9074b0b7c97871ff5802eb2c4c8fd2}\label{classLinkEntity_aca9074b0b7c97871ff5802eb2c4c8fd2} 
+Entity\+ID {\bfseries get\+To\+Node} () const
 \item 
-\Hypertarget{classLinkEntity_a9293d9b701a41deadb64cca653fb2290}\label{classLinkEntity_a9293d9b701a41deadb64cca653fb2290} 
-\mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} {\bfseries get\+From\+Port} ()
+\Hypertarget{classLinkEntity_ae9417e122938091b452f4da15b34537e}\label{classLinkEntity_ae9417e122938091b452f4da15b34537e} 
+virtual void {\bfseries set\+Connection\+Type} (Connection\+Type set\+Type)
 \item 
-\Hypertarget{classLinkEntity_a21eefef121962965eda3bab82083eaca}\label{classLinkEntity_a21eefef121962965eda3bab82083eaca} 
-\mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} {\bfseries get\+To\+Port} ()
+\Hypertarget{classLinkEntity_a774b8a5a3a0a641b906dc65ca5bef495}\label{classLinkEntity_a774b8a5a3a0a641b906dc65ca5bef495} 
+virtual void {\bfseries update\+Connection} ()
 \item 
-\Hypertarget{classLinkEntity_ade8b92326af9febac1dceaf35e1bca9b}\label{classLinkEntity_ade8b92326af9febac1dceaf35e1bca9b} 
-virtual void {\bfseries update\+Connected\+Ports} ()
-\item 
-\Hypertarget{classLinkEntity_af6e714eeb54c9033268ee4665b3b378b}\label{classLinkEntity_af6e714eeb54c9033268ee4665b3b378b} 
-virtual void {\bfseries reset\+Ports} ()
+\Hypertarget{classLinkEntity_a50ebcfd0cc95a7b43a14f5487193ea2b}\label{classLinkEntity_a50ebcfd0cc95a7b43a14f5487193ea2b} 
+virtual void {\bfseries update\+Port\+Slots} ()
 \item 
 \Hypertarget{classLinkEntity_a7c4f813799af0ebf6072fdd2949003c0}\label{classLinkEntity_a7c4f813799af0ebf6072fdd2949003c0} 
 virtual void {\bfseries update\+Arrow\+Heads} ()
@@ -82,9 +86,9 @@ void {\bfseries set\+Owner\+Cells} (std\+::vector$<$ \mbox{\hyperlink{structCell
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classEntity}{Entity}}}
 \begin{DoxyCompactItemize}
 \item 
-void {\bfseries set\+Id} (unsigned int m\+\_\+id)
+void {\bfseries set\+Id} (Entity\+ID m\+\_\+id)
 \item 
-unsigned int {\bfseries get\+Id} ()
+Entity\+ID {\bfseries get\+Id} ()
 \item 
 void {\bfseries hide} ()
 \item 
@@ -107,6 +111,12 @@ void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLineRende
 void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
 \item 
 void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries on\+Creation} ()
+\item 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Parent\+Entity} ()
+\item 
+void {\bfseries set\+Parent\+Entity} (\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}p\+Entity)
 \item 
 bool {\bfseries is\+Active} ()
 \item 
@@ -134,24 +144,35 @@ bool {\bfseries has\+Component\+By\+Name} (const std\+::string \&component\+Name
 \item 
 \mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Manager} ()
 \item 
-virtual void {\bfseries add\+Message} (std\+::string m\+Message)
-\item 
-virtual \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Parent\+Entity} ()
-\item 
-virtual void {\bfseries set\+Parent\+Entity} (\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}p\+Entity)
-\item 
 virtual void {\bfseries imgui\+\_\+print} ()
 \item 
 virtual void {\bfseries imgui\+\_\+display} ()
+\item 
+virtual void {\bfseries remove\+From\+Cell} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classLinkEntity_ae1b0dd3a9ad7d343a50486c96765b649}\label{classLinkEntity_ae1b0dd3a9ad7d343a50486c96765b649} 
-int {\bfseries from\+Port} = -\/1
+\Hypertarget{classLinkEntity_a6f2a602439378af2c32655012371f458}\label{classLinkEntity_a6f2a602439378af2c32655012371f458} 
+Entity\+ID {\bfseries from\+Id} = 0
+\begin{DoxyCompactList}\small\item\em When Node\+\_\+to\+\_\+\+Node. \end{DoxyCompactList}\item 
+\Hypertarget{classLinkEntity_a32af0b11ee725c21fe16b6cb20a91e6e}\label{classLinkEntity_a32af0b11ee725c21fe16b6cb20a91e6e} 
+Entity\+ID {\bfseries to\+Id} = 0
 \item 
-\Hypertarget{classLinkEntity_a14316585100ee035201fefa3a5569321}\label{classLinkEntity_a14316585100ee035201fefa3a5569321} 
-int {\bfseries to\+Port} = -\/1
+\Hypertarget{classLinkEntity_af8d1984ad1de2f5686a46088a95f5a36}\label{classLinkEntity_af8d1984ad1de2f5686a46088a95f5a36} 
+Connection\+Type {\bfseries type} = Connection\+Type\+::\+NODE\+\_\+\+TO\+\_\+\+NODE
+\item 
+\Hypertarget{classLinkEntity_a73345eff25004221b8a7ffa10835bc85}\label{classLinkEntity_a73345eff25004221b8a7ffa10835bc85} 
+glm\+::vec3 {\bfseries from\+Pos} = glm\+::vec3(0)
+\begin{DoxyCompactList}\small\item\em When Direct\+Position. \end{DoxyCompactList}\item 
+\Hypertarget{classLinkEntity_a9b9cf695cb01e5992aa83ef0ba442343}\label{classLinkEntity_a9b9cf695cb01e5992aa83ef0ba442343} 
+glm\+::vec3 {\bfseries to\+Pos} = glm\+::vec3(0)
+\item 
+\Hypertarget{classLinkEntity_af6334d8c15c63a0144ab2a8521281b36}\label{classLinkEntity_af6334d8c15c63a0144ab2a8521281b36} 
+Entity\+ID {\bfseries from\+Port} = -\/1
+\begin{DoxyCompactList}\small\item\em When Port\+\_\+to\+\_\+\+Port. \end{DoxyCompactList}\item 
+\Hypertarget{classLinkEntity_a6479724f2dc6e1a5eab7ec317e17ea5b}\label{classLinkEntity_a6479724f2dc6e1a5eab7ec317e17ea5b} 
+Entity\+ID {\bfseries to\+Port} = -\/1
 \item 
 \Hypertarget{classLinkEntity_a589a196827f8ec83cbee1486228b2b97}\label{classLinkEntity_a589a196827f8ec83cbee1486228b2b97} 
 int {\bfseries from\+Slot\+Index} = -\/1
@@ -167,42 +188,54 @@ std\+::vector$<$ \mbox{\hyperlink{structCell}{Cell}} \texorpdfstring{$\ast$}{*} 
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classEntity}{Entity}}}
 \begin{DoxyCompactItemize}
 \item 
-std\+::vector$<$ \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries children}
+bool {\bfseries is\+Vertical} = false
 \item 
+float {\bfseries slot\+Spacing} = 0.\+0f
+\item 
+std\+::map$<$ Entity\+ID, Entity\+ID $>$ {\bfseries children}
+\begin{DoxyCompactList}\small\item\em child\+\_\+index(id) -\/\texorpdfstring{$>$}{>} real\+\_\+entity\+\_\+id \end{DoxyCompactList}\item 
 std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} $>$ $>$ {\bfseries components}
 \end{DoxyCompactItemize}
-\doxysubsubsection*{Protected Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{classLinkEntity_a5804993c613945fd5b43ae8e88209c53}\label{classLinkEntity_a5804993c613945fd5b43ae8e88209c53} 
-unsigned int {\bfseries from\+Id} = 0
-\item 
-\Hypertarget{classLinkEntity_a0fa76cfbc47fb0bcd8aa786ec28e0460}\label{classLinkEntity_a0fa76cfbc47fb0bcd8aa786ec28e0460} 
-unsigned int {\bfseries to\+Id} = 0
-\item 
-\Hypertarget{classLinkEntity_adf906815b5d967d1da66f1034a169471}\label{classLinkEntity_adf906815b5d967d1da66f1034a169471} 
-\mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*} {\bfseries from} = nullptr
-\item 
-\Hypertarget{classLinkEntity_a7d67917ea02d6d4298280464acbf78c9}\label{classLinkEntity_a7d67917ea02d6d4298280464acbf78c9} 
-\mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*} {\bfseries to} = nullptr
-\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classEntity}{Entity}}}
 \begin{DoxyCompactItemize}
+\item 
+bool {\bfseries active} = true
+\item 
+bool {\bfseries hidden} = false
+\item 
+Component\+Array {\bfseries component\+Array} = \{\}
+\item 
+Component\+Bit\+Set {\bfseries component\+Bit\+Set}
+\item 
+Group\+Bit\+Set {\bfseries group\+Bit\+Set}
 \item 
 std\+::optional$<$ Component\+Array $>$ {\bfseries node\+Component\+Array}
 \item 
 std\+::optional$<$ Component\+Bit\+Set $>$ {\bfseries node\+Component\+Bit\+Set}
 \item 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries parent\+\_\+entity} = nullptr
+\item 
 \mbox{\hyperlink{classManager}{Manager}} \& {\bfseries manager}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em the object doesnt move, so we can have pointer \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Member Function Documentation}
-\Hypertarget{classLinkEntity_ae7cd0125e88adda9ab3df37db915fa87}\label{classLinkEntity_ae7cd0125e88adda9ab3df37db915fa87} 
-\index{LinkEntity@{LinkEntity}!removeEntity@{removeEntity}}
-\index{removeEntity@{removeEntity}!LinkEntity@{LinkEntity}}
-\doxysubsubsection{\texorpdfstring{removeEntity()}{removeEntity()}}
-{\footnotesize\ttfamily void Link\+Entity\+::remove\+Entity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+\Hypertarget{classLinkEntity_a2267cc85e0fc1a12802ea017e5133e8f}\label{classLinkEntity_a2267cc85e0fc1a12802ea017e5133e8f} 
+\index{LinkEntity@{LinkEntity}!removeEntityFromCell@{removeEntityFromCell}}
+\index{removeEntityFromCell@{removeEntityFromCell}!LinkEntity@{LinkEntity}}
+\doxysubsubsection{\texorpdfstring{removeEntityFromCell()}{removeEntityFromCell()}}
+{\footnotesize\ttfamily void Link\+Entity\+::remove\+Entity\+From\+Cell (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
+
+\Hypertarget{classLinkEntity_afab22702fa4ab987a0d158bbf20d7ac9}\label{classLinkEntity_afab22702fa4ab987a0d158bbf20d7ac9} 
+\index{LinkEntity@{LinkEntity}!removeFromCells@{removeFromCells}}
+\index{removeFromCells@{removeFromCells}!LinkEntity@{LinkEntity}}
+\doxysubsubsection{\texorpdfstring{removeFromCells()}{removeFromCells()}}
+{\footnotesize\ttfamily void Link\+Entity\+::remove\+From\+Cells (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
@@ -222,4 +255,4 @@ Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Core/GECSEntity.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Core/GECSEntity.\+h\end{DoxyCompactItemize}

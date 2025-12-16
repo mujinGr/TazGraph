@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['init_0',['init',['../classFramebuffer.html#a85c5a66a5bf899a976d0e9c7dcfa1862',1,'Framebuffer']]]
+  ['initbatch_0',['initBatch',['../classPlaneColorRenderer.html#a86ceb0f3f55ffb254ee4f71644d01a49',1,'PlaneColorRenderer']]]
 ];

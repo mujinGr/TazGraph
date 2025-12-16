@@ -7,37 +7,104 @@ void GraphRightPanel::update(float deltaTime)
 
 void GraphRightPanel::OnImGuiRender()
 {
-	availableFunctions();
-	ImGui::Separator();
-	ShowAllEntities();
+	ImGui::NewLine();
 
-	_customFunctions.setSelectedEntities(config.c_selectedEntities);
-	_customFunctions.update();
-	_customFunctions.OnImGuiRender();
+	int nodeCount = 0;
+	int emptyCount = 0;
+	int linkCount = 0;
+
+	for (auto group : config.scene->manager->groupNames)
+	{
+		if (group.first == Manager::groupMinimapNodes) continue;
+		// Count EmptyEntities
+		auto& empties = config.scene->manager->getGroup<EmptyEntity>(group.first);
+		emptyCount += static_cast<int>(empties.size());
+
+		// Count NodeEntities
+		auto& nodes = config.scene->manager->getGroup<NodeEntity>(group.first);
+		nodeCount += static_cast<int>(nodes.size());
+
+		// Count LinkEntities
+		auto& links = config.scene->manager->getGroup<LinkEntity>(group.first);
+		linkCount += static_cast<int>(links.size());
+	}
+
+	// Show results in ImGui
+
+	ImGui::Text("Nodes: %d", nodeCount);
+	ImGui::Text("Empties: %d", emptyCount);
+	ImGui::Text("Links: %d", linkCount);
+
+	ImGui::NewLine();
+
+	ImGui::Separator();
+
+	ImGui::NewLine();
+
+	if (ImGui::BeginTabBar("RightPanelTabs", ImGuiTabBarFlags_AutoSelectNewTabs)) {
+
+		if (ImGui::BeginTabItem("ECS Groups")) {
+			ShowAllEntities();
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("Statistics")) {
+			availableFunctions();
+			ImGui::EndTabItem();
+		}
+
+		ImGui::EndTabBar();
+	}
+
+	// popup window
+	getSubcomponent<CustomFunctions>()->setSelectedEntities(config.c_selectedEntities);
+	getSubcomponent<CustomFunctions>()->setConfig({ .scene = config.scene });
+	getSubcomponent<CustomFunctions>()->update();
+	getSubcomponent<CustomFunctions>()->OnImGuiRender();
 }
 
 void GraphRightPanel::availableFunctions() {
 
 	if (ImGui::Button("Calculate Degree Of Selected Entities")) {
-		_customFunctions.activatedScriptShown = 1;
+		getSubcomponent<CustomFunctions>()->activatedScriptShown = 1;
+		getSubcomponent<CustomFunctions>()->isScriptResultsOpen = true;
 	}
 
 	if (ImGui::Button("Do Signals")) {
-		_customFunctions.activatedScriptShown = 2;
+		getSubcomponent<CustomFunctions>()->activatedScriptShown = 2;
+		getSubcomponent<CustomFunctions>()->isScriptResultsOpen = true;
 	}
 
 	if (ImGui::Button("Do HeatMap")) {
-		_customFunctions.activatedScriptShown = 3;
+		getSubcomponent<CustomFunctions>()->activatedScriptShown = 3;
+		getSubcomponent<CustomFunctions>()->isScriptResultsOpen = true;
 	}
 
 	if (ImGui::Button("Do CandleStick")) {
-		_customFunctions.activatedScriptShown = 4;
+		getSubcomponent<CustomFunctions>()->activatedScriptShown = 4;
+		getSubcomponent<CustomFunctions>()->isScriptResultsOpen = true;
 	}
 
-	if (ImGui::Button("Show Script Results")) {
-		_customFunctions.isScriptResultsOpen = !_customFunctions.isScriptResultsOpen;
-	}
+}
 
+void GraphRightPanel::DrawEntityJumpList(const char* labelId, const std::vector<Entity*>& vec) {
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	if (ImGui::TreeNode(labelId)) {
+		for (auto e : vec) {
+			std::string nodeLabel = "Entity ID: " + EntityIDUtils::toString(e->getId());
+			std::string btn = "Go to##" + EntityIDUtils::toString(e->getId());
+			if (ImGui::Button(btn.c_str())) {
+				if (e->hasComponent<TransformComponent>()) { // because clang doesnt know what type vec is
+					auto& tr = e->GetComponent<TransformComponent>();
+					main_camera2D->setPosition_X(tr.getPosition().x);
+					main_camera2D->setPosition_Y(tr.getPosition().y);
+					main_camera2D->setAimPos(glm::vec3(main_camera2D->eyePos.x, main_camera2D->eyePos.y, main_camera2D->eyePos.z + 1.0f));
+				}
+			}
+		}
+		ImGui::TreePop();
+	}
 }
 
 void GraphRightPanel::ShowAllEntities() {
@@ -50,109 +117,161 @@ void GraphRightPanel::ShowAllEntities() {
 	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 	float size = 10;
 
-	for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::buttonLabels + 1; group++) {
-		std::string s = config.c_manager->getGroupName(group);
+	for (auto groupElement : config.scene->manager->groupNames) {
+		auto group = groupElement.first;
+		std::string s = config.scene->manager->getGroupName(group);
 
 		if (ImGui::CollapsingHeader(s.c_str())) {
-			std::vector<NodeEntity*>& groupVec = config.c_manager->getGroup<NodeEntity>(group);
+			auto& nodeVec = config.scene->manager->getGroup<NodeEntity>(group);
+			auto& linkVec = config.scene->manager->getGroup<LinkEntity>(group);
+			auto& emptyVec = config.scene->manager->getGroup<EmptyEntity>(group);
 
-			if (group == Manager::groupNodes_0 || group == Manager::groupGroupNodes_0 || group == Manager::groupGroupNodes_1) {
+			// ---------- NODE GROUP ----------
+			if (!nodeVec.empty()) {
+				// Component Management Section for Nodes
+				DrawBulkComponentControls(nodeVec, "Component", s + "_nodes");
+				ImGui::Separator();
+				DrawBulkComponentControls(nodeVec, "NodeComponent", s + "_nodes");
 
-				for (auto& entity : groupVec) { // loops 1 time
-					Color initialColor = entity->GetComponent<Rectangle_w_Color>().color;
-					color = ImVec4(initialColor.r / 255.0f, initialColor.g / 255.0f, initialColor.b / 255.0f, initialColor.a / 255.0f);
-
-					TransformComponent* tr = &entity->GetComponent<TransformComponent>();
-					float initialSize[2] = { tr->size.x, tr->size.y };
-					size = initialSize[0];
-					break;
-				}
-
-				if (ImGui::ColorEdit4(("Color##" + s).c_str(), (float*)&color)) {
-					std::vector<NodeEntity*>& groupVec = config.c_manager->getGroup<NodeEntity>(group);
-					Color newColor = {
-					   (GLubyte)(color.x * 255),
-					   (GLubyte)(color.y * 255),
-					   (GLubyte)(color.z * 255),
-					   (GLubyte)(color.w * 255)
-					};
-
-					for (auto& entity : groupVec) {
-						entity->GetComponent<Rectangle_w_Color>().color = newColor;
-					}
-				}
-
-				if (ImGui::SliderFloat("Node Size", &size, 0, 100)) {
-					for (auto& entity : groupVec) {
-						entity->GetComponent<TransformComponent>().size.x = size;
-						entity->GetComponent<TransformComponent>().size.y = size;
-					}
-				}
-
-				ImGui::SliderFloat("Border Radius", config.c_nodeRadius, 0, 1.0f);
+				DrawEntityJumpList(std::string("Entities##nodes_" + s).c_str(), nodeVec);
 
 			}
-
-			if (group == Manager::groupLinks_0 || group == Manager::groupGroupLinks_0 || group == Manager::groupGroupLinks_1) {
-				for (auto& entity : groupVec) { // loops 1 time
-					Color initialColor = entity->GetComponent<Line_w_Color>().src_color;
-					color = ImVec4(initialColor.r / 255.0f, initialColor.g / 255.0f, initialColor.b / 255.0f, initialColor.a / 255.0f);
-
-					break;
+			// ---------- LINK GROUP ----------
+			else if (!linkVec.empty()) {
+				if (ImGui::CollapsingHeader(("Component Management##links_" + s).c_str())) {
+					DrawBulkComponentControls(linkVec, "LinkComponent", s + "_links");
 				}
 
-				if (ImGui::ColorEdit4(("Color##" + s).c_str(), (float*)&color)) {
-					std::vector<LinkEntity*>& groupVec = config.c_manager->getGroup<LinkEntity>(group);
-					Color newColor = {
-					   (GLubyte)(color.x * 255),
-					   (GLubyte)(color.y * 255),
-					   (GLubyte)(color.z * 255),
-					   (GLubyte)(color.w * 255)
-					};
+				DrawEntityJumpList(std::string("Entities##links_" + s).c_str(), linkVec);
 
-					for (auto& entity : groupVec) {
-						entity->GetComponent<Line_w_Color>().src_color = newColor;
-						entity->GetComponent<Line_w_Color>().dest_color = newColor;
-					}
-				}
-
-				/*if (ImGui::SliderInt("Line Width", &size, 0, 100)) {
-					for (auto& entity : groupVec) {
-						entity->GetComponent<TransformComponent>().width = size;
-						entity->GetComponent<TransformComponent>().height = size;
-					}
-				}*/
 			}
-
-
-			std::string treeNodeLabel = "Entities##" + config.c_manager->getGroupName(group);
-			if (ImGui::TreeNode(treeNodeLabel.c_str())) {
-
-				for (auto& entity : groupVec) {
-
-					std::string label = "Entity ID: " + std::to_string(entity->getId());
-
-					if (ImGui::TreeNode(label.c_str())) {
-
-						// Create a unique button label
-						std::string buttonLabel = "Go to##" + std::to_string(entity->getId());
-						if (ImGui::Button(buttonLabel.c_str())) {
-							if (entity->hasComponent<TransformComponent>()) {
-								main_camera2D->setPosition_X(entity->GetComponent<TransformComponent>().getPosition().x);
-								main_camera2D->setPosition_Y(entity->GetComponent<TransformComponent>().getPosition().y);
-
-								main_camera2D->setAimPos(glm::vec3(main_camera2D->eyePos.x, main_camera2D->eyePos.y, main_camera2D->eyePos.z + 1.0f));
-							}
-						}
-
-						ImGui::TreePop();
-					}
-
+			// ---------- EMPTY GROUP ----------
+			else if (!emptyVec.empty()) {
+				if (ImGui::CollapsingHeader(("Component Management##empties_" + s).c_str())) {
+					DrawBulkComponentControls(emptyVec, "Component", s + "_empties");
 				}
-				ImGui::TreePop();
+				// No color/size controls by default for empties; just list them
+				DrawEntityJumpList(std::string("Entities##empties_" + s).c_str(), emptyVec);
 			}
 
 		}
 	}
 
+}
+
+void GraphRightPanel::DrawBulkComponentControls(const std::vector<Entity*>& entityVec,
+	const std::string& componentCategory,
+	const std::string& uniqueID) {
+
+	auto sortComponentsByID = [](const std::vector<std::string>& componentNames) {
+		std::vector<std::pair<ComponentID, std::string>> sorted;
+		for (const auto& name : componentNames) {
+			auto it = componentNameToID.find(name);
+			if (it != componentNameToID.end()) {
+				sorted.emplace_back(it->second, name);
+			}
+		}
+		std::sort(sorted.begin(), sorted.end(),
+			[](const auto& a, const auto& b) {
+				return a.first < b.first;
+			});
+
+		std::vector<std::string> result;
+		for (const auto& [id, name] : sorted) {
+			result.push_back(name);
+		}
+		return result;
+		};
+
+	ImGui::Text("%s Components:", componentCategory.c_str());
+
+	for (const auto& componentName : sortComponentsByID(config.scene->manager->componentNames[componentCategory])) {
+		// Count how many entities have this component
+		int entitiesWithComponent = 0;
+
+		Entity* entityWithThisComponent = nullptr;
+
+
+		for (auto entity : entityVec) {
+			if (entity->hasComponentByName(componentName)) {
+				entitiesWithComponent++;
+
+				if (entityWithThisComponent == nullptr)
+					entityWithThisComponent = entity;
+			}
+		}
+
+		// Display component info and count
+		auto it = componentNameToID.find(componentName);
+		if (it != componentNameToID.end()) {
+			ComponentID cid = it->second;
+			ImGui::Text("(ID: %u)", cid);
+			ImGui::SameLine();
+		}
+
+		ImGui::Text("%s (%d/%zu)", componentName.c_str(), entitiesWithComponent, entityVec.size());
+		ImGui::SameLine();
+
+		// Add to All button
+		std::string addButtonLabel = "Add to All##" + componentName + "_" + uniqueID;
+		if (ImGui::Button(addButtonLabel.c_str())) {
+			for (auto* entity : entityVec) {
+				if (!entity->hasComponentByName(componentName)) {
+					AddComponentByName(componentName, entity);
+				}
+			}
+		}
+		ImGui::SameLine();
+
+		// Remove from All button
+		std::string removeButtonLabel = "Remove from All##" + componentName + "_" + uniqueID;
+		if (ImGui::Button(removeButtonLabel.c_str())) {
+			for (auto* entity : entityVec) {
+				if (entity->hasComponentByName(componentName)) {
+					RemoveComponentByName(componentName, entity);
+				}
+			}
+		}
+		ImGui::SameLine();
+
+		// Toggle button (adds to entities without, removes from entities with)
+		std::string toggleButtonLabel = "Toggle##" + componentName + "_" + uniqueID;
+		if (ImGui::Button(toggleButtonLabel.c_str())) {
+			for (auto* entity : entityVec) {
+				if (entity->hasComponentByName(componentName)) {
+					RemoveComponentByName(componentName, entity);
+				}
+				else {
+					AddComponentByName(componentName, entity);
+				}
+			}
+		}
+
+		if (entitiesWithComponent > 0) {
+			BaseComponent* templateComponent = getComponentByName(componentName, entityWithThisComponent);
+
+			if (templateComponent) {
+				// Create a temporary copy for editing
+					// Show the GUI for editing
+				if (!templateComponent->modifyPosition)
+					templateComponent->showGUI();
+				else {
+					std::vector<BaseComponent*> entitiesComponents = {};
+					for (auto* entity : entityVec) {
+
+						if (entity->hasComponentByName(componentName)) {
+							entitiesComponents.push_back(getComponentByName(componentName, entity));
+						}
+					}
+					templateComponent->showGUI(entitiesComponents);
+					templateComponent->modifyPosition = false;
+				}
+
+			}
+		}
+	}
+}
+
+void GraphRightPanel::CopyComponentValues(BaseComponent* source, BaseComponent* target, size_t size) {
+	std::memcpy(target, source, size);
 }

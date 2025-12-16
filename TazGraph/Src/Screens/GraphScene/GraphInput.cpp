@@ -1,10 +1,29 @@
-#include "Graph.h"
-#include <AppScene/AppInterface.h>
+﻿#include "Graph.h"
 
-glm::vec3 pointAtZ0;
+void Graph::clearSelectedEntities() {
 
-// Get point on the ray at z = -100
-glm::vec3 pointAtO;
+	for (auto& sel : _selectedEntities) {
+		if (
+			std::holds_alternative<int>(sel.overlayEntityId) &&
+			std::get<int>(sel.overlayEntityId) < 0
+			) {
+			continue;
+		}
+		Entity* overlayEnt =
+			manager->getEntityFromId(sel.overlayEntityId);
+
+		Link* link = dynamic_cast<Link*>(overlayEnt);
+
+		if (link) {
+			overlayEnt->Entity::destroy();
+		}
+		else {
+			overlayEnt->destroy();
+		}
+	}
+
+	_selectedEntities.clear();
+}
 
 std::vector<Cell*> Graph::traversedCellsFromRay(
 	glm::vec3 rayOrigin,
@@ -58,13 +77,9 @@ std::vector<Cell*> Graph::traversedCellsFromRay(
 
 void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int activateMode) {
 
-	if (!_viewportPanel.isMouseInSecondColumn) {
-		return;
-	}
-
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-	std::vector<Cell*> trav_cells = traversedCellsFromRay(rayOrigin, rayDirection, 10000.0f);
+	std::vector<Cell*> trav_cells = traversedCellsFromRay(rayOrigin, rayDirection, SELECT_DISTANCE);
 
 	bool hasSelected = false;
 
@@ -73,237 +88,189 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 		rayDirection,
 		manager->grid->getNumZCells() * manager->grid->getCellSize() / 2.0f);
 
-	float maxT = glm::distance(rayOrigin, pointAtMaxDepth);
-	if (maxT > 10000.0f) maxT = 10000.0f;
+	// ! Select Nodes
+	std::optional<EntityID> closestEntityId;
+	float closestDistance = std::numeric_limits<float>::max();
+	glm::vec3 closestHitPoint;
 
 	for (auto& trav_cell : trav_cells) {
-		for (auto& node : trav_cell->nodes) {
+		for (auto& nodeId : trav_cell->nodes) {
+
+			if (std::holds_alternative<int>(nodeId) && std::get<int>(nodeId) < 0)
+				continue;
+
+			Entity* node = manager->getEntityFromId(nodeId);
+			if (!node) continue;
+
+			TransformComponent* nodeTR =
+				&node->GetComponent<TransformComponent>();
 			glm::vec3 t;
-			TransformComponent* tempBod = &node->GetComponent<TransformComponent>();
-			if (rayIntersectsBox(rayOrigin,
+
+			if (!rayIntersectsBox(
+				rayOrigin,
 				rayDirection,
-				glm::vec3(tempBod->position.x, tempBod->position.y, node->GetComponent<TransformComponent>().getPosition().z),
-				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, node->GetComponent<TransformComponent>().getPosition().z + tempBod->size.z),
-				t,
-				maxT)) {
-				//std::cout << "Ray hit node: " << node->getId() << " at distance " << t.x << t.y << t.z << std::endl;
-				if (activateMode == SDL_BUTTON_RIGHT)
-				{
-					_displayedEntity = node;
+				nodeTR->position - nodeTR->size / 2.0f,
+				nodeTR->position + nodeTR->size / 2.0f,
+				t))
+			{
+				continue;
+			}
+
+			float distance = glm::distance(rayOrigin, t);
+
+			if (distance < closestDistance) {
+				closestDistance = distance;
+				closestEntityId = nodeId;
+				closestHitPoint = t;
+			}
+		}
+	}
+
+	// ! Select Empties
+	for (auto& trav_cell : trav_cells) {
+		for (auto& emptyId : trav_cell->emptyEntities) {
+
+			if (std::holds_alternative<int>(emptyId) && std::get<int>(emptyId) < 0)
+				continue;
+
+			Entity* empty = manager->getEntityFromId(emptyId);
+			if (!empty) continue;
+
+			TransformComponent* emptyTR =
+				&empty->GetComponent<TransformComponent>();
+			glm::vec3 t;
+
+			if (!rayIntersectsBox(
+				rayOrigin,
+				rayDirection,
+				emptyTR->position - emptyTR->size / 2.0f,
+				emptyTR->position + emptyTR->size / 2.0f,
+				t))
+			{
+				continue;
+			}
+
+			float distance = glm::distance(rayOrigin, t);
+
+			if (distance < closestDistance) {
+				closestDistance = distance;
+				closestEntityId = emptyId;
+				closestHitPoint = t;
+			}
+		}
+	}
+
+	if (closestEntityId.has_value()) {
+		hasSelected = true;
+		EntityID entId = closestEntityId.value();
+		Entity* ent = manager->getEntityFromId(entId);
+		TransformComponent* closest_tr = &ent->GetComponent<TransformComponent>();
+		glm::vec3 t = closestHitPoint;
+		// --------------------------------------
+				// Primary click (left)
+				// --------------------------------------
+		if (activateMode == SDL_BUTTON_LEFT)
+		{
+			// check if selected already
+			auto it = std::find_if(
+				_selectedEntities.begin(), _selectedEntities.end(),
+				[&](const SelectedInfo& info) {
+					return info.realEntityId == entId;
+				});
+
+			if (it == _selectedEntities.end()) {
+				// not selected → new single selection
+				clearSelectedEntities();
+
+				SelectedInfo info;
+				info.realEntityId = entId;
+				info.relativeOffset = closest_tr->getPosition() - t;
+				info.overlayEntityId = -1; // created later in batch building
+
+				_selectedEntities.push_back(info);
+			}
+			else {
+				// already selected → update all offsets
+				for (auto& sel : _selectedEntities) {
+					Entity* e = manager->getEntityFromId(sel.realEntityId);
+					sel.relativeOffset = e->GetComponent<TransformComponent>().getPosition() - t;
 				}
-				else if (activateMode == SDL_BUTTON_LEFT) {
-					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[node](const std::pair<Entity*, glm::vec3>& entry) {
-							return entry.first == node;
-						});
-
-					if (it == _selectedEntities.end()) { // Node not found
-						_selectedEntities.clear();
-						_selectedEntities.emplace_back(node, node->GetComponent<TransformComponent>().getPosition() - t);
-					}
-					else {
-						std::vector<std::pair<Entity*, glm::vec3>> updatedSelection;
-						updatedSelection.reserve(_selectedEntities.size());
-
-						for (const auto& [entity, _] : _selectedEntities) {
-							Node* nodeEntity = dynamic_cast<Node*>(entity);
-							if (nodeEntity) {
-								glm::vec3 relativePos = nodeEntity->GetComponent<TransformComponent>().getPosition() - t;
-								updatedSelection.emplace_back(entity, relativePos);
-							}
-							else {
-								updatedSelection.emplace_back(entity, glm::vec3(0));
-							}
-						}
-
-						_selectedEntities = std::move(updatedSelection);
-					}
-				}
-				else if (activateMode == ON_HOVER && _selectedEntities.empty()) {
-					_onHoverEntity = node;
-				}
-				else if (activateMode == CTRLD_LEFT_CLICK) {
-
-					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[node](const std::pair<Entity*, glm::vec3>& entry) {
-							return entry.first == node;
-						});
-
-
-					//! update selectedEntities relative positions to center
-					std::vector<std::pair<Entity*, glm::vec3>> updatedSelection;
-					updatedSelection.reserve(_selectedEntities.size());
-
-					for (const auto& [entity, _] : _selectedEntities) {
-						Node* nodeEntity = dynamic_cast<Node*>(entity);
-						if (nodeEntity) {
-							glm::vec3 relativePos = nodeEntity->GetComponent<TransformComponent>().getCenterTransform() - t;
-							updatedSelection.emplace_back(entity, relativePos);
-						}
-						else {
-							updatedSelection.emplace_back(entity, glm::vec3(0));
-						}
-					}
-
-					if (it == _selectedEntities.end()) {
-						glm::vec3 newNodeRelativePos = node->GetComponent<TransformComponent>().getCenterTransform() - t;
-						updatedSelection.emplace_back(node, newNodeRelativePos);
-					}
-
-					_selectedEntities = std::move(updatedSelection);
-				}
-
-				hasSelected = true;
-				break;
 			}
 		}
 
-		if (hasSelected) return;
-	}
+		// --------------------------------------
+		// Ctrl + Left (multi-select)
+		// --------------------------------------
+		else if (activateMode == CTRLD_LEFT_CLICK)
+		{
+			// Check if already selected
+			auto it = std::find_if(
+				_selectedEntities.begin(), _selectedEntities.end(),
+				[&](const SelectedInfo& info) {
+					return info.realEntityId == entId;
+				});
 
-	for (auto& trav_cell : trav_cells) {
-		for (auto& empty : trav_cell->emptyEntities) {
-			glm::vec3 t;
-			TransformComponent* tempBod = &empty->GetComponent<TransformComponent>();
-			if (rayIntersectsBox(rayOrigin,
-				rayDirection,
-				glm::vec3(tempBod->position.x, tempBod->position.y, empty->GetComponent<TransformComponent>().getPosition().z),
-				glm::vec3(tempBod->position.x + tempBod->size.x, tempBod->position.y + tempBod->size.y, empty->GetComponent<TransformComponent>().getPosition().z + tempBod->size.z),
-				t,
-				maxT)) {
-				//std::cout << "Ray hit empty: " << empty->getId() << " at distance " << t.x << t.y << t.z << std::endl;
-				if (activateMode == SDL_BUTTON_RIGHT)
-				{
-					_displayedEntity = empty;
-				}
-				else if (activateMode == SDL_BUTTON_LEFT) {
-					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[empty](const std::pair<Entity*, glm::vec3>& entry) {
-							return entry.first == empty;
-						});
+			// Update all offsets first
+			for (auto& sel : _selectedEntities) {
+				Entity* e = manager->getEntityFromId(sel.realEntityId);
+				sel.relativeOffset = e->GetComponent<TransformComponent>().getPosition() - t;
+			}
 
-					if (it == _selectedEntities.end()) { // Empty not found
-						_selectedEntities.clear();
-						_selectedEntities.emplace_back(empty, empty->GetComponent<TransformComponent>().getPosition() - t);
-					}
-					else {
-						std::vector<std::pair<Entity*, glm::vec3>> updatedSelection;
-						updatedSelection.reserve(_selectedEntities.size());
-
-						for (const auto& [entity, _] : _selectedEntities) {
-							Empty* emptyEntity = dynamic_cast<Empty*>(entity);
-							if (emptyEntity) {
-								glm::vec3 relativePos = emptyEntity->GetComponent<TransformComponent>().getPosition() - t;
-								updatedSelection.emplace_back(entity, relativePos);
-							}
-							else {
-								updatedSelection.emplace_back(entity, glm::vec3(0));
-							}
-						}
-
-						_selectedEntities = std::move(updatedSelection);
-					}
-				}
-				else if (activateMode == ON_HOVER && _selectedEntities.empty()) {
-					_onHoverEntity = empty;
-				}
-				else if (activateMode == CTRLD_LEFT_CLICK) {
-
-					auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-						[empty](const std::pair<Entity*, glm::vec3>& entry) {
-							return entry.first == empty;
-						});
-
-
-					//! update selectedEntities relative positions to center
-					std::vector<std::pair<Entity*, glm::vec3>> updatedSelection;
-					updatedSelection.reserve(_selectedEntities.size());
-
-					for (const auto& [entity, _] : _selectedEntities) {
-						Empty* emptyEntity = dynamic_cast<Empty*>(entity);
-						if (emptyEntity) {
-							glm::vec3 relativePos = emptyEntity->GetComponent<TransformComponent>().getCenterTransform() - t;
-							updatedSelection.emplace_back(entity, relativePos);
-						}
-						else {
-							updatedSelection.emplace_back(entity, glm::vec3(0));
-						}
-					}
-
-					if (it == _selectedEntities.end()) {
-						glm::vec3 newEmptyRelativePos = empty->GetComponent<TransformComponent>().getCenterTransform() - t;
-						updatedSelection.emplace_back(empty, newEmptyRelativePos);
-					}
-
-					_selectedEntities = std::move(updatedSelection);
-				}
-
-				hasSelected = true;
-				break;
+			// Add new if not selected
+			if (it == _selectedEntities.end())
+			{
+				SelectedInfo info;
+				info.realEntityId = entId;
+				info.relativeOffset = closest_tr->getPosition() - t;
+				info.overlayEntityId = -1; // batch builder will create overlay
+				_selectedEntities.push_back(info);
 			}
 		}
 
-		if (hasSelected) return;
-	}
+		// --------------------------------------
+		// Right-click = show inspector
+		// --------------------------------------
+		else if (activateMode == SDL_BUTTON_RIGHT) {
+			_displayedEntity = ent;
+		}
 
-	glm::vec3 pointAtMinDepth = main_camera2D->getPointOnRayAtZ(
-		rayOrigin,
-		rayDirection,
-		-manager->grid->getNumZCells() * manager->grid->getCellSize() / 2.0f);
-
-	float minT = glm::distance(rayOrigin, pointAtMinDepth);
-	if (minT < 0.0f) minT = 0.0f;
-
-	float sphereRad = 5.0f;
-	for (float t = 0.0f; t < minT; t += sphereRad) {
-		sphereRad += 0.005f;
+		// --------------------------------------
+		// Hover
+		// --------------------------------------
+		else if (activateMode == ON_HOVER) {
+			_onHoverEntity = ent;
+		}
+		return;
 	}
 
 	// Helper function to check if entity is already selected
-	auto isEntitySelected = [&](Entity* entity) {
+	auto isEntitySelected = [&](EntityID entity) {
 		return std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
-			[entity](const std::pair<Entity*, glm::vec3>& entry) {
-				return entry.first == entity;
+			[entity](const SelectedInfo& entry) {
+				return entry.realEntityId == entity;
 			}) != _selectedEntities.end();
 		};
 
-	// Helper function to find which path a link belongs to
-	auto findPathContainingLink = [&](Entity* targetLink) -> std::vector<LinkEntity*>*{
-		for (auto& pathHolder : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
-			auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
-
-			for (auto* link : pathLinks) {
-				if (link == targetLink) {
-					return &pathLinks; // Return reference to the path's link vector
-				}
-			}
-		}
-		return nullptr; // Link is not part of any path
-		};
 
 	// Unified link selection handler
-	auto handleLinkSelection = [&](Entity* link, int mode, bool selectWholePath = false) {
-		std::vector<Entity*> linksToSelect;
+	auto handleLinkSelection = [&](EntityID linkId, int mode) {
+		std::vector<EntityID> linksToSelect;
 
-		if (selectWholePath) {
-			// Find the path this link belongs to
-			auto* pathLinks = findPathContainingLink(link);
-			if (pathLinks) {
-				// Add all valid links in the path (cast LinkEntity* to Entity*)
-				for (auto* pathLink : *pathLinks) {
-					if (pathLink) {
-						linksToSelect.push_back(static_cast<Entity*>(pathLink));
-					}
-				}
-			}
-			else {
-				// Not a path link, just select the single link
-				linksToSelect.push_back(link);
+		Entity* link = manager->getEntityFromId(linkId);
+
+		if (link->getParentEntity() &&
+			link->getParentEntity()->hasGroup(Manager::groupPathLinksHolder)) {
+			auto& pathLinks =
+				link->getParentEntity()->GetComponent<PathLinkerComponent>().pathLinks;
+
+			for (auto& pathLink : pathLinks) {
+				linksToSelect.push_back(pathLink);
+
 			}
 		}
 		else {
 			// Single link selection
-			linksToSelect.push_back(link);
+			linksToSelect.push_back(linkId);
 		}
 
 		// Apply selection based on mode
@@ -313,25 +280,35 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 			break;
 
 		case SDL_BUTTON_LEFT:
-			_selectedEntities.clear(); // Clear previous selection
-			for (auto* linkToSelect : linksToSelect) {
+			clearSelectedEntities(); // Clear previous selection
+			for (auto& linkToSelect : linksToSelect) {
+
 				if (!isEntitySelected(linkToSelect)) {
-					_selectedEntities.emplace_back(linkToSelect, glm::vec3(0));
+
+					SelectedInfo info;
+					info.realEntityId = linkToSelect;
+					info.relativeOffset = glm::vec3(0);
+					info.overlayEntityId = -1; // created later in batch building
+
+					_selectedEntities.push_back(info);
 				}
 			}
 			break;
 
 		case ON_HOVER:
-			if (_selectedEntities.empty()) {
-				_onHoverEntity = link; // Still hover just the individual link
-			}
+			_onHoverEntity = link; // Still hover just the individual link
 			break;
 
 		case CTRLD_LEFT_CLICK:
 			// Add to selection (multi-select)
-			for (auto* linkToSelect : linksToSelect) {
+			for (auto& linkToSelect : linksToSelect) {
 				if (!isEntitySelected(linkToSelect)) {
-					_selectedEntities.emplace_back(linkToSelect, glm::vec3(0));
+					SelectedInfo info;
+					info.realEntityId = linkToSelect;
+					info.relativeOffset = glm::vec3(0);
+					info.overlayEntityId = -1; // created later in batch building
+
+					_selectedEntities.push_back(info);
 				}
 			}
 			break;
@@ -340,60 +317,50 @@ void Graph::selectEntityFromRay(glm::vec3 rayOrigin, glm::vec3 rayDirection, int
 
 	// Check individual links in trav_cells (now with path awareness)
 	for (auto& trav_cell : trav_cells) {
-		for (auto& link : trav_cell->links) {
-			glm::vec3 t;
-			if (rayIntersectsLineSegment(rayOrigin, rayDirection,
-				link->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(),
-				link->getToNode()->GetComponent<TransformComponent>().getCenterTransform(),
-				t, minT, maxT, sphereRad)) {
+		for (auto& linkId : trav_cell->links) {
+			if (std::holds_alternative<int>(linkId) && std::get<int>(linkId) < 0)
+				continue;
 
-				// Check if this link is part of a path and select accordingly
-				handleLinkSelection(link, activateMode, true); // true = select whole path if it's a path link
-				hasSelected = true;
-				break;
-			}
-		}
-		if (hasSelected) return;
-	}
+			auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
 
-	// Check path link holders (existing behavior - select entire path)
-	for (auto& pathHolder : manager->getGroup<EmptyEntity>(Manager::groupPathLinksHolder)) {
-		auto& pathLinks = pathHolder->GetComponent<PathLinkerComponent>().pathLinks;
-		bool hitAny = false;
-		glm::vec3 t;
-
-		// Check if ray hits any link in this path
-		for (auto* link : pathLinks) {
 			if (!link) continue;
 
+			glm::vec3 fromPos = manager->getEntityFromId(link->getFromNode())->GetComponent<TransformComponent>().getPosition();
+			glm::vec3 toPos = manager->getEntityFromId(link->getToNode())->GetComponent<TransformComponent>().getPosition();
+
+			glm::vec3 t;
+
+			float distance;
 			if (rayIntersectsLineSegment(rayOrigin, rayDirection,
-				link->getFromNode()->GetComponent<TransformComponent>().getCenterTransform(),
-				link->getToNode()->GetComponent<TransformComponent>().getCenterTransform(),
-				t, minT, maxT, sphereRad)) {
-
-				hitAny = true;
-				break;
+				fromPos,
+				toPos,
+				t,
+				&distance
+			)) {
+				if (distance < closestDistance) {
+					closestDistance = distance;
+					closestEntityId = linkId;
+					closestHitPoint = t;
+				}
 			}
 		}
+	}
+	if (closestEntityId.has_value()) {
+		hasSelected = true;
 
-		if (hitAny) {
-			// Select all links in this path
-			for (auto* link : pathLinks) {
-				if (!link) continue;
-				handleLinkSelection(link, activateMode, false); // false = don't double-process path selection
-			}
-			hasSelected = true;
-			return; // Stop after first hit path holder
-		}
+		EntityID entId = closestEntityId.value();
+		handleLinkSelection(entId, activateMode);
 	}
 
 	if (!hasSelected && activateMode == SDL_BUTTON_LEFT) {
-		_selectedEntities.clear();
+		clearSelectedEntities();
 	}
 }
 
 
 void Graph::checkInput() {
+	ZoneScopedN("Graph-Input");
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
@@ -403,19 +370,41 @@ void Graph::checkInput() {
 	}
 
 	SDL_Event evnt;
+
+	{
+		std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);
+		getApp()->imguiEvents.clear(); // Clear previous frame's events
+	}
+
+
 	while (SDL_PollEvent(&evnt)) {
-		ImGui_ImplSDL2_ProcessEvent(&evnt);
+		{
+			std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);
+			getApp()->imguiEvents.push_back(evnt);
+		}
+
 		_app->onSDLEvent(evnt);
 
-		glm::vec2 mouseCoordsVec = _sceneMousePosition; // in graph we have another variable for the worldCoords of mouse
+		glm::vec2 mouseCoordsVec = _viewportMousePosition; // in graph we have another variable for the worldCoords of mouse
 
 		glm::vec3 rayOrigin = main_camera2D->getPosition(); // Camera position
-		glm::vec3 rayDirection = main_camera2D->castRayAt(mouseCoordsVec); // Ray direction
+		glm::vec3 rayDirection = main_camera2D->castRayAt(_viewportMousePosition); // Ray direction
+
+		if (!_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->
+			getSubcomponent<ViewportPanel>()->
+			isMouseInSecondColumn) {
+			_isDraggingSelectionBox = false;
+			_selectionStartPos = glm::vec2(0);
+			_selectionCurrentPos = glm::vec2(0);
+			_selectionWindowStartPos = glm::vec2(0);
+			_selectionWindowCurrentPos = glm::vec2(0);
+			return;
+		}
 
 		switch (evnt.type)
 		{
 		case SDL_MOUSEWHEEL:
-			if (!_viewportPanel.isMouseInSecondColumn || _displayedEntity) {
+			if (_displayedEntity) {
 				return;
 			}
 			if (evnt.wheel.y > 0)
@@ -429,7 +418,7 @@ void Graph::checkInput() {
 				main_camera2D->movePosition_Forward(-CELL_SIZE);
 			}
 			break;
-		case SDL_KEYDOWN:
+		case SDL_KEYDOWN: {
 			if (_app->_inputManager.isKeyDown(SDLK_ESCAPE)) {
 				if (_displayedEntity || _sceneManagerActive) {
 					_displayedEntity = nullptr;
@@ -442,48 +431,24 @@ void Graph::checkInput() {
 			if (_displayedEntity) {
 				return;
 			}
-			if (_app->_inputManager.isKeyDown(SDLK_e)) {
-				main_camera2D->movePosition_Forward(manager->grid->getCellSize());
-			}
-			if (_app->_inputManager.isKeyDown(SDLK_r)) {
-				main_camera2D->movePosition_Forward(-manager->grid->getCellSize());
-			}
-			if (_app->_inputManager.isKeyDown(SDLK_w)) {
-				main_camera2D->movePosition_Vert(manager->grid->getCellSize() + 10.0f);
 
-			}
-			if (_app->_inputManager.isKeyDown(SDLK_s)) {
-				main_camera2D->movePosition_Vert(-manager->grid->getCellSize() - 10.0f);
 
-			}
-			if (_app->_inputManager.isKeyDown(SDLK_a)) {
-				main_camera2D->movePosition_Hor(-manager->grid->getCellSize() - 10.0f);
-			}
-			if (_app->_inputManager.isKeyDown(SDLK_d)) {
-				main_camera2D->movePosition_Hor(manager->grid->getCellSize() + 10.0f);
-			}
 
+			break;
+		}
 		case SDL_MOUSEMOTION:
 		{
-			ImVec2 mainViewportSize = ImGui::GetMainViewport()->Size;
+			glm::vec2 viewportPos(_viewportPos.x, _viewportPos.y);
+			glm::vec2 windowDimension(getApp()->_window.getScreenWidth(), getApp()->_window.getScreenHeight());
+			glm::vec2 viewportSize(_viewportSize.x, _viewportSize.y);
 
-			glm::vec2 ogMouseCoordsVec = _app->_inputManager.getMouseCoords();
 
-			glm::vec2 viewportSize(mainViewportSize.x, mainViewportSize.y);
-
-			glm::vec2 windowPos(_windowPos.x, _windowPos.y);
-			glm::vec2 windowDimension(_window->getScreenWidth(), _window->getScreenHeight());
-			glm::vec2 windowSize(_windowSize.x, _windowSize.y);
-
-			glm::vec2 getCameraMousePos = _app->_inputManager.convertWindowToCameraCoords(
-				ogMouseCoordsVec,
-				viewportSize,
+			_viewportMousePosition = _app->_inputManager.convertWindowToViewportCoords(
 				windowDimension,
-				windowPos, windowSize,
+				viewportPos,
+				viewportSize,
 				*main_camera2D
 			);
-
-			_sceneMousePosition = getCameraMousePos;
 
 			bool wasHoveringEntity = _onHoverEntity ? true : false;
 
@@ -491,226 +456,374 @@ void Graph::checkInput() {
 
 			selectEntityFromRay(rayOrigin, rayDirection, ON_HOVER);
 
-			std::unordered_set<Entity*> connectedEntities;
+			auto resetAlphaForEntities = [](Manager* manager,
+				const std::vector<Entity*>& nodeGroup,
+				const std::vector<Entity*>& linkGroup)
+				{
+					for (Entity* node : nodeGroup) {
+						if (node->hasComponent<Rectangle_w_Color>()) {
+							auto& rect = node->GetComponent<Rectangle_w_Color>();
+							rect.color.a = rect.default_color.a;
+						}
+					}
+
+					for (Entity* link : linkGroup) {
+						if (link->hasComponent<Line_w_Color>()) {
+							auto& line = link->GetComponent<Line_w_Color>();
+							line.src_color.a = line.default_src_color.a;
+							line.dest_color.a = line.default_dest_color.a;
+						}
+					}
+				};
 
 			if (wasHoveringEntity && !_onHoverEntity) {
-				if (manager->grid->getGridLevel() == Grid::Level::Basic) {
-					for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupNodes_0)) {
-						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = 255;
-							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
-						}
-					}
-					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
-						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = 255;
-							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
-						}
-					}
-				}
-				else if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
-					for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
-						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = 255;
-							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
-						}
-					}
-					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
-						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = 255;
-							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
-						}
-					}
-				}
-				else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
-					for (NodeEntity* node_entity : manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
-						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = 255;
-							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
-						}
-					}
-					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
-						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = 255;
-							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
-						}
-					}
+				Grid::Level level = manager->grid->getGridLevel();
+
+				switch (level) {
+				case Grid::Level::Basic:
+					resetAlphaForEntities(
+						manager,
+						manager->getGroup<NodeEntity>(Manager::groupNodes_0),
+						manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)
+					);
+					break;
+
+				case Grid::Level::Outer1:
+					resetAlphaForEntities(
+						manager,
+						manager->getGroup<NodeEntity>(Manager::groupGroupNodes_0),
+						manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)
+					);
+					break;
+
+				case Grid::Level::Outer2:
+					resetAlphaForEntities(
+						manager,
+						manager->getGroup<NodeEntity>(Manager::groupGroupNodes_1),
+						manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)
+					);
+					break;
+
+				default:
+					break;
 				}
 			}
 
+			std::unordered_set<Entity*> connectedEntities;
 			if (_onHoverEntity) {
-				// todo here reduce the alpha of all nodes and links except the ones that are connected to the the node or the nodes connecting to the link
-				Node* hoveredNode = dynamic_cast<Node*>(_onHoverEntity);
-				Link* hoveredLink = dynamic_cast<Link*>(_onHoverEntity);
-				if (hoveredNode) {
+				// --- Build connected entities set ---
+				if (auto* hoveredNode = dynamic_cast<Node*>(_onHoverEntity)) {
 					connectedEntities.insert(hoveredNode);
-					for (LinkEntity* link : hoveredNode->getInLinks()) {
+					for (auto& linkId : hoveredNode->getInLinks()) {
+						auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
 						connectedEntities.insert(link);
-						connectedEntities.insert(link->getFromNode());
+						connectedEntities.insert(manager->getEntityFromId(link->getFromNode()));
 					}
-					for (LinkEntity* link : hoveredNode->getOutLinks()) {
+					for (auto& linkId : hoveredNode->getOutLinks()) {
+						auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
+
 						connectedEntities.insert(link);
-						connectedEntities.insert(link->getToNode());
+						connectedEntities.insert(manager->getEntityFromId(link->getToNode()));
 					}
 				}
-				else if (hoveredLink) {
+				else if (auto* hoveredLink = dynamic_cast<Link*>(_onHoverEntity)) {
 					connectedEntities.insert(hoveredLink);
-					connectedEntities.insert(hoveredLink->getFromNode());
-					connectedEntities.insert(hoveredLink->getToNode());
-				}
-				if (manager->grid->getGridLevel() == Grid::Level::Basic) {
-
-					for (NodeEntity* node_entity : manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0)) {
-						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
-							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
-						}
-					}
-					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)) {
-						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
-							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
-						}
-					}
-				}
-				else if (manager->grid->getGridLevel() == Grid::Level::Outer1) {
-
-					for (NodeEntity* node_entity : manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0)) {
-						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
-							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
-						}
-					}
-					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)) {
-						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
-							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
-						}
-					}
-				}
-				else if (manager->grid->getGridLevel() == Grid::Level::Outer2) {
-
-					for (NodeEntity* node_entity : manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1)) {
-						if (node_entity->hasComponent<Rectangle_w_Color>()) {
-							int alpha = (connectedEntities.empty() || connectedEntities.count(node_entity)) ? 255 : 100;
-							node_entity->GetComponent<Rectangle_w_Color>().color.a = alpha;
-						}
-					}
-					for (LinkEntity* link_entity : manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)) {
-						if (link_entity->hasComponent<Line_w_Color>()) {
-							int alpha = (connectedEntities.empty() || connectedEntities.count(link_entity)) ? 255 : 100;
-							link_entity->GetComponent<Line_w_Color>().src_color.a = alpha;
-							link_entity->GetComponent<Line_w_Color>().dest_color.a = alpha;
-						}
-					}
-				}
-			}
-
-			if (_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT) && !_selectedEntities.empty()) {
-
-
-				glm::vec3 pointAtCenterAxis = glm::vec3(0.0f);
-
-				glm::vec3 center(0.0f);
-				int nodeEntitiesSize = 0;
-
-				for (const auto& [entity, _] : _selectedEntities) {
-					Node* nodeEntity = dynamic_cast<Node*>(entity);
-					if (nodeEntity) {
-						center += nodeEntity->GetComponent<TransformComponent>().getCenterTransform();
-						nodeEntitiesSize++;
-					}
-					Empty* emptyEntity = dynamic_cast<Empty*>(entity);
-					if (emptyEntity) {
-						center += emptyEntity->GetComponent<TransformComponent>().getCenterTransform();
-						nodeEntitiesSize++;
-					}
+					connectedEntities.insert(manager->getEntityFromId(hoveredLink->getFromNode()));
+					connectedEntities.insert(manager->getEntityFromId(hoveredLink->getToNode()));
 				}
 
-				center /= nodeEntitiesSize;  // Include new node
+				// --- Helper lambda to set alpha on entities ---
+				auto applyAlpha = [&](const std::vector<Entity*>& nodeIds,
+					const std::vector<Entity*>& linkIds)
+					{
+						for (Entity* node : nodeIds) {
+							if (node->hasComponent<Rectangle_w_Color>()) {
+								auto& rect = node->GetComponent<Rectangle_w_Color>();
+								rect.color.a = (connectedEntities.empty() || connectedEntities.count(node))
+									? 255 : 100;
+							}
+						}
 
-				pointAtCenterAxis = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, center.z);
+						for (Entity* link : linkIds) {
+							if (link->hasComponent<Line_w_Color>()) {
+								auto& line = link->GetComponent<Line_w_Color>();
+								int alpha = (connectedEntities.empty() || connectedEntities.count(link))
+									? 255 : 100;
+								line.src_color.a = alpha;
+								line.dest_color.a = alpha;
+							}
+						}
+					};
 
-				for (const auto& [entity, relativePos] : _selectedEntities) {
-					Node* nodeEntity = dynamic_cast<Node*>(entity);
-					if (nodeEntity) {
-						entity->GetComponent<TransformComponent>().setPosition_X(pointAtCenterAxis.x + relativePos.x);
-						entity->GetComponent<TransformComponent>().setPosition_Y(pointAtCenterAxis.y + relativePos.y);
-					}
-					Empty* emptyEntity = dynamic_cast<Empty*>(entity);
-					if (emptyEntity) {
-						entity->GetComponent<TransformComponent>().setPosition_X(pointAtCenterAxis.x + relativePos.x);
-						entity->GetComponent<TransformComponent>().setPosition_Y(pointAtCenterAxis.y + relativePos.y);
-					}
+				// --- Choose groups by grid level ---
+				switch (manager->grid->getGridLevel()) {
+				case Grid::Level::Basic:
+					applyAlpha(
+						manager->getVisibleGroup<NodeEntity>(Manager::groupNodes_0),
+						manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0)
+					);
+					break;
+
+				case Grid::Level::Outer1:
+					applyAlpha(
+						manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_0),
+						manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_0)
+					);
+					break;
+
+				case Grid::Level::Outer2:
+					applyAlpha(
+						manager->getVisibleGroup<NodeEntity>(Manager::groupGroupNodes_1),
+						manager->getVisibleGroup<LinkEntity>(Manager::groupGroupLinks_1)
+					);
+					break;
+
+				default:
+					break;
 				}
 			}
 
 			if (_app->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
 				// Calculate new camera position based on the mouse movement
-				glm::vec3 delta = glm::vec3(_app->_inputManager.calculatePanningDelta(mouseCoordsVec), 0.0f);
+				glm::vec3 delta = glm::vec3(_app->_inputManager.calculatePanningDelta(_viewportMousePosition), 0.0f);
 				main_camera2D->moveAimPos(main_camera2D->getPanningAimPos(), delta);
 			}
-		}
-		case SDL_MOUSEBUTTONDOWN:
-			if (!_viewportPanel.isMouseInSecondColumn) {
-				return;
+
+			if (_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
+				Uint32 currentTime = SDL_GetTicks();
+
+				// ============================================================
+				// DRAGGING SELECTED ENTITIES (no selection box active)
+				// ============================================================
+				if (!_selectedEntities.empty() && !_isDraggingSelectionBox)
+				{
+					glm::vec3 center(0.0f);
+					int count = 0;
+
+					// ---- Compute average center of selected entities ----
+					for (const auto& sel : _selectedEntities)
+					{
+						Entity* entity = manager->getEntityFromId(sel.realEntityId);
+						if (!entity) continue;
+
+						center += entity->GetComponent<TransformComponent>().getPosition();
+						count++;
+					}
+
+					if (count > 0)
+						center /= (float)count;
+
+					// Ray projected point at Z = center.z
+					glm::vec3 pointAtCenterAxis =
+						main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, center.z);
+
+					// ---- Move each selected entity using its relative offset ----
+					for (auto& sel : _selectedEntities)
+					{
+						Entity* entity = manager->getEntityFromId(sel.realEntityId);
+						if (!entity) continue;
+
+						glm::vec3 newPos = pointAtCenterAxis + sel.relativeOffset;
+
+						auto& tr = entity->GetComponent<TransformComponent>();
+						tr.setPosition_X(newPos.x);
+						tr.setPosition_Y(newPos.y);
+						// Z stays unchanged
+					}
+				}
+
+				// ============================================================
+				// BEGIN OR CONTINUE SELECTION BOX
+				// ============================================================
+				else if (currentTime - _holdStartTime >= HOLD_TIME_FOR_SELECTION)
+				{
+					if (!_isDraggingSelectionBox)
+					{
+						// Begin drag box
+						_selectionStartPos = _viewportMousePosition;
+						_selectionCurrentPos = _viewportMousePosition;
+
+						_selectionWindowStartPos = _app->_inputManager.getMouseCoords();
+						_selectionWindowCurrentPos = _app->_inputManager.getMouseCoords();
+
+						_isDraggingSelectionBox = true;
+					}
+					else
+					{
+						// Continue drag box
+						_selectionCurrentPos = _viewportMousePosition;
+						_selectionWindowCurrentPos = _app->_inputManager.getMouseCoords();
+
+						performFrustumSelection();
+					}
+				}
 			}
+		}
+		break;
+		case SDL_MOUSEBUTTONDOWN:
+		{
 			if ((_app->_inputManager.isKeyDown(SDLK_RCTRL) || _app->_inputManager.isKeyDown(SDLK_LCTRL)) &&
 				_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT) &&
 				!_selectedEntities.empty()
 				) {
 				selectEntityFromRay(rayOrigin, rayDirection, CTRLD_LEFT_CLICK);
 
-				// Get point on the ray at z = 0
-				pointAtZ0 = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, 0.0f);
-
-				// Get point on the ray at z = -100
-				pointAtO = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, rayOrigin.z);
-
 			}
-			else if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) { // this is for selection and moving around nodes
+			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) { // this is for selection and moving around nodes
+				_holdStartTime = SDL_GetTicks();
 				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_LEFT);
-
-				// Get point on the ray at z = 0
-				pointAtZ0 = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, 0.0f);
-
-				// Get point on the ray at z = -100
-				pointAtO = main_camera2D->getPointOnRayAtZ(rayOrigin, rayDirection, rayOrigin.z);
-
 			}
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
-				_app->_inputManager.setPanningPoint(mouseCoordsVec);
-				main_camera2D->setPanningAimPos(main_camera2D->getAimPos());
+				_app->_inputManager.setPanningPoint(_viewportMousePosition);
+				main_camera2D->setPanningAimPos(main_camera2D->getAimPos() - main_camera2D->getPosition());
 			}
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
-				std::cout << "right-clicked at: " << mouseCoordsVec.x << " - " << mouseCoordsVec.y << std::endl;
+				std::cout << "right-clicked at: " << _viewportMousePosition.x << " - " << _viewportMousePosition.y << std::endl;
 
 				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_RIGHT);
 
-				if (!_displayedEntity && _viewportPanel.isMouseInSecondColumn) {
+				if (!_displayedEntity) {
 					_sceneManagerActive = true;
 				}
 
-				_savedMainViewportMousePosition = _app->_inputManager.getMouseCoords();
 			}
+
+		}
+		break;
 		case SDL_MOUSEBUTTONUP:
 			if (!_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
 				//_selectedEntities = nullptr;
+				_isDraggingSelectionBox = false;
+				_selectionStartPos = glm::vec2(0);
+				_selectionCurrentPos = glm::vec2(0);
+
+				_selectionWindowStartPos = glm::vec2(0);
+				_selectionWindowCurrentPos = glm::vec2(0);
 			}
 		}
+	}
 
-		if (_app->_inputManager.isKeyPressed(SDLK_p)) {
-			//onPauseGraph();
+	float accelerationX = 0.0f;
+	float accelerationY = 0.0f;
+	float accelerationZ = 0.0f;
+	float deltaTime = _app->getFPSLimiter().frameTime / 1000.0f; // Convert to seconds
+
+	cameraMaxVelocity = manager->grid->getCellSize(); // Adjust multiplier as needed
+
+	if (_app->_inputManager.isKeyPressed(SDLK_w) ||
+		_app->_inputManager.isKeyPressed(SDLK_s)) {
+		cameraVelocityY = 0;
+	}
+	if (_app->_inputManager.isKeyPressed(SDLK_a) ||
+		_app->_inputManager.isKeyPressed(SDLK_d)) {
+		cameraVelocityX = 0;
+	}
+	if (_app->_inputManager.isKeyPressed(SDLK_e) ||
+		_app->_inputManager.isKeyPressed(SDLK_r)) {
+		cameraVelocityZ = 0;
+	}
+
+	// Apply input acceleration
+	if (_app->_inputManager.isKeyDown(SDLK_w)) {
+		accelerationY += cameraAcceleration;
+	}
+	else if (_app->_inputManager.isKeyDown(SDLK_s)) {
+		accelerationY -= cameraAcceleration;
+	}
+	else {
+		cameraVelocityY = 0;
+	}
+	if (_app->_inputManager.isKeyDown(SDLK_a)) {
+		accelerationX -= cameraAcceleration;
+	}
+	else if (_app->_inputManager.isKeyDown(SDLK_d)) {
+		accelerationX += cameraAcceleration;
+	}
+	else {
+		cameraVelocityX = 0;
+	}
+	if (_app->_inputManager.isKeyDown(SDLK_e)) {
+		accelerationZ += cameraAcceleration;
+	}
+	else if (_app->_inputManager.isKeyDown(SDLK_r)) {
+		accelerationZ -= cameraAcceleration;
+	}
+	else {
+		cameraVelocityZ = 0;
+	}
+
+	cameraVelocityX += accelerationX * deltaTime * 0.1f * cameraMaxVelocity;
+	cameraVelocityY += accelerationY * deltaTime * 0.1f * cameraMaxVelocity;
+	cameraVelocityZ += accelerationZ * deltaTime * 0.1f * cameraMaxVelocity;
+
+	// Clamp velocity to maximum
+	cameraVelocityX = std::clamp(cameraVelocityX, -cameraMaxVelocity, cameraMaxVelocity);
+	cameraVelocityY = std::clamp(cameraVelocityY, -cameraMaxVelocity, cameraMaxVelocity);
+	cameraVelocityZ = std::clamp(cameraVelocityZ, -cameraMaxVelocity, cameraMaxVelocity);
+
+	// Apply movement directly with velocity
+	const float minVelocity = 0.01f;
+
+	if (std::abs(cameraVelocityX) > minVelocity) {
+		main_camera2D->movePosition_Hor(cameraVelocityX);
+	}
+
+	if (std::abs(cameraVelocityY) > minVelocity) {
+		main_camera2D->movePosition_Vert(cameraVelocityY);
+	}
+
+	if (std::abs(cameraVelocityZ) > minVelocity) {
+		main_camera2D->movePosition_Forward(cameraVelocityZ);
+	}
+}
+
+void Graph::performFrustumSelection() {
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
+	if (!_isDraggingSelectionBox) return;
+
+	// Create frustum from selection box
+	SelectionFrustum frustum;
+	bool isValid = frustum.createFromSelectionBox(_selectionStartPos, _selectionCurrentPos, main_camera2D.get());
+
+	if (isValid) {
+		clearSelectedEntities();
+		// Select entities based on current grid level
+		switch (manager->grid->getGridLevel()) {
+		case Grid::Level::Basic:
+			selectEntitiesInFrustum<NodeEntity>(Manager::groupNodes_0, frustum);
+			break;
+
+		case Grid::Level::Outer1:
+			selectEntitiesInFrustum<NodeEntity>(Manager::groupGroupNodes_0, frustum);
+			break;
+
+		case Grid::Level::Outer2:
+			selectEntitiesInFrustum<NodeEntity>(Manager::groupGroupNodes_1, frustum);
+			break;
 		}
+	}
+}
 
+template<typename EntityType>
+void Graph::selectEntitiesInFrustum(int groupId, const SelectionFrustum& frustum) {
+	for (Entity* entity : manager->getGroup<EntityType>(groupId)) {
+		glm::vec3 centerPoint = entity->template GetComponent<TransformComponent>().getPosition();
+		if (isPointInFrustum(centerPoint, frustum)) {
+			auto it = std::find_if(_selectedEntities.begin(), _selectedEntities.end(),
+				[entity](const SelectedInfo& pair) {
+					return pair.realEntityId == entity->getId();
+				});
 
+			if (it == _selectedEntities.end()) {
+				SelectedInfo info;
+				info.realEntityId = entity->getId();
+				info.relativeOffset = centerPoint;
+				info.overlayEntityId = -1; // created later in batch building
 
-
+				_selectedEntities.push_back(info);
+			}
+		}
 	}
 }

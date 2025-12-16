@@ -1,9 +1,13 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structBaseRenderer.html" title=" " alt="" coords="5,55,119,80"/>
-<area shape="rect" id="Node000001" href="$structColorMeshRenderer.html" title=" " alt="" coords="173,5,324,31"/>
-<area shape="poly" id="edge27_Node000000_Node000001" title=" " alt="" coords="123,49,199,28,200,33,124,54"/>
-<area shape="rect" id="Node000002" href="$structMeshRenderer.html" title=" " alt="" coords="191,55,307,80"/>
-<area shape="poly" id="edge28_Node000000_Node000002" title=" " alt="" coords="133,65,191,65,191,70,133,70"/>
-<area shape="rect" id="Node000003" href="$structTextureMeshRenderer.html" title=" " alt="" coords="167,104,331,129"/>
-<area shape="poly" id="edge29_Node000000_Node000003" title=" " alt="" coords="124,81,200,101,199,106,123,86"/>
+<area shape="rect" id="Node000000" href="$structBaseRenderer.html" title=" " alt="" coords="5,104,119,129"/>
+<area shape="rect" id="Node000001" href="$structColorMeshRenderer.html" title=" " alt="" coords="184,5,335,31"/>
+<area shape="poly" id="edge33_Node000000_Node000001" title=" " alt="" coords="87,92,123,65,166,40,196,28,198,33,168,44,125,69,90,97"/>
+<area shape="rect" id="Node000002" href="$structLineMeshRenderer.html" title=" " alt="" coords="188,55,331,80"/>
+<area shape="poly" id="edge34_Node000000_Node000002" title=" " alt="" coords="126,98,207,77,208,83,127,103"/>
+<area shape="rect" id="Node000003" href="$structMeshRenderer.html" title="Meshes." alt="" coords="201,104,317,129"/>
+<area shape="poly" id="edge35_Node000000_Node000003" title=" " alt="" coords="133,114,201,114,201,119,133,119"/>
+<area shape="rect" id="Node000004" href="$structTextureMeshRenderer.html" title=" " alt="" coords="177,153,341,179"/>
+<area shape="poly" id="edge36_Node000000_Node000004" title=" " alt="" coords="127,130,208,151,207,156,126,135"/>
+<area shape="rect" id="Node000005" href="$structWireframeMeshRenderer.html" title=" " alt="" coords="167,203,352,228"/>
+<area shape="poly" id="edge37_Node000000_Node000005" title=" " alt="" coords="90,136,126,163,168,188,201,200,199,205,166,192,123,167,87,140"/>
 </map>

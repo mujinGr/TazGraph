@@ -11,11 +11,12 @@ Inheritance diagram for Graph\+Right\+Panel\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Graph\+Right\+Panel\+:\nopagebreak
+Collaboration diagram for Graph\+Right\+Panel\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=178pt]{classGraphRightPanel__coll__graph}
+\includegraphics[width=216pt]{classGraphRightPanel__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -33,8 +34,41 @@ void {\bfseries available\+Functions} ()
 \item 
 \Hypertarget{classGraphRightPanel_a8d33b662cc684a2187ffc90067984d34}\label{classGraphRightPanel_a8d33b662cc684a2187ffc90067984d34} 
 void {\bfseries Show\+All\+Entities} ()
+\item 
+\Hypertarget{classGraphRightPanel_a02c06986198c5fa02ddace5a0c6197ab}\label{classGraphRightPanel_a02c06986198c5fa02ddace5a0c6197ab} 
+void {\bfseries Draw\+Entity\+Jump\+List} (const char \texorpdfstring{$\ast$}{*}label\+Id, const std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ \&vec)
+\item 
+\Hypertarget{classGraphRightPanel_a87d7ccd3a0508933c67122e15eb8f762}\label{classGraphRightPanel_a87d7ccd3a0508933c67122e15eb8f762} 
+void {\bfseries Draw\+Bulk\+Component\+Controls} (const std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entity\+Vec, const std\+::string \&component\+Category, const std\+::string \&unique\+ID)
+\item 
+\Hypertarget{classGraphRightPanel_aba26582651dfb1e1325627f6a06d999c}\label{classGraphRightPanel_aba26582651dfb1e1325627f6a06d999c} 
+void {\bfseries Copy\+Component\+Values} (\mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*}source, \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*}target, size\+\_\+t size)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , typename... Args$>$ }\\void {\bfseries add\+UIComponent} (Args \&\&... args)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries get\+Subcomponent} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T \texorpdfstring{$\ast$}{*} {\bfseries get\+UIComponent} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$ $>$ {\bfseries subcomponents}
+\item 
+\mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} {\bfseries parent} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unordered\+\_\+map$<$ std\+::type\+\_\+index, \mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries ui\+Component\+Registry}
+\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
 \begin{DoxyCompactItemize}
 \item 

@@ -1,22 +1,83 @@
 
 #include "App/App.h"
 
+bool stringToBool(const std::string& str) {
+	std::string lowerStr = str;
+	std::transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(),
+		[](unsigned char c) { return std::tolower(c); });
 
-int main(int argc, char* argv[]) {
-	
+	if (lowerStr == "1" || lowerStr == "true" || lowerStr == "yes" ||
+		lowerStr == "on" || lowerStr == "enable" || lowerStr == "enabled") {
+		return true;
+	}
+	if (lowerStr == "0" || lowerStr == "false" || lowerStr == "no" ||
+		lowerStr == "off" || lowerStr == "disable" || lowerStr == "disabled") {
+		return false;
+	}
+	return false;
+}
+
+int SDL_main(int argc, char* argv[]) {
+
 	int threadCount = 4; // Default
+	int msaaSamples = 1;
+	std::string openFile = "";
+	double initialTimestamp = 0.0;
+	int initialStep = 0;
+	bool usePython = false;
 
-	if (argc > 1) {
-		threadCount = std::stoi(argv[1]); // Parse first argument
-		if (threadCount <= 0) {
-			std::cerr << "Invalid thread count. Must be > 0.\n";
+	// Parse command line arguments
+	for (int i = 1; i < argc; ++i) {
+		std::string arg = argv[i];
+
+		if (arg.find("--num-threads=") == 0) {
+			threadCount = std::stoi(arg.substr(14)); // Length of "--num-threads="
+			if (threadCount <= 0) {
+				std::cerr << "Invalid thread count. Must be > 0.\n";
+				return 1;
+			}
+		}
+		else if (arg.find("--MSAA=") == 0) {
+			msaaSamples = std::stoi(arg.substr(7)); // Length of "--initial-step="
+		}
+		else if (arg.find("--open-file=") == 0) {
+			openFile = arg.substr(12); // Length of "--open-file="
+		}
+		else if (arg.find("--initial-timestamp=") == 0) {
+			initialTimestamp = std::stod(arg.substr(20)); // Length of "--initial-timestamp="
+		}
+		else if (arg.find("--initial-step=") == 0) {
+			initialStep = std::stoi(arg.substr(15)); // Length of "--initial-step="
+		}
+		else if (arg.find("--use-python=") == 0) {
+			usePython = stringToBool(arg.substr(13)); // Length of "--use-python="
+		}
+		else {
+			std::cerr << "Unknown argument: " << arg << "\n";
+			std::cerr << "Usage: " << argv[0] << " [--num-threads=X] [--open-file=Y] [--initial-timestamp=Z] [--initial-step=W] [--MSAA=V] [--use-python=C]\n";
 			return 1;
 		}
 	}
 
-	App app(threadCount);
-
-	app.run();
+	// Display parsed values (optional)
+	std::cout << "Thread count: " << threadCount << "\n";
+	if (!openFile.empty()) {
+		std::cout << "Opening file: " << openFile << "\n";
+	}
+	{
+		std::cout << "MSAA: " << msaaSamples << "\n";
+	}
+	if (initialTimestamp != 0.0) {
+		std::cout << "Initial timestamp: " << initialTimestamp << "\n";
+	}
+	if (initialStep != 0) {
+		std::cout << "Initial step: " << initialStep << "\n";
+	}
+	{
+		std::cout << "Use Python: " << (usePython ? "true" : "false") << "\n";
+	}
+	auto app = std::make_unique<App>(threadCount, msaaSamples, openFile, initialTimestamp, initialStep, usePython);
+	app->run();
 
 	return 0;
 }

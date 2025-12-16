@@ -11,7 +11,8 @@ Inheritance diagram for IScene\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for IScene\+:\nopagebreak
+Collaboration diagram for IScene\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -42,16 +43,19 @@ virtual void {\bfseries on\+Exit} ()=0
 \Hypertarget{classIScene_a884cbe2ab5a58b06e720028575f3cee1}\label{classIScene_a884cbe2ab5a58b06e720028575f3cee1} 
 virtual void {\bfseries check\+Input} ()=0
 \item 
-\Hypertarget{classIScene_a2d3d5c6baf101610ba91f74940d2486b}\label{classIScene_a2d3d5c6baf101610ba91f74940d2486b} 
-virtual void {\bfseries update} (float delta\+Time)=0
+virtual void \mbox{\hyperlink{classIScene_a2d3d5c6baf101610ba91f74940d2486b}{update}} (float delta\+Time)=0
 \item 
-virtual void \mbox{\hyperlink{classIScene_a7031e45e0e7eb50554aedeb2295ceeb8}{draw}} ()=0
+virtual void \mbox{\hyperlink{classIScene_a125cd69ede7f7bd30ead327529ecb5b5}{prepare\+Draw}} ()=0
+\item 
+virtual void \mbox{\hyperlink{classIScene_a8939447b023e67cb0a071af87253d863}{render\+Draw}} ()=0
+\item 
+\Hypertarget{classIScene_aedb12bdf4819d2cb7f99d662d09717f8}\label{classIScene_aedb12bdf4819d2cb7f99d662d09717f8} 
+virtual void {\bfseries Swap\+Buffer\+Draw} ()=0
 \item 
 \Hypertarget{classIScene_a7bd5047493886fdb0c2a876e3506d317}\label{classIScene_a7bd5047493886fdb0c2a876e3506d317} 
 virtual void {\bfseries Begin\+Render} ()=0
 \item 
-\Hypertarget{classIScene_afff3c452f144c611bd77d1d888769c0d}\label{classIScene_afff3c452f144c611bd77d1d888769c0d} 
-virtual void {\bfseries update\+UI} (float delta\+Time)=0
+virtual void \mbox{\hyperlink{classIScene_afff3c452f144c611bd77d1d888769c0d}{update\+UI}} (float delta\+Time)=0
 \item 
 \Hypertarget{classIScene_a9db86d1c0d55e7e1e0362ee70a2f63f2}\label{classIScene_a9db86d1c0d55e7e1e0362ee70a2f63f2} 
 virtual void {\bfseries draw\+UI} ()=0
@@ -74,20 +78,11 @@ void {\bfseries set\+Parent\+App} (\mbox{\hyperlink{classAppInterface}{App\+Inte
 \Hypertarget{classIScene_adec001c05944064cb90351152ee67529}\label{classIScene_adec001c05944064cb90351152ee67529} 
 \mbox{\hyperlink{classAppInterface}{App\+Interface}} \texorpdfstring{$\ast$}{*} {\bfseries get\+App} () const
 \item 
-\Hypertarget{classIScene_a530098092901762060f2cef4e40c63f3}\label{classIScene_a530098092901762060f2cef4e40c63f3} 
-void {\bfseries set\+Manager} (std\+::string m\+\_\+manager\+Name)
+\Hypertarget{classIScene_a71f2e3b2f1145dfe4b86a0a507466463}\label{classIScene_a71f2e3b2f1145dfe4b86a0a507466463} 
+virtual bool {\bfseries set\+Manager} (std\+::string m\+\_\+manager\+Name)
 \end{DoxyCompactItemize}
-\doxysubsubsection*{Protected Attributes}
+\doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
-\item 
-\Hypertarget{classIScene_a7531f5cc97fcce8e5bb8565dbb7fa709}\label{classIScene_a7531f5cc97fcce8e5bb8565dbb7fa709} 
-Scene\+State {\bfseries \+\_\+current\+State} = Scene\+State\+::\+NONE
-\item 
-\Hypertarget{classIScene_a8b84fa07f25fa21bbd5df02508eb3260}\label{classIScene_a8b84fa07f25fa21bbd5df02508eb3260} 
-\mbox{\hyperlink{classAppInterface}{App\+Interface}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+app} = nullptr
-\item 
-\Hypertarget{classIScene_afc597a90bd0602b38b5d24c0b7f6859a}\label{classIScene_afc597a90bd0602b38b5d24c0b7f6859a} 
-int {\bfseries \+\_\+scene\+Index} = -\/1
 \item 
 std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{classIScene_ad1897b6e44c9dd75a3d89e6f6e2d33fa}{managers}}
 \item 
@@ -97,8 +92,44 @@ std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classManager}{Manag
 \Hypertarget{classIScene_abf67860a605341889b760d72c7516ae6}\label{classIScene_abf67860a605341889b760d72c7516ae6} 
 std\+::string {\bfseries manager\+Name} = "{}"{}
 \item 
-\Hypertarget{classIScene_a0af89e086924505ff24eea86f967fb10}\label{classIScene_a0af89e086924505ff24eea86f967fb10} 
-bool {\bfseries \+\_\+render\+Debug} = false
+\Hypertarget{classIScene_a32c9cfd58aa46207840bcc648d85515e}\label{classIScene_a32c9cfd58aa46207840bcc648d85515e} 
+bool {\bfseries last\+\_\+render\+Debug} = false
+\item 
+\Hypertarget{classIScene_a0888ed28c420278ea971d6237611a6ed}\label{classIScene_a0888ed28c420278ea971d6237611a6ed} 
+bool {\bfseries render\+Debug} = false
+\item 
+\Hypertarget{classIScene_ae3675b49be0bbaeeac7feeef1e70ce8e}\label{classIScene_ae3675b49be0bbaeeac7feeef1e70ce8e} 
+bool {\bfseries show\+Grid} = true
+\item 
+\Hypertarget{classIScene_aa3a1172954bb9a0414ec53d07a32067b}\label{classIScene_aa3a1172954bb9a0414ec53d07a32067b} 
+bool {\bfseries last\+\_\+show\+Grid} = false
+\item 
+\Hypertarget{classIScene_a75676848a33693db6f0109a40724b4d5}\label{classIScene_a75676848a33693db6f0109a40724b4d5} 
+Scene\+State {\bfseries current\+State} = Scene\+State\+::\+NONE
+\item 
+\Hypertarget{classIScene_a366c69727fe638702541f67c6e22b843}\label{classIScene_a366c69727fe638702541f67c6e22b843} 
+float {\bfseries background\+Color} \mbox{[}4\mbox{]} = \{ 0.\+8f, 0.\+8f, 0.\+8f, 1.\+0f \}
+\item 
+\Hypertarget{classIScene_ae388065bfb8fb04f0e815135446304ec}\label{classIScene_ae388065bfb8fb04f0e815135446304ec} 
+bool {\bfseries request\+Exit} = false
+\item 
+\Hypertarget{classIScene_a92e897b19e23c09cb38b6ae79e30c5c6}\label{classIScene_a92e897b19e23c09cb38b6ae79e30c5c6} 
+\mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} {\bfseries frame\+Data\+Buffers} \mbox{[}2\mbox{]}
+\item 
+\Hypertarget{classIScene_af5d66e2502ac5ab68b8f0bf44895f36f}\label{classIScene_af5d66e2502ac5ab68b8f0bf44895f36f} 
+\mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} {\bfseries minimap\+\_\+frame\+Data\+Buffers} \mbox{[}2\mbox{]}
+\item 
+\Hypertarget{classIScene_aa75d6de09bd1b8ac062fc2f4b9fd8d44}\label{classIScene_aa75d6de09bd1b8ac062fc2f4b9fd8d44} 
+std\+::atomic$<$ int $>$ {\bfseries active\+Frame\+Index} = 0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classIScene_a8b84fa07f25fa21bbd5df02508eb3260}\label{classIScene_a8b84fa07f25fa21bbd5df02508eb3260} 
+\mbox{\hyperlink{classAppInterface}{App\+Interface}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+app} = nullptr
+\item 
+\Hypertarget{classIScene_afc597a90bd0602b38b5d24c0b7f6859a}\label{classIScene_afc597a90bd0602b38b5d24c0b7f6859a} 
+int {\bfseries \+\_\+scene\+Index} = -\/1
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Friends}
 \begin{DoxyCompactItemize}
@@ -109,15 +140,45 @@ class {\bfseries Scene\+List}
 
 
 \doxysubsection{Member Function Documentation}
-\Hypertarget{classIScene_a7031e45e0e7eb50554aedeb2295ceeb8}\label{classIScene_a7031e45e0e7eb50554aedeb2295ceeb8} 
-\index{IScene@{IScene}!draw@{draw}}
-\index{draw@{draw}!IScene@{IScene}}
-\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
-{\footnotesize\ttfamily virtual void IScene\+::draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+\Hypertarget{classIScene_a125cd69ede7f7bd30ead327529ecb5b5}\label{classIScene_a125cd69ede7f7bd30ead327529ecb5b5} 
+\index{IScene@{IScene}!prepareDraw@{prepareDraw}}
+\index{prepareDraw@{prepareDraw}!IScene@{IScene}}
+\doxysubsubsection{\texorpdfstring{prepareDraw()}{prepareDraw()}}
+{\footnotesize\ttfamily virtual void IScene\+::prepare\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
 
 
 
-Implemented in \mbox{\hyperlink{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893}{Graph}}.
+Implemented in \mbox{\hyperlink{classGraph_a96825c801c28c85c630dd5dd38c40c7e}{Graph}}, and \mbox{\hyperlink{classMainMenuScreen_aa67f739ccd83abfcc3717f613090e96f}{Main\+Menu\+Screen}}.
+
+\Hypertarget{classIScene_a8939447b023e67cb0a071af87253d863}\label{classIScene_a8939447b023e67cb0a071af87253d863} 
+\index{IScene@{IScene}!renderDraw@{renderDraw}}
+\index{renderDraw@{renderDraw}!IScene@{IScene}}
+\doxysubsubsection{\texorpdfstring{renderDraw()}{renderDraw()}}
+{\footnotesize\ttfamily virtual void IScene\+::render\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classGraph_a57959b5902869e2bc1d4e1d0800ddc0a}{Graph}}, and \mbox{\hyperlink{classMainMenuScreen_a911aaf23ef4c76dcf7f939a8cfdd4fc1}{Main\+Menu\+Screen}}.
+
+\Hypertarget{classIScene_a2d3d5c6baf101610ba91f74940d2486b}\label{classIScene_a2d3d5c6baf101610ba91f74940d2486b} 
+\index{IScene@{IScene}!update@{update}}
+\index{update@{update}!IScene@{IScene}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily virtual void IScene\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classGraph_a1650103e02a76aeba4243f1f02842fa8}{Graph}}.
+
+\Hypertarget{classIScene_afff3c452f144c611bd77d1d888769c0d}\label{classIScene_afff3c452f144c611bd77d1d888769c0d} 
+\index{IScene@{IScene}!updateUI@{updateUI}}
+\index{updateUI@{updateUI}!IScene@{IScene}}
+\doxysubsubsection{\texorpdfstring{updateUI()}{updateUI()}}
+{\footnotesize\ttfamily virtual void IScene\+::update\+UI (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classGraph_a442aa25d44cbcb6baf10627fa15ce8d1}{Graph}}.
 
 
 
@@ -126,7 +187,7 @@ Implemented in \mbox{\hyperlink{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893}{Gr
 \index{IScene@{IScene}!managers@{managers}}
 \index{managers@{managers}!IScene@{IScene}}
 \doxysubsubsection{\texorpdfstring{managers}{managers}}
-{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{classManager}{Manager}}\texorpdfstring{$\ast$}{*}$>$ IScene\+::managers\hspace{0.3cm}{\ttfamily [protected]}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{classManager}{Manager}}\texorpdfstring{$\ast$}{*}$>$ IScene\+::managers}
 
 {\bfseries Initial value\+:}
 \begin{DoxyCode}{0}
@@ -138,4 +199,4 @@ Implemented in \mbox{\hyperlink{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893}{Gr
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+App\+Scene/IScene.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+App\+Scene/IScene.\+h\end{DoxyCompactItemize}

@@ -9,23 +9,25 @@ void CustomFunctions::OnImGuiRender() {
 		ImGui::SetNextWindowPos(initialPos, ImGuiCond_FirstUseEver);
 		ImGui::SetNextWindowSize(initialSize, ImGuiCond_FirstUseEver);
 
-		ImGui::Begin("Script Results", &isScriptResultsOpen);
-		switch (activatedScriptShown) {
-		case 0:
-			default_renderUI();
-			break;
-		case 1:
-			CalculateDegree();
-			break;
-		case 2:
-			CalculateSignals();
-			break;
-		case 3:
-			CalculateHeatMap();
-			break;
-		case 4:
-			DrawCandlestickChart();
-			break;
+		bool windowActive = ImGui::Begin("Script Results", &isScriptResultsOpen);
+		if (windowActive) {
+			switch (activatedScriptShown) {
+			case 0:
+				default_renderUI();
+				break;
+			case 1:
+				CalculateDegree();
+				break;
+			case 2:
+				CalculateSignals();
+				break;
+			case 3:
+				CalculateHeatMap();
+				break;
+			case 4:
+				DrawCandlestickChart();
+				break;
+			}
 		}
 		ImGui::End();
 	}
@@ -39,13 +41,16 @@ void CustomFunctions::default_renderUI()
 void CustomFunctions::CalculateDegree()
 {
 	std::vector<int> plotOutLinks(4, 0);
-	std::unordered_set<NodeEntity*> currentDepthNodes;
-	std::unordered_set<NodeEntity*> nextDepthNodes;
+	std::unordered_set<EntityID> currentDepthNodes;
+	std::unordered_set<EntityID> nextDepthNodes;
+
+	Manager* manager = config.scene->manager;
 
 	// Add selected entities (only nodes) as depth 0
 	for (auto& pair : *selectedEntities) {
-		if (auto* node = dynamic_cast<NodeEntity*>(pair.first)) {
-			currentDepthNodes.insert(node);
+		Entity* entity = manager->getEntityFromId(pair.realEntityId);
+		if (auto* node = dynamic_cast<NodeEntity*>(entity)) {
+			currentDepthNodes.insert(pair.realEntityId);
 		}
 	}
 
@@ -54,13 +59,14 @@ void CustomFunctions::CalculateDegree()
 		int outlinkCount = 0;
 
 		// Collect next depth nodes
-		for (auto* node : currentDepthNodes) {
-			for (auto* link : node->getOutLinks()) {
-				if (auto* target = link->getToNode()) {
-					nextDepthNodes.insert(target);
-				}
+		for (auto node : currentDepthNodes) {
+			NodeEntity* entity = dynamic_cast<NodeEntity*>(manager->getEntityFromId(node));
+			for (auto& linkId : entity->getOutLinks()) {
+				auto* link = dynamic_cast<LinkEntity*>(manager->getEntityFromId(linkId));
+
+				nextDepthNodes.insert(link->getToNode());
 			}
-			outlinkCount += node->getOutLinks().size();
+			outlinkCount += (int)entity->getOutLinks().size();
 		}
 
 		plotOutLinks[depth] = outlinkCount;
@@ -179,6 +185,6 @@ void CustomFunctions::DrawCandlestickChart()
 
 }
 
-void CustomFunctions::setSelectedEntities(std::vector < std::pair<Entity*, glm::vec3 >>& m_selectedEntities) {
+void CustomFunctions::setSelectedEntities(std::vector < SelectedInfo>& m_selectedEntities) {
 	selectedEntities = &m_selectedEntities;
 }

@@ -104,6 +104,8 @@ Collaboration diagram for TextPathParser:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a648b16a6577b97d030e7db66755620c8" id="r_a648b16a6577b97d030e7db66755620c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTextPathParser.html#a648b16a6577b97d030e7db66755620c8">readFile</a> (std::string m_fileName) override</td></tr>
 <tr class="separator:a648b16a6577b97d030e7db66755620c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd9387488ab045f57dc967b30d1f1bea" id="r_acd9387488ab045f57dc967b30d1f1bea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTextPathParser.html#acd9387488ab045f57dc967b30d1f1bea">writeFile</a> (std::string m_fileName, <a class="el" href="classManager.html">Manager</a> &amp;manager) override</td></tr>
+<tr class="separator:acd9387488ab045f57dc967b30d1f1bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a3ce131a9eb00173e6a064193bdc9dd" id="r_a1a3ce131a9eb00173e6a064193bdc9dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTextPathParser.html#a1a3ce131a9eb00173e6a064193bdc9dd">parse</a> (<a class="el" href="classManager.html">Manager</a> &amp;manager, std::function&lt; void(<a class="el" href="classEntity.html">Entity</a> &amp;, glm::vec3)&gt; addNodeFunc, std::function&lt; void(<a class="el" href="classEntity.html">Entity</a> &amp;)&gt; addLinkFunc) override</td></tr>
 <tr class="separator:a1a3ce131a9eb00173e6a064193bdc9dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e4a7519bc612fcf5b90854defa3f806" id="r_a6e4a7519bc612fcf5b90854defa3f806"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTextPathParser.html#a6e4a7519bc612fcf5b90854defa3f806">closeFile</a> () override</td></tr>
@@ -207,6 +209,44 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>m_fileName</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classIMapParser.html">IMapParser</a>.</p>
+
+</div>
+</div>
+<a id="acd9387488ab045f57dc967b30d1f1bea" name="acd9387488ab045f57dc967b30d1f1bea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd9387488ab045f57dc967b30d1f1bea">&#9670;&#160;</a></span>writeFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TextPathParser::writeFile </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>m_fileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classManager.html">Manager</a> &amp;&#160;</td>
+          <td class="paramname"><em>manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>

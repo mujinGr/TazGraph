@@ -1,133 +1,243 @@
 \doxysection{Data\+Manager.\+h}
-\hypertarget{DataManager_8h_source}{}\label{DataManager_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/DataManager/DataManager.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/DataManager/DataManager.h}}
+\hypertarget{DataManager_8h_source}{}\label{DataManager_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/DataManager/DataManager.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/DataManager/DataManager.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <map>}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../pch.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../GECS/Core/SimulationStep.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../GECS/UtilComponents.h"{}}}
 \DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <imguiComboAutoselect/imgui\_combo\_autoselect.h>}}
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }fs\ =\ std::filesystem;}
 \DoxyCodeLine{00009\ }
-\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }fs\ =\ std::filesystem;}
-\DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classDataManager}{DataManager}}\ \{}
-\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00014\ \ \ \ \ \textcolor{comment}{//\ Gets\ the\ single\ instance\ of\ CameraManager\ (singleton)}}
-\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classDataManager}{DataManager}}\&\ getInstance()\ \{}
-\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classDataManager}{DataManager}}\ instance;\ \textcolor{comment}{//\ Guaranteed\ to\ be\ destroyed.\ Instantiated\ on\ first\ use.}}
-\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ instance;}
-\DoxyCodeLine{00018\ \ \ \ \ \}}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{classDataManager}{DataManager}}()\ \{\}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }Taz\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{GECSRenderBatch}}\ :\ \mbox{\hyperlink{structTaz_1_1RenderBatch}{RenderBatch}}\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ std::vector<Entity*>\ entities;}
+\DoxyCodeLine{00013\ \ \ \ \ \};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTaz_1_1FrameRenderData}{FrameRenderData}}\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ std::vector<GECSRenderBatch>\ batches;}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ glm::vec4\ backgroundColor;}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ renderDebug\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00019\ \ \ \ \ \};}
+\DoxyCodeLine{00020\ \}}
 \DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \ \ ImGui::ComboAutoSelectData\ data;}
-\DoxyCodeLine{00023\ \ \ \ \ ImGui::ComboAutoSelectData\ pathData;}
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ \ \ \ \ std::string\ mapToLoad;}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ std::vector<std::string>\ fileNames;}
-\DoxyCodeLine{00028\ \ \ \ \ std::vector<std::string>\ pollingFileNames;}
-\DoxyCodeLine{00029\ \ \ \ \ std::vector<std::string>\ pathsFileNames;}
-\DoxyCodeLine{00030\ \ \ \ \ std::string\ pathLoading;}
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{bool}\ filesLoaded\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{bool}\ saving\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{bool}\ startingNew\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{bool}\ loading\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{bool}\ loadingPath\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{bool}\ goingBack\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ setPathLoading(\textcolor{keywordtype}{bool}\ loading)}
-\DoxyCodeLine{00041\ \ \ \ \ \{}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ loadingPath\ =\ loading;}
-\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classDataManager}{DataManager}}\ \{}
+\DoxyCodeLine{00024\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{comment}{//\ Gets\ the\ single\ instance\ of\ CameraManager\ (singleton)}}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classDataManager}{DataManager}}\&\ getInstance()\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classDataManager}{DataManager}}\ instance;\ \textcolor{comment}{//\ Guaranteed\ to\ be\ destroyed.\ Instantiated\ on\ first\ use.}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ instance;}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{classDataManager}{DataManager}}()\ \{\}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ ImGui::ComboAutoSelectData\ data;}
+\DoxyCodeLine{00034\ \ \ \ \ ImGui::ComboAutoSelectData\ pathData;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ std::string\ mapToLoad;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ std::vector<std::string>\ fileNames;}
+\DoxyCodeLine{00039\ \ \ \ \ std::vector<std::string>\ pollingFileNames;}
+\DoxyCodeLine{00040\ \ \ \ \ std::vector<std::string>\ pathsFileNames;}
+\DoxyCodeLine{00041\ \ \ \ \ std::string\ pathLoading;}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{bool}\ filesLoaded\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{bool}\ isSaving()\ \{}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ saving;}
-\DoxyCodeLine{00047\ \ \ \ \ \}}
-\DoxyCodeLine{00048\ }
-\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ setNewMap(\textcolor{keywordtype}{bool}\ m\_startingNew)}
-\DoxyCodeLine{00050\ \ \ \ \ \{}
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ startingNew\ =\ m\_startingNew;}
-\DoxyCodeLine{00052\ \ \ \ \ \}}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ setLoading(\textcolor{keywordtype}{bool}\ m\_loading)}
-\DoxyCodeLine{00055\ \ \ \ \ \{}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ loading\ =\ m\_loading;}
-\DoxyCodeLine{00057\ \ \ \ \ \}}
-\DoxyCodeLine{00058\ }
-\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{bool}\ isStartingNew()}
-\DoxyCodeLine{00060\ \ \ \ \ \{}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ startingNew;}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{bool}\ saving\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{bool}\ startingNew\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{bool}\ loading\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{bool}\ loadingPath\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{bool}\ goingBack\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ std::map<int,\ NodeEntity*>\ mapSimToGraphNodes;}
+\DoxyCodeLine{00052\ \ \ \ \ std::map<int,\ LinkEntity*>\ mapSimToGraphLinks;}
+\DoxyCodeLine{00053\ \ \ \ \ std::map<int,\ EmptyEntity*>\ mapSimToGraphPaths;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ setPathLoading(\textcolor{keywordtype}{bool}\ loading)}
+\DoxyCodeLine{00056\ \ \ \ \ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ loadingPath\ =\ loading;}
+\DoxyCodeLine{00058\ \ \ \ \ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{bool}\ isSaving()\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ saving;}
 \DoxyCodeLine{00062\ \ \ \ \ \}}
 \DoxyCodeLine{00063\ }
-\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{bool}\ isLoading()}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ setNewMap(\textcolor{keywordtype}{bool}\ m\_startingNew)}
 \DoxyCodeLine{00065\ \ \ \ \ \{}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ loading;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ startingNew\ =\ m\_startingNew;}
 \DoxyCodeLine{00067\ \ \ \ \ \}}
 \DoxyCodeLine{00068\ }
-\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{bool}\ isLoadingPath()}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ setLoading(\textcolor{keywordtype}{bool}\ m\_loading)}
 \DoxyCodeLine{00070\ \ \ \ \ \{}
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ loadingPath;}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ loading\ =\ m\_loading;}
 \DoxyCodeLine{00072\ \ \ \ \ \}}
 \DoxyCodeLine{00073\ }
-\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{bool}\ isGoingBack()}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{bool}\ isStartingNew()}
 \DoxyCodeLine{00075\ \ \ \ \ \{}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ goingBack;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ startingNew;}
 \DoxyCodeLine{00077\ \ \ \ \ \}}
 \DoxyCodeLine{00078\ }
-\DoxyCodeLine{00079\ \ \ \ \ std::string\ getPathLoading()\ \{}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pathLoading;}
-\DoxyCodeLine{00081\ \ \ \ \ \}}
-\DoxyCodeLine{00082\ }
-\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{void}\ SetGoingBack(\textcolor{keywordtype}{bool}\ m\_goingBack)\ \{}
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ goingBack\ =\ m\_goingBack;}
-\DoxyCodeLine{00085\ \ \ \ \ \}}
-\DoxyCodeLine{00086\ }
-\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{void}\ updateFileNamesInAssets()\ \{}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ fileNames.clear();}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ path\ =\ \textcolor{stringliteral}{"{}assets/Maps"{}};\ \textcolor{comment}{//\ Directory\ path}}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ entry\ :\ fs::directory\_iterator(path))\ \{}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entry.is\_regular\_file())\ \{}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fileNames.push\_back(entry.path().filename().string());\ \textcolor{comment}{//\ Add\ file\ name\ to\ vector}}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00095\ \ \ \ \ \}}
-\DoxyCodeLine{00096\ }
-\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ updatePollingFileNamesInAssets()\ \{}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ pollingFileNames.clear();}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ path\ =\ \textcolor{stringliteral}{"{}assets/Maps/Polling"{}};\ \textcolor{comment}{//\ Directory\ path}}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ entry\ :\ fs::directory\_iterator(path))\ \{}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entry.is\_regular\_file())\ \{}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pollingFileNames.push\_back(entry.path().filename().string());\ \textcolor{comment}{//\ Add\ file\ name\ to\ vector}}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00105\ \ \ \ \ \}}
-\DoxyCodeLine{00106\ }
-\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{void}\ updatePathFileNamesInAssets()\ \{}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ pathsFileNames.clear();}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ path\ =\ \textcolor{stringliteral}{"{}assets/Paths"{}};\ \textcolor{comment}{//\ Directory\ path}}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ entry\ :\ fs::directory\_iterator(path))\ \{}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entry.is\_regular\_file())\ \{}
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pathsFileNames.push\_back(entry.path().filename().string());\ \textcolor{comment}{//\ Add\ file\ name\ to\ vector}}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ pathsFileNames.push\_back(\textcolor{stringliteral}{"{}>Reset"{}});}
-\DoxyCodeLine{00116\ \ \ \ \ \}}
-\DoxyCodeLine{00117\ }
-\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{void}\ ReloadAccessibleFiles()\ \{}
-\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!filesLoaded)\ \{}
-\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ updateFileNamesInAssets();}
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ updatePollingFileNamesInAssets();}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ updatePathFileNamesInAssets();}
-\DoxyCodeLine{00123\ }
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ filesLoaded\ =\ \textcolor{keyword}{true};\ \textcolor{comment}{//\ Set\ to\ true\ so\ we\ don't\ reload\ unnecessarily}}
-\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00126\ \ \ \ \ \}}
-\DoxyCodeLine{00127\ \};}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{bool}\ isLoading()}
+\DoxyCodeLine{00080\ \ \ \ \ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ loading;}
+\DoxyCodeLine{00082\ \ \ \ \ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{bool}\ isLoadingPath()}
+\DoxyCodeLine{00085\ \ \ \ \ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ loadingPath;}
+\DoxyCodeLine{00087\ \ \ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{bool}\ isGoingBack()}
+\DoxyCodeLine{00090\ \ \ \ \ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ goingBack;}
+\DoxyCodeLine{00092\ \ \ \ \ \}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ std::string\ getPathLoading()\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pathLoading;}
+\DoxyCodeLine{00096\ \ \ \ \ \}}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{void}\ SetGoingBack(\textcolor{keywordtype}{bool}\ m\_goingBack)\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ goingBack\ =\ m\_goingBack;}
+\DoxyCodeLine{00100\ \ \ \ \ \}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{void}\ updateFileNamesInAssets()\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ fileNames.clear();}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ path\ =\ \textcolor{stringliteral}{"{}assets/Maps"{}};\ \textcolor{comment}{//\ Directory\ path}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ entry\ :\ fs::directory\_iterator(path))\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entry.is\_regular\_file())\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fileNames.push\_back(entry.path().filename().string());\ \textcolor{comment}{//\ Add\ file\ name\ to\ vector}}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{void}\ updatePathFileNamesInAssets()\ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ pathsFileNames.clear();}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ path\ =\ \textcolor{stringliteral}{"{}assets/Paths"{}};\ \textcolor{comment}{//\ Directory\ path}}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ entry\ :\ fs::directory\_iterator(path))\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entry.is\_regular\_file())\ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pathsFileNames.push\_back(entry.path().filename().string());\ \textcolor{comment}{//\ Add\ file\ name\ to\ vector}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ pathsFileNames.push\_back(\textcolor{stringliteral}{"{}>Reset"{}});}
+\DoxyCodeLine{00121\ \ \ \ \ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{void}\ ReloadAccessibleFiles()\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!filesLoaded)\ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ updateFileNamesInAssets();}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ updatePathFileNamesInAssets();}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ filesLoaded\ =\ \textcolor{keyword}{true};\ \textcolor{comment}{//\ Set\ to\ true\ so\ we\ don't\ reload\ unnecessarily}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00130\ \ \ \ \ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordtype}{void}\ applyStep(\mbox{\hyperlink{classManager}{Manager}}\&\ manager,\ \textcolor{keywordtype}{int}\ transitionToStep)}
+\DoxyCodeLine{00133\ \ \ \ \ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Nodes}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ node\ :\ manager.steps[transitionToStep].nodes)\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ t\_node\ =\ node.first;}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\_node-\/>hasComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>()\ \&\&}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//t\_node-\/>hasComponent<MovingAnimatorComponent>()\ \&\&}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\_node-\/>hasComponent<\mbox{\hyperlink{classRectangleFlashAnimatorComponent}{RectangleFlashAnimatorComponent}}>()}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )\ \{}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ tc\ =\ t\_node-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*t\_node-\/>GetComponent<MovingAnimatorComponent>().Play("{}StepMove"{},*/}}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tc.position\ =\ node.second.position;}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tc.size\ =\ glm::vec3(node.second.size);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\_node-\/>GetComponent<\mbox{\hyperlink{classRectangleFlashAnimatorComponent}{RectangleFlashAnimatorComponent}}>().Play(\textcolor{stringliteral}{"{}RectInterpolation"{}},\ node.second.color);}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Links}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ manager.steps[transitionToStep].links)\ \{}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ t\_link\ =\ link.first;}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\_link-\/>hasComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>())\ \{}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ lwc\ =\ t\_link-\/>GetComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>();}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lwc.src\_color\ =\ link.second.color;}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lwc.dest\_color\ =\ link.second.color;}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lwc.width\ =\ link.second.width;}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ simPaths\ :\ DataManager::getInstance().mapSimToGraphPaths)\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ pathLinks\ =\ simPaths.second-\/>GetComponent<\mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}>().pathLinks;}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ toRemove\ =\ pathLinks;}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ pathLinkId\ :\ toRemove)\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ simPaths.second-\/>GetComponent<\mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}>().removeLink(pathLinkId);}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ pathLink\ =\ manager.getEntityFromId(pathLinkId);}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pathLink-\/>destroy();}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Paths}}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ manager.steps[transitionToStep].paths.size();\ i++)\ \{}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ path\ =\ manager.}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ steps[transitionToStep].paths[i];}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ plc\ =\ path.first-\/>GetComponent<\mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}>();}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ plc.color\ =\ path.second.color;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ plc.width\ =\ path.second.width;}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ linkId\ :\ path.second.link\_ids)\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ the\ link\ entity\ by\ ID}}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ linkEntity\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ DataManager::getInstance().mapSimToGraphLinks)\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (link.second-\/>getId()\ ==\ linkId)\ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ linkEntity\ =\ link.second;}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!linkEntity)\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ idA\ =\ std::get<int>(linkEntity-\/>getFromNode());}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ idB\ =\ std::get<int>(linkEntity-\/>getToNode());}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ create\ ECS\ link}}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ link\ =\ manager.addEntity<\mbox{\hyperlink{classLink}{Link}}>((int)idA,\ (\textcolor{keywordtype}{int})idB);}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link.addGroup(Manager::groupPathLinks);}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link.addComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>();}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link.addComponent<\mbox{\hyperlink{classLineFlashAnimatorComponent}{LineFlashAnimatorComponent}}>();}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ manager.grid-\/>addLink(\&link,\ manager.grid-\/>getGridLevel());}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ associate\ link\ with\ path\ linker}}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.first-\/>GetComponent<\mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}>().addLink(link.getId());}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ PATH\ LINKS\ UPDATE}}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (manager.arrowheadsEnabled)\ \{}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}*\ link\ :\ manager.getGroup<\mbox{\hyperlink{classLinkEntity}{LinkEntity}}>(Manager::groupPathLinks))}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ link\_entity\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(link);}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link\_entity-\/>setConnectionType(LinkEntity::ConnectionType::PORT\_TO\_PORT);}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link\_entity-\/>updateConnection();}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}*\ pathLinker\ :\ manager.getGroup<\mbox{\hyperlink{classEmptyEntity}{EmptyEntity}}>(Manager::groupPathLinksHolder))}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pathLinker-\/>GetComponent<\mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}>().createInnerLinks();}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00236\ \ \ \ \ \}}
+\DoxyCodeLine{00237\ \};}
 
 \end{DoxyCode}

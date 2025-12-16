@@ -1,11 +1,8 @@
 #pragma once
 
 #include <string>
-#include "TextureManager/TextureManager.h"
-#include <GECS/Core/GECSEntityTypes.h>
-#include <ImGuiInterface/ImGuiInterface.h>
+#include "TazGraphEngine.h"
 
-#include <SDL2/SDL_ttf.h>
 
 struct PairHash {
 	template <class T1, class T2>
@@ -27,4 +24,11 @@ namespace AssetManager //this class created when we added projectiles, based on 
 	void createGroupLayout(Manager* manager, Grid::Level m_level);
 
 	void ungroupLayout(Manager* manager, Grid::Level m_level);
+	void AddDefaultNode(Entity& node, glm::vec3 mPosition);
+	void AddTreeNode(Entity& node, glm::vec3 mPosition);
+	void AddDefaultLink(Entity& link);
+	void AddTreeLink(Entity& link);
+	void AddPathLink(Entity& link);
+	void AddSimulationNode(Entity& node, glm::vec3 mPosition);
+	void AddSimulationLink(Entity& link);
 };

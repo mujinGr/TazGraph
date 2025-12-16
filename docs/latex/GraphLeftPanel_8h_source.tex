@@ -6,34 +6,41 @@
 \DoxyCodeLine{00002\ }
 \DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../UIElement.h"{}}}
 \DoxyCodeLine{00004\ }
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../SliderRotateZ.h"{}}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../../../AssetManager/AssetManager.h"{}}}
-\DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structGraphLeftConfig}{GraphLeftConfig}}\ \{}
-\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{bool}*\ renderDebug;}
-\DoxyCodeLine{00010\ \ \ \ \ glm::vec2\ sceneMouseCoords;}
-\DoxyCodeLine{00011\ \ \ \ \ glm::vec2\ mouseCoords;}
-\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ manager\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00013\ \};}
-\DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGraphLeftPanel}{GraphLeftPanel}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
-\DoxyCodeLine{00016\ \{}
-\DoxyCodeLine{00017\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classSliderRotateZ}{SliderRotateZ}}\ sliderRotate;}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_clusterLayout\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{structGraphLeftConfig}{GraphLeftConfig}}\ config;}
-\DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{int}\ \_currentOrientationIndex\ =\ 0;}
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ last\_activeLayout\ =\ 0;}
-\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ activeLayout\ =\ 0;}
-\DoxyCodeLine{00027\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structGraphLeftConfig}{GraphLeftConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../../../AssetManager/AssetManager.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structGraphLeftConfig}{GraphLeftConfig}}\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \mbox{\hyperlink{classIScene}{IScene}}*\ scene;}
+\DoxyCodeLine{00009\ \ \ \ \ glm::vec2\ sceneMouseCoords;}
+\DoxyCodeLine{00010\ \ \ \ \ std::vector<SelectedInfo>\ c\_selectedEntities;}
+\DoxyCodeLine{00011\ \};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGraphLeftPanel}{GraphLeftPanel}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
+\DoxyCodeLine{00014\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{enum\ class}\ LayoutState\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ Idle,}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ ProcessingCircular,}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ ProcessingCluster}
+\DoxyCodeLine{00021\ \ \ \ \ \};}
+\DoxyCodeLine{00022\ \ \ \ \ LayoutState\ \_currentLayoutState\ =\ LayoutState::Idle;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_clusterLayoutEnabled\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_circularLayoutProcessing\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_clusterLayout\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{structGraphLeftConfig}{GraphLeftConfig}}\ config;}
 \DoxyCodeLine{00029\ }
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00033\ \};}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{int}\ last\_activeLayout\ =\ 0;}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{int}\ activeLayout\ =\ 0;}
+\DoxyCodeLine{00032\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structGraphLeftConfig}{GraphLeftConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ ChooseLayoutPanel();}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ displayChildrenRecursive(EntityID\ entity,\ \textcolor{keywordtype}{int}\ depth);}
+\DoxyCodeLine{00040\ \};}
 
 \end{DoxyCode}

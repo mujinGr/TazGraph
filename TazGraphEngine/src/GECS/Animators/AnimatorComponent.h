@@ -1,0 +1,106 @@
+#pragma once
+
+#include "../Components.h"
+#include <map>
+#include "Animation.h"
+#include "AnimatorManager.h"
+#include <functional>
+
+typedef uint32_t timestamp;
+
+
+class AnimatorComponent : public Component //Animator -> Sprite -> Transform
+{
+public:
+
+	// onAction is the same thing as Play()
+	// onFinish and onStart are for when we free Animator and when we initialize it
+	// difference between this and from the lectures is that in lectures it uses seperate animator for each animation
+
+	SpriteComponent* sprite = nullptr;
+	std::string textureid = "";
+	std::string animationName = "";
+	timestamp resumeTime = 0;
+
+	//std::map<const char*, Animation> animations; //Animator Manager
+
+	AnimatorComponent()
+	{
+
+	}
+
+	AnimatorComponent(std::string id)
+	{
+		textureid = id;
+	}
+
+	~AnimatorComponent()
+	{
+
+	}
+
+	void init() override
+	{
+		if (!entity->hasComponent<SpriteComponent>())
+		{
+			textureid.empty() ?
+				entity->addComponent<SpriteComponent>() :
+				entity->addComponent<SpriteComponent>(textureid);
+		}
+		sprite = &entity->GetComponent<SpriteComponent>();
+
+		Play("P1Idle"); //onStart
+	}
+
+	void update(float deltaTime) override //onAction
+	{
+		if (animationName == "Default") return;
+
+		if (sprite->animation.hasFinished()) { // playing again animation
+			sprite->animation.finished = false;
+			sprite->animation.times_played = 0;
+			resetAnimation();
+		}
+
+		sprite->animation.advanceFrame(deltaTime);
+		sprite->setCurrFrame();
+	}
+
+	void draw(size_t e_index, PlaneModelRenderer& batch, TazGraphEngine::Window& window) override
+	{
+		//sprite->draw(batch);
+	}
+
+	void Play(std::string animName, int reps = 0)
+	{
+		AnimatorManager& animManager = AnimatorManager::getInstance();
+		animationName = animName;
+		sprite->SetAnimation(animManager.animations[animName].indexX, animManager.animations[animName].indexY,
+			animManager.animations[animName].total_frames, animManager.animations[animName].speed,
+			animManager.animations[animName].type,
+			reps ? reps : animManager.animations[animName].reps);
+	}
+
+	void resetAnimation() {
+		sprite->flash_animation.resetFrameIndex();
+
+		AnimatorManager& animManager = AnimatorManager::getInstance();
+		animationName = "P1Idle";
+		sprite->SetAnimation(
+			animManager.animations[animationName].indexX, animManager.animations[animationName].indexY,
+			animManager.animations[animationName].total_frames, animManager.animations[animationName].speed,
+			animManager.animations[animationName].type
+		);
+	}
+
+	std::string getPlayName()
+	{
+		return animationName;
+	}
+
+	void DestroyTex()
+	{
+		sprite->DestroyTex();
+	}
+
+};

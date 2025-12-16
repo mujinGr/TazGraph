@@ -5,11 +5,13 @@ var searchData=
   ['rectangleflashanimatorcomponent_2',['RectangleFlashAnimatorComponent',['../classRectangleFlashAnimatorComponent.html',1,'']]],
   ['render_20batching_20multithreaded_3',['3. Render Batching (Multithreaded)',['../dev_guide.html#autotoc_md5',1,'']]],
   ['render_20pass_20initialization_4',['2. Render Pass Initialization',['../dev_guide.html#autotoc_md4',1,'']]],
-  ['renderbatch_5',['renderBatch',['../classGraph.html#ad9b5ef26ca51bdc8013bb5a7a9518b08',1,'Graph']]],
-  ['renderers_6',['Custom Renderers',['../dev_guide.html#autotoc_md7',1,'']]],
-  ['rendering_7',['4. Instance Rendering',['../dev_guide.html#autotoc_md6',1,'']]],
-  ['rendering_20pipeline_8',['Graph Rendering Pipeline',['../dev_guide.html#autotoc_md2',1,'']]],
-  ['renderlinebatch_9',['RenderLineBatch',['../classRenderLineBatch.html',1,'']]],
-  ['resourcemanager_10',['ResourceManager',['../classResourceManager.html',1,'']]],
-  ['rigidbodycomponent_11',['RigidBodyComponent',['../classRigidBodyComponent.html',1,'']]]
+  ['renderbatch_5',['RenderBatch',['../structTaz_1_1RenderBatch.html',1,'Taz']]],
+  ['rendercommandqueue_6',['RenderCommandQueue',['../structRenderCommandQueue.html',1,'']]],
+  ['renderdraw_7',['renderdraw',['../classGraph.html#a57959b5902869e2bc1d4e1d0800ddc0a',1,'Graph::renderDraw()'],['../classMainMenuScreen.html#a911aaf23ef4c76dcf7f939a8cfdd4fc1',1,'MainMenuScreen::renderDraw()']]],
+  ['renderer_8',['Renderer',['../classTaz_1_1Renderer.html',1,'Taz']]],
+  ['renderers_9',['Custom Renderers',['../dev_guide.html#autotoc_md7',1,'']]],
+  ['rendering_10',['4. Instance Rendering',['../dev_guide.html#autotoc_md6',1,'']]],
+  ['rendering_20pipeline_11',['Graph Rendering Pipeline',['../dev_guide.html#autotoc_md2',1,'']]],
+  ['resourcemanager_12',['ResourceManager',['../classResourceManager.html',1,'']]],
+  ['rigidbodycomponent_13',['RigidBodyComponent',['../classRigidBodyComponent.html',1,'']]]
 ];

@@ -104,6 +104,8 @@ Collaboration diagram for DOTMapParser:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:abd5680b0fe1c45a23015bbf3f9880e34" id="r_abd5680b0fe1c45a23015bbf3f9880e34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDOTMapParser.html#abd5680b0fe1c45a23015bbf3f9880e34">readFile</a> (std::string m_fileName) override</td></tr>
 <tr class="separator:abd5680b0fe1c45a23015bbf3f9880e34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a525ae3c22b68822f3e2b9a7de6caba04" id="r_a525ae3c22b68822f3e2b9a7de6caba04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDOTMapParser.html#a525ae3c22b68822f3e2b9a7de6caba04">writeFile</a> (std::string m_fileName, <a class="el" href="classManager.html">Manager</a> &amp;manager) override</td></tr>
+<tr class="separator:a525ae3c22b68822f3e2b9a7de6caba04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe91d7d1da38e74488623606904d5e4b" id="r_afe91d7d1da38e74488623606904d5e4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDOTMapParser.html#afe91d7d1da38e74488623606904d5e4b">parse</a> (<a class="el" href="classManager.html">Manager</a> &amp;manager, std::function&lt; void(<a class="el" href="classEntity.html">Entity</a> &amp;, glm::vec3)&gt; addNodeFunc, std::function&lt; void(<a class="el" href="classEntity.html">Entity</a> &amp;)&gt; addLinkFunc) override</td></tr>
 <tr class="separator:afe91d7d1da38e74488623606904d5e4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75ff6c3d90b2be7af2ac74972763dd39" id="r_a75ff6c3d90b2be7af2ac74972763dd39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDOTMapParser.html#a75ff6c3d90b2be7af2ac74972763dd39">closeFile</a> () override</td></tr>
@@ -207,6 +209,44 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>m_fileName</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classIMapParser.html">IMapParser</a>.</p>
+
+</div>
+</div>
+<a id="a525ae3c22b68822f3e2b9a7de6caba04" name="a525ae3c22b68822f3e2b9a7de6caba04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a525ae3c22b68822f3e2b9a7de6caba04">&#9670;&#160;</a></span>writeFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DOTMapParser::writeFile </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>m_fileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classManager.html">Manager</a> &amp;&#160;</td>
+          <td class="paramname"><em>manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>

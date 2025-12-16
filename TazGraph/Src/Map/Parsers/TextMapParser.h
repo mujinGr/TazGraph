@@ -6,6 +6,8 @@ public:
     TextMapParser();
     void readFile(std::string m_fileName) override;
 
+    void writeFile(std::string m_fileName, Manager& manager) override;
+
     void parse(
         Manager& manager,
         std::function<void(Entity&, glm::vec3)> addNodeFunc,

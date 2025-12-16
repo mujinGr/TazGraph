@@ -1,0 +1,76 @@
+\doxysection{Selection\+Frustum.\+h}
+\hypertarget{SelectionFrustum_8h_source}{}\label{SelectionFrustum_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/AABB/SelectionFrustum.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/AABB/SelectionFrustum.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../pch.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSelectionFrustum}{SelectionFrustum}}\ \{}
+\DoxyCodeLine{00006\ \ \ \ \ glm::vec3\ corners[8];}
+\DoxyCodeLine{00007\ \ \ \ \ glm::vec4\ planes[6];\ \textcolor{comment}{//\ left,\ right,\ bottom,\ top,\ near,\ far}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{comment}{//\ Create\ frustum\ from\ screen-\/space\ selection\ box}}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{bool}\ createFromSelectionBox(\textcolor{keyword}{const}\ glm::vec2\&\ startPos,\ \textcolor{keyword}{const}\ glm::vec2\&\ endPos,}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classICamera}{ICamera}}*\ camera,\ \textcolor{keywordtype}{float}\ nearZ\ =\ 100.0f,\ \textcolor{keywordtype}{float}\ farZ\ =\ 300000.0f)\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ensure\ min/max\ order}}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ glm::vec2\ minPos\ =\ glm::min(startPos,\ endPos);}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ glm::vec2\ maxPos\ =\ glm::max(startPos,\ endPos);}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Convert\ screen\ coordinates\ to\ world\ coordinates\ at\ different\ Z\ depths}}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ glm::vec3\ nearBottomLeft\ =\ camera-\/>convertScreenToWorldDistance(glm::vec2(minPos.x,\ maxPos.y),\ nearZ);}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ glm::vec3\ nearBottomRight\ =\ camera-\/>convertScreenToWorldDistance(glm::vec2(maxPos.x,\ maxPos.y),\ nearZ);}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ glm::vec3\ nearTopLeft\ =\ camera-\/>convertScreenToWorldDistance(glm::vec2(minPos.x,\ minPos.y),\ nearZ);}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ glm::vec3\ nearTopRight\ =\ camera-\/>convertScreenToWorldDistance(glm::vec2(maxPos.x,\ minPos.y),\ nearZ);}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ glm::vec3\ farBottomLeft\ =\ camera-\/>convertScreenToWorldDistance(glm::vec2(minPos.x,\ maxPos.y),\ farZ);}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ glm::vec3\ farBottomRight\ =\ camera-\/>convertScreenToWorldDistance(glm::vec2(maxPos.x,\ maxPos.y),\ farZ);}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ glm::vec3\ farTopLeft\ =\ camera-\/>convertScreenToWorldDistance(glm::vec2(minPos.x,\ minPos.y),\ farZ);}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ glm::vec3\ farTopRight\ =\ camera-\/>convertScreenToWorldDistance(glm::vec2(maxPos.x,\ minPos.y),\ farZ);}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Store\ corners}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ corners[0]\ =\ nearBottomLeft;}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ corners[1]\ =\ nearBottomRight;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ corners[2]\ =\ nearTopRight;}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ corners[3]\ =\ nearTopLeft;}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ corners[4]\ =\ farBottomLeft;}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ corners[5]\ =\ farBottomRight;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ corners[6]\ =\ farTopRight;}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ corners[7]\ =\ farTopLeft;}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ frustum\ planes\ (normal\ pointing\ inward)}}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Left\ plane}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ planes[0]\ =\ calculatePlane(nearTopLeft,\ nearBottomLeft,\ farBottomLeft);}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Right\ plane}}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ planes[1]\ =\ calculatePlane(nearBottomRight,\ nearTopRight,\ farTopRight);}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Bottom\ plane}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ planes[2]\ =\ calculatePlane(nearBottomLeft,\ nearBottomRight,\ farBottomRight);}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Top\ plane}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ planes[3]\ =\ calculatePlane(nearTopRight,\ nearTopLeft,\ farTopLeft);}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Near\ plane}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ planes[4]\ =\ calculatePlane(nearTopLeft,\ nearTopRight,\ nearBottomRight);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Far\ plane}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ planes[5]\ =\ calculatePlane(farTopRight,\ farTopLeft,\ farBottomLeft);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ isValid\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 6;\ ++i)\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (glm::any(glm::isnan(glm::vec3(planes[i])))\ ||\ std::isnan(planes[i].w))\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isValid\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ isValid;}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00063\ \ \ \ \ glm::vec4\ calculatePlane(\textcolor{keyword}{const}\ glm::vec3\&\ p1,\ \textcolor{keyword}{const}\ glm::vec3\&\ p2,\ \textcolor{keyword}{const}\ glm::vec3\&\ p3)\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ glm::vec3\ v1\ =\ p2\ -\/\ p1;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ glm::vec3\ v2\ =\ p3\ -\/\ p1;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ glm::vec3\ normal\ =\ glm::normalize(glm::cross(v1,\ v2));}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ d\ =\ -\/glm::dot(normal,\ p1);}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ glm::vec4(normal,\ d);}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ \};}
+
+\end{DoxyCode}

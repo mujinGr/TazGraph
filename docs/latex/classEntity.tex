@@ -11,21 +11,22 @@ Inheritance diagram for Entity\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Entity\+:\nopagebreak
+Collaboration diagram for Entity\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=157pt]{classEntity__coll__graph}
+\includegraphics[width=219pt]{classEntity__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classEntity_ae3c77d68f04cdc81fe46bf89e75fea07}\label{classEntity_ae3c77d68f04cdc81fe46bf89e75fea07} 
-void {\bfseries set\+Id} (unsigned int m\+\_\+id)
+\Hypertarget{classEntity_a0b42aeb572f246ce37915128bdbc1ab7}\label{classEntity_a0b42aeb572f246ce37915128bdbc1ab7} 
+void {\bfseries set\+Id} (Entity\+ID m\+\_\+id)
 \item 
-\Hypertarget{classEntity_ad5c05093fb29b242eb61887d79de712e}\label{classEntity_ad5c05093fb29b242eb61887d79de712e} 
-unsigned int {\bfseries get\+Id} ()
+\Hypertarget{classEntity_ac43196f6a72f4c756a793cffbec82d3e}\label{classEntity_ac43196f6a72f4c756a793cffbec82d3e} 
+Entity\+ID {\bfseries get\+Id} ()
 \item 
 \Hypertarget{classEntity_a752393fb51ee62c4b4183231e05b3343}\label{classEntity_a752393fb51ee62c4b4183231e05b3343} 
 void {\bfseries hide} ()
@@ -59,6 +60,15 @@ void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneColo
 \item 
 \Hypertarget{classEntity_ac3cf75dfd879d9e59a8c812f2fc24b81}\label{classEntity_ac3cf75dfd879d9e59a8c812f2fc24b81} 
 void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+\Hypertarget{classEntity_ad655eef58e5a47282b7d73a4c2734c7b}\label{classEntity_ad655eef58e5a47282b7d73a4c2734c7b} 
+virtual void {\bfseries on\+Creation} ()
+\item 
+\Hypertarget{classEntity_a954ced710e7502271c534125eb7d64f2}\label{classEntity_a954ced710e7502271c534125eb7d64f2} 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Parent\+Entity} ()
+\item 
+\Hypertarget{classEntity_a7b228cae7c1dbfb135e2fbf74f4d7561}\label{classEntity_a7b228cae7c1dbfb135e2fbf74f4d7561} 
+void {\bfseries set\+Parent\+Entity} (\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}p\+Entity)
 \item 
 \Hypertarget{classEntity_a00a0f5a9e9f39be9b9db28d5dbccd20e}\label{classEntity_a00a0f5a9e9f39be9b9db28d5dbccd20e} 
 bool {\bfseries is\+Active} ()
@@ -102,35 +112,53 @@ bool {\bfseries has\+Component\+By\+Name} (const std\+::string \&component\+Name
 \Hypertarget{classEntity_ad91cd3f366ecb16dd3b2e5951faac4b1}\label{classEntity_ad91cd3f366ecb16dd3b2e5951faac4b1} 
 \mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Manager} ()
 \item 
-\Hypertarget{classEntity_a7af23151dbd23e5ab714e011b536d117}\label{classEntity_a7af23151dbd23e5ab714e011b536d117} 
-virtual void {\bfseries add\+Message} (std\+::string m\+Message)
-\item 
-\Hypertarget{classEntity_a85c68cbd9c7eacfc3b4f13af227676a7}\label{classEntity_a85c68cbd9c7eacfc3b4f13af227676a7} 
-virtual \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Parent\+Entity} ()
-\item 
-\Hypertarget{classEntity_aa18e1f93d2fd66299444fc50d96e37df}\label{classEntity_aa18e1f93d2fd66299444fc50d96e37df} 
-virtual void {\bfseries set\+Parent\+Entity} (\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}p\+Entity)
-\item 
 \Hypertarget{classEntity_aeab7a42d31baec5e191ba7059d4c0489}\label{classEntity_aeab7a42d31baec5e191ba7059d4c0489} 
 virtual void {\bfseries imgui\+\_\+print} ()
 \item 
 \Hypertarget{classEntity_a7d4cba59d9cd458627865007d37d3357}\label{classEntity_a7d4cba59d9cd458627865007d37d3357} 
 virtual void {\bfseries imgui\+\_\+display} ()
 \item 
-\Hypertarget{classEntity_acd234ea62f6dd081038f5831601e2f0f}\label{classEntity_acd234ea62f6dd081038f5831601e2f0f} 
-virtual void {\bfseries remove\+Entity} ()
+\Hypertarget{classEntity_abcff8896db4be8031f733f77ad2b46c0}\label{classEntity_abcff8896db4be8031f733f77ad2b46c0} 
+virtual void {\bfseries remove\+Entity\+From\+Cell} ()
+\item 
+\Hypertarget{classEntity_aefe928e26932f09e29ac9bba141178e9}\label{classEntity_aefe928e26932f09e29ac9bba141178e9} 
+virtual void {\bfseries remove\+From\+Cell} ()
+\item 
+\Hypertarget{classEntity_a302777cff56ffba046a2534d0234e9b1}\label{classEntity_a302777cff56ffba046a2534d0234e9b1} 
+virtual void {\bfseries remove\+From\+Cells} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classEntity_aa800eb74c349481944dd3da24b82fd99}\label{classEntity_aa800eb74c349481944dd3da24b82fd99} 
-std\+::vector$<$ \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries children}
+\Hypertarget{classEntity_a5802132d9b6103e525371201576d99cb}\label{classEntity_a5802132d9b6103e525371201576d99cb} 
+bool {\bfseries is\+Vertical} = false
 \item 
+\Hypertarget{classEntity_aa95f6630c19e1a741bd27bb6ca592ae2}\label{classEntity_aa95f6630c19e1a741bd27bb6ca592ae2} 
+float {\bfseries slot\+Spacing} = 0.\+0f
+\item 
+\Hypertarget{classEntity_a722b64082911a5ac809ff8e13e12a544}\label{classEntity_a722b64082911a5ac809ff8e13e12a544} 
+std\+::map$<$ Entity\+ID, Entity\+ID $>$ {\bfseries children}
+\begin{DoxyCompactList}\small\item\em child\+\_\+index(id) -\/\texorpdfstring{$>$}{>} real\+\_\+entity\+\_\+id \end{DoxyCompactList}\item 
 \Hypertarget{classEntity_a3fbe7274bdcdeb1d10e51bdf7f35665b}\label{classEntity_a3fbe7274bdcdeb1d10e51bdf7f35665b} 
 std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} $>$ $>$ {\bfseries components}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classEntity_a939da33e8b67b1d2ee227930aa72da3b}\label{classEntity_a939da33e8b67b1d2ee227930aa72da3b} 
+bool {\bfseries active} = true
+\item 
+\Hypertarget{classEntity_a9aeb0b348af29efd7e14838875b8a2fc}\label{classEntity_a9aeb0b348af29efd7e14838875b8a2fc} 
+bool {\bfseries hidden} = false
+\item 
+\Hypertarget{classEntity_a268b34f155900bef861b8b3ce6a5fa60}\label{classEntity_a268b34f155900bef861b8b3ce6a5fa60} 
+Component\+Array {\bfseries component\+Array} = \{\}
+\item 
+\Hypertarget{classEntity_a5427c0cedd55c80f3480659c3fa36f6d}\label{classEntity_a5427c0cedd55c80f3480659c3fa36f6d} 
+Component\+Bit\+Set {\bfseries component\+Bit\+Set}
+\item 
+\Hypertarget{classEntity_a1d07e4dc6eb13f5827ac3b4a05b1585b}\label{classEntity_a1d07e4dc6eb13f5827ac3b4a05b1585b} 
+Group\+Bit\+Set {\bfseries group\+Bit\+Set}
 \item 
 \Hypertarget{classEntity_a3df8f13c262b645f59a5705e3772be53}\label{classEntity_a3df8f13c262b645f59a5705e3772be53} 
 std\+::optional$<$ Component\+Array $>$ {\bfseries node\+Component\+Array}
@@ -138,12 +166,15 @@ std\+::optional$<$ Component\+Array $>$ {\bfseries node\+Component\+Array}
 \Hypertarget{classEntity_a97198fea47815c7067fb2a7320939f3b}\label{classEntity_a97198fea47815c7067fb2a7320939f3b} 
 std\+::optional$<$ Component\+Bit\+Set $>$ {\bfseries node\+Component\+Bit\+Set}
 \item 
+\Hypertarget{classEntity_a74ca4e7bd6b35982aaef6b660f3d3c02}\label{classEntity_a74ca4e7bd6b35982aaef6b660f3d3c02} 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries parent\+\_\+entity} = nullptr
+\item 
 \Hypertarget{classEntity_a8c776372c68ea73b2b588e7c8837b315}\label{classEntity_a8c776372c68ea73b2b588e7c8837b315} 
 \mbox{\hyperlink{classManager}{Manager}} \& {\bfseries manager}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em the object doesnt move, so we can have pointer \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Core/GECS.\+h\item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Core/GECS.\+cpp\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Core/GECS.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Core/GECS.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,6 @@
+<map id="CameraPanel" name="CameraPanel">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,80,113,105"/>
+<area shape="rect" id="Node000002" href="$classUIElement.html" title=" " alt="" coords="14,5,105,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="62,45,62,80,57,80,57,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="119,10,131,18,123,26,105,28,104,22,121,21,126,18,117,14"/>
+</map>

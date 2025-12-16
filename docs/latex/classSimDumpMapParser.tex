@@ -1,0 +1,93 @@
+\doxysection{Sim\+Dump\+Map\+Parser Class Reference}
+\hypertarget{classSimDumpMapParser}{}\label{classSimDumpMapParser}\index{SimDumpMapParser@{SimDumpMapParser}}
+
+
+Inheritance diagram for Sim\+Dump\+Map\+Parser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{classSimDumpMapParser__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Sim\+Dump\+Map\+Parser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{classSimDumpMapParser__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classSimDumpMapParser_a051d62e9e6624621724f867d208afdd6}{read\+File}} (std\+::string m\+\_\+file\+Name) override
+\item 
+void \mbox{\hyperlink{classSimDumpMapParser_aa6039ee1538dd37636a0ec64e43fc4b6}{write\+File}} (std\+::string m\+\_\+file\+Name, \mbox{\hyperlink{classManager}{Manager}} \&manager) override
+\item 
+void \mbox{\hyperlink{classSimDumpMapParser_a7fa09fd2ce11a3e3da476fece4cb33cb}{parse}} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$ add\+Node\+Func, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$ add\+Link\+Func) override
+\item 
+void \mbox{\hyperlink{classSimDumpMapParser_a68e21b8c4cd323db43bc7af37bf71bbd}{close\+File}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mthreader)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structThreader}{Threader}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+threader} = nullptr
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classSimDumpMapParser_a68e21b8c4cd323db43bc7af37bf71bbd}\label{classSimDumpMapParser_a68e21b8c4cd323db43bc7af37bf71bbd} 
+\index{SimDumpMapParser@{SimDumpMapParser}!closeFile@{closeFile}}
+\index{closeFile@{closeFile}!SimDumpMapParser@{SimDumpMapParser}}
+\doxysubsubsection{\texorpdfstring{closeFile()}{closeFile()}}
+{\footnotesize\ttfamily void Sim\+Dump\+Map\+Parser\+::close\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+
+\Hypertarget{classSimDumpMapParser_a7fa09fd2ce11a3e3da476fece4cb33cb}\label{classSimDumpMapParser_a7fa09fd2ce11a3e3da476fece4cb33cb} 
+\index{SimDumpMapParser@{SimDumpMapParser}!parse@{parse}}
+\index{parse@{parse}!SimDumpMapParser@{SimDumpMapParser}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily void Sim\+Dump\+Map\+Parser\+::parse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classManager}{Manager}} \&}]{manager,  }\item[{std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$}]{add\+Node\+Func,  }\item[{std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$}]{add\+Link\+Func }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+
+\Hypertarget{classSimDumpMapParser_a051d62e9e6624621724f867d208afdd6}\label{classSimDumpMapParser_a051d62e9e6624621724f867d208afdd6} 
+\index{SimDumpMapParser@{SimDumpMapParser}!readFile@{readFile}}
+\index{readFile@{readFile}!SimDumpMapParser@{SimDumpMapParser}}
+\doxysubsubsection{\texorpdfstring{readFile()}{readFile()}}
+{\footnotesize\ttfamily void Sim\+Dump\+Map\+Parser\+::read\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{m\+\_\+file\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+
+\Hypertarget{classSimDumpMapParser_aa6039ee1538dd37636a0ec64e43fc4b6}\label{classSimDumpMapParser_aa6039ee1538dd37636a0ec64e43fc4b6} 
+\index{SimDumpMapParser@{SimDumpMapParser}!writeFile@{writeFile}}
+\index{writeFile@{writeFile}!SimDumpMapParser@{SimDumpMapParser}}
+\doxysubsubsection{\texorpdfstring{writeFile()}{writeFile()}}
+{\footnotesize\ttfamily void Sim\+Dump\+Map\+Parser\+::write\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{m\+\_\+file\+Name,  }\item[{\mbox{\hyperlink{classManager}{Manager}} \&}]{manager }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Map/\+Parsers/Sim\+Dump\+Map\+Parser.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Map/\+Parsers/Sim\+Dump\+Map\+Parser.\+cpp\end{DoxyCompactItemize}

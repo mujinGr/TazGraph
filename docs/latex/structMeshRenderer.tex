@@ -2,7 +2,17 @@
 \hypertarget{structMeshRenderer}{}\label{structMeshRenderer}\index{MeshRenderer@{MeshRenderer}}
 
 
-Inheritance diagram for Mesh\+Renderer\+:\nopagebreak
+Meshes.  
+
+
+
+
+{\ttfamily \#include $<$GLSLProgram.\+h$>$}
+
+
+
+Inheritance diagram for Mesh\+Renderer\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,7 +21,8 @@ Inheritance diagram for Mesh\+Renderer\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Mesh\+Renderer\+:\nopagebreak
+Collaboration diagram for Mesh\+Renderer\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -21,22 +32,25 @@ Collaboration diagram for Mesh\+Renderer\+:\nopagebreak
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{structMeshRenderer_a0bc5e878f16cb022abd726de5cf37400}\label{structMeshRenderer_a0bc5e878f16cb022abd726de5cf37400} 
-std\+::vector$<$ \mbox{\hyperlink{structInstanceData}{Instance\+Data}} $>$ {\bfseries instances}
-\end{DoxyCompactItemize}
+\Hypertarget{structMeshRenderer_a815fc0d8477caa2edf59256f21a76dfb}\label{structMeshRenderer_a815fc0d8477caa2edf59256f21a76dfb} 
+std\+::vector$<$ \mbox{\hyperlink{structSimpleBatch}{Simple\+Batch}} $>$ {\bfseries batches}
+\begin{DoxyCompactList}\small\item\em Batches. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{structBaseRenderer}{Base\+Renderer}}}
 \begin{DoxyCompactItemize}
 \item 
 size\+\_\+t {\bfseries mesh\+Indices} = 0
 \item 
-GLuint {\bfseries vao}
+GLuint {\bfseries vao} = 0
 \item 
-GLuint {\bfseries vbo}
+GLuint {\bfseries vbo} = 0
 \item 
-GLuint {\bfseries ibo}
+GLuint {\bfseries ibo} = 0
 \end{DoxyCompactItemize}
 
 
+\doxysubsection{Detailed Description}
+Meshes. 
+
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/GLSLProgram.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Render\+Engine/src/GLSLProgram.\+h\end{DoxyCompactItemize}

@@ -75,12 +75,17 @@ $(function() {
   <div class="headertitle"><div class="title">MeshRenderer Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Meshes.  
+ <a href="structMeshRenderer.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="GLSLProgram_8h_source.html">GLSLProgram.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for MeshRenderer:</div>
 <div class="dyncontent">
 <div class="center"><img src="structMeshRenderer__inherit__graph.png" border="0" usemap="#aMeshRenderer_inherit__map" alt="Inheritance graph"/></div>
 <map name="aMeshRenderer_inherit__map" id="aMeshRenderer_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,79,121,104"/>
+<area shape="rect" title="Meshes." alt="" coords="5,79,121,104"/>
 <area shape="rect" href="structBaseRenderer.html" title=" " alt="" coords="7,5,120,31"/>
 <area shape="poly" title=" " alt="" coords="66,44,66,79,61,79,61,44"/>
 </map>
@@ -90,7 +95,7 @@ Collaboration diagram for MeshRenderer:</div>
 <div class="dyncontent">
 <div class="center"><img src="structMeshRenderer__coll__graph.png" border="0" usemap="#aMeshRenderer_coll__map" alt="Collaboration graph"/></div>
 <map name="aMeshRenderer_coll__map" id="aMeshRenderer_coll__map">
-<area shape="rect" title=" " alt="" coords="5,79,121,104"/>
+<area shape="rect" title="Meshes." alt="" coords="5,79,121,104"/>
 <area shape="rect" href="structBaseRenderer.html" title=" " alt="" coords="7,5,120,31"/>
 <area shape="poly" title=" " alt="" coords="66,44,66,79,61,79,61,44"/>
 </map>
@@ -98,25 +103,28 @@ Collaboration diagram for MeshRenderer:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a0bc5e878f16cb022abd726de5cf37400" id="r_a0bc5e878f16cb022abd726de5cf37400"><td class="memItemLeft" align="right" valign="top"><a id="a0bc5e878f16cb022abd726de5cf37400" name="a0bc5e878f16cb022abd726de5cf37400"></a>
-std::vector&lt; <a class="el" href="structInstanceData.html">InstanceData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>instances</b></td></tr>
-<tr class="separator:a0bc5e878f16cb022abd726de5cf37400"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a815fc0d8477caa2edf59256f21a76dfb" id="r_a815fc0d8477caa2edf59256f21a76dfb"><td class="memItemLeft" align="right" valign="top"><a id="a815fc0d8477caa2edf59256f21a76dfb" name="a815fc0d8477caa2edf59256f21a76dfb"></a>
+std::vector&lt; <a class="el" href="structSimpleBatch.html">SimpleBatch</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>batches</b></td></tr>
+<tr class="memdesc:a815fc0d8477caa2edf59256f21a76dfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Batches. <br /></td></tr>
+<tr class="separator:a815fc0d8477caa2edf59256f21a76dfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structBaseRenderer"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structBaseRenderer')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structBaseRenderer.html">BaseRenderer</a></td></tr>
 <tr class="memitem:a7a49a9f8f6711b21f32fed2acfc13d64 inherit pub_attribs_structBaseRenderer" id="r_a7a49a9f8f6711b21f32fed2acfc13d64"><td class="memItemLeft" align="right" valign="top">
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>meshIndices</b> = 0</td></tr>
 <tr class="separator:a7a49a9f8f6711b21f32fed2acfc13d64 inherit pub_attribs_structBaseRenderer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b2af39b542a6548133c99f24ed0ae4f inherit pub_attribs_structBaseRenderer" id="r_a9b2af39b542a6548133c99f24ed0ae4f"><td class="memItemLeft" align="right" valign="top">
-GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>vao</b></td></tr>
+GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>vao</b> = 0</td></tr>
 <tr class="separator:a9b2af39b542a6548133c99f24ed0ae4f inherit pub_attribs_structBaseRenderer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5a3863a1eb046a6a53813bcb817c204 inherit pub_attribs_structBaseRenderer" id="r_af5a3863a1eb046a6a53813bcb817c204"><td class="memItemLeft" align="right" valign="top">
-GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>vbo</b></td></tr>
+GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>vbo</b> = 0</td></tr>
 <tr class="separator:af5a3863a1eb046a6a53813bcb817c204 inherit pub_attribs_structBaseRenderer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16758ac0c28918910ed58a8acc3ee121 inherit pub_attribs_structBaseRenderer" id="r_a16758ac0c28918910ed58a8acc3ee121"><td class="memItemLeft" align="right" valign="top">
-GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>ibo</b></td></tr>
+GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>ibo</b> = 0</td></tr>
 <tr class="separator:a16758ac0c28918910ed58a8acc3ee121 inherit pub_attribs_structBaseRenderer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/<a class="el" href="GLSLProgram_8h_source.html">GLSLProgram.h</a></li>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Meshes. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/RenderEngine/src/<a class="el" href="GLSLProgram_8h_source.html">GLSLProgram.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

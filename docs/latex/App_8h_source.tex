@@ -4,29 +4,35 @@
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <AppScene/AppInterface.h>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}TazGraphEngine.h"{}}}
 \DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../Screens/GraphScene/Graph.h"{}}}
 \DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../Screens/MainMenuScreen/MainMenuScreen.h"{}}}
 \DoxyCodeLine{00006\ }
 \DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classApp}{App}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classAppInterface}{AppInterface}}}
 \DoxyCodeLine{00008\ \{}
 \DoxyCodeLine{00009\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{classApp}{App}}(\textcolor{keywordtype}{int}\ threadCount);}
-\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classApp}{\string~App}}();}
-\DoxyCodeLine{00012\ }
-\DoxyCodeLine{00013\ \ \ \ \ \textcolor{comment}{//\ Called\ on\ initialization}}
-\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onInit()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00015\ \ \ \ \ \textcolor{comment}{//\ For\ adding\ all\ screens}}
-\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ addScenes()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00017\ \ \ \ \ \textcolor{comment}{//\ Called\ when\ exiting}}
-\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onExit()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00019\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ \ \ \ \ std::unique\_ptr<Graph>\ \_graphplayScreen\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00022\ \ \ \ \ std::unique\_ptr<MainMenuScreen>\ \_mainMenuScreen\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ \textcolor{comment}{//std::unique\_ptr<EditorScreen>\ m\_editorScreen\ =\ nullptr;}}
-\DoxyCodeLine{00025\ \};}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{classApp}{App}}(}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ threadCount,}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ msaa\_samples,}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ std::string\ openFile,}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ initialTimestamp,}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ initialStep,}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ usePython);}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classApp}{\string~App}}();}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{comment}{//\ Called\ on\ initialization}}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onInit()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{comment}{//\ For\ adding\ all\ screens}}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ addScenes()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{comment}{//\ Called\ when\ exiting}}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onExit()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00025\ \textcolor{keyword}{private}:}
 \DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ std::unique\_ptr<Graph>\ \_graphplayScreen\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00028\ \ \ \ \ std::unique\_ptr<MainMenuScreen>\ \_mainMenuScreen\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{comment}{//std::unique\_ptr<EditorScreen>\ m\_editorScreen\ =\ nullptr;}}
+\DoxyCodeLine{00031\ \};}
+\DoxyCodeLine{00032\ }
 
 \end{DoxyCode}

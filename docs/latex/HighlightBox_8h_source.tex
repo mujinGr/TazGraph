@@ -1,0 +1,24 @@
+\doxysection{Highlight\+Box.\+h}
+\hypertarget{HighlightBox_8h_source}{}\label{HighlightBox_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/GraphMiddlePanel/ViewportPanel/HighlightBox/HighlightBox.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/GraphMiddlePanel/ViewportPanel/HighlightBox/HighlightBox.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../../../../UIElement.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structHighlightBoxConfig}{HighlightBoxConfig}}\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ glm::vec2\ startPos;}
+\DoxyCodeLine{00008\ \ \ \ \ glm::vec2\ currPos;}
+\DoxyCodeLine{00009\ \};}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classHighlightBox}{HighlightBox}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{structHighlightBoxConfig}{HighlightBoxConfig}}\ \ config;}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structHighlightBoxConfig}{HighlightBoxConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00018\ \};}
+
+\end{DoxyCode}

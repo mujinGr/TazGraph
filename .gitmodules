@@ -19,3 +19,18 @@
 [submodule "vendors/DotParser"]
 	path = vendors/DotParser
 	url = https://github.com/mujinGr/DotParser.git
+[submodule "vendors/pybind11"]
+	path = vendors/pybind11
+	url = https://github.com/pybind/pybind11.git
+[submodule "vendors/ImGuiComboAutoselect"]
+	path = vendors/ImGuiComboAutoselect
+	url = https://github.com/mujinGr/ImGuiComboAutoselect.git
+[submodule "vendors/simdump"]
+	path = vendors/simdump
+	url = https://carvgit.ics.forth.gr/chaix/simdump.git
+[submodule "vendors/imgui-filebrowser"]
+	path = vendors/imgui-filebrowser
+	url = https://github.com/AirGuanZ/imgui-filebrowser
+[submodule "vendors/tracy"]
+	path = vendors/tracy
+	url = https://github.com/wolfpld/tracy.git

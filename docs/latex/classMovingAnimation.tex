@@ -21,17 +21,14 @@ Collaboration diagram for Moving\+Animation\+:\nopagebreak
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classMovingAnimation_a0d96ec39e63189c488ef4b3a828be660}\label{classMovingAnimation_a0d96ec39e63189c488ef4b3a828be660} 
-{\bfseries Moving\+Animation} (int ix, int iy, int f, float s, const std\+::string \+\_\+type, int dx, int dy, int \+\_\+reps=0)
+\Hypertarget{classMovingAnimation_ad5fe3f510633a8dffa8efc3a1c48673d}\label{classMovingAnimation_ad5fe3f510633a8dffa8efc3a1c48673d} 
+{\bfseries Moving\+Animation} (glm\+::vec3 m\+\_\+start\+Pos, int f, float s, const std\+::string \+\_\+type, glm\+::vec3 m\+\_\+distance, int \+\_\+reps=0)
 \item 
-\Hypertarget{classMovingAnimation_a9f128e29959e7db6fe4d9f32b65f70c4}\label{classMovingAnimation_a9f128e29959e7db6fe4d9f32b65f70c4} 
-{\bfseries Moving\+Animation} (int ix, int iy, int f, float s, const anim\+Type \+\_\+type, int dx, int dy, int \+\_\+reps=0)
+\Hypertarget{classMovingAnimation_abd15986bb16839ac237f150fc2457f3f}\label{classMovingAnimation_abd15986bb16839ac237f150fc2457f3f} 
+{\bfseries Moving\+Animation} (glm\+::vec3 m\+\_\+start\+Pos, int f, float s, const anim\+Type \+\_\+type, glm\+::vec3 m\+\_\+distance, int \+\_\+reps=0)
 \item 
-\Hypertarget{classMovingAnimation_ae72ccb54948f8824bd2383ab57150889}\label{classMovingAnimation_ae72ccb54948f8824bd2383ab57150889} 
-{\bfseries Moving\+Animation} (int ix, int iy, int f, float s, const std\+::string \+\_\+type, const std\+::vector$<$ glm\+::vec2 $>$ \&\+\_\+positions, const std\+::vector$<$ int $>$ \&\+\_\+z\+Indices, const std\+::vector$<$ int $>$ \&\+\_\+rotations, int \+\_\+reps=0)
-\item 
-\Hypertarget{classMovingAnimation_ab63175b13c783ef02e4eec354ad8d87d}\label{classMovingAnimation_ab63175b13c783ef02e4eec354ad8d87d} 
-{\bfseries Moving\+Animation} (int ix, int iy, size\+\_\+t f, float s, const anim\+Type \+\_\+type, const std\+::vector$<$ glm\+::vec2 $>$ \&\+\_\+positions, const std\+::vector$<$ int $>$ \&\+\_\+z\+Indices, const std\+::vector$<$ int $>$ \&\+\_\+rotations, int \+\_\+reps=0)
+\Hypertarget{classMovingAnimation_abdf679d2db37a1af235abe328d939a1b}\label{classMovingAnimation_abdf679d2db37a1af235abe328d939a1b} 
+{\bfseries Moving\+Animation} (glm\+::vec3 m\+\_\+start\+Pos, size\+\_\+t f, float s, const anim\+Type \+\_\+type, glm\+::vec3 m\+\_\+distance, glm\+::vec3 m\+\_\+dest\+\_\+rotation, int \+\_\+reps=0)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{structAnimation}{Animation}}}
 \begin{DoxyCompactItemize}
@@ -49,14 +46,14 @@ bool {\bfseries has\+Finished} ()
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classMovingAnimation_a1ff47a8688dd2c2e572b01b117eee6b5}\label{classMovingAnimation_a1ff47a8688dd2c2e572b01b117eee6b5} 
-std\+::vector$<$ glm\+::vec2 $>$ {\bfseries positions}
+\Hypertarget{classMovingAnimation_a64335dfdc8e56158166389c77751d15e}\label{classMovingAnimation_a64335dfdc8e56158166389c77751d15e} 
+glm\+::vec3 {\bfseries starting\+Position} = glm\+::vec3(0)
 \item 
-\Hypertarget{classMovingAnimation_a688661829bc2976e6e176d5fd8804d03}\label{classMovingAnimation_a688661829bc2976e6e176d5fd8804d03} 
-std\+::vector$<$ int $>$ {\bfseries z\+Indices}
+\Hypertarget{classMovingAnimation_a4c705fc42c9866ae2f64002caabbc633}\label{classMovingAnimation_a4c705fc42c9866ae2f64002caabbc633} 
+glm\+::vec3 {\bfseries distance} = glm\+::vec3(0)
 \item 
-\Hypertarget{classMovingAnimation_affb6caa66be29c10b9c65630f4665ab4}\label{classMovingAnimation_affb6caa66be29c10b9c65630f4665ab4} 
-std\+::vector$<$ int $>$ {\bfseries rotations}
+\Hypertarget{classMovingAnimation_a9db13b422e327ada82d57765af1449eb}\label{classMovingAnimation_a9db13b422e327ada82d57765af1449eb} 
+glm\+::vec3 {\bfseries dest\+\_\+rotation} = glm\+::vec3(0)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{structAnimation}{Animation}}}
 \begin{DoxyCompactItemize}
@@ -100,4 +97,4 @@ enum {\bfseries anim\+Type} \{ {\bfseries ANIMTYPE\+\_\+\+NONE} = 0
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Animators/Moving\+Animation.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Animators/Moving\+Animation.\+h\end{DoxyCompactItemize}

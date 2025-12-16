@@ -104,6 +104,8 @@ Collaboration diagram for PythonMapParser:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a1f7a27fa1839ac71f75e615ec89b8abe" id="r_a1f7a27fa1839ac71f75e615ec89b8abe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPythonMapParser.html#a1f7a27fa1839ac71f75e615ec89b8abe">readFile</a> (std::string m_fileName) override</td></tr>
 <tr class="separator:a1f7a27fa1839ac71f75e615ec89b8abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79009f3f949ce370febc4693682aa614" id="r_a79009f3f949ce370febc4693682aa614"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPythonMapParser.html#a79009f3f949ce370febc4693682aa614">writeFile</a> (std::string m_fileName, <a class="el" href="classManager.html">Manager</a> &amp;manager) override</td></tr>
+<tr class="separator:a79009f3f949ce370febc4693682aa614"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6872fb8bae02bf5a7543d9a427459b89" id="r_a6872fb8bae02bf5a7543d9a427459b89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPythonMapParser.html#a6872fb8bae02bf5a7543d9a427459b89">parse</a> (<a class="el" href="classManager.html">Manager</a> &amp;manager, std::function&lt; void(<a class="el" href="classEntity.html">Entity</a> &amp;, glm::vec3)&gt; addNodeFunc, std::function&lt; void(<a class="el" href="classEntity.html">Entity</a> &amp;)&gt; addLinkFunc) override</td></tr>
 <tr class="separator:a6872fb8bae02bf5a7543d9a427459b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22e10f497d094f9fe014842b6fd054ba" id="r_a22e10f497d094f9fe014842b6fd054ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPythonMapParser.html#a22e10f497d094f9fe014842b6fd054ba">closeFile</a> () override</td></tr>
@@ -207,6 +209,44 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>m_fileName</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classIMapParser.html">IMapParser</a>.</p>
+
+</div>
+</div>
+<a id="a79009f3f949ce370febc4693682aa614" name="a79009f3f949ce370febc4693682aa614"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79009f3f949ce370febc4693682aa614">&#9670;&#160;</a></span>writeFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PythonMapParser::writeFile </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>m_fileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classManager.html">Manager</a> &amp;&#160;</td>
+          <td class="paramname"><em>manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>

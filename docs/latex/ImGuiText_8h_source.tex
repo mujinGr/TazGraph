@@ -1,0 +1,68 @@
+\doxysection{Im\+Gui\+Text.\+h}
+\hypertarget{ImGuiText_8h_source}{}\label{ImGuiText_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/ImGuiText.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/ImGuiText.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <imgui/imgui.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}./pch.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }TazGraphEngine\ \{}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawTextAtWorldPositionPerspective(\textcolor{keyword}{const}\ glm::vec3\&\ worldPos,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ text,}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec4\&\ color,\ \mbox{\hyperlink{classICamera}{ICamera}}*\ camera)\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ glm::mat4\ view\ =\ camera-\/>getViewMatrix();}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ glm::mat4\ proj\ =\ camera-\/>getProjMatrix();}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ ImVec2\ pos\ =\ ImGui::GetCursorScreenPos();}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ ImVec2\ viewportSize\ =\ ImGui::GetContentRegionAvail();}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Convert\ world\ to\ clip\ space}}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ glm::vec4\ clipPos\ =\ camera-\/>getCameraMatrix()\ *\ glm::vec4(worldPos,\ 1.0f);}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Perspective\ division}}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (clipPos.w\ >\ 0.0f)\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ clipPos.x\ /=\ clipPos.w;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ clipPos.y\ /=\ clipPos.w;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (clipPos.x\ <\ -\/1.0f\ ||\ clipPos.x\ >\ 1.0f\ ||}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clipPos.y\ <\ -\/1.0f\ ||\ clipPos.y\ >\ 1.0f)\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ Point\ is\ outside\ view\ frustum}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Convert\ to\ screen\ coordinates}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec2\ screenPos;}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ screenPos.x\ =\ pos.x\ +\ (clipPos.x\ *\ 0.5f\ +\ 0.5f)\ *\ viewportSize.x;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ screenPos.y\ =\ pos.y\ +\ (-\/clipPos.y\ *\ 0.5f\ +\ 0.5f)\ *\ viewportSize.y;}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec4\ viewPos\ =\ view\ *\ glm::vec4(worldPos,\ 1.0f);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ clipPos.w\ (distance\ in\ clip\ space)\ for\ scaling}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ distance\ =\ -\/viewPos.z;\ \textcolor{comment}{//\ view\ space\ forward\ is\ -\/Z}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ baseFontSize\ =\ 16.0f;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ scale\ =\ 1000.0f\ /\ distance;\ \ \ \textcolor{comment}{//\ Adjust\ multiplier\ as\ needed}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ fontSize\ =\ glm::clamp(baseFontSize\ *\ scale,\ 6.0f,\ baseFontSize);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ ImDrawList*\ drawList\ =\ ImGui::GetForegroundDrawList();}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Push\ scaled\ font}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::PushFont(ImGui::GetIO().Fonts-\/>Fonts[0]);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::SetWindowFontScale(fontSize\ /\ baseFontSize);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ ImFont*\ font\ =\ ImGui::GetIO().Fonts-\/>Fonts[0];}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ ImVec2\ textSize\ =\ ImGui::CalcTextSize(text);}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ drawList-\/>AddText(}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ font,\ fontSize,}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImVec2(screenPos.x\ -\/\ textSize.x\ *\ 0.5f,\ screenPos.y\ -\/\ textSize.y\ *\ 0.5f),}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImColor(color.r,\ color.g,\ color.b,\ color.a),}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ text);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::SetWindowFontScale(1.0f);}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::PopFont();}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \ \ \ \ \}}
+\DoxyCodeLine{00062\ \}}
+
+\end{DoxyCode}

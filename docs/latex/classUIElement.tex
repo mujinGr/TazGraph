@@ -2,11 +2,22 @@
 \hypertarget{classUIElement}{}\label{classUIElement}\index{UIElement@{UIElement}}
 
 
-Inheritance diagram for UIElement\+:\nopagebreak
+Inheritance diagram for UIElement\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[height=550pt]{classUIElement__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for UIElement\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{classUIElement__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -17,6 +28,33 @@ virtual void {\bfseries update} (float delta\+Time=0.\+0f)
 \item 
 \Hypertarget{classUIElement_af48cdee814a74380548657d4f913e29b}\label{classUIElement_af48cdee814a74380548657d4f913e29b} 
 virtual void {\bfseries On\+Im\+Gui\+Render} ()=0
+\item 
+\Hypertarget{classUIElement_a5d64fa40492b4192fd091e5f386344f5}\label{classUIElement_a5d64fa40492b4192fd091e5f386344f5} 
+{\footnotesize template$<$typename T , typename... Args$>$ }\\void {\bfseries add\+UIComponent} (Args \&\&... args)
+\item 
+\Hypertarget{classUIElement_af9f82951b6df9b1c5c812930e6dcfe67}\label{classUIElement_af9f82951b6df9b1c5c812930e6dcfe67} 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries get\+Subcomponent} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classUIElement_ac11c132df05d869ce10924cbac0a8520}\label{classUIElement_ac11c132df05d869ce10924cbac0a8520} 
+{\footnotesize template$<$typename T $>$ }\\static T \texorpdfstring{$\ast$}{*} {\bfseries get\+UIComponent} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classUIElement_aa369d259d20f27cc7c9710a6459bb2ee}\label{classUIElement_aa369d259d20f27cc7c9710a6459bb2ee} 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$ $>$ {\bfseries subcomponents}
+\item 
+\Hypertarget{classUIElement_ad6665ed8440af576407c9db07521508d}\label{classUIElement_ad6665ed8440af576407c9db07521508d} 
+\mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} {\bfseries parent} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classUIElement_a14ae40cd2ae904894a8be030e6465cc0}\label{classUIElement_a14ae40cd2ae904894a8be030e6465cc0} 
+static std\+::unordered\+\_\+map$<$ std\+::type\+\_\+index, \mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries ui\+Component\+Registry}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}

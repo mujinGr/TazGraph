@@ -1,0 +1,9 @@
+<map id="WireframeInstanceData" name="WireframeInstanceData">
+<area shape="rect" id="Node000001" title=" " alt="" coords="52,168,229,193"/>
+<area shape="rect" id="Node000002" href="$structColorInstanceData.html" title=" " alt="" coords="69,93,212,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,133,143,168,138,168,138,133"/>
+<area shape="rect" id="Node000003" href="$structInstanceData.html" title=" " alt="" coords="5,5,113,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="82,39,131,91,127,95,78,43"/>
+<area shape="rect" id="Node000004" href="$structTazGraphEngine_1_1Color.html" title=" " alt="" coords="138,5,306,31"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="204,43,154,95,150,91,200,39"/>
+</map>

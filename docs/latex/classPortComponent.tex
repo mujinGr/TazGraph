@@ -11,11 +11,12 @@ Inheritance diagram for Port\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Port\+Component\+:\nopagebreak
+Collaboration diagram for Port\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=343pt]{classPortComponent__coll__graph}
+\includegraphics[width=350pt]{classPortComponent__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -32,13 +33,7 @@ void \mbox{\hyperlink{classPortComponent_a8554d0e8bbc043854ac3a9995ff686d3}{draw
 \item 
 std\+::string \mbox{\hyperlink{classPortComponent_aa33dc2dec0b88cf787ae4939973387ae}{Get\+Component\+Name}} () override
 \item 
-void \mbox{\hyperlink{classPortComponent_a40d740bd01734690e938b74ffd47e699}{show\+GUI}} () override
-\item 
-\Hypertarget{classPortComponent_a1594c40ada5176863395fc40fd5bac0e}\label{classPortComponent_a1594c40ada5176863395fc40fd5bac0e} 
-glm\+::vec3 {\bfseries get\+Slot\+Position} (size\+\_\+t slot\+Index) const
-\item 
-\Hypertarget{classPortComponent_a92856691433bfe5e71b7712929b82e67}\label{classPortComponent_a92856691433bfe5e71b7712929b82e67} 
-int {\bfseries get\+Slot\+Index} (\mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*}slot) const
+void \mbox{\hyperlink{classPortComponent_ad9376d7e4790bc1d4c76f9d932392e61}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\}) override
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
@@ -52,17 +47,8 @@ virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classL
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classPortComponent_a22a6a693791317f4e72c74fd022ddd95}\label{classPortComponent_a22a6a693791317f4e72c74fd022ddd95} 
-\mbox{\hyperlink{structColor}{Color}} {\bfseries color} = \{ 255, 255, 255, 255 \}
-\item 
-\Hypertarget{classPortComponent_a9e9f8aebd77fcb186712254cf3eae6e7}\label{classPortComponent_a9e9f8aebd77fcb186712254cf3eae6e7} 
-bool {\bfseries is\+Vertical} = false
-\item 
-\Hypertarget{classPortComponent_a5ab912aff3dbcaa3e9784da369df5128}\label{classPortComponent_a5ab912aff3dbcaa3e9784da369df5128} 
-std\+::vector$<$ \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries port\+Slots}
-\item 
-\Hypertarget{classPortComponent_a8258e9e205e278b4bd9abdb2342a137d}\label{classPortComponent_a8258e9e205e278b4bd9abdb2342a137d} 
-float {\bfseries slot\+Spacing} = 0.\+0f
+\Hypertarget{classPortComponent_a3f8abc843ecad9605270604fd93fecdd}\label{classPortComponent_a3f8abc843ecad9605270604fd93fecdd} 
+\mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} {\bfseries color} = \{ 255, 255, 255, 255 \}
 \item 
 \Hypertarget{classPortComponent_a9c4049ebdf7033a6505a8534392d87c1}\label{classPortComponent_a9c4049ebdf7033a6505a8534392d87c1} 
 \mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
@@ -74,6 +60,8 @@ float {\bfseries slot\+Spacing} = 0.\+0f
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
+\item 
+bool {\bfseries modify\+Position} = false
 \item 
 Component\+ID {\bfseries id} = 0u
 \end{DoxyCompactItemize}
@@ -110,11 +98,11 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
-\Hypertarget{classPortComponent_a40d740bd01734690e938b74ffd47e699}\label{classPortComponent_a40d740bd01734690e938b74ffd47e699} 
+\Hypertarget{classPortComponent_ad9376d7e4790bc1d4c76f9d932392e61}\label{classPortComponent_ad9376d7e4790bc1d4c76f9d932392e61} 
 \index{PortComponent@{PortComponent}!showGUI@{showGUI}}
 \index{showGUI@{showGUI}!PortComponent@{PortComponent}}
 \doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}}
-{\footnotesize\ttfamily void Port\+Component\+::show\+GUI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void Port\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
@@ -134,4 +122,4 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Empty/\+Basic/Port\+Component.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Components/\+Empty/\+Basic/Port\+Component.\+h\end{DoxyCompactItemize}

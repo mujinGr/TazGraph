@@ -1,0 +1,169 @@
+\doxysection{GECSEntity\+Types\+Node.\+h}
+\hypertarget{GECSEntityTypesNode_8h_source}{}\label{GECSEntityTypesNode_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Core/GECSEntityTypes/GECSEntityTypesNode.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Core/GECSEntityTypes/GECSEntityTypesNode.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}./GECSEntityTypes.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNode}{Node}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}\ \{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{classNode}{Node}}(\mbox{\hyperlink{classManager}{Manager}}\&\ mManager)\ :\ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}(mManager)\ \{}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ addGroup(Group\ mGroup)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ Entity::addGroup(mGroup);}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.AddToGroup(\textcolor{keyword}{this},\ mGroup);}
+\DoxyCodeLine{00018\ \ \ \ \ \}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classNode}{\string~Node}}()\ \{}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)}
+\DoxyCodeLine{00025\ \ \ \ \ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{comment}{//cellUpdate();}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ Entity::update(deltaTime);}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ cellUpdate()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>ownerCell)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//this-\/>GetComponent<TransformComponent>().update(0.0f);}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structCell}{Cell}}*\ newCell\ =\ \mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.grid-\/>getCell(*\textcolor{keyword}{this},\ \mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.grid-\/>getGridLevel());}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (newCell\ !=\ this-\/>ownerCell)\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ removeFromCell();}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.grid-\/>addNode(\textcolor{keyword}{this},\ newCell);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::scoped\_lock\ lock(\mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.movedNodesMutex);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.movedNodes.push\_back(getId());}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ update\ arrowheads}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ linkId\ :\ inLinks)\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ link\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(\mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.getEntityFromId(linkId));}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (link-\/>type\ ==\ LinkEntity::ConnectionType::PORT\_TO\_PORT)}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>updateArrowHeads();}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ nodeFrom\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(\mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.getEntityFromId(link-\/>getFromNode()));}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ depthLinkId\ :\ nodeFrom-\/>getInLinks())\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ depthLink\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(\mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.getEntityFromId(depthLinkId));}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (depthLink-\/>type\ ==\ LinkEntity::ConnectionType::PORT\_TO\_PORT)}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ depthLink-\/>updateArrowHeads();}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ depthLinkId\ :\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(\mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.getEntityFromId(link-\/>getFromNode()))-\/>getOutLinks())\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ depthLink\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(\mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.getEntityFromId(depthLinkId));}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (depthLink-\/>type\ ==\ LinkEntity::ConnectionType::PORT\_TO\_PORT)}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ depthLink-\/>updateArrowHeads();}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ linkId\ :\ outLinks)\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ link\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(\mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.getEntityFromId(linkId));}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (link-\/>type\ ==\ LinkEntity::ConnectionType::PORT\_TO\_PORT)}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>updateArrowHeads();}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ depthLinkId\ :\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(\mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.getEntityFromId(link-\/>getToNode()))-\/>getInLinks())\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ depthLink\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(\mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.getEntityFromId(depthLinkId));}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (depthLink-\/>type\ ==\ LinkEntity::ConnectionType::PORT\_TO\_PORT)}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ depthLink-\/>updateArrowHeads();}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ depthLinkId\ :\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(\mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.getEntityFromId(link-\/>getToNode()))-\/>getOutLinks())\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ depthLink\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(\mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.getEntityFromId(depthLinkId));}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (depthLink-\/>type\ ==\ LinkEntity::ConnectionType::PORT\_TO\_PORT)}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ depthLink-\/>updateArrowHeads();}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \ \ \ \ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{void}\ imgui\_print()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ glm::vec2\ position\ =\ this-\/>GetComponent<TransformComponent>().getPosition();\ \ \textcolor{comment}{//\ Make\ sure\ Entity\ class\ has\ a\ getPosition\ method}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}TazPosition:\ (\%.2f,\ \%.2f)"{}},\ position.x,\ position.y);}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{void}\ imgui\_display()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}Display\ Info\ Here\ Node"{}});}
+\DoxyCodeLine{00091\ \ \ \ \ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{void}\ destroy()\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ Entity::destroy();}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}.aboutTo\_updateActiveEntities();\textcolor{comment}{//?\ cant\ have\ it\ at\ destroy\ in\ baseclass}}
+\DoxyCodeLine{00096\ \ \ \ \ \}}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{void}\ addPorts()\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ createPort\ =\ [\textcolor{keyword}{this}](NodePorts\ portName,\ \textcolor{keyword}{const}\ glm::vec3\&\ localPosition,\ \textcolor{keywordtype}{bool}\ isHorizontal)\ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ t\_portName\ =\ NodePorts\_ToString(portName);}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}.contains(t\_portName))\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string(\textcolor{stringliteral}{"{}Port\ already\ exists:\ "{}})\ +\ t\_portName);}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ port\ =\ getManager()-\/>addEntityFromParent<\mbox{\hyperlink{classEmpty}{Empty}}>(\textcolor{keyword}{this},\ t\_portName);}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ port.addGroup(Manager::groupPorts);}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ port.addComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>(glm::vec3(0),\ glm::vec3(0),\ 1.0f);}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}[t\_portName]\ =\ port.getId();}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ getManager()-\/>getEntityFromId(\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}[t\_portName])-\/>setParentEntity(\textcolor{keyword}{this});}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ getManager()-\/>getEntityFromId(\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}[t\_portName])-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().local\_normal\_position\ =\ localPosition;}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ getManager()-\/>getEntityFromId(\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}[t\_portName])-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().initChild();}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ getManager()-\/>getEntityFromId(\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}[t\_portName])-\/>\mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}<\mbox{\hyperlink{classPortComponent}{PortComponent}}>(isHorizontal);}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ getManager()-\/>getEntityFromId(\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}[t\_portName])-\/>update(0.0f);}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Create\ all\ ports\ using\ the\ lambda}}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ createPort(NodePorts::LEFT,\ glm::vec3(-\/1.0f,\ 0.0f,\ 0.0f),\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ createPort(NodePorts::RIGHT,\ glm::vec3(1.0f,\ 0.0f,\ 0.0f),\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ createPort(NodePorts::TOP,\ glm::vec3(0.0f,\ -\/1.0f,\ 0.0f),\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ createPort(NodePorts::BOTTOM,\ glm::vec3(0.0f,\ 1.0f,\ 0.0f),\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordtype}{void}\ removePorts()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ portName\ :\ \{\ NodePorts::LEFT,\ NodePorts::RIGHT,\ NodePorts::TOP,\ NodePorts::BOTTOM\ \})\ \{}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ t\_portName\ =\ NodePorts\_ToString(portName);}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}.contains(t\_portName))\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ getManager()-\/>getEntityFromId(\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}[t\_portName])-\/>destroy();}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ slot\ :\ getManager()-\/>getEntityFromId(\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}[t\_portName])-\/>\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}})}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ slotEnt\ =\ getManager()-\/>getEntityFromId(slot.second);}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ slotEnt-\/>destroy();}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ getManager()-\/>getEntityFromId(\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}[t\_portName])-\/>\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}.clear();}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}.erase(t\_portName);}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00145\ \ \ \ \ \}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordtype}{void}\ removeSlots()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ portName\ :\ \{\ NodePorts::LEFT,\ NodePorts::RIGHT,\ NodePorts::TOP,\ NodePorts::BOTTOM\ \})\ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ t\_portName\ =\ NodePorts\_ToString(portName);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}.contains(t\_portName))\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ slot\ :\ getManager()-\/>getEntityFromId(\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}[t\_portName])-\/>\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}})}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ getManager()-\/>getEntityFromId(slot.second)-\/>destroy();}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ getManager()-\/>getEntityFromId(\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}[t\_portName])-\/>\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}.clear();}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00159\ \ \ \ \ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \};}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ }
+
+\end{DoxyCode}

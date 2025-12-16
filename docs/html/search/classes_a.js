@@ -1,8 +1,8 @@
 var searchData=
 [
   ['mainmenubackground_0',['MainMenuBackground',['../classMainMenuBackground.html',1,'']]],
-  ['mainmenuconfig_1',['MainMenuConfig',['../structMainMenuConfig.html',1,'']]],
-  ['mainmenupanel_2',['MainMenuPanel',['../classMainMenuPanel.html',1,'']]],
+  ['mainmenueditorlayer_1',['MainMenuEditorLayer',['../classMainMenuEditorLayer.html',1,'']]],
+  ['mainmenueditorlayerconfig_2',['MainMenuEditorLayerConfig',['../structMainMenuEditorLayerConfig.html',1,'']]],
   ['mainmenuscreen_3',['MainMenuScreen',['../classMainMenuScreen.html',1,'']]],
   ['manager_4',['Manager',['../classManager.html',1,'']]],
   ['map_5',['Map',['../classMap.html',1,'']]],

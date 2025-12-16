@@ -1,0 +1,99 @@
+\doxysection{Scene\+Panel Class Reference}
+\hypertarget{classScenePanel}{}\label{classScenePanel}\index{ScenePanel@{ScenePanel}}
+
+
+Inheritance diagram for Scene\+Panel\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=152pt]{classScenePanel__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Scene\+Panel\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=203pt]{classScenePanel__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classScenePanel_a296f504c05cb3d32b727f07aaa21dc7a}\label{classScenePanel_a296f504c05cb3d32b727f07aaa21dc7a} 
+void {\bfseries set\+Config} (const \mbox{\hyperlink{structScenePanelConfig}{Scene\+Panel\+Config}} \&cfg)
+\item 
+void \mbox{\hyperlink{classScenePanel_aff855b24edb18b0d6ad4713ec1673a58}{update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{classScenePanel_a0921fd00e0939ac1bfd1fc9a4afeca51}{On\+Im\+Gui\+Render}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , typename... Args$>$ }\\void {\bfseries add\+UIComponent} (Args \&\&... args)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries get\+Subcomponent} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classScenePanel_a1d063aaa8df1fc4def07e4c4eb70bf2d}\label{classScenePanel_a1d063aaa8df1fc4def07e4c4eb70bf2d} 
+bool {\bfseries show\+Scene\+Panel} = false
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$ $>$ {\bfseries subcomponents}
+\item 
+\mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} {\bfseries parent} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T \texorpdfstring{$\ast$}{*} {\bfseries get\+UIComponent} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unordered\+\_\+map$<$ std\+::type\+\_\+index, \mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries ui\+Component\+Registry}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries name}
+\item 
+bool {\bfseries visible} = true
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classScenePanel_a0921fd00e0939ac1bfd1fc9a4afeca51}\label{classScenePanel_a0921fd00e0939ac1bfd1fc9a4afeca51} 
+\index{ScenePanel@{ScenePanel}!OnImGuiRender@{OnImGuiRender}}
+\index{OnImGuiRender@{OnImGuiRender}!ScenePanel@{ScenePanel}}
+\doxysubsubsection{\texorpdfstring{OnImGuiRender()}{OnImGuiRender()}}
+{\footnotesize\ttfamily void Scene\+Panel\+::\+On\+Im\+Gui\+Render (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classUIElement}{UIElement}}.
+
+\Hypertarget{classScenePanel_aff855b24edb18b0d6ad4713ec1673a58}\label{classScenePanel_aff855b24edb18b0d6ad4713ec1673a58} 
+\index{ScenePanel@{ScenePanel}!update@{update}}
+\index{update@{update}!ScenePanel@{ScenePanel}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Scene\+Panel\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classUIElement}{UIElement}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Menu\+Dropdown/\+Scene\+Panel/Scene\+Panel.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Menu\+Dropdown/\+Scene\+Panel/Scene\+Panel.\+cpp\end{DoxyCompactItemize}

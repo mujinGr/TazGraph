@@ -93,15 +93,20 @@ Collaboration diagram for TransformComponent:</div>
 <div class="dyncontent">
 <div class="center"><img src="classTransformComponent__coll__graph.png" border="0" usemap="#aTransformComponent_coll__map" alt="Collaboration graph"/></div>
 <map name="aTransformComponent_coll__map" id="aTransformComponent_coll__map">
-<area shape="rect" title=" " alt="" coords="29,256,191,281"/>
-<area shape="rect" href="classComponent.html" title=" " alt="" coords="61,181,159,207"/>
-<area shape="poly" title=" " alt="" coords="113,221,113,256,107,256,107,221"/>
+<area shape="rect" title=" " alt="" coords="214,269,377,295"/>
+<area shape="rect" href="classComponent.html" title=" " alt="" coords="140,181,237,207"/>
+<area shape="poly" title=" " alt="" coords="215,213,283,267,279,271,212,217"/>
 <area shape="rect" href="classBaseComponent.html" title=" " alt="" coords="5,93,135,119"/>
-<area shape="poly" title=" " alt="" coords="84,130,107,180,102,182,79,132"/>
+<area shape="poly" title=" " alt="" coords="99,125,174,179,171,183,96,129"/>
 <area shape="rect" href="classEntity.html" title=" " alt="" coords="159,93,219,119"/>
-<area shape="poly" title=" " alt="" coords="171,131,123,183,119,179,167,127"/>
+<area shape="poly" title=" " alt="" coords="191,133,191,181,186,181,186,133"/>
+<area shape="poly" title=" " alt="" coords="234,96,242,99,245,106,237,115,219,117,219,111,235,110,240,106,238,104,232,101"/>
 <area shape="rect" href="classManager.html" title=" " alt="" coords="149,5,228,31"/>
 <area shape="poly" title=" " alt="" coords="191,45,191,93,186,93,186,45"/>
+<area shape="rect" href="classMovingAnimation.html" title=" " alt="" coords="313,181,451,207"/>
+<area shape="poly" title=" " alt="" coords="363,218,309,271,306,267,359,214"/>
+<area shape="rect" href="structAnimation.html" title=" " alt="" coords="359,93,448,119"/>
+<area shape="poly" title=" " alt="" coords="400,133,388,181,382,180,395,131"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -135,9 +140,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aca7dc4830ccbbbd6005a5ed44c0f9cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a968fb99efc2ce36ad7427563249718f0" id="r_a968fb99efc2ce36ad7427563249718f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTransformComponent.html#a968fb99efc2ce36ad7427563249718f0">update</a> (float deltaTime) override</td></tr>
 <tr class="separator:a968fb99efc2ce36ad7427563249718f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3ba5b9ad5040e5457082110ef37fa57" id="r_ab3ba5b9ad5040e5457082110ef37fa57"><td class="memItemLeft" align="right" valign="top"><a id="ab3ba5b9ad5040e5457082110ef37fa57" name="ab3ba5b9ad5040e5457082110ef37fa57"></a>
-glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>getCenterTransform</b> ()</td></tr>
-<tr class="separator:ab3ba5b9ad5040e5457082110ef37fa57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73b94bed56c1b12cdc74fb8c78de87d1" id="r_a73b94bed56c1b12cdc74fb8c78de87d1"><td class="memItemLeft" align="right" valign="top"><a id="a73b94bed56c1b12cdc74fb8c78de87d1" name="a73b94bed56c1b12cdc74fb8c78de87d1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>initChild</b> ()</td></tr>
+<tr class="separator:a73b94bed56c1b12cdc74fb8c78de87d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d632f75c01097e0f93ec6360550e4a2" id="r_a7d632f75c01097e0f93ec6360550e4a2"><td class="memItemLeft" align="right" valign="top"><a id="a7d632f75c01097e0f93ec6360550e4a2" name="a7d632f75c01097e0f93ec6360550e4a2"></a>
 glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>getSizeCenter</b> ()</td></tr>
 <tr class="separator:a7d632f75c01097e0f93ec6360550e4a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,10 +167,16 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setVelocity_Y</b> (fl
 <tr class="memitem:a30656bdead536e63aaf1988aebfa4429" id="r_a30656bdead536e63aaf1988aebfa4429"><td class="memItemLeft" align="right" valign="top"><a id="a30656bdead536e63aaf1988aebfa4429" name="a30656bdead536e63aaf1988aebfa4429"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setRotation</b> (glm::vec3 m_rotation)</td></tr>
 <tr class="separator:a30656bdead536e63aaf1988aebfa4429"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84410ccd4cf9455a786695dcc3e344a9" id="r_a84410ccd4cf9455a786695dcc3e344a9"><td class="memItemLeft" align="right" valign="top"><a id="a84410ccd4cf9455a786695dcc3e344a9" name="a84410ccd4cf9455a786695dcc3e344a9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetMovingAnimation</b> (glm::vec3 m_startingPos, size_t fr, float sp, const Animation::animType type, const glm::vec3 distance, const glm::vec3 dest_rotation, int reps=0)</td></tr>
+<tr class="separator:a84410ccd4cf9455a786695dcc3e344a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0f8532358b08ae6709db26c5981b05c" id="r_ae0f8532358b08ae6709db26c5981b05c"><td class="memItemLeft" align="right" valign="top"><a id="ae0f8532358b08ae6709db26c5981b05c" name="ae0f8532358b08ae6709db26c5981b05c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setMoveFrame</b> ()</td></tr>
+<tr class="separator:ae0f8532358b08ae6709db26c5981b05c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0aaddc06ee3d8da6268d3fdf5d375df" id="r_aa0aaddc06ee3d8da6268d3fdf5d375df"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTransformComponent.html#aa0aaddc06ee3d8da6268d3fdf5d375df">GetComponentName</a> () override</td></tr>
 <tr class="separator:aa0aaddc06ee3d8da6268d3fdf5d375df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a673cc28604a6e35b766f2221fb94c796" id="r_a673cc28604a6e35b766f2221fb94c796"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTransformComponent.html#a673cc28604a6e35b766f2221fb94c796">showGUI</a> () override</td></tr>
-<tr class="separator:a673cc28604a6e35b766f2221fb94c796"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e283de23e511ce0f299594e1d547951" id="r_a9e283de23e511ce0f299594e1d547951"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTransformComponent.html#a9e283de23e511ce0f299594e1d547951">showGUI</a> (std::vector&lt; <a class="el" href="classBaseComponent.html">BaseComponent</a> * &gt; otherComponents={}) override</td></tr>
+<tr class="separator:a9e283de23e511ce0f299594e1d547951"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBaseComponent"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBaseComponent')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBaseComponent.html">BaseComponent</a></td></tr>
 <tr class="memitem:a883b6806c2a27ebf29a7b18d81518bdb inherit pub_methods_classBaseComponent" id="r_a883b6806c2a27ebf29a7b18d81518bdb"><td class="memItemLeft" align="right" valign="top">
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>draw</b> (size_t e_index, <a class="el" href="classPlaneModelRenderer.html">PlaneModelRenderer</a> &amp;batch, <a class="el" href="classTazGraphEngine_1_1Window.html">TazGraphEngine::Window</a> &amp;window)</td></tr>
@@ -191,6 +202,12 @@ glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>rotation</b> = {
 <tr class="memitem:a07035d8d3a70e9935c2355ad0835e0d3" id="r_a07035d8d3a70e9935c2355ad0835e0d3"><td class="memItemLeft" align="right" valign="top"><a id="a07035d8d3a70e9935c2355ad0835e0d3" name="a07035d8d3a70e9935c2355ad0835e0d3"></a>
 glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>position</b> = glm::vec3(0)</td></tr>
 <tr class="separator:a07035d8d3a70e9935c2355ad0835e0d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3999630b6f85a377c59e492ac442bb2c" id="r_a3999630b6f85a377c59e492ac442bb2c"><td class="memItemLeft" align="right" valign="top"><a id="a3999630b6f85a377c59e492ac442bb2c" name="a3999630b6f85a377c59e492ac442bb2c"></a>
+glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>local_position</b> = glm::vec3(0)</td></tr>
+<tr class="separator:a3999630b6f85a377c59e492ac442bb2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab553fd6197376d2ccac137206c77e337" id="r_ab553fd6197376d2ccac137206c77e337"><td class="memItemLeft" align="right" valign="top"><a id="ab553fd6197376d2ccac137206c77e337" name="ab553fd6197376d2ccac137206c77e337"></a>
+glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>local_normal_position</b> = glm::vec3(0)</td></tr>
+<tr class="separator:ab553fd6197376d2ccac137206c77e337"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9aa355176bc1aaf2623a94d4ac43b176" id="r_a9aa355176bc1aaf2623a94d4ac43b176"><td class="memItemLeft" align="right" valign="top"><a id="a9aa355176bc1aaf2623a94d4ac43b176" name="a9aa355176bc1aaf2623a94d4ac43b176"></a>
 glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>size</b> = glm::vec3(0)</td></tr>
 <tr class="separator:a9aa355176bc1aaf2623a94d4ac43b176"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -203,20 +220,23 @@ glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>last_size</b> = 
 <tr class="memitem:a8b9ae187790321091f4df73bc8da9d1e" id="r_a8b9ae187790321091f4df73bc8da9d1e"><td class="memItemLeft" align="right" valign="top"><a id="a8b9ae187790321091f4df73bc8da9d1e" name="a8b9ae187790321091f4df73bc8da9d1e"></a>
 glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>last_velocity</b> = glm::vec3(0)</td></tr>
 <tr class="separator:a8b9ae187790321091f4df73bc8da9d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a344bca8a2cef4c2359ac5b84ba4914fe" id="r_a344bca8a2cef4c2359ac5b84ba4914fe"><td class="memItemLeft" align="right" valign="top"><a id="a344bca8a2cef4c2359ac5b84ba4914fe" name="a344bca8a2cef4c2359ac5b84ba4914fe"></a>
-glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>bodyCenter</b> = { 0.0f,0.0f,0.0f }</td></tr>
-<tr class="separator:a344bca8a2cef4c2359ac5b84ba4914fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad630539b7fcf13a5618fae839030dd5" id="r_aad630539b7fcf13a5618fae839030dd5"><td class="memItemLeft" align="right" valign="top"><a id="aad630539b7fcf13a5618fae839030dd5" name="aad630539b7fcf13a5618fae839030dd5"></a>
 float&#160;</td><td class="memItemRight" valign="bottom"><b>scale</b> = 1</td></tr>
 <tr class="separator:aad630539b7fcf13a5618fae839030dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf4816fe466517cec4670f9bb9a5cff5" id="r_abf4816fe466517cec4670f9bb9a5cff5"><td class="memItemLeft" align="right" valign="top"><a id="abf4816fe466517cec4670f9bb9a5cff5" name="abf4816fe466517cec4670f9bb9a5cff5"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>speed</b> = 1</td></tr>
 <tr class="separator:abf4816fe466517cec4670f9bb9a5cff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8565096abd1166a279c50ff99ec1f139" id="r_a8565096abd1166a279c50ff99ec1f139"><td class="memItemLeft" align="right" valign="top"><a id="a8565096abd1166a279c50ff99ec1f139" name="a8565096abd1166a279c50ff99ec1f139"></a>
+<a class="el" href="classMovingAnimation.html">MovingAnimation</a>&#160;</td><td class="memItemRight" valign="bottom"><b>moving_animation</b></td></tr>
+<tr class="separator:a8565096abd1166a279c50ff99ec1f139"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classComponent"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classComponent')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classComponent.html">Component</a></td></tr>
 <tr class="memitem:a6acb3f00c9d114d961c8763ede390d2c inherit pub_attribs_classComponent" id="r_a6acb3f00c9d114d961c8763ede390d2c"><td class="memItemLeft" align="right" valign="top">
 <a class="el" href="classEntity.html">Entity</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>entity</b> = nullptr</td></tr>
 <tr class="separator:a6acb3f00c9d114d961c8763ede390d2c inherit pub_attribs_classComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classBaseComponent"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classBaseComponent')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classBaseComponent.html">BaseComponent</a></td></tr>
+<tr class="memitem:ad572842cd41ee70df0eea48f1d21317e inherit pub_attribs_classBaseComponent" id="r_ad572842cd41ee70df0eea48f1d21317e"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>modifyPosition</b> = false</td></tr>
+<tr class="separator:ad572842cd41ee70df0eea48f1d21317e inherit pub_attribs_classBaseComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff7f0102a6490ecf586b714320bf7254 inherit pub_attribs_classBaseComponent" id="r_aff7f0102a6490ecf586b714320bf7254"><td class="memItemLeft" align="right" valign="top">
 ComponentID&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> = 0u</td></tr>
 <tr class="separator:aff7f0102a6490ecf586b714320bf7254 inherit pub_attribs_classBaseComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -276,8 +296,8 @@ ComponentID&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> = 0u</t
 
 </div>
 </div>
-<a id="a673cc28604a6e35b766f2221fb94c796" name="a673cc28604a6e35b766f2221fb94c796"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a673cc28604a6e35b766f2221fb94c796">&#9670;&#160;</a></span>showGUI()</h2>
+<a id="a9e283de23e511ce0f299594e1d547951" name="a9e283de23e511ce0f299594e1d547951"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e283de23e511ce0f299594e1d547951">&#9670;&#160;</a></span>showGUI()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -288,7 +308,8 @@ ComponentID&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> = 0u</t
         <tr>
           <td class="memname">void TransformComponent::showGUI </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="classBaseComponent.html">BaseComponent</a> * &gt;&#160;</td>
+          <td class="paramname"><em>otherComponents</em> = <code>{}</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -332,7 +353,7 @@ ComponentID&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> = 0u</t
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Basic/<a class="el" href="TransformComponent_8h_source.html">TransformComponent.h</a></li>
+<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/Empty/Basic/<a class="el" href="TransformComponent_8h_source.html">TransformComponent.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

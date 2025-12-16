@@ -1,474 +1,652 @@
 \doxysection{GECSManager.\+h}
-\hypertarget{GECSManager_8h_source}{}\label{GECSManager_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Core/GECSManager.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Core/GECSManager.h}}
+\hypertarget{GECSManager_8h_source}{}\label{GECSManager_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Core/GECSManager.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Core/GECSManager.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00002\ }
 \DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}GECS.h"{}}}
 \DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../../Grid/Grid.h"{}}}
-\DoxyCodeLine{00005\ }
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../../Threader/Threader.h"{}}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <regex>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <filesystem>}}
-\DoxyCodeLine{00009\ }
-\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }fs\ =\ std::filesystem;}
-\DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ }
-\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classManager}{Manager}}}
-\DoxyCodeLine{00014\ \{}
-\DoxyCodeLine{00015\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{structThreader}{Threader}}*\ \_threader\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{int}\ lastEntityId\ =\ 0;}
-\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{int}\ negativeEntityId\ =\ -\/1;}
-\DoxyCodeLine{00019\ \ \ \ \ std::vector<std::unique\_ptr<Entity>>\ entities;}
-\DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ \ \ \ \ std::array<std::vector<EmptyEntity*>,\ maxGroups>\ groupedEmptyEntities;}
-\DoxyCodeLine{00022\ \ \ \ \ std::array<std::vector<NodeEntity*>,\ maxGroups>\ groupedNodeEntities;}
-\DoxyCodeLine{00023\ \ \ \ \ std::array<std::vector<LinkEntity*>,\ maxGroups>\ groupedLinkEntities;}
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \ \ \ \ }
-\DoxyCodeLine{00027\ \ \ \ \ std::array<std::vector<EmptyEntity*>,\ maxGroups>\ visible\_groupedEmptyEntities;}
-\DoxyCodeLine{00028\ \ \ \ \ std::array<std::vector<NodeEntity*>,\ maxGroups>\ visible\_groupedNodeEntities;}
-\DoxyCodeLine{00029\ \ \ \ \ std::array<std::vector<LinkEntity*>,\ maxGroups>\ visible\_groupedLinkEntities;}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\#include\ "{}../../DataManager/DataManager.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../../Threader/Threader.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}./SimulationStep.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <regex>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <shared\_mutex>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }fs\ =\ std::filesystem;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classManager}{Manager}}}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00020\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{mutable}\ std::shared\_mutex\ entities\_mtx;}
+\DoxyCodeLine{00022\ \ \ \ \ std::mutex\ refresh\_mtx;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{structThreader}{Threader}}*\ \_threader\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ lastEntityId\ =\ 0;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ negativeEntityId\ =\ -\/1;}
+\DoxyCodeLine{00029\ \ \ \ \ std::unordered\_map<EntityID,\ std::unique\_ptr<Entity>>\ entities;}
 \DoxyCodeLine{00030\ }
-\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_update\_active\_entities\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00032\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ std::vector<NodeEntity*>\ movedNodes;}
-\DoxyCodeLine{00035\ \ \ \ \ std::mutex\ movedNodesMutex;}
-\DoxyCodeLine{00036\ }
-\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{bool}\ arrowheadsEnabled\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{bool}\ last\_arrowheadsEnabled\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{bool}\ updateInnerPathLinks\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00041\ }
-\DoxyCodeLine{00042\ \ \ \ \ std::unordered\_map<std::string,\ std::vector<std::string>>\ componentNames;}
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ \ \ \ \ std::unique\_ptr<Grid>\ grid;}
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}()\ \{\}}
+\DoxyCodeLine{00031\ \ \ \ \ std::array<std::vector<Entity*>,\ maxGroups>\ groupedEmptyEntities;}
+\DoxyCodeLine{00032\ \ \ \ \ std::array<std::vector<Entity*>,\ maxGroups>\ groupedNodeEntities;}
+\DoxyCodeLine{00033\ \ \ \ \ std::array<std::vector<Entity*>,\ maxGroups>\ groupedLinkEntities;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ std::vector<Entity*>\ visible\_emptyEntities;}
+\DoxyCodeLine{00036\ \ \ \ \ std::vector<Entity*>\ visible\_nodes;}
+\DoxyCodeLine{00037\ \ \ \ \ std::vector<Entity*>\ visible\_links;}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ std::array<std::vector<Entity*>,\ maxGroups>\ visible\_groupedEmptyEntities;}
+\DoxyCodeLine{00040\ \ \ \ \ std::array<std::vector<Entity*>,\ maxGroups>\ visible\_groupedNodeEntities;}
+\DoxyCodeLine{00041\ \ \ \ \ std::array<std::vector<Entity*>,\ maxGroups>\ visible\_groupedLinkEntities;}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_update\_active\_entities\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00044\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00045\ \ \ \ \ std::vector<SimulationStep>\ steps;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{int}\ currentStep\ =\ 0;}
 \DoxyCodeLine{00047\ }
-\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{classManager}{\string~Manager}}()\ \{\ \_threader\ =\ \textcolor{keyword}{nullptr};\ \ \}}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ setThreader(\mbox{\hyperlink{structThreader}{Threader}}\&\ mthreader)\ \{}
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \_threader\ =\ \&mthreader;}
-\DoxyCodeLine{00052\ \ \ \ \ \}}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classManager_ada788438240e99c71e37b149c6bb8957}{update}}(\textcolor{keywordtype}{float}\ deltaTime\ =\ 1.0f)}
-\DoxyCodeLine{00055\ \ \ \ \ \{}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_threader\ \&\&\ !\_threader-\/>t\_queue.shuttingDown)\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ std::vector<EntityID>\ movedNodes;}
+\DoxyCodeLine{00049\ \ \ \ \ std::mutex\ movedNodesMutex;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{bool}\ idTextEnabled\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{bool}\ arrowheadsEnabled\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{bool}\ last\_arrowheadsEnabled\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ std::unordered\_map<std::string,\ std::vector<std::string>>\ componentNames;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ std::unique\_ptr<Grid>\ grid;}
 \DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}()\ \{\}}
 \DoxyCodeLine{00061\ }
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\_threader-\/>parallel(visible\_emptyEntities.size(),\ [\&](int\ start,\ int\ end)\ \{}}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ for\ (int\ i\ =\ start;\ i\ <\ end;\ i++)\ \{}}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ if\ (visible\_emptyEntities[i]\ \&\&\ visible\_emptyEntities[i]-\/>isActive())\ \{}}
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ visible\_emptyEntities[i]-\/>cellUpdate();}}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \}}}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \}}}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \});}}
-\DoxyCodeLine{00069\ }
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\_threader-\/>parallel(visible\_nodes.size(),\ [\&](int\ start,\ int\ end)\ \{}}
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ for\ (int\ i\ =\ start;\ i\ <\ end;\ i++)\ \{}}
-\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ if\ (visible\_nodes[i]\ \&\&\ visible\_nodes[i]-\/>isActive())\ \{}}
-\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ visible\_nodes[i]-\/>cellUpdate();}}
-\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \}}}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \}}}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \});}}
-\DoxyCodeLine{00077\ }
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//?\ THIS\ MAY\ CAUSE\ ERRORS,\ IF\ REMOVE\ LINK\ FROM\ CELL\ AND\ OTHER\ LINK\ THAT\ HAS\ THAT\ CELL\ IN\ SEARCH}}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//?\ WILL\ PUMP\ IN\ AN\ EMPTY\ ELEMENT\ OR\ THE\ SIZE\ WILL\ BE\ SMALLER\ FOR\ THAT\ LINK\ TO\ FIND\ ELEMENT}}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ e\ :\ movedNodes)\ \{}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ updateInnerPathLinks\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ e-\/>getInLinks())\ \{}
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>cellUpdate();}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ e-\/>getOutLinks())\ \{}
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>cellUpdate();}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00090\ }
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \_threader-\/>parallel(movedNodes.size(),\ [\&](\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)\ \{}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ start;\ i\ <\ end;\ i++)\ \{}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ movedNodes[i]-\/>getInLinks())\ \{}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>updateConnectedPorts();}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{classManager}{\string~Manager}}()\ \{\ \_threader\ =\ \textcolor{keyword}{nullptr};\ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ setThreader(\mbox{\hyperlink{structThreader}{Threader}}\&\ mthreader)\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \_threader\ =\ \&mthreader;}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classManager_ada788438240e99c71e37b149c6bb8957}{update}}(\textcolor{keywordtype}{float}\ deltaTime\ =\ 1.0f)}
+\DoxyCodeLine{00069\ \ \ \ \ \{}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_threader\ \&\&\ !\_threader-\/>t\_queue.shuttingDown)\ \{}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//?\ THIS\ MAY\ CAUSE\ ERRORS,\ IF\ REMOVE\ LINK\ FROM\ CELL\ AND\ OTHER\ LINK\ THAT\ HAS\ THAT\ CELL\ IN\ SEARCH}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//?\ WILL\ PUMP\ IN\ AN\ EMPTY\ ELEMENT\ OR\ THE\ SIZE\ WILL\ BE\ SMALLER\ FOR\ THAT\ LINK\ TO\ FIND\ ELEMENT}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ e\ :\ movedNodes)\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ ent\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(getEntityFromId(e));}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ linkId\ :\ ent-\/>getInLinks())\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ linkEntity\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(getEntityFromId(linkId));}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ linkEntity-\/>cellUpdate();}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ ent-\/>getOutLinks())\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ linkEntity\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(getEntityFromId(link));}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ linkEntity-\/>cellUpdate();}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \_threader-\/>parallel(movedNodes.size(),\ [\&](\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ start;\ i\ <\ end;\ i++)\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ ent\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(getEntityFromId(movedNodes[i]));}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ ent-\/>getInLinks())\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ linkEntity\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(getEntityFromId(link));}
 \DoxyCodeLine{00098\ }
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \_threader-\/>parallel(movedNodes.size(),\ [\&](\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)\ \{}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ start;\ i\ <\ end;\ i++)\ \{}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ movedNodes[i]-\/>getOutLinks())\ \{}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>updateConnectedPorts();}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{00106\ }
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ movedNodes.clear();}
-\DoxyCodeLine{00108\ }
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \_threader-\/>parallel(grid-\/>visible\_emptyEntities.size(),\ [\&](\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)\ \{}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ start;\ i\ <\ end;\ i++)\ \{}
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (grid-\/>visible\_emptyEntities[i]\ \&\&\ grid-\/>visible\_emptyEntities[i]-\/>isActive())\ \{}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid-\/>visible\_emptyEntities[i]-\/>update(deltaTime);}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{00117\ }
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \_threader-\/>parallel(grid-\/>visible\_nodes.size(),\ [\&](\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)\ \{}
-\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ start;\ i\ <\ end;\ i++)\ \{}
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (grid-\/>visible\_nodes[i]\ \&\&\ grid-\/>visible\_nodes[i]-\/>isActive())\ \{}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid-\/>visible\_nodes[i]-\/>update(deltaTime);}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00125\ }
-\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{00127\ }
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \_threader-\/>parallel(grid-\/>visible\_links.size(),\ [\&](\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ linkEntity-\/>updateConnection();}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \_threader-\/>parallel(movedNodes.size(),\ [\&](\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ start;\ i\ <\ end;\ i++)\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ ent\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(getEntityFromId(movedNodes[i]));}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ ent-\/>getOutLinks())\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ linkEntity\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(getEntityFromId(link));}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ skip\ inner\ links\ for\ now}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (arrowheadsEnabled\ \&\&}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ linkEntity-\/>type\ ==\ LinkEntity::ConnectionType::GHOST\_PORT\_TO\_PORT)}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ linkEntity-\/>updateConnection();}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \_threader-\/>parallel(movedNodes.size(),\ [\&](\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ start;\ i\ <\ end;\ i++)\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ ent\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(getEntityFromId(movedNodes[i]));}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (arrowheadsEnabled)\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ loop\ through\ inner\ links}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ also\ loop\ through\ innner\ links\ of\ adjacent\ nodes}}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ ent-\/>getOutLinks())\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ linkEntity\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(getEntityFromId(link));}
 \DoxyCodeLine{00130\ }
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ start;\ i\ <\ end;\ i++)\ \{}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (grid-\/>visible\_links[i]\ \&\&\ grid-\/>visible\_links[i]-\/>isActive())\ \{}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid-\/>visible\_links[i]-\/>update(deltaTime);}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00139\ }
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00142\ }
-\DoxyCodeLine{00144\ }
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ e\ :\ movedNodes)\ \{}
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ e-\/>getInLinks())\ \{}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>cellUpdate();}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ e-\/>getOutLinks())\ \{}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>cellUpdate();}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ linkEntity-\/>type\ ==\ LinkEntity::ConnectionType::GHOST\_PORT\_TO\_PORT)}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ linkEntity-\/>updateConnection();}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ toNode\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(getEntityFromId(linkEntity-\/>toId));}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ toNode-\/>getOutLinks())\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ adjacent\_linkEntity\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(getEntityFromId(link));}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ adjacent\_linkEntity-\/>type\ ==\ LinkEntity::ConnectionType::GHOST\_PORT\_TO\_PORT)}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ adjacent\_linkEntity-\/>updateConnection();}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ also\ loop\ through\ innner\ links\ of\ adjacent\ nodes}}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ ent-\/>getInLinks())\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ linkEntity\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(getEntityFromId(link));}
 \DoxyCodeLine{00153\ }
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ e\ :\ movedNodes)\ \{}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ e-\/>getInLinks())\ \{}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>updateConnectedPorts();}
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00159\ }
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ e\ :\ movedNodes)\ \{}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ e-\/>getOutLinks())\ \{}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>updateConnectedPorts();}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00165\ }
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ movedNodes.clear();}
-\DoxyCodeLine{00167\ }
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ e\ :\ grid-\/>visible\_emptyEntities)\ \{}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!e\ ||\ !e-\/>isActive())\ \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{00170\ }
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ e-\/>update(deltaTime);}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ linkEntity-\/>type\ !=\ LinkEntity::ConnectionType::GHOST\_PORT\_TO\_PORT)}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ fromNode\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(getEntityFromId(linkEntity-\/>fromId));}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ link\ :\ fromNode-\/>getOutLinks())\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ adjacent\_linkEntity\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(getEntityFromId(link));}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ adjacent\_linkEntity-\/>type\ ==\ LinkEntity::ConnectionType::GHOST\_PORT\_TO\_PORT)}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ adjacent\_linkEntity-\/>updateConnection();}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
 \DoxyCodeLine{00173\ }
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (arrowheadsEnabled)\ \{}
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ e\ :\ grid-\/>visible\_nodes)\ \{}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!e\ ||\ !e-\/>isActive())\ \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{00177\ }
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ e-\/>update(deltaTime);}
-\DoxyCodeLine{00179\ }
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00183\ }
-\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ e\ :\ grid-\/>visible\_links)\ \{}
-\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!e\ ||\ !e-\/>isActive())\ \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{00186\ }
-\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ e-\/>update(deltaTime);}
-\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00190\ \ \ \ \ \}}
-\DoxyCodeLine{00191\ }
-\DoxyCodeLine{00192\ \ \ \ \ \textcolor{comment}{//\ update\ fully\ will\ update\ all\ nodes\ and\ links\ in\ the\ world}}
-\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keywordtype}{void}\ updateFully(\textcolor{keywordtype}{float}\ deltaTime\ =\ 1.0f)}
-\DoxyCodeLine{00194\ \ \ \ \ \{}
-\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ links\ are\ updating\ once\ since\ after\ first\ update\ we\ check\ wether\ the\ nodes\ are\ aligned\ with\ the\ ownerCells}}
-\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ e\ :\ entities)\ \{\ }
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!e\ ||\ !e-\/>isActive())\ \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ e-\/>update(deltaTime);}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00201\ \ \ \ \ \}}
-\DoxyCodeLine{00202\ }
-\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordtype}{void}\ refresh(\mbox{\hyperlink{classICamera}{ICamera}}*\ camera\ =\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00204\ \ \ \ \ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ movedNodes.clear();}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \_threader-\/>parallel(visible\_emptyEntities.size(),\ [\&](\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)\ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ start;\ i\ <\ end;\ i++)\ \{}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (visible\_emptyEntities[i])\ \{}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ visible\_emptyEntities[i]-\/>update(deltaTime);}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \_threader-\/>parallel(visible\_nodes.size(),\ [\&](\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ start;\ i\ <\ end;\ i++)\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (visible\_nodes[i])\ \{}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ visible\_nodes[i]-\/>update(deltaTime);}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \_threader-\/>parallel(visible\_links.size(),\ [\&](\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ end)\ \{}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ start;\ i\ <\ end;\ i++)\ \{}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (visible\_links[i])\ \{}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ visible\_links[i]-\/>update(deltaTime);}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00205\ }
-\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (grid\ \&\&\ (camera-\/>hasChanged()\ ||\ grid-\/>gridLevelChanged()))\ \{}
-\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ interceptedCellsChanged\ =\ grid-\/>setIntersectedCameraCells(*camera);}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
 \DoxyCodeLine{00208\ }
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (interceptedCellsChanged)\ \{}
-\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ aboutTo\_updateActiveEntities();}
-\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ camera-\/>refreshCamera();}
-\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ e\ :\ visible\_emptyEntities)\ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!e-\/>isActive())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ e-\/>update(deltaTime);}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00214\ }
-\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_update\_active\_entities)\ \{}
-\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \_update\_active\_entities\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ e\ :\ visible\_nodes)\ \{}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!e-\/>isActive())\ \textcolor{keywordflow}{continue};}
 \DoxyCodeLine{00217\ }
-\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ updateActiveEntities();}
-\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ updateVisibleEntities();}
-\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00222\ \ \ \ \ \}}
-\DoxyCodeLine{00223\ }
-\DoxyCodeLine{00224\ \ \ \ \ \textcolor{keywordtype}{void}\ aboutTo\_updateActiveEntities()\ \{}
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \_update\_active\_entities\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00226\ \ \ \ \ \}}
-\DoxyCodeLine{00227\ }
-\DoxyCodeLine{00228\ \ \ \ \ \textcolor{keywordtype}{void}\ updateActiveEntities();}
-\DoxyCodeLine{00229\ }
-\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keywordtype}{void}\ updateVisibleEntities();}
-\DoxyCodeLine{00231\ }
-\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordtype}{void}\ AddToGroup(\mbox{\hyperlink{classEmptyEntity}{EmptyEntity}}*\ mEntity,\ Group\ mGroup)}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ e-\/>update(deltaTime);}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ e\ :\ visible\_links)\ \{}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!e-\/>isActive())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ e-\/>update(deltaTime);}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00229\ \ \ \ \ \}}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \ \ \textcolor{comment}{//\ update\ fully\ will\ update\ all\ nodes\ and\ links\ in\ the\ world}}
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordtype}{void}\ updateFully(\textcolor{keywordtype}{float}\ deltaTime\ =\ 1.0f)}
 \DoxyCodeLine{00233\ \ \ \ \ \{}
-\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ groupedEmptyEntities[mGroup].emplace\_back(mEntity);}
-\DoxyCodeLine{00235\ \ \ \ \ \}}
-\DoxyCodeLine{00236\ }
-\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keywordtype}{void}\ AddToGroup(\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ mEntity,\ Group\ mGroup)}
-\DoxyCodeLine{00238\ \ \ \ \ \{}
-\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ groupedNodeEntities[mGroup].emplace\_back(mEntity);}
-\DoxyCodeLine{00240\ \ \ \ \ \}}
-\DoxyCodeLine{00241\ }
-\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keywordtype}{void}\ AddLinkToGroup(\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ mEntity,\ Group\ mGroup)}
-\DoxyCodeLine{00243\ \ \ \ \ \{}
-\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ groupedLinkEntities[mGroup].emplace\_back(mEntity);}
-\DoxyCodeLine{00245\ \ \ \ \ \}}
-\DoxyCodeLine{00246\ }
-\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<std::unique\_ptr<Entity>>\&\ getEntities()\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entities;}
-\DoxyCodeLine{00249\ \ \ \ \ \}}
-\DoxyCodeLine{00250\ }
-\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
-\DoxyCodeLine{00252\ \ \ \ \ std::vector<T*>\ getVisible()\ \{}
-\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ EmptyEntity>)\ \{}
-\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ grid-\/>visible\_emptyEntities;}
-\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ NodeEntity>)\ \{}
-\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ grid-\/>visible\_nodes;}
-\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ LinkEntity>)\ \{}
-\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ grid-\/>visible\_links;}
-\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(T)\ ==\ 0,\ \textcolor{stringliteral}{"{}Unsupported\ entity\ type."{}});}
-\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00265\ \ \ \ \ \}}
-\DoxyCodeLine{00266\ }
-\DoxyCodeLine{00267\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
-\DoxyCodeLine{00268\ \ \ \ \ std::vector<T*>\&\ getVisibleGroup(Group\ mGroup)\ \{}
-\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ EmptyEntity>)\ \{}
-\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ visible\_groupedEmptyEntities[mGroup];}
-\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ NodeEntity>)\ \{}
-\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ visible\_groupedNodeEntities[mGroup];}
-\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ LinkEntity>)\ \{}
-\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ visible\_groupedLinkEntities[mGroup];}
-\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(T)\ ==\ 0,\ \textcolor{stringliteral}{"{}Unsupported\ entity\ type."{}});}
-\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00281\ \ \ \ \ \}}
-\DoxyCodeLine{00282\ }
-\DoxyCodeLine{00283\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
-\DoxyCodeLine{00284\ \ \ \ \ std::vector<T*>\&\ getGroup(Group\ mGroup)\ \{}
-\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ EmptyEntity>)\ \{}
-\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ groupedEmptyEntities[mGroup];}
-\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ NodeEntity>)\ \{}
-\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ groupedNodeEntities[mGroup];}
-\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ LinkEntity>)\ \{}
-\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ groupedLinkEntities[mGroup];}
-\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(T)\ ==\ 0,\ \textcolor{stringliteral}{"{}Unsupported\ entity\ type."{}});}
-\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00297\ \ \ \ \ \}}
-\DoxyCodeLine{00298\ }
-\DoxyCodeLine{00299\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}...\ TArgs>}
-\DoxyCodeLine{00300\ \ \ \ \ T\&\ addEntityNoId(TArgs\&\&...\ mArgs)}
-\DoxyCodeLine{00301\ \ \ \ \ \{}
-\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ T*\ e(\textcolor{keyword}{new}\ T(*\textcolor{keyword}{this},\ std::forward<TArgs>(mArgs)...));}
-\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ e-\/>setId(negativeEntityId-\/-\/);}
-\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ std::unique\_ptr<T>\ uPtr\{\ e\ \};}
-\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ entities.emplace\_back(std::move(uPtr));}
-\DoxyCodeLine{00306\ }
-\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *e;}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ links\ are\ updating\ once\ since\ after\ first\ update\ we\ check\ wether\ the\ nodes\ are\ aligned\ with\ the\ ownerCells}}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ e\ :\ entities)\ \{}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!e.second\ ||\ !e.second-\/>isActive())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ e.second-\/>update(deltaTime);}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classManager_ada788438240e99c71e37b149c6bb8957}{update}}(deltaTime);}
+\DoxyCodeLine{00241\ \ \ \ \ \}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{keywordtype}{void}\ refresh(\mbox{\hyperlink{classICamera}{ICamera}}*\ camera\ =\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00244\ \ \ \ \ \{}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (grid\ \&\&\ (camera-\/>hasChanged()\ ||\ grid-\/>gridLevelChanged()))\ \{}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ interceptedCellsChanged\ =\ grid-\/>setIntersectedCameraCells(*camera);}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (interceptedCellsChanged)\ \{}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ aboutTo\_updateActiveEntities();}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ camera-\/>refreshCamera();}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_update\_active\_entities)\ \{}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ std::scoped\_lock\ lock(refresh\_mtx);}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \_update\_active\_entities\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ updateVisibleEntities();}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ updateActiveEntities();}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00264\ \ \ \ \ \}}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \ \ \ \ \textcolor{keywordtype}{void}\ aboutTo\_updateActiveEntities()\ \{}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ std::scoped\_lock\ lock(refresh\_mtx);}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \_update\_active\_entities\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00269\ \ \ \ \ \}}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \ \ \ \ \textcolor{keywordtype}{void}\ updateActiveEntities();}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \ \ \textcolor{keywordtype}{void}\ updateVisibleEntities();}
+\DoxyCodeLine{00274\ }
+\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keywordtype}{void}\ AddToGroup(\mbox{\hyperlink{classEmptyEntity}{EmptyEntity}}*\ mEntity,\ Group\ mGroup)}
+\DoxyCodeLine{00276\ \ \ \ \ \{}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ groupedEmptyEntities[mGroup].emplace\_back(mEntity);}
+\DoxyCodeLine{00278\ \ \ \ \ \}}
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00280\ \ \ \ \ \textcolor{keywordtype}{void}\ AddToGroup(\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ mEntity,\ Group\ mGroup)}
+\DoxyCodeLine{00281\ \ \ \ \ \{}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ groupedNodeEntities[mGroup].emplace\_back(mEntity);}
+\DoxyCodeLine{00283\ \ \ \ \ \}}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keywordtype}{void}\ AddLinkToGroup(\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ mEntity,\ Group\ mGroup)}
+\DoxyCodeLine{00286\ \ \ \ \ \{}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ groupedLinkEntities[mGroup].emplace\_back(mEntity);}
+\DoxyCodeLine{00288\ \ \ \ \ \}}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keyword}{const}\ std::unordered\_map<EntityID,\ std::unique\_ptr<Entity>>\&\ getEntities()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entities;}
+\DoxyCodeLine{00292\ \ \ \ \ \}}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00295\ \ \ \ \ std::vector<Entity*>\ getVisible()\ \{}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ EmptyEntity>)\ \{}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ visible\_emptyEntities;}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ NodeEntity>)\ \{}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ visible\_nodes;}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ LinkEntity>)\ \{}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ visible\_links;}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(T)\ ==\ 0,\ \textcolor{stringliteral}{"{}Unsupported\ entity\ type."{}});}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00308\ \ \ \ \ \}}
 \DoxyCodeLine{00309\ }
-\DoxyCodeLine{00310\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}...\ TArgs>}
-\DoxyCodeLine{00311\ \ \ \ \ T\&\ addEntity(TArgs\&\&...\ mArgs)}
-\DoxyCodeLine{00312\ \ \ \ \ \{}
-\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ T*\ e(\textcolor{keyword}{new}\ T(*\textcolor{keyword}{this},\ std::forward<TArgs>(mArgs)...));}
-\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ e-\/>setId(lastEntityId++);}
-\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ std::unique\_ptr<T>\ uPtr\{\ e\ \};}
-\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ entities.emplace\_back(std::move(uPtr));}
-\DoxyCodeLine{00317\ }
-\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *e;}
-\DoxyCodeLine{00319\ \ \ \ \ \}}
-\DoxyCodeLine{00320\ }
-\DoxyCodeLine{00321\ \ \ \ \ \textcolor{keywordtype}{void}\ resetEntityId()\ \{}
-\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ lastEntityId\ =\ 0;}
-\DoxyCodeLine{00323\ \ \ \ \ \}}
-\DoxyCodeLine{00324\ }
-\DoxyCodeLine{00325\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ getEntityFromId(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mId)\ \{}
-\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ entity\ :\ entities)\ \{}
-\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity-\/>getId()\ ==\ mId\ \&\&\ entity-\/>isActive())\ \{}
-\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \&*entity;}
-\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00332\ \ \ \ \ \}}
-\DoxyCodeLine{00333\ }
-\DoxyCodeLine{00334\ \ \ \ \ \textcolor{keywordtype}{void}\ clearAllEntities()\ \{}
-\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ group\ :\ groupedNodeEntities)\ \{}
-\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ group.clear();}
-\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ group\ :\ groupedLinkEntities)\ \{}
-\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ group.clear();}
-\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ entities.clear();}
-\DoxyCodeLine{00342\ \ \ \ \ \}}
-\DoxyCodeLine{00343\ }
-\DoxyCodeLine{00344\ \ \ \ \ \textcolor{keywordtype}{void}\ removeAllEntites()\ \{}
-\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ group\ =\ Manager::groupBackgroundLayer;\ group\ !=\ Manager::buttonLabels;\ group++)\ \{}
-\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ removeAllEntitiesFromGroup(group);}
-\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ removeAllEntitiesFromLinkGroup(group);}
-\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00349\ \ \ \ \ \}}
-\DoxyCodeLine{00350\ }
-\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keywordtype}{void}\ removeAllEntitiesFromGroup(Group\ mGroup)\ \{}
-\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ entitiesInGroup\ =\ groupedNodeEntities[mGroup];}
-\DoxyCodeLine{00353\ }
-\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{classEntity}{Entity}}*\ entity\ :\ entitiesInGroup)\ \{}
-\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>destroy();}
-\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00357\ \ \ \ \ \}}
-\DoxyCodeLine{00358\ }
-\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keywordtype}{void}\ removeAllEntitiesFromEmptyGroup(Group\ mGroup)\ \{}
-\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ entitiesInGroup\ =\ groupedEmptyEntities[mGroup];}
-\DoxyCodeLine{00361\ }
-\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{classEntity}{Entity}}*\ entity\ :\ entitiesInGroup)\ \{}
-\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>destroy();}
-\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00365\ \ \ \ \ \}}
-\DoxyCodeLine{00366\ }
-\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keywordtype}{void}\ removeAllEntitiesFromLinkGroup(Group\ mGroup)\ \{}
-\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ entitiesInGroup\ =\ groupedLinkEntities[mGroup];}
-\DoxyCodeLine{00369\ }
-\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{classEntity}{Entity}}*\ entity\ :\ entitiesInGroup)\ \{}
-\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>destroy();}
-\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00373\ \ \ \ \ \}}
-\DoxyCodeLine{00374\ }
-\DoxyCodeLine{00375\ \ \ \ \ std::vector<Entity*>\ adjacentEntities(\mbox{\hyperlink{classEntity}{Entity}}*\ mainEntity,\ Group\ group)\ \{}
-\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ std::vector<Entity*>\ nearbyEntities;}
-\DoxyCodeLine{00377\ }
-\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ adjacentCells\ =\ grid-\/>getAdjacentCells(*mainEntity,\ grid-\/>getGridLevel());}
-\DoxyCodeLine{00379\ }
-\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{structCell}{Cell}}*\ adjCell\ :\ adjacentCells)\ \{}
-\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ neighbor\ :\ adjCell-\/>nodes)\ \{}
-\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (neighbor-\/>hasGroup(group)\ \&\&\ (neighbor\ !=\ mainEntity)\ )\ \{\ }
-\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nearbyEntities.push\_back(neighbor);}
-\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ nearbyEntities;}
-\DoxyCodeLine{00389\ \ \ \ \ \}}
-\DoxyCodeLine{00390\ }
-\DoxyCodeLine{00391\ \ \ \ \ \textcolor{keyword}{enum}\ groupLabels\ :\ std::size\_t\ \textcolor{comment}{//todo\ should\ add\ groups\ at\ end\ for\ some\ reason}}
-\DoxyCodeLine{00392\ \ \ \ \ \{}
-\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \textcolor{comment}{//back}}
-\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ groupBackgroundLayer,}
-\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ panelBackground,}
+\DoxyCodeLine{00310\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00311\ \ \ \ \ std::vector<Entity*>\&\ getVisibleGroup(Group\ mGroup)\ \{}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ EmptyEntity>)\ \{}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ visible\_groupedEmptyEntities[mGroup];}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ NodeEntity>)\ \{}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ visible\_groupedNodeEntities[mGroup];}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ LinkEntity>)\ \{}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ visible\_groupedLinkEntities[mGroup];}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(T)\ ==\ 0,\ \textcolor{stringliteral}{"{}Unsupported\ entity\ type."{}});}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00324\ \ \ \ \ \}}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00326\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00327\ \ \ \ \ \textcolor{keywordtype}{void}\ getAllTypeEntities(std::vector<Entity*>\&\ output)\ \{}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ output.clear();}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ EmptyEntity>)\ \{}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ groupPair\ :\ groupedEmptyEntities)\ \{}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ output.insert(output.end(),\ groupPair.begin(),\ groupPair.end());}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ NodeEntity>)\ \{}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ groupPair\ :\ groupedNodeEntities)\ \{}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ output.insert(output.end(),\ groupPair.begin(),\ groupPair.end());}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ LinkEntity>)\ \{}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ groupPair\ :\ groupedLinkEntities)\ \{}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ output.insert(output.end(),\ groupPair.begin(),\ groupPair.end());}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(T)\ ==\ 0,\ \textcolor{stringliteral}{"{}Unsupported\ entity\ type."{}});}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00348\ \ \ \ \ \}}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00350\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00351\ \ \ \ \ std::vector<Entity*>\&\ getGroup(Group\ mGroup)\ \{}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ EmptyEntity>)\ \{}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ groupedEmptyEntities[mGroup];}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ NodeEntity>)\ \{}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ groupedNodeEntities[mGroup];}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ LinkEntity>)\ \{}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ groupedLinkEntities[mGroup];}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(T)\ ==\ 0,\ \textcolor{stringliteral}{"{}Unsupported\ entity\ type."{}});}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00364\ \ \ \ \ \}}
+\DoxyCodeLine{00365\ }
+\DoxyCodeLine{00366\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}...\ TArgs>}
+\DoxyCodeLine{00367\ \ \ \ \ T\&\ addEntityNoId(TArgs\&\&...\ mArgs)}
+\DoxyCodeLine{00368\ \ \ \ \ \{}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ T*\ e(\textcolor{keyword}{new}\ T(*\textcolor{keyword}{this},\ std::forward<TArgs>(mArgs)...));}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_lock\ lock(entities\_mtx);}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ e-\/>setId(negativeEntityId-\/-\/);}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_ptr<T>\ uPtr\{\ e\ \};}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ entities.emplace(e-\/>getId(),\ std::move(uPtr));}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00376\ }
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ e-\/>onCreation();}
+\DoxyCodeLine{00378\ }
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ aboutTo\_updateActiveEntities();}
+\DoxyCodeLine{00380\ }
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *e;}
+\DoxyCodeLine{00382\ \ \ \ \ \}}
+\DoxyCodeLine{00383\ }
+\DoxyCodeLine{00384\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}...\ TArgs>}
+\DoxyCodeLine{00385\ \ \ \ \ T\&\ addEntity(TArgs\&\&...\ mArgs)}
+\DoxyCodeLine{00386\ \ \ \ \ \{}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ T*\ e(\textcolor{keyword}{new}\ T(*\textcolor{keyword}{this},\ std::forward<TArgs>(mArgs)...));}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_lock\ lock(entities\_mtx);}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ e-\/>setId(lastEntityId++);}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_ptr<T>\ uPtr\{\ e\ \};}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ entities.emplace(e-\/>getId(),\ std::move(uPtr));}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00394\ }
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ e-\/>onCreation();}
 \DoxyCodeLine{00396\ }
-\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \textcolor{comment}{//action}}
-\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ groupLinks\_0,}
-\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ groupGroupLinks\_0,}
-\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ groupGroupLinks\_1,}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ aboutTo\_updateActiveEntities();}
+\DoxyCodeLine{00398\ }
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *e;}
+\DoxyCodeLine{00400\ \ \ \ \ \}}
 \DoxyCodeLine{00401\ }
-\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ groupPathLinks\_0,}
-\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ groupPathLinks\_1,}
-\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ groupPathLinks\_2,}
-\DoxyCodeLine{00405\ }
-\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ groupPathInnerLinks,}
-\DoxyCodeLine{00407\ }
-\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ groupPathLinksHolder,}
-\DoxyCodeLine{00409\ }
-\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ groupArrowHeads\_0,}
-\DoxyCodeLine{00411\ }
-\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ groupNodes\_0,}
-\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ groupGroupNodes\_0,}
-\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ groupGroupNodes\_1,}
+\DoxyCodeLine{00402\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}...\ TArgs>}
+\DoxyCodeLine{00403\ \ \ \ \ T\&\ addEntityWithId(EntityID\ customId,\ TArgs\&\&...\ mArgs)}
+\DoxyCodeLine{00404\ \ \ \ \ \{}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ T*\ e(\textcolor{keyword}{new}\ T(*\textcolor{keyword}{this},\ std::forward<TArgs>(mArgs)...));}
+\DoxyCodeLine{00406\ }
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_lock\ lock(entities\_mtx);}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ e-\/>setId(customId);}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_ptr<T>\ uPtr\{\ e\ \};}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ entities.emplace(customId,\ std::move(uPtr));}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00413\ }
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ e-\/>onCreation();}
 \DoxyCodeLine{00415\ }
-\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ groupMinimapNodes,}
-\DoxyCodeLine{00417\ }
-\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ groupColliders,}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ aboutTo\_updateActiveEntities();}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *e;}
+\DoxyCodeLine{00418\ \ \ \ \ \}}
 \DoxyCodeLine{00419\ }
-\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ groupEmpties,}
-\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ groupSphereEmpties,}
-\DoxyCodeLine{00422\ }
-\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ groupRenderSprites,}
-\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ groupPorts,}
-\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ groupPortSlots,}
-\DoxyCodeLine{00427\ }
-\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \textcolor{comment}{//fore}}
-\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ buttonLabels,}
-\DoxyCodeLine{00430\ \ \ \ \ \};}
-\DoxyCodeLine{00431\ }
-\DoxyCodeLine{00432\ \ \ \ \ \textcolor{keyword}{const}\ std::unordered\_map<Group,\ std::string>\ groupNames\ =\ \{}
-\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \{groupBackgroundLayer,\ \textcolor{stringliteral}{"{}groupBackgroundLayer"{}}\ \},}
-\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \{panelBackground,\ \textcolor{stringliteral}{"{}panelBackground"{}}\},}
-\DoxyCodeLine{00435\ }
-\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \textcolor{comment}{//action}}
-\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \{\ groupLinks\_0,\textcolor{stringliteral}{"{}groupLinks\_0"{}}\ \},}
-\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \{groupGroupLinks\_0,\ \textcolor{stringliteral}{"{}groupGroupLinks\_0"{}}\},}
-\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \{groupGroupLinks\_1,\ \textcolor{stringliteral}{"{}groupGroupLinks\_1"{}}\},}
-\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \{groupPathLinks\_0,\ \textcolor{stringliteral}{"{}groupPathLinks\_0"{}}\},}
-\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \{groupPathLinks\_1,\ \textcolor{stringliteral}{"{}groupPathLinks\_1"{}}\},}
-\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \{groupPathLinks\_2,\ \textcolor{stringliteral}{"{}groupPathLinks\_2"{}}\},}
-\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \{groupPathInnerLinks,\ \textcolor{stringliteral}{"{}groupPathInnerLinks"{}}\},}
-\DoxyCodeLine{00446\ }
-\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \{groupPathLinksHolder,\ \textcolor{stringliteral}{"{}groupPathLinksHolder"{}}\},}
-\DoxyCodeLine{00448\ }
-\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \{groupArrowHeads\_0,\ \textcolor{stringliteral}{"{}groupArrowHeads\_0"{}}\},}
+\DoxyCodeLine{00420\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}...\ TArgs>}
+\DoxyCodeLine{00421\ \ \ \ \ T\&\ addEntityFromParent(\mbox{\hyperlink{classEntity}{Entity}}*\ pEntity,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ newID\ =\ \textcolor{stringliteral}{"{}"{}},\ TArgs\&\&...\ mArgs)}
+\DoxyCodeLine{00422\ \ \ \ \ \{}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ T*\ e(\textcolor{keyword}{new}\ T(*\textcolor{keyword}{this},\ std::forward<TArgs>(mArgs)...));}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_lock\ lock(entities\_mtx);}
+\DoxyCodeLine{00426\ }
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((newID\ !=\ NULL)\ \&\&\ (newID[0]\ !=\ \textcolor{charliteral}{'\(\backslash\)0'}))\ \{}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ e-\/>setId((pEntity\ ?}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EntityIDUtils::toString(pEntity-\/>getId())}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}-\/"{}}\ +\ newID}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ e-\/>setId((pEntity\ ?}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EntityIDUtils::toString(pEntity-\/>getId())}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}-\/"{}}\ +\ EntityIDUtils::toString(negativeEntityId-\/-\/)}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00441\ }
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_ptr<T>\ uPtr\{\ e\ \};}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ entities.emplace(e-\/>getId(),\ std::move(uPtr));}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00445\ }
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ aboutTo\_updateActiveEntities();}
+\DoxyCodeLine{00447\ }
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *e;}
+\DoxyCodeLine{00449\ \ \ \ \ \}}
 \DoxyCodeLine{00450\ }
-\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \{\ groupNodes\_0,\textcolor{stringliteral}{"{}groupNodes\_0"{}}\ \},}
-\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \{\ groupGroupNodes\_0,\ \textcolor{stringliteral}{"{}groupGroupNodes\_0"{}}\},}
-\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \{\ groupGroupNodes\_1,\ \textcolor{stringliteral}{"{}groupGroupNodes\_1"{}}\},}
-\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \{\ groupMinimapNodes,\textcolor{stringliteral}{"{}groupMinimapNodes"{}}\ \},}
-\DoxyCodeLine{00456\ }
-\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \{\ groupEmpties,\textcolor{stringliteral}{"{}groupEmpties"{}}\ \},}
-\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \{\ groupSphereEmpties,\textcolor{stringliteral}{"{}groupSphereEmpties"{}}\ \},}
-\DoxyCodeLine{00459\ }
-\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \{\ groupColliders,\textcolor{stringliteral}{"{}groupColliders"{}}\ \},}
-\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \{\ groupRenderSprites,\textcolor{stringliteral}{"{}groupRenderSprites"{}}\ \},}
-\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \{\ groupPorts,\textcolor{stringliteral}{"{}groupPorts"{}}\ \},}
-\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \{\ groupPortSlots,\textcolor{stringliteral}{"{}groupPortSlots"{}}\ \},}
-\DoxyCodeLine{00464\ }
-\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \textcolor{comment}{//fore}}
-\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \{\ buttonLabels,\textcolor{stringliteral}{"{}buttonLabels"{}}\ \},}
-\DoxyCodeLine{00467\ \ \ \ \ \};}
-\DoxyCodeLine{00468\ }
-\DoxyCodeLine{00469\ \ \ \ \ std::string\ getGroupName(Group\ mGroup)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00470\ }
-\DoxyCodeLine{00471\ \ \ \ \ \textcolor{keywordtype}{void}\ scanComponentNames(\textcolor{keyword}{const}\ std::string\&\ folderPath);}
-\DoxyCodeLine{00472\ }
-\DoxyCodeLine{00473\ \ \ \ \ \textcolor{keywordtype}{void}\ setComponentNames();}
-\DoxyCodeLine{00474\ \};}
+\DoxyCodeLine{00451\ \ \ \ \ \textcolor{keywordtype}{void}\ resetEntityId()\ \{}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ lastEntityId\ =\ 0;}
+\DoxyCodeLine{00453\ \ \ \ \ \}}
+\DoxyCodeLine{00454\ }
+\DoxyCodeLine{00455\ \ \ \ \ \textcolor{keywordtype}{void}\ setNewLastEntityId()\ \{}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ std::unique\_lock\ lock(entities\_mtx);}
+\DoxyCodeLine{00457\ }
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ maxIntId\ =\ std::numeric\_limits<int>::min();}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ foundInt\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00460\ }
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ [\textcolor{keywordtype}{id},\ ptr]\ :\ entities)}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::holds\_alternative<int>(\textcolor{keywordtype}{id}))\ \{}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ value\ =\ std::get<int>(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ >\ maxIntId)\ \{}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxIntId\ =\ value;}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ foundInt\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00471\ }
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (foundInt)}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ lastEntityId\ =\ maxIntId\ +\ 1;}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ lastEntityId\ =\ 0;\ \ \ \textcolor{comment}{//\ or\ whatever\ default\ you\ want}}
+\DoxyCodeLine{00476\ \ \ \ \ \}}
+\DoxyCodeLine{00477\ }
+\DoxyCodeLine{00478\ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{classEntity}{Entity}}*\ getEntityFromId(EntityID\ mId)\ \{}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ std::shared\_lock\ lock(entities\_mtx);}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entities[mId].get();}
+\DoxyCodeLine{00481\ \ \ \ \ \}}
+\DoxyCodeLine{00482\ }
+\DoxyCodeLine{00483\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasEntity(EntityID\ mId)\ \{}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ std::shared\_lock\ lock(entities\_mtx);}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entities.contains(mId);}
+\DoxyCodeLine{00486\ \ \ \ \ \}}
+\DoxyCodeLine{00487\ }
+\DoxyCodeLine{00488\ \ \ \ \ \textcolor{keywordtype}{void}\ clearAllEntities()\ \{}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ group\ :\ groupedNodeEntities)\ \{}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \ \ \ \ group.clear();}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ group\ :\ groupedLinkEntities)\ \{}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \ \ \ \ group.clear();}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_lock\ lock(entities\_mtx);}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \ \ \ \ entities.clear();}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00499\ \ \ \ \ \}}
+\DoxyCodeLine{00500\ }
+\DoxyCodeLine{00501\ \ \ \ \ \textcolor{keywordtype}{void}\ removeAllEntites()\ \{}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ group\ :\ groupNames)\ \{}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ removeAllEntitiesFromGroup(group.first);}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ removeAllEntitiesFromLinkGroup(group.first);}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00506\ \ \ \ \ \}}
+\DoxyCodeLine{00507\ }
+\DoxyCodeLine{00508\ \ \ \ \ \textcolor{keywordtype}{void}\ removeAllEntitiesFromGroup(Group\ mGroup)\ \{}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ entitiesInGroup\ =\ groupedNodeEntities[mGroup];}
+\DoxyCodeLine{00510\ }
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ entity\ :\ entitiesInGroup)\ \{}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>destroy();}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00514\ \ \ \ \ \}}
+\DoxyCodeLine{00515\ }
+\DoxyCodeLine{00516\ \ \ \ \ \textcolor{keywordtype}{void}\ removeAllEntitiesFromEmptyGroup(Group\ mGroup)\ \{}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ entitiesInGroup\ =\ groupedEmptyEntities[mGroup];}
+\DoxyCodeLine{00518\ }
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ entity\ :\ entitiesInGroup)\ \{}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>destroy();}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00522\ \ \ \ \ \}}
+\DoxyCodeLine{00523\ }
+\DoxyCodeLine{00524\ \ \ \ \ \textcolor{keywordtype}{void}\ removeAllEntitiesFromLinkGroup(Group\ mGroup)\ \{}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ entitiesInGroup\ =\ groupedLinkEntities[mGroup];}
+\DoxyCodeLine{00526\ }
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ entity\ :\ entitiesInGroup)\ \{}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>destroy();}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00530\ \ \ \ \ \}}
+\DoxyCodeLine{00531\ }
+\DoxyCodeLine{00532\ \ \ \ \ std::vector<EntityID>\ adjacentEntities(\mbox{\hyperlink{classEntity}{Entity}}*\ mainEntity,\ Group\ group)\ \{}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ std::vector<EntityID>\ nearbyEntities;}
+\DoxyCodeLine{00534\ }
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ adjacentCells\ =\ grid-\/>getAdjacentCells(*mainEntity,\ grid-\/>getGridLevel());}
+\DoxyCodeLine{00536\ }
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{structCell}{Cell}}*\ adjCell\ :\ adjacentCells)\ \{}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ neighbor\ :\ adjCell-\/>nodes)\ \{}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (getEntityFromId(neighbor)-\/>hasGroup(group)\ \&\&\ (getEntityFromId(neighbor)\ !=\ mainEntity))\ \{}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nearbyEntities.push\_back(neighbor);}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00544\ }
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ nearbyEntities;}
+\DoxyCodeLine{00546\ \ \ \ \ \}}
+\DoxyCodeLine{00547\ }
+\DoxyCodeLine{00548\ \ \ \ \ \textcolor{keyword}{enum}\ groupLabels\ :\ std::size\_t\ \textcolor{comment}{//todo\ should\ add\ groups\ at\ end\ for\ some\ reason}}
+\DoxyCodeLine{00549\ \ \ \ \ \{}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \textcolor{comment}{//back}}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ groupBackgroundLayer,}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ panelBackground,}
+\DoxyCodeLine{00553\ }
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ groupGridLinks,}
+\DoxyCodeLine{00555\ }
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ groupSelectedEntities,}
+\DoxyCodeLine{00557\ }
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ groupDebugBoxEntities,}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ groupDebugRectangleEntities,}
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \textcolor{comment}{//action}}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ groupLinks\_0,}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ groupGroupLinks\_0,}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ groupGroupLinks\_1,}
+\DoxyCodeLine{00564\ }
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ groupPathLinks,}
+\DoxyCodeLine{00566\ }
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ groupPathInnerLinks,}
+\DoxyCodeLine{00568\ }
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ groupPathLinksHolder,}
+\DoxyCodeLine{00570\ }
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ groupArrowHeads\_0,}
+\DoxyCodeLine{00572\ }
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ groupNodes\_0,}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ groupGroupNodes\_0,}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ groupGroupNodes\_1,}
+\DoxyCodeLine{00576\ }
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ groupMinimapNodes,}
+\DoxyCodeLine{00578\ }
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ groupColliders,}
+\DoxyCodeLine{00580\ }
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ groupEmpties,}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ groupSphereEmpties,}
+\DoxyCodeLine{00583\ }
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ groupWireframeSphereEmpties,}
+\DoxyCodeLine{00585\ }
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ groupRenderSprites,}
+\DoxyCodeLine{00587\ }
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ groupPorts,}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ groupPortSlots,}
+\DoxyCodeLine{00590\ }
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \textcolor{comment}{//fore}}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ textLabels,}
+\DoxyCodeLine{00593\ \ \ \ \ \};}
+\DoxyCodeLine{00594\ }
+\DoxyCodeLine{00595\ \ \ \ \ \textcolor{keyword}{const}\ std::unordered\_map<Group,\ std::string>\ groupNames\ =\ \{}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \{groupBackgroundLayer,\ \textcolor{stringliteral}{"{}groupBackgroundLayer"{}}\ \},}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \{panelBackground,\ \textcolor{stringliteral}{"{}panelBackground"{}}\},}
+\DoxyCodeLine{00598\ }
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \{\ groupGridLinks,\textcolor{stringliteral}{"{}groupGridLinks"{}}\ \},}
+\DoxyCodeLine{00600\ }
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \{\ groupSelectedEntities,\ \textcolor{stringliteral}{"{}groupSelectedEntities"{}}\ \},}
+\DoxyCodeLine{00602\ }
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \{groupDebugBoxEntities,\ \textcolor{stringliteral}{"{}groupDebugBoxEntities"{}}\},}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \{groupDebugRectangleEntities,\ \textcolor{stringliteral}{"{}groupDebugRectangleEntities"{}}\},}
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \textcolor{comment}{//action}}
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \{\ groupLinks\_0,\textcolor{stringliteral}{"{}groupLinks\_0"{}}\ \},}
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \{groupGroupLinks\_0,\ \textcolor{stringliteral}{"{}groupGroupLinks\_0"{}}\},}
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ \{groupGroupLinks\_1,\ \textcolor{stringliteral}{"{}groupGroupLinks\_1"{}}\},}
+\DoxyCodeLine{00609\ }
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \{groupPathLinks,\ \textcolor{stringliteral}{"{}groupPathLinks"{}}\},}
+\DoxyCodeLine{00611\ }
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \{groupPathInnerLinks,\ \textcolor{stringliteral}{"{}groupPathInnerLinks"{}}\},}
+\DoxyCodeLine{00613\ }
+\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ \{groupPathLinksHolder,\ \textcolor{stringliteral}{"{}groupPathLinksHolder"{}}\},}
+\DoxyCodeLine{00615\ }
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ \{groupArrowHeads\_0,\ \textcolor{stringliteral}{"{}groupArrowHeads\_0"{}}\},}
+\DoxyCodeLine{00617\ }
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \{\ groupNodes\_0,\textcolor{stringliteral}{"{}groupNodes\_0"{}}\ \},}
+\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \{\ groupGroupNodes\_0,\ \textcolor{stringliteral}{"{}groupGroupNodes\_0"{}}\},}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \{\ groupGroupNodes\_1,\ \textcolor{stringliteral}{"{}groupGroupNodes\_1"{}}\},}
+\DoxyCodeLine{00621\ }
+\DoxyCodeLine{00622\ \ \ \ \ \ \ \ \ \{\ groupMinimapNodes,\textcolor{stringliteral}{"{}groupMinimapNodes"{}}\ \},}
+\DoxyCodeLine{00623\ }
+\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ \{\ groupEmpties,\textcolor{stringliteral}{"{}groupEmpties"{}}\ \},}
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \{\ groupSphereEmpties,\textcolor{stringliteral}{"{}groupSphereEmpties"{}}\ \},}
+\DoxyCodeLine{00626\ }
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ \{\ groupWireframeSphereEmpties,\textcolor{stringliteral}{"{}groupWireframeSphereEmpties"{}}\ \},}
+\DoxyCodeLine{00628\ }
+\DoxyCodeLine{00629\ \ \ \ \ \ \ \ \ \{\ groupColliders,\textcolor{stringliteral}{"{}groupColliders"{}}\ \},}
+\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ \{\ groupRenderSprites,\textcolor{stringliteral}{"{}groupRenderSprites"{}}\ \},}
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \{\ groupPorts,\textcolor{stringliteral}{"{}groupPorts"{}}\ \},}
+\DoxyCodeLine{00632\ \ \ \ \ \ \ \ \ \{\ groupPortSlots,\textcolor{stringliteral}{"{}groupPortSlots"{}}\ \},}
+\DoxyCodeLine{00633\ }
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \textcolor{comment}{//fore}}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ \{\ textLabels,\textcolor{stringliteral}{"{}textLabels"{}}\ \},}
+\DoxyCodeLine{00636\ \ \ \ \ \};}
+\DoxyCodeLine{00637\ }
+\DoxyCodeLine{00638\ \ \ \ \ std::string\ getGroupName(Group\ mGroup)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00639\ }
+\DoxyCodeLine{00640\ \ \ \ \ \textcolor{keywordtype}{void}\ scanComponentNames(\textcolor{keyword}{const}\ std::string\&\ folderPath);}
+\DoxyCodeLine{00641\ }
+\DoxyCodeLine{00642\ \ \ \ \ \textcolor{keywordtype}{void}\ setComponentNames();}
+\DoxyCodeLine{00643\ }
+\DoxyCodeLine{00644\ \ \ \ \ std::vector<Entity*>\ collectVisibleEntities(}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ std::initializer\_list<Manager::groupLabels>\ groupNames,}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ Taz::EntityType\ type);}
+\DoxyCodeLine{00647\ }
+\DoxyCodeLine{00648\ \ \ \ \ std::vector<Entity*>\ collectEntities(}
+\DoxyCodeLine{00649\ \ \ \ \ \ \ \ \ std::initializer\_list<Manager::groupLabels>\ groupNames,}
+\DoxyCodeLine{00650\ \ \ \ \ \ \ \ \ Taz::EntityType\ type);}
+\DoxyCodeLine{00651\ }
+\DoxyCodeLine{00652\ \};}
 
 \end{DoxyCode}

@@ -3,35 +3,75 @@
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <imgui.h>}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <implot/implot.h>}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}\ }
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <ImGuizmo/ImGuizmo.h>}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <imguiComboAutoselect/imgui\_combo\_autoselect.h>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <utility>}\ }
-\DoxyCodeLine{00010\ }
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <BaseFPSLimiter/BaseFPSLimiter.h>}}
-\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <DataManager/DataManager.h>}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}TazGraphEngine.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../AssetManager/AssetManager.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSelectedInfo}{SelectedInfo}}\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ EntityID\ realEntityId;\ \ \ \ \ \textcolor{comment}{//\ the\ actual\ Node\ /\ Link\ selected}}
+\DoxyCodeLine{00009\ \ \ \ \ EntityID\ overlayEntityId;\ \ \textcolor{comment}{//\ the\ entity\ used\ for\ rendering\ selection\ box}}
+\DoxyCodeLine{00010\ \ \ \ \ glm::vec3\ relativeOffset;}
+\DoxyCodeLine{00011\ \};}
+\DoxyCodeLine{00012\ }
 \DoxyCodeLine{00013\ }
-\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}GECS/Components.h"{}}}
-\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}GECS/UtilComponents.h"{}}}
-\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}GECS/Core/GECSManager.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classUIElement}{UIElement}}\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::unordered\_map<std::type\_index,\ UIElement*>\ uiComponentRegistry;}
 \DoxyCodeLine{00017\ }
-\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <GECS/Core/GECSUtil.h>}}
-\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00018\ \ \ \ \ std::vector<std::unique\_ptr<UIElement>>\ subcomponents;}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{classUIElement}{UIElement}}*\ parent\ =\ \textcolor{keyword}{nullptr};\ \textcolor{comment}{//\ Pointer\ to\ parent\ element}}
 \DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classUIElement}{UIElement}}\ \{}
-\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classUIElement}{UIElement}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classUIElement}{\string~UIElement}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime\ =\ 0.0f)\ \{\}\ \textcolor{comment}{//no\ need\ to\ implement}}
-\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ OnImGuiRender()\ =\ 0;\ \textcolor{comment}{//must\ implement}}
-\DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \textcolor{keyword}{protected}:}
-\DoxyCodeLine{00029\ \ \ \ \ std::string\ name;}
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{bool}\ visible\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00031\ \};}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{classUIElement}{UIElement}}()\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Auto-\/register\ on\ construction}}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ registerUIComponent(\textcolor{keyword}{this});}
+\DoxyCodeLine{00024\ \ \ \ \ \};}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classUIElement}{\string~UIElement}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime\ =\ 0.0f)\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ component\ :\ subcomponents)\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>update(deltaTime);}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ OnImGuiRender()\ =\ 0;\ \textcolor{comment}{//\ must\ implement}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{void}\ addUIComponent(Args\&\&...\ args)\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ newComponent\ =\ std::make\_unique<T>(std::forward<Args>(args)...);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ newComponent-\/>parent\ =\ \textcolor{keyword}{this};\ \textcolor{comment}{//\ Set\ parent\ pointer}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ subcomponents.push\_back(std::move(newComponent));}
+\DoxyCodeLine{00040\ \ \ \ \ \}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{static}\ T*\ getUIComponent()\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ uiComponentRegistry.find(std::type\_index(\textcolor{keyword}{typeid}(T)));}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ uiComponentRegistry.end())\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{dynamic\_cast<}T*\textcolor{keyword}{>}(it-\/>second);}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00049\ \ \ \ \ \}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00052\ \ \ \ \ T*\ getSubcomponent()\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ component\ :\ subcomponents)\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (T*\ casted\ =\ \textcolor{keyword}{dynamic\_cast<}T*\textcolor{keyword}{>}(component.get()))\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ casted;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00062\ \ \ \ \ std::string\ name;}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{bool}\ visible\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{comment}{//\ Helper\ methods\ for\ registration}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ registerUIComponent(\mbox{\hyperlink{classUIElement}{UIElement}}*\ component)\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ uiComponentRegistry[std::type\_index(\textcolor{keyword}{typeid}(*component))]\ =\ component;}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \};}
 
 \end{DoxyCode}

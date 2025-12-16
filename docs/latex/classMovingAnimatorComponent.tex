@@ -2,7 +2,8 @@
 \hypertarget{classMovingAnimatorComponent}{}\label{classMovingAnimatorComponent}\index{MovingAnimatorComponent@{MovingAnimatorComponent}}
 
 
-Inheritance diagram for Moving\+Animator\+Component\+:\nopagebreak
+Inheritance diagram for Moving\+Animator\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,7 +12,8 @@ Inheritance diagram for Moving\+Animator\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Moving\+Animator\+Component\+:\nopagebreak
+Collaboration diagram for Moving\+Animator\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,12 +22,6 @@ Collaboration diagram for Moving\+Animator\+Component\+:\nopagebreak
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
-\item 
-\Hypertarget{classMovingAnimatorComponent_a170f5ed45c9b96b1e494c23c26b3e746}\label{classMovingAnimatorComponent_a170f5ed45c9b96b1e494c23c26b3e746} 
-{\bfseries Moving\+Animator\+Component} ()
-\begin{DoxyCompactList}\small\item\em also we use Moving\+Animator instead of simple Animator so that entities use less memory and we use it to entities that have triggers that change their animation \end{DoxyCompactList}\item 
-\Hypertarget{classMovingAnimatorComponent_a3f2cf20ce2e1a04892f5bc9704892cb8}\label{classMovingAnimatorComponent_a3f2cf20ce2e1a04892f5bc9704892cb8} 
-{\bfseries Moving\+Animator\+Component} (std\+::string id)
 \item 
 void \mbox{\hyperlink{classMovingAnimatorComponent_ae2dfa49a790ca466ec7d0bd7f706a70b}{init}} () override
 \item 
@@ -36,27 +32,14 @@ void \mbox{\hyperlink{classMovingAnimatorComponent_aa76cda05a0ca16d4b805f710f9b8
 \Hypertarget{classMovingAnimatorComponent_afe5d7deacef2a070e1204ed3bfec238d}\label{classMovingAnimatorComponent_afe5d7deacef2a070e1204ed3bfec238d} 
 void {\bfseries Play} (const char \texorpdfstring{$\ast$}{*}anim\+Name, int reps=0)
 \item 
+\Hypertarget{classMovingAnimatorComponent_ab07408697292b839daee20c24eaa7af4}\label{classMovingAnimatorComponent_ab07408697292b839daee20c24eaa7af4} 
+void {\bfseries Play} (const char \texorpdfstring{$\ast$}{*}anim\+Name, glm\+::vec3 m\+\_\+distance, int reps=0)
+\item 
 \Hypertarget{classMovingAnimatorComponent_af81067e4672503e1fa9250947b6daf8b}\label{classMovingAnimatorComponent_af81067e4672503e1fa9250947b6daf8b} 
 void {\bfseries reset\+Animation} ()
 \item 
 \Hypertarget{classMovingAnimatorComponent_a345242e6cd363c7799a7035ddff099a9}\label{classMovingAnimatorComponent_a345242e6cd363c7799a7035ddff099a9} 
 std\+::string {\bfseries get\+Play\+Name} ()
-\item 
-\Hypertarget{classMovingAnimatorComponent_a3dfa1544122761b4ca8ae5aefb158ed3}\label{classMovingAnimatorComponent_a3dfa1544122761b4ca8ae5aefb158ed3} 
-void {\bfseries Destroy\+Tex} ()
-\end{DoxyCompactItemize}
-\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classAnimatorComponent}{Animator\+Component}}}
-\begin{DoxyCompactItemize}
-\item 
-{\bfseries Animator\+Component} (std\+::string id)
-\item 
-void {\bfseries Play} (std\+::string anim\+Name, int reps=0)
-\item 
-void {\bfseries reset\+Animation} ()
-\item 
-std\+::string {\bfseries get\+Play\+Name} ()
-\item 
-void {\bfseries Destroy\+Tex} ()
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
@@ -69,19 +52,16 @@ virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classL
 \item 
 virtual std\+::string {\bfseries Get\+Component\+Name} ()
 \item 
-virtual void {\bfseries show\+GUI} ()
+virtual void {\bfseries show\+GUI} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\})
 \end{DoxyCompactItemize}
-\doxysubsubsection*{Additional Inherited Members}
-\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classAnimatorComponent}{Animator\+Component}}}
+\doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classSpriteComponent}{Sprite\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries sprite} = nullptr
-\item 
-std\+::string {\bfseries textureid}
-\item 
+\Hypertarget{classMovingAnimatorComponent_a92fd9db53a97711c30077ea8ccf8ec07}\label{classMovingAnimatorComponent_a92fd9db53a97711c30077ea8ccf8ec07} 
+\mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
+\begin{DoxyCompactList}\small\item\em also we use Moving\+Animator instead of simple Animator so that entities use less memory and we use it to entities that have triggers that change their animation \end{DoxyCompactList}\item 
+\Hypertarget{classMovingAnimatorComponent_a46afde37c8e4cadb769229a1931f7cf8}\label{classMovingAnimatorComponent_a46afde37c8e4cadb769229a1931f7cf8} 
 std\+::string {\bfseries animation\+Name} = "{}"{}
-\item 
-timestamp {\bfseries resume\+Time} = 0
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
 \begin{DoxyCompactItemize}
@@ -90,6 +70,8 @@ timestamp {\bfseries resume\+Time} = 0
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
+\item 
+bool {\bfseries modify\+Position} = false
 \item 
 Component\+ID {\bfseries id} = 0u
 \end{DoxyCompactItemize}
@@ -104,7 +86,7 @@ Component\+ID {\bfseries id} = 0u
 
 
 
-Reimplemented from \mbox{\hyperlink{classAnimatorComponent}{Animator\+Component}}.
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 \Hypertarget{classMovingAnimatorComponent_ae2dfa49a790ca466ec7d0bd7f706a70b}\label{classMovingAnimatorComponent_ae2dfa49a790ca466ec7d0bd7f706a70b} 
 \index{MovingAnimatorComponent@{MovingAnimatorComponent}!init@{init}}
@@ -114,7 +96,7 @@ Reimplemented from \mbox{\hyperlink{classAnimatorComponent}{Animator\+Component}
 
 
 
-Reimplemented from \mbox{\hyperlink{classAnimatorComponent}{Animator\+Component}}.
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 \Hypertarget{classMovingAnimatorComponent_ab028e10d0b99adeadba2bdf3ecae0e58}\label{classMovingAnimatorComponent_ab028e10d0b99adeadba2bdf3ecae0e58} 
 \index{MovingAnimatorComponent@{MovingAnimatorComponent}!update@{update}}
@@ -124,10 +106,10 @@ Reimplemented from \mbox{\hyperlink{classAnimatorComponent}{Animator\+Component}
 
 
 
-Reimplemented from \mbox{\hyperlink{classAnimatorComponent}{Animator\+Component}}.
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Animators/Moving\+Animator\+Component.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Animators/Moving\+Animator\+Component.\+h\end{DoxyCompactItemize}

@@ -11,7 +11,8 @@ Inheritance diagram for Graph\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Graph\+:\nopagebreak
+Collaboration diagram for Graph\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -21,8 +22,8 @@ Collaboration diagram for Graph\+:\nopagebreak
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classGraph_a8d762fe5856c35de73033a2545a4504e}\label{classGraph_a8d762fe5856c35de73033a2545a4504e} 
-{\bfseries Graph} (\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \texorpdfstring{$\ast$}{*}window)
+\Hypertarget{classGraph_a601b7e37434b854eff5b2525c4dacd99}\label{classGraph_a601b7e37434b854eff5b2525c4dacd99} 
+{\bfseries Graph} (bool m\+\_\+use\+Python)
 \item 
 virtual int \mbox{\hyperlink{classGraph_a23f301f2b1570dbc012d29987e7deefc}{get\+Next\+Scene\+Index}} () const override
 \item 
@@ -38,7 +39,15 @@ virtual void \mbox{\hyperlink{classGraph_a9e8504a56f5f60c644dc02df8cbfc8cc}{on\+
 \item 
 virtual void \mbox{\hyperlink{classGraph_a1650103e02a76aeba4243f1f02842fa8}{update}} (float delta\+Time) override
 \item 
-virtual void \mbox{\hyperlink{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893}{draw}} () override
+virtual void \mbox{\hyperlink{classGraph_a96825c801c28c85c630dd5dd38c40c7e}{prepare\+Draw}} () override
+\item 
+virtual void \mbox{\hyperlink{classGraph_a57959b5902869e2bc1d4e1d0800ddc0a}{render\+Draw}} () override
+\item 
+void \mbox{\hyperlink{classGraph_af0db6aff4dc8ba24d59153f9d29af2b0}{minimap\+Prepare\+Draw}} ()
+\item 
+void \mbox{\hyperlink{classGraph_a2232ce0c107b5ea6ffe7245bbb89c93f}{minimap\+Render\+Draw}} ()
+\item 
+virtual void \mbox{\hyperlink{classGraph_ab36adb51e00b7de3c2b9263c6dbc4865}{Swap\+Buffer\+Draw}} () override
 \item 
 virtual void \mbox{\hyperlink{classGraph_ad16f523501154381a0ee3f61b6aa93d1}{Begin\+Render}} () override
 \item 
@@ -47,26 +56,6 @@ virtual void \mbox{\hyperlink{classGraph_a442aa25d44cbcb6baf10627fa15ce8d1}{upda
 virtual void \mbox{\hyperlink{classGraph_ab20e69881f74fa2a0c6cc8936d3a8ffa}{draw\+UI}} () override
 \item 
 virtual void \mbox{\hyperlink{classGraph_a3f4232cac916943bedc8c9d23b9fed2a}{End\+Render}} () override
-\item 
-void \mbox{\hyperlink{classGraph_ad9b5ef26ca51bdc8013bb5a7a9518b08}{render\+Batch}} (const std\+::vector$<$ \mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch)
-\item 
-\Hypertarget{classGraph_ae0fc2a1c8a7a95aecbcac3b746ba2154}\label{classGraph_ae0fc2a1c8a7a95aecbcac3b746ba2154} 
-void {\bfseries render\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch)
-\item 
-\Hypertarget{classGraph_a844814956c547d9096ddd18eb9b5094f}\label{classGraph_a844814956c547d9096ddd18eb9b5094f} 
-void {\bfseries render\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch)
-\item 
-\Hypertarget{classGraph_a24750d58a179507bb29ffffdc29f05cd}\label{classGraph_a24750d58a179507bb29ffffdc29f05cd} 
-void {\bfseries render\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch)
-\item 
-\Hypertarget{classGraph_a6b4b0980080b2aef818fc95a6c89e94c}\label{classGraph_a6b4b0980080b2aef818fc95a6c89e94c} 
-void {\bfseries render\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch)
-\item 
-\Hypertarget{classGraph_aa79ca25ad2d6e11e3fa590c17a38d1a7}\label{classGraph_aa79ca25ad2d6e11e3fa590c17a38d1a7} 
-void {\bfseries render\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch)
-\item 
-\Hypertarget{classGraph_aa1e398ed426a38cb21c3b38127862ded}\label{classGraph_aa1e398ed426a38cb21c3b38127862ded} 
-void {\bfseries draw\+HUD} (const std\+::vector$<$ \mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIScene}{IScene}}}
 \begin{DoxyCompactItemize}
@@ -80,8 +69,6 @@ Scene\+State {\bfseries get\+State} () const
 void {\bfseries set\+Parent\+App} (\mbox{\hyperlink{classAppInterface}{App\+Interface}} \texorpdfstring{$\ast$}{*}app)
 \item 
 \mbox{\hyperlink{classAppInterface}{App\+Interface}} \texorpdfstring{$\ast$}{*} {\bfseries get\+App} () const
-\item 
-void {\bfseries set\+Manager} (std\+::string m\+\_\+manager\+Name)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -89,21 +76,8 @@ void {\bfseries set\+Manager} (std\+::string m\+\_\+manager\+Name)
 \Hypertarget{classGraph_adc8e5856c06a07ffae07be54bf5072aa}\label{classGraph_adc8e5856c06a07ffae07be54bf5072aa} 
 \mbox{\hyperlink{classMap}{Map}} \texorpdfstring{$\ast$}{*} {\bfseries map} = nullptr
 \end{DoxyCompactItemize}
-\doxysubsubsection*{Static Public Attributes}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classIScene}{IScene}}}
 \begin{DoxyCompactItemize}
-\item 
-\Hypertarget{classGraph_a856517257fba65af2cec7bef89291bc1}\label{classGraph_a856517257fba65af2cec7bef89291bc1} 
-static \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+window} = nullptr
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Additional Inherited Members}
-\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classIScene}{IScene}}}
-\begin{DoxyCompactItemize}
-\item 
-Scene\+State {\bfseries \+\_\+current\+State} = Scene\+State\+::\+NONE
-\item 
-\mbox{\hyperlink{classAppInterface}{App\+Interface}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+app} = nullptr
-\item 
-int {\bfseries \+\_\+scene\+Index} = -\/1
 \item 
 std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{classIScene_ad1897b6e44c9dd75a3d89e6f6e2d33fa}{managers}}
 \item 
@@ -111,7 +85,33 @@ std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classManager}{Manag
 \item 
 std\+::string {\bfseries manager\+Name} = "{}"{}
 \item 
-bool {\bfseries \+\_\+render\+Debug} = false
+bool {\bfseries last\+\_\+render\+Debug} = false
+\item 
+bool {\bfseries render\+Debug} = false
+\item 
+bool {\bfseries show\+Grid} = true
+\item 
+bool {\bfseries last\+\_\+show\+Grid} = false
+\item 
+Scene\+State {\bfseries current\+State} = Scene\+State\+::\+NONE
+\item 
+float {\bfseries background\+Color} \mbox{[}4\mbox{]} = \{ 0.\+8f, 0.\+8f, 0.\+8f, 1.\+0f \}
+\item 
+bool {\bfseries request\+Exit} = false
+\item 
+\mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} {\bfseries frame\+Data\+Buffers} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} {\bfseries minimap\+\_\+frame\+Data\+Buffers} \mbox{[}2\mbox{]}
+\item 
+std\+::atomic$<$ int $>$ {\bfseries active\+Frame\+Index} = 0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classIScene}{IScene}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classAppInterface}{App\+Interface}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+app} = nullptr
+\item 
+int {\bfseries \+\_\+scene\+Index} = -\/1
 \end{DoxyCompactItemize}
 
 
@@ -143,28 +143,6 @@ Implements \mbox{\hyperlink{classIScene}{IScene}}.
 {\footnotesize\ttfamily void Graph\+::destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
-
-Implements \mbox{\hyperlink{classIScene}{IScene}}.
-
-\Hypertarget{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893}\label{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893} 
-\index{Graph@{Graph}!draw@{draw}}
-\index{draw@{draw}!Graph@{Graph}}
-\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
-{\footnotesize\ttfamily void Graph\+::draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
-
-Line Renderer Init
-
-\doxylink{structColor}{Color} Renderer Init
-
-Model Renderer Init
-
-Light Renderer Init
-
-\doxylink{classLink}{Link} Paths rendering \& Ports rendering
-
-this reduces a bit fps
-
-this reduces a bit fps
 
 Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
@@ -208,7 +186,19 @@ Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
 Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
-\Hypertarget{classGraph_a4955e1d0607e9e3cfc64f6260bd3ba4d}\label{classGraph_a4955e1d0607e9e3cfc64f6260bd3ba4d} 
+\Hypertarget{classGraph_af0db6aff4dc8ba24d59153f9d29af2b0}\label{classGraph_af0db6aff4dc8ba24d59153f9d29af2b0} 
+\index{Graph@{Graph}!minimapPrepareDraw@{minimapPrepareDraw}}
+\index{minimapPrepareDraw@{minimapPrepareDraw}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{minimapPrepareDraw()}{minimapPrepareDraw()}}
+{\footnotesize\ttfamily void Graph\+::minimap\+Prepare\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Prepare Draw Batches by Frame\Hypertarget{classGraph_a2232ce0c107b5ea6ffe7245bbb89c93f}\label{classGraph_a2232ce0c107b5ea6ffe7245bbb89c93f} 
+\index{Graph@{Graph}!minimapRenderDraw@{minimapRenderDraw}}
+\index{minimapRenderDraw@{minimapRenderDraw}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{minimapRenderDraw()}{minimapRenderDraw()}}
+{\footnotesize\ttfamily void Graph\+::minimap\+Render\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+render Frame\Hypertarget{classGraph_a4955e1d0607e9e3cfc64f6260bd3ba4d}\label{classGraph_a4955e1d0607e9e3cfc64f6260bd3ba4d} 
 \index{Graph@{Graph}!onEntry@{onEntry}}
 \index{onEntry@{onEntry}!Graph@{Graph}}
 \doxysubsubsection{\texorpdfstring{onEntry()}{onEntry()}}
@@ -228,19 +218,43 @@ Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
 Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
-\Hypertarget{classGraph_ad9b5ef26ca51bdc8013bb5a7a9518b08}\label{classGraph_ad9b5ef26ca51bdc8013bb5a7a9518b08} 
-\index{Graph@{Graph}!renderBatch@{renderBatch}}
-\index{renderBatch@{renderBatch}!Graph@{Graph}}
-\doxysubsubsection{\texorpdfstring{renderBatch()}{renderBatch()}}
-{\footnotesize\ttfamily void Graph\+::render\+Batch (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*} $>$ \&}]{entities,  }\item[{\mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&}]{batch }\end{DoxyParamCaption})}
+\Hypertarget{classGraph_a96825c801c28c85c630dd5dd38c40c7e}\label{classGraph_a96825c801c28c85c630dd5dd38c40c7e} 
+\index{Graph@{Graph}!prepareDraw@{prepareDraw}}
+\index{prepareDraw@{prepareDraw}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{prepareDraw()}{prepareDraw()}}
+{\footnotesize\ttfamily void Graph\+::prepare\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
-activate threads near the end, where we have completed everything else\Hypertarget{classGraph_a1650103e02a76aeba4243f1f02842fa8}\label{classGraph_a1650103e02a76aeba4243f1f02842fa8} 
+Prepare Frame
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classGraph_a57959b5902869e2bc1d4e1d0800ddc0a}\label{classGraph_a57959b5902869e2bc1d4e1d0800ddc0a} 
+\index{Graph@{Graph}!renderDraw@{renderDraw}}
+\index{renderDraw@{renderDraw}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{renderDraw()}{renderDraw()}}
+{\footnotesize\ttfamily void Graph\+::render\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+render Frame
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classGraph_ab36adb51e00b7de3c2b9263c6dbc4865}\label{classGraph_ab36adb51e00b7de3c2b9263c6dbc4865} 
+\index{Graph@{Graph}!SwapBufferDraw@{SwapBufferDraw}}
+\index{SwapBufferDraw@{SwapBufferDraw}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{SwapBufferDraw()}{SwapBufferDraw()}}
+{\footnotesize\ttfamily void Graph\+::\+Swap\+Buffer\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIScene}{IScene}}.
+
+\Hypertarget{classGraph_a1650103e02a76aeba4243f1f02842fa8}\label{classGraph_a1650103e02a76aeba4243f1f02842fa8} 
 \index{Graph@{Graph}!update@{update}}
 \index{update@{update}!Graph@{Graph}}
 \doxysubsubsection{\texorpdfstring{update()}{update()}}
 {\footnotesize\ttfamily void Graph\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
-
+repeatively update\+Connection due to bugs in this part
 
 Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
@@ -250,7 +264,9 @@ Implements \mbox{\hyperlink{classIScene}{IScene}}.
 \doxysubsubsection{\texorpdfstring{updateUI()}{updateUI()}}
 {\footnotesize\ttfamily void Graph\+::update\+UI (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
+\texorpdfstring{$\ast$}{*}\+\_\+entity\+Component\+Controller.set\+Config(
 
+\texorpdfstring{$\ast$}{*}\+\_\+hover\+Entity\+Panel.set\+Config
 
 Implements \mbox{\hyperlink{classIScene}{IScene}}.
 

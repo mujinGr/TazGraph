@@ -1,52 +1,20 @@
 set(PROJECT_NAME TazGraph)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Recursively find all header and source files in Components and all subdirectories
+file(GLOB_RECURSE EDITOR_COMPONENTS_HEADERS "Src/EditorIMGUI/Components/*.h")
+file(GLOB_RECURSE EDITOR_COMPONENTS_SOURCES "Src/EditorIMGUI/Components/*.cpp")
+
 ################################################################################
 # Source groups
 ################################################################################
-set(Header_Files
-    "Src/App/App.h"
-    "Src/AssetManager/AssetManager.h"
-    "Src/EditorIMGUI/EditorIMGUI.h"
-    "Src/EditorIMGUI/EditorLayoutUtils.h"
-    "Src/EditorIMGUI/CustomFunctions/CustomFunctions.h"
-    "Src/EditorIMGUI/Minimap/Minimap.h"
-    "Src/EditorIMGUI/OrientationBox/OrientationBox.h"
-    "Src/GECS/ScriptComponents.h"
-    "Src/GECS/Scripts/MainMenuBackground.h"
-    "Src/Screens/GraphScene/Graph.h"
-    "Src/Screens/MainMenuScreen/MainMenuScreen.h"
-    "Src/Map/IMapParser.h"
-    "Src/Map/Map.h"
-    "Src/Map/Parsers/DOTMapParser.h"
-    "Src/Map/Parsers/GraphMLMapParser.h"
-    "Src/Map/Parsers/PythonMapParser.h"
-    "Src/Map/Parsers/TextMapParser.h"
-    "Src/Map/PathParsers/TextPathParser.h"
-)
-source_group("Header Files" FILES ${Header_Files})
+# Grab all .h and .cpp files recursively from Src/
+file(GLOB_RECURSE Header_Files "Src/*.h")
+file(GLOB_RECURSE Source_Files "Src/*.cpp")
 
-set(Source_Files
-    "Src/App/App.cpp"
-    "Src/AssetManager/AssetManager.cpp"
-    "Src/EditorIMGUI/EditorIMGUI.cpp"
-    "Src/EditorIMGUI/EditorLayoutUtils.cpp"
-    "Src/EditorIMGUI/CustomFunctions/CustomFunctions.cpp"
-    "Src/EditorIMGUI/Minimap/Minimap.cpp"
-    "Src/EditorIMGUI/OrientationBox/OrientationBox.cpp"
-    "Src/Screens/GraphScene/Graph.cpp"
-    "Src/Screens/GraphScene/GraphDraw.cpp"
-    "Src/Screens/GraphScene/GraphUI.cpp"
-    "Src/Screens/GraphScene/GraphUpdate.cpp"
-    "Src/Screens/GraphScene/GraphInput.cpp"
-    "Src/main.cpp"
-    "Src/Screens/MainMenuScreen/MainMenuScreen.cpp"
-    "Src/Map/Map.cpp"
-    "Src/Map/Parsers/DOTMapParser.cpp"
-    "Src/Map/Parsers/GraphMLMapParser.cpp"
-    "Src/Map/Parsers/PythonMapParser.cpp"
-    "Src/Map/Parsers/TextMapParser.cpp"
-    "Src/Map/PathParsers/TextPathParser.cpp"
-)
+# Organize headers in IDE (Visual Studio, Xcode, etc.)
+source_group("Header Files" FILES ${Header_Files})
 source_group("Source Files" FILES ${Source_Files})
 
 set(ALL_FILES
@@ -70,6 +38,9 @@ include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
 # Find SDL2 core library
 find_package(SDL2_ttf REQUIRED)
 include_directories(${SDL2_TTF_INCLUDE_DIRS})
+
+find_package(Python3 REQUIRED COMPONENTS Development)
+include_directories(${Python3_INCLUDE_DIRS})
 
 # COPY FROM PROPERTIES IN MSVS
 set(VENDORS_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors")
@@ -100,6 +71,14 @@ include_directories(${JSONPARSER_INCLUDE_DIR})
 set(DOTPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/DotParser/DotParser")
 include_directories(${DOTPARSER_INCLUDE_DIR})
 
+set(PYBIND11_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/pybind11/include")
+include_directories(${PYBIND11_INCLUDE_DIR})
+
+set(DOTPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/simdump/include")
+include_directories(${DOTPARSER_INCLUDE_DIR})
+
+set(FILEBROWSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/imgui-filebrowser")
+include_directories(${FILEBROWSER_INCLUDE_DIR})
 ################################################################################
 # Target
 ################################################################################
@@ -228,6 +207,13 @@ endif()
 # Dependencies
 ################################################################################
 # Link with other targets.
+
+set(RENDER_ENGINE_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/RenderEngine")
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${RENDER_ENGINE_INCLUDE_DIR}  
+)
+
+
 set(TAZGRAPHENGINE_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/TazGraphEngine")
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${TAZGRAPHENGINE_INCLUDE_DIR}  
@@ -252,3 +238,4 @@ endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_IMAGE_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_ttf::SDL2_ttf)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${Python3_LIBRARIES})

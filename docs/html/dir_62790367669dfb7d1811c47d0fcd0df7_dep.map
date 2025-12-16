@@ -1,7 +1,10 @@
 <map id="/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/build/TazGraph/CMakeFiles/TazGraph.dir/Src/EditorIMGUI" name="/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/build/TazGraph/CMakeFiles/TazGraph.dir/Src/EditorIMGUI">
-<area shape="rect" id="node2" href="dir_2d9cc7455a54f1d4f7be7709018e8ac8.html" title="CustomFunctions" alt="" coords="285,63,419,88"/>
-<area shape="rect" id="node3" href="dir_36a83321acbeb64493ddf093b7e94107.html" title="Minimap" alt="" coords="182,63,261,88"/>
-<area shape="rect" id="node4" href="dir_e95e7393caa31787e5ee8fbd828f2179.html" title="OrientationBox" alt="" coords="37,63,157,88"/>
-<area shape="rect" id="clust2" href="dir_62790367669dfb7d1811c47d0fcd0df7.html" alt="" coords="27,52,553,99"/>
-<area shape="rect" id="clust1" href="dir_b6a040f518ac41eb6ebf086eff310c5a.html" title="Src" alt="" coords="16,16,564,109"/>
+<area shape="rect" id="node2" href="dir_5c6805fe03302e63e21d52c1ba45b01e.html" title="Components" alt="" coords="791,63,895,88"/>
+<area shape="rect" id="node3" href="dir_2d9cc7455a54f1d4f7be7709018e8ac8.html" title="CustomFunctions" alt="" coords="631,63,766,88"/>
+<area shape="rect" id="node4" href="dir_6b132d33895ffeaf01b99b367d2e1ae1.html" title="GraphEditorLayer" alt="" coords="473,63,607,88"/>
+<area shape="rect" id="node5" href="dir_b803b59271f847f315473a79ca675683.html" title="MainMenuEditorLayer" alt="" coords="285,63,449,88"/>
+<area shape="rect" id="node6" href="dir_36a83321acbeb64493ddf093b7e94107.html" title="Minimap" alt="" coords="182,63,261,88"/>
+<area shape="rect" id="node7" href="dir_e95e7393caa31787e5ee8fbd828f2179.html" title="OrientationBox" alt="" coords="37,63,157,88"/>
+<area shape="rect" id="clust2" href="dir_62790367669dfb7d1811c47d0fcd0df7.html" alt="" coords="27,52,1029,99"/>
+<area shape="rect" id="clust1" href="dir_b6a040f518ac41eb6ebf086eff310c5a.html" title="Src" alt="" coords="16,16,1040,109"/>
 </map>

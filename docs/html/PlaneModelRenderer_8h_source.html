@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TazGraph Project: /mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h Source File</title>
+<title>TazGraph Project: /mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/RenderEngine/src/Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -74,7 +74,7 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_b651ad071ea0015b9e78c24c646b3ca0.html">TazGraphEngine</a></li><li class="navelem"><a class="el" href="dir_eff3c25c434cfa44caa9dd3a372252b6.html">Renderers</a></li><li class="navelem"><a class="el" href="dir_d0001f4c425f4044e6fe69ed440bbfb3.html">PlaneRenderers</a></li><li class="navelem"><a class="el" href="dir_03f0e36cbebeff623074f9b8ffb4012e.html">PlaneModelRenderer</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d985221345890917e83b82bb45db250d.html">RenderEngine</a></li><li class="navelem"><a class="el" href="dir_7610302c11b0caed28997da3b5aff04a.html">src</a></li><li class="navelem"><a class="el" href="dir_7abf8b8512b71833bf142c848c36c180.html">Renderers</a></li><li class="navelem"><a class="el" href="dir_e1775482d1c796078113fafbd192f9b7.html">PlaneRenderers</a></li><li class="navelem"><a class="el" href="dir_8ac2b1afc833fcd4d979db7036bb9cb6.html">PlaneModelRenderer</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -83,66 +83,61 @@ $(document).ready(function() { init_codefold(0); });
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;GL/glew.h&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#define GLM_ENABLE_EXPERIMENTAL </span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;glm/glm.hpp&gt;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;../../../Vertex.h&quot;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;../../../GLSLProgram.h&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;../PlaneRenderer.h&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">// init --_</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">//       `--&gt;begin() </span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment">//       |</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment">//       | --&gt; draw()</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">//       | --&gt; draw()</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">//       |</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">//       |--&gt; end() </span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment">//       `--&gt; renderBatch() </span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classPlaneModelRenderer.html">   21</a></span><span class="keyword">class </span><a class="code hl_class" href="classPlaneModelRenderer.html">PlaneModelRenderer</a> : <span class="keyword">public</span> <a class="code hl_class" href="classPlaneRenderer.html">PlaneRenderer</a> {</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <a class="code hl_class" href="classPlaneModelRenderer.html">PlaneModelRenderer</a>();</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <a class="code hl_class" href="classPlaneModelRenderer.html">~PlaneModelRenderer</a>();</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;../../../Vertex.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;../../Renderer.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">// init --_</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">//       `--&gt;begin() </span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">//       |</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">//       | --&gt; draw()</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">//       | --&gt; draw()</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">//       |</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">//       |--&gt; end() </span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">//       `--&gt; renderBatch() </span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classPlaneModelRenderer.html">   15</a></span><span class="keyword">class </span><a class="code hl_class" href="classPlaneModelRenderer.html">PlaneModelRenderer</a> : <span class="keyword">public</span> <a class="code hl_class" href="classTaz_1_1Renderer.html">Taz::Renderer</a> {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <a class="code hl_class" href="classPlaneModelRenderer.html">PlaneModelRenderer</a>();</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <a class="code hl_class" href="classPlaneModelRenderer.html">~PlaneModelRenderer</a>();</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keywordtype">void</span> init() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordtype">void</span> begin() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">void</span> initBatch(<a class="code hl_struct" href="structTaz_1_1RenderBatch.html">Taz::RenderBatch</a>&amp; batch);</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">void</span> init();</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">void</span> begin();</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordtype">void</span> end();</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordtype">void</span> initBatchSize();</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">void</span> drawTriangle(</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keywordtype">size_t</span> v_index,</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keyword">const</span> glm::vec3&amp; triangleOffset,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="keyword">const</span> glm::vec3&amp; mRotation,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keyword">const</span> glm::vec2&amp; uv1, <span class="keyword">const</span> glm::vec2&amp; uv2, <span class="keyword">const</span> glm::vec2&amp; uv3,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        GLuint texture);</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">void</span> drawTriangle(</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keywordtype">size_t</span> v_index,</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keyword">const</span> glm::vec3&amp; triangleOffset,</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">void</span> draw(<span class="keywordtype">size_t</span> v_index,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keyword">const</span> glm::vec2&amp; rectSize,</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keyword">const</span> glm::vec3&amp; position,</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keyword">const</span> glm::vec3&amp; mRotation,</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keyword">const</span> glm::vec2&amp; uv1, <span class="keyword">const</span> glm::vec2&amp; uv2, <span class="keyword">const</span> glm::vec2&amp; uv3,</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        GLuint texture);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">void</span> draw(<span class="keywordtype">size_t</span> v_index,</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keyword">const</span> glm::vec2&amp; rectSize,</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keyword">const</span> glm::vec3&amp; bodyCenter,</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keyword">const</span> glm::vec3&amp; mRotation,</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keyword">const</span> glm::vec4&amp; uvRect,</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        GLuint texture</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        );</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keyword">const</span> glm::vec4&amp; uvRect,</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        GLuint texture</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    );</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">void</span> endBatch(<span class="keyword">const</span> <a class="code hl_struct" href="structTaz_1_1RenderBatch.html">Taz::RenderBatch</a>&amp; batch) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordtype">void</span> dispose();</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">void</span> createInstancesVBO();</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">void</span> createVertexArray();</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">void</span> renderBatch(<a class="code hl_class" href="classGLSLProgram.html">GLSLProgram</a>* glsl_program);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    std::vector&lt;TextureMeshRenderer&gt; _meshesElements;</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">void</span> dispose();</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordtype">void</span> createInstancesVBO();</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordtype">void</span> createVertexArray();</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    std::vector&lt;TextureMeshRenderer&gt; _meshesElements;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>};</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">size_t</span> currentBatchIndex = 0;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>};</div>
 </div>
-<div class="ttc" id="aclassGLSLProgram_html"><div class="ttname"><a href="classGLSLProgram.html">GLSLProgram</a></div><div class="ttdef"><b>Definition</b> GLSLProgram.h:306</div></div>
-<div class="ttc" id="aclassPlaneModelRenderer_html"><div class="ttname"><a href="classPlaneModelRenderer.html">PlaneModelRenderer</a></div><div class="ttdef"><b>Definition</b> PlaneModelRenderer.h:21</div></div>
-<div class="ttc" id="aclassPlaneRenderer_html"><div class="ttname"><a href="classPlaneRenderer.html">PlaneRenderer</a></div><div class="ttdef"><b>Definition</b> PlaneRenderer.h:20</div></div>
+<div class="ttc" id="aclassPlaneModelRenderer_html"><div class="ttname"><a href="classPlaneModelRenderer.html">PlaneModelRenderer</a></div><div class="ttdef"><b>Definition</b> PlaneModelRenderer.h:15</div></div>
+<div class="ttc" id="aclassTaz_1_1Renderer_html"><div class="ttname"><a href="classTaz_1_1Renderer.html">Taz::Renderer</a></div><div class="ttdef"><b>Definition</b> Renderer.h:51</div></div>
+<div class="ttc" id="astructTaz_1_1RenderBatch_html"><div class="ttname"><a href="structTaz_1_1RenderBatch.html">Taz::RenderBatch</a></div><div class="ttdef"><b>Definition</b> Renderer.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

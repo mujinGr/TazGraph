@@ -1,5 +1,5 @@
 \doxysection{Animator\+Manager.\+h}
-\hypertarget{AnimatorManager_8h_source}{}\label{AnimatorManager_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/AnimatorManager.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/AnimatorManager.h}}
+\hypertarget{AnimatorManager_8h_source}{}\label{AnimatorManager_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Animators/AnimatorManager.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Animators/AnimatorManager.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
@@ -18,33 +18,36 @@
 \DoxyCodeLine{00014\ \ \ \ \ std::map<std::string,\ FlashAnimation>\ flash\_animations;}
 \DoxyCodeLine{00015\ }
 \DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{structAnimatorManager}{AnimatorManager}}()}
-\DoxyCodeLine{00017\ \ \ \ \ \{\}}
-\DoxyCodeLine{00018\ }
-\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{structAnimatorManager}{AnimatorManager}}\&\ getInstance()\ \{}
-\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{structAnimatorManager}{AnimatorManager}}\ instance;}
-\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ instance;}
-\DoxyCodeLine{00022\ \ \ \ \ \}}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ InitializeAnimators()}
-\DoxyCodeLine{00025\ \ \ \ \ \{}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structAnimation}{Animation}}\ defaultAnimation\ =\ \mbox{\hyperlink{structAnimation}{Animation}}(6,\ 2,\ 1,\ 0.04f,\ \textcolor{stringliteral}{"{}looped"{}});}
-\DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ animations.emplace(\textcolor{stringliteral}{"{}Default"{}},\ defaultAnimation);}
-\DoxyCodeLine{00029\ }
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}\ defaultMoveAnimation\ =\ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}(0,\ 0,\ 0,\ 0.0,\ \textcolor{stringliteral}{"{}looped"{}},\ 0,\ 0);}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ moving\_animations.emplace(\textcolor{stringliteral}{"{}Default"{}},\ defaultMoveAnimation);}
+\DoxyCodeLine{00017\ \ \ \ \ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{structAnimatorManager}{AnimatorManager}}\&\ getInstance()\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{structAnimatorManager}{AnimatorManager}}\ instance;}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ instance;}
+\DoxyCodeLine{00023\ \ \ \ \ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ InitializeAnimators()}
+\DoxyCodeLine{00026\ \ \ \ \ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structAnimation}{Animation}}\ defaultAnimation\ =\ \mbox{\hyperlink{structAnimation}{Animation}}(6,\ 2,\ 1,\ 0.04f,\ \textcolor{stringliteral}{"{}looped"{}});}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ animations.emplace(\textcolor{stringliteral}{"{}Default"{}},\ defaultAnimation);}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}\ defaultMoveAnimation\ =\ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}(glm::vec3(0),\ 1,\ 0,\ \textcolor{stringliteral}{"{}looped"{}},\ glm::vec3(0));}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}\ testMoveAnimation\ =\ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}(glm::vec3(0),\ 100,\ 1.0f,\ \textcolor{stringliteral}{"{}play\_n\_times"{}},\ glm::vec3(5.0f,\ 5.0f,\ 0.0f),\ 1);}
 \DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}\ defaultFlashAnimation\ =\ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}(0,\ 0,\ 3,\ 0.0f,\ \textcolor{stringliteral}{"{}looped"{}},\ \{\ 0.2f,\ 1.0f,\ 0.2f,\ 1.0f\ \},\ \{\ 255,255,255,255\ \});}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}\ lineTransferFlashAnimation\ =\ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}(0,\ 0,\ 3,\ 0.01f,\ \textcolor{stringliteral}{"{}play\_n\_times"{}},\ \{\ 0.01f,\ 0.01f,\ 0.00f,\ 0.01f\ \},\ \{\ 255,255,255,255\ \},\ 1);}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}\ rectangleInterpolationFlashAnimation\ =\ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}(0,\ 0,\ 3,\ 0.01f,\ \textcolor{stringliteral}{"{}back\_forth"{}},\ \{\ 0.01f,\ 0.01f,\ 1.00f,\ 0.01f\ \},\ \{\ 255,0,0,255\ \},\ 0);}
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ flash\_animations.emplace(\textcolor{stringliteral}{"{}Default"{}},\ defaultFlashAnimation);}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ flash\_animations.emplace(\textcolor{stringliteral}{"{}LineTransfer"{}},\ lineTransferFlashAnimation);}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ flash\_animations.emplace(\textcolor{stringliteral}{"{}RectInterpolation"{}},\ rectangleInterpolationFlashAnimation);}
-\DoxyCodeLine{00041\ }
-\DoxyCodeLine{00042\ }
-\DoxyCodeLine{00043\ \ \ \ \ \}}
-\DoxyCodeLine{00044\ \};}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ moving\_animations.emplace(\textcolor{stringliteral}{"{}Default"{}},\ defaultMoveAnimation);}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ moving\_animations.emplace(\textcolor{stringliteral}{"{}StepMove"{}},\ testMoveAnimation);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}\ defaultFlashAnimation\ =\ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}(3,\ 0.0f,\ \textcolor{stringliteral}{"{}looped"{}},\ \{\ 0.2f,\ 1.0f,\ 0.2f,\ 1.0f\ \},\ \{\ 0,0,0,255\ \});}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}\ lineTransferFlashAnimation\ =\ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}(3,\ 0.01f,\ \textcolor{stringliteral}{"{}play\_n\_times"{}},\ \{\ 0.01f,\ 0.01f,\ 0.00f,\ 0.01f\ \},\ \{\ 255,255,255,255\ \},\ 1);}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}\ rectangleInterpolationFlashAnimation\ =\ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}(3,\ 0.01f,\ \textcolor{stringliteral}{"{}play\_n\_times"{}},\ \{\ 0.5f,\ 0.01f,\ 1.00f,\ 0.01f\ \},\ \{\ 255,0,0,255\ \},\ 1);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ flash\_animations.emplace(\textcolor{stringliteral}{"{}Default"{}},\ defaultFlashAnimation);}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ flash\_animations.emplace(\textcolor{stringliteral}{"{}LineTransfer"{}},\ lineTransferFlashAnimation);}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ flash\_animations.emplace(\textcolor{stringliteral}{"{}RectInterpolation"{}},\ rectangleInterpolationFlashAnimation);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \};}
 
 \end{DoxyCode}

@@ -23,6 +23,8 @@ Collaboration diagram for Python\+Map\+Parser\+:\nopagebreak
 \item 
 void \mbox{\hyperlink{classPythonMapParser_a1f7a27fa1839ac71f75e615ec89b8abe}{read\+File}} (std\+::string m\+\_\+file\+Name) override
 \item 
+void \mbox{\hyperlink{classPythonMapParser_a79009f3f949ce370febc4693682aa614}{write\+File}} (std\+::string m\+\_\+file\+Name, \mbox{\hyperlink{classManager}{Manager}} \&manager) override
+\item 
 void \mbox{\hyperlink{classPythonMapParser_a6872fb8bae02bf5a7543d9a427459b89}{parse}} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$ add\+Node\+Func, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$ add\+Link\+Func) override
 \item 
 void \mbox{\hyperlink{classPythonMapParser_a22e10f497d094f9fe014842b6fd054ba}{close\+File}} () override
@@ -66,6 +68,16 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 \index{readFile@{readFile}!PythonMapParser@{PythonMapParser}}
 \doxysubsubsection{\texorpdfstring{readFile()}{readFile()}}
 {\footnotesize\ttfamily void Python\+Map\+Parser\+::read\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{m\+\_\+file\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+
+\Hypertarget{classPythonMapParser_a79009f3f949ce370febc4693682aa614}\label{classPythonMapParser_a79009f3f949ce370febc4693682aa614} 
+\index{PythonMapParser@{PythonMapParser}!writeFile@{writeFile}}
+\index{writeFile@{writeFile}!PythonMapParser@{PythonMapParser}}
+\doxysubsubsection{\texorpdfstring{writeFile()}{writeFile()}}
+{\footnotesize\ttfamily void Python\+Map\+Parser\+::write\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{m\+\_\+file\+Name,  }\item[{\mbox{\hyperlink{classManager}{Manager}} \&}]{manager }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 

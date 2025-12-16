@@ -1,5 +1,5 @@
 \doxysection{Triangle\+\_\+w\+\_\+\+Color.\+h}
-\hypertarget{Triangle__w__Color_8h_source}{}\label{Triangle__w__Color_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Basic/Triangle\_w\_Color.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Basic/Triangle\_w\_Color.h}}
+\hypertarget{Triangle__w__Color_8h_source}{}\label{Triangle__w__Color_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/Empty/Basic/Triangle\_w\_Color.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/Empty/Basic/Triangle\_w\_Color.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
@@ -9,7 +9,7 @@
 \DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTriangle__w__Color}{Triangle\_w\_Color}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classComponent}{Component}}}
 \DoxyCodeLine{00006\ \{}
 \DoxyCodeLine{00007\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00008\ \ \ \ \ \mbox{\hyperlink{structColor}{Color}}\ color\ =\ \{\ 255,\ 255,\ 255,\ 255\ \};}
+\DoxyCodeLine{00008\ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ color\ =\ \{\ 255,\ 255,\ 255,\ 255\ \};}
 \DoxyCodeLine{00009\ }
 \DoxyCodeLine{00010\ \ \ \ \ glm::vec2\ uv1\ =\ glm::vec2(0),\ uv2\ =\ glm::vec2(0),\ uv3\ =\ glm::vec2(0);}
 \DoxyCodeLine{00011\ }
@@ -51,13 +51,14 @@
 \DoxyCodeLine{00047\ }
 \DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ batch.drawTriangle(}
 \DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ v\_index,}
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>bodyCenter,\ }
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>rotation,\ color}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00053\ \ \ \ \ \}}
-\DoxyCodeLine{00054\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Triangle\_w\_Color"{}};}
-\DoxyCodeLine{00056\ \ \ \ \ \}}
-\DoxyCodeLine{00057\ \};}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>getPosition(),}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>size,}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ transform-\/>rotation,\ color}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00054\ \ \ \ \ \}}
+\DoxyCodeLine{00055\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Triangle\_w\_Color"{}};}
+\DoxyCodeLine{00057\ \ \ \ \ \}}
+\DoxyCodeLine{00058\ \};}
 
 \end{DoxyCode}

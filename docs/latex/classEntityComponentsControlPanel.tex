@@ -11,30 +11,55 @@ Inheritance diagram for Entity\+Components\+Control\+Panel\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Entity\+Components\+Control\+Panel\+:\nopagebreak
+Collaboration diagram for Entity\+Components\+Control\+Panel\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=248pt]{classEntityComponentsControlPanel__coll__graph}
+\includegraphics[width=251pt]{classEntityComponentsControlPanel__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classEntityComponentsControlPanel_a5a42711ae90183928b68659eb2a4f8de}\label{classEntityComponentsControlPanel_a5a42711ae90183928b68659eb2a4f8de} 
+{\bfseries Entity\+Components\+Control\+Panel} (bool use\+Python)
 \item 
 \Hypertarget{classEntityComponentsControlPanel_a39bfabb07edde8d599eefe696b7fc2dd}\label{classEntityComponentsControlPanel_a39bfabb07edde8d599eefe696b7fc2dd} 
 void {\bfseries set\+Config} (const \mbox{\hyperlink{structEntityComponentsConfig}{Entity\+Components\+Config}} \&cfg)
 \item 
 void \mbox{\hyperlink{classEntityComponentsControlPanel_a27869ae9be6b7388669500f9815758a7}{On\+Im\+Gui\+Render}} () override
 \item 
-\Hypertarget{classEntityComponentsControlPanel_a38eb082c4325ff891e9e27d57f6102b9}\label{classEntityComponentsControlPanel_a38eb082c4325ff891e9e27d57f6102b9} 
-void {\bfseries Start\+Polling\+Component} (\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}entity, const std\+::string \&file\+Name)
+\Hypertarget{classEntityComponentsControlPanel_ac9336df636cc82151e8fcabf97260014}\label{classEntityComponentsControlPanel_ac9336df636cc82151e8fcabf97260014} 
+void {\bfseries Component\+Checkbox} (std\+::string c)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
 \begin{DoxyCompactItemize}
 \item 
 virtual void {\bfseries update} (float delta\+Time=0.\+0f)
+\item 
+{\footnotesize template$<$typename T , typename... Args$>$ }\\void {\bfseries add\+UIComponent} (Args \&\&... args)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries get\+Subcomponent} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T \texorpdfstring{$\ast$}{*} {\bfseries get\+UIComponent} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$ $>$ {\bfseries subcomponents}
+\item 
+\mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} {\bfseries parent} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unordered\+\_\+map$<$ std\+::type\+\_\+index, \mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries ui\+Component\+Registry}
+\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
 \begin{DoxyCompactItemize}
 \item 

@@ -11,11 +11,12 @@ Abstract base class for all map parsers.
 
 
 
-Inheritance diagram for IMap\+Parser\+:\nopagebreak
+Inheritance diagram for IMap\+Parser\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{classIMapParser__inherit__graph}
+\includegraphics[width=303pt]{classIMapParser__inherit__graph}
 \end{center}
 \end{figure}
 
@@ -32,6 +33,9 @@ Collaboration diagram for IMap\+Parser\+:\nopagebreak
 \item 
 \Hypertarget{classIMapParser_aa6f2a44af1cce8bfc815b6842a194872}\label{classIMapParser_aa6f2a44af1cce8bfc815b6842a194872} 
 virtual void {\bfseries read\+File} (std\+::string m\+\_\+file\+Name)=0
+\item 
+\Hypertarget{classIMapParser_adb52277309a484bd188bd3c0f4394a14}\label{classIMapParser_adb52277309a484bd188bd3c0f4394a14} 
+virtual void {\bfseries write\+File} (std\+::string m\+\_\+file\+Name, \mbox{\hyperlink{classManager}{Manager}} \&manager)=0
 \item 
 virtual void \mbox{\hyperlink{classIMapParser_adccd8fe3156720a6d41f5e4a43d95b9a}{parse}} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$ add\+Node\+Func, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$ add\+Link\+Func)=0
 \item 

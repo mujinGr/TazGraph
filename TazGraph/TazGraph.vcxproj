@@ -45,7 +45,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableASAN>true</EnableASAN>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -85,7 +85,7 @@
 	$(SolutionDir)TazGraphEngine;
 	$(IncludePath)
     </IncludePath>
-    <LibraryPath>$(SolutionDir)deps/lib;$(SolutionDir)x64\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)deps/lib;C:\Users\lefte\AppData\Local\Programs\Python\Python313\libs;$(SolutionDir)x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -94,7 +94,7 @@
 	$(SolutionDir)TazGraphEngine;
 	$(IncludePath)
     </IncludePath>
-    <LibraryPath>$(SolutionDir)deps/lib;$(SolutionDir)x64\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)deps/lib;C:\Users\lefte\AppData\Local\Programs\Python\Python313\libs;$(SolutionDir)x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -132,15 +132,18 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(SolutionDir)vendors/JSONParser_Mujin/include;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)RenderEngine;$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/simdump/include;$(IncludePath)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;opengl32.lib;glew32.lib;Winmm.lib;TazGraphEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;opengl32.lib;glew32.lib;python313.lib;Winmm.lib;TazGraphEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -149,38 +152,50 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;TRACY_ENABLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)RenderEngine;$(SolutionDir)TazGraphEngine;$(SolutionDir)deps\include;$(SolutionDir)vendors;$(SolutionDir)vendors/glm;$(SolutionDir)vendors/imgui;$(SolutionDir)vendors/imgui/backends;$(SolutionDir)vendors/implot;$(SolutionDir)vendors/ImGuizmo;$(SolutionDir)vendors/tinyxml2;$(SolutionDir)vendors/JSONParser_Mujin/include;$(SolutionDir)vendors/DotParser/DotParser;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include;$(SolutionDir)vendors/pybind11/include;$(SolutionDir)vendors/simdump/include;$(IncludePath)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;opengl32.lib;glew32.lib;Winmm.lib;TazGraphEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;opengl32.lib;glew32.lib;python313.lib;Winmm.lib;TazGraphEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Src\App\App.cpp" />
     <ClCompile Include="Src\AssetManager\AssetManager.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\GraphMiddlePanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HighlightBox\HighlightBox.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\CameraPanel\CameraPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\EntityComponentsControl\EntityComponentsControl.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\Components\HoverEntityPanel\HoverEntityPanel.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\Components\LoadingPanel\LoadingPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HoverEntityPanel\HoverEntityPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\MenuDropdown.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\ScenePanel\ScenePanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\VisibleEntities\VisibleEntities.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\LoadingUI\LoadingUI.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\NewMapUI\NewMapUI.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuSceneControllers\SavingUI\SavingUI.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\Components\SceneControl\SceneControl.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\PythonInterpreterPanel\PythonInterpreterPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\SceneControl\SceneControl.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphLeftPanel\GraphLeftPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\GraphRightPanel.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\Components\GraphTopBar\GraphTopBar.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\Components\MainMenuPanel\MainMenuPanel.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\Components\ViewportPanel\ViewportPanel.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\Components\Minimap\Minimap.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\Components\OrientationBox\OrientationBox.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\GraphTopBar\GraphTopBar.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\templates\ImGuiPanel\ImGuiPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\ViewportPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\Minimap\Minimap.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\OrientationBox\OrientationBox.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\WarningPanel\WarningPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\GraphEditorLayer\GraphEditorLayer.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\MainMenuEditorLayer\MainMenuEditorLayer.cpp" />
+    <ClCompile Include="Src\Map\Parsers\SimDumpMapParser.cpp" />
+    <ClCompile Include="Src\Map\PathParsers\SimDumpPathParser.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\Graph.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\GraphDraw.cpp" />
@@ -198,27 +213,35 @@
   <ItemGroup>
     <ClInclude Include="Src\App\App.h" />
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\GraphMiddlePanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HighlightBox\HighlightBox.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\CameraPanel\CameraPanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\EntityComponentsControl\EntityComponentsControl.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.h" />
-    <ClInclude Include="Src\EditorIMGUI\Components\FPSCounter.h" />
-    <ClInclude Include="Src\EditorIMGUI\Components\HoverEntityPanel\HoverEntityPanel.h" />
-    <ClInclude Include="Src\EditorIMGUI\Components\LoadingPanel\LoadingPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\FPSCounter.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HoverEntityPanel\HoverEntityPanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\MenuDropdown.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\ScenePanel\ScenePanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\VisibleEntities\VisibleEntities.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\LoadingUI\LoadingUI.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\NewMapUI\NewMapUI.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuSceneControllers\SavingUI\SavingUI.h" />
-    <ClInclude Include="Src\EditorIMGUI\Components\SceneControl\SceneControl.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\PythonInterpreterPanel\PythonInterpreterPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\SceneControl\SceneControl.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphLeftPanel\GraphLeftPanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\GraphRightPanel.h" />
-    <ClInclude Include="Src\EditorIMGUI\Components\GraphTopBar\GraphTopBar.h" />
-    <ClInclude Include="Src\EditorIMGUI\Components\MainMenuPanel\MainMenuPanel.h" />
-    <ClInclude Include="Src\EditorIMGUI\Components\ViewportPanel\ViewportPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\GraphTopBar\GraphTopBar.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\templates\ImGuiPanel\ImGuiPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\ViewportPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\WarningPanel\WarningPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\GraphEditorLayer\GraphEditorLayer.h" />
+    <ClInclude Include="Src\EditorIMGUI\MainMenuEditorLayer\MainMenuEditorLayer.h" />
     <ClInclude Include="Src\EditorIMGUI\UIElement.h" />
-    <ClInclude Include="Src\EditorIMGUI\Components\Minimap\Minimap.h" />
-    <ClInclude Include="Src\EditorIMGUI\Components\OrientationBox\OrientationBox.h" />
-    <ClInclude Include="Src\EditorIMGUI\Components\SliderRotateZ.h" />
-    <ClInclude Include="Src\GECS\Scripts\MainMenuBackground.h" />
-    <ClInclude Include="Src\GECS\ScriptComponents.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\Minimap\Minimap.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\OrientationBox\OrientationBox.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\CameraPanel\SliderRotateZ.h" />
+    <ClInclude Include="Src\Map\Parsers\SimDumpMapParser.h" />
+    <ClInclude Include="Src\Map\PathParsers\SimDumpPathParser.h" />
     <ClInclude Include="Src\Screens\GraphScene\Graph.h" />
     <ClInclude Include="Src\Screens\MainMenuScreen\MainMenuScreen.h" />
     <ClInclude Include="Src\Map\Parsers\DOTMapParser.h" />
@@ -230,6 +253,9 @@
     <ClInclude Include="Src\Map\PathParsers\TextPathParser.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RenderEngine\RenderEngine.vcxproj">
+      <Project>{a13807f6-fbee-4cd8-b6be-ad4c8c29e8c3}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\TazGraphEngine\TazGraphEngine.vcxproj">
       <Project>{fb55d28c-40b5-4e5e-aee2-6a23d72411b6}</Project>
     </ProjectReference>

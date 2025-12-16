@@ -1,0 +1,6 @@
+<map id="WarningPanel" name="WarningPanel">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,80,116,105"/>
+<area shape="rect" id="Node000002" href="$classUIElement.html" title=" " alt="" coords="15,5,106,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="63,45,63,80,58,80,58,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="121,10,133,18,124,26,106,28,106,22,122,21,127,18,118,14"/>
+</map>

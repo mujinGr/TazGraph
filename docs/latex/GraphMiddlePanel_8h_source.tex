@@ -1,0 +1,45 @@
+\doxysection{Graph\+Middle\+Panel.\+h}
+\hypertarget{GraphMiddlePanel_8h_source}{}\label{GraphMiddlePanel_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/GraphMiddlePanel/GraphMiddlePanel.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/GraphMiddlePanel/GraphMiddlePanel.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../../UIElement.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}ViewportPanel/ViewportPanel.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}GraphTopBar/GraphTopBar.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../PythonInterpreterPanel/PythonInterpreterPanel.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structGraphMiddlePanelConfig}{GraphMiddlePanelConfig}}\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classIScene}{IScene}}*\ scene;}
+\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{Framebuffer}}*\ c\_framebuffer;}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{Framebuffer}}*\ c\_minimapFramebuffer;}
+\DoxyCodeLine{00014\ \ \ \ \ ImVec2*\ c\_viewportPos;}
+\DoxyCodeLine{00015\ \ \ \ \ ImVec2*\ c\_viewportSize;}
+\DoxyCodeLine{00016\ \ \ \ \ glm::vec2\ startPos;}
+\DoxyCodeLine{00017\ \ \ \ \ glm::vec2\ currPos;}
+\DoxyCodeLine{00018\ \};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGraphMiddlePanel}{GraphMiddlePanel}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
+\DoxyCodeLine{00021\ \{}
+\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{structGraphMiddlePanelConfig}{GraphMiddlePanelConfig}}\ \ config;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{classGraphMiddlePanel}{GraphMiddlePanel}}()\ \{}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{classGraphMiddlePanel}{GraphMiddlePanel}}(\textcolor{keywordtype}{bool}\ usePython)\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ addUIComponent<GraphTopBar>();}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ addUIComponent<ViewportPanel>(usePython);}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (usePython)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ addUIComponent<PythonInterpreterPanel>();}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structGraphMiddlePanelConfig}{GraphMiddlePanelConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00039\ \};}
+
+\end{DoxyCode}

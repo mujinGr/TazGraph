@@ -1,5 +1,6 @@
 <map id="SceneControlPanel" name="SceneControlPanel">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,148,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,80,148,105"/>
 <area shape="rect" id="Node000002" href="$classUIElement.html" title=" " alt="" coords="31,5,122,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,44,79,79,74,79,74,44"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,45,79,80,74,80,74,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="137,10,149,18,140,26,122,28,122,22,138,21,143,18,134,14"/>
 </map>

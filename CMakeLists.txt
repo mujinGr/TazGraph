@@ -85,11 +85,17 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 ################################################################################
 # Sub-projects
 ################################################################################
+message("Adding RenderEngine...")
+add_subdirectory(RenderEngine)
+
 message("Adding TazGraphEngine...")
 add_subdirectory(TazGraphEngine)
 
 message("Adding TazGraph...")
 add_subdirectory(TazGraph)
+
+add_dependencies(TazGraphEngine RenderEngine)
+message("TazGraphEngine will build after RenderEngine.")
 
 add_dependencies(TazGraph TazGraphEngine)
 message("TazGraph will build after TazGraphEngine.")

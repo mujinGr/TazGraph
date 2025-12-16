@@ -1,11 +1,15 @@
 <map id="LinkComponent" name="LinkComponent">
-<area shape="rect" id="Node000001" title=" " alt="" coords="241,79,365,104"/>
-<area shape="rect" id="Node000003" href="$classLineFlashAnimatorComponent.html" title=" " alt="" coords="5,152,224,177"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="261,111,146,154,144,149,259,106"/>
-<area shape="rect" id="Node000004" href="$classLine__w__Color.html" title=" " alt="" coords="249,152,357,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="305,118,305,152,300,152,300,118"/>
-<area shape="rect" id="Node000005" href="$classSpringComponent.html" title=" " alt="" coords="381,152,520,177"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="340,107,428,149,425,154,337,112"/>
-<area shape="rect" id="Node000002" href="$classBaseComponent.html" title=" " alt="" coords="238,5,367,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="305,44,305,79,300,79,300,44"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="183,104,307,129"/>
+<area shape="rect" id="Node000003" href="$classInnerLink.html" title=" " alt="" coords="423,5,505,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="270,93,308,65,354,40,388,28,422,21,423,26,390,33,356,44,311,70,273,97"/>
+<area shape="rect" id="Node000004" href="$classLineFlashAnimatorComponent.html" title=" " alt="" coords="355,55,573,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="313,98,354,89,404,77,405,83,355,94,314,103"/>
+<area shape="rect" id="Node000005" href="$classLine__w__Color.html" title=" " alt="" coords="410,104,518,129"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="321,114,410,114,410,119,321,119"/>
+<area shape="rect" id="Node000006" href="$classLinkPythonCodeComponent.html" title=" " alt="" coords="363,153,565,179"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="314,130,355,139,405,151,404,156,354,145,313,135"/>
+<area shape="rect" id="Node000007" href="$classSpringComponent.html" title=" " alt="" coords="395,203,533,228"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="273,136,311,164,356,189,395,202,394,207,354,194,308,168,270,140"/>
+<area shape="rect" id="Node000002" href="$classBaseComponent.html" title=" " alt="" coords="5,104,135,129"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,114,182,114,182,119,149,119"/>
 </map>

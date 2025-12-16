@@ -6,31 +6,36 @@
 \DoxyCodeLine{00002\ }
 \DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../UIElement.h"{}}}
 \DoxyCodeLine{00004\ }
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../SliderRotateZ.h"{}}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}./CustomFunctions/CustomFunctions.h"{}}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../../../AssetManager/AssetManager.h"{}}}
-\DoxyCodeLine{00008\ }
-\DoxyCodeLine{00009\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structGraphRightConfig}{GraphRightConfig}}\ \{}
-\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ c\_manager;}
-\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{float}*\ c\_nodeRadius;}
-\DoxyCodeLine{00012\ \ \ \ \ std::vector<std::pair<Entity*,\ glm::vec3>>\ c\_selectedEntities;}
-\DoxyCodeLine{00013\ \};}
-\DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGraphRightPanel}{GraphRightPanel}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
-\DoxyCodeLine{00016\ \{}
-\DoxyCodeLine{00017\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{structGraphRightConfig}{GraphRightConfig}}\ config;}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{classCustomFunctions}{CustomFunctions}}\ \_customFunctions;}
-\DoxyCodeLine{00021\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structGraphRightConfig}{GraphRightConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ availableFunctions();}
-\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ ShowAllEntities();}
-\DoxyCodeLine{00030\ \};}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}./CustomFunctions/CustomFunctions.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../../../AssetManager/AssetManager.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structGraphRightConfig}{GraphRightConfig}}\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{classIScene}{IScene}}*\ scene;}
+\DoxyCodeLine{00010\ \ \ \ \ std::vector<SelectedInfo>\ c\_selectedEntities;}
+\DoxyCodeLine{00011\ \};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGraphRightPanel}{GraphRightPanel}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
+\DoxyCodeLine{00014\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{structGraphRightConfig}{GraphRightConfig}}\ config;}
+\DoxyCodeLine{00017\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{classGraphRightPanel}{GraphRightPanel}}()\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ addUIComponent<CustomFunctions>();}
+\DoxyCodeLine{00021\ \ \ \ \ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structGraphRightConfig}{GraphRightConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ availableFunctions();}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ ShowAllEntities();}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ DrawEntityJumpList(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ labelId,\ \textcolor{keyword}{const}\ std::vector<Entity*>\&\ vec);}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ DrawBulkComponentControls(\textcolor{keyword}{const}\ std::vector<Entity*>\&\ entityVec,\ \textcolor{keyword}{const}\ std::string\&\ componentCategory,\ \textcolor{keyword}{const}\ std::string\&\ uniqueID);}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{void}\ CopyComponentValues(\mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ source,\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ target,\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{00035\ \};}
 
 \end{DoxyCode}

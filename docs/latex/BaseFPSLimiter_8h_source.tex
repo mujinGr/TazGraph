@@ -1,5 +1,5 @@
 \doxysection{Base\+FPSLimiter.\+h}
-\hypertarget{BaseFPSLimiter_8h_source}{}\label{BaseFPSLimiter_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/BaseFPSLimiter/BaseFPSLimiter.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/BaseFPSLimiter/BaseFPSLimiter.h}}
+\hypertarget{BaseFPSLimiter_8h_source}{}\label{BaseFPSLimiter_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/BaseFPSLimiter/BaseFPSLimiter.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/BaseFPSLimiter/BaseFPSLimiter.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
@@ -19,7 +19,7 @@
 \DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ begin();}
 \DoxyCodeLine{00016\ }
 \DoxyCodeLine{00017\ \ \ \ \ \textcolor{comment}{//end\ will\ return\ the\ current\ FPS}}
-\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{float}\ end();}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ end();}
 \DoxyCodeLine{00019\ }
 \DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{float}\ fpsHistory[fps\_history\_count]\ =\ \{\ 0\ \};}
 \DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{int}\ fpsHistoryIndx\ =\ 0;}
@@ -30,7 +30,7 @@
 \DoxyCodeLine{00026\ \ \ \ \ Uint32\ startTicks;}
 \DoxyCodeLine{00027\ }
 \DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ setHistoryValue(\textcolor{keywordtype}{float}\ currentFPS);}
-\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{int}\ currentFrame\ =\ 0;}
 \DoxyCodeLine{00030\ \textcolor{keyword}{private}:}
 \DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ calculateFPS();}
 \DoxyCodeLine{00032\ }

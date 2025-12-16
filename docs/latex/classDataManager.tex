@@ -36,14 +36,14 @@ void {\bfseries Set\+Going\+Back} (bool m\+\_\+going\+Back)
 \Hypertarget{classDataManager_a193648b11560a3e8c8321d8200415981}\label{classDataManager_a193648b11560a3e8c8321d8200415981} 
 void {\bfseries update\+File\+Names\+In\+Assets} ()
 \item 
-\Hypertarget{classDataManager_a82567747f5aeffe3baf3f63a0fd4e292}\label{classDataManager_a82567747f5aeffe3baf3f63a0fd4e292} 
-void {\bfseries update\+Polling\+File\+Names\+In\+Assets} ()
-\item 
 \Hypertarget{classDataManager_a1b7306c6918e8562160a4f4da4ab0b93}\label{classDataManager_a1b7306c6918e8562160a4f4da4ab0b93} 
 void {\bfseries update\+Path\+File\+Names\+In\+Assets} ()
 \item 
 \Hypertarget{classDataManager_a97ba336736bbb26b96dcd982625b7878}\label{classDataManager_a97ba336736bbb26b96dcd982625b7878} 
 void {\bfseries Reload\+Accessible\+Files} ()
+\item 
+\Hypertarget{classDataManager_a59fd3a4c38f2b4aad39b793a1d501864}\label{classDataManager_a59fd3a4c38f2b4aad39b793a1d501864} 
+void {\bfseries apply\+Step} (\mbox{\hyperlink{classManager}{Manager}} \&manager, int transition\+To\+Step)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
@@ -92,9 +92,18 @@ bool {\bfseries loading\+Path} = false
 \item 
 \Hypertarget{classDataManager_a15612e746be918e2e925a5b073889436}\label{classDataManager_a15612e746be918e2e925a5b073889436} 
 bool {\bfseries going\+Back} = false
+\item 
+\Hypertarget{classDataManager_a6e3be764f7495274da7b0f37b48ed558}\label{classDataManager_a6e3be764f7495274da7b0f37b48ed558} 
+std\+::map$<$ int, \mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries map\+Sim\+To\+Graph\+Nodes}
+\item 
+\Hypertarget{classDataManager_a5670a22f2c31ae09034eb519b2d591d6}\label{classDataManager_a5670a22f2c31ae09034eb519b2d591d6} 
+std\+::map$<$ int, \mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries map\+Sim\+To\+Graph\+Links}
+\item 
+\Hypertarget{classDataManager_acc6b5768de80edfeb7448e540782ddaf}\label{classDataManager_acc6b5768de80edfeb7448e540782ddaf} 
+std\+::map$<$ int, \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries map\+Sim\+To\+Graph\+Paths}
 \end{DoxyCompactItemize}
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Data\+Manager/Data\+Manager.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+Data\+Manager/Data\+Manager.\+h\end{DoxyCompactItemize}

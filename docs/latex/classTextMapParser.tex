@@ -23,6 +23,8 @@ Collaboration diagram for Text\+Map\+Parser\+:\nopagebreak
 \item 
 void \mbox{\hyperlink{classTextMapParser_ab21d0b3613307d41c5ad85c319648583}{read\+File}} (std\+::string m\+\_\+file\+Name) override
 \item 
+void \mbox{\hyperlink{classTextMapParser_a7e6b0e1560b2c3880afda0acddaa499a}{write\+File}} (std\+::string m\+\_\+file\+Name, \mbox{\hyperlink{classManager}{Manager}} \&manager) override
+\item 
 void \mbox{\hyperlink{classTextMapParser_afcd3244feffeb316fc446e62ed4f50a4}{parse}} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$ add\+Node\+Func, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$ add\+Link\+Func) override
 \item 
 void \mbox{\hyperlink{classTextMapParser_ae8838cb112b252b4ff53dfdfdc0e91c7}{close\+File}} () override
@@ -68,6 +70,16 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 \index{readFile@{readFile}!TextMapParser@{TextMapParser}}
 \doxysubsubsection{\texorpdfstring{readFile()}{readFile()}}
 {\footnotesize\ttfamily void Text\+Map\+Parser\+::read\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{m\+\_\+file\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+
+\Hypertarget{classTextMapParser_a7e6b0e1560b2c3880afda0acddaa499a}\label{classTextMapParser_a7e6b0e1560b2c3880afda0acddaa499a} 
+\index{TextMapParser@{TextMapParser}!writeFile@{writeFile}}
+\index{writeFile@{writeFile}!TextMapParser@{TextMapParser}}
+\doxysubsubsection{\texorpdfstring{writeFile()}{writeFile()}}
+{\footnotesize\ttfamily void Text\+Map\+Parser\+::write\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{m\+\_\+file\+Name,  }\item[{\mbox{\hyperlink{classManager}{Manager}} \&}]{manager }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 

@@ -26,7 +26,7 @@ void SavingUI::OnImGuiRender()
 	ImGui::SetCursorPosX((windowWidth - buttonWidth) * 0.5f); // Center the button
 
 	if (ImGui::Button("Save", ImVec2(buttonWidth, 0))) {
-		config.c_map->saveMapAsText(DataManager::getInstance().data.input); // save Map that is selected
+		config.c_map->saveMap(DataManager::getInstance().data.input); // save Map that is selected
 		DataManager::getInstance().saving = false;
 		DataManager::getInstance().filesLoaded = false;
 	}

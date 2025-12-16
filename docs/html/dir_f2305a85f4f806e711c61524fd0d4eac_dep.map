@@ -1,17 +1,13 @@
 <map id="/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components" name="/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components">
-<area shape="rect" id="node2" href="dir_7378c8d428d97bcbce7855e6dfa25938.html" title="EntityComponentsControl" alt="" coords="1767,63,1956,88"/>
-<area shape="rect" id="node3" href="dir_c14ec31340c5192dee39a546e85dfe1f.html" title="GraphLeftPanel" alt="" coords="1623,63,1743,88"/>
-<area shape="rect" id="node4" href="dir_a481b229c79a6a3c93082d37080152dd.html" title="GraphRightPanel" alt="" coords="1468,63,1599,88"/>
-<area shape="rect" id="node5" href="dir_00d2444e6b4800e688f7e766433b7029.html" title="GraphTopBar" alt="" coords="1339,63,1445,88"/>
-<area shape="rect" id="node6" href="dir_4b3da979ef59343d41c0b4c3bb231752.html" title="HoverEntityPanel" alt="" coords="1181,63,1315,88"/>
-<area shape="rect" id="node7" href="dir_de62fc6d9168e20b713d5bb1f49fec1e.html" title="LoadingPanel" alt="" coords="1049,63,1157,88"/>
-<area shape="rect" id="node8" href="dir_d104103bf919a82188b9f2a0f3813bf5.html" title="MainMenuPanel" alt="" coords="899,63,1024,88"/>
-<area shape="rect" id="node9" href="dir_d3a5580cdc3caff2afc5a7069d88f75b.html" title="MenuDropdown" alt="" coords="750,63,874,88"/>
-<area shape="rect" id="node10" href="dir_1c587fb322106f8777cd25b5abbd41af.html" title="MenuSceneControllers" alt="" coords="557,63,725,88"/>
-<area shape="rect" id="node11" href="dir_4f212d04e96795cd3aef1da9cb719634.html" title="Minimap" alt="" coords="454,63,533,88"/>
-<area shape="rect" id="node12" href="dir_d2f2291ee7d1a61b3ac289c9ba127096.html" title="OrientationBox" alt="" coords="309,63,429,88"/>
-<area shape="rect" id="node13" href="dir_4658cacc1223ea2baa25bd32e0e6890e.html" title="SceneControl" alt="" coords="177,63,285,88"/>
-<area shape="rect" id="node14" href="dir_625f07493c11ece8e9bdd5b594af9305.html" title="ViewportPanel" alt="" coords="37,63,152,88"/>
-<area shape="rect" id="clust2" href="dir_f2305a85f4f806e711c61524fd0d4eac.html" alt="" coords="27,52,2095,99"/>
-<area shape="rect" id="clust1" href="dir_348193136382623313fa0dac57b5dd0c.html" title="EditorIMGUI" alt="" coords="16,16,2105,109"/>
+<area shape="rect" id="node2" href="dir_7378c8d428d97bcbce7855e6dfa25938.html" title="EntityComponentsControl" alt="" coords="1285,63,1475,88"/>
+<area shape="rect" id="node3" href="dir_c14ec31340c5192dee39a546e85dfe1f.html" title="GraphLeftPanel" alt="" coords="1141,63,1261,88"/>
+<area shape="rect" id="node4" href="dir_dae8a3370b791b7d3d6648dccfda6a43.html" title="GraphMiddlePanel" alt="" coords="977,63,1117,88"/>
+<area shape="rect" id="node5" href="dir_a481b229c79a6a3c93082d37080152dd.html" title="GraphRightPanel" alt="" coords="821,63,952,88"/>
+<area shape="rect" id="node6" href="dir_d3a5580cdc3caff2afc5a7069d88f75b.html" title="MenuDropdown" alt="" coords="673,63,797,88"/>
+<area shape="rect" id="node7" href="dir_1c587fb322106f8777cd25b5abbd41af.html" title="MenuSceneControllers" alt="" coords="480,63,648,88"/>
+<area shape="rect" id="node8" href="dir_8ee73a4e4273a0a7d474ebc4857e9fb5.html" title="PythonInterpreterPanel" alt="" coords="285,63,456,88"/>
+<area shape="rect" id="node9" href="dir_45975952972e9397c8689d6fc466bbca.html" title="templates" alt="" coords="173,63,261,88"/>
+<area shape="rect" id="node10" href="dir_18ecc40f86df929a4e6546893677a00b.html" title="WarningPanel" alt="" coords="38,63,149,88"/>
+<area shape="rect" id="clust2" href="dir_f2305a85f4f806e711c61524fd0d4eac.html" alt="" coords="27,52,1613,99"/>
+<area shape="rect" id="clust1" href="dir_348193136382623313fa0dac57b5dd0c.html" title="EditorIMGUI" alt="" coords="16,16,1624,109"/>
 </map>

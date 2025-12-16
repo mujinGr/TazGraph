@@ -23,6 +23,8 @@ Collaboration diagram for Graph\+MLMap\+Parser\+:\nopagebreak
 \item 
 void \mbox{\hyperlink{classGraphMLMapParser_a55ae5558b17494971335c9638ec35cf0}{read\+File}} (std\+::string m\+\_\+file\+Name) override
 \item 
+void \mbox{\hyperlink{classGraphMLMapParser_a25d34166d0584679f4c70183a2e9c85a}{write\+File}} (std\+::string m\+\_\+file\+Name, \mbox{\hyperlink{classManager}{Manager}} \&manager) override
+\item 
 void \mbox{\hyperlink{classGraphMLMapParser_acfb1fd9977c99f9f0b12b97c3105f3b3}{parse}} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$ add\+Node\+Func, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$ add\+Link\+Func) override
 \item 
 void \mbox{\hyperlink{classGraphMLMapParser_a97029bce088a3e1d3bb39ce6327a0210}{close\+File}} () override
@@ -66,6 +68,16 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 \index{readFile@{readFile}!GraphMLMapParser@{GraphMLMapParser}}
 \doxysubsubsection{\texorpdfstring{readFile()}{readFile()}}
 {\footnotesize\ttfamily void Graph\+MLMap\+Parser\+::read\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{m\+\_\+file\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+
+\Hypertarget{classGraphMLMapParser_a25d34166d0584679f4c70183a2e9c85a}\label{classGraphMLMapParser_a25d34166d0584679f4c70183a2e9c85a} 
+\index{GraphMLMapParser@{GraphMLMapParser}!writeFile@{writeFile}}
+\index{writeFile@{writeFile}!GraphMLMapParser@{GraphMLMapParser}}
+\doxysubsubsection{\texorpdfstring{writeFile()}{writeFile()}}
+{\footnotesize\ttfamily void Graph\+MLMap\+Parser\+::write\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{m\+\_\+file\+Name,  }\item[{\mbox{\hyperlink{classManager}{Manager}} \&}]{manager }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 

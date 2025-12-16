@@ -1,4 +1,7 @@
 <map id="/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/MenuDropdown" name="/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/MenuDropdown">
-<area shape="rect" id="node1" href="dir_d3a5580cdc3caff2afc5a7069d88f75b.html" title="MenuDropdown" alt="" coords="26,52,150,77"/>
-<area shape="rect" id="clust1" href="dir_f2305a85f4f806e711c61524fd0d4eac.html" title="Components" alt="" coords="16,16,160,88"/>
+<area shape="rect" id="node2" href="dir_d547d535d1c571264699e1cdb0efa05c.html" title="CameraPanel" alt="" coords="297,63,405,88"/>
+<area shape="rect" id="node3" href="dir_f37e8085c103cc3112a58729ea0bce9d.html" title="ScenePanel" alt="" coords="176,63,272,88"/>
+<area shape="rect" id="node4" href="dir_f89f2eea858defe2e05ffab74e9ed15a.html" title="VisibleEntities" alt="" coords="37,63,152,88"/>
+<area shape="rect" id="clust2" href="dir_d3a5580cdc3caff2afc5a7069d88f75b.html" alt="" coords="27,52,563,99"/>
+<area shape="rect" id="clust1" href="dir_f2305a85f4f806e711c61524fd0d4eac.html" title="Components" alt="" coords="16,16,573,109"/>
 </map>

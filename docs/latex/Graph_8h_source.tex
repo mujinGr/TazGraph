@@ -5,152 +5,129 @@
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GRAPH\_H}}
 \DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GRAPH\_H}}
 \DoxyCodeLine{00003\ }
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <AppScene/IScene.h>}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <SDL2/SDL\_image.h>}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <GL/glew.h>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <GLSLProgram.h>}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <ResourceManager/ResourceManager.h>}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#undef\ main}}
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <iostream>}}
-\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}Camera2.5D/PerspectiveCamera.h"{}}}
-\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <Renderers/FrameBuffer/Framebuffer.h>}}
-\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h>}}
-\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <InputManager/InputManager.h>}}
-\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <BaseFPSLimiter/BaseFPSLimiter.h>}}
-\DoxyCodeLine{00018\ \textcolor{comment}{//\#include\ "{}SpriteFont/SpriteFont.h"{}}}
-\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}Window/Window.h"{}}}
-\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}TextureManager/TextureManager.h"{}}}
-\DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}AppScene/ScreenIndices.h"{}}}
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <ImGuiInterface/ImGuiInterface.h>}}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <chrono>}}
-\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <thread>}}
-\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}../../EditorIMGUI/Components/MenuDropdown/MenuDropdown.h"{}}}
-\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}../../EditorIMGUI/Components/FPSCounter.h"{}}}
-\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}../../EditorIMGUI/Components/GraphTopBar/GraphTopBar.h"{}}}
-\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}../../EditorIMGUI/Components/GraphLeftPanel/GraphLeftPanel.h"{}}}
-\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}../../EditorIMGUI/Components/ViewportPanel/ViewportPanel.h"{}}}
-\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ "{}../../EditorIMGUI/Components/GraphRightPanel/GraphRightPanel.h"{}}}
-\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ "{}../../AssetManager/AssetManager.h"{}}}
-\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ "{}../../EditorIMGUI/Components/SceneControl/SceneControl.h"{}}}
-\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ "{}../../EditorIMGUI/Components/EntityComponentsControl/EntityComponentsControl.h"{}}}
-\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ "{}../../EditorIMGUI/Components/HoverEntityPanel/HoverEntityPanel.h"{}}}
-\DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMap}{Map}};}
-\DoxyCodeLine{00041\ \textcolor{keyword}{class\ }SceneManager;}
-\DoxyCodeLine{00042\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classColliderComponent}{ColliderComponent}};}
-\DoxyCodeLine{00043\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTransformComponent}{TransformComponent}};}
-\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <TazGraphEngine.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <GL/glew.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#undef\ main}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../../AssetManager/AssetManager.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../../EditorIMGUI/GraphEditorLayer/GraphEditorLayer.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMap}{Map}};}
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }SceneManager;}
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classColliderComponent}{ColliderComponent}};}
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTransformComponent}{TransformComponent}};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGraph}{Graph}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIScene}{IScene}}\ \{}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{classGraph}{Graph}}();}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classGraph}{Graph}}(\textcolor{keywordtype}{bool}\ m\_usePython)\ :\ usePython(m\_usePython)\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \_sceneIndex\ =\ SCENE\_INDEX\_GRAPHPLAY;}
+\DoxyCodeLine{00025\ \ \ \ \ \};}
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{classGraph}{\string~Graph}}();}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ getNextSceneIndex()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ getPreviousSceneIndex()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ build()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ destroy()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onEntry()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onExit()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGraph_a1650103e02a76aeba4243f1f02842fa8}{update}}(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGraph_a96825c801c28c85c630dd5dd38c40c7e}{prepareDraw}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGraph_a57959b5902869e2bc1d4e1d0800ddc0a}{renderDraw}}()\ \textcolor{keyword}{override};}
 \DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ }
-\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ ON\_HOVER\ 0}}
-\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ CTRLD\_LEFT\_CLICK\ -\/1}}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGraph}{Graph}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIScene}{IScene}}\ \{}
-\DoxyCodeLine{00051\ }
-\DoxyCodeLine{00052\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{classGraph}{Graph}}(\mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}*\ window);}
-\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{classGraph}{\string~Graph}}();}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGraph_af0db6aff4dc8ba24d59153f9d29af2b0}{minimapPrepareDraw}}();}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGraph_a2232ce0c107b5ea6ffe7245bbb89c93f}{minimapRenderDraw}}();}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ SwapBufferDraw()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ BeginRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGraph_a442aa25d44cbcb6baf10627fa15ce8d1}{updateUI}}(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ drawUI()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ EndRender()\ \textcolor{keyword}{override};}
 \DoxyCodeLine{00055\ }
 \DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ getNextSceneIndex()\ \textcolor{keyword}{const\ override};}
-\DoxyCodeLine{00058\ }
-\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ getPreviousSceneIndex()\ \textcolor{keyword}{const\ override};}
-\DoxyCodeLine{00060\ }
-\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ build()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00062\ }
-\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ destroy()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00064\ }
-\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onEntry()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00066\ }
-\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onExit()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00068\ }
-\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00070\ }
-\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893}{draw}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ BeginRender()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ updateUI(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ drawUI()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ EndRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{classMap}{Map}}*\ map\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{//std::unique\_ptr<Grid>\ grid;}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ clearSelectedEntities();}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ std::vector<Cell*>\ traversedCellsFromRay(glm::vec3\ rayOrigin,}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ glm::vec3\ rayDirection,}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ maxDistance);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ selectEntityFromRay(glm::vec3\ rayOrigin,\ glm::vec3\ rayDirection,\ \textcolor{keywordtype}{int}\ activateMode);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{bool}\ setManager(std::string\ m\_managerName)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ checkInput();}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ performFrustumSelection();}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{bool}\ onPauseGraph();}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ std::vector<SelectedInfo>\ \_selectedEntities;}
 \DoxyCodeLine{00077\ }
-\DoxyCodeLine{00078\ }
-\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGraph_ad9b5ef26ca51bdc8013bb5a7a9518b08}{renderBatch}}(\textcolor{keyword}{const}\ std::vector<LinkEntity*>\&\ entities,\ \mbox{\hyperlink{classLineRenderer}{LineRenderer}}\&\ batch);}
-\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGraph_ad9b5ef26ca51bdc8013bb5a7a9518b08}{renderBatch}}(\textcolor{keyword}{const}\ std::vector<EmptyEntity*>\&\ entities,\ \mbox{\hyperlink{classPlaneColorRenderer}{PlaneColorRenderer}}\&\ batch);}
-\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGraph_ad9b5ef26ca51bdc8013bb5a7a9518b08}{renderBatch}}(\textcolor{keyword}{const}\ std::vector<NodeEntity*>\&\ entities,\ \mbox{\hyperlink{classPlaneColorRenderer}{PlaneColorRenderer}}\&\ batch);}
-\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGraph_ad9b5ef26ca51bdc8013bb5a7a9518b08}{renderBatch}}(\textcolor{keyword}{const}\ std::vector<EmptyEntity*>\&\ entities,\ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\&\ batch);}
-\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGraph_ad9b5ef26ca51bdc8013bb5a7a9518b08}{renderBatch}}(\textcolor{keyword}{const}\ std::vector<NodeEntity*>\&\ entities,\ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\&\ batch);}
-\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGraph_ad9b5ef26ca51bdc8013bb5a7a9518b08}{renderBatch}}(\textcolor{keyword}{const}\ std::vector<EmptyEntity*>\&\ entities,\ \mbox{\hyperlink{classLightRenderer}{LightRenderer}}\&\ batch);}
-\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ drawHUD(\textcolor{keyword}{const}\ std::vector<NodeEntity*>\&\ entities);}
-\DoxyCodeLine{00087\ }
-\DoxyCodeLine{00089\ }
-\DoxyCodeLine{00090\ \ \ \ \ \mbox{\hyperlink{classMap}{Map}}*\ map\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00091\ \ \ \ \ \textcolor{comment}{//std::unique\_ptr<Grid>\ grid;}}
-\DoxyCodeLine{00092\ }
-\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}*\ \_window;}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ \_displayedEntity\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_sceneManagerActive\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ \_onHoverEntity\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ Uint32\ \_holdStartTime\ =\ 0;}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_isDraggingSelectionBox\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ glm::vec2\ \_selectionStartPos\ =\ glm::vec2(0);}
+\DoxyCodeLine{00087\ \ \ \ \ glm::vec2\ \_selectionCurrentPos\ =\ glm::vec2(0);}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ glm::vec2\ \_selectionWindowStartPos\ =\ glm::vec2(0);}
+\DoxyCodeLine{00090\ \ \ \ \ glm::vec2\ \_selectionWindowCurrentPos\ =\ glm::vec2(0);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{int}\ \_nextSceneIndex\ =\ SCENE\_INDEX\_GRAPHPLAY;}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{int}\ \_prevSceneIndex\ =\ SCENE\_INDEX\_MAIN\_MENU;}
 \DoxyCodeLine{00094\ }
-\DoxyCodeLine{00095\ }
-\DoxyCodeLine{00096\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{float}\ \_backgroundColor[4]\ =\ \{\ 0.407f,0.384f,0.356f,\ 1.0f\ \};}
-\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{float}\ \_minimap\_backgroundColor[4]\ =\ \{\ 1.f,0.f,0.f,\ 1.0f\ \};}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ SCALE\_SPEED\ =\ 0.1f;}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_firstLoop\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{bool}\ usePython\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00099\ }
-\DoxyCodeLine{00100\ \ \ \ \ std::vector<Cell*>\ traversedCellsFromRay(glm::vec3\ rayOrigin,}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ glm::vec3\ rayDirection,}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ maxDistance);}
-\DoxyCodeLine{00103\ }
-\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{void}\ selectEntityFromRay(glm::vec3\ rayOrigin,\ glm::vec3\ rayDirection,\ \textcolor{keywordtype}{int}\ activateMode);}
-\DoxyCodeLine{00105\ }
-\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordtype}{bool}\ setManager(std::string\ m\_managerName);}
+\DoxyCodeLine{00100\ \ \ \ \ \mbox{\hyperlink{classGraphEditorLayer}{GraphEditorLayer}}\ \_graphEditorLayer\ =\ \mbox{\hyperlink{classGraphEditorLayer}{GraphEditorLayer}}(usePython);}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{Framebuffer}}\ \_viewportFramebuffer;}
+\DoxyCodeLine{00103\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{Framebuffer}}\ \_minimapFramebuffer;}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ ImVec2\ \_viewportPos;}
+\DoxyCodeLine{00106\ \ \ \ \ ImVec2\ \_viewportSize;}
 \DoxyCodeLine{00107\ }
-\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ checkInput();}
-\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{bool}\ onPauseGraph();}
-\DoxyCodeLine{00110\ }
-\DoxyCodeLine{00111\ \ \ \ \ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\ \_PlaneModelRenderer;}
-\DoxyCodeLine{00112\ \ \ \ \ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\ \_hudPlaneModelRenderer;}
-\DoxyCodeLine{00113\ \ \ \ \ \mbox{\hyperlink{classPlaneColorRenderer}{PlaneColorRenderer}}\ \_PlaneColorRenderer;}
-\DoxyCodeLine{00114\ \ \ \ \ \mbox{\hyperlink{classLineRenderer}{LineRenderer}}\ \_LineRenderer;}
-\DoxyCodeLine{00115\ \ \ \ \ \mbox{\hyperlink{classLightRenderer}{LightRenderer}}\ \_LightRenderer;}
-\DoxyCodeLine{00116\ }
-\DoxyCodeLine{00117\ \ \ \ \ \mbox{\hyperlink{classResourceManager}{ResourceManager}}\ \_resourceManager;}
-\DoxyCodeLine{00118\ }
-\DoxyCodeLine{00119\ \ \ \ \ std::vector<std::pair<Entity*,\ glm::vec3>>\ \_selectedEntities;}
-\DoxyCodeLine{00120\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ \_displayedEntity\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_sceneManagerActive\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00122\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ \_onHoverEntity\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00123\ \ \ \ \ }
-\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordtype}{int}\ \_nextSceneIndex\ =\ SCENE\_INDEX\_GRAPHPLAY;}
-\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordtype}{int}\ \_prevSceneIndex\ =\ SCENE\_INDEX\_MAIN\_MENU;}
+\DoxyCodeLine{00108\ \ \ \ \ glm::vec2\ \_viewportMousePosition\ =\ \{\ 0.f,0.f\ \};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{comment}{//\ Minimap\ stuff}}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordtype}{int}\ currentX\ =\ 0,\ currentY\ =\ 0,\ currentZ\ =\ 0;}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{bool}\ processingComplete\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{bool}\ needsRefresh\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ EntityType>}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordtype}{void}\ selectEntitiesInFrustum(\textcolor{keywordtype}{int}\ groupId,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structSelectionFrustum}{SelectionFrustum}}\&\ frustum);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{float}\ cameraVelocityX\ =\ 0.0f;}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordtype}{float}\ cameraVelocityY\ =\ 0.0f;}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordtype}{float}\ cameraVelocityZ\ =\ 0.0f;}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{float}\ cameraAcceleration\ =\ 10.0f;}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{float}\ cameraMaxVelocity\ =\ 200.0f;}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{float}\ cameraFriction\ =\ 0.9f;}
+\DoxyCodeLine{00124\ \};}
+\DoxyCodeLine{00125\ }
 \DoxyCodeLine{00126\ }
-\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ SCALE\_SPEED\ =\ 0.1f;}
-\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_firstLoop\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00129\ }
-\DoxyCodeLine{00130\ \ \ \ \ \mbox{\hyperlink{classMenuDropdownPanel}{MenuDropdownPanel}}\ \_menuDropdown;}
-\DoxyCodeLine{00131\ \ \ \ \ \mbox{\hyperlink{classFPSCounter}{FPSCounter}}\ \_fpsCounter;}
-\DoxyCodeLine{00132\ \ \ \ \ \mbox{\hyperlink{classGraphTopBar}{GraphTopBar}}\ \_topBar;}
-\DoxyCodeLine{00133\ \ \ \ \ \mbox{\hyperlink{classGraphLeftPanel}{GraphLeftPanel}}\ \_graphLeftPanel;}
-\DoxyCodeLine{00134\ \ \ \ \ \mbox{\hyperlink{classViewportPanel}{ViewportPanel}}\ \_viewportPanel;}
-\DoxyCodeLine{00135\ \ \ \ \ \mbox{\hyperlink{classGraphRightPanel}{GraphRightPanel}}\ \_graphRightPanel;}
-\DoxyCodeLine{00136\ \ \ \ \ \mbox{\hyperlink{classSceneControlPanel}{SceneControlPanel}}\ \_sceneControl;}
-\DoxyCodeLine{00137\ \ \ \ \ \mbox{\hyperlink{classEntityComponentsControlPanel}{EntityComponentsControlPanel}}\ \_entityComponentController;}
-\DoxyCodeLine{00138\ \ \ \ \ \mbox{\hyperlink{classHoverEntityPanel}{HoverEntityPanel}}\ \_hoverEntityPanel;}
-\DoxyCodeLine{00139\ }
-\DoxyCodeLine{00140\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{Framebuffer}}\ \_framebuffer;}
-\DoxyCodeLine{00141\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{Framebuffer}}\ \_minimapFramebuffer;}
-\DoxyCodeLine{00142\ }
-\DoxyCodeLine{00143\ \ \ \ \ ImVec2\ \_windowPos;}
-\DoxyCodeLine{00144\ \ \ \ \ ImVec2\ \_windowSize;}
-\DoxyCodeLine{00145\ }
-\DoxyCodeLine{00146\ \ \ \ \ glm::vec2\ \_sceneMousePosition\ =\ \{0.f,0.f\};}
-\DoxyCodeLine{00147\ \ \ \ \ glm::vec2\ \_savedMainViewportMousePosition\ =\ \{\ 0.f,0.f\ \};}
-\DoxyCodeLine{00148\ }
-\DoxyCodeLine{00149\ \};}
-\DoxyCodeLine{00150\ }
-\DoxyCodeLine{00151\ }
-\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

@@ -11,11 +11,12 @@ Inheritance diagram for Transform\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Transform\+Component\+:\nopagebreak
+Collaboration diagram for Transform\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=265pt]{classTransformComponent__coll__graph}
+\includegraphics[width=350pt]{classTransformComponent__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -49,8 +50,8 @@ void \mbox{\hyperlink{classTransformComponent_aca7dc4830ccbbbd6005a5ed44c0f9cab}
 \item 
 void \mbox{\hyperlink{classTransformComponent_a968fb99efc2ce36ad7427563249718f0}{update}} (float delta\+Time) override
 \item 
-\Hypertarget{classTransformComponent_ab3ba5b9ad5040e5457082110ef37fa57}\label{classTransformComponent_ab3ba5b9ad5040e5457082110ef37fa57} 
-glm\+::vec3 {\bfseries get\+Center\+Transform} ()
+\Hypertarget{classTransformComponent_a73b94bed56c1b12cdc74fb8c78de87d1}\label{classTransformComponent_a73b94bed56c1b12cdc74fb8c78de87d1} 
+void {\bfseries init\+Child} ()
 \item 
 \Hypertarget{classTransformComponent_a7d632f75c01097e0f93ec6360550e4a2}\label{classTransformComponent_a7d632f75c01097e0f93ec6360550e4a2} 
 glm\+::vec3 {\bfseries get\+Size\+Center} ()
@@ -76,9 +77,15 @@ void {\bfseries set\+Velocity\+\_\+Y} (float new\+Velocity\+\_\+Y)
 \Hypertarget{classTransformComponent_a30656bdead536e63aaf1988aebfa4429}\label{classTransformComponent_a30656bdead536e63aaf1988aebfa4429} 
 void {\bfseries set\+Rotation} (glm\+::vec3 m\+\_\+rotation)
 \item 
+\Hypertarget{classTransformComponent_a84410ccd4cf9455a786695dcc3e344a9}\label{classTransformComponent_a84410ccd4cf9455a786695dcc3e344a9} 
+void {\bfseries Set\+Moving\+Animation} (glm\+::vec3 m\+\_\+starting\+Pos, size\+\_\+t fr, float sp, const Animation\+::anim\+Type type, const glm\+::vec3 distance, const glm\+::vec3 dest\+\_\+rotation, int reps=0)
+\item 
+\Hypertarget{classTransformComponent_ae0f8532358b08ae6709db26c5981b05c}\label{classTransformComponent_ae0f8532358b08ae6709db26c5981b05c} 
+void {\bfseries set\+Move\+Frame} ()
+\item 
 std\+::string \mbox{\hyperlink{classTransformComponent_aa0aaddc06ee3d8da6268d3fdf5d375df}{Get\+Component\+Name}} () override
 \item 
-void \mbox{\hyperlink{classTransformComponent_a673cc28604a6e35b766f2221fb94c796}{show\+GUI}} () override
+void \mbox{\hyperlink{classTransformComponent_a9e283de23e511ce0f299594e1d547951}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\}) override
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
@@ -103,6 +110,12 @@ glm\+::vec3 {\bfseries rotation} = \{ 0.\+0f,0.\+0f,0.\+0f \}
 \Hypertarget{classTransformComponent_a07035d8d3a70e9935c2355ad0835e0d3}\label{classTransformComponent_a07035d8d3a70e9935c2355ad0835e0d3} 
 glm\+::vec3 {\bfseries position} = glm\+::vec3(0)
 \item 
+\Hypertarget{classTransformComponent_a3999630b6f85a377c59e492ac442bb2c}\label{classTransformComponent_a3999630b6f85a377c59e492ac442bb2c} 
+glm\+::vec3 {\bfseries local\+\_\+position} = glm\+::vec3(0)
+\item 
+\Hypertarget{classTransformComponent_ab553fd6197376d2ccac137206c77e337}\label{classTransformComponent_ab553fd6197376d2ccac137206c77e337} 
+glm\+::vec3 {\bfseries local\+\_\+normal\+\_\+position} = glm\+::vec3(0)
+\item 
 \Hypertarget{classTransformComponent_a9aa355176bc1aaf2623a94d4ac43b176}\label{classTransformComponent_a9aa355176bc1aaf2623a94d4ac43b176} 
 glm\+::vec3 {\bfseries size} = glm\+::vec3(0)
 \item 
@@ -115,14 +128,14 @@ glm\+::vec3 {\bfseries last\+\_\+size} = glm\+::vec3(0)
 \Hypertarget{classTransformComponent_a8b9ae187790321091f4df73bc8da9d1e}\label{classTransformComponent_a8b9ae187790321091f4df73bc8da9d1e} 
 glm\+::vec3 {\bfseries last\+\_\+velocity} = glm\+::vec3(0)
 \item 
-\Hypertarget{classTransformComponent_a344bca8a2cef4c2359ac5b84ba4914fe}\label{classTransformComponent_a344bca8a2cef4c2359ac5b84ba4914fe} 
-glm\+::vec3 {\bfseries body\+Center} = \{ 0.\+0f,0.\+0f,0.\+0f \}
-\item 
 \Hypertarget{classTransformComponent_aad630539b7fcf13a5618fae839030dd5}\label{classTransformComponent_aad630539b7fcf13a5618fae839030dd5} 
 float {\bfseries scale} = 1
 \item 
 \Hypertarget{classTransformComponent_abf4816fe466517cec4670f9bb9a5cff5}\label{classTransformComponent_abf4816fe466517cec4670f9bb9a5cff5} 
 int {\bfseries speed} = 1
+\item 
+\Hypertarget{classTransformComponent_a8565096abd1166a279c50ff99ec1f139}\label{classTransformComponent_a8565096abd1166a279c50ff99ec1f139} 
+\mbox{\hyperlink{classMovingAnimation}{Moving\+Animation}} {\bfseries moving\+\_\+animation}
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
 \begin{DoxyCompactItemize}
@@ -131,6 +144,8 @@ int {\bfseries speed} = 1
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
+\item 
+bool {\bfseries modify\+Position} = false
 \item 
 Component\+ID {\bfseries id} = 0u
 \end{DoxyCompactItemize}
@@ -157,11 +172,11 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
-\Hypertarget{classTransformComponent_a673cc28604a6e35b766f2221fb94c796}\label{classTransformComponent_a673cc28604a6e35b766f2221fb94c796} 
+\Hypertarget{classTransformComponent_a9e283de23e511ce0f299594e1d547951}\label{classTransformComponent_a9e283de23e511ce0f299594e1d547951} 
 \index{TransformComponent@{TransformComponent}!showGUI@{showGUI}}
 \index{showGUI@{showGUI}!TransformComponent@{TransformComponent}}
 \doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}}
-{\footnotesize\ttfamily void Transform\+Component\+::show\+GUI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void Transform\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
@@ -181,4 +196,4 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Empty/\+Basic/Transform\+Component.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Components/\+Empty/\+Basic/Transform\+Component.\+h\end{DoxyCompactItemize}

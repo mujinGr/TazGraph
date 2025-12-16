@@ -8,17 +8,29 @@ TazGraph is a modular, high-performance 3D graph editor built in C++ with OpenGL
 ## Getting Started
 create a build folder in root
 necessary programs: cmake, g++
-WSL: 
+Ubuntu: 
 `sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev libglew-dev libglm-dev libopengl`
+
+`sudo apt install python3-dev libpython3-dev python3.12-dev libjs-sphinxdoc`
+
 if libopengl does not exist:
 `sudo apt install freeglut3-dev mesa-common-dev`
+
+><b>Windows (Visual Studio 2022)</b>\
+The project was primarily tested on Visual Studio 2022. 
+>- Build settings are defined in the .vcxproj file.
+>- Some large libraries (e.g., SDL, GLEW, Python) are not included locally in the repository. Instead, only their DLLs are committed. From these DLLs you can check which versions were used, but you may also use your own versions.
+>- Library paths can be configured either through Project Properties in Visual Studio or directly by editing the .vcxproj file to point to the locations of the libraries on your system. (e.g. `$(SolutionDir)deps/lib;C:\Users\lefte\AppData\Local\Programs\Python\Python313\libs;`, `$(SolutionDir)deps\include;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include`)
 
 Start by cloning the repository with
 `git clone --recursive https://github.com/mujinGr/TazGraph.git`
 
 If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
 
-In build/:
+### Build 
+`mkdir build`
+\
+`cd build`
 \
 `cmake -DCMAKE_BUILD_TYPE=Release ..`
 \
@@ -62,6 +74,16 @@ into a unified environment.
 - Multiple Editor  Tabs  
 - 3D Models with Lighting  
 - Simulation Play  
+
+## TODO
+
+- [ ] Have beautiful and convinient UI 
+- [ ] Extend Python API for nodes and on update execute
+- [ ] Take Apache Arrow Data and execute large simulations
+
+![alt text](TazGraph/assets/Sprites/Screenshot_9.png)
+![alt text](TazGraph/assets/Sprites/Screenshot_1.png) 
+![alt text](TazGraph/assets/Sprites/Screenshot_2.png)
 
 ## Developer Guide: [DoxyDevGuide](https://mujingr.github.io/TazGraph/html/dev_guide.html)
 

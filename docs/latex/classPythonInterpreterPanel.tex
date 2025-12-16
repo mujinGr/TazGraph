@@ -1,0 +1,144 @@
+\doxysection{Python\+Interpreter\+Panel Class Reference}
+\hypertarget{classPythonInterpreterPanel}{}\label{classPythonInterpreterPanel}\index{PythonInterpreterPanel@{PythonInterpreterPanel}}
+
+
+Inheritance diagram for Python\+Interpreter\+Panel\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classPythonInterpreterPanel__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Python\+Interpreter\+Panel\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=231pt]{classPythonInterpreterPanel__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classPythonInterpreterPanel_ae132cef621806713785154213cbe2d1c}\label{classPythonInterpreterPanel_ae132cef621806713785154213cbe2d1c} 
+void {\bfseries init\+\_\+api} (py\+::module\+\_\+ \&m, \mbox{\hyperlink{classManager}{Manager}} \&manager)
+\item 
+void \mbox{\hyperlink{classPythonInterpreterPanel_ab999a83ba0526ab8a80ad7358f346e92}{update}} (float delta\+Time) override
+\item 
+\Hypertarget{classPythonInterpreterPanel_a355abb9354a6e9b6dce82c28f2a2bafb}\label{classPythonInterpreterPanel_a355abb9354a6e9b6dce82c28f2a2bafb} 
+void {\bfseries set\+Config} (const \mbox{\hyperlink{structPythonInterpreterConfig}{Python\+Interpreter\+Config}} \&cfg)
+\item 
+void \mbox{\hyperlink{classPythonInterpreterPanel_a2770a63063a754ffae173d42d7c27d7e}{On\+Im\+Gui\+Render}} () override
+\item 
+\Hypertarget{classPythonInterpreterPanel_a3ca9473ada79cbb5552b65fedf673bae}\label{classPythonInterpreterPanel_a3ca9473ada79cbb5552b65fedf673bae} 
+void {\bfseries On\+Im\+Gui\+Render2} ()
+\item 
+\Hypertarget{classPythonInterpreterPanel_aa0102cbce08606b55f15656ac99a0324}\label{classPythonInterpreterPanel_aa0102cbce08606b55f15656ac99a0324} 
+void {\bfseries set\+Flags} ()
+\item 
+\Hypertarget{classPythonInterpreterPanel_a001c6d0028b3a55653c3ed6999ed812d}\label{classPythonInterpreterPanel_a001c6d0028b3a55653c3ed6999ed812d} 
+void {\bfseries inner\+Table} ()
+\item 
+\Hypertarget{classPythonInterpreterPanel_ad68d86236b802b650b7f12149ba53d88}\label{classPythonInterpreterPanel_ad68d86236b802b650b7f12149ba53d88} 
+void {\bfseries run\+Script} ()
+\item 
+\Hypertarget{classPythonInterpreterPanel_abca1febe0e0ec043539715254e26b0bc}\label{classPythonInterpreterPanel_abca1febe0e0ec043539715254e26b0bc} 
+void {\bfseries run\+Update\+Script} (float delta\+Time)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , typename... Args$>$ }\\void {\bfseries add\+UIComponent} (Args \&\&... args)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries get\+Subcomponent} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classPythonInterpreterPanel_aeaea907d3f05f807cbe678846238e7de}\label{classPythonInterpreterPanel_aeaea907d3f05f807cbe678846238e7de} 
+float {\bfseries default\+\_\+python\+Console\+Height} = 400.\+0f
+\item 
+\Hypertarget{classPythonInterpreterPanel_a928fa7fee93a27b0bc59f401bff27b4a}\label{classPythonInterpreterPanel_a928fa7fee93a27b0bc59f401bff27b4a} 
+Im\+Rect {\bfseries title\+Bar\+Rect}
+\item 
+\Hypertarget{classPythonInterpreterPanel_ad4be4ca761815a91c139c11fabb4ec5b}\label{classPythonInterpreterPanel_ad4be4ca761815a91c139c11fabb4ec5b} 
+float {\bfseries interval\+Sec} = 1.\+0f
+\item 
+\Hypertarget{classPythonInterpreterPanel_a62c593af35f9658e36d043479e0ab58a}\label{classPythonInterpreterPanel_a62c593af35f9658e36d043479e0ab58a} 
+double {\bfseries last\+Exec\+Time} = 0.\+0
+\item 
+\Hypertarget{classPythonInterpreterPanel_a672262424f3331ead3afb5101172de30}\label{classPythonInterpreterPanel_a672262424f3331ead3afb5101172de30} 
+bool {\bfseries use\+Interval} = false
+\item 
+\Hypertarget{classPythonInterpreterPanel_adcfb0ab556012179837215cd7f7f9a09}\label{classPythonInterpreterPanel_adcfb0ab556012179837215cd7f7f9a09} 
+bool {\bfseries update\+Paused} = true
+\item 
+\Hypertarget{classPythonInterpreterPanel_ab99c6fdcebb0ee1a9a08a6d3ffa89619}\label{classPythonInterpreterPanel_ab99c6fdcebb0ee1a9a08a6d3ffa89619} 
+bool {\bfseries input\+Active} = false
+\item 
+\Hypertarget{classPythonInterpreterPanel_a37098d611e08df5a1403283754b903a1}\label{classPythonInterpreterPanel_a37098d611e08df5a1403283754b903a1} 
+bool {\bfseries init} = true
+\item 
+\Hypertarget{classPythonInterpreterPanel_a1c27fbb2d1610c1da72d9921aa59a056}\label{classPythonInterpreterPanel_a1c27fbb2d1610c1da72d9921aa59a056} 
+bool {\bfseries ready\+To\+Execute} = false
+\item 
+\Hypertarget{classPythonInterpreterPanel_aadec90b02f3676c00226c031e808c4ee}\label{classPythonInterpreterPanel_aadec90b02f3676c00226c031e808c4ee} 
+Im\+Gui\+Child\+Flags {\bfseries flags} = Im\+Gui\+Child\+Flags\+\_\+\+ResizeY \texorpdfstring{$\vert$}{|} Im\+Gui\+Window\+Flags\+\_\+\+No\+Saved\+Settings
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$ $>$ {\bfseries subcomponents}
+\item 
+\mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} {\bfseries parent} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T \texorpdfstring{$\ast$}{*} {\bfseries get\+UIComponent} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unordered\+\_\+map$<$ std\+::type\+\_\+index, \mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries ui\+Component\+Registry}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries name}
+\item 
+bool {\bfseries visible} = true
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classPythonInterpreterPanel_a2770a63063a754ffae173d42d7c27d7e}\label{classPythonInterpreterPanel_a2770a63063a754ffae173d42d7c27d7e} 
+\index{PythonInterpreterPanel@{PythonInterpreterPanel}!OnImGuiRender@{OnImGuiRender}}
+\index{OnImGuiRender@{OnImGuiRender}!PythonInterpreterPanel@{PythonInterpreterPanel}}
+\doxysubsubsection{\texorpdfstring{OnImGuiRender()}{OnImGuiRender()}}
+{\footnotesize\ttfamily void Python\+Interpreter\+Panel\+::\+On\+Im\+Gui\+Render (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classUIElement}{UIElement}}.
+
+\Hypertarget{classPythonInterpreterPanel_ab999a83ba0526ab8a80ad7358f346e92}\label{classPythonInterpreterPanel_ab999a83ba0526ab8a80ad7358f346e92} 
+\index{PythonInterpreterPanel@{PythonInterpreterPanel}!update@{update}}
+\index{update@{update}!PythonInterpreterPanel@{PythonInterpreterPanel}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Python\+Interpreter\+Panel\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classUIElement}{UIElement}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Python\+Interpreter\+Panel/Python\+Interpreter\+Panel.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Python\+Interpreter\+Panel/Python\+Interpreter\+Panel.\+cpp\end{DoxyCompactItemize}

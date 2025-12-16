@@ -1,7 +1,7 @@
 \chapter{Developer Integration Guide}
 \hypertarget{dev_guide}{}\label{dev_guide}\index{Developer Integration Guide@{Developer Integration Guide}}
 \hypertarget{dev_guide_autotoc_md0}{}\doxysubsubsection{\texorpdfstring{Core Architecture\+:}{Core Architecture:}}\label{dev_guide_autotoc_md0}
-Taz\+Graph uses a {\bfseries{custom ECS}} where entities (such as nodes, links, and empty\+Entities) are composed of components. Components are plain data-\/only structures, like {\ttfamily \doxylink{classTransformComponent}{Transform\+Component}} and {\ttfamily \doxylink{classPollingComponent}{Polling\+Component}}.
+Taz\+Graph uses a {\bfseries{custom ECS}} where entities (such as nodes, links, and empty\+Entities) are composed of components. Components are plain data-\/only structures, like {\ttfamily \doxylink{classTransformComponent}{Transform\+Component}} and {\ttfamily Polling\+Component}.
 
 The ECS is managed by \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily GECSManager}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}, which handles creation, removal, update, and drawing of entities. \doxylink{classEntity}{Entity} processing is based on {\bfseries{groups}} ({\ttfamily Entity\+Groups}) for rendering and update.\hypertarget{dev_guide_autotoc_md1}{}\doxysubsubsection{\texorpdfstring{Scene System}{Scene System}}\label{dev_guide_autotoc_md1}
 There are two scenes implemented\+:
@@ -22,7 +22,7 @@ Each scene controls its own logic, similar to a game state system. In the {\ttfa
 \item UI interactions
 \end{DoxyItemize}
 \end{DoxyItemize}\hypertarget{dev_guide_autotoc_md2}{}\doxysubsubsection{\texorpdfstring{Graph Rendering Pipeline}{Graph Rendering Pipeline}}\label{dev_guide_autotoc_md2}
-All rendering logic is handled in {\ttfamily \doxylink{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893}{Graph\+::draw()}}.\hypertarget{dev_guide_autotoc_md3}{}\doxyparagraph{\texorpdfstring{1. Shader Setup}{1. Shader Setup}}\label{dev_guide_autotoc_md3}
+All rendering logic is handled in {\ttfamily Graph\+::draw()}.\hypertarget{dev_guide_autotoc_md3}{}\doxyparagraph{\texorpdfstring{1. Shader Setup}{1. Shader Setup}}\label{dev_guide_autotoc_md3}
 GLSL shader programs are loaded and set up using the resource manager. Uniforms (e.\+g. camera matrix, rotation) are passed before rendering\+:
 
 
@@ -102,5 +102,5 @@ To create a new renderer -\/ for example, a {\bfseries{textured plane with shadi
 \item you need to implement a new renderer class that matches the data layout and rendering logic required for that effect.
 \end{DoxyItemize}
 
-In the following folder\+: {\ttfamily Taz\+Graph\+Engine/\+Renderers/\+Plane\+Renderers/\+Plane\+Lit\+Text\+Renderer} use one of the existing renderers as a base, then write glsl shader to match the renderer under {\ttfamily Taz\+Graph/\+Src/\+Shaders}, implement a {\ttfamily draw} function in a component that uses that renderer and then pass that renderer as argument for {\ttfamily render\+Batch} in {\ttfamily \doxylink{classGraph_ad16ce3c3a8dcd0c02c4fd9fca968c893}{Graph\+::draw()}}.\hypertarget{dev_guide_autotoc_md8}{}\doxysubsubsection{\texorpdfstring{Graph Loaders (\+WIP)}{Graph Loaders (WIP)}}\label{dev_guide_autotoc_md8}
+In the following folder\+: {\ttfamily Taz\+Graph\+Engine/\+Renderers/\+Plane\+Renderers/\+Plane\+Lit\+Text\+Renderer} use one of the existing renderers as a base, then write glsl shader to match the renderer under {\ttfamily Taz\+Graph/\+Src/\+Shaders}, implement a {\ttfamily draw} function in a component that uses that renderer and then pass that renderer as argument for {\ttfamily render\+Batch} in {\ttfamily Graph\+::draw()}.\hypertarget{dev_guide_autotoc_md8}{}\doxysubsubsection{\texorpdfstring{Graph Loaders (\+WIP)}{Graph Loaders (WIP)}}\label{dev_guide_autotoc_md8}
 Currently Taz\+Graph has the ability to process txt and python files with a specific format. Developers are able to implement their own processing of files, by creating more functions inside {\ttfamily Taz\+Graph/\+Src/\+Map} 

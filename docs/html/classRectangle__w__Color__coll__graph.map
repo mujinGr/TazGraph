@@ -1,21 +1,25 @@
 <map id="Rectangle_w_Color" name="Rectangle_w_Color">
-<area shape="rect" id="Node000001" title=" " alt="" coords="182,361,329,387"/>
-<area shape="rect" id="Node000002" href="$classComponent.html" title=" " alt="" coords="43,181,140,207"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,220,72,259,73,279,80,297,100,320,126,337,154,350,183,359,181,364,152,355,123,342,97,324,76,300,68,280,67,258,77,218"/>
-<area shape="rect" id="Node000007" href="$classTransformComponent.html" title=" " alt="" coords="90,271,253,297"/>
-<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="113,215,163,269,159,273,109,219"/>
-<area shape="rect" id="Node000003" href="$classBaseComponent.html" title=" " alt="" coords="5,93,135,119"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="79,131,91,180,86,181,74,133"/>
-<area shape="rect" id="Node000004" href="$classEntity.html" title=" " alt="" coords="159,93,219,119"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="167,130,107,183,103,179,164,126"/>
-<area shape="rect" id="Node000005" href="$classManager.html" title=" " alt="" coords="149,5,228,31"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="191,45,191,93,186,93,186,45"/>
-<area shape="rect" id="Node000006" href="$structColor.html" title=" " alt="" coords="310,181,366,207"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="333,221,314,276,284,339,268,362,263,359,280,336,309,274,328,219"/>
-<area shape="rect" id="Node000008" href="$structFlashAnimation.html" title=" " alt="" coords="411,271,535,297"/>
-<area shape="poly" id="edge10_Node000008_Node000006" title=" " alt="" coords="362,214,399,243,448,269,445,274,397,248,359,218"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="190,306,215,335,242,359,238,363,211,339,186,310"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="433,304,285,364,283,359,431,299"/>
-<area shape="rect" id="Node000009" href="$structAnimation.html" title=" " alt="" coords="428,181,517,207"/>
-<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="475,220,475,271,470,271,470,220"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="218,361,365,387"/>
+<area shape="rect" id="Node000002" href="$classComponent.html" title=" " alt="" coords="432,181,529,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="490,220,493,259,490,280,483,300,461,327,432,347,399,361,366,369,364,364,397,356,429,343,457,324,478,297,485,279,488,259,484,221"/>
+<area shape="rect" id="Node000007" href="$classTransformComponent.html" title=" " alt="" coords="306,271,469,297"/>
+<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="476,221,460,247,441,262,420,274,418,269,438,258,456,244,471,218"/>
+<area shape="rect" id="Node000003" href="$classBaseComponent.html" title=" " alt="" coords="375,93,504,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="453,130,477,180,473,182,448,132"/>
+<area shape="rect" id="Node000004" href="$classEntity.html" title=" " alt="" coords="528,93,588,119"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="540,131,493,183,489,179,536,127"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="603,96,611,99,615,106,606,115,589,117,588,111,604,110,609,106,608,104,601,101"/>
+<area shape="rect" id="Node000005" href="$classManager.html" title=" " alt="" coords="519,5,597,31"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="561,45,561,93,555,93,555,45"/>
+<area shape="rect" id="Node000006" href="$structTazGraphEngine_1_1Color.html" title=" " alt="" coords="77,181,245,207"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="175,218,180,230,194,265,211,297,244,333,277,359,273,363,240,337,206,300,189,267,176,232,170,220"/>
+<area shape="rect" id="Node000010" href="$structFlashAnimation.html" title=" " alt="" coords="5,271,129,297"/>
+<area shape="poly" id="edge13_Node000010_Node000006" title=" " alt="" coords="131,216,111,233,77,273,73,269,107,229,128,212"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="366,308,306,363,302,359,363,304"/>
+<area shape="rect" id="Node000008" href="$classMovingAnimation.html" title=" " alt="" coords="269,181,407,207"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="332,220,331,233,334,244,345,258,361,269,358,273,342,262,329,247,325,233,326,220"/>
+<area shape="rect" id="Node000009" href="$structAnimation.html" title=" " alt="" coords="131,93,220,119"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="210,123,317,179,315,183,208,127"/>
+<area shape="poly" id="edge12_Node000010_Node000009" title=" " alt="" coords="133,127,96,150,80,165,67,183,60,205,59,230,66,271,61,272,53,230,54,204,62,180,76,161,92,145,130,122"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="64,310,65,324,71,336,93,349,130,359,218,368,218,373,129,364,91,354,67,339,60,325,59,310"/>
 </map>

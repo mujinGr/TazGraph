@@ -11,13 +11,53 @@ void TextMapParser::readFile(std::string m_fileName) {
 	}
 }
 
+void TextMapParser::writeFile(std::string m_fileName, Manager& manager)
+{
+
+	auto& nodes(manager.getGroup<NodeEntity>(Manager::groupNodes_0));
+	auto& links(manager.getGroup<LinkEntity>(Manager::groupLinks_0));
+
+	std::ofstream file(m_fileName);
+
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file for writing: " << m_fileName << std::endl;
+		return;
+	}
+
+	file << "Total number of nodes: " << nodes.size() << "\n";
+
+	for (auto* entity : nodes) {
+		NodeEntity* node_entity = dynamic_cast<NodeEntity*>(entity);
+
+		if (entity->hasComponent<TransformComponent>()) {
+			TransformComponent& tc = entity->GetComponent<TransformComponent>();
+			file << EntityIDUtils::toString(entity->getId()) << "\t"; // id is the index in the vector of entities
+			file << tc.getPosition().x << " " << tc.getPosition().y << "\t";
+			file << tc.size.x << "x" << tc.size.y << "\n";
+		}
+	}
+
+	file << "\n";
+
+	file << "Total number of links: " << links.size() << "\n";
+
+	for (auto* entity : links) {
+		LinkEntity* link_entity = dynamic_cast<LinkEntity*>(entity);
+		file << EntityIDUtils::toString(link_entity->getId()) << "\t";
+		file << EntityIDUtils::toString(link_entity->getFromNode()) << "\t";
+		file << EntityIDUtils::toString(link_entity->getToNode()) << "\n";
+	}
+
+	file.close();
+}
+
 void TextMapParser::closeFile() {
 	file.close();
 }
 
 void TextMapParser::parse(Manager& manager,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
-	std::function<void(Entity&)> addLinkFunc) 
+	std::function<void(Entity&)> addLinkFunc)
 {
 	std::string line;
 	std::getline(file, line); // for first line
@@ -42,7 +82,7 @@ void TextMapParser::parse(Manager& manager,
 		glm::vec2 max;
 	};
 
-	std::vector<MinMax> localExtremes(_threader->num_threads, 
+	std::vector<MinMax> localExtremes(_threader->num_threads,
 		{ glm::vec2(FLT_MAX), glm::vec2(FLT_MIN) });
 
 	glm::vec2 minPos(FLT_MAX);
@@ -59,7 +99,7 @@ void TextMapParser::parse(Manager& manager,
 				float x, y;
 				nodeLine >> id >> x >> y;
 
-				parsedNodes[i] = { id, glm::vec3(x, y, 0)};
+				parsedNodes[i] = { id, glm::vec3(x, y, 0) };
 
 				// Update local min/max
 				local_minPos.x = std::min(local_minPos.x, x);
@@ -69,7 +109,7 @@ void TextMapParser::parse(Manager& manager,
 			}
 			int threadID = (start * _threader->num_threads) / nodeLines.size();
 			localExtremes[threadID] = { local_minPos, local_maxPos };
-		});
+			});
 	}
 
 	for (const auto& mm : localExtremes) {
@@ -90,7 +130,7 @@ void TextMapParser::parse(Manager& manager,
 
 				parsedLinks[i] = { id, fromNodeId, toNodeId };
 			}
-		});
+			});
 	}
 
 	std::vector<Entity*> nodeEntities;
@@ -110,7 +150,7 @@ void TextMapParser::parse(Manager& manager,
 			for (int i = start; i < end; i++) {
 				addNodeFunc(*nodeEntities[i], parsedNodes[i].pos);
 			}
-		});
+			});
 	}
 
 	std::vector<Entity*> linkEntities;
@@ -118,7 +158,7 @@ void TextMapParser::parse(Manager& manager,
 
 	for (const auto& parsedLink : parsedLinks) {
 		auto& link = manager.addEntity<Link>(parsedLink.fromId, parsedLink.toId);
-		
+
 		link.addGroup(Manager::groupLinks_0);
 
 		linkEntities.push_back(&link);
@@ -140,12 +180,16 @@ void TextMapParser::parse(Manager& manager,
 	//! Set grid size
 	manager.grid->setSize(2 * maxDistance);
 
-	for (auto& node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
-		manager.grid->addNode(node, manager.grid->getGridLevel());
+	for (auto* node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+		NodeEntity* node_entity = dynamic_cast<NodeEntity*>(node);
+
+		manager.grid->addNode(node_entity, manager.grid->getGridLevel());
 	}
 
-	for (auto& link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
-		manager.grid->addLink(link, manager.grid->getGridLevel());
+	for (auto link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
+		LinkEntity* link_entity = dynamic_cast<LinkEntity*>(link);
+
+		manager.grid->addLink(link_entity, manager.grid->getGridLevel());
 	}
 
 	//! Set camera based on map loaded
@@ -161,12 +205,7 @@ void TextMapParser::parse(Manager& manager,
 
 	float zFromHeight = height / 2.0f / (std::tan(glm::radians(45.0f) / 2.0f) * aspect);
 
-#if defined(_WIN32) || defined(_WIN64)
-	float requiredZ = std::max(zFromHeight, zFromWidth);
-#else
-	float requiredZ = std::max(zFromHeight, zFromWidth);
-
-#endif
+	float requiredZ = std::max({ 1000.0f,  zFromHeight, zFromWidth });
 
 	main_camera2D->setPosition_Z(-requiredZ);
 

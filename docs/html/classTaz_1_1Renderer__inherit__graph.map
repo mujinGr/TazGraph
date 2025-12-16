@@ -1,0 +1,11 @@
+<map id="Taz::Renderer" name="Taz::Renderer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="217,5,328,31"/>
+<area shape="rect" id="Node000002" href="$classLightRenderer.html" title=" " alt="" coords="5,79,119,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,37,97,81,95,76,225,32"/>
+<area shape="rect" id="Node000003" href="$classLineRenderer.html" title=" " alt="" coords="143,79,251,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="252,42,211,80,207,76,249,38"/>
+<area shape="rect" id="Node000004" href="$classPlaneColorRenderer.html" title=" " alt="" coords="275,79,425,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="297,38,339,76,336,80,293,42"/>
+<area shape="rect" id="Node000005" href="$classPlaneModelRenderer.html" title=" " alt="" coords="450,79,607,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="327,32,488,76,487,81,326,37"/>
+</map>

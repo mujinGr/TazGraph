@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TazGraph Project: /mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/ViewportPanel/ViewportPanel.h Source File</title>
+<title>TazGraph Project: /mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/GraphMiddlePanel/ViewportPanel/ViewportPanel.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -74,7 +74,7 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_09b1ff4369ed9fd91d5e250699b03ef2.html">TazGraph</a></li><li class="navelem"><a class="el" href="dir_3f423d6722606df6946b79f1f4f6c816.html">Src</a></li><li class="navelem"><a class="el" href="dir_348193136382623313fa0dac57b5dd0c.html">EditorIMGUI</a></li><li class="navelem"><a class="el" href="dir_f2305a85f4f806e711c61524fd0d4eac.html">Components</a></li><li class="navelem"><a class="el" href="dir_625f07493c11ece8e9bdd5b594af9305.html">ViewportPanel</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_09b1ff4369ed9fd91d5e250699b03ef2.html">TazGraph</a></li><li class="navelem"><a class="el" href="dir_3f423d6722606df6946b79f1f4f6c816.html">Src</a></li><li class="navelem"><a class="el" href="dir_348193136382623313fa0dac57b5dd0c.html">EditorIMGUI</a></li><li class="navelem"><a class="el" href="dir_f2305a85f4f806e711c61524fd0d4eac.html">Components</a></li><li class="navelem"><a class="el" href="dir_dae8a3370b791b7d3d6648dccfda6a43.html">GraphMiddlePanel</a></li><li class="navelem"><a class="el" href="dir_8b69b259ae91cc5d46acf784d5a1665b.html">ViewportPanel</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -84,46 +84,59 @@ $(document).ready(function() { init_codefold(0); });
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;../../UIElement.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;../../../UIElement.h&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;../Minimap/Minimap.h&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;../OrientationBox/OrientationBox.h&quot;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;Renderers/FrameBuffer/Framebuffer.h&gt;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="structViewportPanelConfig.html">   10</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structViewportPanelConfig.html">ViewportPanelConfig</a> {</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <a class="code hl_class" href="classFramebuffer.html">Framebuffer</a>* c_fb;</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <a class="code hl_class" href="classFramebuffer.html">Framebuffer</a>* c_minimap_fb;</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    ImVec2* c_storedWindowPos; </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    ImVec2* c_storedWindowSize;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>};</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;Minimap/Minimap.h&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;OrientationBox/OrientationBox.h&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;HighlightBox/HighlightBox.h&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;SceneControl/SceneControl.h&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;HoverEntityPanel/HoverEntityPanel.h&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;../../EntityComponentsControl/EntityComponentsControl.h&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="structViewportPanelConfig.html">   14</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structViewportPanelConfig.html">ViewportPanelConfig</a> {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <a class="code hl_class" href="classFramebuffer.html">Framebuffer</a>* c_fb;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <a class="code hl_class" href="classFramebuffer.html">Framebuffer</a>* c_minimap_fb;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    ImVec2* c_storedWindowPos;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    ImVec2* c_storedWindowSize;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    glm::vec2 startPos;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    glm::vec2 currPos;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>};</div>
 </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="foldopen" id="foldopen00017" data-start="{" data-end="};">
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classViewportPanel.html">   17</a></span><span class="keyword">class </span><a class="code hl_class" href="classViewportPanel.html">ViewportPanel</a> : <span class="keyword">public</span> <a class="code hl_class" href="classUIElement.html">UIElement</a></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>{</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <a class="code hl_class" href="classMinimap.html">Minimap</a> _minimap;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_class" href="classOrientationBox.html">OrientationBox</a> _orientationBox;</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <a class="code hl_struct" href="structViewportPanelConfig.html">ViewportPanelConfig</a> config;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">bool</span> isMouseInSecondColumn = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordtype">void</span> update(<span class="keywordtype">float</span> deltaTime) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">void</span> setConfig(<span class="keyword">const</span> <a class="code hl_struct" href="structViewportPanelConfig.html">ViewportPanelConfig</a>&amp; cfg) { config = cfg; }</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordtype">void</span> OnImGuiRender() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">void</span> updateIsMouseInSecondColumn();</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>};</div>
+<div class="foldopen" id="foldopen00023" data-start="{" data-end="};">
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classViewportPanel.html">   23</a></span><span class="keyword">class </span><a class="code hl_class" href="classViewportPanel.html">ViewportPanel</a> : <span class="keyword">public</span> <a class="code hl_class" href="classUIElement.html">UIElement</a></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>{</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_struct" href="structViewportPanelConfig.html">ViewportPanelConfig</a> config;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <a class="code hl_class" href="classViewportPanel.html">ViewportPanel</a>() {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    }</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <a class="code hl_class" href="classViewportPanel.html">ViewportPanel</a>(<span class="keywordtype">bool</span> usePython) {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        addUIComponent&lt;Minimap&gt;();</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        addUIComponent&lt;OrientationBox&gt;();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        addUIComponent&lt;SceneControlPanel&gt;();</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        addUIComponent&lt;HoverEntityPanel&gt;();</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        addUIComponent&lt;HighlightBox&gt;();</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        addUIComponent&lt;EntityComponentsControlPanel&gt;(usePython);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordtype">bool</span> isMouseInSecondColumn = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">void</span> setConfig(<span class="keyword">const</span> <a class="code hl_struct" href="structViewportPanelConfig.html">ViewportPanelConfig</a>&amp; cfg) { config = cfg; }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">void</span> OnImGuiRender() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">void</span> updateIsMouseInSecondColumn();</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>};</div>
 </div>
-<div class="ttc" id="aclassFramebuffer_html"><div class="ttname"><a href="classFramebuffer.html">Framebuffer</a></div><div class="ttdef"><b>Definition</b> Framebuffer.h:8</div></div>
-<div class="ttc" id="aclassMinimap_html"><div class="ttname"><a href="classMinimap.html">Minimap</a></div><div class="ttdef"><b>Definition</b> Minimap.h:14</div></div>
-<div class="ttc" id="aclassOrientationBox_html"><div class="ttname"><a href="classOrientationBox.html">OrientationBox</a></div><div class="ttdef"><b>Definition</b> OrientationBox.h:16</div></div>
-<div class="ttc" id="aclassUIElement_html"><div class="ttname"><a href="classUIElement.html">UIElement</a></div><div class="ttdef"><b>Definition</b> UIElement.h:21</div></div>
-<div class="ttc" id="aclassViewportPanel_html"><div class="ttname"><a href="classViewportPanel.html">ViewportPanel</a></div><div class="ttdef"><b>Definition</b> ViewportPanel.h:18</div></div>
-<div class="ttc" id="astructViewportPanelConfig_html"><div class="ttname"><a href="structViewportPanelConfig.html">ViewportPanelConfig</a></div><div class="ttdef"><b>Definition</b> ViewportPanel.h:10</div></div>
+<div class="ttc" id="aclassFramebuffer_html"><div class="ttname"><a href="classFramebuffer.html">Framebuffer</a></div><div class="ttdef"><b>Definition</b> Framebuffer.h:6</div></div>
+<div class="ttc" id="aclassUIElement_html"><div class="ttname"><a href="classUIElement.html">UIElement</a></div><div class="ttdef"><b>Definition</b> UIElement.h:14</div></div>
+<div class="ttc" id="aclassViewportPanel_html"><div class="ttname"><a href="classViewportPanel.html">ViewportPanel</a></div><div class="ttdef"><b>Definition</b> ViewportPanel.h:24</div></div>
+<div class="ttc" id="astructViewportPanelConfig_html"><div class="ttname"><a href="structViewportPanelConfig.html">ViewportPanelConfig</a></div><div class="ttdef"><b>Definition</b> ViewportPanel.h:14</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

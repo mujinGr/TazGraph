@@ -12,13 +12,17 @@ void PythonMapParser::readFile(std::string m_fileName) {
 	}
 }
 
+void PythonMapParser::writeFile(std::string m_fileName, Manager& manager)
+{
+}
+
 void PythonMapParser::closeFile() {
 	file.close();
 }
 
 void PythonMapParser::parse(Manager& manager,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
-	std::function<void(Entity&)> addLinkFunc) 
+	std::function<void(Entity&)> addLinkFunc)
 {
 
 	JsonParser fileParser(file);
@@ -54,7 +58,7 @@ void PythonMapParser::parse(Manager& manager,
 		_threader->parallel(nodeEntries.size(), [&](int start, int end) {
 			glm::vec2 local_minPos(FLT_MAX);
 			glm::vec2 local_maxPos(FLT_MIN);
-			
+
 			for (int i = start; i < end; i++) {
 				int nodeId = std::stoi(nodeEntries[i].first);
 				auto& nodeInfo = *nodeEntries[i].second;
@@ -123,12 +127,7 @@ void PythonMapParser::parse(Manager& manager,
 
 	for (const auto& parsedLink : parsedLinks) {
 		auto& link = manager.addEntity<Link>(
-			parsedLink.fromId, parsedLink.toId, 
-			parsedLink.from, parsedLink.to);
-
-		parsedLink.from->addOutLink(&link);
-		parsedLink.to->addInLink(&link);
-
+			parsedLink.from->getId(), parsedLink.to->getId());
 
 		link.addGroup(Manager::groupLinks_0);
 
@@ -150,12 +149,16 @@ void PythonMapParser::parse(Manager& manager,
 
 	manager.grid->setSize(2 * maxDistance);
 
-	for (auto& node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
-		manager.grid->addNode(node, manager.grid->getGridLevel());
+	for (auto* node : manager.getGroup<NodeEntity>(Manager::groupNodes_0)) {
+		NodeEntity* node_entity = dynamic_cast<NodeEntity*>(node);
+
+		manager.grid->addNode(node_entity, manager.grid->getGridLevel());
 	}
 
-	for (auto& link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
-		manager.grid->addLink(link, manager.grid->getGridLevel());
+	for (auto* link : manager.getGroup<LinkEntity>(Manager::groupLinks_0)) {
+		LinkEntity* link_entity = dynamic_cast<LinkEntity*>(link);
+
+		manager.grid->addLink(link_entity, manager.grid->getGridLevel());
 	}
 
 
@@ -173,12 +176,8 @@ void PythonMapParser::parse(Manager& manager,
 
 	float zFromHeight = (maxPos.y - minPos.y) / 2.0f / (std::tan(glm::radians(45.0f) / 2.0f) * aspect);
 
-#if defined(_WIN32) || defined(_WIN64)
-	float requiredZ = std::max(zFromHeight, zFromWidth);
-#else
-	float requiredZ = std::max(zFromHeight, zFromWidth);
+	float requiredZ = std::max({ 1000.0f,  zFromHeight, zFromWidth });
 
-#endif
 
 	main_camera2D->setPosition_Z(-requiredZ);
 

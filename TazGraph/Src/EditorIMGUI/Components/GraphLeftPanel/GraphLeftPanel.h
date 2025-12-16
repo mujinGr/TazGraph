@@ -2,25 +2,30 @@
 
 #include "../../UIElement.h"
 
-#include "../SliderRotateZ.h"
 #include "../../../AssetManager/AssetManager.h"
 
 struct GraphLeftConfig {
-	bool* renderDebug;
+	IScene* scene;
 	glm::vec2 sceneMouseCoords;
-	glm::vec2 mouseCoords;
-	Manager* manager = nullptr;
+	std::vector<SelectedInfo> c_selectedEntities;
 };
 
 class GraphLeftPanel : public UIElement
 {
 private:
-	SliderRotateZ sliderRotate;
+
+	enum class LayoutState {
+		Idle,
+		ProcessingCircular,
+		ProcessingCluster
+	};
+	LayoutState _currentLayoutState = LayoutState::Idle;
+
+	bool _clusterLayoutEnabled = false;
+	bool _circularLayoutProcessing = false;
 
 	bool _clusterLayout = false;
 	GraphLeftConfig config;
-
-	int _currentOrientationIndex = 0;
 
 	int last_activeLayout = 0;
 	int activeLayout = 0;
@@ -30,4 +35,6 @@ public:
 	void update(float deltaTime) override;
 
 	void OnImGuiRender() override;
+	void ChooseLayoutPanel();
+	void displayChildrenRecursive(EntityID entity, int depth);
 };

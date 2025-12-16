@@ -1,0 +1,109 @@
+\doxysection{Graph\+Editor\+Layer Class Reference}
+\hypertarget{classGraphEditorLayer}{}\label{classGraphEditorLayer}\index{GraphEditorLayer@{GraphEditorLayer}}
+
+
+Inheritance diagram for Graph\+Editor\+Layer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{classGraphEditorLayer__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Graph\+Editor\+Layer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{classGraphEditorLayer__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGraphEditorLayer_ad2b99932b012f5fdf56c844d60fcd6df}\label{classGraphEditorLayer_ad2b99932b012f5fdf56c844d60fcd6df} 
+enum {\bfseries COL\+\_\+\+STATE} \{ {\bfseries COLLAPSED}
+, {\bfseries EXPANDED}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGraphEditorLayer_a723c6d8d8a716cb5a105679ca01bffd5}\label{classGraphEditorLayer_a723c6d8d8a716cb5a105679ca01bffd5} 
+{\bfseries Graph\+Editor\+Layer} (bool use\+Python)
+\item 
+\Hypertarget{classGraphEditorLayer_a4fa1e9d3be6c51c57c11ec6a2209400d}\label{classGraphEditorLayer_a4fa1e9d3be6c51c57c11ec6a2209400d} 
+void {\bfseries set\+Config} (const \mbox{\hyperlink{structGraphEditorLayerConfig}{Graph\+Editor\+Layer\+Config}} \&cfg)
+\item 
+void \mbox{\hyperlink{classGraphEditorLayer_a8dd39d5f314cf15d9474d3f73c97e90a}{On\+Im\+Gui\+Render}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries update} (float delta\+Time=0.\+0f)
+\item 
+{\footnotesize template$<$typename T , typename... Args$>$ }\\void {\bfseries add\+UIComponent} (Args \&\&... args)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries get\+Subcomponent} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGraphEditorLayer_aaaea976529fbedeea704dea584c57f82}\label{classGraphEditorLayer_aaaea976529fbedeea704dea584c57f82} 
+COL\+\_\+\+STATE {\bfseries left\+Column\+State} = COL\+\_\+\+STATE\+::\+EXPANDED
+\item 
+\Hypertarget{classGraphEditorLayer_a79305c34a9fbfd1761b8c69225acf752}\label{classGraphEditorLayer_a79305c34a9fbfd1761b8c69225acf752} 
+COL\+\_\+\+STATE {\bfseries last\+\_\+left\+Column\+State} = COL\+\_\+\+STATE\+::\+EXPANDED
+\item 
+\Hypertarget{classGraphEditorLayer_aab53e442bfb5c545e196b71581940c86}\label{classGraphEditorLayer_aab53e442bfb5c545e196b71581940c86} 
+COL\+\_\+\+STATE {\bfseries right\+Column\+State} = COL\+\_\+\+STATE\+::\+EXPANDED
+\item 
+\Hypertarget{classGraphEditorLayer_af26c218394a03c3ad9b826881a6c224a}\label{classGraphEditorLayer_af26c218394a03c3ad9b826881a6c224a} 
+COL\+\_\+\+STATE {\bfseries last\+\_\+right\+Column\+State} = COL\+\_\+\+STATE\+::\+EXPANDED
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$ $>$ {\bfseries subcomponents}
+\item 
+\mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} {\bfseries parent} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T \texorpdfstring{$\ast$}{*} {\bfseries get\+UIComponent} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unordered\+\_\+map$<$ std\+::type\+\_\+index, \mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries ui\+Component\+Registry}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries name}
+\item 
+bool {\bfseries visible} = true
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classGraphEditorLayer_a8dd39d5f314cf15d9474d3f73c97e90a}\label{classGraphEditorLayer_a8dd39d5f314cf15d9474d3f73c97e90a} 
+\index{GraphEditorLayer@{GraphEditorLayer}!OnImGuiRender@{OnImGuiRender}}
+\index{OnImGuiRender@{OnImGuiRender}!GraphEditorLayer@{GraphEditorLayer}}
+\doxysubsubsection{\texorpdfstring{OnImGuiRender()}{OnImGuiRender()}}
+{\footnotesize\ttfamily void Graph\+Editor\+Layer\+::\+On\+Im\+Gui\+Render (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classUIElement}{UIElement}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Graph\+Editor\+Layer/Graph\+Editor\+Layer.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Graph\+Editor\+Layer/Graph\+Editor\+Layer.\+cpp\end{DoxyCompactItemize}

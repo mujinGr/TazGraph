@@ -1,0 +1,99 @@
+\doxysection{Camera\+Panel Class Reference}
+\hypertarget{classCameraPanel}{}\label{classCameraPanel}\index{CameraPanel@{CameraPanel}}
+
+
+Inheritance diagram for Camera\+Panel\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=161pt]{classCameraPanel__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Camera\+Panel\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classCameraPanel__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classCameraPanel_a1db06c0e0e771ca76da39732798da600}\label{classCameraPanel_a1db06c0e0e771ca76da39732798da600} 
+void {\bfseries set\+Config} (const \mbox{\hyperlink{structCameraPanelConfig}{Camera\+Panel\+Config}} \&cfg)
+\item 
+void \mbox{\hyperlink{classCameraPanel_a67cdc6de865d0c914b613dfc490b4eef}{update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{classCameraPanel_ad186d779f89c3bf81fd6a15df4799ae7}{On\+Im\+Gui\+Render}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , typename... Args$>$ }\\void {\bfseries add\+UIComponent} (Args \&\&... args)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries get\+Subcomponent} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classCameraPanel_a6a238d4c6ac250900ca745c99cb5af94}\label{classCameraPanel_a6a238d4c6ac250900ca745c99cb5af94} 
+bool {\bfseries show\+Camera\+Panel} = false
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$ $>$ {\bfseries subcomponents}
+\item 
+\mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} {\bfseries parent} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T \texorpdfstring{$\ast$}{*} {\bfseries get\+UIComponent} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unordered\+\_\+map$<$ std\+::type\+\_\+index, \mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries ui\+Component\+Registry}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries name}
+\item 
+bool {\bfseries visible} = true
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classCameraPanel_ad186d779f89c3bf81fd6a15df4799ae7}\label{classCameraPanel_ad186d779f89c3bf81fd6a15df4799ae7} 
+\index{CameraPanel@{CameraPanel}!OnImGuiRender@{OnImGuiRender}}
+\index{OnImGuiRender@{OnImGuiRender}!CameraPanel@{CameraPanel}}
+\doxysubsubsection{\texorpdfstring{OnImGuiRender()}{OnImGuiRender()}}
+{\footnotesize\ttfamily void Camera\+Panel\+::\+On\+Im\+Gui\+Render (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classUIElement}{UIElement}}.
+
+\Hypertarget{classCameraPanel_a67cdc6de865d0c914b613dfc490b4eef}\label{classCameraPanel_a67cdc6de865d0c914b613dfc490b4eef} 
+\index{CameraPanel@{CameraPanel}!update@{update}}
+\index{update@{update}!CameraPanel@{CameraPanel}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Camera\+Panel\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classUIElement}{UIElement}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Menu\+Dropdown/\+Camera\+Panel/Camera\+Panel.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Menu\+Dropdown/\+Camera\+Panel/Camera\+Panel.\+cpp\end{DoxyCompactItemize}

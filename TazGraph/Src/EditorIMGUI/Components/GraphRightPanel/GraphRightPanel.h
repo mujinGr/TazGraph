@@ -2,23 +2,24 @@
 
 #include "../../UIElement.h"
 
-#include "../SliderRotateZ.h"
 #include "./CustomFunctions/CustomFunctions.h"
 #include "../../../AssetManager/AssetManager.h"
 
 struct GraphRightConfig {
-	Manager* c_manager;
-	float* c_nodeRadius;
-	std::vector<std::pair<Entity*, glm::vec3>> c_selectedEntities;
+	IScene* scene;
+	std::vector<SelectedInfo> c_selectedEntities;
 };
 
 class GraphRightPanel : public UIElement
 {
 private:
 	GraphRightConfig config;
-
-	CustomFunctions _customFunctions;
 public:
+
+	GraphRightPanel() {
+		addUIComponent<CustomFunctions>();
+	}
+
 	void setConfig(const GraphRightConfig& cfg) { config = cfg; }
 
 	void update(float deltaTime) override;
@@ -27,4 +28,8 @@ public:
 
 	void availableFunctions();
 	void ShowAllEntities();
+	void DrawEntityJumpList(const char* labelId, const std::vector<Entity*>& vec);
+
+	void DrawBulkComponentControls(const std::vector<Entity*>& entityVec, const std::string& componentCategory, const std::string& uniqueID);
+	void CopyComponentValues(BaseComponent* source, BaseComponent* target, size_t size);
 };

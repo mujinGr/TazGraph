@@ -1,5 +1,5 @@
 \doxysection{GECSUtil.\+h}
-\hypertarget{GECSUtil_8h_source}{}\label{GECSUtil_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Core/GECSUtil.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Core/GECSUtil.h}}
+\hypertarget{GECSUtil_8h_source}{}\label{GECSUtil_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Core/GECSUtil.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Core/GECSUtil.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
@@ -26,106 +26,102 @@
 \DoxyCodeLine{00022\ \ \ \ \ \{\textcolor{stringliteral}{"{}RigidBodyComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>addComponent<\mbox{\hyperlink{classRigidBodyComponent}{RigidBodyComponent}}>();\ \}\},}
 \DoxyCodeLine{00023\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>addComponent<\mbox{\hyperlink{classPortComponent}{PortComponent}}>();\ \}\},}
 \DoxyCodeLine{00024\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortSlotComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>addComponent<\mbox{\hyperlink{classPortSlotComponent}{PortSlotComponent}}>();\ \}\},}
-\DoxyCodeLine{00025\ \ \ \ \ \{\textcolor{stringliteral}{"{}PollingComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>addComponent<\mbox{\hyperlink{classPollingComponent}{PollingComponent}}>();\ \}\},}
-\DoxyCodeLine{00026\ \ \ \ \ \{\textcolor{stringliteral}{"{}PathLinkerComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>addComponent<\mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}>();\ \}\},}
-\DoxyCodeLine{00027\ \};}
-\DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \textcolor{comment}{//\ Map\ of\ component\ names\ to\ functions\ for\ removing\ components}}
-\DoxyCodeLine{00030\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::unordered\_map<std::string,\ std::function<void(\mbox{\hyperlink{classEntity}{Entity}}*)>>\ removeComponentMap\ =\ \{}
-\DoxyCodeLine{00031\ \ \ \ \ \textcolor{comment}{//\{"{}TransformComponent"{},\ [](Entity*\ entity)\ \{\ entity-\/>removeComponent<TransformComponent>();\ \}\},}}
-\DoxyCodeLine{00032\ \ \ \ \ \{\textcolor{stringliteral}{"{}SpriteComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeGroup(Manager::groupRenderSprites);\ entity-\/>removeComponent<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>();\ \}\},}
-\DoxyCodeLine{00033\ \ \ \ \ \{\textcolor{stringliteral}{"{}ColliderComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classColliderComponent}{ColliderComponent}}>();\ \}\},}
-\DoxyCodeLine{00034\ \ \ \ \ \{\textcolor{stringliteral}{"{}Triangle\_w\_Color"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classTriangle__w__Color}{Triangle\_w\_Color}}>();\ \}\},}
-\DoxyCodeLine{00035\ \ \ \ \ \{\textcolor{stringliteral}{"{}Rectangle\_w\_Color"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classRectangle__w__Color}{Rectangle\_w\_Color}}>();\ \}\},}
-\DoxyCodeLine{00036\ \ \ \ \ \{\textcolor{stringliteral}{"{}Line\_w\_Color"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>();\ \}\},}
-\DoxyCodeLine{00037\ \ \ \ \ \{\textcolor{stringliteral}{"{}SpringComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classSpringComponent}{SpringComponent}}>();\ \}\},}
-\DoxyCodeLine{00038\ \ \ \ \ \{\textcolor{stringliteral}{"{}BoxComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classBoxComponent}{BoxComponent}}>();\ \}\},}
-\DoxyCodeLine{00039\ \ \ \ \ \{\textcolor{stringliteral}{"{}SphereComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classSphereComponent}{SphereComponent}}>();\ \}\},}
-\DoxyCodeLine{00040\ \ \ \ \ \{\textcolor{stringliteral}{"{}AnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classAnimatorComponent}{AnimatorComponent}}>();\ \}\},}
-\DoxyCodeLine{00041\ \ \ \ \ \{\textcolor{stringliteral}{"{}MovingAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classMovingAnimatorComponent}{MovingAnimatorComponent}}>();\ \}\},}
-\DoxyCodeLine{00042\ \ \ \ \ \{\textcolor{stringliteral}{"{}FlashAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classFlashAnimatorComponent}{FlashAnimatorComponent}}>();\ \}\},}
-\DoxyCodeLine{00043\ \ \ \ \ \{\textcolor{stringliteral}{"{}LineFlashAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classLineFlashAnimatorComponent}{LineFlashAnimatorComponent}}>();\ \}\},}
-\DoxyCodeLine{00044\ \ \ \ \ \{\textcolor{stringliteral}{"{}RectangleFlashAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classRectangleFlashAnimatorComponent}{RectangleFlashAnimatorComponent}}>();\ \}\},}
-\DoxyCodeLine{00045\ \ \ \ \ \{\textcolor{stringliteral}{"{}RigidBodyComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classRigidBodyComponent}{RigidBodyComponent}}>();\ \}\},}
-\DoxyCodeLine{00046\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classPortComponent}{PortComponent}}>();\ \}\},}
-\DoxyCodeLine{00047\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortSlotComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classPortSlotComponent}{PortSlotComponent}}>();\ \}\},}
-\DoxyCodeLine{00048\ \ \ \ \ \{\textcolor{stringliteral}{"{}PollingComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classPollingComponent}{PollingComponent}}>();\ \}\},}
-\DoxyCodeLine{00049\ \ \ \ \ \{\textcolor{stringliteral}{"{}PathLinkerComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}>();\ \}\},}
-\DoxyCodeLine{00050\ \};}
-\DoxyCodeLine{00051\ }
-\DoxyCodeLine{00052\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::unordered\_map<std::string,\ ComponentID>\ componentNameToID\ =\ \{}
-\DoxyCodeLine{00053\ \ \ \ \ \{\textcolor{stringliteral}{"{}TransformComponent"{}},\ GetComponentTypeID<TransformComponent>()\},}
-\DoxyCodeLine{00054\ \ \ \ \ \{\textcolor{stringliteral}{"{}SpriteComponent"{}},\ GetComponentTypeID<SpriteComponent>()\},}
-\DoxyCodeLine{00055\ \ \ \ \ \{\textcolor{stringliteral}{"{}ColliderComponent"{}},\ GetComponentTypeID<ColliderComponent>()\},}
-\DoxyCodeLine{00056\ \ \ \ \ \{\textcolor{stringliteral}{"{}Triangle\_w\_Color"{}},\ GetComponentTypeID<Triangle\_w\_Color>()\},}
-\DoxyCodeLine{00057\ \ \ \ \ \{\textcolor{stringliteral}{"{}Rectangle\_w\_Color"{}},\ GetComponentTypeID<Rectangle\_w\_Color>()\},}
-\DoxyCodeLine{00058\ \ \ \ \ \{\textcolor{stringliteral}{"{}Line\_w\_Color"{}},\ GetLinkComponentTypeID<Line\_w\_Color>()\},}
-\DoxyCodeLine{00059\ \ \ \ \ \{\textcolor{stringliteral}{"{}SpringComponent"{}},\ GetLinkComponentTypeID<SpringComponent>()\},}
-\DoxyCodeLine{00060\ \ \ \ \ \{\textcolor{stringliteral}{"{}BoxComponent"{}},\ GetComponentTypeID<BoxComponent>()\},}
-\DoxyCodeLine{00061\ \ \ \ \ \{\textcolor{stringliteral}{"{}SphereComponent"{}},\ GetComponentTypeID<SphereComponent>()\},}
-\DoxyCodeLine{00062\ \ \ \ \ \{\textcolor{stringliteral}{"{}AnimatorComponent"{}},\ GetComponentTypeID<AnimatorComponent>()\},}
-\DoxyCodeLine{00063\ \ \ \ \ \{\textcolor{stringliteral}{"{}MovingAnimatorComponent"{}},\ GetComponentTypeID<MovingAnimatorComponent>()\},}
-\DoxyCodeLine{00064\ \ \ \ \ \{\textcolor{stringliteral}{"{}FlashAnimatorComponent"{}},\ GetComponentTypeID<FlashAnimatorComponent>()\},}
-\DoxyCodeLine{00065\ \ \ \ \ \{\textcolor{stringliteral}{"{}LineFlashAnimatorComponent"{}},\ GetLinkComponentTypeID<LineFlashAnimatorComponent>()\},}
-\DoxyCodeLine{00066\ \ \ \ \ \{\textcolor{stringliteral}{"{}RectangleFlashAnimatorComponent"{}},\ GetComponentTypeID<RectangleFlashAnimatorComponent>()\},}
-\DoxyCodeLine{00067\ \ \ \ \ \{\textcolor{stringliteral}{"{}RigidBodyComponent"{}},\ GetComponentTypeID<RigidBodyComponent>()\},}
-\DoxyCodeLine{00068\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortComponent"{}},\ GetComponentTypeID<PortComponent>()\},}
-\DoxyCodeLine{00069\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortSlotComponent"{}},\ GetComponentTypeID<PortSlotComponent>()\},}
-\DoxyCodeLine{00070\ \ \ \ \ \{\textcolor{stringliteral}{"{}PollingComponent"{}},\ GetNodeComponentTypeID<PollingComponent>()\},}
-\DoxyCodeLine{00071\ \ \ \ \ \{\textcolor{stringliteral}{"{}PathLinkerComponent"{}},\ GetNodeComponentTypeID<PathLinkerComponent>()\},}
-\DoxyCodeLine{00072\ \};}
-\DoxyCodeLine{00073\ }
-\DoxyCodeLine{00074\ \textcolor{comment}{//\ Map\ of\ component\ names\ to\ functions\ for\ getting\ components}}
-\DoxyCodeLine{00075\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::unordered\_map<std::string,\ std::function<\mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ (\mbox{\hyperlink{classEntity}{Entity}}*)>>\ getComponentMap\ =\ \{}
-\DoxyCodeLine{00076\ \ \ \ \ \{\textcolor{stringliteral}{"{}TransformComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();\ \}\},}
-\DoxyCodeLine{00077\ \ \ \ \ \{\textcolor{stringliteral}{"{}SpriteComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>();\ \}\},}
-\DoxyCodeLine{00078\ \ \ \ \ \{\textcolor{stringliteral}{"{}ColliderComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classColliderComponent}{ColliderComponent}}>();\ \}\},}
-\DoxyCodeLine{00079\ \ \ \ \ \{\textcolor{stringliteral}{"{}Triangle\_w\_Color"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTriangle__w__Color}{Triangle\_w\_Color}}>();\ \}\},}
-\DoxyCodeLine{00080\ \ \ \ \ \{\textcolor{stringliteral}{"{}Rectangle\_w\_Color"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classRectangle__w__Color}{Rectangle\_w\_Color}}>();\ \}\},}
-\DoxyCodeLine{00081\ \ \ \ \ \{\textcolor{stringliteral}{"{}Line\_w\_Color"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>();\ \}\},}
-\DoxyCodeLine{00082\ \ \ \ \ \{\textcolor{stringliteral}{"{}SpringComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classSpringComponent}{SpringComponent}}>();\ \}\},}
-\DoxyCodeLine{00083\ \ \ \ \ \{\textcolor{stringliteral}{"{}BoxComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classBoxComponent}{BoxComponent}}>();\ \}\ \},}
-\DoxyCodeLine{00084\ \ \ \ \ \{\textcolor{stringliteral}{"{}SphereComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classSphereComponent}{SphereComponent}}>();\ \}\ \},}
-\DoxyCodeLine{00085\ \ \ \ \ \{\textcolor{stringliteral}{"{}AnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classAnimatorComponent}{AnimatorComponent}}>();\ \}\},}
-\DoxyCodeLine{00086\ \ \ \ \ \{\textcolor{stringliteral}{"{}MovingAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classMovingAnimatorComponent}{MovingAnimatorComponent}}>();\ \}\},}
-\DoxyCodeLine{00087\ \ \ \ \ \{\textcolor{stringliteral}{"{}FlashAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classFlashAnimatorComponent}{FlashAnimatorComponent}}>();\ \}\},}
-\DoxyCodeLine{00088\ \ \ \ \ \{\textcolor{stringliteral}{"{}LineFlashAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classLineFlashAnimatorComponent}{LineFlashAnimatorComponent}}>();\ \}\},}
-\DoxyCodeLine{00089\ \ \ \ \ \{\textcolor{stringliteral}{"{}RectangleFlashAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classRectangleFlashAnimatorComponent}{RectangleFlashAnimatorComponent}}>();\ \}\},}
-\DoxyCodeLine{00090\ \ \ \ \ \{\textcolor{stringliteral}{"{}RigidBodyComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classRigidBodyComponent}{RigidBodyComponent}}>();\ \}\},}
-\DoxyCodeLine{00091\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classPortComponent}{PortComponent}}>();\ \}\},}
-\DoxyCodeLine{00092\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortSlotComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classPortSlotComponent}{PortSlotComponent}}>();\ \}\},}
-\DoxyCodeLine{00093\ \ \ \ \ \{\textcolor{stringliteral}{"{}PollingComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classPollingComponent}{PollingComponent}}>();\ \}\},}
-\DoxyCodeLine{00094\ \ \ \ \ \{\textcolor{stringliteral}{"{}PathLinkerComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}>();\ \}\},}
-\DoxyCodeLine{00095\ \};}
-\DoxyCodeLine{00096\ }
-\DoxyCodeLine{00097\ }
-\DoxyCodeLine{00098\ \textcolor{comment}{//\ Function\ to\ add\ a\ component\ by\ name}}
-\DoxyCodeLine{00099\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ AddComponentByName(\textcolor{keyword}{const}\ std::string\&\ componentName,\ \mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{}
-\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ addComponentMap.find(componentName);}
-\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ addComponentMap.end())\ \{}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ it-\/>second(entity);}
-\DoxyCodeLine{00103\ \ \ \ \ \}}
-\DoxyCodeLine{00104\ }
-\DoxyCodeLine{00105\ \ \ \ \ entity-\/>getManager()-\/>aboutTo\_updateActiveEntities();}
-\DoxyCodeLine{00106\ \}}
-\DoxyCodeLine{00107\ }
-\DoxyCodeLine{00108\ \textcolor{comment}{//\ Function\ to\ remove\ a\ component\ by\ name}}
-\DoxyCodeLine{00109\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ RemoveComponentByName(\textcolor{keyword}{const}\ std::string\&\ componentName,\ \mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{}
-\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ removeComponentMap.find(componentName);}
-\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ removeComponentMap.end())\ \{}
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ it-\/>second(entity);}
-\DoxyCodeLine{00113\ \ \ \ \ \}}
-\DoxyCodeLine{00114\ }
-\DoxyCodeLine{00115\ \ \ \ \ entity-\/>getManager()-\/>aboutTo\_updateActiveEntities();}
-\DoxyCodeLine{00116\ \}}
-\DoxyCodeLine{00117\ }
-\DoxyCodeLine{00118\ \textcolor{comment}{//\ Function\ to\ get\ a\ component\ by\ name}}
-\DoxyCodeLine{00119\ \textcolor{keyword}{static}\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ getComponentByName(\textcolor{keyword}{const}\ std::string\&\ componentName,\ \mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{}
-\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ getComponentMap.find(componentName);}
-\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ getComponentMap.end())\ \{}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ it-\/>second(entity);}
-\DoxyCodeLine{00123\ \ \ \ \ \}}
-\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00125\ \}}
+\DoxyCodeLine{00025\ \ \ \ \ \{\textcolor{stringliteral}{"{}PathLinkerComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>addComponent<\mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}>();\ \}\},}
+\DoxyCodeLine{00026\ \};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ Map\ of\ component\ names\ to\ functions\ for\ removing\ components}}
+\DoxyCodeLine{00029\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::unordered\_map<std::string,\ std::function<void(\mbox{\hyperlink{classEntity}{Entity}}*)>>\ removeComponentMap\ =\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{comment}{//\{"{}TransformComponent"{},\ [](Entity*\ entity)\ \{\ entity-\/>removeComponent<TransformComponent>();\ \}\},}}
+\DoxyCodeLine{00031\ \ \ \ \ \{\textcolor{stringliteral}{"{}SpriteComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeGroup(Manager::groupRenderSprites);\ entity-\/>removeComponent<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>();\ \}\},}
+\DoxyCodeLine{00032\ \ \ \ \ \{\textcolor{stringliteral}{"{}ColliderComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classColliderComponent}{ColliderComponent}}>();\ \}\},}
+\DoxyCodeLine{00033\ \ \ \ \ \{\textcolor{stringliteral}{"{}Triangle\_w\_Color"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classTriangle__w__Color}{Triangle\_w\_Color}}>();\ \}\},}
+\DoxyCodeLine{00034\ \ \ \ \ \{\textcolor{stringliteral}{"{}Rectangle\_w\_Color"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classRectangle__w__Color}{Rectangle\_w\_Color}}>();\ \}\},}
+\DoxyCodeLine{00035\ \ \ \ \ \{\textcolor{stringliteral}{"{}Line\_w\_Color"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>();\ \}\},}
+\DoxyCodeLine{00036\ \ \ \ \ \{\textcolor{stringliteral}{"{}SpringComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classSpringComponent}{SpringComponent}}>();\ \}\},}
+\DoxyCodeLine{00037\ \ \ \ \ \{\textcolor{stringliteral}{"{}BoxComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classBoxComponent}{BoxComponent}}>();\ \}\},}
+\DoxyCodeLine{00038\ \ \ \ \ \{\textcolor{stringliteral}{"{}SphereComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classSphereComponent}{SphereComponent}}>();\ \}\},}
+\DoxyCodeLine{00039\ \ \ \ \ \{\textcolor{stringliteral}{"{}AnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classAnimatorComponent}{AnimatorComponent}}>();\ \}\},}
+\DoxyCodeLine{00040\ \ \ \ \ \{\textcolor{stringliteral}{"{}MovingAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classMovingAnimatorComponent}{MovingAnimatorComponent}}>();\ \}\},}
+\DoxyCodeLine{00041\ \ \ \ \ \{\textcolor{stringliteral}{"{}FlashAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classFlashAnimatorComponent}{FlashAnimatorComponent}}>();\ \}\},}
+\DoxyCodeLine{00042\ \ \ \ \ \{\textcolor{stringliteral}{"{}LineFlashAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classLineFlashAnimatorComponent}{LineFlashAnimatorComponent}}>();\ \}\},}
+\DoxyCodeLine{00043\ \ \ \ \ \{\textcolor{stringliteral}{"{}RectangleFlashAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classRectangleFlashAnimatorComponent}{RectangleFlashAnimatorComponent}}>();\ \}\},}
+\DoxyCodeLine{00044\ \ \ \ \ \{\textcolor{stringliteral}{"{}RigidBodyComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classRigidBodyComponent}{RigidBodyComponent}}>();\ \}\},}
+\DoxyCodeLine{00045\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classPortComponent}{PortComponent}}>();\ \}\},}
+\DoxyCodeLine{00046\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortSlotComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classPortSlotComponent}{PortSlotComponent}}>();\ \}\},}
+\DoxyCodeLine{00047\ \ \ \ \ \{\textcolor{stringliteral}{"{}PathLinkerComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{\ entity-\/>removeComponent<\mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}>();\ \}\},}
+\DoxyCodeLine{00048\ \};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::unordered\_map<std::string,\ ComponentID>\ componentNameToID\ =\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \{\textcolor{stringliteral}{"{}TransformComponent"{}},\ GetComponentTypeID<TransformComponent>()\},}
+\DoxyCodeLine{00052\ \ \ \ \ \{\textcolor{stringliteral}{"{}SpriteComponent"{}},\ GetComponentTypeID<SpriteComponent>()\},}
+\DoxyCodeLine{00053\ \ \ \ \ \{\textcolor{stringliteral}{"{}ColliderComponent"{}},\ GetComponentTypeID<ColliderComponent>()\},}
+\DoxyCodeLine{00054\ \ \ \ \ \{\textcolor{stringliteral}{"{}Triangle\_w\_Color"{}},\ GetComponentTypeID<Triangle\_w\_Color>()\},}
+\DoxyCodeLine{00055\ \ \ \ \ \{\textcolor{stringliteral}{"{}Rectangle\_w\_Color"{}},\ GetComponentTypeID<Rectangle\_w\_Color>()\},}
+\DoxyCodeLine{00056\ \ \ \ \ \{\textcolor{stringliteral}{"{}Line\_w\_Color"{}},\ GetLinkComponentTypeID<Line\_w\_Color>()\},}
+\DoxyCodeLine{00057\ \ \ \ \ \{\textcolor{stringliteral}{"{}SpringComponent"{}},\ GetLinkComponentTypeID<SpringComponent>()\},}
+\DoxyCodeLine{00058\ \ \ \ \ \{\textcolor{stringliteral}{"{}BoxComponent"{}},\ GetComponentTypeID<BoxComponent>()\},}
+\DoxyCodeLine{00059\ \ \ \ \ \{\textcolor{stringliteral}{"{}SphereComponent"{}},\ GetComponentTypeID<SphereComponent>()\},}
+\DoxyCodeLine{00060\ \ \ \ \ \{\textcolor{stringliteral}{"{}AnimatorComponent"{}},\ GetComponentTypeID<AnimatorComponent>()\},}
+\DoxyCodeLine{00061\ \ \ \ \ \{\textcolor{stringliteral}{"{}MovingAnimatorComponent"{}},\ GetComponentTypeID<MovingAnimatorComponent>()\},}
+\DoxyCodeLine{00062\ \ \ \ \ \{\textcolor{stringliteral}{"{}FlashAnimatorComponent"{}},\ GetComponentTypeID<FlashAnimatorComponent>()\},}
+\DoxyCodeLine{00063\ \ \ \ \ \{\textcolor{stringliteral}{"{}LineFlashAnimatorComponent"{}},\ GetLinkComponentTypeID<LineFlashAnimatorComponent>()\},}
+\DoxyCodeLine{00064\ \ \ \ \ \{\textcolor{stringliteral}{"{}RectangleFlashAnimatorComponent"{}},\ GetComponentTypeID<RectangleFlashAnimatorComponent>()\},}
+\DoxyCodeLine{00065\ \ \ \ \ \{\textcolor{stringliteral}{"{}RigidBodyComponent"{}},\ GetComponentTypeID<RigidBodyComponent>()\},}
+\DoxyCodeLine{00066\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortComponent"{}},\ GetComponentTypeID<PortComponent>()\},}
+\DoxyCodeLine{00067\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortSlotComponent"{}},\ GetComponentTypeID<PortSlotComponent>()\},}
+\DoxyCodeLine{00068\ \ \ \ \ \{\textcolor{stringliteral}{"{}PathLinkerComponent"{}},\ GetComponentTypeID<PathLinkerComponent>()\},}
+\DoxyCodeLine{00069\ \};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{comment}{//\ Map\ of\ component\ names\ to\ functions\ for\ getting\ components}}
+\DoxyCodeLine{00072\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::unordered\_map<std::string,\ std::function<\mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ (\mbox{\hyperlink{classEntity}{Entity}}*)>>\ getComponentMap\ =\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \{\textcolor{stringliteral}{"{}TransformComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();\ \}\},}
+\DoxyCodeLine{00074\ \ \ \ \ \{\textcolor{stringliteral}{"{}SpriteComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classSpriteComponent}{SpriteComponent}}>();\ \}\},}
+\DoxyCodeLine{00075\ \ \ \ \ \{\textcolor{stringliteral}{"{}ColliderComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classColliderComponent}{ColliderComponent}}>();\ \}\},}
+\DoxyCodeLine{00076\ \ \ \ \ \{\textcolor{stringliteral}{"{}Triangle\_w\_Color"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTriangle__w__Color}{Triangle\_w\_Color}}>();\ \}\},}
+\DoxyCodeLine{00077\ \ \ \ \ \{\textcolor{stringliteral}{"{}Rectangle\_w\_Color"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classRectangle__w__Color}{Rectangle\_w\_Color}}>();\ \}\},}
+\DoxyCodeLine{00078\ \ \ \ \ \{\textcolor{stringliteral}{"{}Line\_w\_Color"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>();\ \}\},}
+\DoxyCodeLine{00079\ \ \ \ \ \{\textcolor{stringliteral}{"{}SpringComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classSpringComponent}{SpringComponent}}>();\ \}\},}
+\DoxyCodeLine{00080\ \ \ \ \ \{\textcolor{stringliteral}{"{}BoxComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classBoxComponent}{BoxComponent}}>();\ \}\ \},}
+\DoxyCodeLine{00081\ \ \ \ \ \{\textcolor{stringliteral}{"{}SphereComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classSphereComponent}{SphereComponent}}>();\ \}\ \},}
+\DoxyCodeLine{00082\ \ \ \ \ \{\textcolor{stringliteral}{"{}AnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classAnimatorComponent}{AnimatorComponent}}>();\ \}\},}
+\DoxyCodeLine{00083\ \ \ \ \ \{\textcolor{stringliteral}{"{}MovingAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classMovingAnimatorComponent}{MovingAnimatorComponent}}>();\ \}\},}
+\DoxyCodeLine{00084\ \ \ \ \ \{\textcolor{stringliteral}{"{}FlashAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classFlashAnimatorComponent}{FlashAnimatorComponent}}>();\ \}\},}
+\DoxyCodeLine{00085\ \ \ \ \ \{\textcolor{stringliteral}{"{}LineFlashAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classLineFlashAnimatorComponent}{LineFlashAnimatorComponent}}>();\ \}\},}
+\DoxyCodeLine{00086\ \ \ \ \ \{\textcolor{stringliteral}{"{}RectangleFlashAnimatorComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classRectangleFlashAnimatorComponent}{RectangleFlashAnimatorComponent}}>();\ \}\},}
+\DoxyCodeLine{00087\ \ \ \ \ \{\textcolor{stringliteral}{"{}RigidBodyComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classRigidBodyComponent}{RigidBodyComponent}}>();\ \}\},}
+\DoxyCodeLine{00088\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classPortComponent}{PortComponent}}>();\ \}\},}
+\DoxyCodeLine{00089\ \ \ \ \ \{\textcolor{stringliteral}{"{}PortSlotComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classPortSlotComponent}{PortSlotComponent}}>();\ \}\},}
+\DoxyCodeLine{00090\ \ \ \ \ \{\textcolor{stringliteral}{"{}PathLinkerComponent"{}},\ [](\mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ -\/>\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ \{\ \textcolor{keywordflow}{return}\ \&entity-\/>GetComponent<\mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}>();\ \}\},}
+\DoxyCodeLine{00091\ \};}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \textcolor{comment}{//\ Function\ to\ add\ a\ component\ by\ name}}
+\DoxyCodeLine{00095\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ AddComponentByName(\textcolor{keyword}{const}\ std::string\&\ componentName,\ \mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ addComponentMap.find(componentName);}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ addComponentMap.end())\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ it-\/>second(entity);}
+\DoxyCodeLine{00099\ \ \ \ \ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ entity-\/>getManager()-\/>aboutTo\_updateActiveEntities();}
+\DoxyCodeLine{00102\ \}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{comment}{//\ Function\ to\ remove\ a\ component\ by\ name}}
+\DoxyCodeLine{00105\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ RemoveComponentByName(\textcolor{keyword}{const}\ std::string\&\ componentName,\ \mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ removeComponentMap.find(componentName);}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ removeComponentMap.end())\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ it-\/>second(entity);}
+\DoxyCodeLine{00109\ \ \ \ \ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ entity-\/>getManager()-\/>aboutTo\_updateActiveEntities();}
+\DoxyCodeLine{00112\ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{comment}{//\ Function\ to\ get\ a\ component\ by\ name}}
+\DoxyCodeLine{00115\ \textcolor{keyword}{static}\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}*\ getComponentByName(\textcolor{keyword}{const}\ std::string\&\ componentName,\ \mbox{\hyperlink{classEntity}{Entity}}*\ entity)\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ getComponentMap.find(componentName);}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ getComponentMap.end())\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ it-\/>second(entity);}
+\DoxyCodeLine{00119\ \ \ \ \ \}}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00121\ \}}
 
 \end{DoxyCode}

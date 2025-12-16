@@ -11,11 +11,12 @@ Inheritance diagram for FPSCounter\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for FPSCounter\+:\nopagebreak
+Collaboration diagram for FPSCounter\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=153pt]{classFPSCounter__coll__graph}
+\includegraphics[width=204pt]{classFPSCounter__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -23,15 +24,42 @@ Collaboration diagram for FPSCounter\+:\nopagebreak
 \item 
 void \mbox{\hyperlink{classFPSCounter_aa8bca2527e5b934acdf1691a85abf570}{On\+Im\+Gui\+Render}} () override
 \item 
-\Hypertarget{classFPSCounter_a0053932e5180196e3c7f1e4f6332dc0d}\label{classFPSCounter_a0053932e5180196e3c7f1e4f6332dc0d} 
-void {\bfseries set\+Limiter} (const \mbox{\hyperlink{classBaseFPSLimiter}{Base\+FPSLimiter}} \&m\+\_\+base\+FPSLimiter)
+\Hypertarget{classFPSCounter_a5923849c2afccabc14df5ac7e8e67d5c}\label{classFPSCounter_a5923849c2afccabc14df5ac7e8e67d5c} 
+void {\bfseries set\+Limiter} (\mbox{\hyperlink{classBaseFPSLimiter}{Base\+FPSLimiter}} \&m\+\_\+base\+FPSLimiter)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
 \begin{DoxyCompactItemize}
 \item 
 virtual void {\bfseries update} (float delta\+Time=0.\+0f)
+\item 
+{\footnotesize template$<$typename T , typename... Args$>$ }\\void {\bfseries add\+UIComponent} (Args \&\&... args)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries get\+Subcomponent} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classFPSCounter_a23d626ec920a81c3e29145b65d2b9c20}\label{classFPSCounter_a23d626ec920a81c3e29145b65d2b9c20} 
+bool {\bfseries show\+FPS} = true
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$ $>$ {\bfseries subcomponents}
+\item 
+\mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} {\bfseries parent} = nullptr
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T \texorpdfstring{$\ast$}{*} {\bfseries get\+UIComponent} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unordered\+\_\+map$<$ std\+::type\+\_\+index, \mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries ui\+Component\+Registry}
+\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
 \begin{DoxyCompactItemize}
 \item 
@@ -56,4 +84,4 @@ Implements \mbox{\hyperlink{classUIElement}{UIElement}}.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/FPSCounter.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Menu\+Dropdown/FPSCounter.\+h\end{DoxyCompactItemize}

@@ -10,27 +10,9 @@ Architecture and workflow for loading maps and paths.
 \item 
 class \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}
 \begin{DoxyCompactList}\small\item\em Abstract base class for all map parsers. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Functions}
-\begin{DoxyCompactItemize}
-\item 
-void \mbox{\hyperlink{group__mapLoading_ga547e0e99735e7e231da059bc2a639c70}{Map\+::\+Add\+Default\+Node}} (\mbox{\hyperlink{classEntity}{Entity}} \&node, glm\+::vec3 m\+Position)
-\begin{DoxyCompactList}\small\item\em Adds a default node to the ECS. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 Architecture and workflow for loading maps and paths. 
 
 The map loading system separates file parsing from entity creation. Each parser derives from \doxylink{classIMapParser}{IMap\+Parser} and interacts with Map.\+cpp via callbacks. 
-
-\doxysubsection{Function Documentation}
-\Hypertarget{group__mapLoading_ga547e0e99735e7e231da059bc2a639c70}\label{group__mapLoading_ga547e0e99735e7e231da059bc2a639c70} 
-\index{Map Loading@{Map Loading}!AddDefaultNode@{AddDefaultNode}}
-\index{AddDefaultNode@{AddDefaultNode}!Map Loading@{Map Loading}}
-\doxysubsubsection{\texorpdfstring{AddDefaultNode()}{AddDefaultNode()}}
-{\footnotesize\ttfamily void Map\+::\+Add\+Default\+Node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classEntity}{Entity}} \&}]{node,  }\item[{glm\+::vec3}]{m\+Position }\end{DoxyParamCaption})}
-
-
-
-Adds a default node to the ECS. 
-
-Used as a callback by parsers to attach \doxylink{classTransformComponent}{Transform\+Component}, \doxylink{classRectangle__w__Color}{Rectangle\+\_\+w\+\_\+\+Color}, and \doxylink{classRectangleFlashAnimatorComponent}{Rectangle\+Flash\+Animator\+Component}. 

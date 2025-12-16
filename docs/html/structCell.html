@@ -95,15 +95,18 @@ template&lt;typename T &gt; </td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ad41460e2a48f9ff49c2beaeb9a741fbd" id="r_ad41460e2a48f9ff49c2beaeb9a741fbd"><td class="memItemLeft" align="right" valign="top"><a id="ad41460e2a48f9ff49c2beaeb9a741fbd" name="ad41460e2a48f9ff49c2beaeb9a741fbd"></a>
-std::vector&lt; <a class="el" href="classEmptyEntity.html">EmptyEntity</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>emptyEntities</b></td></tr>
-<tr class="separator:ad41460e2a48f9ff49c2beaeb9a741fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7079398a1efdcc1ef554384e595a80a" id="r_aa7079398a1efdcc1ef554384e595a80a"><td class="memItemLeft" align="right" valign="top"><a id="aa7079398a1efdcc1ef554384e595a80a" name="aa7079398a1efdcc1ef554384e595a80a"></a>
-std::vector&lt; <a class="el" href="classNodeEntity.html">NodeEntity</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>nodes</b></td></tr>
-<tr class="separator:aa7079398a1efdcc1ef554384e595a80a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92c337b08d0ce5d58bd41bcb36c45c00" id="r_a92c337b08d0ce5d58bd41bcb36c45c00"><td class="memItemLeft" align="right" valign="top"><a id="a92c337b08d0ce5d58bd41bcb36c45c00" name="a92c337b08d0ce5d58bd41bcb36c45c00"></a>
-std::vector&lt; <a class="el" href="classLinkEntity.html">LinkEntity</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>links</b></td></tr>
-<tr class="separator:a92c337b08d0ce5d58bd41bcb36c45c00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c78d7adb293078aabbc9b61967cbad2" id="r_a4c78d7adb293078aabbc9b61967cbad2"><td class="memItemLeft" align="right" valign="top"><a id="a4c78d7adb293078aabbc9b61967cbad2" name="a4c78d7adb293078aabbc9b61967cbad2"></a>
+std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>mtx</b></td></tr>
+<tr class="separator:a4c78d7adb293078aabbc9b61967cbad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab37aa01351642b51a1c77e646612faf8" id="r_ab37aa01351642b51a1c77e646612faf8"><td class="memItemLeft" align="right" valign="top"><a id="ab37aa01351642b51a1c77e646612faf8" name="ab37aa01351642b51a1c77e646612faf8"></a>
+std::vector&lt; EntityID &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>emptyEntities</b></td></tr>
+<tr class="separator:ab37aa01351642b51a1c77e646612faf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43f7bdc8553f79dbe4aa955b80164a7b" id="r_a43f7bdc8553f79dbe4aa955b80164a7b"><td class="memItemLeft" align="right" valign="top"><a id="a43f7bdc8553f79dbe4aa955b80164a7b" name="a43f7bdc8553f79dbe4aa955b80164a7b"></a>
+std::vector&lt; EntityID &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>nodes</b></td></tr>
+<tr class="separator:a43f7bdc8553f79dbe4aa955b80164a7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94a3a3166cf4e9ce4be0e5e0f5a41783" id="r_a94a3a3166cf4e9ce4be0e5e0f5a41783"><td class="memItemLeft" align="right" valign="top"><a id="a94a3a3166cf4e9ce4be0e5e0f5a41783" name="a94a3a3166cf4e9ce4be0e5e0f5a41783"></a>
+std::vector&lt; EntityID &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>links</b></td></tr>
+<tr class="separator:a94a3a3166cf4e9ce4be0e5e0f5a41783"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2e84723e0ab0786924e1a9f812e02d9" id="r_ac2e84723e0ab0786924e1a9f812e02d9"><td class="memItemLeft" align="right" valign="top"><a id="ac2e84723e0ab0786924e1a9f812e02d9" name="ac2e84723e0ab0786924e1a9f812e02d9"></a>
 glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>boundingBox_origin</b> = glm::vec3(0)</td></tr>
 <tr class="separator:ac2e84723e0ab0786924e1a9f812e02d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,7 +124,7 @@ std::vector&lt; <a class="el" href="structCell.html">Cell</a> * &gt;&#160;</td><
 <tr class="separator:af5a4b164760e6c7fe12c2ad0e55bff40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Core/<a class="el" href="CellEntity_8h_source.html">CellEntity.h</a></li>
+<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Core/<a class="el" href="CellEntity_8h_source.html">CellEntity.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

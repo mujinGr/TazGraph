@@ -92,11 +92,11 @@ Collaboration diagram for FlashAnimation:</div>
 <div class="dyncontent">
 <div class="center"><img src="structFlashAnimation__coll__graph.png" border="0" usemap="#aFlashAnimation_coll__map" alt="Collaboration graph"/></div>
 <map name="aFlashAnimation_coll__map" id="aFlashAnimation_coll__map">
-<area shape="rect" title=" " alt="" coords="36,93,160,119"/>
+<area shape="rect" title=" " alt="" coords="64,93,188,119"/>
 <area shape="rect" href="structAnimation.html" title=" " alt="" coords="5,5,95,31"/>
-<area shape="poly" title=" " alt="" coords="65,41,94,91,89,94,61,44"/>
-<area shape="rect" href="structColor.html" title=" " alt="" coords="119,5,175,31"/>
-<area shape="poly" title=" " alt="" coords="136,44,107,94,103,91,132,41"/>
+<area shape="poly" title=" " alt="" coords="71,39,117,91,113,95,67,43"/>
+<area shape="rect" href="structTazGraphEngine_1_1Color.html" title=" " alt="" coords="119,5,287,31"/>
+<area shape="poly" title=" " alt="" coords="186,43,139,95,135,91,182,39"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -118,12 +118,12 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af6d4ca87ba9d87fdc632104c71090a18" id="r_af6d4ca87ba9d87fdc632104c71090a18"><td class="memItemLeft" align="right" valign="top"><a id="af6d4ca87ba9d87fdc632104c71090a18" name="af6d4ca87ba9d87fdc632104c71090a18"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FlashAnimation</b> (int ix, int iy, size_t f, float s, const std::string _type, const std::vector&lt; float &gt; &amp;flashTimes, <a class="el" href="structColor.html">Color</a> flashC, int _reps=0)</td></tr>
-<tr class="separator:af6d4ca87ba9d87fdc632104c71090a18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5970d9392e6a2aab09a88df697f90335" id="r_a5970d9392e6a2aab09a88df697f90335"><td class="memItemLeft" align="right" valign="top"><a id="a5970d9392e6a2aab09a88df697f90335" name="a5970d9392e6a2aab09a88df697f90335"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FlashAnimation</b> (int ix, int iy, size_t f, float s, const animType _type, const std::vector&lt; float &gt; &amp;flashTimes, <a class="el" href="structColor.html">Color</a> flashC, int _reps=0)</td></tr>
-<tr class="separator:a5970d9392e6a2aab09a88df697f90335"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54207399bf7ce116168dfe0e34a430ae" id="r_a54207399bf7ce116168dfe0e34a430ae"><td class="memItemLeft" align="right" valign="top"><a id="a54207399bf7ce116168dfe0e34a430ae" name="a54207399bf7ce116168dfe0e34a430ae"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>FlashAnimation</b> (size_t f, float s, const std::string _type, const std::vector&lt; float &gt; &amp;flashTimes, <a class="el" href="structTazGraphEngine_1_1Color.html">TazColor</a> flashC, int _reps=0)</td></tr>
+<tr class="separator:a54207399bf7ce116168dfe0e34a430ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30a4ced2f11f91d09d88f4ee69d7fa4e" id="r_a30a4ced2f11f91d09d88f4ee69d7fa4e"><td class="memItemLeft" align="right" valign="top"><a id="a30a4ced2f11f91d09d88f4ee69d7fa4e" name="a30a4ced2f11f91d09d88f4ee69d7fa4e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>FlashAnimation</b> (size_t f, float s, const animType _type, const std::vector&lt; float &gt; &amp;flashTimes, <a class="el" href="structTazGraphEngine_1_1Color.html">TazColor</a> flashC, int _reps=0)</td></tr>
+<tr class="separator:a30a4ced2f11f91d09d88f4ee69d7fa4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e4288c7ff1d093540151b68fd51cce9" id="r_a4e4288c7ff1d093540151b68fd51cce9"><td class="memItemLeft" align="right" valign="top"><a id="a4e4288c7ff1d093540151b68fd51cce9" name="a4e4288c7ff1d093540151b68fd51cce9"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>advanceFrame</b> (float deltaTime)</td></tr>
 <tr class="separator:a4e4288c7ff1d093540151b68fd51cce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,9 +158,9 @@ std::map&lt; FlashState, float &gt;&#160;</td><td class="memItemRight" valign="b
 <tr class="memitem:a4a37804a6f17f0af0c9e574a0485784f" id="r_a4a37804a6f17f0af0c9e574a0485784f"><td class="memItemLeft" align="right" valign="top"><a id="a4a37804a6f17f0af0c9e574a0485784f" name="a4a37804a6f17f0af0c9e574a0485784f"></a>
 FlashState&#160;</td><td class="memItemRight" valign="bottom"><b>currentSpeedIndex</b> = FlashState::FLASH_OUT</td></tr>
 <tr class="separator:a4a37804a6f17f0af0c9e574a0485784f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7c04c0740b17acc86a68d6e943b06d8" id="r_aa7c04c0740b17acc86a68d6e943b06d8"><td class="memItemLeft" align="right" valign="top"><a id="aa7c04c0740b17acc86a68d6e943b06d8" name="aa7c04c0740b17acc86a68d6e943b06d8"></a>
-<a class="el" href="structColor.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><b>flashColor</b> = <a class="el" href="structColor.html">Color</a>(255,255,255,255)</td></tr>
-<tr class="separator:aa7c04c0740b17acc86a68d6e943b06d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ebb814b5c82522670cd058d77ca61a4" id="r_a3ebb814b5c82522670cd058d77ca61a4"><td class="memItemLeft" align="right" valign="top"><a id="a3ebb814b5c82522670cd058d77ca61a4" name="a3ebb814b5c82522670cd058d77ca61a4"></a>
+<a class="el" href="structTazGraphEngine_1_1Color.html">TazColor</a>&#160;</td><td class="memItemRight" valign="bottom"><b>flashColor</b> = <a class="el" href="structTazGraphEngine_1_1Color.html">TazColor</a>(255, 255, 255, 255)</td></tr>
+<tr class="separator:a3ebb814b5c82522670cd058d77ca61a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structAnimation"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structAnimation')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structAnimation.html">Animation</a></td></tr>
 <tr class="memitem:a05edce6a586c9f8df4f1ef6c012ce744 inherit pub_attribs_structAnimation" id="r_a05edce6a586c9f8df4f1ef6c012ce744"><td class="memItemLeft" align="right" valign="top">
 int&#160;</td><td class="memItemRight" valign="bottom"><b>indexX</b> = 0</td></tr>
@@ -200,7 +200,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>finished</b> = false<
 <tr class="separator:a1170889964a9c5ee8ca167e164126bf0 inherit pub_attribs_structAnimation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Animators/<a class="el" href="FlashAnimation_8h_source.html">FlashAnimation.h</a></li>
+<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Animators/<a class="el" href="FlashAnimation_8h_source.html">FlashAnimation.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

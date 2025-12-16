@@ -1,201 +1,131 @@
 \doxysection{Ortho\+Camera.\+h}
-\hypertarget{OrthoCamera_8h_source}{}\label{OrthoCamera_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Camera2.5D/OrthoCamera.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Camera2.5D/OrthoCamera.h}}
+\hypertarget{OrthoCamera_8h_source}{}\label{OrthoCamera_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/RenderEngine/src/Camera2.5D/OrthoCamera.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/RenderEngine/src/Camera2.5D/OrthoCamera.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}ICamera.h"{}}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}ICamera.h"{}}}
+\DoxyCodeLine{00003\ }
 \DoxyCodeLine{00004\ }
-\DoxyCodeLine{00005\ }
-\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classOrthoCamera}{OrthoCamera}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classICamera}{ICamera}}\ \{}
-\DoxyCodeLine{00007\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classOrthoCamera}{OrthoCamera}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classICamera}{ICamera}}\ \{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00007\ }
 \DoxyCodeLine{00008\ }
-\DoxyCodeLine{00009\ }
-\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{classOrthoCamera}{OrthoCamera}}()\ :}
-\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \_scale(1.0f)}
-\DoxyCodeLine{00012\ \ \ \ \ \{}
-\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ eyePos\ =\ glm::vec3(0.f,\ 0.f,\ -\/770.0f);}
-\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ aimPos\ =\ glm::vec3(0.f,\ 0.f,\ 0.f);}
-\DoxyCodeLine{00015\ \ \ \ \ \}}
-\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{classOrthoCamera}{\string~OrthoCamera}}()}
-\DoxyCodeLine{00017\ \ \ \ \ \{}
-\DoxyCodeLine{00018\ }
-\DoxyCodeLine{00019\ \ \ \ \ \}}
-\DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \_projectionMatrix\ =\ glm::ortho(0.0f,\ (\textcolor{keywordtype}{float})\_screenWidth,\ 0.0f,\ (\textcolor{keywordtype}{float})\_screenHeight\ );}
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ updateCameraOrientation();}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ glm::mat4(1.0f);}
-\DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ \_projectionMatrix\ *\ \_viewMatrix;}
-\DoxyCodeLine{00030\ \ \ \ \ \}}
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ update()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_cameraChange)\ \{}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ updateCameraOrientation();}
-\DoxyCodeLine{00036\ }
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ glm::mat4(1.0f);}
-\DoxyCodeLine{00038\ }
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ \_projectionMatrix\ *\ \_viewMatrix;}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00041\ \ \ \ \ \}}
-\DoxyCodeLine{00042\ }
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ \ \ \ \ glm::vec2\ convertScreenToWorld(glm::vec2\ screenCoords)\textcolor{keyword}{\ const\ override\ }\{}
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Make\ 0\ the\ center}}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ screenCoords\ -\/=\ glm::vec2(\_screenWidth\ /\ 2,\ \_screenHeight\ /\ 2);}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Scale\ coordinates}}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ screenCoords\ /=\ \_scale;}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ screenCoords\ +=\ glm::vec2(\_screenWidth\ /\ 2,\ \_screenHeight\ /\ 2);}
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Translate\ with\ the\ camera2D.worldLocation\ position}}
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ screenCoords.x\ +=\ eyePos.x;}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ screenCoords.y\ +=\ eyePos.y;}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ }
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ screenCoords;}
-\DoxyCodeLine{00056\ \ \ \ \ \}}
-\DoxyCodeLine{00057\ }
-\DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{//setters}}
-\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{void}\ setPosition(\textcolor{keyword}{const}\ glm::vec3\ newPosition)\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ eyePos\ =\ newPosition;}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00062\ \ \ \ \ \}}
-\DoxyCodeLine{00063\ }
-\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ setPosition\_X(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ newPosition)\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ eyePos.x\ =\ newPosition;}
+\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{classOrthoCamera}{OrthoCamera}}()}
+\DoxyCodeLine{00010\ \ \ \ \ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \_scale\ =\ 1.0f;}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ eyePos\ =\ glm::vec3(0.f,\ 0.f,\ -\/770.0f);}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ aimPos\ =\ glm::vec3(0.f,\ 0.f,\ 0.f);}
+\DoxyCodeLine{00014\ \ \ \ \ \}}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{classOrthoCamera}{\string~OrthoCamera}}()}
+\DoxyCodeLine{00016\ \ \ \ \ \{}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \_projectionMatrix\ =\ glm::ortho(0.0f,\ (\textcolor{keywordtype}{float})\_screenWidth,\ 0.0f,\ (\textcolor{keywordtype}{float})\_screenHeight);}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ updateCameraOrientation();}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ glm::mat4(1.0f);}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ \_projectionMatrix\ *\ \_viewMatrix;}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ update()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_cameraChange)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ updateCameraOrientation();}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ glm::mat4(1.0f);}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ \_projectionMatrix\ *\ \_viewMatrix;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ movePosition\_Hor(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ step)\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ glm::vec3\ direction\ =\ glm::normalize(aimPos\ -\/\ eyePos);\ \ \textcolor{comment}{//\ Get\ movement\ direction}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ right\ vector\ (perpendicular\ to\ direction\ and\ up)}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ glm::vec3\ right\ =\ glm::normalize(glm::cross(direction,\ upDir));}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Move\ the\ camera\ horizontally\ along\ the\ right\ vector}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ eyePos\ +=\ right\ *\ step;}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ aimPos\ +=\ right\ *\ step;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ movePosition\_Vert(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ step)\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ glm::vec3\ direction\ =\ glm::normalize(aimPos\ -\/\ eyePos);\ \ \textcolor{comment}{//\ Get\ movement\ direction}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Move\ the\ camera\ horizontally\ along\ the\ right\ vector}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ eyePos\ +=\ upDir\ *\ step;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ aimPos\ +=\ upDir\ *\ step;}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ movePosition\_Forward(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ step)\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ glm::vec3\ direction\ =\ glm::normalize(aimPos\ -\/\ eyePos);}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ eyePos\ +=\ direction\ *\ step;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ aimPos\ +=\ direction\ *\ step;}
 \DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
 \DoxyCodeLine{00067\ \ \ \ \ \}}
 \DoxyCodeLine{00068\ }
-\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ setPosition\_Y(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ newPosition)\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ eyePos.y\ =\ newPosition;}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ setAimPos(\textcolor{keyword}{const}\ glm::vec3\ newAimPos)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ aimPos\ =\ newAimPos;}
 \DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
 \DoxyCodeLine{00072\ \ \ \ \ \}}
 \DoxyCodeLine{00073\ }
-\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ setPosition\_Z(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ newPosition)\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ eyePos.z\ =\ newPosition;}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00077\ \ \ \ \ \}}
-\DoxyCodeLine{00078\ }
-\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{void}\ movePosition\_Hor(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ step)\ \{}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ glm::vec3\ direction\ =\ glm::normalize(aimPos\ -\/\ eyePos);\ \ \textcolor{comment}{//\ Get\ movement\ direction}}
-\DoxyCodeLine{00081\ }
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ right\ vector\ (perpendicular\ to\ direction\ and\ up)}}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ glm::vec3\ right\ =\ glm::normalize(glm::cross(direction,\ upDir));}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ moveAimPos(glm::vec3\ startingAimPos,\ \textcolor{keyword}{const}\ glm::vec2\ distance)\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ aimPos\ =\ startingAimPos;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ sensitivity\ =\ 0.005f;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ yaw\ =\ distance.x\ *\ sensitivity;}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ pitch\ =\ distance.y\ *\ sensitivity;}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ glm::vec3\ direction\ =\ glm::normalize(aimPos\ -\/\ eyePos);}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ direction\ =\ glm::rotate(direction,\ yaw,\ upDir);}
 \DoxyCodeLine{00084\ }
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Move\ the\ camera\ horizontally\ along\ the\ right\ vector}}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ eyePos\ +=\ right\ *\ step;}
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ aimPos\ +=\ right\ *\ step;}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00089\ \ \ \ \ \}}
-\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{void}\ movePosition\_Vert(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ step)\ \{}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ glm::vec3\ direction\ =\ glm::normalize(aimPos\ -\/\ eyePos);\ \ \textcolor{comment}{//\ Get\ movement\ direction}}
-\DoxyCodeLine{00092\ }
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Move\ the\ camera\ horizontally\ along\ the\ right\ vector}}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ eyePos\ +=\ upDir\ *\ step;}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ aimPos\ +=\ upDir\ *\ step;}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00097\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ glm::vec3\ right\ =\ glm::normalize(glm::cross(direction,\ upDir));}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ direction\ =\ glm::rotate(direction,\ pitch,\ right);}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Update\ the\ aimPos\ based\ on\ the\ new\ direction}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ aimPos\ =\ eyePos\ +\ direction;}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00092\ \ \ \ \ \}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ glm::vec3\ getEulerAnglesFromDirection(glm::vec3\ direction)\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ yaw\ =\ glm::atan(direction.x,\ direction.z);}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ pitch\ =\ glm::asin(-\/direction.y);}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ roll\ =\ 0.0f;}
 \DoxyCodeLine{00098\ }
-\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{void}\ movePosition\_Forward(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ step)\ \{}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ glm::vec3\ direction\ =\ glm::normalize(aimPos\ -\/\ eyePos);}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ eyePos\ +=\ direction\ *\ step;}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ aimPos\ +=\ direction\ *\ step;}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00104\ \ \ \ \ \}}
-\DoxyCodeLine{00105\ }
-\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordtype}{void}\ setAimPos(\textcolor{keyword}{const}\ glm::vec3\ newAimPos)\ \{}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ aimPos\ =\ newAimPos;}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00109\ \ \ \ \ \}}
-\DoxyCodeLine{00110\ }
-\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordtype}{void}\ moveAimPos(glm::vec3\ startingAimPos,\ \textcolor{keyword}{const}\ glm::vec2\ distance)\ \{}
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ aimPos\ =\ startingAimPos;}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ sensitivity\ =\ 0.005f;}
-\DoxyCodeLine{00114\ }
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ yaw\ =\ distance.x\ *\ sensitivity;}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ pitch\ =\ distance.y\ *\ sensitivity;}
-\DoxyCodeLine{00117\ }
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ glm::vec3\ direction\ =\ glm::normalize(aimPos\ -\/\ eyePos);}
-\DoxyCodeLine{00119\ }
-\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ direction\ =\ glm::rotate(direction,\ yaw,\ upDir);}
-\DoxyCodeLine{00121\ }
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ glm::vec3\ right\ =\ glm::normalize(glm::cross(direction,\ upDir));}
-\DoxyCodeLine{00123\ }
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ direction\ =\ glm::rotate(direction,\ pitch,\ right);}
-\DoxyCodeLine{00125\ }
-\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Update\ the\ aimPos\ based\ on\ the\ new\ direction}}
-\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ aimPos\ =\ eyePos\ +\ direction;}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00129\ \ \ \ \ \}}
-\DoxyCodeLine{00130\ }
-\DoxyCodeLine{00131\ \ \ \ \ glm::vec3\ getEulerAnglesFromDirection(glm::vec3\ direction)\ \{}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ yaw\ =\ glm::atan(direction.x,\ direction.z);}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ pitch\ =\ glm::asin(-\/direction.y);}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ roll\ =\ 0.0f;}
-\DoxyCodeLine{00135\ }
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ glm::vec3(glm::degrees(pitch),\ glm::degrees(yaw),\ glm::degrees(roll));}
-\DoxyCodeLine{00137\ \ \ \ \ \}}
-\DoxyCodeLine{00138\ }
-\DoxyCodeLine{00139\ \ \ \ \ glm::vec3\ getAimPos()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ aimPos;}
-\DoxyCodeLine{00141\ \ \ \ \ \}}
-\DoxyCodeLine{00142\ }
-\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keywordtype}{void}\ setScale(\textcolor{keywordtype}{float}\ newScale)\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \_scale\ =\ newScale;}
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00146\ \ \ \ \ \}}
-\DoxyCodeLine{00147\ }
-\DoxyCodeLine{00148\ \ \ \ \ \textcolor{comment}{//getters}}
-\DoxyCodeLine{00149\ \ \ \ \ glm::vec3\ getPosition()\textcolor{keyword}{\ const\ override\ }\{}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ eyePos;}
-\DoxyCodeLine{00151\ \ \ \ \ \}}
-\DoxyCodeLine{00152\ }
-\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordtype}{float}\ getScale()\textcolor{keyword}{\ const\ override\ }\{}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_scale;}
-\DoxyCodeLine{00155\ \ \ \ \ \}}
-\DoxyCodeLine{00156\ }
-\DoxyCodeLine{00157\ \ \ \ \ glm::mat4\ getCameraMatrix()\textcolor{keyword}{\ const\ override\ }\{}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_cameraMatrix;}
-\DoxyCodeLine{00159\ \ \ \ \ \}}
-\DoxyCodeLine{00160\ }
-\DoxyCodeLine{00161\ \ \ \ \ glm::ivec2\ getCameraDimensions()\textcolor{keyword}{\ const\ override\ }\{}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ glm::vec2\ cameraDimensions\ =\ \{\ \_screenWidth,\ \_screenHeight\ \};}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cameraDimensions;}
-\DoxyCodeLine{00164\ \ \ \ \ \}}
-\DoxyCodeLine{00165\ }
-\DoxyCodeLine{00166\ \ \ \ \ SDL\_FRect\ getCameraRect()\textcolor{keyword}{\ const\ override\ }\{}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ cameraWidth\ =\ getCameraDimensions().x\ /\ getScale();}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ cameraHeight\ =\ getCameraDimensions().y\ /\ getScale();}
-\DoxyCodeLine{00169\ }
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ cameraX\ =\ eyePos.x\ -\/\ cameraWidth\ /\ 2.0f\ +\ getCameraDimensions().x\ /\ 2;}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ cameraY\ =\ eyePos.y\ -\/\ cameraHeight\ /\ 2.0f\ +\ getCameraDimensions().y\ /\ 2;}
-\DoxyCodeLine{00172\ }
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ SDL\_FRect\ cameraRect\ =\ \{\ cameraX\ ,\ cameraY\ ,\ cameraWidth,\ cameraHeight\ \};}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cameraRect;}
-\DoxyCodeLine{00175\ \ \ \ \ \}}
-\DoxyCodeLine{00176\ }
-\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keywordtype}{void}\ setCameraMatrix(glm::mat4\ newMatrix)\ \{}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00179\ \ \ \ \ \}}
-\DoxyCodeLine{00180\ }
-\DoxyCodeLine{00181\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasChanged()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_cameraChange;}
-\DoxyCodeLine{00183\ \ \ \ \ \}}
-\DoxyCodeLine{00184\ }
-\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keywordtype}{void}\ makeCameraDirty()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00187\ \ \ \ \ \}}
-\DoxyCodeLine{00188\ }
-\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordtype}{void}\ refreshCamera()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00191\ \ \ \ \ \}}
-\DoxyCodeLine{00192\ }
-\DoxyCodeLine{00193\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordtype}{float}\ \_scale;}
-\DoxyCodeLine{00195\ \};}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ glm::vec3(glm::degrees(pitch),\ glm::degrees(yaw),\ glm::degrees(roll));}
+\DoxyCodeLine{00100\ \ \ \ \ \}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{comment}{//getters}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ glm::ivec2\ getCameraDimensions()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ glm::vec2\ cameraDimensions\ =\ \{\ \_screenWidth,\ \_screenHeight\ \};}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cameraDimensions;}
+\DoxyCodeLine{00108\ \ \ \ \ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ SDL\_FRect\ getCameraRect()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ cameraWidth\ =\ getCameraDimensions().x\ /\ getScale();}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ cameraHeight\ =\ getCameraDimensions().y\ /\ getScale();}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ cameraX\ =\ eyePos.x\ -\/\ cameraWidth\ /\ 2.0f\ +\ getCameraDimensions().x\ /\ 2;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ cameraY\ =\ eyePos.y\ -\/\ cameraHeight\ /\ 2.0f\ +\ getCameraDimensions().y\ /\ 2;}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ SDL\_FRect\ cameraRect\ =\ \{\ cameraX\ ,\ cameraY\ ,\ cameraWidth,\ cameraHeight\ \};}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cameraRect;}
+\DoxyCodeLine{00119\ \ \ \ \ \}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{void}\ setCameraMatrix(glm::mat4\ newMatrix)\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \_cameraChange\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00123\ \ \ \ \ \}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \};}
 
 \end{DoxyCode}

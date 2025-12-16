@@ -11,7 +11,8 @@ Inheritance diagram for Sprite\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Sprite\+Component\+:\nopagebreak
+Collaboration diagram for Sprite\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -24,11 +25,8 @@ Collaboration diagram for Sprite\+Component\+:\nopagebreak
 \Hypertarget{classSpriteComponent_a29c4301c1bc5cdeb700d91084dfea7ff}\label{classSpriteComponent_a29c4301c1bc5cdeb700d91084dfea7ff} 
 {\bfseries Sprite\+Component} (std\+::string id)
 \item 
-\Hypertarget{classSpriteComponent_ae6146fed0d39ebe5419265144bfce1d1}\label{classSpriteComponent_ae6146fed0d39ebe5419265144bfce1d1} 
-{\bfseries Sprite\+Component} (\mbox{\hyperlink{structColor}{Color}} clr)
-\item 
-\Hypertarget{classSpriteComponent_ad6611b5ce91d8bf8bc81dd451dafc58d}\label{classSpriteComponent_ad6611b5ce91d8bf8bc81dd451dafc58d} 
-{\bfseries Sprite\+Component} (std\+::string id, bool is\+Main\+Menu)
+\Hypertarget{classSpriteComponent_a4d4336efa85499ce5d6dcd2ac0b787a6}\label{classSpriteComponent_a4d4336efa85499ce5d6dcd2ac0b787a6} 
+{\bfseries Sprite\+Component} (\mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} clr)
 \item 
 \Hypertarget{classSpriteComponent_ae47ee6781f0d926df3e310d6a2c67573}\label{classSpriteComponent_ae47ee6781f0d926df3e310d6a2c67573} 
 void {\bfseries set\+Tex} (std\+::string id)
@@ -42,20 +40,11 @@ void \mbox{\hyperlink{classSpriteComponent_a35406791549de87ad530053c7e86cef1}{dr
 \Hypertarget{classSpriteComponent_af0eb058a853ae91a8518a66a4e596f26}\label{classSpriteComponent_af0eb058a853ae91a8518a66a4e596f26} 
 void {\bfseries Set\+Animation} (int idX, int idY, size\+\_\+t fr, float sp, const Animation\+::anim\+Type type, int reps=0)
 \item 
-\Hypertarget{classSpriteComponent_a850a5ee08433fbea8bd525aa15e163fb}\label{classSpriteComponent_a850a5ee08433fbea8bd525aa15e163fb} 
-void {\bfseries Set\+Moving\+Animation} (int idX, int idY, size\+\_\+t fr, float sp, const Animation\+::anim\+Type type, const std\+::vector$<$ glm\+::vec2 $>$ \&\+\_\+positions, const std\+::vector$<$ int $>$ \&\+\_\+z\+Indices, const std\+::vector$<$ int $>$ \&\+\_\+rotations, int reps=0)
-\item 
-\Hypertarget{classSpriteComponent_aac9f16ed01987fabdbcc71b91f981bf3}\label{classSpriteComponent_aac9f16ed01987fabdbcc71b91f981bf3} 
-void {\bfseries Set\+Flash\+Animation} (int idX, int idY, size\+\_\+t fr, float sp, const Animation\+::anim\+Type type, const std\+::vector$<$ float $>$ \&flash\+Times, \mbox{\hyperlink{structColor}{Color}} flashC, int reps=0)
+\Hypertarget{classSpriteComponent_acb8a67d581d0e161f6cefa7a52742d73}\label{classSpriteComponent_acb8a67d581d0e161f6cefa7a52742d73} 
+void {\bfseries Set\+Flash\+Animation} (size\+\_\+t fr, float sp, const Animation\+::anim\+Type type, const std\+::vector$<$ float $>$ \&flash\+Times, \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} flashC, int reps=0)
 \item 
 \Hypertarget{classSpriteComponent_a0db3cf67dfcc989f757955186f91d89e}\label{classSpriteComponent_a0db3cf67dfcc989f757955186f91d89e} 
 void {\bfseries set\+Curr\+Frame} ()
-\item 
-\Hypertarget{classSpriteComponent_a52a0866982deedf975e36544cf7dbb68}\label{classSpriteComponent_a52a0866982deedf975e36544cf7dbb68} 
-void {\bfseries set\+Move\+Frame} ()
-\item 
-\Hypertarget{classSpriteComponent_a7edef6270097f751dcb573eab7304cfc}\label{classSpriteComponent_a7edef6270097f751dcb573eab7304cfc} 
-void {\bfseries set\+Specific\+Move\+Frame} ()
 \item 
 \Hypertarget{classSpriteComponent_af972a29823c8f40e4cf4f459d128ecd1}\label{classSpriteComponent_af972a29823c8f40e4cf4f459d128ecd1} 
 void {\bfseries set\+Flash\+Frame} ()
@@ -68,7 +57,7 @@ void {\bfseries Destroy\+Gl\+Tex} ()
 \item 
 std\+::string \mbox{\hyperlink{classSpriteComponent_a490a59e5636b4458cb0a9d2a0ec906df}{Get\+Component\+Name}} () override
 \item 
-void \mbox{\hyperlink{classSpriteComponent_a8c473841841c2f5aba3f13d82fa4a610}{show\+GUI}} () override
+void \mbox{\hyperlink{classSpriteComponent_af4a821b123fe77dc4a0d1b6cb924438c}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\}) override
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
@@ -85,29 +74,29 @@ virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classL
 \Hypertarget{classSpriteComponent_af31a05c946c4f0542e47ab270bdcfbb4}\label{classSpriteComponent_af31a05c946c4f0542e47ab270bdcfbb4} 
 std\+::string {\bfseries texture\+\_\+name} = "{}"{}
 \item 
-\Hypertarget{classSpriteComponent_a0be60ca0ce6e375a5c1408ceb2890494}\label{classSpriteComponent_a0be60ca0ce6e375a5c1408ceb2890494} 
-\mbox{\hyperlink{structColor}{Color}} {\bfseries default\+\_\+color} = \{ 255, 255, 255, 255 \}
+\Hypertarget{classSpriteComponent_a664b063f25b803fc2d8efd17fa0ae103}\label{classSpriteComponent_a664b063f25b803fc2d8efd17fa0ae103} 
+\mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} {\bfseries default\+\_\+color} = \{ 255, 255, 255, 255 \}
 \item 
-\Hypertarget{classSpriteComponent_a38832a9baf35f473666788f8d9b29c5f}\label{classSpriteComponent_a38832a9baf35f473666788f8d9b29c5f} 
-\mbox{\hyperlink{structColor}{Color}} {\bfseries color} = \{ 255, 255, 255, 255 \}
+\Hypertarget{classSpriteComponent_aebef25f99fb6584098bab6bfee42a9dc}\label{classSpriteComponent_aebef25f99fb6584098bab6bfee42a9dc} 
+\mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} {\bfseries color} = \{ 255, 255, 255, 255 \}
 \item 
 \Hypertarget{classSpriteComponent_a73e0ed30934991be535aeb7ec4ae1c85}\label{classSpriteComponent_a73e0ed30934991be535aeb7ec4ae1c85} 
 \mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
 \item 
 \Hypertarget{classSpriteComponent_a69ad5edaded85c0f4fdf8ff0097bf4e2}\label{classSpriteComponent_a69ad5edaded85c0f4fdf8ff0097bf4e2} 
-SDL\+\_\+\+FRect {\bfseries src\+Rect} = \{0,0,0,0\}
+SDL\+\_\+\+FRect {\bfseries src\+Rect} = \{ 0,0,0,0 \}
 \item 
 \Hypertarget{classSpriteComponent_a38d9754c3226dfdc48abf05b4235387e}\label{classSpriteComponent_a38d9754c3226dfdc48abf05b4235387e} 
 \mbox{\hyperlink{structAnimation}{Animation}} {\bfseries animation}
-\item 
-\Hypertarget{classSpriteComponent_a5367cce2fc14e0a8b0a77c820cf37e84}\label{classSpriteComponent_a5367cce2fc14e0a8b0a77c820cf37e84} 
-\mbox{\hyperlink{classMovingAnimation}{Moving\+Animation}} {\bfseries moving\+\_\+animation}
 \item 
 \Hypertarget{classSpriteComponent_a22cf5f521436598c3f9d8751c0152779}\label{classSpriteComponent_a22cf5f521436598c3f9d8751c0152779} 
 \mbox{\hyperlink{structFlashAnimation}{Flash\+Animation}} {\bfseries flash\+\_\+animation}
 \item 
 \Hypertarget{classSpriteComponent_a5f15b75d1cba8c15ae1c07829dd5ab68}\label{classSpriteComponent_a5f15b75d1cba8c15ae1c07829dd5ab68} 
 SDL\+\_\+\+Renderer\+Flip {\bfseries sprite\+Flip} = SDL\+\_\+\+FLIP\+\_\+\+NONE
+\item 
+\Hypertarget{classSpriteComponent_a21278c01b8bdb2569b5785e69c2bf609}\label{classSpriteComponent_a21278c01b8bdb2569b5785e69c2bf609} 
+int {\bfseries current\+Item} = 0
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
 \begin{DoxyCompactItemize}
@@ -116,6 +105,8 @@ SDL\+\_\+\+Renderer\+Flip {\bfseries sprite\+Flip} = SDL\+\_\+\+FLIP\+\_\+\+NONE
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
+\item 
+bool {\bfseries modify\+Position} = false
 \item 
 Component\+ID {\bfseries id} = 0u
 \end{DoxyCompactItemize}
@@ -152,11 +143,11 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
-\Hypertarget{classSpriteComponent_a8c473841841c2f5aba3f13d82fa4a610}\label{classSpriteComponent_a8c473841841c2f5aba3f13d82fa4a610} 
+\Hypertarget{classSpriteComponent_af4a821b123fe77dc4a0d1b6cb924438c}\label{classSpriteComponent_af4a821b123fe77dc4a0d1b6cb924438c} 
 \index{SpriteComponent@{SpriteComponent}!showGUI@{showGUI}}
 \index{showGUI@{showGUI}!SpriteComponent@{SpriteComponent}}
 \doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}}
-{\footnotesize\ttfamily void Sprite\+Component\+::show\+GUI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void Sprite\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
@@ -176,4 +167,4 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Empty/\+Basic/Sprite\+Component.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Components/\+Empty/\+Basic/Sprite\+Component.\+h\end{DoxyCompactItemize}

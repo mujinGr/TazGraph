@@ -18,8 +18,8 @@ virtual void {\bfseries init} ()=0
 \Hypertarget{classICamera_affe1c2e5b0638276653b0ee5a5a6c357}\label{classICamera_affe1c2e5b0638276653b0ee5a5a6c357} 
 virtual void {\bfseries update} ()=0
 \item 
-\Hypertarget{classICamera_a9cbc02bf75f0f9b2ae4e7c1cada16a8a}\label{classICamera_a9cbc02bf75f0f9b2ae4e7c1cada16a8a} 
-virtual glm\+::vec2 {\bfseries convert\+Screen\+To\+World} (glm\+::vec2 screen\+Coords) const =0
+\Hypertarget{classICamera_adc277ea515b885dd0c62dcd9c533f0af}\label{classICamera_adc277ea515b885dd0c62dcd9c533f0af} 
+glm\+::vec3 {\bfseries convert\+Screen\+To\+World\+Plane} (glm\+::vec2 screen\+Coords, float depth=0.\+0f)
 \item 
 \Hypertarget{classICamera_a5bc63e92582808ec231fc1e8a6daa0e4}\label{classICamera_a5bc63e92582808ec231fc1e8a6daa0e4} 
 virtual glm\+::ivec2 {\bfseries get\+Camera\+Dimensions} () const =0
@@ -27,41 +27,44 @@ virtual glm\+::ivec2 {\bfseries get\+Camera\+Dimensions} () const =0
 \Hypertarget{classICamera_adb040e5b8e3debd2064c71a0ea6c3829}\label{classICamera_adb040e5b8e3debd2064c71a0ea6c3829} 
 virtual SDL\+\_\+\+FRect {\bfseries get\+Camera\+Rect} () const =0
 \item 
-\Hypertarget{classICamera_ac6788af99332b1955d03209cc61b608c}\label{classICamera_ac6788af99332b1955d03209cc61b608c} 
-virtual glm\+::vec3 {\bfseries get\+Position} () const =0
+\Hypertarget{classICamera_af947f7d920432ffb147c3003edaf8ee9}\label{classICamera_af947f7d920432ffb147c3003edaf8ee9} 
+glm\+::vec3 {\bfseries convert\+Screen\+To\+World\+Distance} (glm\+::vec2 screen\+Coords, float depth)
 \item 
-\Hypertarget{classICamera_a7b15c50f1f333f646721ebd6c768b631}\label{classICamera_a7b15c50f1f333f646721ebd6c768b631} 
-virtual void {\bfseries set\+Position} (const glm\+::vec3 new\+Position)=0
+\Hypertarget{classICamera_a31cdaf246356049a0dc35bab4b9842a6}\label{classICamera_a31cdaf246356049a0dc35bab4b9842a6} 
+glm\+::vec3 {\bfseries get\+Position} () const
 \item 
-\Hypertarget{classICamera_a4b4ee7071e9727fe7f1c05afea201d84}\label{classICamera_a4b4ee7071e9727fe7f1c05afea201d84} 
-virtual void {\bfseries set\+Position\+\_\+X} (const float new\+Position)=0
+\Hypertarget{classICamera_a42855090f66d2cc72d22d0022147c86b}\label{classICamera_a42855090f66d2cc72d22d0022147c86b} 
+void {\bfseries set\+Position} (const glm\+::vec3 new\+Position)
 \item 
-\Hypertarget{classICamera_a67b7c3eb6569b49f3a98cc3e2fd1103e}\label{classICamera_a67b7c3eb6569b49f3a98cc3e2fd1103e} 
-virtual void {\bfseries set\+Position\+\_\+Y} (const float new\+Position)=0
+\Hypertarget{classICamera_a84d5ff76b3a4e6c55abeedb57810e9f2}\label{classICamera_a84d5ff76b3a4e6c55abeedb57810e9f2} 
+void {\bfseries set\+Position\+\_\+X} (const float new\+Position)
 \item 
-\Hypertarget{classICamera_a882421e5ebe0e4d8f5cc24b9f20089d1}\label{classICamera_a882421e5ebe0e4d8f5cc24b9f20089d1} 
-virtual void {\bfseries set\+Position\+\_\+Z} (const float new\+Position)=0
+\Hypertarget{classICamera_a6dfc560a7b6f3f1a02a485cf690b3449}\label{classICamera_a6dfc560a7b6f3f1a02a485cf690b3449} 
+void {\bfseries set\+Position\+\_\+Y} (const float new\+Position)
 \item 
-\Hypertarget{classICamera_af1a4eab3accbfeb870c1e431921b43b9}\label{classICamera_af1a4eab3accbfeb870c1e431921b43b9} 
-virtual float {\bfseries get\+Scale} () const =0
+\Hypertarget{classICamera_ad35704eaa77bce54c589d23ba357b3ad}\label{classICamera_ad35704eaa77bce54c589d23ba357b3ad} 
+void {\bfseries set\+Position\+\_\+Z} (const float new\+Position)
 \item 
-\Hypertarget{classICamera_a137e9dfb42662e0ca2629bfaf76c02ba}\label{classICamera_a137e9dfb42662e0ca2629bfaf76c02ba} 
-virtual glm\+::mat4 {\bfseries get\+Camera\+Matrix} () const =0
+\Hypertarget{classICamera_acf3a5a3c7f1d75a13bdbab72a3b6fb48}\label{classICamera_acf3a5a3c7f1d75a13bdbab72a3b6fb48} 
+float {\bfseries get\+Scale} () const
 \item 
-\Hypertarget{classICamera_af426af6c6c7d51329efe8c551f06d869}\label{classICamera_af426af6c6c7d51329efe8c551f06d869} 
-virtual glm\+::vec3 {\bfseries get\+Aim\+Pos} ()=0
+\Hypertarget{classICamera_aee778f14c4fb2a4579b46bae06f2ee0d}\label{classICamera_aee778f14c4fb2a4579b46bae06f2ee0d} 
+glm\+::mat4 {\bfseries get\+Camera\+Matrix} () const
 \item 
-\Hypertarget{classICamera_a13d0f8fcc335207ed0259b7a800c6508}\label{classICamera_a13d0f8fcc335207ed0259b7a800c6508} 
-virtual void {\bfseries set\+Scale} (float scale)=0
+\Hypertarget{classICamera_a506abad650f1dd6de6f93aaa2210b17f}\label{classICamera_a506abad650f1dd6de6f93aaa2210b17f} 
+glm\+::vec3 {\bfseries get\+Aim\+Pos} ()
 \item 
-\Hypertarget{classICamera_a56e3b611673fce7c48775d101be606f2}\label{classICamera_a56e3b611673fce7c48775d101be606f2} 
-virtual void {\bfseries make\+Camera\+Dirty} ()=0
+\Hypertarget{classICamera_a18cf56afa5b4ed35f0464a735b187943}\label{classICamera_a18cf56afa5b4ed35f0464a735b187943} 
+void {\bfseries set\+Scale} (float scale)
 \item 
-\Hypertarget{classICamera_abec720c3c299f82d1609e430447d9a32}\label{classICamera_abec720c3c299f82d1609e430447d9a32} 
-virtual bool {\bfseries has\+Changed} ()=0
+\Hypertarget{classICamera_a3c052b05e6b8e7d9d246d284b00372e7}\label{classICamera_a3c052b05e6b8e7d9d246d284b00372e7} 
+void {\bfseries make\+Camera\+Dirty} ()
 \item 
-\Hypertarget{classICamera_adb9c1eaf69f302b66e522f0804a16aa5}\label{classICamera_adb9c1eaf69f302b66e522f0804a16aa5} 
-virtual void {\bfseries refresh\+Camera} ()=0
+\Hypertarget{classICamera_a3b76b14b411444a3be010e5311cff956}\label{classICamera_a3b76b14b411444a3be010e5311cff956} 
+bool {\bfseries has\+Changed} ()
+\item 
+\Hypertarget{classICamera_a5d7b8d4e5763ea2760d9120160d81176}\label{classICamera_a5d7b8d4e5763ea2760d9120160d81176} 
+void {\bfseries refresh\+Camera} ()
 \item 
 \Hypertarget{classICamera_afb3fdecf8d738433c862124155b6c5cf}\label{classICamera_afb3fdecf8d738433c862124155b6c5cf} 
 void {\bfseries update\+Camera\+Orientation} ()
@@ -131,10 +134,13 @@ glm\+::mat4 {\bfseries \+\_\+camera\+Matrix} = glm\+::mat4(1.\+0f)
 \item 
 \Hypertarget{classICamera_a43cfaba1d2952cdfe66a966000401d56}\label{classICamera_a43cfaba1d2952cdfe66a966000401d56} 
 bool {\bfseries \+\_\+camera\+Change} = true
+\item 
+\Hypertarget{classICamera_ada3194fc196c8454c736da7b213b7031}\label{classICamera_ada3194fc196c8454c736da7b213b7031} 
+float {\bfseries \+\_\+scale}
 \end{DoxyCompactItemize}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Camera2.\+5\+D/ICamera.\+h\item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+Camera2.\+5\+D/ICamera.\+cpp\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Render\+Engine/src/\+Camera2.\+5\+D/ICamera.\+h\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Render\+Engine/src/\+Camera2.\+5\+D/ICamera.\+cpp\end{DoxyCompactItemize}

@@ -11,11 +11,12 @@ Inheritance diagram for Empty\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Empty\+:\nopagebreak
+Collaboration diagram for Empty\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=296pt]{classEmpty__coll__graph}
+\includegraphics[width=325pt]{classEmpty__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -41,13 +42,9 @@ void \mbox{\hyperlink{classEmpty_a686ae92526bb10f0917ce81d03debc8b}{destroy}} ()
 \item 
 void \mbox{\hyperlink{classEmptyEntity_ae5061ec158511bce4391d7a471bd365d}{set\+Component\+Entity}} (\mbox{\hyperlink{classComponent}{Component}} \texorpdfstring{$\ast$}{*}c) override
 \item 
-\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classEmptyEntity_a70f3825ee99a46777f086cbd1b728991}{get\+Parent\+Entity}} () override
+void \mbox{\hyperlink{classEmptyEntity_afbf64702f15c3a05e35c84fc300ddb82}{remove\+From\+Cell}} () override
 \item 
-void \mbox{\hyperlink{classEmptyEntity_a110fe4d64583ac11c3485ed14521f129}{set\+Parent\+Entity}} (\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}p\+Entity) override
-\item 
-void {\bfseries remove\+From\+Cell} ()
-\item 
-void \mbox{\hyperlink{classEmptyEntity_a51a0c08d0e0209a9d60d163ce56e8ec8}{remove\+Entity}} () override
+void \mbox{\hyperlink{classEmptyEntity_a93b840fdf8eb6d3e61c03157dc5e8d33}{remove\+Entity\+From\+Cell}} () override
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classCellEntity}{Cell\+Entity}}}
 \begin{DoxyCompactItemize}
@@ -61,9 +58,9 @@ void {\bfseries set\+Owner\+Cell} (\mbox{\hyperlink{structCell}{Cell}} \texorpdf
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classEntity}{Entity}}}
 \begin{DoxyCompactItemize}
 \item 
-void {\bfseries set\+Id} (unsigned int m\+\_\+id)
+void {\bfseries set\+Id} (Entity\+ID m\+\_\+id)
 \item 
-unsigned int {\bfseries get\+Id} ()
+Entity\+ID {\bfseries get\+Id} ()
 \item 
 void {\bfseries hide} ()
 \item 
@@ -80,6 +77,12 @@ void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLineRende
 void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
 \item 
 void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+virtual void {\bfseries on\+Creation} ()
+\item 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Parent\+Entity} ()
+\item 
+void {\bfseries set\+Parent\+Entity} (\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}p\+Entity)
 \item 
 bool {\bfseries is\+Active} ()
 \item 
@@ -103,9 +106,9 @@ bool {\bfseries has\+Component\+By\+Name} (const std\+::string \&component\+Name
 \item 
 \mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Manager} ()
 \item 
-virtual void {\bfseries add\+Message} (std\+::string m\+Message)
-\item 
 virtual void {\bfseries imgui\+\_\+display} ()
+\item 
+virtual void {\bfseries remove\+From\+Cells} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classCellEntity}{Cell\+Entity}}}
@@ -116,24 +119,35 @@ virtual void {\bfseries imgui\+\_\+display} ()
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classEntity}{Entity}}}
 \begin{DoxyCompactItemize}
 \item 
-std\+::vector$<$ \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries children}
+bool {\bfseries is\+Vertical} = false
 \item 
+float {\bfseries slot\+Spacing} = 0.\+0f
+\item 
+std\+::map$<$ Entity\+ID, Entity\+ID $>$ {\bfseries children}
+\begin{DoxyCompactList}\small\item\em child\+\_\+index(id) -\/\texorpdfstring{$>$}{>} real\+\_\+entity\+\_\+id \end{DoxyCompactList}\item 
 std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} $>$ $>$ {\bfseries components}
-\end{DoxyCompactItemize}
-\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classEmptyEntity}{Empty\+Entity}}}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries parent\+\_\+entity} = nullptr
 \end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classEntity}{Entity}}}
 \begin{DoxyCompactItemize}
+\item 
+bool {\bfseries active} = true
+\item 
+bool {\bfseries hidden} = false
+\item 
+Component\+Array {\bfseries component\+Array} = \{\}
+\item 
+Component\+Bit\+Set {\bfseries component\+Bit\+Set}
+\item 
+Group\+Bit\+Set {\bfseries group\+Bit\+Set}
 \item 
 std\+::optional$<$ Component\+Array $>$ {\bfseries node\+Component\+Array}
 \item 
 std\+::optional$<$ Component\+Bit\+Set $>$ {\bfseries node\+Component\+Bit\+Set}
 \item 
+\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries parent\+\_\+entity} = nullptr
+\item 
 \mbox{\hyperlink{classManager}{Manager}} \& {\bfseries manager}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em the object doesnt move, so we can have pointer \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Member Function Documentation}
@@ -191,4 +205,4 @@ Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Core/GECSEntity\+Types.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Core/\+GECSEntity\+Types/GECSEntity\+Types\+Empty.\+h\end{DoxyCompactItemize}

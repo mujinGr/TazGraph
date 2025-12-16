@@ -1,5 +1,5 @@
 \doxysection{Path\+Linker\+Component.\+h}
-\hypertarget{PathLinkerComponent_8h_source}{}\label{PathLinkerComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Util/PathLinkerComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/GECS/Components/Empty/Util/PathLinkerComponent.h}}
+\hypertarget{PathLinkerComponent_8h_source}{}\label{PathLinkerComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/Empty/Util/PathLinkerComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/Empty/Util/PathLinkerComponent.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
@@ -9,97 +9,117 @@
 \DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classComponent}{Component}}}
 \DoxyCodeLine{00006\ \{}
 \DoxyCodeLine{00007\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00008\ \ \ \ \ std::vector<LinkEntity*>\ innerLinks;}
-\DoxyCodeLine{00009\ \ \ \ \ std::vector<LinkEntity*>\ pathLinks;}
+\DoxyCodeLine{00008\ \ \ \ \ std::vector<EntityID>\ innerLinks;}
+\DoxyCodeLine{00009\ \ \ \ \ std::vector<EntityID>\ pathLinks;}
 \DoxyCodeLine{00010\ }
-\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ transform\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00012\ }
-\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}()}
-\DoxyCodeLine{00014\ \ \ \ \ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{float}\ width\ =\ 1.0f;\ \ \ \textcolor{comment}{//\ default\ width}}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{float}\ last\_width\ =\ 1.0f;\ \ \ \textcolor{comment}{//\ default\ width}}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ color\ =\ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}(0,\ 0,\ 0,\ 255);\ \textcolor{comment}{//\ default\ black}}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ last\_color\ =\ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}(0,\ 0,\ 0,\ 255);\ \textcolor{comment}{//\ default\ black}}
 \DoxyCodeLine{00015\ }
-\DoxyCodeLine{00016\ \ \ \ \ \}}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ transform\ =\ \textcolor{keyword}{nullptr};}
 \DoxyCodeLine{00017\ }
-\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classPathLinkerComponent}{\string~PathLinkerComponent}}()\ \{}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \ \ \ \ \}}
-\DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ transform\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
-\DoxyCodeLine{00024\ \ \ \ \ \}}
-\DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00028\ \ \ \ \ \}}
-\DoxyCodeLine{00029\ }
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ v\_index,\ \mbox{\hyperlink{classPlaneColorRenderer}{PlaneColorRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{}
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \ \ \ \ \}}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ \textcolor{comment}{//\ Add\ a\ link\ to\ the\ path}}
-\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ addLink(\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ link)\ \{}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (link\ \&\&\ std::find(pathLinks.begin(),\ pathLinks.end(),\ link)\ ==\ pathLinks.end())\ \{}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ pathLinks.push\_back(link);}
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00039\ \ \ \ \ \}}
-\DoxyCodeLine{00040\ }
-\DoxyCodeLine{00041\ \ \ \ \ \textcolor{comment}{//\ Remove\ a\ link\ from\ the\ path}}
-\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ removeLink(\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ link)\ \{}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ pathLinks.erase(std::remove(pathLinks.begin(),\ pathLinks.end(),\ link),\ pathLinks.end());}
-\DoxyCodeLine{00044\ \ \ \ \ \}}
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}PortSlotComponent"{}};}
-\DoxyCodeLine{00048\ \ \ \ \ \}}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ ImGui::Separator();}
-\DoxyCodeLine{00052\ \ \ \ \ \}}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ createInnerLinks()\ \{}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 1;\ i\ <\ pathLinks.size();\ i++)\ \{}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ prevLink\ =\ pathLinks[i\ -\/\ 1];}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ currLink\ =\ pathLinks[i];}
-\DoxyCodeLine{00058\ }
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validate\ nodes\ and\ ports\ for\ prevLink's\ toPort\ and\ currLink's\ fromPort}}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ prevToNode\ =\ prevLink-\/>getToNode();}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ currFromNode\ =\ currLink-\/>getFromNode();}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classPathLinkerComponent}{PathLinkerComponent}}()}
+\DoxyCodeLine{00019\ \ \ \ \ \{}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classPathLinkerComponent}{\string~PathLinkerComponent}}()\ \{}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ transform\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (last\_width\ !=\ width\ ||\ color\ !=\ last\_color)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ pathLinkId\ :\ pathLinks)\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ pathLink\ =\ entity-\/>getManager()-\/>getEntityFromId(pathLinkId);}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pathLink-\/>GetComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>().setSrcColor(color);}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pathLink-\/>GetComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>().setDestColor(color);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pathLink-\/>GetComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>().width\ =\ width;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ last\_width\ =\ width;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ last\_color\ =\ color;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ v\_index,\ \mbox{\hyperlink{classPlaneColorRenderer}{PlaneColorRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{comment}{//\ Add\ a\ link\ to\ the\ path}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ addLink(EntityID\ linkId)\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ link\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(entity-\/>getManager()-\/>getEntityFromId(linkId));}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (link\ \&\&}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ std::find(pathLinks.begin(),\ pathLinks.end(),\ linkId)\ ==\ pathLinks.end())\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>GetComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>().setSrcColor(color);}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>GetComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>().setDestColor(color);}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>GetComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>().width\ =\ width;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ link-\/>setParentEntity(entity);}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ pathLinks.push\_back(linkId);}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \ \ \ \ \}}
 \DoxyCodeLine{00062\ }
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (prevToNode\ !=\ currFromNode)}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(\textcolor{stringliteral}{"{}Should\ be\ same\ node\ to\ create\ innerPaths!"{}});}
-\DoxyCodeLine{00065\ }
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!prevToNode\ ||\ !currFromNode)}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{00068\ }
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ prevToPortIndex\ =\ prevLink-\/>toPort;}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ currFromPortIndex\ =\ currLink-\/>fromPort;}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{comment}{//\ Remove\ a\ link\ from\ the\ path}}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ removeLink(EntityID\ link)\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ pathLinks.erase(std::remove(pathLinks.begin(),\ pathLinks.end(),\ link),\ pathLinks.end());}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}PathLinkerComponent"{}};}
+\DoxyCodeLine{00070\ \ \ \ \ \}}
 \DoxyCodeLine{00071\ }
-\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (prevToPortIndex\ <\ 0\ ||\ currFromPortIndex\ <\ 0)}
-\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{00074\ }
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Create\ the\ inner\ link\ connecting\ prevLink's\ toPort\ to\ currLink's\ fromPort}}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ newInnerLink\ =\ entity-\/>getManager()-\/>addEntity<\mbox{\hyperlink{classLink}{Link}}>(}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prevToNode,\ currFromNode,}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prevToPortIndex,\ currFromPortIndex,}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prevLink-\/>toSlotIndex,\ currLink-\/>fromSlotIndex}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ newInnerLink.addGroup(Manager::groupPathInnerLinks);\ \ \textcolor{comment}{//\ or\ a\ dedicated\ group\ for\ inner\ links}}
-\DoxyCodeLine{00082\ }
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ newInnerLink.addComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>();}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents\ =\ \{\})\ \textcolor{keyword}{override}\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ ImGui::Separator();}
+\DoxyCodeLine{00074\ \ \ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ createInnerLinks()\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 1;\ i\ <\ pathLinks.size();\ i++)\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ prevLink\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(entity-\/>getManager()-\/>getEntityFromId(pathLinks[i\ -\/\ 1]));}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ currLink\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\textcolor{keyword}{>}(entity-\/>getManager()-\/>getEntityFromId(pathLinks[i]));}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validate\ nodes\ and\ ports\ for\ prevLink's\ toPort\ and\ currLink's\ fromPort}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ EntityID\ prevToNode\ =\ prevLink-\/>getToNode();}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ EntityID\ currFromNode\ =\ currLink-\/>getFromNode();}
 \DoxyCodeLine{00084\ }
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ innerLinks.push\_back(\&newInnerLink);}
-\DoxyCodeLine{00086\ }
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>getManager()-\/>grid-\/>addLink(\&newInnerLink,\ entity-\/>getManager()-\/>grid-\/>getGridLevel());}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00089\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (prevToNode\ !=\ currFromNode)}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(\textcolor{stringliteral}{"{}Should\ be\ same\ node\ to\ create\ innerPaths!"{}});}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ EntityID\ prevToPortIndex\ =\ prevLink-\/>toPort;}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ EntityID\ currFromPortIndex\ =\ currLink-\/>\mbox{\hyperlink{classLinkEntity_af6334d8c15c63a0144ab2a8521281b36}{fromPort}};}
 \DoxyCodeLine{00090\ }
-\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{void}\ removeInnerLinks()\ \{}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}*\ innerLink\ :\ innerLinks)\ \{}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!innerLink)\ \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ innerLink-\/>destroy();}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ innerLinks.clear();}
-\DoxyCodeLine{00098\ \ \ \ \ \}}
-\DoxyCodeLine{00099\ \};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Create\ the\ inner\ link\ connecting\ prevLink's\ toPort\ to\ currLink's\ fromPort}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ newInnerLink\ =\ entity-\/>getManager()-\/>addEntity<\mbox{\hyperlink{classLink}{Link}}>(}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prevToNode,\ currFromNode,}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prevToPortIndex,\ currFromPortIndex,}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prevLink-\/>toSlotIndex,\ currLink-\/>fromSlotIndex}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ newInnerLink.addGroup(Manager::groupPathInnerLinks);\ \ \textcolor{comment}{//\ or\ a\ dedicated\ group\ for\ inner\ links}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ newInnerLink.setConnectionType(LinkEntity::ConnectionType::GHOST\_PORT\_TO\_PORT);}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ first\ inner\ link\ comp\ so\ lineWColor\ init\ doesnt\ trigger}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ newInnerLink.addComponent<\mbox{\hyperlink{classInnerLink}{InnerLink}}>(prevLink-\/>getId(),\ currLink-\/>getId());}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ newInnerLink.addComponent<\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}>();}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ innerLinks.push\_back(newInnerLink.getId());}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>getManager()-\/>grid-\/>addLink(\&newInnerLink,\ entity-\/>getManager()-\/>grid-\/>getGridLevel());}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00108\ \ \ \ \ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{void}\ removeInnerLinks()\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ innerLinkId\ :\ innerLinks)\ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ innerEntity\ =\ entity-\/>getManager()-\/>getEntityFromId(innerLinkId);}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!innerEntity)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ innerEntity-\/>destroy();}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ innerLinks.clear();}
+\DoxyCodeLine{00118\ \ \ \ \ \}}
+\DoxyCodeLine{00119\ \};}
 
 \end{DoxyCode}

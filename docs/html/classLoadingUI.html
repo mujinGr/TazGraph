@@ -90,9 +90,10 @@ Collaboration diagram for LoadingUI:</div>
 <div class="dyncontent">
 <div class="center"><img src="classLoadingUI__coll__graph.png" border="0" usemap="#aLoadingUI_coll__map" alt="Collaboration graph"/></div>
 <map name="aLoadingUI_coll__map" id="aLoadingUI_coll__map">
-<area shape="rect" title=" " alt="" coords="7,79,94,104"/>
+<area shape="rect" title=" " alt="" coords="7,80,94,105"/>
 <area shape="rect" href="classUIElement.html" title=" " alt="" coords="5,5,96,31"/>
-<area shape="poly" title=" " alt="" coords="53,44,53,79,48,79,48,44"/>
+<area shape="poly" title=" " alt="" coords="53,45,53,80,48,80,48,45"/>
+<area shape="poly" title=" " alt="" coords="111,10,123,18,114,26,96,28,96,22,112,21,117,18,108,14"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -107,9 +108,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setConfig</b> (const 
 <tr class="memitem:a3293027e8d5be764b5c46233e739aac7 inherit pub_methods_classUIElement" id="r_a3293027e8d5be764b5c46233e739aac7"><td class="memItemLeft" align="right" valign="top">
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>update</b> (float deltaTime=0.0f)</td></tr>
 <tr class="separator:a3293027e8d5be764b5c46233e739aac7 inherit pub_methods_classUIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d64fa40492b4192fd091e5f386344f5 inherit pub_methods_classUIElement" id="r_a5d64fa40492b4192fd091e5f386344f5"><td class="memTemplParams" colspan="2">
+template&lt;typename T , typename... Args&gt; </td></tr>
+<tr class="memitem:a5d64fa40492b4192fd091e5f386344f5 inherit pub_methods_classUIElement"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>addUIComponent</b> (Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a5d64fa40492b4192fd091e5f386344f5 inherit pub_methods_classUIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9f82951b6df9b1c5c812930e6dcfe67 inherit pub_methods_classUIElement" id="r_af9f82951b6df9b1c5c812930e6dcfe67"><td class="memTemplParams" colspan="2">
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:af9f82951b6df9b1c5c812930e6dcfe67 inherit pub_methods_classUIElement"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getSubcomponent</b> ()</td></tr>
+<tr class="separator:af9f82951b6df9b1c5c812930e6dcfe67 inherit pub_methods_classUIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_static_methods_classUIElement"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classUIElement')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classUIElement.html">UIElement</a></td></tr>
+<tr class="memitem:ac11c132df05d869ce10924cbac0a8520 inherit pub_static_methods_classUIElement" id="r_ac11c132df05d869ce10924cbac0a8520"><td class="memTemplParams" colspan="2">
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ac11c132df05d869ce10924cbac0a8520 inherit pub_static_methods_classUIElement"><td class="memTemplItemLeft" align="right" valign="top">static T *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getUIComponent</b> ()</td></tr>
+<tr class="separator:ac11c132df05d869ce10924cbac0a8520 inherit pub_static_methods_classUIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_classUIElement"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classUIElement')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classUIElement.html">UIElement</a></td></tr>
+<tr class="memitem:aa369d259d20f27cc7c9710a6459bb2ee inherit pub_attribs_classUIElement" id="r_aa369d259d20f27cc7c9710a6459bb2ee"><td class="memItemLeft" align="right" valign="top">
+std::vector&lt; std::unique_ptr&lt; <a class="el" href="classUIElement.html">UIElement</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>subcomponents</b></td></tr>
+<tr class="separator:aa369d259d20f27cc7c9710a6459bb2ee inherit pub_attribs_classUIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6665ed8440af576407c9db07521508d inherit pub_attribs_classUIElement" id="r_ad6665ed8440af576407c9db07521508d"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classUIElement.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>parent</b> = nullptr</td></tr>
+<tr class="separator:ad6665ed8440af576407c9db07521508d inherit pub_attribs_classUIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_attribs_classUIElement"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_classUIElement')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="classUIElement.html">UIElement</a></td></tr>
+<tr class="memitem:a14ae40cd2ae904894a8be030e6465cc0 inherit pub_static_attribs_classUIElement" id="r_a14ae40cd2ae904894a8be030e6465cc0"><td class="memItemLeft" align="right" valign="top">
+static std::unordered_map&lt; std::type_index, <a class="el" href="classUIElement.html">UIElement</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>uiComponentRegistry</b></td></tr>
+<tr class="separator:a14ae40cd2ae904894a8be030e6465cc0 inherit pub_static_attribs_classUIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classUIElement"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classUIElement')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classUIElement.html">UIElement</a></td></tr>
 <tr class="memitem:aa27576d9b1f73ebbb9fa5b89bfd77a26 inherit pro_attribs_classUIElement" id="r_aa27576d9b1f73ebbb9fa5b89bfd77a26"><td class="memItemLeft" align="right" valign="top">
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>

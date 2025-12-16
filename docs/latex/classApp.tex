@@ -11,7 +11,8 @@ Inheritance diagram for App\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for App\+:\nopagebreak
+Collaboration diagram for App\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -21,8 +22,8 @@ Collaboration diagram for App\+:\nopagebreak
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classApp_afec2488c552e45c7968661b71704b9a4}\label{classApp_afec2488c552e45c7968661b71704b9a4} 
-{\bfseries App} (int thread\+Count)
+\Hypertarget{classApp_a41fc6c17df11e37d9df83835ac1b02fd}\label{classApp_a41fc6c17df11e37d9df83835ac1b02fd} 
+{\bfseries App} (int thread\+Count, int msaa\+\_\+samples, std\+::string open\+File, double initial\+Timestamp, int initial\+Step, bool use\+Python)
 \item 
 virtual void \mbox{\hyperlink{classApp_a383cf8e8949745f9b2b10651b27d1724}{on\+Init}} () override
 \item 
@@ -33,9 +34,17 @@ virtual void \mbox{\hyperlink{classApp_aaf21c7c873ed7a3efb872a9172e2c869}{on\+Ex
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classAppInterface}{App\+Interface}}}
 \begin{DoxyCompactItemize}
 \item 
-{\bfseries App\+Interface} (int thread\+Count)
+{\bfseries App\+Interface} (int thread\+Count, int msaa\+\_\+samples, std\+::string open\+File, double initial\+Timestamp, int initial\+Step, bool use\+Python)
 \item 
 void {\bfseries run} ()
+\item 
+void {\bfseries enqueue\+Render\+Command} (std\+::function$<$ void()$>$ cmd)
+\item 
+void {\bfseries wait\+For\+Render\+Command} ()
+\item 
+void {\bfseries wait\+For\+Render\+Thread\+Exit} ()
+\item 
+void {\bfseries Render\+Thread\+Func} ()
 \item 
 void {\bfseries exit\+Simulator} ()
 \item 
@@ -44,6 +53,34 @@ void {\bfseries on\+SDLEvent} (SDL\+\_\+\+Event \&evnt)
 \mbox{\hyperlink{classBaseFPSLimiter}{Base\+FPSLimiter}} \& {\bfseries get\+FPSLimiter} ()
 \item 
 \mbox{\hyperlink{classAudioEngine}{Audio\+Engine}} \& {\bfseries get\+Audio\+Engine} ()
+\item 
+void {\bfseries render\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+\item 
+void {\bfseries draw\+Line\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+\item 
+void {\bfseries draw\+Plane\+Color\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+\item 
+void {\bfseries draw\+Plane\+Model\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+\item 
+void {\bfseries draw\+Light\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+\item 
+void {\bfseries draw\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch)
+\item 
+void {\bfseries draw\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch)
+\item 
+void {\bfseries draw\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch)
+\item 
+void {\bfseries draw\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch)
+\item 
+void {\bfseries prepare\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+\item 
+void {\bfseries prepare\+Line\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+\item 
+void {\bfseries prepare\+Plane\+Color\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+\item 
+void {\bfseries prepare\+Plane\+Model\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+\item 
+void {\bfseries prepare\+Light\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classAppInterface}{App\+Interface}}}
@@ -54,6 +91,58 @@ void {\bfseries on\+SDLEvent} (SDL\+\_\+\+Event \&evnt)
 \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} {\bfseries \+\_\+window}
 \item 
 \mbox{\hyperlink{structThreader}{Threader}} {\bfseries thread\+Pool}
+\item 
+int {\bfseries MSAA\+\_\+samples}
+\item 
+bool {\bfseries use\+MSAA} = false
+\item 
+std\+::string {\bfseries open\+File}
+\item 
+double {\bfseries initial\+Timestamp}
+\item 
+int {\bfseries initial\+Step}
+\item 
+bool {\bfseries use\+Python} = false
+\item 
+std\+::mutex {\bfseries frame\+Mutex}
+\item 
+std\+::condition\+\_\+variable {\bfseries frame\+Ready\+CV}
+\item 
+std\+::condition\+\_\+variable {\bfseries frame\+Consumed\+CV}
+\item 
+std\+::condition\+\_\+variable {\bfseries init\+Command\+CV}
+\item 
+\mbox{\hyperlink{structRenderCommandQueue}{Render\+Command\+Queue}} {\bfseries queues} \mbox{[}2\mbox{]}
+\item 
+std\+::atomic$<$ int $>$ {\bfseries active\+Index} = 0
+\item 
+std\+::atomic$<$ bool $>$ {\bfseries frame\+Ready} \{ false \}
+\item 
+std\+::atomic$<$ bool $>$ {\bfseries frame\+Consumed} \{ true \}
+\item 
+\mbox{\hyperlink{structRenderCommandQueue}{Render\+Command\+Queue}} {\bfseries init\+Queue}
+\item 
+std\+::mutex {\bfseries init\+Mutex}
+\item 
+std\+::condition\+\_\+variable {\bfseries init\+CV}
+\item 
+std\+::atomic$<$ bool $>$ {\bfseries init\+Command\+Ready} \{ false \}
+\item 
+std\+::atomic$<$ bool $>$ {\bfseries init\+Command\+Complete} \{ false \}
+\item 
+std\+::vector$<$ SDL\+\_\+\+Event $>$ {\bfseries imgui\+Events}
+\item 
+std\+::mutex {\bfseries imgui\+Events\+Mutex}
+\item 
+\mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} {\bfseries plane\+Model\+Renderer}
+\item 
+\mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} {\bfseries plane\+Color\+Renderer}
+\item 
+\mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} {\bfseries line\+Renderer}
+\item 
+\mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} {\bfseries light\+Renderer}
+\item 
+\mbox{\hyperlink{classResourceManager}{Resource\+Manager}} {\bfseries resource\+Manager}
 \end{DoxyCompactItemize}
 \doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classAppInterface}{App\+Interface}}}
 \begin{DoxyCompactItemize}
@@ -62,13 +151,19 @@ virtual void {\bfseries check\+Input} ()
 \item 
 virtual void {\bfseries update} (float delta\+Time)
 \item 
-virtual void {\bfseries draw} ()
+virtual void {\bfseries prepare\+Draw} ()
+\item 
+virtual void {\bfseries render\+Draw} ()
 \item 
 virtual void {\bfseries update\+UI} (float delta\+Time)
 \item 
 virtual void {\bfseries draw\+UI} ()
 \item 
+virtual void {\bfseries swap\+Buffer} ()
+\item 
 bool {\bfseries init} ()
+\item 
+void {\bfseries init\+Renderers} ()
 \item 
 bool {\bfseries init\+Systems} ()
 \end{DoxyCompactItemize}
@@ -81,11 +176,11 @@ bool {\bfseries init\+Systems} ()
 \item 
 std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classSceneList}{Scene\+List}} $>$ {\bfseries \+\_\+scene\+List} = nullptr
 \item 
-\mbox{\hyperlink{classIScene}{IScene}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+current\+Scene} = nullptr
-\item 
 bool {\bfseries \+\_\+is\+Running} = false
 \item 
 const float {\bfseries SCALE\+\_\+\+SPEED} = 0.\+1f
+\item 
+std\+::thread {\bfseries render\+Thread}
 \end{DoxyCompactItemize}
 
 

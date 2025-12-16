@@ -70,8 +70,7 @@ $(function() {
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle"><div class="title">Map Loading</div></div>
 </div><!--header-->
 <div class="contents">
@@ -84,48 +83,10 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIMapParser.html">IMapParser</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base class for all map parsers.  <a href="classIMapParser.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ga547e0e99735e7e231da059bc2a639c70" id="r_ga547e0e99735e7e231da059bc2a639c70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mapLoading.html#ga547e0e99735e7e231da059bc2a639c70">Map::AddDefaultNode</a> (<a class="el" href="classEntity.html">Entity</a> &amp;node, glm::vec3 mPosition)</td></tr>
-<tr class="memdesc:ga547e0e99735e7e231da059bc2a639c70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a default node to the ECS.  <br /></td></tr>
-<tr class="separator:ga547e0e99735e7e231da059bc2a639c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Architecture and workflow for loading maps and paths. </p>
 <p>The map loading system separates file parsing from entity creation. Each parser derives from <a class="el" href="classIMapParser.html" title="Abstract base class for all map parsers.">IMapParser</a> and interacts with Map.cpp via callbacks. </p>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ga547e0e99735e7e231da059bc2a639c70" name="ga547e0e99735e7e231da059bc2a639c70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga547e0e99735e7e231da059bc2a639c70">&#9670;&#160;</a></span>AddDefaultNode()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Map::AddDefaultNode </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classEntity.html">Entity</a> &amp;&#160;</td>
-          <td class="paramname"><em>node</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">glm::vec3&#160;</td>
-          <td class="paramname"><em>mPosition</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Adds a default node to the ECS. </p>
-<p>Used as a callback by parsers to attach <a class="el" href="classTransformComponent.html">TransformComponent</a>, <a class="el" href="classRectangle__w__Color.html">Rectangle_w_Color</a>, and <a class="el" href="classRectangleFlashAnimatorComponent.html">RectangleFlashAnimatorComponent</a>. </p>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

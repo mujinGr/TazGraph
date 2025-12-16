@@ -11,7 +11,8 @@ Inheritance diagram for Rectangle\+Flash\+Animator\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Rectangle\+Flash\+Animator\+Component\+:\nopagebreak
+Collaboration diagram for Rectangle\+Flash\+Animator\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -30,6 +31,9 @@ void \mbox{\hyperlink{classRectangleFlashAnimatorComponent_af91e1c76ff54c8f6d72b
 \Hypertarget{classRectangleFlashAnimatorComponent_a10ee7b555c043b926cca923a6a7f9527}\label{classRectangleFlashAnimatorComponent_a10ee7b555c043b926cca923a6a7f9527} 
 void {\bfseries Play} (const std\+::string \&anim\+Name, int reps=0)
 \item 
+\Hypertarget{classRectangleFlashAnimatorComponent_a7005b4efc962dbd5357e8dc5d2e04859}\label{classRectangleFlashAnimatorComponent_a7005b4efc962dbd5357e8dc5d2e04859} 
+void {\bfseries Play} (const std\+::string \&anim\+Name, \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} m\+\_\+dest\+Color, int reps=0)
+\item 
 \Hypertarget{classRectangleFlashAnimatorComponent_afe28da4935c12b569d99a905edfb0f62}\label{classRectangleFlashAnimatorComponent_afe28da4935c12b569d99a905edfb0f62} 
 void {\bfseries reset\+Animation} ()
 \item 
@@ -47,7 +51,7 @@ virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classL
 \item 
 virtual std\+::string {\bfseries Get\+Component\+Name} ()
 \item 
-virtual void {\bfseries show\+GUI} ()
+virtual void {\bfseries show\+GUI} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\})
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -68,6 +72,8 @@ timestamp {\bfseries resume\+Time} = 0
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
+\item 
+bool {\bfseries modify\+Position} = false
 \item 
 Component\+ID {\bfseries id} = 0u
 \end{DoxyCompactItemize}
@@ -108,4 +114,4 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Animators/\+Rectangle\+Animators/Rectangle\+Flash\+Animator\+Component.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Animators/\+Rectangle\+Animators/Rectangle\+Flash\+Animator\+Component.\+h\end{DoxyCompactItemize}

@@ -113,15 +113,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetGoingBack</b> (boo
 <tr class="memitem:a193648b11560a3e8c8321d8200415981" id="r_a193648b11560a3e8c8321d8200415981"><td class="memItemLeft" align="right" valign="top"><a id="a193648b11560a3e8c8321d8200415981" name="a193648b11560a3e8c8321d8200415981"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>updateFileNamesInAssets</b> ()</td></tr>
 <tr class="separator:a193648b11560a3e8c8321d8200415981"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82567747f5aeffe3baf3f63a0fd4e292" id="r_a82567747f5aeffe3baf3f63a0fd4e292"><td class="memItemLeft" align="right" valign="top"><a id="a82567747f5aeffe3baf3f63a0fd4e292" name="a82567747f5aeffe3baf3f63a0fd4e292"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>updatePollingFileNamesInAssets</b> ()</td></tr>
-<tr class="separator:a82567747f5aeffe3baf3f63a0fd4e292"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b7306c6918e8562160a4f4da4ab0b93" id="r_a1b7306c6918e8562160a4f4da4ab0b93"><td class="memItemLeft" align="right" valign="top"><a id="a1b7306c6918e8562160a4f4da4ab0b93" name="a1b7306c6918e8562160a4f4da4ab0b93"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>updatePathFileNamesInAssets</b> ()</td></tr>
 <tr class="separator:a1b7306c6918e8562160a4f4da4ab0b93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97ba336736bbb26b96dcd982625b7878" id="r_a97ba336736bbb26b96dcd982625b7878"><td class="memItemLeft" align="right" valign="top"><a id="a97ba336736bbb26b96dcd982625b7878" name="a97ba336736bbb26b96dcd982625b7878"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>ReloadAccessibleFiles</b> ()</td></tr>
 <tr class="separator:a97ba336736bbb26b96dcd982625b7878"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59fd3a4c38f2b4aad39b793a1d501864" id="r_a59fd3a4c38f2b4aad39b793a1d501864"><td class="memItemLeft" align="right" valign="top"><a id="a59fd3a4c38f2b4aad39b793a1d501864" name="a59fd3a4c38f2b4aad39b793a1d501864"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>applyStep</b> (<a class="el" href="classManager.html">Manager</a> &amp;manager, int transitionToStep)</td></tr>
+<tr class="separator:a59fd3a4c38f2b4aad39b793a1d501864"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -170,9 +170,18 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>loadingPath</b> = fal
 <tr class="memitem:a15612e746be918e2e925a5b073889436" id="r_a15612e746be918e2e925a5b073889436"><td class="memItemLeft" align="right" valign="top"><a id="a15612e746be918e2e925a5b073889436" name="a15612e746be918e2e925a5b073889436"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>goingBack</b> = false</td></tr>
 <tr class="separator:a15612e746be918e2e925a5b073889436"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e3be764f7495274da7b0f37b48ed558" id="r_a6e3be764f7495274da7b0f37b48ed558"><td class="memItemLeft" align="right" valign="top"><a id="a6e3be764f7495274da7b0f37b48ed558" name="a6e3be764f7495274da7b0f37b48ed558"></a>
+std::map&lt; int, <a class="el" href="classNodeEntity.html">NodeEntity</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>mapSimToGraphNodes</b></td></tr>
+<tr class="separator:a6e3be764f7495274da7b0f37b48ed558"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5670a22f2c31ae09034eb519b2d591d6" id="r_a5670a22f2c31ae09034eb519b2d591d6"><td class="memItemLeft" align="right" valign="top"><a id="a5670a22f2c31ae09034eb519b2d591d6" name="a5670a22f2c31ae09034eb519b2d591d6"></a>
+std::map&lt; int, <a class="el" href="classLinkEntity.html">LinkEntity</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>mapSimToGraphLinks</b></td></tr>
+<tr class="separator:a5670a22f2c31ae09034eb519b2d591d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc6b5768de80edfeb7448e540782ddaf" id="r_acc6b5768de80edfeb7448e540782ddaf"><td class="memItemLeft" align="right" valign="top"><a id="acc6b5768de80edfeb7448e540782ddaf" name="acc6b5768de80edfeb7448e540782ddaf"></a>
+std::map&lt; int, <a class="el" href="classEmptyEntity.html">EmptyEntity</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>mapSimToGraphPaths</b></td></tr>
+<tr class="separator:acc6b5768de80edfeb7448e540782ddaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/DataManager/<a class="el" href="DataManager_8h_source.html">DataManager.h</a></li>
+<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/DataManager/<a class="el" href="DataManager_8h_source.html">DataManager.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

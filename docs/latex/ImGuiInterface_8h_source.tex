@@ -1,29 +1,21 @@
 \doxysection{Im\+Gui\+Interface.\+h}
-\hypertarget{ImGuiInterface_8h_source}{}\label{ImGuiInterface_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/ImGuiInterface/ImGuiInterface.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/ImGuiInterface/ImGuiInterface.h}}
+\hypertarget{ImGuiInterface_8h_source}{}\label{ImGuiInterface_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/ImGuiInterface/ImGuiInterface.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/ImGuiInterface/ImGuiInterface.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <iostream>}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../pch.h"{}}}
+\DoxyCodeLine{00004\ }
 \DoxyCodeLine{00005\ }
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <imgui.h>}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <imgui\_impl\_sdl2.h>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <imgui\_impl\_opengl3.h>}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <implot.h>}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <implot\_internal.h>}}
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../imguiComboAutoselect/imgui\_combo\_autoselect.h"{}}}
-\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <ImGuizmo/ImGuizmo.h>}}
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }ImGuiInterface\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordtype}{void}\ BeginRender();}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{void}\ RenderUI();}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{void}\ EndRender();}
 \DoxyCodeLine{00013\ }
-\DoxyCodeLine{00014\ \textcolor{keyword}{namespace\ }ImGuiInterface\ \{}
-\DoxyCodeLine{00015\ }
-\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ BeginRender();}
-\DoxyCodeLine{00017\ }
-\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ RenderUI();}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ EndRender();}
-\DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{bool}\ isMouseOnWidget(\textcolor{keyword}{const}\ std::string\&\ widgetName);}
-\DoxyCodeLine{00023\ \};}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{bool}\ isMouseOnWidget(\textcolor{keyword}{const}\ std::string\&\ widgetName);}
+\DoxyCodeLine{00015\ \};}
 
 \end{DoxyCode}

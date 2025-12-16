@@ -1,0 +1,45 @@
+\doxysection{Platform\+Detection.\+h}
+\hypertarget{PlatformDetection_8h_source}{}\label{PlatformDetection_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/PlatformDetection.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/PlatformDetection.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ Platform\ detection\ using\ predefined\ macros}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{00003\ \ \ \ \ \textcolor{comment}{/*\ Windows\ x64/x86\ */}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#ifdef\ \_WIN64}}
+\DoxyCodeLine{00005\ \ \ \ \ \textcolor{comment}{/*\ Windows\ x64\ \ */}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ TAZ\_PLATFORM\_WINDOWS}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{comment}{/*\ Windows\ x86\ */}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#error\ "{}x86\ Builds\ are\ not\ supported!"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#elif\ defined(\_\_APPLE\_\_)\ ||\ defined(\_\_MACH\_\_)}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <TargetConditionals.h>}}
+\DoxyCodeLine{00013\ \textcolor{comment}{/*\ TARGET\_OS\_MAC\ exists\ on\ all\ the\ platforms}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ so\ we\ must\ check\ all\ of\ them\ (in\ this\ order)}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ to\ ensure\ that\ we're\ running\ on\ MAC}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ and\ not\ some\ other\ Apple\ platform\ */}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#if\ TARGET\_IPHONE\_SIMULATOR\ ==\ 1}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#error\ "{}IOS\ simulator\ is\ not\ supported!"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#elif\ TARGET\_OS\_IPHONE\ ==\ 1}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ TAZ\_PLATFORM\_IOS}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#error\ "{}IOS\ is\ not\ supported!"{}}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#elif\ TARGET\_OS\_MAC\ ==\ 1}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ TAZ\_PLATFORM\_MACOS}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#error\ "{}MacOS\ is\ not\ supported!"{}}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#error\ "{}Unknown\ Apple\ platform!"{}}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00028\ \ \textcolor{comment}{/*\ We\ also\ have\ to\ check\ \_\_ANDROID\_\_\ before\ \_\_linux\_\_}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ \ *\ since\ android\ is\ based\ on\ the\ linux\ kernel}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ \ *\ it\ has\ \_\_linux\_\_\ defined\ */}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#elif\ defined(\_\_ANDROID\_\_)}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ TAZ\_PLATFORM\_ANDROID}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#error\ "{}Android\ is\ not\ supported!"{}}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#elif\ defined(\_\_linux\_\_)}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ TAZ\_PLATFORM\_LINUX}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{comment}{/*\ Unknown\ compiler/platform\ */}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#error\ "{}Unknown\ platform!"{}}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ End\ of\ platform\ detection}}
+
+\end{DoxyCode}

@@ -11,11 +11,12 @@ Inheritance diagram for Port\+Slot\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Port\+Slot\+Component\+:\nopagebreak
+Collaboration diagram for Port\+Slot\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=297pt]{classPortSlotComponent__coll__graph}
+\includegraphics[width=350pt]{classPortSlotComponent__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -25,11 +26,14 @@ void \mbox{\hyperlink{classPortSlotComponent_a4510d061bca08c1ce8e7027a02f2f996}{
 \item 
 void \mbox{\hyperlink{classPortSlotComponent_adfcfa061e071ca8b07e34a530c409ced}{update}} (float delta\+Time) override
 \item 
+\Hypertarget{classPortSlotComponent_aa11be7fb5fbc4adf0023aa288019c5c3}\label{classPortSlotComponent_aa11be7fb5fbc4adf0023aa288019c5c3} 
+glm\+::vec3 {\bfseries get\+Slot\+Position} () const
+\item 
 void \mbox{\hyperlink{classPortSlotComponent_aeb74a7cdda843d55721358ec2f1c3e60}{draw}} (size\+\_\+t v\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
 \item 
 std\+::string \mbox{\hyperlink{classPortSlotComponent_a52f5bba3172190354d1472b89267847a}{Get\+Component\+Name}} () override
 \item 
-void \mbox{\hyperlink{classPortSlotComponent_af9ca720b4bf19cd9d603ebd7c5b53050}{show\+GUI}} () override
+void \mbox{\hyperlink{classPortSlotComponent_aacb89f1939bbdb94694537fb72fc6cbe}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\}) override
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
@@ -43,6 +47,9 @@ virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classL
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
+\Hypertarget{classPortSlotComponent_afb77bb5b1e74d1c76b582de834f2ebef}\label{classPortSlotComponent_afb77bb5b1e74d1c76b582de834f2ebef} 
+int {\bfseries index} = -\/1
+\item 
 \Hypertarget{classPortSlotComponent_a07a1c29aae3efd0679f8558f16254246}\label{classPortSlotComponent_a07a1c29aae3efd0679f8558f16254246} 
 \mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
 \end{DoxyCompactItemize}
@@ -53,6 +60,8 @@ virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classL
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
+\item 
+bool {\bfseries modify\+Position} = false
 \item 
 Component\+ID {\bfseries id} = 0u
 \end{DoxyCompactItemize}
@@ -89,11 +98,11 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
-\Hypertarget{classPortSlotComponent_af9ca720b4bf19cd9d603ebd7c5b53050}\label{classPortSlotComponent_af9ca720b4bf19cd9d603ebd7c5b53050} 
+\Hypertarget{classPortSlotComponent_aacb89f1939bbdb94694537fb72fc6cbe}\label{classPortSlotComponent_aacb89f1939bbdb94694537fb72fc6cbe} 
 \index{PortSlotComponent@{PortSlotComponent}!showGUI@{showGUI}}
 \index{showGUI@{showGUI}!PortSlotComponent@{PortSlotComponent}}
 \doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}}
-{\footnotesize\ttfamily void Port\+Slot\+Component\+::show\+GUI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void Port\+Slot\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
@@ -113,4 +122,4 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/\+GECS/\+Components/\+Empty/\+Basic/Port\+Slot\+Component.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Components/\+Empty/\+Basic/Port\+Slot\+Component.\+h\end{DoxyCompactItemize}

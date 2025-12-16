@@ -1,63 +1,58 @@
 \doxysection{Plane\+Model\+Renderer.\+h}
-\hypertarget{PlaneModelRenderer_8h_source}{}\label{PlaneModelRenderer_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h}}
+\hypertarget{PlaneModelRenderer_8h_source}{}\label{PlaneModelRenderer_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/RenderEngine/src/Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/RenderEngine/src/Renderers/PlaneRenderers/PlaneModelRenderer/PlaneModelRenderer.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <GL/glew.h>}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ GLM\_ENABLE\_EXPERIMENTAL\ }}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../../../Vertex.h"{}}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../../../GLSLProgram.h"{}}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../PlaneRenderer.h"{}}}
-\DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ \textcolor{comment}{//\ init\ -\/-\/\_}}
-\DoxyCodeLine{00013\ \textcolor{comment}{//\ \ \ \ \ \ \ \`{}-\/-\/>begin()\ }}
-\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ \ \ \ \ \ |}}
-\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ \ \ \ \ \ |\ -\/-\/>\ draw()}}
-\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ \ \ \ \ \ |\ -\/-\/>\ draw()}}
-\DoxyCodeLine{00017\ \textcolor{comment}{//\ \ \ \ \ \ \ |}}
-\DoxyCodeLine{00018\ \textcolor{comment}{//\ \ \ \ \ \ \ |-\/-\/>\ end()\ }}
-\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ \ \ \ \ \ \`{}-\/-\/>\ renderBatch()\ }}
-\DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classPlaneRenderer}{PlaneRenderer}}\ \{}
-\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}();}
-\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{classPlaneModelRenderer}{\string~PlaneModelRenderer}}();}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../../Vertex.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../../Renderer.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ init\ -\/-\/\_}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ \ \ \ \ \ \ \`{}-\/-\/>begin()\ }}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ \ \ \ \ \ |\ -\/-\/>\ draw()}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ \ \ \ \ \ \ |\ -\/-\/>\ draw()}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ \ \ \ \ \ |-\/-\/>\ end()\ }}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ \ \ \ \ \ \ \`{}-\/-\/>\ renderBatch()\ }}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classTaz_1_1Renderer}{Taz::Renderer}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}();}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classPlaneModelRenderer}{\string~PlaneModelRenderer}}();}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ begin()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ initBatch(\mbox{\hyperlink{structTaz_1_1RenderBatch}{Taz::RenderBatch}}\&\ batch);}
 \DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
-\DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ begin();}
-\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ end();}
-\DoxyCodeLine{00030\ }
-\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ initBatchSize();}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ drawTriangle(}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ v\_index,}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ triangleOffset,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ mRotation,}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec2\&\ uv1,\ \textcolor{keyword}{const}\ glm::vec2\&\ uv2,\ \textcolor{keyword}{const}\ glm::vec2\&\ uv3,}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ GLuint\ texture);}
 \DoxyCodeLine{00032\ }
-\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ drawTriangle(}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ v\_index,}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ triangleOffset,}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ v\_index,}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec2\&\ rectSize,}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ position,}
 \DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ mRotation,}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec2\&\ uv1,\ \textcolor{keyword}{const}\ glm::vec2\&\ uv2,\ \textcolor{keyword}{const}\ glm::vec2\&\ uv3,}
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ GLuint\ texture);}
-\DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ v\_index,}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec2\&\ rectSize,}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ bodyCenter,}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ mRotation,}
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec4\&\ uvRect,}
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ GLuint\ texture}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec4\&\ uvRect,}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ GLuint\ texture}
+\DoxyCodeLine{00039\ \ \ \ \ );}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ endBatch(\textcolor{keyword}{const}\ \mbox{\hyperlink{structTaz_1_1RenderBatch}{Taz::RenderBatch}}\&\ batch)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ dispose();}
+\DoxyCodeLine{00044\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ createInstancesVBO();}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ createVertexArray();}
 \DoxyCodeLine{00047\ }
-\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ renderBatch(\mbox{\hyperlink{classGLSLProgram}{GLSLProgram}}*\ glsl\_program);}
+\DoxyCodeLine{00048\ \ \ \ \ std::vector<TextureMeshRenderer>\ \_meshesElements;}
 \DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ dispose();}
-\DoxyCodeLine{00051\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ createInstancesVBO();}
-\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ createVertexArray();}
-\DoxyCodeLine{00054\ \ \ \ \ }
-\DoxyCodeLine{00055\ \ \ \ \ std::vector<TextureMeshRenderer>\ \_meshesElements;}
-\DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \};}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ currentBatchIndex\ =\ 0;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \};}
 
 \end{DoxyCode}

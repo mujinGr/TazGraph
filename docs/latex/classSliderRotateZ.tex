@@ -11,24 +11,49 @@ Inheritance diagram for Slider\+RotateZ\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Slider\+RotateZ\+:\nopagebreak
+Collaboration diagram for Slider\+RotateZ\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=163pt]{classSliderRotateZ__coll__graph}
+\includegraphics[width=209pt]{classSliderRotateZ__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
-\item 
-void \mbox{\hyperlink{classSliderRotateZ_a8ae99c11e68e5e52a20d74286ebd130c}{update}} (float delta\+Time) override
 \item 
 void \mbox{\hyperlink{classSliderRotateZ_ac23cf38b044caba401ddd63b17e53776}{On\+Im\+Gui\+Render}} () override
 \item 
 \Hypertarget{classSliderRotateZ_a27d4930859efb5dae35a7bd11c05e3d8}\label{classSliderRotateZ_a27d4930859efb5dae35a7bd11c05e3d8} 
 void {\bfseries rotate\+Camera} (float \&\+\_\+camera\+RotationZ)
 \end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries update} (float delta\+Time=0.\+0f)
+\item 
+{\footnotesize template$<$typename T , typename... Args$>$ }\\void {\bfseries add\+UIComponent} (Args \&\&... args)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries get\+Subcomponent} ()
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static T \texorpdfstring{$\ast$}{*} {\bfseries get\+UIComponent} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$ $>$ {\bfseries subcomponents}
+\item 
+\mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} {\bfseries parent} = nullptr
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unordered\+\_\+map$<$ std\+::type\+\_\+index, \mbox{\hyperlink{classUIElement}{UIElement}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries ui\+Component\+Registry}
+\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classUIElement}{UIElement}}}
 \begin{DoxyCompactItemize}
 \item 
@@ -49,18 +74,8 @@ bool {\bfseries visible} = true
 
 Implements \mbox{\hyperlink{classUIElement}{UIElement}}.
 
-\Hypertarget{classSliderRotateZ_a8ae99c11e68e5e52a20d74286ebd130c}\label{classSliderRotateZ_a8ae99c11e68e5e52a20d74286ebd130c} 
-\index{SliderRotateZ@{SliderRotateZ}!update@{update}}
-\index{update@{update}!SliderRotateZ@{SliderRotateZ}}
-\doxysubsubsection{\texorpdfstring{update()}{update()}}
-{\footnotesize\ttfamily void Slider\+Rotate\+Z\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
-
-
-
-Reimplemented from \mbox{\hyperlink{classUIElement}{UIElement}}.
-
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/Slider\+Rotate\+Z.\+h\end{DoxyCompactItemize}
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Editor\+IMGUI/\+Components/\+Menu\+Dropdown/\+Camera\+Panel/Slider\+Rotate\+Z.\+h\end{DoxyCompactItemize}

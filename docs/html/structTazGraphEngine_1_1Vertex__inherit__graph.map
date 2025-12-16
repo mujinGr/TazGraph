@@ -1,0 +1,9 @@
+<map id="TazGraphEngine::Vertex" name="TazGraphEngine::Vertex">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,181,80"/>
+<area shape="rect" id="Node000002" href="$structTazGraphEngine_1_1ColorVertex.html" title=" " alt="" coords="236,5,447,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,49,276,28,277,33,172,55"/>
+<area shape="rect" id="Node000003" href="$structTazGraphEngine_1_1LightVertex.html" title=" " alt="" coords="237,55,445,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="195,65,237,65,237,70,195,70"/>
+<area shape="rect" id="Node000004" href="$structTazGraphEngine_1_1TextureVertex.html" title=" " alt="" coords="229,104,453,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="172,80,277,101,276,107,170,85"/>
+</map>

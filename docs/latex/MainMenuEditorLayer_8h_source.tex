@@ -1,0 +1,30 @@
+\doxysection{Main\+Menu\+Editor\+Layer.\+h}
+\hypertarget{MainMenuEditorLayer_8h_source}{}\label{MainMenuEditorLayer_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/MainMenuEditorLayer/MainMenuEditorLayer.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/MainMenuEditorLayer/MainMenuEditorLayer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../UIElement.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../Components/MenuSceneControllers/LoadingUI/LoadingUI.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../Components/MenuSceneControllers/NewMapUI/NewMapUI.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structMainMenuEditorLayerConfig}{MainMenuEditorLayerConfig}}\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ std::function<void()>\ onStartClicked;}
+\DoxyCodeLine{00009\ \ \ \ \ std::function<void()>\ onExitClicked;}
+\DoxyCodeLine{00010\ \};}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMainMenuEditorLayer}{MainMenuEditorLayer}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{structMainMenuEditorLayerConfig}{MainMenuEditorLayerConfig}}\ config;}
+\DoxyCodeLine{00016\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classMainMenuEditorLayer}{MainMenuEditorLayer}}()\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ addUIComponent<LoadingUI>();}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ addUIComponent<NewMapUI>();}
+\DoxyCodeLine{00020\ \ \ \ \ \}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structMainMenuEditorLayerConfig}{MainMenuEditorLayerConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00024\ \};}
+
+\end{DoxyCode}

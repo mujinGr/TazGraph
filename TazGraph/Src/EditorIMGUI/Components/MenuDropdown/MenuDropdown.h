@@ -5,21 +5,33 @@
 #include "../MenuSceneControllers/NewMapUI/NewMapUI.h"
 #include "../MenuSceneControllers/SavingUI/SavingUI.h"
 #include "../MenuSceneControllers/LoadingUI/LoadingUI.h"
+#include "../PythonInterpreterPanel/PythonInterpreterPanel.h"
+
+#include "CameraPanel/CameraPanel.h"
+#include "ScenePanel/ScenePanel.h"
+#include "VisibleEntities/VisibleEntities.h"
+#include "FPSCounter.h"
 
 struct MenuDropdownConfig {
-
+	IScene* scene;
 };
 
 class MenuDropdownPanel : public UIElement
 {
 private:
 	MenuDropdownConfig config;
-
 public:
-	LoadingUI loadingUI;
-	SavingUI savingUI;
-	NewMapUI newMapUI;
+	MenuDropdownPanel()
+	{
+		addUIComponent<LoadingUI>();
+		addUIComponent<SavingUI>();
+		addUIComponent<NewMapUI>();
+		addUIComponent<CameraPanel>();
+		addUIComponent<ScenePanel>();
+		addUIComponent<VisibleEntitiesPanel>();
+		addUIComponent<FPSCounter>();
+	}
+
 	void setConfig(const MenuDropdownConfig& cfg) { config = cfg; }
-	void update(float deltaTime) override;
 	void OnImGuiRender() override;
 };

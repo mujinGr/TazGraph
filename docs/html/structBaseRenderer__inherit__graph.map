@@ -1,9 +1,13 @@
 <map id="BaseRenderer" name="BaseRenderer">
-<area shape="rect" id="Node000001" title=" " alt="" coords="181,5,295,31"/>
-<area shape="rect" id="Node000002" href="$structColorMeshRenderer.html" title=" " alt="" coords="5,79,156,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,39,107,81,105,76,199,34"/>
-<area shape="rect" id="Node000003" href="$structMeshRenderer.html" title=" " alt="" coords="180,79,296,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="241,44,241,79,235,79,235,44"/>
-<area shape="rect" id="Node000004" href="$structTextureMeshRenderer.html" title=" " alt="" coords="320,79,484,104"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="278,34,376,76,374,81,276,39"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,104,119,129"/>
+<area shape="rect" id="Node000002" href="$structColorMeshRenderer.html" title=" " alt="" coords="184,5,335,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,92,123,65,166,40,196,28,198,33,168,44,125,69,90,97"/>
+<area shape="rect" id="Node000003" href="$structLineMeshRenderer.html" title=" " alt="" coords="188,55,331,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="126,98,207,77,208,83,127,103"/>
+<area shape="rect" id="Node000004" href="$structMeshRenderer.html" title="Meshes." alt="" coords="201,104,317,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="133,114,201,114,201,119,133,119"/>
+<area shape="rect" id="Node000005" href="$structTextureMeshRenderer.html" title=" " alt="" coords="177,153,341,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="127,130,208,151,207,156,126,135"/>
+<area shape="rect" id="Node000006" href="$structWireframeMeshRenderer.html" title=" " alt="" coords="167,203,352,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="90,136,126,163,168,188,201,200,199,205,166,192,123,167,87,140"/>
 </map>

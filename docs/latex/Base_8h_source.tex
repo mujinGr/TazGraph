@@ -1,0 +1,31 @@
+\doxysection{Base.\+h}
+\hypertarget{Base_8h_source}{}\label{Base_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Base.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/Base.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <RenderEngine.h>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}./PlatformDetection.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifdef\ TAZ\_PLATFORM\_WINDOWS}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ safe\_sprintf\ sprintf\_s}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#elif\ defined(TAZ\_PLATFORM\_LINUX)}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ safe\_sprintf\ sprintf}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ TAZ\_PLATFORM\_WINDOWS}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ safe\_sscanf\ sscanf\_s}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#elif\ defined(TAZ\_PLATFORM\_LINUX)}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ safe\_sscanf\ sscanf}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#ifdef\ TAZ\_PLATFORM\_WINDOWS}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ safe\_putenv\ \_putenv}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#elif\ defined(TAZ\_PLATFORM\_LINUX)}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ safe\_putenv\ putenv}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ "{}./DefineFactory.h"{}}}
+
+\end{DoxyCode}

@@ -1,0 +1,73 @@
+\doxysection{Renderer.\+h}
+\hypertarget{Renderer_8h_source}{}\label{Renderer_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/RenderEngine/src/Renderers/Renderer.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/RenderEngine/src/Renderers/Renderer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../pch.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../Vertex.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../GLSLProgram.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ init\ -\/-\/\_}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ \ \ \ \ \ \`{}-\/-\/>begin()\ }}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ \ \ \ \ \ |\ -\/-\/>\ draw()}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ \ \ \ \ \ |\ -\/-\/>\ draw()}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ \ \ \ \ \ |-\/-\/>\ end()\ }}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ \ \ \ \ \ \`{}-\/-\/>\ renderBatch()\ }}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{namespace\ }Taz}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTaz_1_1RenderBatch}{RenderBatch}}\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum\ class}\ RendererType\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ Line,}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ PlaneColor,}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ PlaneModel,}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ Light}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ RendererType\ renderer\_type\ =\ RendererType::Line;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum\ class}\ MeshType\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ Line,}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ Triangle,}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ Quad,}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ Box,}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ Sphere}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ MeshType\ mesh\_type\ =\ MeshType::Quad;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ std::string\ shaderName;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ std::string\ batchName;}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ count\ =\ 0;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ index\ =\ 0;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Additional\ shader\ uniforms}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ glm::mat4\ rotationMatrix\ =\ glm::mat4(1.0f);}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ glm::vec2\ viewportSize\ =\ glm::vec2(0.0f);}
+\DoxyCodeLine{00047\ \ \ \ \ \};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTaz_1_1Renderer}{Renderer}}\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTaz_1_1Renderer}{Renderer}}();}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTaz_1_1Renderer}{\string~Renderer}}();}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ begin();}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ endBatch(\textcolor{keyword}{const}\ \mbox{\hyperlink{structTaz_1_1RenderBatch}{Taz::RenderBatch}}\&\ batch)\ =\ 0;}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ GLuint\ \_vboInstances;}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ currentBatchIndex\ =\ 0;}
+\DoxyCodeLine{00065\ \ \ \ \ \};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \}}
+
+\end{DoxyCode}

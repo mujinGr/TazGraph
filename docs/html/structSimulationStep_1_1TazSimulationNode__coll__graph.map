@@ -1,0 +1,5 @@
+<map id="SimulationStep::TazSimulationNode" name="SimulationStep::TazSimulationNode">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,93,260,119"/>
+<area shape="rect" id="Node000002" href="$structTazGraphEngine_1_1Color.html" title=" " alt="" coords="49,5,217,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,45,135,93,130,93,130,45"/>
+</map>
