@@ -1,4 +1,4 @@
-#version 330
+#version 430
 
 layout (location = 0) in vec3 aPos; //vertex Pos
 layout (location = 1) in vec3 aNormal; //vertex Normal

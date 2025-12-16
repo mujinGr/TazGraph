@@ -20,6 +20,9 @@ class Graph : public IScene {
 
 public:
 	Graph();
+	Graph(bool m_usePython) : usePython(m_usePython) {
+		_sceneIndex = SCENE_INDEX_GRAPHPLAY;
+	};
 	~Graph();
 
 
@@ -92,7 +95,9 @@ private:
 	const float SCALE_SPEED = 0.1f;
 	bool _firstLoop = true;
 
-	GraphEditorLayer _graphEditorLayer;
+	bool usePython = false;
+
+	GraphEditorLayer _graphEditorLayer = GraphEditorLayer(usePython);
 
 	Framebuffer _viewportFramebuffer;
 	Framebuffer _minimapFramebuffer;

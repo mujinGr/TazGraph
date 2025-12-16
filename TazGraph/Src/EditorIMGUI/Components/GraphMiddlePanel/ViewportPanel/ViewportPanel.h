@@ -28,12 +28,16 @@ private:
 public:
 
 	ViewportPanel() {
+
+	}
+
+	ViewportPanel(bool usePython) {
 		addUIComponent<Minimap>();
 		addUIComponent<OrientationBox>();
 		addUIComponent<SceneControlPanel>();
 		addUIComponent<HoverEntityPanel>();
 		addUIComponent<HighlightBox>();
-		addUIComponent<EntityComponentsControlPanel>();
+		addUIComponent<EntityComponentsControlPanel>(usePython);
 	}
 
 	bool isMouseInSecondColumn = false;

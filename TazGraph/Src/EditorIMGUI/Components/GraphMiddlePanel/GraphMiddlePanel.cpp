@@ -65,20 +65,19 @@ void GraphMiddlePanel::OnImGuiRender()
 	}
 	ImGui::EndChild();//? Needs to be outside
 
-
-	//getSubcomponent<PythonInterpreterPanel>()->setConfig(
-	//	{
-	//		.scene = config.scene,
-	//		.viewportPos = config.c_viewportPos,
-	//		.viewportSize = config.c_viewportSize
-	//	}
-	//);
-	//getSubcomponent<PythonInterpreterPanel>()->OnImGuiRender();
-
-
-	//if (getSubcomponent<PythonInterpreterPanel>()->inputActive) {
-	//	getSubcomponent<ViewportPanel>()->isMouseInSecondColumn = false;
-	//}
+	if (getSubcomponent<PythonInterpreterPanel>()) {
+		getSubcomponent<PythonInterpreterPanel>()->setConfig(
+			{
+				.scene = config.scene,
+				.viewportPos = config.c_viewportPos,
+				.viewportSize = config.c_viewportSize
+			}
+		);
+		getSubcomponent<PythonInterpreterPanel>()->OnImGuiRender();
 
 
+		if (getSubcomponent<PythonInterpreterPanel>()->inputActive) {
+			getSubcomponent<ViewportPanel>()->isMouseInSecondColumn = false;
+		}
+	}
 }

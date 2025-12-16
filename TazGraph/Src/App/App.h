@@ -12,7 +12,8 @@ public:
 		int msaa_samples,
 		std::string openFile,
 		double initialTimestamp,
-		int initialStep);
+		int initialStep,
+		bool usePython);
 	~App();
 
 	// Called on initialization

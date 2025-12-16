@@ -1,14 +1,30 @@
 
 #include "App/App.h"
 
+bool stringToBool(const std::string& str) {
+	std::string lowerStr = str;
+	std::transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(),
+		[](unsigned char c) { return std::tolower(c); });
 
-int main(int argc, char* argv[]) {
+	if (lowerStr == "1" || lowerStr == "true" || lowerStr == "yes" ||
+		lowerStr == "on" || lowerStr == "enable" || lowerStr == "enabled") {
+		return true;
+	}
+	if (lowerStr == "0" || lowerStr == "false" || lowerStr == "no" ||
+		lowerStr == "off" || lowerStr == "disable" || lowerStr == "disabled") {
+		return false;
+	}
+	return false;
+}
+
+int SDL_main(int argc, char* argv[]) {
 
 	int threadCount = 4; // Default
 	int msaaSamples = 1;
 	std::string openFile = "";
 	double initialTimestamp = 0.0;
 	int initialStep = 0;
+	bool usePython = false;
 
 	// Parse command line arguments
 	for (int i = 1; i < argc; ++i) {
@@ -33,9 +49,12 @@ int main(int argc, char* argv[]) {
 		else if (arg.find("--initial-step=") == 0) {
 			initialStep = std::stoi(arg.substr(15)); // Length of "--initial-step="
 		}
+		else if (arg.find("--use-python=") == 0) {
+			usePython = stringToBool(arg.substr(13)); // Length of "--use-python="
+		}
 		else {
 			std::cerr << "Unknown argument: " << arg << "\n";
-			std::cerr << "Usage: " << argv[0] << " [--num-threads=X] [--open-file=Y] [--initial-timestamp=Z] [--initial-step=W] [--MSAA=V]\n";
+			std::cerr << "Usage: " << argv[0] << " [--num-threads=X] [--open-file=Y] [--initial-timestamp=Z] [--initial-step=W] [--MSAA=V] [--use-python=C]\n";
 			return 1;
 		}
 	}
@@ -54,7 +73,10 @@ int main(int argc, char* argv[]) {
 	if (initialStep != 0) {
 		std::cout << "Initial step: " << initialStep << "\n";
 	}
-	auto app = std::make_unique<App>(threadCount, msaaSamples, openFile, initialTimestamp, initialStep);
+	{
+		std::cout << "Use Python: " << (usePython ? "true" : "false") << "\n";
+	}
+	auto app = std::make_unique<App>(threadCount, msaaSamples, openFile, initialTimestamp, initialStep, usePython);
 	app->run();
 
 	return 0;

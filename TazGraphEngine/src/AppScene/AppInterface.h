@@ -18,7 +18,8 @@ class AppInterface {
 public:
 	AppInterface(int threadCount, int msaa_samples, std::string openFile,
 		double initialTimestamp,
-		int initialStep);
+		int initialStep,
+		bool usePython);
 	virtual ~AppInterface();
 
 	void run();
@@ -49,6 +50,7 @@ public:
 	std::string openFile;
 	double initialTimestamp;
 	int initialStep;
+	bool usePython = false;
 
 	std::mutex frameMutex;
 	std::condition_variable frameReadyCV;

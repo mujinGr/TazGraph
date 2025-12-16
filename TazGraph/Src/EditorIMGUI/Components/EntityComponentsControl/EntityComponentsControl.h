@@ -16,8 +16,10 @@ private:
 	EntityID _lastEntityDisplayed = 0;
 
 public:
-	EntityComponentsControlPanel() {
-		//addUIComponent<PythonInterpreterPanel>();
+	EntityComponentsControlPanel(bool usePython) {
+		if (usePython) {
+			addUIComponent<PythonInterpreterPanel>();
+		}
 	}
 
 	void setConfig(const EntityComponentsConfig& cfg) { config = cfg; }

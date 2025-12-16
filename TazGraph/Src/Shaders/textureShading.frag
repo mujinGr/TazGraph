@@ -1,4 +1,4 @@
-#version 330
+#version 430
 
 struct Light {
     vec3 position;

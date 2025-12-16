@@ -53,9 +53,13 @@ public:
 	COL_STATE last_rightColumnState = COL_STATE::EXPANDED;
 
 	GraphEditorLayer() {
+
+	}
+
+	GraphEditorLayer(bool usePython) {
 		addUIComponent<MenuDropdownPanel>();
 		addUIComponent<GraphLeftPanel>();
-		addUIComponent<GraphMiddlePanel>();
+		addUIComponent<GraphMiddlePanel>(usePython);
 		addUIComponent<GraphRightPanel>();
 	}
 
