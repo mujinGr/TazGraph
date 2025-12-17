@@ -1,0 +1,53 @@
+Thread count: 4
+MSAA: 4
+Use Python: true
+VSync: OFF
+Waiting for render command...
+Executing init command
+Subsystems Initialised...
+graphnetwork     2944
+graphnetwork     2944
+1656
+graphnetwork     1656
+arial     317
+arial     317
+60
+arial     60
+Font added: arial from assets/Fonts/arial.ttf size 14.000000
+Font added: bold from assets/Fonts/Figerona-VF.ttf size 16.000000
+205.000000 614.827942
+205.000000 614.827942
+409.166656 308.987213
+402.500000 308.987213
+354.166656 422.890869
+390.000000 334.159302
+Waiting for render command...
+Executing init command
+Subsystems Initialised...
+arial     317
+arial     317
+60
+arial     60
+worldMap     3072
+worldMap     3072
+3072
+worldMap     3072
+play-button     225
+play-button     225
+225
+play-button     225
+pause-button     500
+pause-button     500
+500
+pause-button     500
+treemap     703
+treemap     703
+698
+treemap     698
+sauronEye     1200
+sauronEye     1200
+600
+sauronEye     600
+Current Working Directory: "C:\\Users\\lefte\\Mujin\\MastersThesis\\Taz\\TazGraph\\TazGraph"
+[Main] Render thread has exited cleanly.
+

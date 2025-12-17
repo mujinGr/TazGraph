@@ -49,7 +49,7 @@ void Graph::onEntry()
 
 		if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 		{
-			std::cout << "Subsystems Initialised..." << std::endl;
+			TAZ_LOG("Subsystems Initialised...");
 
 			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
@@ -92,7 +92,7 @@ void Graph::onEntry()
 
 		if (TTF_Init() == -1)
 		{
-			std::cout << "Error : SDL_TTF" << std::endl;
+			TAZ_LOG("Error : SDL_TTF");
 		}
 
 		//add the textures to our texture library

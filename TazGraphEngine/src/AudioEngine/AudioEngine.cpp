@@ -5,7 +5,7 @@
 	void SoundEffect::play(int loops) {
 		/*if (Mix_PlayChannel(-1, _chunk, loops)) {
 			if (Mix_PlayChannel(0, _chunk, loops)) {
-				TazGraphEngine::ConsoleLogger::error("Mix_PlayChannel error: " + std::string(Mix_GetError()));
+				TAZ_ERROR("Mix_PlayChannel error: " + std::string(Mix_GetError()));
 
 			}
 		}*/
@@ -34,17 +34,17 @@
 
 	void AudioEngine::init() {
 		if (_isInitialized) {
-			TazGraphEngine::ConsoleLogger::error("Tried to initialize AudioEngine Twice!\n");
+			TAZ_ERROR("Tried to initialize AudioEngine Twice!\n");
 		}
 
 		// Parameter can be a bitwise combination of MIX_INIT_FAC,
 		//MIX_INIT_MOD, MIX_INIT_MP3, MIX_INIT_OGG
 		if (Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG) == -1) {
-			TazGraphEngine::ConsoleLogger::error("Mix_Init error: " + std::string(Mix_GetError()));
+			TAZ_ERROR("Mix_Init error: " + std::string(Mix_GetError()));
 		}
 
 		if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024)) {
-			TazGraphEngine::ConsoleLogger::error("Mix_OpenAudio error: " + std::string(Mix_GetError()));
+			TAZ_ERROR("Mix_OpenAudio error: " + std::string(Mix_GetError()));
 		}
 
 		bool _isInitialized = true;
@@ -80,7 +80,7 @@
 			Mix_Chunk* chunk = Mix_LoadWAV(filePath.c_str());
 			//Check for errors
 			if (chunk == nullptr) {
-				TazGraphEngine::ConsoleLogger::error("Mix_LoadWAV error: " + std::string(Mix_GetError()));
+				TAZ_ERROR("Mix_LoadWAV error: " + std::string(Mix_GetError()));
 			}
 			effect._chunk = chunk;
 			_effectMap[filePath] = chunk;
@@ -103,7 +103,7 @@
 			Mix_Music* mixMusic = Mix_LoadMUS(filePath.c_str());
 			//Check for errors
 			if (mixMusic == nullptr) {
-				TazGraphEngine::ConsoleLogger::error("Mix_LoadWAV error: " + std::string(Mix_GetError()));
+				TAZ_ERROR("Mix_LoadWAV error: " + std::string(Mix_GetError()));
 			}
 			music._music = mixMusic;
 			_musicMap[filePath] = mixMusic;

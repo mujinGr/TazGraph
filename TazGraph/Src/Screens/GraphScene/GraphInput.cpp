@@ -679,7 +679,7 @@ void Graph::checkInput() {
 				main_camera2D->setPanningAimPos(main_camera2D->getAimPos() - main_camera2D->getPosition());
 			}
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
-				std::cout << "right-clicked at: " << _viewportMousePosition.x << " - " << _viewportMousePosition.y << std::endl;
+				TAZ_LOG("right-clicked at: " + std::to_string(_viewportMousePosition.x) + " - " + std::to_string(_viewportMousePosition.y));
 
 				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_RIGHT);
 

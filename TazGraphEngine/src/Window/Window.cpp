@@ -32,29 +32,31 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 	}
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+
 
 	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1); //! BUFFERS
 	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);//! SAMPLES (request)
 	//Open an SDL window
 	_sdlWindow = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screenWidth, _screenHeight, flags);
 	if (_sdlWindow == nullptr) {
-		TazGraphEngine::ConsoleLogger::error("SDL Window could not be created!");
+		TAZ_ERROR("SDL Window could not be created!");
 	}
 	SDL_Surface* icon = IMG_Load("../TazGraph/assets/Sprites/TazGraph_whitebg.jpg");
 	SDL_SetWindowIcon(_sdlWindow, icon);
 	//Set up our OpenGL context
 	glContext = SDL_GL_CreateContext(_sdlWindow);
 	if (glContext == nullptr) {
-		TazGraphEngine::ConsoleLogger::error("SDL_GL context could not be created!");
+		TAZ_ERROR("SDL_GL context could not be created!");
 	}
 	SDL_GL_MakeCurrent(_sdlWindow, glContext);
 
 	//Set up glew (optional but recommended)
 	GLenum error = glewInit();
 	if (error != GLEW_OK) {
-		TazGraphEngine::ConsoleLogger::error("Could not initialize glew!");
+		TAZ_ERROR("Could not initialize glew!");
 	}
 	int buffers, samples;
 	//SDL_GL_GetAttribute(SDL_GL_MULTISAMPLEBUFFERS, &buffers);
@@ -66,14 +68,17 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 	ImPlot::CreateContext();
 	// Setup Platform/Renderer bindings
 	ImGui_ImplSDL2_InitForOpenGL(_sdlWindow, &glContext);
-	ImGui_ImplOpenGL3_Init("#version 430"); // Or whatever GLSL version suits your needs
+	ImGui_ImplOpenGL3_Init("#version 410"); // Or whatever GLSL version suits your needs
 
 	//Check the OpenGL version
 	//std::cout << "***   OpenGL Version: " << glGetString(GL_VERSION) << "    ***\n";
 	//Set VSYNC
 	SDL_GL_SetSwapInterval(0);
 	int interval = SDL_GL_GetSwapInterval();
-	std::cout << "VSync: " << (interval == 0 ? "OFF" : "ON") << std::endl;
+	std::ostringstream oss;
+	oss << "VSync: " << (interval == 0 ? "OFF" : "ON");
+
+	TAZ_LOG(oss.str());
 	// Enable alpha blend
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);

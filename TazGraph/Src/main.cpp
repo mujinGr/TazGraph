@@ -18,6 +18,7 @@ bool stringToBool(const std::string& str) {
 }
 
 int SDL_main(int argc, char* argv[]) {
+	TazGraphEngine::ConsoleLogger::init();
 
 	int threadCount = 4; // Default
 	int msaaSamples = 1;
@@ -60,21 +61,23 @@ int SDL_main(int argc, char* argv[]) {
 	}
 
 	// Display parsed values (optional)
-	std::cout << "Thread count: " << threadCount << "\n";
+	TAZ_LOG("Thread count: " + std::to_string(threadCount));
 	if (!openFile.empty()) {
-		std::cout << "Opening file: " << openFile << "\n";
+		TAZ_LOG("Opening file: " + openFile);
 	}
 	{
-		std::cout << "MSAA: " << msaaSamples << "\n";
+		TAZ_LOG("MSAA: " + std::to_string(msaaSamples));
 	}
 	if (initialTimestamp != 0.0) {
-		std::cout << "Initial timestamp: " << initialTimestamp << "\n";
+		TAZ_LOG("Initial timestamp: " + std::to_string(initialTimestamp));
 	}
 	if (initialStep != 0) {
-		std::cout << "Initial step: " << initialStep << "\n";
+		TAZ_LOG("Initial step: " + std::to_string(initialStep));
 	}
 	{
-		std::cout << "Use Python: " << (usePython ? "true" : "false") << "\n";
+		std::ostringstream oss;
+		oss << "Use Python: " << (usePython ? "true" : "false");
+		TAZ_LOG(oss.str());
 	}
 	auto app = std::make_unique<App>(threadCount, msaaSamples, openFile, initialTimestamp, initialStep, usePython);
 	app->run();

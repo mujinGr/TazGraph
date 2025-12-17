@@ -315,8 +315,9 @@ void Manager::scanComponentNames(const std::string& folderPath) {
 
 void Manager::setComponentNames()
 {
-
-	std::cout << "Current Working Directory: " << fs::current_path() << std::endl;
+	std::ostringstream oss;
+	oss << "Current Working Directory: " << fs::current_path();
+	TAZ_LOG(oss.str());
 
 	const std::string folderPath = fs::current_path().string() + "/../TazGraphEngine/src/GECS";
 	if (!fs::exists(folderPath)) {

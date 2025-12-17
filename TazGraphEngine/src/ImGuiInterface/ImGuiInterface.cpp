@@ -11,7 +11,7 @@ void ImGuiInterface::RenderUI() {
 
 	ImGui::Text("Hello, world!");
 	if (ImGui::Button("Click me!")) {
-		std::cout << "Button clicked!" << std::endl;
+		TAZ_LOG("Button clicked!");
 	}
 
 	ImGui::End();

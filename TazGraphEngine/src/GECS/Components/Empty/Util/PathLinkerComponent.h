@@ -83,7 +83,7 @@ public:
 			EntityID currFromNode = currLink->getFromNode();
 
 			if (prevToNode != currFromNode)
-				TazGraphEngine::ConsoleLogger::error("Should be same node to create innerPaths!");
+				TAZ_ERROR("Should be same node to create innerPaths!");
 
 			EntityID prevToPortIndex = prevLink->toPort;
 			EntityID currFromPortIndex = currLink->fromPort;

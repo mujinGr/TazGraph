@@ -7,7 +7,7 @@ void Graph::update(float deltaTime) //game objects updating
 	std::string mapName = DataManager::getInstance().mapToLoad;
 
 	// on Graph Load / Graph Change
-	if (!mapName.empty() && setManager(mapName)) {
+	if (!manager && setManager(mapName)) {
 		manager->resetEntityId();
 
 		map->loadMap(
