@@ -1,6 +1,14 @@
 Thread count: 4
 MSAA: 4
 Use Python: true
+Background Color: (1, 1, 1, 1)
+Use Grid: true
+
+
+
+
+
+
 VSync: OFF
 Waiting for render command...
 Executing init command
@@ -15,12 +23,10 @@ arial     317
 arial     60
 Font added: arial from assets/Fonts/arial.ttf size 14.000000
 Font added: bold from assets/Fonts/Figerona-VF.ttf size 16.000000
-205.000000 614.827942
-205.000000 614.827942
-409.166656 308.987213
-402.500000 308.987213
-354.166656 422.890869
-390.000000 334.159302
+407.500000 322.831848
+394.583344 312.133728
+347.500000 417.856445
+400.000000 336.676514
 Waiting for render command...
 Executing init command
 Subsystems Initialised...

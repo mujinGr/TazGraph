@@ -17,6 +17,23 @@ bool stringToBool(const std::string& str) {
 	return false;
 }
 
+std::array<float, 4> parseColorRGBA(const std::string& s)
+{
+	std::stringstream ss(s);
+	float r, g, b, a = 1.0f;
+	char comma;
+
+	if (!(ss >> r >> comma >> g >> comma >> b)) {
+		throw std::invalid_argument("Invalid color format");
+	}
+
+	if (ss >> comma >> a) {
+		// RGBA provided
+	}
+
+	return { r, g, b, a };
+}
+
 int SDL_main(int argc, char* argv[]) {
 	TazGraphEngine::ConsoleLogger::init();
 
@@ -26,6 +43,8 @@ int SDL_main(int argc, char* argv[]) {
 	double initialTimestamp = 0.0;
 	int initialStep = 0;
 	bool usePython = false;
+	std::array<float, 4> backgroundColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	bool useGrid = true;
 
 	// Parse command line arguments
 	for (int i = 1; i < argc; ++i) {
@@ -53,9 +72,25 @@ int SDL_main(int argc, char* argv[]) {
 		else if (arg.find("--use-python=") == 0) {
 			usePython = stringToBool(arg.substr(13)); // Length of "--use-python="
 		}
+		else if (arg.find("--bg-color=") == 0) {
+			std::array<float, 4> parsedColor = parseColorRGBA(arg.substr(11)); // Length of "--bg-color="
+			backgroundColor = parsedColor;
+		}
+		else if (arg.find("--grid=") == 0) {
+			useGrid = stringToBool(arg.substr(7)); // Length of "--use-python="
+		}
 		else {
 			std::cerr << "Unknown argument: " << arg << "\n";
-			std::cerr << "Usage: " << argv[0] << " [--num-threads=X] [--open-file=Y] [--initial-timestamp=Z] [--initial-step=W] [--MSAA=V] [--use-python=C]\n";
+			std::cerr << "Usage: " << argv[0] << R"(
+ [--num-threads=X]
+ [--open-file=Y]
+ [--initial-timestamp=Z]
+ [--initial-step=W]
+ [--MSAA=V]
+ [--use-python=C]
+ [--bg-color=FR,FG,FB,FA]
+ [--grid=G]
+)";
 			return 1;
 		}
 	}
@@ -79,7 +114,33 @@ int SDL_main(int argc, char* argv[]) {
 		oss << "Use Python: " << (usePython ? "true" : "false");
 		TAZ_LOG(oss.str());
 	}
-	auto app = std::make_unique<App>(threadCount, msaaSamples, openFile, initialTimestamp, initialStep, usePython);
+	{
+		std::ostringstream oss;
+		oss << "Background Color: ("
+			<< backgroundColor[0] << ", "
+			<< backgroundColor[1] << ", "
+			<< backgroundColor[2] << ", "
+			<< backgroundColor[3] << ")";
+		TAZ_LOG(oss.str());
+	}
+	{
+		std::ostringstream oss;
+		oss << "Use Grid: " << (useGrid ? "true" : "false");
+		TAZ_LOG(oss.str());
+	}
+	TAZ_LOG("\n\n\n\n\n");
+
+	auto app = std::make_unique<App>(
+		threadCount,
+		msaaSamples,
+		openFile,
+		initialTimestamp,
+		initialStep,
+		usePython,
+		backgroundColor,
+		useGrid);
+
+
 	app->run();
 
 	return 0;

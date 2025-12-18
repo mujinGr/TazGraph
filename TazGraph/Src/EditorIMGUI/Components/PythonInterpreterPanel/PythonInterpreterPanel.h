@@ -2,10 +2,10 @@
 
 #include "../../UIElement.h"
 
-#include <pybind11/pybind11.h>
-#include <pybind11/embed.h>
-
-namespace py = pybind11;
+//#include <pybind11/pybind11.h>
+//#include <pybind11/embed.h>
+//
+//namespace py = pybind11;
 
 struct PythonInterpreterConfig {
 	IScene* scene;
@@ -57,10 +57,10 @@ public:
 
 	ImGuiChildFlags flags = ImGuiChildFlags_ResizeY | ImGuiWindowFlags_NoSavedSettings;
 
-	PythonInterpreterPanel();
-	void init_api(py::module_& m, Manager& manager);
+	PythonInterpreterPanel() {};
+	//void init_api(py::module_& m, Manager& manager);
 
-	void update(float deltaTime) override;
+	void update(float deltaTime) override {};
 
 	void setConfig(const PythonInterpreterConfig& cfg) {
 
@@ -68,11 +68,11 @@ public:
 		config = cfg;
 
 	}
-	void OnImGuiRender() override;
-	void OnImGuiRender2();
+	void OnImGuiRender() override {};
+	void OnImGuiRender2() {};
 
-	void setFlags();
-	void innerTable();
-	void runScript();
-	void runUpdateScript(float deltaTime);
+	void setFlags() {};
+	void innerTable() {};
+	void runScript() {};
+	void runUpdateScript(float deltaTime) {};
 };

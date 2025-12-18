@@ -14,13 +14,18 @@ AppInterface::AppInterface(int threadCount,
 	std::string m_openFile,
 	double m_initialTimestamp,
 	int m_initialStep,
-	bool m_usePython) :
+	bool m_usePython,
+	std::array<float, 4> m_bg,
+	bool m_useGrid) :
 	threadPool(threadCount),
 	MSAA_samples(msaa_samples),
 	openFile(m_openFile),
 	initialTimestamp(m_initialTimestamp),
 	initialStep(m_initialStep),
-	usePython(m_usePython) {
+	usePython(m_usePython),
+	backgroundColor(m_bg),
+	useGrid(m_useGrid)
+{
 
 	if (msaa_samples > 1) {
 		useMSAA = true;
