@@ -39,7 +39,7 @@ public:
 	virtual void parse(
 		Manager& manager,
 		std::function<void(Entity&, glm::vec3)> addNodeFunc,
-		std::function<void(Entity&)> addLinkFunc) = 0;;
+		std::function<void(Entity&)> addLinkFunc) = 0;
 
 	virtual void closeFile() = 0;
 
