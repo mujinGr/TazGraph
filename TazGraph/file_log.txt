@@ -1,11 +1,8 @@
-Thread count: 4
-MSAA: 4
+Thread count: 7
+MSAA: 1
 Use Python: true
 Background Color: (1, 1, 1, 1)
 Use Grid: true
-
-
-
 
 
 
@@ -23,37 +20,3 @@ arial     317
 arial     60
 Font added: arial from assets/Fonts/arial.ttf size 14.000000
 Font added: bold from assets/Fonts/Figerona-VF.ttf size 16.000000
-407.500000 322.831848
-394.583344 312.133728
-347.500000 417.856445
-400.000000 336.676514
-Waiting for render command...
-Executing init command
-Subsystems Initialised...
-arial     317
-arial     317
-60
-arial     60
-worldMap     3072
-worldMap     3072
-3072
-worldMap     3072
-play-button     225
-play-button     225
-225
-play-button     225
-pause-button     500
-pause-button     500
-500
-pause-button     500
-treemap     703
-treemap     703
-698
-treemap     698
-sauronEye     1200
-sauronEye     1200
-600
-sauronEye     600
-Current Working Directory: "C:\\Users\\lefte\\Mujin\\MastersThesis\\Taz\\TazGraph\\TazGraph"
-[Main] Render thread has exited cleanly.
-

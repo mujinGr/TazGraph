@@ -128,7 +128,7 @@ int SDL_main(int argc, char* argv[]) {
 		oss << "Use Grid: " << (useGrid ? "true" : "false");
 		TAZ_LOG(oss.str());
 	}
-	TAZ_LOG("\n\n\n\n\n");
+	TAZ_LOG("\n\n");
 
 	auto app = std::make_unique<App>(
 		threadCount,
