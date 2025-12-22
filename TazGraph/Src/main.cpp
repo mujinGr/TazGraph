@@ -33,6 +33,44 @@ std::array<float, 4> parseColorRGBA(const std::string& s)
 
 	return { r, g, b, a };
 }
+#ifdef TAZ_PLATFORM_WINDOWS
+bool findDll(const char* dllName) {
+	HMODULE hModule = GetModuleHandleA(dllName);
+	if (!hModule) {
+		std::cout << dllName << " is NOT loaded" << std::endl;
+		return false;
+	}
+	std::cout << dllName << " is LOADED at address: " << hModule << std::endl;
+	char dllPath[MAX_PATH];
+	if (GetModuleFileNameA(hModule, dllPath, MAX_PATH)) {
+		std::cout << "python313.dll is loaded from: " << dllPath << std::endl;
+	}
+	else {
+		std::cout << "python313.dll is loaded but path not available" << std::endl;
+	}
+
+	// Check all loaded modules
+	std::cout << "\n=== All loaded Python-related DLLs ===" << std::endl;
+
+	HMODULE hModules[1024];
+	DWORD cbNeeded;
+	if (EnumProcessModules(GetCurrentProcess(), hModules, sizeof(hModules), &cbNeeded)) {
+		for (int i = 0; i < (cbNeeded / sizeof(HMODULE)); i++) {
+			char moduleName[MAX_PATH];
+			if (GetModuleFileNameA(hModules[i], moduleName, sizeof(moduleName))) {
+				std::string name = moduleName;
+				if (name.find("python") != std::string::npos ||
+					name.find("Python") != std::string::npos) {
+					std::cout << "  " << name << std::endl;
+				}
+			}
+		}
+	}
+	return true;
+}
+
+#endif // TAZ_PLATFORM_WINDOWS
+
 
 int SDL_main(int argc, char* argv[]) {
 	TazGraphEngine::ConsoleLogger::init();
@@ -45,6 +83,12 @@ int SDL_main(int argc, char* argv[]) {
 	bool usePython = false;
 	std::array<float, 4> backgroundColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 	bool useGrid = true;
+#ifdef TAZ_PLATFORM_WINDOWS
+
+	bool pythonLoaded = findDll("python313.dll");
+	bool python3Loaded = findDll("python3.dll");
+#endif // TAZ_PLATFORM_WINDOWS
+
 
 	// Parse command line arguments
 	for (int i = 1; i < argc; ++i) {

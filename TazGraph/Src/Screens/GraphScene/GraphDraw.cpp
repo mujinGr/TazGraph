@@ -525,10 +525,10 @@ void Graph::minimapPrepareDraw() {
 	minimap_camera2D->setAimPos(glm::vec3(0.0f));
 
 	float halfSize = 1000.0f;  // shows +/- 100 units around center
-	float near = 0.1f;
-	float far = 2000.0f;
+	float _near = 0.1f;
+	float _far = 2000.0f;
 
-	glm::mat4 proj = glm::ortho(-maxDistance / 2.0f, maxDistance / 2.0f, -maxDistance / 2.0f, maxDistance / 2.0f, near, far);
+	glm::mat4 proj = glm::ortho(-maxDistance / 2.0f, maxDistance / 2.0f, -maxDistance / 2.0f, maxDistance / 2.0f, _near, _far);
 	minimap_camera2D->setProjMatrix(proj);
 
 	glm::mat4 minimap_rotationMatrix = glm::mat4(1.0f);

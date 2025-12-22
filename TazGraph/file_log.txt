@@ -20,3 +20,41 @@ arial     317
 arial     60
 Font added: arial from assets/Fonts/arial.ttf size 14.000000
 Font added: bold from assets/Fonts/Figerona-VF.ttf size 16.000000
+228.750000 554.414917
+228.750000 554.414917
+425.833344 312.763031
+387.916656 308.987213
+261.250000 426.037354
+363.333344 310.875122
+348.333344 419.115051
+406.250000 339.193695
+Waiting for render command...
+Executing init command
+Subsystems Initialised...
+arial     317
+arial     317
+60
+arial     60
+worldMap     3072
+worldMap     3072
+3072
+worldMap     3072
+play-button     225
+play-button     225
+225
+play-button     225
+pause-button     500
+pause-button     500
+500
+pause-button     500
+treemap     703
+treemap     703
+698
+treemap     698
+sauronEye     1200
+sauronEye     1200
+600
+sauronEye     600
+Current Working Directory: "C:\\Users\\lefte\\Mujin\\MastersThesis\\Taz\\TazGraph\\TazGraph"
+[Main] Render thread has exited cleanly.
+

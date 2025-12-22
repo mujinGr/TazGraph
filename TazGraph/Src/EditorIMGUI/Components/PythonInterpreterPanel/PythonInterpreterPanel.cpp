@@ -533,7 +533,7 @@ void PythonInterpreterPanel::innerTable() {
 
 
 void PythonInterpreterPanel::runScript() {
-	safe_putenv("PYTHONHOME=C:\\Users\\lefte\\AppData\\Local\\Programs\\Python\\Python313");
+	//! PYTHONHOME=C:\\Users\\lefte\\AppData\\Local\\Programs\\Python\\Python313
 	try {
 		py::exec(R"(
 				import sys
@@ -565,7 +565,6 @@ void PythonInterpreterPanel::runScript() {
 }
 
 void PythonInterpreterPanel::runUpdateScript(float deltaTime) {
-	safe_putenv("PYTHONHOME=C:\\Users\\lefte\\AppData\\Local\\Programs\\Python\\Python313");
 	try {
 		py::exec(R"(
 				import sys

@@ -6,6 +6,18 @@
 #include "./PlatformDetection.h"
 
 #ifdef TAZ_PLATFORM_WINDOWS
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <Windows.h>
+#include <psapi.h>
+#pragma comment(lib, "psapi.lib")
+#ifdef min
+#undef min
+#endif
+#ifdef max
+#undef max
+#endif
 #define safe_sprintf sprintf_s
 #elif defined(TAZ_PLATFORM_LINUX)
 #define safe_sprintf sprintf
