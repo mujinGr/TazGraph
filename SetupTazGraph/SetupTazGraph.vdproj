@@ -27,7 +27,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_02CB4C0E19B04AEBABA4556D1702AB4F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_03BBB345BF5C4799841A0A6835C7E204"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0B222572A37A4805929FBF0B06DB84A8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -46,6 +58,12 @@
         "Entry"
         {
         "MsmKey" = "8:_1288C5253EC74246B2D16111BAB420EA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_129D6FE7C8264CCFAF31E2DE7728E7A6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -81,6 +99,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_1C89A4DF7AEF4760A7C97A43EC5EDDEB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1D50BE8A033E57F9C637A79A30E70775"
         "OwnerKey" = "8:_C094B42BE53141559364B959CF329859"
         "MsmSig" = "8:_UNDEFINED"
@@ -99,6 +123,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_20A98DFE9D9741409FB3E02FD083E1D6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_229DA8B0DC414FEBAEA87740926989FA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_231227DDC66C4C81B8DD7A22AC1F7684"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -107,6 +143,12 @@
         {
         "MsmKey" = "8:_23EA437E8BA760D677EB7AB0EC22D978"
         "OwnerKey" = "8:_C094B42BE53141559364B959CF329859"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2506F962D7A94E6C99D3E6F7639ACA5B"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -129,6 +171,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_2D0AEA9D12AA438A8D2C08AA4D6D0CE6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2DA8A545DBB34BFDBF3D0C1B4A3F5611"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -136,6 +184,18 @@
         "Entry"
         {
         "MsmKey" = "8:_2E9EA138A7F148469B1DBE34AC2703FC"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2EFC6B0E84304A30A17CC1A5117BB809"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3042E1B138B149208188FB22570E15CB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -153,6 +213,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_39C0E2421FED48B098646B9F4388A77B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_40DAE38F07CB4796976EB83AB4217445"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -160,6 +226,12 @@
         "Entry"
         {
         "MsmKey" = "8:_45116A5484A641269BDD8B8FE9E07472"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_45335A8BEEBB49DD86BCD812C7C10250"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -189,7 +261,31 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_4CAB1A2F350A4BCA9EE17B9F3055D53E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4F3EDEFD6E784D369AB59AE765A654C3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_500DACFFA15F401384E9424F6A71AA2D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_50D09736E22544428BF36EE7FD031160"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5112B2858ACB486BB2908BE16144D1EF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -201,8 +297,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_52A14F52E29A976855952E4058627A14"
-        "OwnerKey" = "8:_C094B42BE53141559364B959CF329859"
+        "MsmKey" = "8:_57936A80170A4A39B04FA4AD16A27655"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -214,6 +310,12 @@
         "Entry"
         {
         "MsmKey" = "8:_5E085532242A45AA9CB8E85903D089AA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5E8E8C63699D497E9132EC78B729A1A3"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -243,8 +345,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_6E8442FFAF1692FC5B95AB6C120E7360"
-        "OwnerKey" = "8:_C094B42BE53141559364B959CF329859"
+        "MsmKey" = "8:_6E2967250BE7499489C34FF0631D881F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6EB6AB4894D84D318BF2E97B5B82D421"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -267,7 +375,31 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_74DAEDDB9C434B3DA29D838D8B3B17A0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_764F4AE78D5F4838BEF071252A25B5D3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_76A45E73A9E349C9BC496A2459CE8560"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_787F8DD12EA84948937F6754D1C371E5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_788FDDC6874246E785B48CD6EE934D2D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -280,6 +412,12 @@
         "Entry"
         {
         "MsmKey" = "8:_7C7051D67EF045379CF93A7BD81DCC66"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7D7704F5925D4137B66DC5E03AA30F99"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -339,6 +477,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_90B40F5558E843C091BD848A677BD26B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_90BC08021D6840048EC81C6F54CAE6C5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -381,6 +525,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9FFAE8A0D7D94BBDA967A8B2FC176CF4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A1A7C28E8B5E4A329764D6086B17C316"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -400,6 +550,12 @@
         "Entry"
         {
         "MsmKey" = "8:_A5033192AB8F4675AF31968649102AB7"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A5F31137DE4449D598E956945A4935BC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -471,6 +627,24 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C1FAA297B12CA405DB8080610E9E8551"
+        "OwnerKey" = "8:_C094B42BE53141559364B959CF329859"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C2C0E7AC75594A5E96AFF4D81ADAA027"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C44728C64CCF41B6BF08EF0D21A4DC11"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C6260334D04746C08CE2377F48780D52"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -525,6 +699,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_D72F9E34D965B90961FA3E207AF94C91"
+        "OwnerKey" = "8:_C094B42BE53141559364B959CF329859"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D7467552DB184FB3B392BDF3299A9E81"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -561,6 +741,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_E04B77D3027342D997BF1CDE729462E6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E137B622374B4FA19167B1092F17589D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_E525FD708F27499291EDCD65307115F7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -573,7 +765,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_EA73A1D6DF9A4FA0BA023CD3BFE81B01"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_EA99D73D413E44A28A1ACE2249841977"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EB1E5BE96E3A4CD3A2D19B53B8559A2F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -597,13 +801,31 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_F1E384277F8B4FD8B4FD232FF2B2BCE5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_F218C515FA7545059FCA104473A20A1A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_F33C55988BDE49FA87F8AFCC029F1E87"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_F559B81E8376476AB9BC03A28696F3DB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F6008E415DFC498BA330923C221462F5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -617,6 +839,18 @@
         {
         "MsmKey" = "8:_F9934B106B4EB9524971D488FAEDBBE2"
         "OwnerKey" = "8:_C094B42BE53141559364B959CF329859"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FB11591732164327B59170562395BB90"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FCAE7685AA584FF5816D540CAB220C04"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -752,12 +986,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_02CB4C0E19B04AEBABA4556D1702AB4F"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_elementtree.pyd"
+            "TargetName" = "8:_elementtree.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_03BBB345BF5C4799841A0A6835C7E204"
             {
             "SourcePath" = "8:..\\TazGraph\\Src\\Shaders\\lineColorShading.frag"
             "TargetName" = "8:lineColorShading.frag"
             "Tag" = "8:"
             "Folder" = "8:_F64AD87E15C94AABA0A7C0931BC4B1B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0B222572A37A4805929FBF0B06DB84A8"
+            {
+            "SourcePath" = "8:..\\TazGraph\\expat_d.dll"
+            "TargetName" = "8:expat_d.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -818,6 +1092,26 @@
             "TargetName" = "8:simple3D_test.txt"
             "Tag" = "8:"
             "Folder" = "8:_F101979399234100B038A3CED452D2E5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_129D6FE7C8264CCFAF31E2DE7728E7A6"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_asyncio.pyd"
+            "TargetName" = "8:_asyncio.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -912,6 +1206,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1C89A4DF7AEF4760A7C97A43EC5EDDEB"
+            {
+            "SourcePath" = "8:..\\TazGraph\\pyexpat.pyd"
+            "TargetName" = "8:pyexpat.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1D50BE8A033E57F9C637A79A30E70775"
             {
             "SourcePath" = "8:SDL2_ttf.dll"
@@ -972,6 +1286,46 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_20A98DFE9D9741409FB3E02FD083E1D6"
+            {
+            "SourcePath" = "8:..\\TazGraph\\libmodplug-1.dll"
+            "TargetName" = "8:libmodplug-1.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_229DA8B0DC414FEBAEA87740926989FA"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_decimal.pyd"
+            "TargetName" = "8:_decimal.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_231227DDC66C4C81B8DD7A22AC1F7684"
             {
             "SourcePath" = "8:..\\TazGraph\\Src\\Shaders\\framebuffer.frag"
@@ -1010,6 +1364,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2506F962D7A94E6C99D3E6F7639ACA5B"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_overlapped.pyd"
+            "TargetName" = "8:_overlapped.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_25FCFC1EC62B41199B755977748F035B"
@@ -1072,6 +1446,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2D0AEA9D12AA438A8D2C08AA4D6D0CE6"
+            {
+            "SourcePath" = "8:..\\TazGraph\\libFLAC-8.dll"
+            "TargetName" = "8:libFLAC-8.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2DA8A545DBB34BFDBF3D0C1B4A3F5611"
             {
             "SourcePath" = "8:..\\TazGraph\\Src\\Shaders\\colorLighting.vert"
@@ -1098,6 +1492,46 @@
             "TargetName" = "8:Figerona-VF.ttf"
             "Tag" = "8:"
             "Folder" = "8:_C625598AC4334EA28F5603EA3D30334D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2EFC6B0E84304A30A17CC1A5117BB809"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_ctypes.pyd"
+            "TargetName" = "8:_ctypes.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3042E1B138B149208188FB22570E15CB"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_lzma.pyd"
+            "TargetName" = "8:_lzma.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1152,6 +1586,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_39C0E2421FED48B098646B9F4388A77B"
+            {
+            "SourcePath" = "8:..\\TazGraph\\python313._pth"
+            "TargetName" = "8:python313._pth"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_40DAE38F07CB4796976EB83AB4217445"
             {
             "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Link\\Util\\SpringComponent.h"
@@ -1178,6 +1632,26 @@
             "TargetName" = "8:readme-1.png"
             "Tag" = "8:"
             "Folder" = "8:_D7CB6F29B99B4BBE90014D40E4A8F343"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_45335A8BEEBB49DD86BCD812C7C10250"
+            {
+            "SourcePath" = "8:..\\TazGraph\\python313.zip"
+            "TargetName" = "8:python313.zip"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1272,12 +1746,92 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4CAB1A2F350A4BCA9EE17B9F3055D53E"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_hashlib.pyd"
+            "TargetName" = "8:_hashlib.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4F3EDEFD6E784D369AB59AE765A654C3"
             {
             "SourcePath" = "8:..\\TazGraph\\Src\\Shaders\\wireFrameColorShading.gs"
             "TargetName" = "8:wireFrameColorShading.gs"
             "Tag" = "8:"
             "Folder" = "8:_F64AD87E15C94AABA0A7C0931BC4B1B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_500DACFFA15F401384E9424F6A71AA2D"
+            {
+            "SourcePath" = "8:..\\TazGraph\\libpng_d.dll"
+            "TargetName" = "8:libpng_d.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_50D09736E22544428BF36EE7FD031160"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\vcruntime140_1.dll"
+            "TargetName" = "8:vcruntime140_1.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5112B2858ACB486BB2908BE16144D1EF"
+            {
+            "SourcePath" = "8:..\\TazGraph\\libmikmod-2.dll"
+            "TargetName" = "8:libmikmod-2.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1312,10 +1866,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_52A14F52E29A976855952E4058627A14"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_57936A80170A4A39B04FA4AD16A27655"
             {
-            "SourcePath" = "8:VCRUNTIME140.dll"
-            "TargetName" = "8:VCRUNTIME140.dll"
+            "SourcePath" = "8:..\\TazGraph\\python.cat"
+            "TargetName" = "8:python.cat"
             "Tag" = "8:"
             "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
@@ -1329,7 +1883,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5CC2483619C6497CBF4E8AEC3712DF8C"
@@ -1358,6 +1912,26 @@
             "TargetName" = "8:wireFrameColorShading.vert"
             "Tag" = "8:"
             "Folder" = "8:_F64AD87E15C94AABA0A7C0931BC4B1B2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5E8E8C63699D497E9132EC78B729A1A3"
+            {
+            "SourcePath" = "8:..\\TazGraph\\pcre_d.dll"
+            "TargetName" = "8:pcre_d.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1452,10 +2026,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6E8442FFAF1692FC5B95AB6C120E7360"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6E2967250BE7499489C34FF0631D881F"
             {
-            "SourcePath" = "8:VCRUNTIME140_1.dll"
-            "TargetName" = "8:VCRUNTIME140_1.dll"
+            "SourcePath" = "8:..\\TazGraph\\_multiprocessing.pyd"
+            "TargetName" = "8:_multiprocessing.pyd"
             "Tag" = "8:"
             "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
@@ -1469,7 +2043,27 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6EB6AB4894D84D318BF2E97B5B82D421"
+            {
+            "SourcePath" = "8:..\\TazGraph\\select.pyd"
+            "TargetName" = "8:select.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_71362A1F07BD46AABA9A2682C0ACC565"
@@ -1532,12 +2126,92 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_74DAEDDB9C434B3DA29D838D8B3B17A0"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_wmi.pyd"
+            "TargetName" = "8:_wmi.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_764F4AE78D5F4838BEF071252A25B5D3"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_zoneinfo.pyd"
+            "TargetName" = "8:_zoneinfo.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_76A45E73A9E349C9BC496A2459CE8560"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_socket.pyd"
+            "TargetName" = "8:_socket.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_787F8DD12EA84948937F6754D1C371E5"
             {
             "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Util\\ColliderComponent.h"
             "TargetName" = "8:ColliderComponent.h"
             "Tag" = "8:"
             "Folder" = "8:_944B7E7231874123B174ED80A208FA9B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_788FDDC6874246E785B48CD6EE934D2D"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_sqlite3.pyd"
+            "TargetName" = "8:_sqlite3.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1578,6 +2252,26 @@
             "TargetName" = "8:Screenshot_2.png"
             "Tag" = "8:"
             "Folder" = "8:_D7CB6F29B99B4BBE90014D40E4A8F343"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7D7704F5925D4137B66DC5E03AA30F99"
+            {
+            "SourcePath" = "8:..\\TazGraph\\unicodedata.pyd"
+            "TargetName" = "8:unicodedata.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1772,6 +2466,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_90B40F5558E843C091BD848A677BD26B"
+            {
+            "SourcePath" = "8:..\\TazGraph\\python3.dll"
+            "TargetName" = "8:python3.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_90BC08021D6840048EC81C6F54CAE6C5"
             {
             "SourcePath" = "8:..\\TazGraph\\assets\\Sprites\\grid_collision.png"
@@ -1912,6 +2626,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9FFAE8A0D7D94BBDA967A8B2FC176CF4"
+            {
+            "SourcePath" = "8:..\\TazGraph\\libffi-8.dll"
+            "TargetName" = "8:libffi-8.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A1A7C28E8B5E4A329764D6086B17C316"
             {
             "SourcePath" = "8:..\\TazGraph\\Sounds\\JPEGSnow.ogg"
@@ -1978,6 +2712,26 @@
             "TargetName" = "8:TazGraph_whitebg.ico"
             "Tag" = "8:"
             "Folder" = "8:_D7CB6F29B99B4BBE90014D40E4A8F343"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A5F31137DE4449D598E956945A4935BC"
+            {
+            "SourcePath" = "8:..\\TazGraph\\libcrypto-3.dll"
+            "TargetName" = "8:libcrypto-3.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2192,6 +2946,66 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C1FAA297B12CA405DB8080610E9E8551"
+            {
+            "SourcePath" = "8:VCRUNTIME140_1.dll"
+            "TargetName" = "8:VCRUNTIME140_1.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C2C0E7AC75594A5E96AFF4D81ADAA027"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_ssl.pyd"
+            "TargetName" = "8:_ssl.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C44728C64CCF41B6BF08EF0D21A4DC11"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_uuid.pyd"
+            "TargetName" = "8:_uuid.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C6260334D04746C08CE2377F48780D52"
             {
             "SourcePath" = "8:..\\TazGraph\\assets\\Maps\\test_medium_save.txt"
@@ -2372,6 +3186,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D72F9E34D965B90961FA3E207AF94C91"
+            {
+            "SourcePath" = "8:VCRUNTIME140.dll"
+            "TargetName" = "8:VCRUNTIME140.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D7467552DB184FB3B392BDF3299A9E81"
             {
             "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Basic\\Rectangle_w_Color.h"
@@ -2492,6 +3326,46 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E04B77D3027342D997BF1CDE729462E6"
+            {
+            "SourcePath" = "8:..\\TazGraph\\libssl-3.dll"
+            "TargetName" = "8:libssl-3.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E137B622374B4FA19167B1092F17589D"
+            {
+            "SourcePath" = "8:..\\TazGraph\\pythonw.exe"
+            "TargetName" = "8:pythonw.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E525FD708F27499291EDCD65307115F7"
             {
             "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Animators\\AnimatorManager.h"
@@ -2532,12 +3406,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EA73A1D6DF9A4FA0BA023CD3BFE81B01"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_bz2.pyd"
+            "TargetName" = "8:_bz2.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EA99D73D413E44A28A1ACE2249841977"
             {
             "SourcePath" = "8:..\\TazGraph\\assets\\Maps\\small.graphml"
             "TargetName" = "8:small.graphml"
             "Tag" = "8:"
             "Folder" = "8:_F101979399234100B038A3CED452D2E5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EB1E5BE96E3A4CD3A2D19B53B8559A2F"
+            {
+            "SourcePath" = "8:..\\TazGraph\\sqlite3.dll"
+            "TargetName" = "8:sqlite3.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2612,6 +3526,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F1E384277F8B4FD8B4FD232FF2B2BCE5"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\vcruntime140.dll"
+            "TargetName" = "8:vcruntime140.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F218C515FA7545059FCA104473A20A1A"
             {
             "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Animators\\MovingAnimation.h"
@@ -2632,12 +3566,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F33C55988BDE49FA87F8AFCC029F1E87"
+            {
+            "SourcePath" = "8:..\\TazGraph\\python.exe"
+            "TargetName" = "8:python.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F559B81E8376476AB9BC03A28696F3DB"
             {
             "SourcePath" = "8:..\\TazGraph\\assets\\Fonts\\arial.ttf"
             "TargetName" = "8:arial.ttf"
             "Tag" = "8:"
             "Folder" = "8:_C625598AC4334EA28F5603EA3D30334D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F6008E415DFC498BA330923C221462F5"
+            {
+            "SourcePath" = "8:..\\TazGraph\\libpng16-16.dll"
+            "TargetName" = "8:libpng16-16.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2690,6 +3664,46 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FB11591732164327B59170562395BB90"
+            {
+            "SourcePath" = "8:..\\TazGraph\\_queue.pyd"
+            "TargetName" = "8:_queue.pyd"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FCAE7685AA584FF5816D540CAB220C04"
+            {
+            "SourcePath" = "8:..\\TazGraph\\smpeg2.dll"
+            "TargetName" = "8:smpeg2.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FFF0A3F605CA4206AAD7A962FF3F2A14"
@@ -3044,7 +4058,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SetupTazGraph"
         "ProductCode" = "8:{37418A61-8388-4349-8EEE-A35B065E761C}"
-        "PackageCode" = "8:{0DBF742F-8E26-4DDE-BDAC-839A1095E0C7}"
+        "PackageCode" = "8:{8775223A-CE6D-48E3-8747-575327F1531D}"
         "UpgradeCode" = "8:{19FB55AD-545C-49D0-98BD-2B39B484D3E5}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"

@@ -43,12 +43,15 @@ bool findDll(const char* dllName) {
 	std::cout << dllName << " is LOADED at address: " << hModule << std::endl;
 	char dllPath[MAX_PATH];
 	if (GetModuleFileNameA(hModule, dllPath, MAX_PATH)) {
-		std::cout << "python313.dll is loaded from: " << dllPath << std::endl;
+		std::cout << dllName << " is loaded from: " << dllPath << std::endl;
 	}
 	else {
-		std::cout << "python313.dll is loaded but path not available" << std::endl;
+		std::cout << dllName << " is loaded but path not available" << std::endl;
 	}
+	return true;
+}
 
+void checkAllDlls() {
 	// Check all loaded modules
 	std::cout << "\n=== All loaded Python-related DLLs ===" << std::endl;
 
@@ -66,7 +69,7 @@ bool findDll(const char* dllName) {
 			}
 		}
 	}
-	return true;
+
 }
 
 #endif // TAZ_PLATFORM_WINDOWS
@@ -87,6 +90,8 @@ int SDL_main(int argc, char* argv[]) {
 
 	bool pythonLoaded = findDll("python313.dll");
 	bool python3Loaded = findDll("python3.dll");
+
+	checkAllDlls();
 #endif // TAZ_PLATFORM_WINDOWS
 
 
