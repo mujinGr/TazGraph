@@ -410,12 +410,12 @@ void Graph::checkInput() {
 			if (evnt.wheel.y > 0)
 			{
 				// Scrolling up
-				main_camera2D->movePosition_Forward(CELL_SIZE);
+				main_camera2D->movePosition_Forward(manager->grid->getCellSize());
 			}
 			else if (evnt.wheel.y < 0)
 			{
 				// Scrolling down
-				main_camera2D->movePosition_Forward(-CELL_SIZE);
+				main_camera2D->movePosition_Forward(-manager->grid->getCellSize());
 			}
 			break;
 		case SDL_KEYDOWN: {

@@ -20,10 +20,10 @@ arial     317
 arial     60
 Font added: arial from assets/Fonts/arial.ttf size 14.000000
 Font added: bold from assets/Fonts/Figerona-VF.ttf size 16.000000
-411.250000 319.685364
-388.750000 311.504425
-332.916656 418.485748
-397.500000 341.710907
+373.333344 325.978363
+368.750000 315.280243
+345.000000 418.485748
+394.583344 337.305786
 Waiting for render command...
 Executing init command
 Subsystems Initialised...
@@ -52,5 +52,3 @@ sauronEye     1200
 600
 sauronEye     600
 Current Working Directory: "C:\\Users\\lefte\\Mujin\\MastersThesis\\Taz\\TazGraph\\TazGraph"
-[Main] Render thread has exited cleanly.
-
