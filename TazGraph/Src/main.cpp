@@ -82,7 +82,7 @@ void checkAllDlls() {
 #endif // TAZ_PLATFORM_WINDOWS
 
 
-int SDL_main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) {
 	TazGraphEngine::ConsoleLogger::init();
 
 	int threadCount = 4; // Default
