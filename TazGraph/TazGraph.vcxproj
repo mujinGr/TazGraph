@@ -176,6 +176,7 @@
     <ClCompile Include="Src\EditorIMGUI\Components\EntityComponentsControl\EntityComponentsControl.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HoverEntityPanel\HoverEntityPanel.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\HelpPanel\HelpPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\MenuDropdown.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\ScenePanel\ScenePanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\VisibleEntities\VisibleEntities.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\FPSCounter.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HoverEntityPanel\HoverEntityPanel.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\HelpPanel\HelpPanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\MenuDropdown.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\ScenePanel\ScenePanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\VisibleEntities\VisibleEntities.h" />
