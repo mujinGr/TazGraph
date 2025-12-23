@@ -8,6 +8,9 @@ void GraphEditorLayer::OnImGuiRender()
 	ImGuiViewport* window = ImGui::GetMainViewport();
 	ImGui::SetNextWindowPos(window->Pos);
 	ImGui::SetNextWindowSize(window->Size);
+
+	ImGuiInterface::StyleColorsCustom(&ImGui::GetStyle());
+
 	if (ImGui::Begin("Main Window", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus))
 	{
 		getSubcomponent<MenuDropdownPanel>()->setConfig({ .scene = config.scene });
@@ -224,7 +227,7 @@ void GraphEditorLayer::OnImGuiRender()
 			}
 		}
 		if (!config.scene->getApp()->openFile.empty()) {
-			DataManager::getInstance().mapToLoad = 
+			DataManager::getInstance().mapToLoad =
 				config.scene->getApp()->openFile;
 		}
 		if (DataManager::getInstance().isLoadingPath()) {

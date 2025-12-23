@@ -12,4 +12,6 @@ namespace ImGuiInterface {
 	void EndRender();
 
 	bool isMouseOnWidget(const std::string& widgetName);
+
+	void StyleColorsCustom(ImGuiStyle* dst);
 };
