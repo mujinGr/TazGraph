@@ -15,14 +15,14 @@ namespace TazGraphEngine {
 		}
 
 		static void log(const std::string& message) {
-			printCurrentTime();
+			//printCurrentTime();
 			std::cout << " " << message << std::endl;
 
 			writeToFile(message);
 		}
 
 		static void error(const std::string& errorMessage) {
-			printCurrentTime();
+			//printCurrentTime();
 			std::cerr << " [ERROR] " << errorMessage << std::endl;
 
 			writeToFile(errorMessage);

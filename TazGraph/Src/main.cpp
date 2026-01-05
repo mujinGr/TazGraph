@@ -1,12 +1,12 @@
 
 #include "App/App.h"
 
-//#include <pybind11/pybind11.h>
-//#include <pybind11/embed.h>
-//
-//namespace py = pybind11;
-//
-//static std::unique_ptr<py::scoped_interpreter> pythonRuntime;
+#include <pybind11/pybind11.h>
+#include <pybind11/embed.h>
+
+namespace py = pybind11;
+
+static std::unique_ptr<py::scoped_interpreter> pythonRuntime;
 
 bool stringToBool(const std::string& str) {
 	std::string lowerStr = str;
@@ -197,29 +197,29 @@ int main(int argc, char* argv[]) {
 		useGrid);
 
 
-	app->run();
+	//app->run();
 
-	//if (!pythonRuntime)
-	//	pythonRuntime = std::make_unique<py::scoped_interpreter>();
+	if (!pythonRuntime)
+		pythonRuntime = std::make_unique<py::scoped_interpreter>();
 
 
-	//char _pythonBuffer[1024] = "print(123213412)";
-	//std::string _outputText;
+	char _pythonBuffer[1024] = "print(123213412)";
+	std::string _outputText;
 
-	//py::exec(R"(
-	//			import sys
-	//			from io import StringIO
-	//			sys.stdout = StringIO()
-	//		)");
+	py::exec(R"(
+				import sys
+				from io import StringIO
+				sys.stdout = StringIO()
+			)");
 
-	//py::module_ userapi = py::module_::create_extension_module("tazpyapi", nullptr, new PyModuleDef{});
-	//py::module_::import("sys").attr("modules")["tazpyapi"] = userapi;
+	py::module_ userapi = py::module_::create_extension_module("tazpyapi", nullptr, new PyModuleDef{});
+	py::module_::import("sys").attr("modules")["tazpyapi"] = userapi;
 
-	//py::exec(_pythonBuffer);
-	//py::object output = py::eval("sys.stdout.getvalue()");
-	//_outputText = output.cast<std::string>();
+	py::exec(_pythonBuffer);
+	py::object output = py::eval("sys.stdout.getvalue()");
+	_outputText = output.cast<std::string>();
 
-	//std::cout << _outputText << std::endl;
+	std::cout << _outputText << std::endl;
 
 	return 0;
 }

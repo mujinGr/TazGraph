@@ -179,7 +179,69 @@ glm::mat4 ICamera::getProjMatrix() {
 	return _projectionMatrix;
 }
 
+glm::vec3 ICamera::getForwardDir() {
+	return glm::normalize(aimPos - eyePos);
+}
+
+glm::vec3 ICamera::getRightDir() {
+	glm::vec3 forward = getForwardDir();
+	glm::vec3 up = getUpDir();
+	return glm::normalize(glm::cross(forward, up));
+}
+
 glm::vec3 ICamera::getUpDir() {
 	return upDir;
 }
 
+
+void ICamera::movePosition_Hor(const float step) {
+	glm::vec3 direction = getForwardDir();  // Get movement direction
+
+	// Calculate the right vector (perpendicular to direction and up)
+	glm::vec3 right = getRightDir();
+
+	// Move the camera horizontally along the right vector
+	eyePos += right * step;
+	aimPos += right * step;
+	_cameraChange = true;
+}
+void ICamera::movePosition_Vert(const float step) {
+	glm::vec3 direction = getForwardDir();  // Get movement direction
+
+	// Move the camera horizontally along the right vector
+	eyePos += upDir * step;
+	aimPos += upDir * step;
+	_cameraChange = true;
+}
+
+void ICamera::movePosition_Forward(const float step) {
+	glm::vec3 direction = getForwardDir();
+	eyePos += direction * step;
+	aimPos += direction * step;
+	_cameraChange = true;
+}
+
+void ICamera::setAimPos(const glm::vec3 newAimPos) {
+	aimPos = newAimPos;
+	_cameraChange = true;
+}
+
+void ICamera::moveAimPos(glm::vec3 startingAimPos, const glm::vec2 distance) {
+	aimPos = eyePos + startingAimPos;
+	const float sensitivity = 0.005f;
+
+	float yaw = distance.x * sensitivity;
+	float pitch = distance.y * sensitivity;
+
+	glm::vec3 direction = getForwardDir();
+
+	direction = glm::rotate(direction, yaw, upDir);
+
+	glm::vec3 right = getRightDir();
+
+	direction = glm::rotate(direction, pitch, right);
+
+	// Update the aimPos based on the new direction
+	aimPos = eyePos + direction;
+	_cameraChange = true;
+}

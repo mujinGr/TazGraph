@@ -71,7 +71,17 @@ public:
 
 	glm::mat4 getProjMatrix();
 
+	glm::vec3 getForwardDir();
+	glm::vec3 getRightDir();
 	glm::vec3 getUpDir();
+
+	void movePosition_Hor(const float step);
+	void movePosition_Vert(const float step);
+	void movePosition_Forward(const float step);
+	void setAimPos(const glm::vec3 newAimPos);
+	void moveAimPos(glm::vec3 startingAimPos, const glm::vec2 distance);
+
+
 protected:
 	glm::mat4 _projectionMatrix = glm::mat4(1.0f); // changed once in init
 	glm::mat4 _viewMatrix = glm::mat4(1.0f);

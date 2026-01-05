@@ -14,7 +14,7 @@ void HelpPanel::OnImGuiRender()
 		if (firstTime)
 		{
 			ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-			ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiCond_Appearing);
+			ImGui::SetNextWindowSize(ImVec2(700, 600), ImGuiCond_Appearing);
 			firstTime = false;
 		}
 
@@ -38,27 +38,6 @@ void HelpPanel::OnImGuiRender()
 			if (ImGui::BeginTabItem("Camera Controls"))
 			{
 				RenderCameraControls();
-				ImGui::EndTabItem();
-			}
-
-			// Navigation Tab
-			if (ImGui::BeginTabItem("Navigation"))
-			{
-				RenderNavigationControls();
-				ImGui::EndTabItem();
-			}
-
-			// View Controls Tab
-			if (ImGui::BeginTabItem("View Controls"))
-			{
-				RenderViewControls();
-				ImGui::EndTabItem();
-			}
-
-			// Graph Operations Tab
-			if (ImGui::BeginTabItem("Graph Operations"))
-			{
-				RenderGraphControls();
 				ImGui::EndTabItem();
 			}
 
@@ -139,215 +118,14 @@ void HelpPanel::RenderCameraControls()
 
 	// Mouse controls
 	ImGui::BulletText("Middle Mouse Button: Click and drag to rotate camera");
-	ImGui::BulletText("Middle Mouse Button + ALT: Click and drag to pan camera");
-	ImGui::BulletText("Middle Mouse Button + CTRL: Click and drag to zoom");
+	ImGui::BulletText("Middle Mouse Button + CTRL: Click and drag to pan camera");
 
 	ImGui::Spacing();
 	ImGui::TextColored(ImVec4(0.9f, 0.7f, 0.3f, 1.0f), "Zoom Controls:");
 	ImGui::Separator();
 
 	ImGui::BulletText("Mouse Scroll: Zoom in/out");
-	ImGui::BulletText("+ / - Keys: Zoom in/out");
-	ImGui::BulletText("Mouse Wheel Click + Drag: Adjust zoom level");
 
-	ImGui::Spacing();
-	ImGui::TextColored(ImVec4(0.9f, 0.7f, 0.3f, 1.0f), "Camera Presets:");
-	ImGui::Separator();
-
-	if (ImGui::BeginTable("CameraPresets", 2, ImGuiTableFlags_BordersInnerV))
-	{
-		ImGui::TableSetupColumn("Key", ImGuiTableColumnFlags_WidthFixed, 100);
-		ImGui::TableSetupColumn("Action", ImGuiTableColumnFlags_WidthStretch);
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "F");
-		ImGui::TableNextColumn();
-		ImGui::Text("Focus camera on selected object");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "Home");
-		ImGui::TableNextColumn();
-		ImGui::Text("Reset camera to default position");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "Num 1-6");
-		ImGui::TableNextColumn();
-		ImGui::Text("Quick camera views (Front, Back, Top, etc.)");
-
-		ImGui::EndTable();
-	}
-}
-
-void HelpPanel::RenderNavigationControls()
-{
-	ImGui::Spacing();
-	ImGui::TextColored(ImVec4(0.2f, 0.8f, 0.6f, 1.0f), "Scene Navigation:");
-	ImGui::Separator();
-
-	ImGui::BulletText("Click and drag in empty space: Pan the view");
-	ImGui::BulletText("Double-click on object: Focus camera on object");
-	ImGui::BulletText("CTRL + Click: Add to selection");
-	ImGui::BulletText("SHIFT + Click: Range selection");
-
-	ImGui::Spacing();
-	ImGui::TextColored(ImVec4(0.2f, 0.8f, 0.6f, 1.0f), "Viewport Navigation:");
-	ImGui::Separator();
-
-	if (ImGui::BeginTable("ViewportNav", 2, ImGuiTableFlags_BordersInnerV))
-	{
-		ImGui::TableSetupColumn("Key", ImGuiTableColumnFlags_WidthFixed, 100);
-		ImGui::TableSetupColumn("Action", ImGuiTableColumnFlags_WidthStretch);
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "Spacebar");
-		ImGui::TableNextColumn();
-		ImGui::Text("Toggle between orbit and fly camera mode");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "Tab");
-		ImGui::TableNextColumn();
-		ImGui::Text("Toggle between perspective and orthographic view");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "G");
-		ImGui::TableNextColumn();
-		ImGui::Text("Toggle grid visibility");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "B");
-		ImGui::TableNextColumn();
-		ImGui::Text("Toggle bounding boxes");
-
-		ImGui::EndTable();
-	}
-}
-
-void HelpPanel::RenderViewControls()
-{
-	ImGui::Spacing();
-	ImGui::TextColored(ImVec4(0.8f, 0.4f, 0.8f, 1.0f), "Display Settings:");
-	ImGui::Separator();
-
-	if (ImGui::BeginTable("DisplaySettings", 2, ImGuiTableFlags_BordersInnerV))
-	{
-		ImGui::TableSetupColumn("Key", ImGuiTableColumnFlags_WidthFixed, 100);
-		ImGui::TableSetupColumn("Action", ImGuiTableColumnFlags_WidthStretch);
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "V");
-		ImGui::TableNextColumn();
-		ImGui::Text("Toggle between wireframe and solid view");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "L");
-		ImGui::TableNextColumn();
-		ImGui::Text("Toggle lighting");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "T");
-		ImGui::TableNextColumn();
-		ImGui::Text("Toggle textures");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "C");
-		ImGui::TableNextColumn();
-		ImGui::Text("Toggle coordinate axes");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "H");
-		ImGui::TableNextColumn();
-		ImGui::Text("Toggle this help panel");
-
-		ImGui::EndTable();
-	}
-
-	ImGui::Spacing();
-	ImGui::TextColored(ImVec4(0.8f, 0.4f, 0.8f, 1.0f), "Visual Aids:");
-	ImGui::Separator();
-
-	ImGui::BulletText("Press 'G' to show/hide the grid");
-	ImGui::BulletText("Press 'X', 'Y', 'Z' to align camera to axis");
-	ImGui::BulletText("Use number keys 1-4 for different visual styles");
-	ImGui::BulletText("CTRL + S saves current view as preset");
-}
-
-void HelpPanel::RenderGraphControls()
-{
-	ImGui::Spacing();
-	ImGui::TextColored(ImVec4(0.4f, 0.8f, 0.8f, 1.0f), "Graph Manipulation:");
-	ImGui::Separator();
-
-	if (ImGui::BeginTable("GraphControls", 2, ImGuiTableFlags_BordersInnerV))
-	{
-		ImGui::TableSetupColumn("Key", ImGuiTableColumnFlags_WidthFixed, 100);
-		ImGui::TableSetupColumn("Action", ImGuiTableColumnFlags_WidthStretch);
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "Left Click");
-		ImGui::TableNextColumn();
-		ImGui::Text("Select node or edge");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "Drag");
-		ImGui::TableNextColumn();
-		ImGui::Text("Move selected nodes");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "DEL / Backspace");
-		ImGui::TableNextColumn();
-		ImGui::Text("Delete selected nodes/edges");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "CTRL + C");
-		ImGui::TableNextColumn();
-		ImGui::Text("Copy selection");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "CTRL + V");
-		ImGui::TableNextColumn();
-		ImGui::Text("Paste selection");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "CTRL + Z");
-		ImGui::TableNextColumn();
-		ImGui::Text("Undo");
-
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-		ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.2f, 1.0f), "CTRL + Y");
-		ImGui::TableNextColumn();
-		ImGui::Text("Redo");
-
-		ImGui::EndTable();
-	}
-
-	ImGui::Spacing();
-	ImGui::TextColored(ImVec4(0.4f, 0.8f, 0.8f, 1.0f), "Graph Creation:");
-	ImGui::Separator();
-
-	ImGui::BulletText("Double-click in empty space: Create new node");
-	ImGui::BulletText("Drag from node to empty space: Create node with connection");
-	ImGui::BulletText("Drag from node to node: Create edge");
-	ImGui::BulletText("Right-click on node: Show context menu");
-	ImGui::BulletText("Right-click in empty space: Show graph creation menu");
 }
 
 void HelpPanel::RenderKeyboardShortcuts()

@@ -23,7 +23,10 @@ The project was primarily tested on Visual Studio 2022.
 >- Library paths can be configured either through Project Properties in Visual Studio or directly by editing the .vcxproj file to point to the locations of the libraries on your system. (e.g. `$(SolutionDir)deps/lib;C:\Users\lefte\AppData\Local\Programs\Python\Python313\libs;`, `$(SolutionDir)deps\include;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include`)
 
 Start by cloning the repository with
+Github:
 `git clone --recursive https://github.com/mujinGr/TazGraph.git`
+GitLab:
+`git clone --recursive https://carvgit.ics.forth.gr/kotsonas/tazgraph.git`
 
 If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
 

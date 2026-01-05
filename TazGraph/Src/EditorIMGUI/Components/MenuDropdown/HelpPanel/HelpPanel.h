@@ -14,9 +14,6 @@ private:
 
 	bool firstTime = true;
 	void RenderCameraControls();
-	void RenderNavigationControls();
-	void RenderViewControls();
-	void RenderGraphControls();
 	void RenderKeyboardShortcuts();
 public:
 	bool showHelpPanel = false;

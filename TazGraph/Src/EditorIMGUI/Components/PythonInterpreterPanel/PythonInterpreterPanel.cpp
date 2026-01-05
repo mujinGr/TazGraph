@@ -533,7 +533,7 @@ void PythonInterpreterPanel::innerTable() {
 
 
 void PythonInterpreterPanel::runScript() {
-	//! PYTHONHOME=C:\\Users\\lefte\\AppData\\Local\\Programs\\Python\\Python313
+	//! safe_putenv("PYTHONHOME=C:\\Users\\lefte\\AppData\\Local\\Programs\\Python\\Python313");
 	try {
 		py::exec(R"(
 				import sys
