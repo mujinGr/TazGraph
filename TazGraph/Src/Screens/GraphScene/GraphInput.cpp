@@ -758,6 +758,16 @@ void Graph::checkInput() {
 		break;
 		}
 	}
+	if (!_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->
+		getSubcomponent<ViewportPanel>()->
+		isMouseInSecondColumn) {
+		_isDraggingSelectionBox = false;
+		_selectionStartPos = glm::vec2(0);
+		_selectionCurrentPos = glm::vec2(0);
+		_selectionWindowStartPos = glm::vec2(0);
+		_selectionWindowCurrentPos = glm::vec2(0);
+		return;
+	}
 
 	float accelerationX = 0.0f;
 	float accelerationY = 0.0f;
