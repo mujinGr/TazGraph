@@ -1,12 +1,12 @@
 
 #include "App/App.h"
 
-#include <pybind11/pybind11.h>
-#include <pybind11/embed.h>
-
-namespace py = pybind11;
-
-static std::unique_ptr<py::scoped_interpreter> pythonRuntime;
+//#include <pybind11/pybind11.h>
+//#include <pybind11/embed.h>
+//
+//namespace py = pybind11;
+//
+//static std::unique_ptr<py::scoped_interpreter> pythonRuntime;
 
 bool stringToBool(const std::string& str) {
 	std::string lowerStr = str;
@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
 	std::string openFile = "";
 	double initialTimestamp = 0.0;
 	int initialStep = 0;
-	bool usePython = false;
+	bool usePython = true;
 	std::array<float, 4> backgroundColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 	bool useGrid = true;
 #ifdef TAZ_PLATFORM_WINDOWS
@@ -197,9 +197,9 @@ int main(int argc, char* argv[]) {
 		useGrid);
 
 
-	//app->run();
+	app->run();
 
-	if (!pythonRuntime)
+	/*if (!pythonRuntime)
 		pythonRuntime = std::make_unique<py::scoped_interpreter>();
 
 
@@ -219,7 +219,7 @@ int main(int argc, char* argv[]) {
 	py::object output = py::eval("sys.stdout.getvalue()");
 	_outputText = output.cast<std::string>();
 
-	std::cout << _outputText << std::endl;
+	std::cout << _outputText << std::endl;*/
 
 	return 0;
 }
