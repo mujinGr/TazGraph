@@ -70,11 +70,30 @@ void ViewportPanel::OnImGuiRender()
 
 
 void ViewportPanel::updateIsMouseInSecondColumn() {
-	// cant check with the checkIfMouseIsInWidget because it is a child of a window
+	// Get the viewport child window bounds
 	ImVec2 columnStartPos = ImGui::GetCursorScreenPos();
 	ImVec2 columnSize = ImVec2(ImGui::GetColumnWidth(), ImGui::GetContentRegionAvail().y);
-
 	ImVec2 mousePos = ImGui::GetMousePos();
-	isMouseInSecondColumn = (mousePos.x >= columnStartPos.x && mousePos.x <= (columnStartPos.x + columnSize.x) &&
-		mousePos.y >= columnStartPos.y && mousePos.y <= (columnStartPos.y + columnSize.y));
+
+	// First check if mouse is within the viewport bounds
+	bool mouseInBounds = (mousePos.x >= columnStartPos.x &&
+		mousePos.x <= (columnStartPos.x + columnSize.x) &&
+		mousePos.y >= columnStartPos.y &&
+		mousePos.y <= (columnStartPos.y + columnSize.y));
+
+	if (!mouseInBounds) {
+		isMouseInSecondColumn = false;
+		return;
+	}
+
+	// Check if mouse is over any other ImGui widget
+	bool mouseOverWidget = ImGui::IsAnyItemHovered() || // Any item is hovered
+		ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow | ImGuiHoveredFlags_AllowWhenBlockedByPopup) &&
+		!ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows); // But not this child window
+
+	// Check if mouse is over a popup or modal
+	bool mouseOverPopup = ImGui::IsPopupOpen("", ImGuiPopupFlags_AnyPopupId);
+
+	// Only set true if mouse is in bounds and NOT over any other widget
+	isMouseInSecondColumn = mouseInBounds && !mouseOverWidget && !mouseOverPopup;
 }

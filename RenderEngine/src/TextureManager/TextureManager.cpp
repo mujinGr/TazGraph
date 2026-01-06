@@ -43,13 +43,13 @@ GLTexture* TextureManager::loadPNG(const char* filePath) {
 
 	unsigned long width, height;
 	if (TextureManager::readFileToBuffer(filePath, in) == false) {
-		TazGraphEngine::ConsoleLogger::error("Failed to load PNG file to buffer!");
+		TAZ_ERROR("Failed to load PNG file to buffer!");
 	}
 
 	int errorCode = decodePNG(out, width, height, &(in[0]), in.size(), true);
 
 	if (errorCode != 0) {
-		TazGraphEngine::ConsoleLogger::error("decodePNG failed with error: " + std::to_string(errorCode));
+		TAZ_ERROR("decodePNG failed with error: " + std::to_string(errorCode));
 	}
 
 	glGenTextures(1, &(texture->id));
@@ -81,11 +81,11 @@ void TextureManager::Add_GLTexture(std::string id, const char* path)
 	const unsigned int testId = testPNG->id;
 	const GLTexture* test1PNG = new GLTexture{ testId, testWidth, testHeight };
 
-	std::cout << id << "     " << test1PNG->width << std::endl;
-	std::cout << id << "     " << testPNG->width << std::endl;
-	std::cout << testHeight << std::endl;
+	TAZ_LOG(id + "     " + std::to_string(test1PNG->width));
+	TAZ_LOG(id + "     " + std::to_string(testPNG->width));
+	TAZ_LOG(std::to_string(testHeight));
 	gl_textures.emplace(id, test1PNG);
-	std::cout << id << "     " << (*gl_textures[id]).height << std::endl;
+	TAZ_LOG(id + "     " + std::to_string((*gl_textures[id]).height));
 }
 
 const GLTexture* TextureManager::Get_GLTexture(std::string id)
@@ -113,10 +113,10 @@ void TextureManager::Add_Font(std::string id, const char* fontPath, float size)
 
 	if (font) {
 		fonts.emplace(id, font);
-		std::cout << "Font added: " << id << " from " << fontPath << " size " << size << std::endl;
+		TAZ_LOG("Font added: " + id + " from " + fontPath + " size " + std::to_string(size));
 	}
 	else {
-		std::cout << "Failed to load font: " << id << " from " << fontPath << std::endl;
+		TAZ_LOG("Failed to load font: " + id + " from " + fontPath);
 	}
 }
 

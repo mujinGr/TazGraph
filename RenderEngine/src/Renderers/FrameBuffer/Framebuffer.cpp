@@ -40,7 +40,7 @@ void Framebuffer::init(int windowWidth, int windowHeight, bool enableMSAA, int M
 
 		// Check if multisampled framebuffer is complete
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-			std::cout << "ERROR: Multisampled Framebuffer is not complete!" << std::endl;
+			TAZ_ERROR("Multisampled Framebuffer is not complete!" );
 	}
 
 	// Create regular framebuffer for resolving (this is what you'll actually read from)

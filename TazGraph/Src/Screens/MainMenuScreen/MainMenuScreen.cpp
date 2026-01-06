@@ -40,7 +40,7 @@ void MainMenuScreen::onEntry()
 
 		if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 		{
-			std::cout << "Subsystems Initialised..." << std::endl;
+			TAZ_LOG("Subsystems Initialised...");
 
 			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
@@ -59,7 +59,7 @@ void MainMenuScreen::onEntry()
 
 		if (TTF_Init() == -1)
 		{
-			std::cout << "Error : SDL_TTF" << std::endl;
+			TAZ_LOG("Error : SDL_TTF");
 		}
 
 		// Texture Loads
@@ -216,7 +216,7 @@ void MainMenuScreen::checkInput() {
 
 		if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
 			glm::vec2 mouseCoordsVec = _app->_inputManager.getMouseCoords();
-			std::cout << mouseCoordsVec.x << " " << mouseCoordsVec.y << std::endl;
+			TAZ_LOG(std::to_string(mouseCoordsVec.x) + " " + std::to_string(mouseCoordsVec.y));
 		}
 
 

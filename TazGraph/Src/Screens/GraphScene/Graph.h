@@ -20,7 +20,12 @@ class Graph : public IScene {
 
 public:
 	Graph();
-	Graph(bool m_usePython) : usePython(m_usePython) {
+	Graph(bool m_usePython, std::array<float, 4> bg, bool m_useGrid) :
+		usePython(m_usePython)
+	{
+		std::copy(bg.begin(), bg.end(), backgroundColor);
+		showGrid = m_useGrid;
+		last_showGrid = !m_useGrid;
 		_sceneIndex = SCENE_INDEX_GRAPHPLAY;
 	};
 	~Graph();

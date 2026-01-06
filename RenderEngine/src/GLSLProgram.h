@@ -534,7 +534,7 @@ public:
 		GLint location = glGetUniformLocation(_programID, uniformName.c_str());
 
 		if (location == GL_INVALID_INDEX) {
-			TazGraphEngine::ConsoleLogger::error("Uniform " + uniformName + " not found in shader!");
+			TAZ_ERROR("Uniform " + uniformName + " not found in shader!");
 		}
 		return location;
 	}
@@ -579,7 +579,7 @@ private:
 	GLuint createAndCompileShader(const std::string& source, GLenum shaderType, const std::string& typeName) {
 		GLuint shaderID = glCreateShader(shaderType);
 		if (shaderID == 0) {
-			TazGraphEngine::ConsoleLogger::error(typeName + " Shader Failed to create!");
+			TAZ_ERROR(typeName + " Shader Failed to create!");
 			return 0;
 		}
 
@@ -610,7 +610,7 @@ private:
 			glDeleteShader(id); // Don't leak the shader.
 
 			std::printf("%s\n", &(errorLog[0]));
-			std::cout << "Shader " + name + " failed to compile" << std::endl;
+			TAZ_ERROR("Shader " + name + " failed to compile");
 
 		}
 	}
@@ -644,7 +644,7 @@ private:
 			}
 
 			std::printf("%s\n", &errorLog[0]);
-			TazGraphEngine::ConsoleLogger::error("Shaders failed to link");
+			TAZ_ERROR("Shaders failed to link");
 			return;
 		}
 

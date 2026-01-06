@@ -49,7 +49,7 @@ void Graph::onEntry()
 
 		if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 		{
-			std::cout << "Subsystems Initialised..." << std::endl;
+			TAZ_LOG("Subsystems Initialised...");
 
 			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
@@ -92,7 +92,7 @@ void Graph::onEntry()
 
 		if (TTF_Init() == -1)
 		{
-			std::cout << "Error : SDL_TTF" << std::endl;
+			TAZ_LOG("Error : SDL_TTF");
 		}
 
 		//add the textures to our texture library
@@ -100,6 +100,7 @@ void Graph::onEntry()
 		TextureManager::getInstance().Add_GLTexture("worldMap", "assets/Sprites/worldMap.png");
 		TextureManager::getInstance().Add_GLTexture("play-button", "assets/Sprites/images-removebg-preview.png");
 		TextureManager::getInstance().Add_GLTexture("pause-button", "assets/Sprites/pause.png");
+		TextureManager::getInstance().Add_GLTexture("infoIcon", "assets/Sprites/infoIcon.png");
 		TextureManager::getInstance().Add_GLTexture("treemap", "assets/Sprites/treemap.png");
 		TextureManager::getInstance().Add_GLTexture("sauronEye", "assets/Sprites/Eye-of-Sauron.png");
 		});

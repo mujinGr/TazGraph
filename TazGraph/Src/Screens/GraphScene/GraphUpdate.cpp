@@ -7,7 +7,7 @@ void Graph::update(float deltaTime) //game objects updating
 	std::string mapName = DataManager::getInstance().mapToLoad;
 
 	// on Graph Load / Graph Change
-	if (!mapName.empty() && setManager(mapName)) {
+	if (!manager && setManager(mapName)) {
 		manager->resetEntityId();
 
 		map->loadMap(
@@ -316,7 +316,13 @@ void Graph::update(float deltaTime) //game objects updating
 
 			vert_gridLink.addGroup(Manager::groupGridLinks);
 
-			manager->grid->addLink(&vert_gridLink, manager->grid->getGridLevel());
+			manager->grid->addLink(&vert_gridLink, manager->grid->Level::Basic);
+			manager->grid->addLink(&vert_gridLink, manager->grid->Level::Outer1);
+			manager->grid->addLink(&vert_gridLink, manager->grid->Level::Outer2);
+
+			std::vector<Cell*> cells = manager->grid->getLinkCells(&vert_gridLink, manager->grid->Level::Basic);
+
+			vert_gridLink.setOwnerCells(cells);
 
 			// Horizontal lines (constant Y, varying X)
 			glm::vec3 startH(-AXIS_CELLS / 2.0f * manager->grid->getCellSize(), (i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), z);
@@ -329,7 +335,13 @@ void Graph::update(float deltaTime) //game objects updating
 
 			hor_gridLink.addGroup(Manager::groupGridLinks);
 
-			manager->grid->addLink(&hor_gridLink, manager->grid->getGridLevel());
+			manager->grid->addLink(&hor_gridLink, manager->grid->Level::Basic);
+			manager->grid->addLink(&hor_gridLink, manager->grid->Level::Outer1);
+			manager->grid->addLink(&hor_gridLink, manager->grid->Level::Outer2);
+
+			cells = manager->grid->getLinkCells(&hor_gridLink, manager->grid->Level::Basic);
+			hor_gridLink.setOwnerCells(cells);
+
 		}
 	}
 

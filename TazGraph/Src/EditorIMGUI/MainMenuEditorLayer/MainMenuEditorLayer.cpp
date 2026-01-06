@@ -20,6 +20,9 @@ void MainMenuEditorLayer::OnImGuiRender()
 	ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x * 0.5f, ImGui::GetIO().DisplaySize.y * 0.5f),
 		ImGuiCond_Always, ImVec2(0.5f, 0.5f));
 	ImGui::SetNextWindowSize(ImVec2(WINDOW_WIDTH, WINDOW_HEIGHT));
+
+	ImGuiInterface::StyleColorsCustom(&ImGui::GetStyle());
+
 	ImGui::Begin("Control Window", NULL,
 		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);

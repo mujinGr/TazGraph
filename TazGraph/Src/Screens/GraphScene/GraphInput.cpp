@@ -410,32 +410,15 @@ void Graph::checkInput() {
 			if (evnt.wheel.y > 0)
 			{
 				// Scrolling up
-				main_camera2D->movePosition_Forward(CELL_SIZE);
+				main_camera2D->movePosition_Forward(manager->grid->getCellSize());
 			}
 			else if (evnt.wheel.y < 0)
 			{
 				// Scrolling down
-				main_camera2D->movePosition_Forward(-CELL_SIZE);
+				main_camera2D->movePosition_Forward(-manager->grid->getCellSize());
 			}
 			break;
-		case SDL_KEYDOWN: {
-			if (_app->_inputManager.isKeyDown(SDLK_ESCAPE)) {
-				if (_displayedEntity || _sceneManagerActive) {
-					_displayedEntity = nullptr;
-					_sceneManagerActive = false;
-				}
-				else {
-					//_app->exitSimulator();
-				}
-			}
-			if (_displayedEntity) {
-				return;
-			}
 
-
-
-			break;
-		}
 		case SDL_MOUSEMOTION:
 		{
 			glm::vec2 viewportPos(_viewportPos.x, _viewportPos.y);
@@ -583,7 +566,57 @@ void Graph::checkInput() {
 				}
 			}
 
-			if (_app->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
+
+
+			if (_app->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE) &&
+				(_app->_inputManager.isKeyDown(SDLK_LCTRL) || _app->_inputManager.isKeyDown(SDLK_RCTRL))) {
+				// Get mouse delta from input manager
+				glm::vec2 mouseDelta = _app->_inputManager.calculatePanningDelta(_viewportMousePosition);
+
+				float rotationSpeed = 0.005f;
+				float yaw = mouseDelta.x * rotationSpeed;
+				float pitch = -mouseDelta.y * rotationSpeed;
+
+				// Get current camera state
+				glm::vec3 cameraPos = main_camera2D->getPosition();
+				glm::vec3 aimPos = main_camera2D->getAimPos();
+				glm::vec3 forward = glm::normalize(aimPos - cameraPos);
+
+				// Pivot point 1000 units in front of camera
+				glm::vec3 pivotPoint = cameraPos + forward * 1000.0f;
+
+				// Vector from pivot to camera
+				glm::vec3 offset = cameraPos - pivotPoint;
+				float radius = glm::length(offset);
+
+				// Avoid division by zero
+				if (radius < 0.001f) {
+					radius = 1000.0f;
+					offset = -forward * radius;
+				}
+
+				// Convert to spherical coordinates
+				float currentYaw = atan2(offset.x, offset.z);
+				float currentPitch = asin(glm::clamp(offset.y / radius, -1.0f, 1.0f));
+
+				// Apply rotation
+				float newYaw = currentYaw + yaw;
+				float newPitch = glm::clamp(currentPitch + pitch, -1.5f, 1.5f); // Prevent gimbal lock
+
+				// Convert back to Cartesian coordinates
+				glm::vec3 newOffset;
+				newOffset.x = radius * cos(newPitch) * sin(newYaw);
+				newOffset.y = radius * sin(newPitch);
+				newOffset.z = radius * cos(newPitch) * cos(newYaw);
+
+				// Calculate new camera position
+				glm::vec3 newCameraPos = pivotPoint + newOffset;
+
+				// Update camera
+				main_camera2D->setPosition(newCameraPos);
+				main_camera2D->setAimPos(pivotPoint);
+			}
+			else if (_app->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
 				// Calculate new camera position based on the mouse movement
 				glm::vec3 delta = glm::vec3(_app->_inputManager.calculatePanningDelta(_viewportMousePosition), 0.0f);
 				main_camera2D->moveAimPos(main_camera2D->getPanningAimPos(), delta);
@@ -679,7 +712,7 @@ void Graph::checkInput() {
 				main_camera2D->setPanningAimPos(main_camera2D->getAimPos() - main_camera2D->getPosition());
 			}
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
-				std::cout << "right-clicked at: " << _viewportMousePosition.x << " - " << _viewportMousePosition.y << std::endl;
+				TAZ_LOG("right-clicked at: " + std::to_string(_viewportMousePosition.x) + " - " + std::to_string(_viewportMousePosition.y));
 
 				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_RIGHT);
 
@@ -692,6 +725,7 @@ void Graph::checkInput() {
 		}
 		break;
 		case SDL_MOUSEBUTTONUP:
+		{
 			if (!_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
 				//_selectedEntities = nullptr;
 				_isDraggingSelectionBox = false;
@@ -702,6 +736,37 @@ void Graph::checkInput() {
 				_selectionWindowCurrentPos = glm::vec2(0);
 			}
 		}
+		break;
+		case SDL_KEYDOWN:
+		{
+			if (_app->_inputManager.isKeyDown(SDLK_ESCAPE)) {
+				if (_displayedEntity || _sceneManagerActive) {
+					_displayedEntity = nullptr;
+					_sceneManagerActive = false;
+				}
+				else {
+					//_app->exitSimulator();
+				}
+			}
+			if (_displayedEntity) {
+				return;
+			}
+
+
+
+		}
+		break;
+		}
+	}
+	if (!_graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->
+		getSubcomponent<ViewportPanel>()->
+		isMouseInSecondColumn) {
+		_isDraggingSelectionBox = false;
+		_selectionStartPos = glm::vec2(0);
+		_selectionCurrentPos = glm::vec2(0);
+		_selectionWindowStartPos = glm::vec2(0);
+		_selectionWindowCurrentPos = glm::vec2(0);
+		return;
 	}
 
 	float accelerationX = 0.0f;
@@ -712,11 +777,15 @@ void Graph::checkInput() {
 	cameraMaxVelocity = manager->grid->getCellSize(); // Adjust multiplier as needed
 
 	if (_app->_inputManager.isKeyPressed(SDLK_w) ||
-		_app->_inputManager.isKeyPressed(SDLK_s)) {
+		_app->_inputManager.isKeyPressed(SDLK_s) ||
+		_app->_inputManager.isKeyPressed(SDLK_UP) ||
+		_app->_inputManager.isKeyPressed(SDLK_DOWN)) {
 		cameraVelocityY = 0;
 	}
 	if (_app->_inputManager.isKeyPressed(SDLK_a) ||
-		_app->_inputManager.isKeyPressed(SDLK_d)) {
+		_app->_inputManager.isKeyPressed(SDLK_d) ||
+		_app->_inputManager.isKeyPressed(SDLK_LEFT) ||
+		_app->_inputManager.isKeyPressed(SDLK_RIGHT)) {
 		cameraVelocityX = 0;
 	}
 	if (_app->_inputManager.isKeyPressed(SDLK_e) ||
@@ -725,19 +794,23 @@ void Graph::checkInput() {
 	}
 
 	// Apply input acceleration
-	if (_app->_inputManager.isKeyDown(SDLK_w)) {
+	if (_app->_inputManager.isKeyDown(SDLK_w) ||
+		_app->_inputManager.isKeyDown(SDLK_UP)) {
 		accelerationY += cameraAcceleration;
 	}
-	else if (_app->_inputManager.isKeyDown(SDLK_s)) {
+	else if (_app->_inputManager.isKeyDown(SDLK_s) ||
+		_app->_inputManager.isKeyDown(SDLK_DOWN)) {
 		accelerationY -= cameraAcceleration;
 	}
 	else {
 		cameraVelocityY = 0;
 	}
-	if (_app->_inputManager.isKeyDown(SDLK_a)) {
+	if (_app->_inputManager.isKeyDown(SDLK_a) ||
+		_app->_inputManager.isKeyDown(SDLK_LEFT)) {
 		accelerationX -= cameraAcceleration;
 	}
-	else if (_app->_inputManager.isKeyDown(SDLK_d)) {
+	else if (_app->_inputManager.isKeyDown(SDLK_d) ||
+		_app->_inputManager.isKeyDown(SDLK_RIGHT)) {
 		accelerationX += cameraAcceleration;
 	}
 	else {

@@ -13,7 +13,9 @@ public:
 		std::string openFile,
 		double initialTimestamp,
 		int initialStep,
-		bool usePython);
+		bool usePython,
+		std::array<float, 4> bg,
+		bool useGrid);
 	~App();
 
 	// Called on initialization

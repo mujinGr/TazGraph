@@ -545,7 +545,7 @@ public:
 		return nearbyEntities;
 	}
 
-	enum groupLabels : std::size_t //todo should add groups at end for some reason
+	enum groupLabels : std::size_t
 	{
 		//back
 		groupBackgroundLayer,

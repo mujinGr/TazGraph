@@ -19,7 +19,9 @@ public:
 	AppInterface(int threadCount, int msaa_samples, std::string openFile,
 		double initialTimestamp,
 		int initialStep,
-		bool usePython);
+		bool usePython,
+		std::array<float, 4> bg,
+		bool useGrid);
 	virtual ~AppInterface();
 
 	void run();
@@ -51,6 +53,8 @@ public:
 	double initialTimestamp;
 	int initialStep;
 	bool usePython = false;
+	std::array<float, 4> backgroundColor;
+	bool useGrid = false;
 
 	std::mutex frameMutex;
 	std::condition_variable frameReadyCV;

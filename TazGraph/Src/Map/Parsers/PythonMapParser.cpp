@@ -162,7 +162,7 @@ void PythonMapParser::parse(Manager& manager,
 	}
 
 
-	std::cout << "Parsed JSON from file successfully!" << std::endl;
+	TAZ_LOG("Parsed JSON from file successfully!");
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 

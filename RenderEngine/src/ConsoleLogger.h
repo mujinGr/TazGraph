@@ -7,14 +7,26 @@
 namespace TazGraphEngine {
 	class ConsoleLogger {
 	public:
+		static void init() {
+			std::lock_guard<std::mutex> lock(fileLog_mutex);
+
+			std::ofstream file("file_log.txt",
+				std::ios::out | std::ios::trunc); // clear file
+		}
+
 		static void log(const std::string& message) {
-			printCurrentTime();
+			//printCurrentTime();
 			std::cout << " " << message << std::endl;
+
+			writeToFile(message);
 		}
 
 		static void error(const std::string& errorMessage) {
-			printCurrentTime();
+			//printCurrentTime();
 			std::cerr << " [ERROR] " << errorMessage << std::endl;
+
+			writeToFile(errorMessage);
+
 			std::abort();
 		}
 
@@ -50,3 +62,6 @@ namespace TazGraphEngine {
 		}
 	};
 }
+
+#define TAZ_LOG(message) TazGraphEngine::ConsoleLogger::log(message)
+#define TAZ_ERROR(message) TazGraphEngine::ConsoleLogger::error(message)

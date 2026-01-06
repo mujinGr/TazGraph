@@ -6,10 +6,13 @@ App::App(
 	std::string openFile,
 	double initialTimestamp,
 	int initialStep,
-	bool usePython) : AppInterface(threadCount, msaa_samples, openFile,
+	bool usePython,
+	std::array<float, 4> bg,
+	bool useGrid) : AppInterface(threadCount, msaa_samples, openFile,
 		initialTimestamp,
 		initialStep,
-		usePython) {
+		usePython,
+		bg, useGrid) {
 
 }
 
@@ -23,7 +26,7 @@ void App::onInit() {
 
 void App::addScenes() {
 	_mainMenuScreen = std::make_unique<MainMenuScreen>();
-	_graphplayScreen = std::make_unique<Graph>(usePython);
+	_graphplayScreen = std::make_unique<Graph>(usePython, backgroundColor, useGrid);
 	//m_editorScreen = std::make_unique<EditorScreen>(&_window);
 
 	_sceneList->addScene("main_menu", _mainMenuScreen.get());

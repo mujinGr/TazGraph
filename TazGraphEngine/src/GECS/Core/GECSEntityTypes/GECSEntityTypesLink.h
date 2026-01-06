@@ -322,7 +322,7 @@ public:
 			toSlotIndex = iL_2->fromSlotIndex;
 		}
 		else {
-			TazGraphEngine::ConsoleLogger::error("type doesn't exist for link");
+			TAZ_ERROR("type doesn't exist for link");
 		}
 
 		updateConnectionPositions();
@@ -370,7 +370,7 @@ public:
 			if (!fromPortEntity || !toPortEntity ||
 				fromSlotIndex >= fromPortEntity->children.size() ||
 				toSlotIndex >= toPortEntity->children.size()) {
-				TazGraphEngine::ConsoleLogger::error(type == ConnectionType::PORT_TO_PORT ?
+				TAZ_ERROR(type == ConnectionType::PORT_TO_PORT ?
 					"updateConnectionPositions port-port"
 					: "updateConnectionPositions Ghost port-port");
 			}
@@ -396,7 +396,7 @@ public:
 		// Check if slot indices are valid
 		if ((fromSlotIndex >= fromPortEntity->children.size()) ||
 			(toSlotIndex >= toPortEntity->children.size())) {
-			TazGraphEngine::ConsoleLogger::error("Invalid slot indices!");
+			TAZ_ERROR("Invalid slot indices!");
 			return;
 		}
 

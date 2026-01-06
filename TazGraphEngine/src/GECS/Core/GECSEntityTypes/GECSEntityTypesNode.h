@@ -100,7 +100,7 @@ public:
 			const char* t_portName = NodePorts_ToString(portName);
 
 			if (children.contains(t_portName)) {
-				TazGraphEngine::ConsoleLogger::error(
+				TAZ_ERROR(
 					std::string("Port already exists: ") + t_portName);
 				return;
 			}

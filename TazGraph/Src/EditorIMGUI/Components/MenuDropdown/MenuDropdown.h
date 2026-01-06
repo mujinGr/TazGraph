@@ -10,6 +10,7 @@
 #include "CameraPanel/CameraPanel.h"
 #include "ScenePanel/ScenePanel.h"
 #include "VisibleEntities/VisibleEntities.h"
+#include "HelpPanel/HelpPanel.h"
 #include "FPSCounter.h"
 
 struct MenuDropdownConfig {
@@ -29,6 +30,7 @@ public:
 		addUIComponent<CameraPanel>();
 		addUIComponent<ScenePanel>();
 		addUIComponent<VisibleEntitiesPanel>();
+		addUIComponent<HelpPanel>();
 		addUIComponent<FPSCounter>();
 	}
 

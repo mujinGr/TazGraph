@@ -14,13 +14,18 @@ AppInterface::AppInterface(int threadCount,
 	std::string m_openFile,
 	double m_initialTimestamp,
 	int m_initialStep,
-	bool m_usePython) :
+	bool m_usePython,
+	std::array<float, 4> m_bg,
+	bool m_useGrid) :
 	threadPool(threadCount),
 	MSAA_samples(msaa_samples),
 	openFile(m_openFile),
 	initialTimestamp(m_initialTimestamp),
 	initialStep(m_initialStep),
-	usePython(m_usePython) {
+	usePython(m_usePython),
+	backgroundColor(m_bg),
+	useGrid(m_useGrid)
+{
 
 	if (msaa_samples > 1) {
 		useMSAA = true;
@@ -82,7 +87,6 @@ void AppInterface::run() {
 
 			totalDeltaTime -= deltaTime;
 			i++;
-			//std::cout << "Update: " << updateTime << " ms\n";
 
 
 		}
@@ -143,7 +147,6 @@ void AppInterface::run() {
 		TracyPlot("FPS", _limiter.fps); // Plot FPS over time
 		TracyPlot("Frame Time (ms)", frameTime); // Plot frame time
 		FrameMark;
-		//std::cout << "UI: " << uiTime << " ms, Total Frame Time: " << frameTime << " ms, FPS: " << _limiter.fps << "\n";
 	}
 }
 
@@ -157,7 +160,7 @@ void AppInterface::enqueueRenderCommand(std::function<void()> cmd) {
 }
 
 void AppInterface::waitForRenderCommand() {
-	std::cout << "Waiting for render command..." << std::endl;
+	TAZ_LOG("Waiting for render command...");
 	std::unique_lock<std::mutex> lock(initMutex);
 	initCV.wait(lock, [this]() {
 		return initCommandComplete.load();
@@ -193,7 +196,7 @@ void AppInterface::waitForRenderThreadExit() {
 
 		// Wait for render thread to finish
 		renderThread.join();
-		std::cout << "[Main] Render thread has exited cleanly.\n";
+		TAZ_LOG("[Main] Render thread has exited cleanly.\n");
 	}
 }
 
@@ -233,7 +236,7 @@ void AppInterface::RenderThreadFunc() {
 		if (shouldProcessInit) {
 			std::lock_guard<std::mutex> lock(initMutex);
 			if (initCommandReady.load()) {
-				std::cout << "Executing init command" << std::endl;
+				TAZ_LOG("Executing init command");
 				initQueue.Execute();
 				initCommandReady.store(false);
 				initCommandComplete.store(true);
@@ -298,7 +301,6 @@ void AppInterface::onSDLEvent(SDL_Event& evnt) {
 		_inputManager.releaseKey(evnt.key.keysym.sym);
 		break;
 	case SDL_MOUSEMOTION:
-		//std::cout << event.motion.x << " " << event.motion.y << std::endl;
 		_inputManager.setMouseCoords(evnt.motion.x / _window.getScale(), evnt.motion.y / _window.getScale());
 		break;
 	case SDL_MOUSEBUTTONDOWN:
