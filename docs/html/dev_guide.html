@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TazGraph Project: Developer Integration Guide</title>
+<title>TazGraph Project: Developer Guide</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,10 +69,14 @@ $(function() {
 
 </div><!-- top -->
 <div><div class="header">
-  <div class="headertitle"><div class="title">Developer Integration Guide</div></div>
+  <div class="headertitle"><div class="title">Developer Guide</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h3><a class="anchor" id="autotoc_md0"></a>
+<div class="textblock"><ul>
+<li><a class="el" href="fileFormats.html">File Formats</a></li>
+<li><a class="el" href="pythonCommands.html">Python Commands</a></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md0"></a>
 Core Architecture:</h3>
 <p>TazGraph uses a <b>custom ECS</b> where entities (such as nodes, links, and emptyEntities) are composed of components. Components are plain data-only structures, like <code><a class="el" href="classTransformComponent.html">TransformComponent</a></code> and <code>PollingComponent</code>.</p>
 <p>The ECS is managed by **<code>GECSManager</code>**, which handles creation, removal, update, and drawing of entities. <a class="el" href="classEntity.html">Entity</a> processing is based on <b>groups</b> (<code>EntityGroups</code>) for rendering and update.</p>

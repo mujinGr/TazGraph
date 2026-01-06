@@ -46,7 +46,7 @@
 \DoxyCodeLine{00042\ \ \ \ \ glm::vec3\ getSlotPosition()\textcolor{keyword}{\ const\ }\{}
 \DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ childrenSize\ =\ entity-\/>getParentEntity()-\/>\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}.size();}
 \DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (index\ >=\ childrenSize)\ \{}
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//TazGraphEngine::ConsoleLogger::error("{}Port\ Slot\ index\ wrong"{});}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//TAZ\_ERROR("{}Port\ Slot\ index\ wrong"{});}}
 \DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entity-\/>getParentEntity()-\/>}
 \DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GetComponent<TransformComponent>().getPosition();}
 \DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \}}

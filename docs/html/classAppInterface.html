@@ -128,9 +128,9 @@ Collaboration diagram for AppInterface:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:acfec338076b86fbd59f1409ff553e0d9" id="r_acfec338076b86fbd59f1409ff553e0d9"><td class="memItemLeft" align="right" valign="top"><a id="acfec338076b86fbd59f1409ff553e0d9" name="acfec338076b86fbd59f1409ff553e0d9"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>AppInterface</b> (int threadCount, int msaa_samples, std::string openFile, double initialTimestamp, int initialStep, bool usePython)</td></tr>
-<tr class="separator:acfec338076b86fbd59f1409ff553e0d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bd9148eba3981fa3b447278897b0f99" id="r_a2bd9148eba3981fa3b447278897b0f99"><td class="memItemLeft" align="right" valign="top"><a id="a2bd9148eba3981fa3b447278897b0f99" name="a2bd9148eba3981fa3b447278897b0f99"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>AppInterface</b> (int threadCount, int msaa_samples, std::string openFile, double initialTimestamp, int initialStep, bool usePython, std::array&lt; float, 4 &gt; bg, bool useGrid)</td></tr>
+<tr class="separator:a2bd9148eba3981fa3b447278897b0f99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26b76a00a9254ec76d34dbff4f95dabe" id="r_a26b76a00a9254ec76d34dbff4f95dabe"><td class="memItemLeft" align="right" valign="top"><a id="a26b76a00a9254ec76d34dbff4f95dabe" name="a26b76a00a9254ec76d34dbff4f95dabe"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> ()</td></tr>
 <tr class="separator:a26b76a00a9254ec76d34dbff4f95dabe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -239,6 +239,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>initialStep</b></td></
 <tr class="memitem:ac1cccf7c20d2efae85955581dc5230ef" id="r_ac1cccf7c20d2efae85955581dc5230ef"><td class="memItemLeft" align="right" valign="top"><a id="ac1cccf7c20d2efae85955581dc5230ef" name="ac1cccf7c20d2efae85955581dc5230ef"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>usePython</b> = false</td></tr>
 <tr class="separator:ac1cccf7c20d2efae85955581dc5230ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace4b31c38cabb39c77721562460aaa6a" id="r_ace4b31c38cabb39c77721562460aaa6a"><td class="memItemLeft" align="right" valign="top"><a id="ace4b31c38cabb39c77721562460aaa6a" name="ace4b31c38cabb39c77721562460aaa6a"></a>
+std::array&lt; float, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>backgroundColor</b></td></tr>
+<tr class="separator:ace4b31c38cabb39c77721562460aaa6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42778759ed195f12ff5dafa0c1aeb257" id="r_a42778759ed195f12ff5dafa0c1aeb257"><td class="memItemLeft" align="right" valign="top"><a id="a42778759ed195f12ff5dafa0c1aeb257" name="a42778759ed195f12ff5dafa0c1aeb257"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>useGrid</b> = false</td></tr>
+<tr class="separator:a42778759ed195f12ff5dafa0c1aeb257"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b7cd79d30512cca8357f740fa847d5f" id="r_a7b7cd79d30512cca8357f740fa847d5f"><td class="memItemLeft" align="right" valign="top"><a id="a7b7cd79d30512cca8357f740fa847d5f" name="a7b7cd79d30512cca8357f740fa847d5f"></a>
 std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>frameMutex</b></td></tr>
 <tr class="separator:a7b7cd79d30512cca8357f740fa847d5f"><td class="memSeparator" colspan="2">&#160;</td></tr>

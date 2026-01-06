@@ -25,21 +25,6 @@ void \mbox{\hyperlink{classPerspectiveCamera_abb8e7f94f84ea8a61676cb979d784185}{
 \item 
 void \mbox{\hyperlink{classPerspectiveCamera_a16f4fa03eb94b48977ca2954d320eccc}{update}} () override
 \item 
-\Hypertarget{classPerspectiveCamera_ab6293ede6b5bddd0bf819d78020c4d78}\label{classPerspectiveCamera_ab6293ede6b5bddd0bf819d78020c4d78} 
-void {\bfseries move\+Position\+\_\+\+Hor} (const float step)
-\item 
-\Hypertarget{classPerspectiveCamera_aa919e671dd00e72fa04eb28fb960d6fa}\label{classPerspectiveCamera_aa919e671dd00e72fa04eb28fb960d6fa} 
-void {\bfseries move\+Position\+\_\+\+Vert} (const float step)
-\item 
-\Hypertarget{classPerspectiveCamera_a427f853a51480da3ebd6bb9ce5c8f78b}\label{classPerspectiveCamera_a427f853a51480da3ebd6bb9ce5c8f78b} 
-void {\bfseries move\+Position\+\_\+\+Forward} (const float step)
-\item 
-\Hypertarget{classPerspectiveCamera_a090cd23abeab084fb7fb348b66f92451}\label{classPerspectiveCamera_a090cd23abeab084fb7fb348b66f92451} 
-void {\bfseries set\+Aim\+Pos} (const glm\+::vec3 new\+Aim\+Pos)
-\item 
-\Hypertarget{classPerspectiveCamera_a4a83d497824296e74c8011ca1d04a3ea}\label{classPerspectiveCamera_a4a83d497824296e74c8011ca1d04a3ea} 
-void {\bfseries move\+Aim\+Pos} (glm\+::vec3 starting\+Aim\+Dir, const glm\+::vec2 distance)
-\item 
 \Hypertarget{classPerspectiveCamera_a95dbe01f6d110f4ef993910f54cd741e}\label{classPerspectiveCamera_a95dbe01f6d110f4ef993910f54cd741e} 
 glm\+::vec3 {\bfseries get\+Euler\+Angles\+From\+Direction} (glm\+::vec3 direction)
 \item 
@@ -117,7 +102,21 @@ void {\bfseries set\+Proj\+Matrix} (glm\+::mat4 new\+Proj\+Matrix)
 \item 
 glm\+::mat4 {\bfseries get\+Proj\+Matrix} ()
 \item 
+glm\+::vec3 {\bfseries get\+Forward\+Dir} ()
+\item 
+glm\+::vec3 {\bfseries get\+Right\+Dir} ()
+\item 
 glm\+::vec3 {\bfseries get\+Up\+Dir} ()
+\item 
+void {\bfseries move\+Position\+\_\+\+Hor} (const float step)
+\item 
+void {\bfseries move\+Position\+\_\+\+Vert} (const float step)
+\item 
+void {\bfseries move\+Position\+\_\+\+Forward} (const float step)
+\item 
+void {\bfseries set\+Aim\+Pos} (const glm\+::vec3 new\+Aim\+Pos)
+\item 
+void {\bfseries move\+Aim\+Pos} (glm\+::vec3 starting\+Aim\+Pos, const glm\+::vec2 distance)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}

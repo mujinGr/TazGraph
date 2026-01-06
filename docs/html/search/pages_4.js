@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['guide_0',['guide',['../dev_guide.html',1,'Developer Integration Guide'],['../docs_guide.html',1,'Docs Guide']]]
+  ['file_20formats_0',['File Formats',['../fileFormats.html',1,'dev_guide']]],
+  ['formats_1',['File Formats',['../fileFormats.html',1,'dev_guide']]]
 ];

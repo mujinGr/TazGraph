@@ -1,6 +1,10 @@
-\chapter{Developer Integration Guide}
-\hypertarget{dev_guide}{}\label{dev_guide}\index{Developer Integration Guide@{Developer Integration Guide}}
-\hypertarget{dev_guide_autotoc_md0}{}\doxysubsubsection{\texorpdfstring{Core Architecture\+:}{Core Architecture:}}\label{dev_guide_autotoc_md0}
+\chapter{Developer Guide}
+\hypertarget{dev_guide}{}\label{dev_guide}\index{Developer Guide@{Developer Guide}}
+
+\begin{DoxyItemize}
+\item \doxylink{fileFormats}{File Formats}
+\item \doxylink{pythonCommands}{Python Commands}
+\end{DoxyItemize}\hypertarget{dev_guide_autotoc_md0}{}\doxysubsubsection{\texorpdfstring{Core Architecture\+:}{Core Architecture:}}\label{dev_guide_autotoc_md0}
 Taz\+Graph uses a {\bfseries{custom ECS}} where entities (such as nodes, links, and empty\+Entities) are composed of components. Components are plain data-\/only structures, like {\ttfamily \doxylink{classTransformComponent}{Transform\+Component}} and {\ttfamily Polling\+Component}.
 
 The ECS is managed by \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily GECSManager}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}, which handles creation, removal, update, and drawing of entities. \doxylink{classEntity}{Entity} processing is based on {\bfseries{groups}} ({\ttfamily Entity\+Groups}) for rendering and update.\hypertarget{dev_guide_autotoc_md1}{}\doxysubsubsection{\texorpdfstring{Scene System}{Scene System}}\label{dev_guide_autotoc_md1}
@@ -103,4 +107,5 @@ To create a new renderer -\/ for example, a {\bfseries{textured plane with shadi
 \end{DoxyItemize}
 
 In the following folder\+: {\ttfamily Taz\+Graph\+Engine/\+Renderers/\+Plane\+Renderers/\+Plane\+Lit\+Text\+Renderer} use one of the existing renderers as a base, then write glsl shader to match the renderer under {\ttfamily Taz\+Graph/\+Src/\+Shaders}, implement a {\ttfamily draw} function in a component that uses that renderer and then pass that renderer as argument for {\ttfamily render\+Batch} in {\ttfamily Graph\+::draw()}.\hypertarget{dev_guide_autotoc_md8}{}\doxysubsubsection{\texorpdfstring{Graph Loaders (\+WIP)}{Graph Loaders (WIP)}}\label{dev_guide_autotoc_md8}
-Currently Taz\+Graph has the ability to process txt and python files with a specific format. Developers are able to implement their own processing of files, by creating more functions inside {\ttfamily Taz\+Graph/\+Src/\+Map} 
+Currently Taz\+Graph has the ability to process txt and python files with a specific format. Developers are able to implement their own processing of files, by creating more functions inside {\ttfamily Taz\+Graph/\+Src/\+Map} \input{fileFormats}
+\input{pythonCommands}

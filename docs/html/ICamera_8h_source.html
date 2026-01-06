@@ -155,16 +155,26 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    glm::mat4 getProjMatrix();</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    glm::vec3 getUpDir();</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="keyword">protected</span>:</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    glm::mat4 _projectionMatrix = glm::mat4(1.0f); <span class="comment">// changed once in init</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    glm::mat4 _viewMatrix = glm::mat4(1.0f);</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    glm::mat4 _cameraMatrix = glm::mat4(1.0f);</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordtype">bool</span> _cameraChange = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordtype">float</span> _scale; <span class="comment">// decreases when zoom-out</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>};</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    glm::vec3 getForwardDir();</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    glm::vec3 getRightDir();</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    glm::vec3 getUpDir();</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordtype">void</span> movePosition_Hor(<span class="keyword">const</span> <span class="keywordtype">float</span> step);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordtype">void</span> movePosition_Vert(<span class="keyword">const</span> <span class="keywordtype">float</span> step);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordtype">void</span> movePosition_Forward(<span class="keyword">const</span> <span class="keywordtype">float</span> step);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordtype">void</span> setAimPos(<span class="keyword">const</span> glm::vec3 newAimPos);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordtype">void</span> moveAimPos(glm::vec3 startingAimPos, <span class="keyword">const</span> glm::vec2 distance);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    glm::mat4 _projectionMatrix = glm::mat4(1.0f); <span class="comment">// changed once in init</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    glm::mat4 _viewMatrix = glm::mat4(1.0f);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    glm::mat4 _cameraMatrix = glm::mat4(1.0f);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordtype">bool</span> _cameraChange = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordtype">float</span> _scale; <span class="comment">// decreases when zoom-out</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>};</div>
 </div>
 <div class="ttc" id="aclassICamera_html"><div class="ttname"><a href="classICamera.html">ICamera</a></div><div class="ttdef"><b>Definition</b> ICamera.h:10</div></div>
 </div><!-- fragment --></div><!-- contents -->

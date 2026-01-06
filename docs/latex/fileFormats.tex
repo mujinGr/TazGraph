@@ -1,9 +1,9 @@
-\chapter{File Formats}
+\doxysection{File Formats}
 \hypertarget{fileFormats}{}\label{fileFormats}\index{File Formats@{File Formats}}
 This project supports multiple file formats for saving and loading graphs and paths. ~\newline
  Each format has its own advantages depending on the use case.
 
-see \doxylink{group__mapLoading}{Map Loading}\hypertarget{fileFormats_txtFormat}{}\doxysection{\texorpdfstring{.\+txt (\+Custom Plaintext Format)}{.txt (Custom Plaintext Format)}}\label{fileFormats_txtFormat}
+see \doxylink{group__mapLoading}{Map Loading}\hypertarget{fileFormats_txtFormat}{}\doxysubsection{\texorpdfstring{.\+txt (\+Custom Plaintext Format)}{.txt (Custom Plaintext Format)}}\label{fileFormats_txtFormat}
 {\bfseries{Structure}}
 \begin{DoxyItemize}
 \item First line\+: total number of nodes (N).
@@ -25,7 +25,7 @@ see \doxylink{group__mapLoading}{Map Loading}\hypertarget{fileFormats_txtFormat}
 \DoxyCodeLine{163\ 1\ \ \ 2}
 
 \end{DoxyCode}
-\hypertarget{fileFormats_dotFormat}{}\doxysection{\texorpdfstring{.\+dot (\+Graphviz DOT)}{.dot (Graphviz DOT)}}\label{fileFormats_dotFormat}
+\hypertarget{fileFormats_dotFormat}{}\doxysubsection{\texorpdfstring{.\+dot (\+Graphviz DOT)}{.dot (Graphviz DOT)}}\label{fileFormats_dotFormat}
 The DOT format is widely supported by visualization tools such as Graphviz. ~\newline
  It allows advanced layout options, clusters, and styling.
 
@@ -70,7 +70,7 @@ The DOT format is widely supported by visualization tools such as Graphviz. ~\ne
 \DoxyCodeLine{\}}
 
 \end{DoxyCode}
-\hypertarget{fileFormats_pyFormat}{}\doxysection{\texorpdfstring{.\+py (\+Python Dictionary Format)}{.py (Python Dictionary Format)}}\label{fileFormats_pyFormat}
+\hypertarget{fileFormats_pyFormat}{}\doxysubsection{\texorpdfstring{.\+py (\+Python Dictionary Format)}{.py (Python Dictionary Format)}}\label{fileFormats_pyFormat}
 The {\ttfamily .py} format represents the graph as a nested Python dictionary. ~\newline
  It contains metadata, nodes (with attributes), and edges (with attributes). ~\newline
  This makes it both human-\/readable and directly usable in Python workflows.
@@ -117,7 +117,7 @@ The {\ttfamily .py} format represents the graph as a nested Python dictionary. ~
 \DoxyCodeLine{\}}
 
 \end{DoxyCode}
-\hypertarget{fileFormats_graphmlFormat}{}\doxysection{\texorpdfstring{.\+graphml (\+Graph\+ML XML Format)}{.graphml (GraphML XML Format)}}\label{fileFormats_graphmlFormat}
+\hypertarget{fileFormats_graphmlFormat}{}\doxysubsection{\texorpdfstring{.\+graphml (\+Graph\+ML XML Format)}{.graphml (GraphML XML Format)}}\label{fileFormats_graphmlFormat}
 Graph\+ML is an XML-\/based format standardized for graph representation. ~\newline
  It is supported by many external tools (Gephi, y\+Ed, NetworkX, etc.). ~\newline
  \doxylink{classNode}{Node} and edge attributes are defined using {\ttfamily \texorpdfstring{$<$}{<}key\texorpdfstring{$>$}{>}} and {\ttfamily \texorpdfstring{$<$}{<}data\texorpdfstring{$>$}{>}} elements.
@@ -165,7 +165,7 @@ Graph\+ML is an XML-\/based format standardized for graph representation. ~\newl
 \DoxyCodeLine{</\textcolor{keywordtype}{graphml}>}
 
 \end{DoxyCode}
-\hypertarget{fileFormats_pathFormat}{}\doxysection{\texorpdfstring{Path Files (.\+txt)}{Path Files (.txt)}}\label{fileFormats_pathFormat}
+\hypertarget{fileFormats_pathFormat}{}\doxysubsection{\texorpdfstring{Path Files (.\+txt)}{Path Files (.txt)}}\label{fileFormats_pathFormat}
 Path files describe sequences of connected node IDs. ~\newline
  Useful for seeing complete flow of data.
 

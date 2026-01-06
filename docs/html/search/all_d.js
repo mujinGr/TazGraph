@@ -10,8 +10,7 @@ var searchData=
   ['inputmanager_7',['InputManager',['../classInputManager.html',1,'']]],
   ['instance_20rendering_8',['4. Instance Rendering',['../dev_guide.html#autotoc_md6',1,'']]],
   ['instancedata_9',['InstanceData',['../structInstanceData.html',1,'']]],
-  ['integration_20guide_10',['Developer Integration Guide',['../dev_guide.html',1,'']]],
-  ['intro_11',['Intro',['../index.html#autotoc_md12',1,'']]],
-  ['io_20tazgraph_20html_20dev_5fguide_20html_20doxydevguide_20a_12',['Developer Guide: &lt;a href=&quot;https://mujingr.github.io/TazGraph/html/dev_guide.html&quot; &gt;DoxyDevGuide&lt;/a&gt;',['../index.html#autotoc_md16',1,'']]],
-  ['iscene_13',['IScene',['../classIScene.html',1,'']]]
+  ['intro_10',['Intro',['../index.html#autotoc_md12',1,'']]],
+  ['io_20tazgraph_20html_20dev_5fguide_20html_20doxydevguide_20a_11',['Developer Guide: &lt;a href=&quot;https://mujingr.github.io/TazGraph/html/dev_guide.html&quot; &gt;DoxyDevGuide&lt;/a&gt;',['../index.html#autotoc_md16',1,'']]],
+  ['iscene_12',['IScene',['../classIScene.html',1,'']]]
 ];

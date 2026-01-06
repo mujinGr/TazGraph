@@ -14,30 +14,32 @@
 \DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}CameraPanel/CameraPanel.h"{}}}
 \DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}ScenePanel/ScenePanel.h"{}}}
 \DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}VisibleEntities/VisibleEntities.h"{}}}
-\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}FPSCounter.h"{}}}
-\DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structMenuDropdownConfig}{MenuDropdownConfig}}\ \{}
-\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{classIScene}{IScene}}*\ scene;}
-\DoxyCodeLine{00017\ \};}
-\DoxyCodeLine{00018\ }
-\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMenuDropdownPanel}{MenuDropdownPanel}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
-\DoxyCodeLine{00020\ \{}
-\DoxyCodeLine{00021\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{structMenuDropdownConfig}{MenuDropdownConfig}}\ config;}
-\DoxyCodeLine{00023\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{classMenuDropdownPanel}{MenuDropdownPanel}}()}
-\DoxyCodeLine{00025\ \ \ \ \ \{}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ addUIComponent<LoadingUI>();}
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ addUIComponent<SavingUI>();}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ addUIComponent<NewMapUI>();}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ addUIComponent<CameraPanel>();}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ addUIComponent<ScenePanel>();}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ addUIComponent<VisibleEntitiesPanel>();}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ addUIComponent<FPSCounter>();}
-\DoxyCodeLine{00033\ \ \ \ \ \}}
-\DoxyCodeLine{00034\ }
-\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structMenuDropdownConfig}{MenuDropdownConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
-\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00037\ \};}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}HelpPanel/HelpPanel.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}FPSCounter.h"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structMenuDropdownConfig}{MenuDropdownConfig}}\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classIScene}{IScene}}*\ scene;}
+\DoxyCodeLine{00018\ \};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMenuDropdownPanel}{MenuDropdownPanel}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
+\DoxyCodeLine{00021\ \{}
+\DoxyCodeLine{00022\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{structMenuDropdownConfig}{MenuDropdownConfig}}\ config;}
+\DoxyCodeLine{00024\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{classMenuDropdownPanel}{MenuDropdownPanel}}()}
+\DoxyCodeLine{00026\ \ \ \ \ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ addUIComponent<LoadingUI>();}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ addUIComponent<SavingUI>();}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ addUIComponent<NewMapUI>();}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ addUIComponent<CameraPanel>();}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ addUIComponent<ScenePanel>();}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ addUIComponent<VisibleEntitiesPanel>();}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ addUIComponent<HelpPanel>();}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ addUIComponent<FPSCounter>();}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structMenuDropdownConfig}{MenuDropdownConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00039\ \};}
 
 \end{DoxyCode}

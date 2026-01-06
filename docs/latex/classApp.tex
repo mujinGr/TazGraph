@@ -11,8 +11,7 @@ Inheritance diagram for App\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for App\+:
-\nopagebreak
+Collaboration diagram for App\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -22,8 +21,8 @@ Collaboration diagram for App\+:
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classApp_a41fc6c17df11e37d9df83835ac1b02fd}\label{classApp_a41fc6c17df11e37d9df83835ac1b02fd} 
-{\bfseries App} (int thread\+Count, int msaa\+\_\+samples, std\+::string open\+File, double initial\+Timestamp, int initial\+Step, bool use\+Python)
+\Hypertarget{classApp_a9f3a45f925028b6eed2eb3cda3051050}\label{classApp_a9f3a45f925028b6eed2eb3cda3051050} 
+{\bfseries App} (int thread\+Count, int msaa\+\_\+samples, std\+::string open\+File, double initial\+Timestamp, int initial\+Step, bool use\+Python, std\+::array$<$ float, 4 $>$ bg, bool use\+Grid)
 \item 
 virtual void \mbox{\hyperlink{classApp_a383cf8e8949745f9b2b10651b27d1724}{on\+Init}} () override
 \item 
@@ -34,7 +33,7 @@ virtual void \mbox{\hyperlink{classApp_aaf21c7c873ed7a3efb872a9172e2c869}{on\+Ex
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classAppInterface}{App\+Interface}}}
 \begin{DoxyCompactItemize}
 \item 
-{\bfseries App\+Interface} (int thread\+Count, int msaa\+\_\+samples, std\+::string open\+File, double initial\+Timestamp, int initial\+Step, bool use\+Python)
+{\bfseries App\+Interface} (int thread\+Count, int msaa\+\_\+samples, std\+::string open\+File, double initial\+Timestamp, int initial\+Step, bool use\+Python, std\+::array$<$ float, 4 $>$ bg, bool use\+Grid)
 \item 
 void {\bfseries run} ()
 \item 
@@ -103,6 +102,10 @@ double {\bfseries initial\+Timestamp}
 int {\bfseries initial\+Step}
 \item 
 bool {\bfseries use\+Python} = false
+\item 
+std\+::array$<$ float, 4 $>$ {\bfseries background\+Color}
+\item 
+bool {\bfseries use\+Grid} = false
 \item 
 std\+::mutex {\bfseries frame\+Mutex}
 \item 

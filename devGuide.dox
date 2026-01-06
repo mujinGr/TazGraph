@@ -1,5 +1,8 @@
 /**
-  @page dev_guide Developer Integration Guide
+  @page dev_guide Developer Guide
+
+- @subpage fileFormats
+- @subpage pythonCommands
 
 ### Core Architecture:
 

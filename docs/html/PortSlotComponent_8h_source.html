@@ -126,7 +126,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    glm::vec3 getSlotPosition()<span class="keyword"> const </span>{</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordtype">size_t</span> childrenSize = entity-&gt;getParentEntity()-&gt;<a class="code hl_variable" href="classEntity.html#a722b64082911a5ac809ff8e13e12a544">children</a>.size();</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordflow">if</span> (index &gt;= childrenSize) {</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            <span class="comment">//TazGraphEngine::ConsoleLogger::error(&quot;Port Slot index wrong&quot;);</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            <span class="comment">//TAZ_ERROR(&quot;Port Slot index wrong&quot;);</span></div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            <span class="keywordflow">return</span> entity-&gt;getParentEntity()-&gt;</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                GetComponent&lt;TransformComponent&gt;().getPosition();</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        }</div>

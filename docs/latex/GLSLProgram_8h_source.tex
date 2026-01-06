@@ -535,7 +535,7 @@
 \DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ GLint\ location\ =\ glGetUniformLocation(\_programID,\ uniformName.c\_str());}
 \DoxyCodeLine{00535\ }
 \DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (location\ ==\ GL\_INVALID\_INDEX)\ \{}
-\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(\textcolor{stringliteral}{"{}Uniform\ "{}}\ +\ uniformName\ +\ \textcolor{stringliteral}{"{}\ not\ found\ in\ shader!"{}});}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ TAZ\_ERROR(\textcolor{stringliteral}{"{}Uniform\ "{}}\ +\ uniformName\ +\ \textcolor{stringliteral}{"{}\ not\ found\ in\ shader!"{}});}
 \DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ location;}
 \DoxyCodeLine{00540\ \ \ \ \ \}}
@@ -580,7 +580,7 @@
 \DoxyCodeLine{00579\ \ \ \ \ GLuint\ createAndCompileShader(\textcolor{keyword}{const}\ std::string\&\ source,\ GLenum\ shaderType,\ \textcolor{keyword}{const}\ std::string\&\ typeName)\ \{}
 \DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ GLuint\ shaderID\ =\ glCreateShader(shaderType);}
 \DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shaderID\ ==\ 0)\ \{}
-\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(typeName\ +\ \textcolor{stringliteral}{"{}\ Shader\ Failed\ to\ create!"{}});}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ TAZ\_ERROR(typeName\ +\ \textcolor{stringliteral}{"{}\ Shader\ Failed\ to\ create!"{}});}
 \DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
 \DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00585\ }
@@ -611,7 +611,7 @@
 \DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \ \ \ \ glDeleteShader(\textcolor{keywordtype}{id});\ \textcolor{comment}{//\ Don't\ leak\ the\ shader.}}
 \DoxyCodeLine{00611\ }
 \DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \ \ \ \ std::printf(\textcolor{stringliteral}{"{}\%s\(\backslash\)n"{}},\ \&(errorLog[0]));}
-\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Shader\ "{}}\ +\ name\ +\ \textcolor{stringliteral}{"{}\ failed\ to\ compile"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \ \ \ \ TAZ\_ERROR(\textcolor{stringliteral}{"{}Shader\ "{}}\ +\ name\ +\ \textcolor{stringliteral}{"{}\ failed\ to\ compile"{}});}
 \DoxyCodeLine{00614\ }
 \DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00616\ \ \ \ \ \}}
@@ -645,7 +645,7 @@
 \DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00645\ }
 \DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \ \ \ \ std::printf(\textcolor{stringliteral}{"{}\%s\(\backslash\)n"{}},\ \&errorLog[0]);}
-\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(\textcolor{stringliteral}{"{}Shaders\ failed\ to\ link"{}});}
+\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ \ \ \ \ TAZ\_ERROR(\textcolor{stringliteral}{"{}Shaders\ failed\ to\ link"{}});}
 \DoxyCodeLine{00648\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
 \DoxyCodeLine{00649\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00650\ }

@@ -11,8 +11,7 @@ Inheritance diagram for App\+Interface\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for App\+Interface\+:
-\nopagebreak
+Collaboration diagram for App\+Interface\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -22,8 +21,8 @@ Collaboration diagram for App\+Interface\+:
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classAppInterface_acfec338076b86fbd59f1409ff553e0d9}\label{classAppInterface_acfec338076b86fbd59f1409ff553e0d9} 
-{\bfseries App\+Interface} (int thread\+Count, int msaa\+\_\+samples, std\+::string open\+File, double initial\+Timestamp, int initial\+Step, bool use\+Python)
+\Hypertarget{classAppInterface_a2bd9148eba3981fa3b447278897b0f99}\label{classAppInterface_a2bd9148eba3981fa3b447278897b0f99} 
+{\bfseries App\+Interface} (int thread\+Count, int msaa\+\_\+samples, std\+::string open\+File, double initial\+Timestamp, int initial\+Step, bool use\+Python, std\+::array$<$ float, 4 $>$ bg, bool use\+Grid)
 \item 
 \Hypertarget{classAppInterface_a26b76a00a9254ec76d34dbff4f95dabe}\label{classAppInterface_a26b76a00a9254ec76d34dbff4f95dabe} 
 void {\bfseries run} ()
@@ -132,6 +131,12 @@ int {\bfseries initial\+Step}
 \item 
 \Hypertarget{classAppInterface_ac1cccf7c20d2efae85955581dc5230ef}\label{classAppInterface_ac1cccf7c20d2efae85955581dc5230ef} 
 bool {\bfseries use\+Python} = false
+\item 
+\Hypertarget{classAppInterface_ace4b31c38cabb39c77721562460aaa6a}\label{classAppInterface_ace4b31c38cabb39c77721562460aaa6a} 
+std\+::array$<$ float, 4 $>$ {\bfseries background\+Color}
+\item 
+\Hypertarget{classAppInterface_a42778759ed195f12ff5dafa0c1aeb257}\label{classAppInterface_a42778759ed195f12ff5dafa0c1aeb257} 
+bool {\bfseries use\+Grid} = false
 \item 
 \Hypertarget{classAppInterface_a7b7cd79d30512cca8357f740fa847d5f}\label{classAppInterface_a7b7cd79d30512cca8357f740fa847d5f} 
 std\+::mutex {\bfseries frame\+Mutex}

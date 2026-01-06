@@ -103,21 +103,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abb8e7f94f84ea8a61676cb979d784185"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16f4fa03eb94b48977ca2954d320eccc" id="r_a16f4fa03eb94b48977ca2954d320eccc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPerspectiveCamera.html#a16f4fa03eb94b48977ca2954d320eccc">update</a> () override</td></tr>
 <tr class="separator:a16f4fa03eb94b48977ca2954d320eccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6293ede6b5bddd0bf819d78020c4d78" id="r_ab6293ede6b5bddd0bf819d78020c4d78"><td class="memItemLeft" align="right" valign="top"><a id="ab6293ede6b5bddd0bf819d78020c4d78" name="ab6293ede6b5bddd0bf819d78020c4d78"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>movePosition_Hor</b> (const float step)</td></tr>
-<tr class="separator:ab6293ede6b5bddd0bf819d78020c4d78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa919e671dd00e72fa04eb28fb960d6fa" id="r_aa919e671dd00e72fa04eb28fb960d6fa"><td class="memItemLeft" align="right" valign="top"><a id="aa919e671dd00e72fa04eb28fb960d6fa" name="aa919e671dd00e72fa04eb28fb960d6fa"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>movePosition_Vert</b> (const float step)</td></tr>
-<tr class="separator:aa919e671dd00e72fa04eb28fb960d6fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a427f853a51480da3ebd6bb9ce5c8f78b" id="r_a427f853a51480da3ebd6bb9ce5c8f78b"><td class="memItemLeft" align="right" valign="top"><a id="a427f853a51480da3ebd6bb9ce5c8f78b" name="a427f853a51480da3ebd6bb9ce5c8f78b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>movePosition_Forward</b> (const float step)</td></tr>
-<tr class="separator:a427f853a51480da3ebd6bb9ce5c8f78b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a090cd23abeab084fb7fb348b66f92451" id="r_a090cd23abeab084fb7fb348b66f92451"><td class="memItemLeft" align="right" valign="top"><a id="a090cd23abeab084fb7fb348b66f92451" name="a090cd23abeab084fb7fb348b66f92451"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setAimPos</b> (const glm::vec3 newAimPos)</td></tr>
-<tr class="separator:a090cd23abeab084fb7fb348b66f92451"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a83d497824296e74c8011ca1d04a3ea" id="r_a4a83d497824296e74c8011ca1d04a3ea"><td class="memItemLeft" align="right" valign="top"><a id="a4a83d497824296e74c8011ca1d04a3ea" name="a4a83d497824296e74c8011ca1d04a3ea"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>moveAimPos</b> (glm::vec3 startingAimDir, const glm::vec2 distance)</td></tr>
-<tr class="separator:a4a83d497824296e74c8011ca1d04a3ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95dbe01f6d110f4ef993910f54cd741e" id="r_a95dbe01f6d110f4ef993910f54cd741e"><td class="memItemLeft" align="right" valign="top"><a id="a95dbe01f6d110f4ef993910f54cd741e" name="a95dbe01f6d110f4ef993910f54cd741e"></a>
 glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>getEulerAnglesFromDirection</b> (glm::vec3 direction)</td></tr>
 <tr class="separator:a95dbe01f6d110f4ef993910f54cd741e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -216,9 +201,30 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setProjMatrix</b> (gl
 <tr class="memitem:af1bb924318703a7efb56205d74fc2413 inherit pub_methods_classICamera" id="r_af1bb924318703a7efb56205d74fc2413"><td class="memItemLeft" align="right" valign="top">
 glm::mat4&#160;</td><td class="memItemRight" valign="bottom"><b>getProjMatrix</b> ()</td></tr>
 <tr class="separator:af1bb924318703a7efb56205d74fc2413 inherit pub_methods_classICamera"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abed59335e84dff8da521a8f665e7ecc1 inherit pub_methods_classICamera" id="r_abed59335e84dff8da521a8f665e7ecc1"><td class="memItemLeft" align="right" valign="top">
+glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>getForwardDir</b> ()</td></tr>
+<tr class="separator:abed59335e84dff8da521a8f665e7ecc1 inherit pub_methods_classICamera"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9459802f2fa3222a34167c77b31b914 inherit pub_methods_classICamera" id="r_ac9459802f2fa3222a34167c77b31b914"><td class="memItemLeft" align="right" valign="top">
+glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>getRightDir</b> ()</td></tr>
+<tr class="separator:ac9459802f2fa3222a34167c77b31b914 inherit pub_methods_classICamera"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2b72cc1ed7d882f186e3331b1d29cd6 inherit pub_methods_classICamera" id="r_aa2b72cc1ed7d882f186e3331b1d29cd6"><td class="memItemLeft" align="right" valign="top">
 glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>getUpDir</b> ()</td></tr>
 <tr class="separator:aa2b72cc1ed7d882f186e3331b1d29cd6 inherit pub_methods_classICamera"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0a610f462d25286332653c0a6c4a7c1 inherit pub_methods_classICamera" id="r_af0a610f462d25286332653c0a6c4a7c1"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>movePosition_Hor</b> (const float step)</td></tr>
+<tr class="separator:af0a610f462d25286332653c0a6c4a7c1 inherit pub_methods_classICamera"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a809ace200290a06453888f8ba16a33da inherit pub_methods_classICamera" id="r_a809ace200290a06453888f8ba16a33da"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>movePosition_Vert</b> (const float step)</td></tr>
+<tr class="separator:a809ace200290a06453888f8ba16a33da inherit pub_methods_classICamera"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00515fcd8b62023033c2e165aace455c inherit pub_methods_classICamera" id="r_a00515fcd8b62023033c2e165aace455c"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>movePosition_Forward</b> (const float step)</td></tr>
+<tr class="separator:a00515fcd8b62023033c2e165aace455c inherit pub_methods_classICamera"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe2c28a578bf35910d215f04f96bd493 inherit pub_methods_classICamera" id="r_afe2c28a578bf35910d215f04f96bd493"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setAimPos</b> (const glm::vec3 newAimPos)</td></tr>
+<tr class="separator:afe2c28a578bf35910d215f04f96bd493 inherit pub_methods_classICamera"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0feebdf1bec7d6dc24031f97a520094 inherit pub_methods_classICamera" id="r_ad0feebdf1bec7d6dc24031f97a520094"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>moveAimPos</b> (glm::vec3 startingAimPos, const glm::vec2 distance)</td></tr>
+<tr class="separator:ad0feebdf1bec7d6dc24031f97a520094 inherit pub_methods_classICamera"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>

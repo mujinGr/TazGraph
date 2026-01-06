@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['highlightbox_0',['HighlightBox',['../classHighlightBox.html',1,'']]],
-  ['highlightboxconfig_1',['HighlightBoxConfig',['../structHighlightBoxConfig.html',1,'']]],
-  ['hoverentityconfig_2',['HoverEntityConfig',['../structHoverEntityConfig.html',1,'']]],
-  ['hoverentitypanel_3',['HoverEntityPanel',['../classHoverEntityPanel.html',1,'']]]
+  ['helpconfig_0',['HelpConfig',['../structHelpConfig.html',1,'']]],
+  ['helppanel_1',['HelpPanel',['../classHelpPanel.html',1,'']]],
+  ['highlightbox_2',['HighlightBox',['../classHighlightBox.html',1,'']]],
+  ['highlightboxconfig_3',['HighlightBoxConfig',['../structHighlightBoxConfig.html',1,'']]],
+  ['hoverentityconfig_4',['HoverEntityConfig',['../structHoverEntityConfig.html',1,'']]],
+  ['hoverentitypanel_5',['HoverEntityPanel',['../classHoverEntityPanel.html',1,'']]]
 ];

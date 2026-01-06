@@ -1,3 +1,57 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structViewportPanelConfig.html" title=" " alt="" coords="5,5,161,31"/>
+<area shape="rect" id="Node000000" href="$classUIElement.html" title=" " alt="" coords="5,647,96,672"/>
+<area shape="rect" id="Node000001" href="$classCameraPanel.html" title=" " alt="" coords="202,5,310,31"/>
+<area shape="poly" id="edge69_Node000000_Node000001" title=" " alt="" coords="49,633,53,508,65,330,77,239,93,156,114,87,127,60,142,40,169,22,201,15,202,20,172,27,146,44,132,63,119,89,98,157,82,240,70,331,58,508,55,633"/>
+<area shape="rect" id="Node000002" href="$classCustomFunctions.html" title=" " alt="" coords="189,55,323,80"/>
+<area shape="poly" id="edge70_Node000000_Node000002" title=" " alt="" coords="50,633,54,517,68,354,80,271,96,195,116,132,128,108,142,89,163,74,188,66,189,71,166,79,146,93,133,111,121,134,101,196,85,272,73,355,60,517,55,633"/>
+<area shape="rect" id="Node000003" href="$classEntityComponentsControlPanel.html" title=" " alt="" coords="144,104,368,129"/>
+<area shape="poly" id="edge71_Node000000_Node000003" title=" " alt="" coords="50,632,56,525,71,377,83,302,99,233,118,177,142,139,157,127,160,132,146,142,123,180,104,235,89,303,77,378,62,525,56,633"/>
+<area shape="rect" id="Node000004" href="$classFPSCounter.html" title=" " alt="" coords="207,153,305,179"/>
+<area shape="poly" id="edge72_Node000000_Node000004" title=" " alt="" coords="51,633,58,535,75,402,87,334,102,273,120,223,142,188,156,177,173,170,206,162,208,168,174,175,159,182,146,192,125,225,107,275,92,335,80,403,64,536,56,633"/>
+<area shape="rect" id="Node000005" href="$classGraphEditorLayer.html" title=" " alt="" coords="189,203,323,228"/>
+<area shape="poly" id="edge73_Node000000_Node000005" title=" " alt="" coords="51,633,61,544,78,425,90,366,105,312,122,268,142,237,163,223,187,215,189,220,166,228,146,241,127,270,110,314,95,367,83,426,66,544,57,633"/>
+<area shape="rect" id="Node000006" href="$classGraphLeftPanel.html" title=" " alt="" coords="196,252,316,277"/>
+<area shape="poly" id="edge74_Node000000_Node000006" title=" " alt="" coords="52,633,63,553,81,450,108,351,124,313,142,287,167,271,195,263,196,268,169,276,146,291,129,316,113,353,87,451,68,554,58,633"/>
+<area shape="rect" id="Node000007" href="$classGraphMiddlePanel.html" title=" " alt="" coords="186,301,326,327"/>
+<area shape="poly" id="edge75_Node000000_Node000007" title=" " alt="" coords="48,633,51,572,63,492,74,450,91,408,113,370,142,336,162,323,185,315,187,320,165,327,146,340,118,373,96,410,79,451,68,493,56,573,54,633"/>
+<area shape="rect" id="Node000008" href="$classGraphRightPanel.html" title=" " alt="" coords="191,351,321,376"/>
+<area shape="poly" id="edge76_Node000000_Node000008" title=" " alt="" coords="50,632,55,580,70,513,81,478,97,444,117,413,142,385,165,371,190,363,191,369,167,376,146,389,121,416,102,447,86,480,75,515,61,581,55,633"/>
+<area shape="rect" id="Node000009" href="$classGraphTopBar.html" title=" " alt="" coords="203,400,309,425"/>
+<area shape="poly" id="edge77_Node000000_Node000009" title=" " alt="" coords="52,633,61,589,77,535,103,481,121,456,142,435,171,419,202,411,203,416,173,424,146,439,125,460,108,484,82,537,66,590,58,634"/>
+<area shape="rect" id="Node000010" href="$classHelpPanel.html" title=" " alt="" coords="213,449,299,475"/>
+<area shape="poly" id="edge78_Node000000_Node000010" title=" " alt="" coords="56,633,67,599,84,558,109,518,142,484,176,467,212,460,213,465,178,472,146,488,113,521,89,561,72,600,61,634"/>
+<area shape="rect" id="Node000011" href="$classHighlightBox.html" title=" " alt="" coords="203,499,309,524"/>
+<area shape="poly" id="edge79_Node000000_Node000011" title=" " alt="" coords="61,633,93,582,116,555,143,533,171,520,201,512,203,518,173,525,145,538,119,559,97,585,66,636"/>
+<area shape="rect" id="Node000012" href="$classHoverEntityPanel.html" title=" " alt="" coords="189,548,323,573"/>
+<area shape="poly" id="edge80_Node000000_Node000012" title=" " alt="" coords="72,635,104,607,143,582,188,567,189,572,145,587,107,611,75,639"/>
+<area shape="rect" id="Node000013" href="$classImGuiPanel.html" title=" " alt="" coords="208,597,304,623"/>
+<area shape="poly" id="edge81_Node000000_Node000013" title=" " alt="" coords="109,640,143,631,207,617,208,622,145,637,110,646"/>
+<area shape="rect" id="Node000014" href="$classLoadingUI.html" title=" " alt="" coords="213,647,299,672"/>
+<area shape="poly" id="edge82_Node000000_Node000014" title=" " alt="" coords="110,657,212,657,212,662,110,662"/>
+<area shape="rect" id="Node000015" href="$classMainMenuEditorLayer.html" title=" " alt="" coords="174,696,338,721"/>
+<area shape="poly" id="edge83_Node000000_Node000015" title=" " alt="" coords="110,672,145,681,198,693,197,699,143,686,109,677"/>
+<area shape="rect" id="Node000016" href="$classMenuDropdownPanel.html" title=" " alt="" coords="177,745,335,771"/>
+<area shape="poly" id="edge84_Node000000_Node000016" title=" " alt="" coords="76,680,107,706,145,730,179,743,177,748,143,735,104,711,72,684"/>
+<area shape="rect" id="Node000017" href="$classMinimap.html" title=" " alt="" coords="217,795,295,820"/>
+<area shape="poly" id="edge85_Node000000_Node000017" title=" " alt="" coords="66,683,97,733,120,758,145,780,181,795,217,802,216,808,179,800,143,784,116,762,93,736,61,685"/>
+<area shape="rect" id="Node000018" href="$classNewMapUI.html" title=" " alt="" coords="209,844,303,869"/>
+<area shape="poly" id="edge86_Node000000_Node000018" title=" " alt="" coords="61,685,72,718,89,757,114,797,146,829,176,845,210,852,208,857,174,850,142,833,110,800,85,760,67,720,56,686"/>
+<area shape="rect" id="Node000019" href="$classOrientationBox.html" title=" " alt="" coords="196,893,316,919"/>
+<area shape="poly" id="edge87_Node000000_Node000019" title=" " alt="" coords="58,685,66,728,82,780,108,834,125,858,146,879,170,893,197,900,195,906,167,898,142,883,121,861,103,837,77,782,61,729,52,686"/>
+<area shape="rect" id="Node000020" href="$classPythonInterpreterPanel.html" title=" " alt="" coords="171,943,341,968"/>
+<area shape="poly" id="edge88_Node000000_Node000020" title=" " alt="" coords="56,686,61,737,75,803,87,837,102,871,122,901,146,928,172,944,169,948,142,932,117,905,97,873,82,839,70,804,56,738,50,686"/>
+<area shape="rect" id="Node000021" href="$classSavingUI.html" title=" " alt="" coords="216,992,296,1017"/>
+<area shape="poly" id="edge89_Node000000_Node000021" title=" " alt="" coords="54,685,56,746,68,825,80,866,96,907,118,945,146,977,161,988,179,996,216,1003,215,1008,177,1001,159,993,142,981,113,948,91,909,75,868,63,826,51,746,49,686"/>
+<area shape="rect" id="Node000022" href="$classSceneControlPanel.html" title=" " alt="" coords="185,1041,327,1067"/>
+<area shape="poly" id="edge90_Node000000_Node000022" title=" " alt="" coords="58,686,69,765,87,867,113,965,129,1002,146,1027,164,1039,185,1047,184,1052,162,1044,142,1031,124,1004,108,966,82,868,63,765,52,686"/>
+<area shape="rect" id="Node000023" href="$classScenePanel.html" title=" " alt="" coords="208,1091,304,1116"/>
+<area shape="poly" id="edge91_Node000000_Node000023" title=" " alt="" coords="57,685,66,774,84,891,110,1004,127,1047,146,1076,159,1086,175,1094,208,1101,207,1106,173,1099,156,1091,142,1080,122,1050,105,1005,78,892,61,774,52,686"/>
+<area shape="rect" id="Node000024" href="$classSliderRotateZ.html" title=" " alt="" coords="201,1140,311,1165"/>
+<area shape="poly" id="edge92_Node000000_Node000024" title=" " alt="" coords="56,685,64,783,80,915,92,982,107,1043,125,1092,146,1125,171,1142,201,1150,200,1155,169,1147,142,1129,120,1095,102,1044,87,983,75,916,59,783,51,686"/>
+<area shape="rect" id="Node000025" href="$classViewportPanel.html" title=" " alt="" coords="199,1189,313,1215"/>
+<area shape="poly" id="edge93_Node000000_Node000025" title=" " alt="" coords="56,686,62,793,77,940,89,1015,104,1082,123,1138,146,1175,170,1191,199,1199,198,1204,168,1196,142,1179,118,1140,99,1084,84,1016,72,941,57,793,50,686"/>
+<area shape="rect" id="Node000026" href="$classVisibleEntitiesPanel.html" title=" " alt="" coords="181,1239,331,1264"/>
+<area shape="poly" id="edge94_Node000000_Node000026" title=" " alt="" coords="55,685,60,801,74,963,85,1046,101,1121,121,1183,133,1206,146,1224,162,1237,181,1244,179,1249,159,1241,142,1228,128,1209,116,1185,96,1123,80,1047,68,964,55,801,50,686"/>
+<area shape="rect" id="Node000027" href="$classWarningPanel.html" title=" " alt="" coords="201,1288,311,1313"/>
+<area shape="poly" id="edge95_Node000000_Node000027" title=" " alt="" coords="55,686,58,810,71,987,82,1078,98,1160,119,1228,132,1254,146,1273,171,1290,201,1298,200,1303,169,1295,142,1277,127,1257,114,1230,93,1162,77,1079,65,988,53,810,49,686"/>
 </map>

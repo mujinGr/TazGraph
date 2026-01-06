@@ -11,48 +11,63 @@
 \DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }TazGraphEngine\ \{}
 \DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTazGraphEngine_1_1ConsoleLogger}{ConsoleLogger}}\ \{}
 \DoxyCodeLine{00009\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ log(\textcolor{keyword}{const}\ std::string\&\ message)\ \{}
-\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \ \ \ \ printCurrentTime();}
-\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ message\ <<\ std::endl;}
-\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ error(\textcolor{keyword}{const}\ std::string\&\ errorMessage)\ \{}
-\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ printCurrentTime();}
-\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}\ [ERROR]\ "{}}\ <<\ errorMessage\ <<\ std::endl;}
-\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ std::abort();}
-\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ init()\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(fileLog\_mutex);}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \ \ \ \ std::ofstream\ file(\textcolor{stringliteral}{"{}file\_log.txt"{}},}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::ios::out\ |\ std::ios::trunc);\ \textcolor{comment}{//\ clear\ file}}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ log(\textcolor{keyword}{const}\ std::string\&\ message)\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//printCurrentTime();}}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ message\ <<\ std::endl;}
 \DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ writeToFile(\textcolor{keyword}{const}\ std::string\&\ line)\ \{}
-\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(fileLog\_mutex);}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ writeToFile(message);}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ std::ofstream\ file(\textcolor{stringliteral}{"{}file\_log.txt"{}},}
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::ios::out\ |\ std::ios::app);}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file.is\_open())\ \{}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\ <<\ line\ <<\ std::endl;}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file.flush();\ \textcolor{comment}{//\ CRITICAL\ for\ crash\ debugging}}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ error(\textcolor{keyword}{const}\ std::string\&\ errorMessage)\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//printCurrentTime();}}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}\ [ERROR]\ "{}}\ <<\ errorMessage\ <<\ std::endl;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ writeToFile(errorMessage);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ std::abort();}
 \DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00032\ }
-\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ std::mutex\ fileLog\_mutex;}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ writeToFile(\textcolor{keyword}{const}\ std::string\&\ line)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(fileLog\_mutex);}
 \DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ printCurrentTime()\ \{}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ std::time\_t\ now\ =\ std::time(\textcolor{keyword}{nullptr});}
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }tm\ timeInfo;}
-\DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)\ ||\ defined(\_WIN64)}}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ localtime\_s(\&timeInfo,\ \&now);}
-\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ localtime\_r(\&now,\ \&timeInfo);}
-\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ timestamp[20];\ \textcolor{comment}{//\ Sufficient\ space\ for\ the\ timestamp}}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ strftime(timestamp,\ \textcolor{keyword}{sizeof}(timestamp),\ \textcolor{stringliteral}{"{}[\%Y-\/\%m-\/\%d\ \%H:\%M:\%S]"{}},\ \&timeInfo);}
-\DoxyCodeLine{00048\ }
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ timestamp;}
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00051\ \ \ \ \ \};}
-\DoxyCodeLine{00052\ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ std::ofstream\ file(\textcolor{stringliteral}{"{}file\_log.txt"{}},}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::ios::out\ |\ std::ios::app);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file.is\_open())\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\ <<\ line\ <<\ std::endl;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file.flush();\ \textcolor{comment}{//\ CRITICAL\ for\ crash\ debugging}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ std::mutex\ fileLog\_mutex;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ printCurrentTime()\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ std::time\_t\ now\ =\ std::time(\textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }tm\ timeInfo;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)\ ||\ defined(\_WIN64)}}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ localtime\_s(\&timeInfo,\ \&now);}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ localtime\_r(\&now,\ \&timeInfo);}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ timestamp[20];\ \textcolor{comment}{//\ Sufficient\ space\ for\ the\ timestamp}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ strftime(timestamp,\ \textcolor{keyword}{sizeof}(timestamp),\ \textcolor{stringliteral}{"{}[\%Y-\/\%m-\/\%d\ \%H:\%M:\%S]"{}},\ \&timeInfo);}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ timestamp;}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00063\ \ \ \ \ \};}
+\DoxyCodeLine{00064\ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ TAZ\_LOG(message)\ TazGraphEngine::ConsoleLogger::log(message)}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ TAZ\_ERROR(message)\ TazGraphEngine::ConsoleLogger::error(message)}}
 
 \end{DoxyCode}

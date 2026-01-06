@@ -9,23 +9,35 @@
 \DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}./PlatformDetection.h"{}}}
 \DoxyCodeLine{00007\ }
 \DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifdef\ TAZ\_PLATFORM\_WINDOWS}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ safe\_sprintf\ sprintf\_s}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#elif\ defined(TAZ\_PLATFORM\_LINUX)}}
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ safe\_sprintf\ sprintf}}
-\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{00013\ }
-\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ TAZ\_PLATFORM\_WINDOWS}}
-\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ safe\_sscanf\ sscanf\_s}}
-\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#elif\ defined(TAZ\_PLATFORM\_LINUX)}}
-\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ safe\_sscanf\ sscanf}}
-\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#ifdef\ TAZ\_PLATFORM\_WINDOWS}}
-\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ safe\_putenv\ \_putenv}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ NOMINMAX}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ NOMINMAX}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <Windows.h>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <psapi.h>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#pragma\ comment(lib,\ "{}psapi.lib"{})}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifdef\ min}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#undef\ min}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#ifdef\ max}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#undef\ max}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ safe\_sprintf\ sprintf\_s}}
 \DoxyCodeLine{00022\ \textcolor{preprocessor}{\#elif\ defined(TAZ\_PLATFORM\_LINUX)}}
-\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ safe\_putenv\ putenv}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ safe\_sprintf\ sprintf}}
 \DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif}}
 \DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ "{}./DefineFactory.h"{}}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifdef\ TAZ\_PLATFORM\_WINDOWS}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ safe\_sscanf\ sscanf\_s}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#elif\ defined(TAZ\_PLATFORM\_LINUX)}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ safe\_sscanf\ sscanf}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#ifdef\ TAZ\_PLATFORM\_WINDOWS}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ safe\_putenv\ \_putenv}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#elif\ defined(TAZ\_PLATFORM\_LINUX)}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ safe\_putenv\ putenv}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ "{}./DefineFactory.h"{}}}
 
 \end{DoxyCode}

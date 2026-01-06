@@ -27,6 +27,6 @@ var searchData=
   ['graphviz_20dot_24',['.dot (Graphviz DOT)',['../fileFormats.html#dotFormat',1,'']]],
   ['grid_25',['Grid',['../classGrid.html',1,'']]],
   ['gridleveldata_26',['GridLevelData',['../structGridLevelData.html',1,'']]],
-  ['guide_27',['guide',['../dev_guide.html',1,'Developer Integration Guide'],['../docs_guide.html',1,'Docs Guide']]],
+  ['guide_27',['guide',['../dev_guide.html',1,'Developer Guide'],['../docs_guide.html',1,'Docs Guide']]],
   ['guide_3a_20a_20href_20https_3a_20mujingr_20github_20io_20tazgraph_20html_20dev_5fguide_20html_20doxydevguide_20a_28',['Developer Guide: &lt;a href=&quot;https://mujingr.github.io/TazGraph/html/dev_guide.html&quot; &gt;DoxyDevGuide&lt;/a&gt;',['../index.html#autotoc_md16',1,'']]]
 ];

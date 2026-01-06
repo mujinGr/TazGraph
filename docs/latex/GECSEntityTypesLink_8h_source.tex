@@ -326,7 +326,7 @@
 \DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ toSlotIndex\ =\ iL\_2-\/>fromSlotIndex;}
 \DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(\textcolor{stringliteral}{"{}type\ doesn't\ exist\ for\ link"{}});}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ TAZ\_ERROR(\textcolor{stringliteral}{"{}type\ doesn't\ exist\ for\ link"{}});}
 \DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00327\ }
 \DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ updateConnectionPositions();}
@@ -374,7 +374,7 @@
 \DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!fromPortEntity\ ||\ !toPortEntity\ ||}
 \DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fromSlotIndex\ >=\ fromPortEntity-\/>\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}.size()\ ||}
 \DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ toSlotIndex\ >=\ toPortEntity-\/>\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}.size())\ \{}
-\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(type\ ==\ ConnectionType::PORT\_TO\_PORT\ ?}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TAZ\_ERROR(type\ ==\ ConnectionType::PORT\_TO\_PORT\ ?}
 \DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}updateConnectionPositions\ port-\/port"{}}}
 \DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{stringliteral}{"{}updateConnectionPositions\ Ghost\ port-\/port"{}});}
 \DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
@@ -400,7 +400,7 @@
 \DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ slot\ indices\ are\ valid}}
 \DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((fromSlotIndex\ >=\ fromPortEntity-\/>\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}.size())\ ||}
 \DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ (toSlotIndex\ >=\ toPortEntity-\/>\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}.size()))\ \{}
-\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ TazGraphEngine::ConsoleLogger::error(\textcolor{stringliteral}{"{}Invalid\ slot\ indices!"{}});}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ TAZ\_ERROR(\textcolor{stringliteral}{"{}Invalid\ slot\ indices!"{}});}
 \DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
 \DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00402\ }

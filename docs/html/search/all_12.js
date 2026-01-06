@@ -16,9 +16,10 @@ var searchData=
   ['portslotcomponent_13',['PortSlotComponent',['../classPortSlotComponent.html',1,'']]],
   ['preparedraw_14',['preparedraw',['../classGraph.html#a96825c801c28c85c630dd5dd38c40c7e',1,'Graph::prepareDraw()'],['../classMainMenuScreen.html#aa67f739ccd83abfcc3717f613090e96f',1,'MainMenuScreen::prepareDraw()']]],
   ['py_20python_20dictionary_20format_15',['.py (Python Dictionary Format)',['../fileFormats.html#pyFormat',1,'']]],
-  ['python_20dictionary_20format_16',['.py (Python Dictionary Format)',['../fileFormats.html#pyFormat',1,'']]],
-  ['pythoncodecomponent_17',['PythonCodeComponent',['../classPythonCodeComponent.html',1,'']]],
-  ['pythoninterpreterconfig_18',['PythonInterpreterConfig',['../structPythonInterpreterConfig.html',1,'']]],
-  ['pythoninterpreterpanel_19',['PythonInterpreterPanel',['../classPythonInterpreterPanel.html',1,'']]],
-  ['pythonmapparser_20',['PythonMapParser',['../classPythonMapParser.html',1,'']]]
+  ['python_20commands_16',['Python Commands',['../pythonCommands.html',1,'dev_guide']]],
+  ['python_20dictionary_20format_17',['.py (Python Dictionary Format)',['../fileFormats.html#pyFormat',1,'']]],
+  ['pythoncodecomponent_18',['PythonCodeComponent',['../classPythonCodeComponent.html',1,'']]],
+  ['pythoninterpreterconfig_19',['PythonInterpreterConfig',['../structPythonInterpreterConfig.html',1,'']]],
+  ['pythoninterpreterpanel_20',['PythonInterpreterPanel',['../classPythonInterpreterPanel.html',1,'']]],
+  ['pythonmapparser_21',['PythonMapParser',['../classPythonMapParser.html',1,'']]]
 ];

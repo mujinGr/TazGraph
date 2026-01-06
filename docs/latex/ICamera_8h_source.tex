@@ -75,15 +75,25 @@
 \DoxyCodeLine{00071\ }
 \DoxyCodeLine{00072\ \ \ \ \ glm::mat4\ getProjMatrix();}
 \DoxyCodeLine{00073\ }
-\DoxyCodeLine{00074\ \ \ \ \ glm::vec3\ getUpDir();}
-\DoxyCodeLine{00075\ \textcolor{keyword}{protected}:}
-\DoxyCodeLine{00076\ \ \ \ \ glm::mat4\ \_projectionMatrix\ =\ glm::mat4(1.0f);\ \textcolor{comment}{//\ changed\ once\ in\ init}}
-\DoxyCodeLine{00077\ \ \ \ \ glm::mat4\ \_viewMatrix\ =\ glm::mat4(1.0f);}
-\DoxyCodeLine{00078\ \ \ \ \ glm::mat4\ \_cameraMatrix\ =\ glm::mat4(1.0f);}
-\DoxyCodeLine{00079\ }
-\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_cameraChange\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{float}\ \_scale;\ \textcolor{comment}{//\ decreases\ when\ zoom-\/out}}
-\DoxyCodeLine{00082\ }
-\DoxyCodeLine{00083\ \};}
+\DoxyCodeLine{00074\ \ \ \ \ glm::vec3\ getForwardDir();}
+\DoxyCodeLine{00075\ \ \ \ \ glm::vec3\ getRightDir();}
+\DoxyCodeLine{00076\ \ \ \ \ glm::vec3\ getUpDir();}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{void}\ movePosition\_Hor(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ step);}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{void}\ movePosition\_Vert(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ step);}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ movePosition\_Forward(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ step);}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{void}\ setAimPos(\textcolor{keyword}{const}\ glm::vec3\ newAimPos);}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{void}\ moveAimPos(glm::vec3\ startingAimPos,\ \textcolor{keyword}{const}\ glm::vec2\ distance);}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00086\ \ \ \ \ glm::mat4\ \_projectionMatrix\ =\ glm::mat4(1.0f);\ \textcolor{comment}{//\ changed\ once\ in\ init}}
+\DoxyCodeLine{00087\ \ \ \ \ glm::mat4\ \_viewMatrix\ =\ glm::mat4(1.0f);}
+\DoxyCodeLine{00088\ \ \ \ \ glm::mat4\ \_cameraMatrix\ =\ glm::mat4(1.0f);}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_cameraChange\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{float}\ \_scale;\ \textcolor{comment}{//\ decreases\ when\ zoom-\/out}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \};}
 
 \end{DoxyCode}

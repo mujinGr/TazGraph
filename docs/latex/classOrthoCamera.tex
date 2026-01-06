@@ -25,21 +25,6 @@ void \mbox{\hyperlink{classOrthoCamera_a1d91fdaaac8699213fa588c099565acf}{init}}
 \item 
 void \mbox{\hyperlink{classOrthoCamera_a2d3ae819922d1bec4ce3ff2c2a588358}{update}} () override
 \item 
-\Hypertarget{classOrthoCamera_a3b9520a99a56382ec8ebdc957fd815a5}\label{classOrthoCamera_a3b9520a99a56382ec8ebdc957fd815a5} 
-void {\bfseries move\+Position\+\_\+\+Hor} (const float step)
-\item 
-\Hypertarget{classOrthoCamera_ae44391d7f6e4a327d215805212593a10}\label{classOrthoCamera_ae44391d7f6e4a327d215805212593a10} 
-void {\bfseries move\+Position\+\_\+\+Vert} (const float step)
-\item 
-\Hypertarget{classOrthoCamera_aa29b284473ae74d55cc4f543de5aee04}\label{classOrthoCamera_aa29b284473ae74d55cc4f543de5aee04} 
-void {\bfseries move\+Position\+\_\+\+Forward} (const float step)
-\item 
-\Hypertarget{classOrthoCamera_ae55f9dafeeeb6a83dcf30c6158985939}\label{classOrthoCamera_ae55f9dafeeeb6a83dcf30c6158985939} 
-void {\bfseries set\+Aim\+Pos} (const glm\+::vec3 new\+Aim\+Pos)
-\item 
-\Hypertarget{classOrthoCamera_a8d4b615565d41fd053d7fc47cf36e640}\label{classOrthoCamera_a8d4b615565d41fd053d7fc47cf36e640} 
-void {\bfseries move\+Aim\+Pos} (glm\+::vec3 starting\+Aim\+Pos, const glm\+::vec2 distance)
-\item 
 \Hypertarget{classOrthoCamera_a3cdc6b66eca2169f4c82463cffcec375}\label{classOrthoCamera_a3cdc6b66eca2169f4c82463cffcec375} 
 glm\+::vec3 {\bfseries get\+Euler\+Angles\+From\+Direction} (glm\+::vec3 direction)
 \item 
@@ -99,7 +84,21 @@ void {\bfseries set\+Proj\+Matrix} (glm\+::mat4 new\+Proj\+Matrix)
 \item 
 glm\+::mat4 {\bfseries get\+Proj\+Matrix} ()
 \item 
+glm\+::vec3 {\bfseries get\+Forward\+Dir} ()
+\item 
+glm\+::vec3 {\bfseries get\+Right\+Dir} ()
+\item 
 glm\+::vec3 {\bfseries get\+Up\+Dir} ()
+\item 
+void {\bfseries move\+Position\+\_\+\+Hor} (const float step)
+\item 
+void {\bfseries move\+Position\+\_\+\+Vert} (const float step)
+\item 
+void {\bfseries move\+Position\+\_\+\+Forward} (const float step)
+\item 
+void {\bfseries set\+Aim\+Pos} (const glm\+::vec3 new\+Aim\+Pos)
+\item 
+void {\bfseries move\+Aim\+Pos} (glm\+::vec3 starting\+Aim\+Pos, const glm\+::vec2 distance)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classICamera}{ICamera}}}
