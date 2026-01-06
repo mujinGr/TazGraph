@@ -1,6 +1,17 @@
 /**
   @page pythonCommands Python Commands
 
-Lorum Ipsum
+These are some of the commands supported:
+- addNode
+- addLink
+- getNodes
+- getCurrentStep
+- getSimNodes
+- deepCopyNode
+- deleteEntities
+<b>.</b>
+<b>.</b>
+<b>.</b>
 
+You can add more at TazGraph/Src/EditorIMGUI/Components/PythonInterpreterPanel/PythonInterpreterPanel.cpp
 */

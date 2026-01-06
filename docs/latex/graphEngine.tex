@@ -1,0 +1,24 @@
+\doxysection{Graph Engine}
+\hypertarget{graphEngine}{}\label{graphEngine}\index{Graph Engine@{Graph Engine}}
+\hypertarget{graphEngine_autotoc_md0}{}\doxysubsubsubsection{\texorpdfstring{Core Architecture\+:}{Core Architecture:}}\label{graphEngine_autotoc_md0}
+Taz\+Graph uses a {\bfseries{custom ECS}} where entities (such as nodes, links, and empty\+Entities) are composed of components. Components are plain data-\/only structures, like {\ttfamily \doxylink{classTransformComponent}{Transform\+Component}} and {\ttfamily Polling\+Component}.
+
+The ECS is managed by \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily GECSManager}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}, which handles creation, removal, update, and drawing of entities. \doxylink{classEntity}{Entity} processing is based on {\bfseries{groups}} ({\ttfamily Entity\+Groups}) for rendering and update.\hypertarget{graphEngine_autotoc_md1}{}\doxysubsubsubsection{\texorpdfstring{Scene System}{Scene System}}\label{graphEngine_autotoc_md1}
+There are two scenes implemented\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily Main\+Menu\+Scene}
+\item {\ttfamily \doxylink{classGraph}{Graph}}
+\end{DoxyItemize}
+
+Each scene controls its own logic, similar to a game state system. In the {\ttfamily \doxylink{classGraph}{Graph}} Scene\+:
+\begin{DoxyItemize}
+\item You can load {\bfseries{multiple graphs}} in tabs, each saved in a {\bfseries{\doxylink{classManager}{Manager}}}.
+\item Developers {\bfseries{shouldn’t need to modify the core of graph engine logic}} (Taz\+Graph\+Engine/\+GECS/\+Core) instead, use the main scene\textquotesingle{}s update function (Taz\+Graph/\+Src/\+Graph.\+cpp) to hook into behaviors like\+:
+\begin{DoxyItemize}
+\item Grouping nodes
+\item Flash-\/frame animations
+\item UI interactions 
+\end{DoxyItemize}
+\end{DoxyItemize}

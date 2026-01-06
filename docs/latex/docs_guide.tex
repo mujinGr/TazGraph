@@ -5,6 +5,11 @@ From {\bfseries{docs}} branch\+:
 
 \begin{DoxyItemize}
 \item merge changes from master
+\item remove simdump (private server) with\+:
+\begin{DoxyItemize}
+\item git submodule deinit -\/f vendors/simdump
+\item git rm -\/f vendors/simdump
+\end{DoxyItemize}
 \item Create Related pages by creating {\ttfamily .dox} files in Project Dir, using template as the other pages.
 \item execute {\ttfamily doxygen} inside {\bfseries{docs}}
 \item commit\&push files.

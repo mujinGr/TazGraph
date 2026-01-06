@@ -15,9 +15,9 @@ var searchData=
   ['commands_12',['Python Commands',['../pythonCommands.html',1,'dev_guide']]],
   ['component_13',['Component',['../classComponent.html',1,'']]],
   ['consolelogger_14',['ConsoleLogger',['../classTazGraphEngine_1_1ConsoleLogger.html',1,'TazGraphEngine']]],
-  ['core_20architecture_3a_15',['Core Architecture:',['../dev_guide.html#autotoc_md0',1,'']]],
+  ['core_20architecture_3a_15',['Core Architecture:',['../graphEngine.html#autotoc_md0',1,'']]],
   ['custom_20plaintext_20format_16',['.txt (Custom Plaintext Format)',['../fileFormats.html#txtFormat',1,'']]],
-  ['custom_20renderers_17',['Custom Renderers',['../dev_guide.html#autotoc_md7',1,'']]],
+  ['custom_20renderers_17',['Custom Renderers',['../renderEngine.html#autotoc_md7',1,'']]],
   ['customfunctions_18',['CustomFunctions',['../classCustomFunctions.html',1,'']]],
   ['customfunctionsconfig_19',['CustomFunctionsConfig',['../structCustomFunctionsConfig.html',1,'']]]
 ];

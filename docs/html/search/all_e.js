@@ -13,8 +13,7 @@ var searchData=
   ['linkcomponent_10',['LinkComponent',['../classLinkComponent.html',1,'']]],
   ['linkentity_11',['LinkEntity',['../classLinkEntity.html',1,'']]],
   ['linkpythoncodecomponent_12',['LinkPythonCodeComponent',['../classLinkPythonCodeComponent.html',1,'']]],
-  ['loaders_20wip_13',['Graph Loaders (WIP)',['../dev_guide.html#autotoc_md8',1,'']]],
-  ['loading_14',['Map Loading',['../group__mapLoading.html',1,'']]],
-  ['loadingui_15',['LoadingUI',['../classLoadingUI.html',1,'']]],
-  ['loadinguiconfig_16',['LoadingUIConfig',['../structLoadingUIConfig.html',1,'']]]
+  ['loading_13',['Map Loading',['../group__mapLoading.html',1,'']]],
+  ['loadingui_14',['LoadingUI',['../classLoadingUI.html',1,'']]],
+  ['loadinguiconfig_15',['LoadingUIConfig',['../structLoadingUIConfig.html',1,'']]]
 ];

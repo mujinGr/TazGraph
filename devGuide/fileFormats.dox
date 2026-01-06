@@ -1,5 +1,5 @@
 /**
-  @page fileFormats File Formats
+  @page fileFormats File Formats/Parsers
   @tableofcontents
 
   This project supports multiple file formats for saving and loading graphs and paths.  
@@ -170,5 +170,9 @@ The `.py` format represents the graph as a nested Python dictionary.
   4-5-6
   10-12-15
   @endcode
+
+@section Custom Parsers
+
+Developers are able to implement their own processing of files, by creating more functions inside `TazGraph/Src/Map`
 
 */

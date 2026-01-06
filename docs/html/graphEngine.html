@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TazGraph Project: Docs Guide</title>
+<title>TazGraph Project: Graph Engine</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,23 +67,34 @@ $(function() {
 </div>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dev_guide.html">Developer Guide</a></li>  </ul>
+</div>
 </div><!-- top -->
 <div><div class="header">
-  <div class="headertitle"><div class="title">Docs Guide</div></div>
+  <div class="headertitle"><div class="title">Graph Engine</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>From <b>docs</b> branch:</p>
+<div class="textblock"><h3><a class="anchor" id="autotoc_md0"></a>
+Core Architecture:</h3>
+<p>TazGraph uses a <b>custom ECS</b> where entities (such as nodes, links, and emptyEntities) are composed of components. Components are plain data-only structures, like <code><a class="el" href="classTransformComponent.html">TransformComponent</a></code> and <code>PollingComponent</code>.</p>
+<p>The ECS is managed by **<code>GECSManager</code>**, which handles creation, removal, update, and drawing of entities. <a class="el" href="classEntity.html">Entity</a> processing is based on <b>groups</b> (<code>EntityGroups</code>) for rendering and update.</p>
+<h3><a class="anchor" id="autotoc_md1"></a>
+Scene System</h3>
+<p>There are two scenes implemented:</p>
 <ul>
-<li>merge changes from master</li>
-<li>remove simdump (private server) with:<ul>
-<li>git submodule deinit -f vendors/simdump</li>
-<li>git rm -f vendors/simdump</li>
+<li><code>MainMenuScene</code></li>
+<li><code><a class="el" href="classGraph.html">Graph</a></code></li>
+</ul>
+<p>Each scene controls its own logic, similar to a game state system. In the <code><a class="el" href="classGraph.html">Graph</a></code> Scene:</p><ul>
+<li>You can load <b>multiple graphs</b> in tabs, each saved in a <b><a class="el" href="classManager.html">Manager</a></b>.</li>
+<li>Developers <b>shouldn’t need to modify the core of graph engine logic</b> (TazGraphEngine/GECS/Core) instead, use the main scene's update function (TazGraph/Src/Graph.cpp) to hook into behaviors like:<ul>
+<li>Grouping nodes</li>
+<li>Flash-frame animations</li>
+<li>UI interactions </li>
 </ul>
 </li>
-<li>Create Related pages by creating <code>.dox</code> files in Project Dir, using template as the other pages.</li>
-<li>execute <code>doxygen</code> inside <b>docs</b></li>
-<li>commit&amp;push files.</li>
-<li>github automatically builds and deploys website </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

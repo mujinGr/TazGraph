@@ -17,8 +17,8 @@ var searchData=
   ['minimaprenderdraw_14',['minimapRenderDraw',['../classGraph.html#a2232ce0c107b5ea6ffe7245bbb89c93f',1,'Graph']]],
   ['movinganimation_15',['MovingAnimation',['../classMovingAnimation.html',1,'']]],
   ['movinganimatorcomponent_16',['MovingAnimatorComponent',['../classMovingAnimatorComponent.html',1,'']]],
-  ['mujingr_20github_20io_20tazgraph_20html_20dev_5fguide_20html_20doxydevguide_20a_17',['Developer Guide: &lt;a href=&quot;https://mujingr.github.io/TazGraph/html/dev_guide.html&quot; &gt;DoxyDevGuide&lt;/a&gt;',['../index.html#autotoc_md16',1,'']]],
+  ['mujingr_20github_20io_20tazgraph_20html_20dev_5fguide_20html_20doxydevguide_20a_17',['Developer Guide: &lt;a href=&quot;https://mujingr.github.io/TazGraph/html/dev_guide.html&quot; &gt;DoxyDevGuide&lt;/a&gt;',['../index.html#autotoc_md15',1,'']]],
   ['multicellentity_18',['MultiCellEntity',['../classMultiCellEntity.html',1,'']]],
-  ['multithreaded_19',['3. Render Batching (Multithreaded)',['../dev_guide.html#autotoc_md5',1,'']]],
+  ['multithreaded_19',['3. Render Batching (Multithreaded)',['../renderEngine.html#autotoc_md5',1,'']]],
   ['music_20',['Music',['../classMusic.html',1,'']]]
 ];

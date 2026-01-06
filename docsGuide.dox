@@ -4,6 +4,9 @@
 From **docs** branch:
 
 - merge changes from master
+- remove simdump (private server) with:
+	- git submodule deinit -f vendors/simdump
+	- git rm -f vendors/simdump
 - Create Related pages by creating `.dox` files in Project Dir, using template as the other pages.
 - execute `doxygen` inside **docs**
 - commit&push files.

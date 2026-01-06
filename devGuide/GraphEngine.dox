@@ -1,0 +1,28 @@
+/**
+  @page graphEngine Graph Engine
+
+ ### Core Architecture:
+
+TazGraph uses a **custom ECS** where entities (such as nodes, links, and emptyEntities) are composed of components. 
+Components are plain data-only structures, like `TransformComponent` and `PollingComponent`.
+
+The ECS is managed by **`GECSManager`**, which handles creation, removal, update, and drawing of entities. 
+Entity processing is based on **groups** (`EntityGroups`) for rendering and update.
+
+### Scene System
+
+There are two scenes implemented:
+
+- `MainMenuScene`
+- `Graph`
+
+Each scene controls its own logic, similar to a game state system. In the `Graph` Scene:
+- You can load **multiple graphs** in tabs, each saved in a **Manager**.
+- Developers **shouldn’t need to modify the core of graph engine logic** (TazGraphEngine/GECS/Core) instead, use 
+the main scene's update function (TazGraph/Src/Graph.cpp) to hook into behaviors like:
+	- Grouping nodes
+	- Flash-frame animations
+	- UI interactions
+
+
+*/
