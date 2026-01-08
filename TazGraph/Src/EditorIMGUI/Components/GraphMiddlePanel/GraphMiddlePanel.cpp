@@ -43,6 +43,8 @@ void GraphMiddlePanel::OnImGuiRender()
 		getSubcomponent<ViewportPanel>()->setConfig({
 			.c_fb = config.c_framebuffer,
 			.c_minimap_fb = config.c_minimapFramebuffer,
+			.c_storedWindowPos = config.c_viewportPos,
+			.c_storedWindowSize = config.c_viewportSize,
 			.startPos = config.startPos,
 			.currPos = config.currPos,
 			});

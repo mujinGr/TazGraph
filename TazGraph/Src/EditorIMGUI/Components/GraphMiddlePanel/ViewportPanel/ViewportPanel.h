@@ -14,6 +14,8 @@
 struct ViewportPanelConfig {
 	Framebuffer* c_fb;
 	Framebuffer* c_minimap_fb;
+	ImVec2* c_storedWindowPos;
+	ImVec2* c_storedWindowSize;
 	glm::vec2 startPos;
 	glm::vec2 currPos;
 };
