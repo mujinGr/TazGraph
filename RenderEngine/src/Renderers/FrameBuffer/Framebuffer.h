@@ -27,6 +27,7 @@ private:
 
 public:
 	bool _multisampleEnabled = false;
+	int _multisamples = 0;
 
 	static void SetMultisample(bool enable) {
 		if (enable) {
@@ -46,6 +47,10 @@ public:
 	~Framebuffer();
 
 	void init(int windowWidth, int windowHeight, bool enableMSAA, int MSAA_samples = 0);
+
+	void setMultisampleFramebufferSize(int windowWidth, int windowHeight);
+
+	void setSize(int windowWidth, int windowHeight);
 
 	void Bind();
 	void Unbind();

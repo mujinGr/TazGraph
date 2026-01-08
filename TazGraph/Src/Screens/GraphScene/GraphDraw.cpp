@@ -465,6 +465,8 @@ void Graph::renderDraw()
 	Framebuffer::SetMultisample(_viewportFramebuffer._multisampleEnabled);
 
 	_viewportFramebuffer.Bind();
+	glViewport(0, 0, _viewportFramebuffer._width, _viewportFramebuffer._height);
+
 	glDepthMask(GL_TRUE);
 	////////////OPENGL USE
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);

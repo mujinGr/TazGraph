@@ -84,7 +84,9 @@ void Graph::onEntry()
 		}
 
 		getApp()->resourceManager.getGLSLProgram("framebuffer")->use();
-		glUniform1i(glGetUniformLocation(getApp()->resourceManager.getGLSLProgram("framebuffer")->getProgramID(), "screenTexture"), 0);
+		glUniform1i(
+			glGetUniformLocation(getApp()->resourceManager.getGLSLProgram("framebuffer")->getProgramID(), "screenTexture")
+			, 0);
 		getApp()->resourceManager.getGLSLProgram("framebuffer")->unuse();
 
 		_viewportFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight(), getApp()->useMSAA, getApp()->MSAA_samples);
