@@ -25,7 +25,6 @@ void Framebuffer::init(int windowWidth, int windowHeight, bool enableMSAA, int M
 		// Create multisampled framebuffer
 		glGenFramebuffers(1, &_multisampledFBO);
 		glBindFramebuffer(GL_FRAMEBUFFER, _multisampledFBO);
-
 		// Create multisampled texture
 		glGenTextures(1, &_multisampledTexture);
 		glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, _multisampledTexture);
@@ -62,6 +61,8 @@ void Framebuffer::init(int windowWidth, int windowHeight, bool enableMSAA, int M
 	glBindRenderbuffer(GL_RENDERBUFFER, _RBO);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, windowWidth, windowHeight);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _RBO);
+
+	Unbind();
 }
 
 Framebuffer::~Framebuffer()
