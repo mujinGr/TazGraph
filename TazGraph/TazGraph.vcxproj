@@ -172,8 +172,9 @@
     <ClCompile Include="Src\AssetManager\AssetManager.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\GraphMiddlePanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HighlightBox\HighlightBox.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\EntityComponentsControl\EntityComponentsControl.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\CameraPanel\CameraPanel.cpp" />
-    <ClCompile Include="Src\EditorIMGUI\Components\EntityComponentsControl\EntityComponentsControl.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\Components\EntityGroupsControl\EntityGroupsControl.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HoverEntityPanel\HoverEntityPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\HelpPanel\HelpPanel.cpp" />
@@ -216,8 +217,9 @@
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\GraphMiddlePanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HighlightBox\HighlightBox.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\EntityComponentsControl\EntityComponentsControl.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\CameraPanel\CameraPanel.h" />
-    <ClInclude Include="Src\EditorIMGUI\Components\EntityComponentsControl\EntityComponentsControl.h" />
+    <ClInclude Include="Src\EditorIMGUI\Components\EntityGroupsControl\EntityGroupsControl.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\CustomFunctions\CustomFunctions.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\FPSCounter.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HoverEntityPanel\HoverEntityPanel.h" />

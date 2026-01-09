@@ -331,4 +331,10 @@ void SimDumpMapParser::createSteps(
 		}
 		manager.steps.push_back(std::move(step));
 	} while (reader.next());
+
+	//bool updateSteps() { 
+	//	//Beware of race conditions with multiple threads!!!
+	//	
+	//	return false; 
+	//}
 }

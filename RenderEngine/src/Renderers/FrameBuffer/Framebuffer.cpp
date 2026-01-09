@@ -30,10 +30,10 @@ void Framebuffer::init(int windowWidth, int windowHeight, bool enableMSAA, int M
 	glGenRenderbuffers(1, &_RBO);
 	glGenTextures(1, &_framebufferTexture);
 
-	setSize(windowWidth, windowHeight);
+	attachTexture(windowWidth, windowHeight);
 }
 
-void Framebuffer::setMultisampleFramebufferSize(int windowWidth, int windowHeight) {
+void Framebuffer::attachMultisampleTexture(int windowWidth, int windowHeight) {
 	if (_multisampleEnabled) {
 		// Create multisampled framebuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, _multisampledFBO);
@@ -54,11 +54,11 @@ void Framebuffer::setMultisampleFramebufferSize(int windowWidth, int windowHeigh
 	}
 }
 
-void Framebuffer::setSize(int windowWidth, int windowHeight) {
+void Framebuffer::attachTexture(int windowWidth, int windowHeight) {
 	_width = windowWidth;
 	_height = windowHeight;
 
-	setMultisampleFramebufferSize(windowWidth, windowHeight);
+	attachMultisampleTexture(windowWidth, windowHeight);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
 

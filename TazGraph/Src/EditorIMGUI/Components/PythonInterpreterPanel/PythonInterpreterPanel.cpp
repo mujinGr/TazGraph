@@ -216,6 +216,10 @@ void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
 		return deletedCount;
 		});
 
+	m.def("addGroupName", [&manager](std::string newGroup) -> std::string {
+		manager.addGroup(newGroup);
+		return newGroup;
+		});
 
 }
 
@@ -554,6 +558,7 @@ void PythonInterpreterPanel::runScript() {
 		py::globals()["deepCopyNode"] = userapi.attr("deepCopyNode");
 		py::globals()["deepCopyLink"] = userapi.attr("deepCopyLink");
 		py::globals()["deleteEntities"] = userapi.attr("deleteEntities");
+		py::globals()["addGroupName"] = userapi.attr("addGroupName");
 		py::exec(_pythonBuffer);
 		py::object output = py::eval("sys.stdout.getvalue()");
 		_outputText = output.cast<std::string>();
@@ -585,6 +590,7 @@ void PythonInterpreterPanel::runUpdateScript(float deltaTime) {
 		py::globals()["deepCopyNode"] = userapi.attr("deepCopyNode");
 		py::globals()["deepCopyLink"] = userapi.attr("deepCopyLink");
 		py::globals()["deleteEntities"] = userapi.attr("deleteEntities");
+		py::globals()["addGroupName"] = userapi.attr("addGroupName");
 		py::globals()["deltaTime"] = deltaTime;
 
 		py::exec(_updateBuffer);

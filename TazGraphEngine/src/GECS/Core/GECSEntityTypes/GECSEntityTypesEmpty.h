@@ -15,6 +15,11 @@ public:
 		manager.AddToGroup(this, mGroup);
 	}
 
+	void removeGroup(Group mGroup) override {
+		Entity::removeGroup(mGroup);
+		manager.aboutTo_updateActiveEntities();
+	}
+
 	virtual ~Empty() {
 
 	}

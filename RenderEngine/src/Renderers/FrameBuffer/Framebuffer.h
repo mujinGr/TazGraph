@@ -48,9 +48,9 @@ public:
 
 	void init(int windowWidth, int windowHeight, bool enableMSAA, int MSAA_samples = 0);
 
-	void setMultisampleFramebufferSize(int windowWidth, int windowHeight);
+	void attachMultisampleTexture(int windowWidth, int windowHeight);
 
-	void setSize(int windowWidth, int windowHeight);
+	void attachTexture(int windowWidth, int windowHeight);
 
 	void Bind();
 	void Unbind();

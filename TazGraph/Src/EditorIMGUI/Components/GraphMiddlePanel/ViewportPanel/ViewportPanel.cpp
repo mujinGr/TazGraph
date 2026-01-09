@@ -15,6 +15,7 @@ void ViewportPanel::OnImGuiRender()
 		ImVec2(1, 0)
 	);
 
+	//? Dont remove this
 	*config.c_storedWindowPos = ImGui::GetWindowPos();
 	*config.c_storedWindowSize = viewportPanelSize;
 

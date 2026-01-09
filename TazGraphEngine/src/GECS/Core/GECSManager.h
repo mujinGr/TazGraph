@@ -275,16 +275,19 @@ public:
 	void AddToGroup(EmptyEntity* mEntity, Group mGroup)
 	{
 		groupedEmptyEntities[mGroup].emplace_back(mEntity);
+		aboutTo_updateActiveEntities();
 	}
 
 	void AddToGroup(NodeEntity* mEntity, Group mGroup)
 	{
 		groupedNodeEntities[mGroup].emplace_back(mEntity);
+		aboutTo_updateActiveEntities();
 	}
 
 	void AddLinkToGroup(LinkEntity* mEntity, Group mGroup)
 	{
 		groupedLinkEntities[mGroup].emplace_back(mEntity);
+		aboutTo_updateActiveEntities();
 	}
 
 	const std::unordered_map<EntityID, std::unique_ptr<Entity>>& getEntities() const {
@@ -590,9 +593,11 @@ public:
 
 		//fore
 		textLabels,
+		__COUNT__
 	};
 
-	const std::unordered_map<Group, std::string> groupNames = {
+
+	std::unordered_map<Group, std::string> groupNames = {
 		{groupBackgroundLayer, "groupBackgroundLayer" },
 		{panelBackground, "panelBackground"},
 
@@ -634,6 +639,14 @@ public:
 		//fore
 		{ textLabels,"textLabels" },
 	};
+
+	//! dynamically add groups with Enum!
+	std::size_t nextGroup = groupLabels::__COUNT__;
+
+	void addGroup(std::string groupName) {
+		auto newGroup = nextGroup++;
+		groupNames.insert(std::make_pair(newGroup, groupName));
+	}
 
 	std::string getGroupName(Group mGroup) const;
 

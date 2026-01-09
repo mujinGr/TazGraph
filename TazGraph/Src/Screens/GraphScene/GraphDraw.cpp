@@ -222,7 +222,7 @@ void Graph::prepareDraw()
 		arrowsBatch.rotationMatrix = rotationMatrix;
 		frameData.batches.push_back(arrowsBatch);
 	}
-	// 4. Sprite Models Batch
+	// 4.1 Sprite Models Batch
 	{
 		Taz::GECSRenderBatch spritesBatch;
 		spritesBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneModel;
@@ -233,6 +233,20 @@ void Graph::prepareDraw()
 		spritesBatch.entities = manager->collectVisibleEntities({
 			Manager::groupRenderSprites
 			}, Taz::EntityType::Empty);
+		spritesBatch.count = spritesBatch.entities.size();
+		frameData.batches.push_back(spritesBatch);
+	}
+	// 4.2 Node Sprite Models Batch
+	{
+		Taz::GECSRenderBatch spritesBatch;
+		spritesBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneModel;
+		spritesBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
+		spritesBatch.batchName = manager->getGroupName(Manager::groupRenderSprites);
+		spritesBatch.shaderName = "texture";
+		spritesBatch.entities = manager->collectVisibleEntities({
+			Manager::groupRenderSprites
+			}, Taz::EntityType::Node);
 		spritesBatch.count = spritesBatch.entities.size();
 		frameData.batches.push_back(spritesBatch);
 	}

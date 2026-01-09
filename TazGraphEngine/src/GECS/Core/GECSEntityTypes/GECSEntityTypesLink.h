@@ -40,7 +40,7 @@ public:
 	{
 
 	}
-	
+
 	Link(
 		Manager& mManager,
 		ConnectionType m_type
@@ -61,6 +61,11 @@ public:
 	void addGroup(Group mGroup) override {
 		Entity::addGroup(mGroup);
 		manager.AddLinkToGroup(this, mGroup);
+	}
+
+	void removeGroup(Group mGroup) override {
+		Entity::removeGroup(mGroup);
+		manager.aboutTo_updateActiveEntities();
 	}
 
 	virtual ~Link() {

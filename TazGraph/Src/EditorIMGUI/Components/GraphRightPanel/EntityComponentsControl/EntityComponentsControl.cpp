@@ -7,7 +7,6 @@ void EntityComponentsControlPanel::OnImGuiRender()
 
 	if (!config.displayedEntity) return;
 
-
 	std::string windowTitle = "Entity";
 	Node* node = dynamic_cast<Node*>(config.displayedEntity);
 	Link* link = dynamic_cast<Link*>(config.displayedEntity);
@@ -26,14 +25,10 @@ void EntityComponentsControlPanel::OnImGuiRender()
 
 	EntityID currentId = config.displayedEntity->getId();
 
-	glm::vec2 moysePos = config.scene->getApp()->_inputManager.getMouseCoords();
+	Manager* man = config.scene->manager;
 
-	if (currentId != _lastEntityDisplayed) {
-		ImGui::SetNextWindowPos(ImVec2(moysePos.x, moysePos.y), ImGuiCond_Always);
-		_lastEntityDisplayed = currentId;
-	}
+	if (ImGui::BeginChild(windowTitle.c_str())) {
 
-	if (ImGui::Begin(windowTitle.c_str())) {
 		bool hasComponent = link ? config.displayedEntity->hasComponent<LinkPythonCodeComponent>()
 			: config.displayedEntity->hasComponent<EmptyPythonCodeComponent>();
 
@@ -120,7 +115,7 @@ void EntityComponentsControlPanel::OnImGuiRender()
 		}
 	}
 
-	ImGui::End();
+	ImGui::EndChild();
 
 }
 

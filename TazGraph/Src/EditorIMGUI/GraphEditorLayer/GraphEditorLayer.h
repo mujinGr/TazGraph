@@ -60,7 +60,7 @@ public:
 		addUIComponent<MenuDropdownPanel>();
 		addUIComponent<GraphLeftPanel>();
 		addUIComponent<GraphMiddlePanel>(usePython);
-		addUIComponent<GraphRightPanel>();
+		addUIComponent<GraphRightPanel>(usePython);
 	}
 
 	void setConfig(const GraphEditorLayerConfig& cfg) { config = cfg; }

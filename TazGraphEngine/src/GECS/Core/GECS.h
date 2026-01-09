@@ -321,7 +321,7 @@ public:
 	}
 
 	virtual void addGroup(Group mGroup);
-	void removeGroup(Group mGroup);
+	virtual void removeGroup(Group mGroup);
 
 	template <typename T> bool hasComponent() const
 	{

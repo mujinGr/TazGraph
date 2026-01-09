@@ -44,7 +44,7 @@ void GraphRightPanel::OnImGuiRender()
 	if (ImGui::BeginTabBar("RightPanelTabs", ImGuiTabBarFlags_AutoSelectNewTabs)) {
 
 		if (ImGui::BeginTabItem("ECS Groups")) {
-			ShowAllEntities();
+			ShowGroupComponents();
 			ImGui::EndTabItem();
 		}
 
@@ -87,27 +87,7 @@ void GraphRightPanel::availableFunctions() {
 
 }
 
-void GraphRightPanel::DrawEntityJumpList(const char* labelId, const std::vector<Entity*>& vec) {
-	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-
-	if (ImGui::TreeNode(labelId)) {
-		for (auto e : vec) {
-			std::string nodeLabel = "Entity ID: " + EntityIDUtils::toString(e->getId());
-			std::string btn = "Go to##" + EntityIDUtils::toString(e->getId());
-			if (ImGui::Button(btn.c_str())) {
-				if (e->hasComponent<TransformComponent>()) { // because clang doesnt know what type vec is
-					auto& tr = e->GetComponent<TransformComponent>();
-					main_camera2D->setPosition_X(tr.getPosition().x);
-					main_camera2D->setPosition_Y(tr.getPosition().y);
-					main_camera2D->setAimPos(glm::vec3(main_camera2D->eyePos.x, main_camera2D->eyePos.y, main_camera2D->eyePos.z + 1.0f));
-				}
-			}
-		}
-		ImGui::TreePop();
-	}
-}
-
-void GraphRightPanel::ShowAllEntities() {
+void GraphRightPanel::ShowGroupComponents() {
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -117,158 +97,33 @@ void GraphRightPanel::ShowAllEntities() {
 	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 	float size = 10;
 
-	for (auto groupElement : config.scene->manager->groupNames) {
-		auto group = groupElement.first;
-		std::string s = config.scene->manager->getGroupName(group);
+	ImGui::Text("Selected Group:");
 
-		if (ImGui::CollapsingHeader(s.c_str())) {
-			auto& nodeVec = config.scene->manager->getGroup<NodeEntity>(group);
-			auto& linkVec = config.scene->manager->getGroup<LinkEntity>(group);
-			auto& emptyVec = config.scene->manager->getGroup<EmptyEntity>(group);
+	if (ImGui::RadioButton("(None)", &selectedGroup, -1)) {
 
-			// ---------- NODE GROUP ----------
-			if (!nodeVec.empty()) {
-				// Component Management Section for Nodes
-				DrawBulkComponentControls(nodeVec, "Component", s + "_nodes");
-				ImGui::Separator();
-				DrawBulkComponentControls(nodeVec, "NodeComponent", s + "_nodes");
+	}
 
-				DrawEntityJumpList(std::string("Entities##nodes_" + s).c_str(), nodeVec);
+	if (ImGui::CollapsingHeader("##Groups")) {
+		for (auto groupElement : config.scene->manager->groupNames) {
+			auto group = groupElement.first;
+			std::string s = config.scene->manager->getGroupName(group);
+
+			if (ImGui::RadioButton(s.c_str(), &selectedGroup, group)) {
 
 			}
-			// ---------- LINK GROUP ----------
-			else if (!linkVec.empty()) {
-				if (ImGui::CollapsingHeader(("Component Management##links_" + s).c_str())) {
-					DrawBulkComponentControls(linkVec, "LinkComponent", s + "_links");
-				}
-
-				DrawEntityJumpList(std::string("Entities##links_" + s).c_str(), linkVec);
-
-			}
-			// ---------- EMPTY GROUP ----------
-			else if (!emptyVec.empty()) {
-				if (ImGui::CollapsingHeader(("Component Management##empties_" + s).c_str())) {
-					DrawBulkComponentControls(emptyVec, "Component", s + "_empties");
-				}
-				// No color/size controls by default for empties; just list them
-				DrawEntityJumpList(std::string("Entities##empties_" + s).c_str(), emptyVec);
-			}
-
 		}
 	}
 
-}
+	ImGui::Separator();
+	if (config.c_selectedEntities.size() == 1) {
 
-void GraphRightPanel::DrawBulkComponentControls(const std::vector<Entity*>& entityVec,
-	const std::string& componentCategory,
-	const std::string& uniqueID) {
+		Entity* entity = config.scene->manager->getEntityFromId(config.c_selectedEntities[0].realEntityId);
 
-	auto sortComponentsByID = [](const std::vector<std::string>& componentNames) {
-		std::vector<std::pair<ComponentID, std::string>> sorted;
-		for (const auto& name : componentNames) {
-			auto it = componentNameToID.find(name);
-			if (it != componentNameToID.end()) {
-				sorted.emplace_back(it->second, name);
-			}
-		}
-		std::sort(sorted.begin(), sorted.end(),
-			[](const auto& a, const auto& b) {
-				return a.first < b.first;
+		getSubcomponent<EntityComponentsControlPanel>()->setConfig({
+			.scene = config.scene,
+			.displayedEntity = entity
 			});
-
-		std::vector<std::string> result;
-		for (const auto& [id, name] : sorted) {
-			result.push_back(name);
-		}
-		return result;
-		};
-
-	ImGui::Text("%s Components:", componentCategory.c_str());
-
-	for (const auto& componentName : sortComponentsByID(config.scene->manager->componentNames[componentCategory])) {
-		// Count how many entities have this component
-		int entitiesWithComponent = 0;
-
-		Entity* entityWithThisComponent = nullptr;
-
-
-		for (auto entity : entityVec) {
-			if (entity->hasComponentByName(componentName)) {
-				entitiesWithComponent++;
-
-				if (entityWithThisComponent == nullptr)
-					entityWithThisComponent = entity;
-			}
-		}
-
-		// Display component info and count
-		auto it = componentNameToID.find(componentName);
-		if (it != componentNameToID.end()) {
-			ComponentID cid = it->second;
-			ImGui::Text("(ID: %u)", cid);
-			ImGui::SameLine();
-		}
-
-		ImGui::Text("%s (%d/%zu)", componentName.c_str(), entitiesWithComponent, entityVec.size());
-		ImGui::SameLine();
-
-		// Add to All button
-		std::string addButtonLabel = "Add to All##" + componentName + "_" + uniqueID;
-		if (ImGui::Button(addButtonLabel.c_str())) {
-			for (auto* entity : entityVec) {
-				if (!entity->hasComponentByName(componentName)) {
-					AddComponentByName(componentName, entity);
-				}
-			}
-		}
-		ImGui::SameLine();
-
-		// Remove from All button
-		std::string removeButtonLabel = "Remove from All##" + componentName + "_" + uniqueID;
-		if (ImGui::Button(removeButtonLabel.c_str())) {
-			for (auto* entity : entityVec) {
-				if (entity->hasComponentByName(componentName)) {
-					RemoveComponentByName(componentName, entity);
-				}
-			}
-		}
-		ImGui::SameLine();
-
-		// Toggle button (adds to entities without, removes from entities with)
-		std::string toggleButtonLabel = "Toggle##" + componentName + "_" + uniqueID;
-		if (ImGui::Button(toggleButtonLabel.c_str())) {
-			for (auto* entity : entityVec) {
-				if (entity->hasComponentByName(componentName)) {
-					RemoveComponentByName(componentName, entity);
-				}
-				else {
-					AddComponentByName(componentName, entity);
-				}
-			}
-		}
-
-		if (entitiesWithComponent > 0) {
-			BaseComponent* templateComponent = getComponentByName(componentName, entityWithThisComponent);
-
-			if (templateComponent) {
-				// Create a temporary copy for editing
-					// Show the GUI for editing
-				if (!templateComponent->modifyPosition)
-					templateComponent->showGUI();
-				else {
-					std::vector<BaseComponent*> entitiesComponents = {};
-					for (auto* entity : entityVec) {
-
-						if (entity->hasComponentByName(componentName)) {
-							entitiesComponents.push_back(getComponentByName(componentName, entity));
-						}
-					}
-					templateComponent->showGUI(entitiesComponents);
-					templateComponent->modifyPosition = false;
-				}
-
-			}
-		}
+		getSubcomponent<EntityComponentsControlPanel>()->OnImGuiRender();
 	}
 }
 

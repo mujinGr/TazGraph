@@ -252,13 +252,13 @@ void GraphEditorLayer::OnImGuiRender()
 		//glm::vec2 worldToVieport
 		if (manager) {
 			getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
-				getSubcomponent<EntityComponentsControlPanel>()->
+				getSubcomponent<EntityGroupsControlPanel>()->
 				setConfig({
 				.scene = config.scene,
 				.displayedEntity = config.displayedEntity,
 					});
 			getSubcomponent<GraphMiddlePanel>()->getSubcomponent<ViewportPanel>()->
-				getSubcomponent<EntityComponentsControlPanel>()->
+				getSubcomponent<EntityGroupsControlPanel>()->
 				OnImGuiRender();
 
 			if (getSubcomponent<GraphMiddlePanel>()->

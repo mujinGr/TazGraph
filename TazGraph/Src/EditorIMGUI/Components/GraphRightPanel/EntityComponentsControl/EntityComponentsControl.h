@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../UIElement.h"
-#include "../PythonInterpreterPanel/PythonInterpreterPanel.h"
+#include "../../../UIElement.h"
+#include "../../PythonInterpreterPanel/PythonInterpreterPanel.h"
 
 struct EntityComponentsConfig {
 	IScene* scene;
@@ -12,8 +12,6 @@ class EntityComponentsControlPanel : public UIElement
 {
 private:
 	EntityComponentsConfig config;
-
-	EntityID _lastEntityDisplayed = 0;
 
 public:
 	EntityComponentsControlPanel(bool usePython) {

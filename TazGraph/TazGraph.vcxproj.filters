@@ -96,7 +96,7 @@
     <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\SceneControl\SceneControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\EditorIMGUI\Components\EntityComponentsControl\EntityComponentsControl.cpp">
+    <ClCompile Include="Src\EditorIMGUI\Components\EntityGroupsControl\EntityGroupsControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HoverEntityPanel\HoverEntityPanel.cpp">
@@ -139,6 +139,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\EditorIMGUI\Components\MenuDropdown\HelpPanel\HelpPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\EntityComponentsControl\EntityComponentsControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -221,7 +224,7 @@
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\SceneControl\SceneControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\EditorIMGUI\Components\EntityComponentsControl\EntityComponentsControl.h">
+    <ClInclude Include="Src\EditorIMGUI\Components\EntityGroupsControl\EntityGroupsControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HoverEntityPanel\HoverEntityPanel.h">
@@ -264,6 +267,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\HelpPanel\HelpPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\EntityComponentsControl\EntityComponentsControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
