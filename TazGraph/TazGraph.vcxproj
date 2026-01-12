@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="Src\App\App.cpp" />
     <ClCompile Include="Src\AssetManager\AssetManager.cpp" />
+    <ClCompile Include="Src\AssetManager\PythonEngineUtil.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\GraphMiddlePanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HighlightBox\HighlightBox.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\EntityComponentsControl\EntityComponentsControl.cpp" />
@@ -198,7 +199,6 @@
     <ClCompile Include="Src\EditorIMGUI\MainMenuEditorLayer\MainMenuEditorLayer.cpp" />
     <ClCompile Include="Src\Map\Parsers\SimDumpMapParser.cpp" />
     <ClCompile Include="Src\Map\PathParsers\SimDumpPathParser.cpp" />
-    <ClCompile Include="Src\PythonEngine\PythonEngine.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\Graph.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\GraphDraw.cpp" />
@@ -216,6 +216,7 @@
   <ItemGroup>
     <ClInclude Include="Src\App\App.h" />
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
+    <ClInclude Include="Src\AssetManager\PythonEngineUtil.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\GraphMiddlePanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HighlightBox\HighlightBox.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\EntityComponentsControl\EntityComponentsControl.h" />
@@ -247,7 +248,6 @@
     <ClInclude Include="Src\EditorIMGUI\Components\MenuDropdown\CameraPanel\SliderRotateZ.h" />
     <ClInclude Include="Src\Map\Parsers\SimDumpMapParser.h" />
     <ClInclude Include="Src\Map\PathParsers\SimDumpPathParser.h" />
-    <ClInclude Include="Src\PythonEngine\PythonEngine.h" />
     <ClInclude Include="Src\Screens\GraphScene\Graph.h" />
     <ClInclude Include="Src\Screens\MainMenuScreen\MainMenuScreen.h" />
     <ClInclude Include="Src\Map\Parsers\DOTMapParser.h" />

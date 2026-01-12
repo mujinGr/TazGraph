@@ -4,7 +4,9 @@
 
 #include "../../Window/Window.h"
 
+#include "../../PythonEngine/PythonEngine.h"
 
+inline PythonInterpreter& pythonInter = PythonInterpreter::getInstance();
 
 #define CULLING_OFFSET 100
 

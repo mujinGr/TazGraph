@@ -111,6 +111,9 @@
     <ClCompile Include="..\vendors\tracy\public\TracyClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\PythonEngine\PythonEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AudioEngine\AudioEngine.h">
@@ -300,6 +303,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GECS\Components\Link\Basic\InnerLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PythonEngine\PythonEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

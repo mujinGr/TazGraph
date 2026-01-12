@@ -20,20 +20,8 @@ void Graph::update(float deltaTime) //game objects updating
 		DataManager::getInstance().mapToLoad = "";
 		_selectedEntities.clear();
 
-		auto pythonInterpreterPanel = _graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<PythonInterpreterPanel>();
-		if (pythonInterpreterPanel) {
-			pythonInterpreterPanel->setConfig(
-				{
-					.scene = this
-				}
-			);
-			pythonInterpreterPanel->init();
-		}
-
-		pybind11::exec("print(\"Hello World!\")");
-
+		peu.init(*manager);
 	}
-
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -55,6 +43,8 @@ void Graph::update(float deltaTime) //game objects updating
 
 	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
 	*/
+	py::gil_scoped_release release;
+
 	if (_firstLoop) {
 		manager->updateFully(deltaTime);
 	}

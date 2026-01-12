@@ -201,6 +201,7 @@
     <ClCompile Include="src\InputManager\InputManager.cpp" />
     <ClCompile Include="src\BaseFPSLimiter\BaseFPSLimiter.cpp" />
     <ClCompile Include="DefineFactory.cpp" />
+    <ClCompile Include="src\PythonEngine\PythonEngine.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +217,7 @@
     <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesEmpty.h" />
     <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesLink.h" />
     <ClInclude Include="src\GECS\Core\GECSEntityTypes\GECSEntityTypesNode.h" />
+    <ClInclude Include="src\PythonEngine\PythonEngine.h" />
     <ClInclude Include="src\Threader\RenderCommandQueue.h" />
     <ClInclude Include="DefineFactory.h" />
     <ClInclude Include="DorParser\DotParser.h" />

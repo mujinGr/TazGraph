@@ -144,7 +144,7 @@
     <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\EntityComponentsControl\EntityComponentsControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\PythonEngine\PythonEngine.cpp">
+    <ClCompile Include="Src\AssetManager\PythonEngineUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -275,7 +275,7 @@
     <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\EntityComponentsControl\EntityComponentsControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\PythonEngine\PythonEngine.h">
+    <ClInclude Include="Src\AssetManager\PythonEngineUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

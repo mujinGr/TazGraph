@@ -5,8 +5,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/embed.h>
 
-#include "../../../PythonEngine/PythonEngine.h"
-
 namespace py = pybind11;
 
 struct PythonInterpreterConfig {
@@ -45,8 +43,6 @@ public:
 
 	float default_pythonConsoleHeight = 400.0f;
 
-	PythonInterpreter pythonInterpreter;
-
 	ImRect titleBarRect;
 
 	float intervalSec = 1.0f;
@@ -64,9 +60,6 @@ public:
 	ImGuiChildFlags flags = ImGuiChildFlags_ResizeY | ImGuiWindowFlags_NoSavedSettings;
 
 	PythonInterpreterPanel();
-	void init();
-	void init_api(py::module_& m, Manager& manager);
-
 	void update(float deltaTime) override;
 
 	void setConfig(const PythonInterpreterConfig& cfg) {
@@ -76,7 +69,6 @@ public:
 
 	}
 	void OnImGuiRender() override;
-	void OnImGuiRender2();
 
 	void setFlags();
 	void innerTable();

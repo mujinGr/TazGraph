@@ -20,10 +20,11 @@ arial     317
 arial     60
 Font added: arial from assets/Fonts/arial.ttf size 14.000000
 Font added: bold from assets/Fonts/Figerona-VF.ttf size 16.000000
-367.083344 320.314636
-368.333344 312.763031
-345.416656 401.494598
-398.333344 336.047211
+386.250000 326.607666
+382.083344 308.357910
+381.666656 308.357910
+330.000000 396.460175
+383.750000 339.822998
 Waiting for render command...
 Executing init command
 Subsystems Initialised...
