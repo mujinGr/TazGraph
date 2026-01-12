@@ -5,6 +5,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/embed.h>
 
+#include "../../../PythonEngine/PythonEngine.h"
+
 namespace py = pybind11;
 
 struct PythonInterpreterConfig {
@@ -19,6 +21,8 @@ private:
 	PythonInterpreterConfig  config;
 	char _pythonBuffer[1024] = "";
 	char _updateBuffer[4096] = "";
+
+	py::object _stdout_buffer;
 
 	std::string _outputText;
 	std::string _updateOutputText;
@@ -41,6 +45,8 @@ public:
 
 	float default_pythonConsoleHeight = 400.0f;
 
+	PythonInterpreter pythonInterpreter;
+
 	ImRect titleBarRect;
 
 	float intervalSec = 1.0f;
@@ -50,14 +56,15 @@ public:
 
 	bool inputActive = false;
 
-	bool init = true;
+	bool firstLoop = true;
 
-
+	bool readyToClear = false;
 	bool readyToExecute = false;
 
 	ImGuiChildFlags flags = ImGuiChildFlags_ResizeY | ImGuiWindowFlags_NoSavedSettings;
 
 	PythonInterpreterPanel();
+	void init();
 	void init_api(py::module_& m, Manager& manager);
 
 	void update(float deltaTime) override;
@@ -73,6 +80,7 @@ public:
 
 	void setFlags();
 	void innerTable();
+	void clearOutput();
 	void runScript();
 	void runUpdateScript(float deltaTime);
 };

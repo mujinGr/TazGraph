@@ -2,8 +2,8 @@
 
 #include "../../../Components.h"
 
-
-class EmptyPythonCodeComponent : public PythonCodeComponent, public Component //transform as in graphics, we have rotation and scale
+// public Component need to be first for scanning
+class EmptyPythonCodeComponent : public Component, public PythonCodeComponent//transform as in graphics, we have rotation and scale
 {
 public:
 
@@ -28,7 +28,13 @@ public:
 	}
 
 	void showGUI(std::vector<BaseComponent*> otherComponents = {}) override {
-		PythonCodeComponent::showGUI();
+		if (ImGui::CollapsingHeader("Script"))
+		{
+			PythonCodeComponent::showGUI();
+
+
+		}
+
 
 
 	};

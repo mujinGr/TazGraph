@@ -23,6 +23,8 @@ static const std::unordered_map<std::string, std::function<void(Entity*)>> addCo
 	{"PortComponent", [](Entity* entity) { entity->addComponent<PortComponent>(); }},
 	{"PortSlotComponent", [](Entity* entity) { entity->addComponent<PortSlotComponent>(); }},
 	{"PathLinkerComponent", [](Entity* entity) { entity->addComponent<PathLinkerComponent>(); }},
+	{"EmptyPythonCodeComponent", [](Entity* entity) { entity->addComponent<EmptyPythonCodeComponent>(); }},
+	{"LinkPythonCodeComponent", [](Entity* entity) { entity->addComponent<LinkPythonCodeComponent>(); }},
 };
 
 // Map of component names to functions for removing components
@@ -45,6 +47,8 @@ static const std::unordered_map<std::string, std::function<void(Entity*)>> remov
 	{"PortComponent", [](Entity* entity) { entity->removeComponent<PortComponent>(); }},
 	{"PortSlotComponent", [](Entity* entity) { entity->removeComponent<PortSlotComponent>(); }},
 	{"PathLinkerComponent", [](Entity* entity) { entity->removeComponent<PathLinkerComponent>(); }},
+	{"EmptyPythonCodeComponent", [](Entity* entity) { entity->removeComponent<EmptyPythonCodeComponent>(); }},
+	{"LinkPythonCodeComponent", [](Entity* entity) { entity->removeComponent<LinkPythonCodeComponent>(); }},
 };
 
 static const std::unordered_map<std::string, ComponentID> componentNameToID = {
@@ -66,6 +70,8 @@ static const std::unordered_map<std::string, ComponentID> componentNameToID = {
 	{"PortComponent", GetComponentTypeID<PortComponent>()},
 	{"PortSlotComponent", GetComponentTypeID<PortSlotComponent>()},
 	{"PathLinkerComponent", GetComponentTypeID<PathLinkerComponent>()},
+	{"EmptyPythonCodeComponent", GetComponentTypeID<EmptyPythonCodeComponent>()},
+	{"LinkPythonCodeComponent", GetComponentTypeID<LinkPythonCodeComponent>()},
 };
 
 // Map of component names to functions for getting components
@@ -88,6 +94,8 @@ static const std::unordered_map<std::string, std::function<BaseComponent* (Entit
 	{"PortComponent", [](Entity* entity) -> BaseComponent* { return &entity->GetComponent<PortComponent>(); }},
 	{"PortSlotComponent", [](Entity* entity) -> BaseComponent* { return &entity->GetComponent<PortSlotComponent>(); }},
 	{"PathLinkerComponent", [](Entity* entity) -> BaseComponent* { return &entity->GetComponent<PathLinkerComponent>(); }},
+	{"EmptyPythonCodeComponent", [](Entity* entity) -> BaseComponent* { return &entity->GetComponent<EmptyPythonCodeComponent>(); }},
+	{"LinkPythonCodeComponent", [](Entity* entity) -> BaseComponent* { return &entity->GetComponent<LinkPythonCodeComponent>(); }},
 };
 
 

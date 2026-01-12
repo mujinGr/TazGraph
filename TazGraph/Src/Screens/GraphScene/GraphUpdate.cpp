@@ -19,6 +19,19 @@ void Graph::update(float deltaTime) //game objects updating
 		last_showGrid = false;
 		DataManager::getInstance().mapToLoad = "";
 		_selectedEntities.clear();
+
+		auto pythonInterpreterPanel = _graphEditorLayer.getSubcomponent<GraphMiddlePanel>()->getSubcomponent<PythonInterpreterPanel>();
+		if (pythonInterpreterPanel) {
+			pythonInterpreterPanel->setConfig(
+				{
+					.scene = this
+				}
+			);
+			pythonInterpreterPanel->init();
+		}
+
+		pybind11::exec("print(\"Hello World!\")");
+
 	}
 
 

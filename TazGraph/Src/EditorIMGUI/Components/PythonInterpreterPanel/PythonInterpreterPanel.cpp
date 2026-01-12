@@ -1,12 +1,42 @@
 ﻿#include "PythonInterpreterPanel.h"
 
 
-static std::unique_ptr<py::scoped_interpreter> pythonRuntime;
+//!!!!!! Python to run needs to be on the context of scene, not render thread
+
+namespace py = pybind11;
 
 PythonInterpreterPanel::PythonInterpreterPanel()
 {
-	if (!pythonRuntime)
-		pythonRuntime = std::make_unique<py::scoped_interpreter>();
+	pythonInterpreter = PythonInterpreter();
+}
+
+
+void PythonInterpreterPanel::init() {
+	py::exec(R"(
+				import sys
+				from io import StringIO
+				sys.stdout = StringIO()
+			)");
+
+	py::module_ userapi = py::module_::create_extension_module("tazpyapi", nullptr, new PyModuleDef{});
+	init_api(userapi, *config.scene->manager);
+	py::module_::import("sys").attr("modules")["tazpyapi"] = userapi;
+
+	// Store the StringIO object
+	py::module_ sys = py::module_::import("sys");
+	_stdout_buffer = sys.attr("stdout");
+
+	py::globals()["addNode"] = userapi.attr("addNode");
+	py::globals()["addLink"] = userapi.attr("addLink");
+	py::globals()["getNodes"] = userapi.attr("getNodes");
+	py::globals()["getCurrentStep"] = userapi.attr("getCurrentStep");
+	py::globals()["getSimNodes"] = userapi.attr("getSimNodes");
+	py::globals()["getSimLinks"] = userapi.attr("getSimLinks");
+	py::globals()["deepCopyNode"] = userapi.attr("deepCopyNode");
+	py::globals()["deepCopyLink"] = userapi.attr("deepCopyLink");
+	py::globals()["deleteEntities"] = userapi.attr("deleteEntities");
+	py::globals()["addGroupName"] = userapi.attr("addGroupName");
+
 }
 
 void PythonInterpreterPanel::init_api(py::module_& m, Manager& manager)
@@ -231,6 +261,11 @@ void PythonInterpreterPanel::update(float deltaTime) {
 		readyToExecute = false;
 	}
 
+	if (readyToClear) {
+		clearOutput();
+		readyToClear = false;
+	}
+
 	double now = ImGui::GetTime();
 
 	if (!updatePaused &&
@@ -272,7 +307,7 @@ void PythonInterpreterPanel::OnImGuiRender()
 	}
 
 	// Set collapsed state on first frame
-	if (init) {
+	if (firstLoop) {
 		ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once);
 	}
 
@@ -283,8 +318,8 @@ void PythonInterpreterPanel::OnImGuiRender()
 		bool widgetActive = ImGui::Begin("Python Interpreter", nullptr, flags);
 
 		// Clear init flag after first Begin
-		if (init) {
-			init = false;
+		if (firstLoop) {
+			firstLoop = false;
 		}
 
 		if (widgetActive)
@@ -300,8 +335,8 @@ void PythonInterpreterPanel::OnImGuiRender()
 		bool widgetActive = ImGui::Begin("Python Interpreter", nullptr, flags);
 
 		// Clear init flag after first Begin
-		if (init) {
-			init = false;
+		if (firstLoop) {
+			firstLoop = false;
 		}
 
 		if (widgetActive) {
@@ -368,7 +403,7 @@ void PythonInterpreterPanel::OnImGuiRender2() {
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Clear Output")) {
-				_outputText.clear();
+				readyToClear = true;
 			}
 		}
 		else {
@@ -383,7 +418,7 @@ void PythonInterpreterPanel::OnImGuiRender2() {
 			}
 
 			if (ImGui::Button("Clear Output")) {
-				_updateOutputText.clear();
+				readyToClear = true;
 			}
 		}
 		nestedChildActive = ImGui::BeginChild("Python Output");
@@ -498,7 +533,7 @@ void PythonInterpreterPanel::innerTable() {
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Clear Output")) {
-				_outputText.clear();
+				readyToClear = true;
 			}
 		}
 		else {
@@ -513,7 +548,7 @@ void PythonInterpreterPanel::innerTable() {
 			}
 
 			if (ImGui::Button("Clear Output")) {
-				_updateOutputText.clear();
+				readyToClear = true;
 			}
 		}
 
@@ -535,32 +570,25 @@ void PythonInterpreterPanel::innerTable() {
 	}
 }
 
+void PythonInterpreterPanel::clearOutput() {
+	_updateOutputText.clear();
+	_outputText.clear();
+
+	try {
+		_stdout_buffer.attr("truncate")(0);
+		_stdout_buffer.attr("seek")(0);
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Failed to clear StringIO: " << e.what() << std::endl;
+	}
+}
 
 void PythonInterpreterPanel::runScript() {
 	//! safe_putenv("PYTHONHOME=C:\\Users\\lefte\\AppData\\Local\\Programs\\Python\\Python313");
 	try {
-		py::exec(R"(
-				import sys
-				from io import StringIO
-				sys.stdout = StringIO()
-			)");
 
-		py::module_ userapi = py::module_::create_extension_module("tazpyapi", nullptr, new PyModuleDef{});
-		init_api(userapi, *config.scene->manager);
-		py::module_::import("sys").attr("modules")["tazpyapi"] = userapi;
-
-		py::globals()["addNode"] = userapi.attr("addNode");
-		py::globals()["addLink"] = userapi.attr("addLink");
-		py::globals()["getNodes"] = userapi.attr("getNodes");
-		py::globals()["getCurrentStep"] = userapi.attr("getCurrentStep");
-		py::globals()["getSimNodes"] = userapi.attr("getSimNodes");
-		py::globals()["getSimLinks"] = userapi.attr("getSimLinks");
-		py::globals()["deepCopyNode"] = userapi.attr("deepCopyNode");
-		py::globals()["deepCopyLink"] = userapi.attr("deepCopyLink");
-		py::globals()["deleteEntities"] = userapi.attr("deleteEntities");
-		py::globals()["addGroupName"] = userapi.attr("addGroupName");
 		py::exec(_pythonBuffer);
-		py::object output = py::eval("sys.stdout.getvalue()");
+		py::object output = _stdout_buffer.attr("getvalue")();
 		_outputText = output.cast<std::string>();
 
 	}
@@ -571,31 +599,12 @@ void PythonInterpreterPanel::runScript() {
 
 void PythonInterpreterPanel::runUpdateScript(float deltaTime) {
 	try {
-		py::exec(R"(
-				import sys
-				from io import StringIO
-				sys.stdout = StringIO()
-			)");
 
-		py::module_ userapi = py::module_::create_extension_module("tazpyapi", nullptr, new PyModuleDef{});
-		init_api(userapi, *config.scene->manager);
-		py::module_::import("sys").attr("modules")["tazpyapi"] = userapi;
-
-		py::globals()["addNode"] = userapi.attr("addNode");
-		py::globals()["addLink"] = userapi.attr("addLink");
-		py::globals()["getNodes"] = userapi.attr("getNodes");
-		py::globals()["getCurrentStep"] = userapi.attr("getCurrentStep");
-		py::globals()["getSimNodes"] = userapi.attr("getSimNodes");
-		py::globals()["getSimLinks"] = userapi.attr("getSimLinks");
-		py::globals()["deepCopyNode"] = userapi.attr("deepCopyNode");
-		py::globals()["deepCopyLink"] = userapi.attr("deepCopyLink");
-		py::globals()["deleteEntities"] = userapi.attr("deleteEntities");
-		py::globals()["addGroupName"] = userapi.attr("addGroupName");
 		py::globals()["deltaTime"] = deltaTime;
 
 		py::exec(_updateBuffer);
 
-		py::object output = py::eval("sys.stdout.getvalue()");
+		py::object output = _stdout_buffer.attr("getvalue")();
 		_updateOutputText = output.cast<std::string>();
 
 	}

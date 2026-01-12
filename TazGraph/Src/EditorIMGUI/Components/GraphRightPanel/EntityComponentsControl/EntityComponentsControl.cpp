@@ -29,43 +29,6 @@ void EntityComponentsControlPanel::OnImGuiRender()
 
 	if (ImGui::BeginChild(windowTitle.c_str())) {
 
-		bool hasComponent = link ? config.displayedEntity->hasComponent<LinkPythonCodeComponent>()
-			: config.displayedEntity->hasComponent<EmptyPythonCodeComponent>();
-
-		if (ImGui::Checkbox("EmptyPythonCodeComponent", &hasComponent)) {
-			if (hasComponent) {
-				if (empty || node) {
-					config.displayedEntity->addComponent<EmptyPythonCodeComponent>();
-				}
-				else if (link) {
-					config.displayedEntity->addComponent<LinkPythonCodeComponent>();
-
-				}
-
-			}
-			else {
-				if (empty || node) {
-					config.displayedEntity->removeComponent<EmptyPythonCodeComponent>();
-				}
-				else if (link) {
-					config.displayedEntity->removeComponent<LinkPythonCodeComponent>();
-
-				}
-			}
-		}
-
-
-		if (hasComponent &&
-			ImGui::CollapsingHeader("Script") &&
-			getSubcomponent<PythonInterpreterPanel>())
-		{
-			getSubcomponent<PythonInterpreterPanel>()->setConfig({
-				.scene = config.scene,
-				});
-
-			getSubcomponent<PythonInterpreterPanel>()->OnImGuiRender2();
-		}
-
 		config.displayedEntity->imgui_print();
 
 		ImGui::Separator();
@@ -127,8 +90,14 @@ void EntityComponentsControlPanel::ComponentCheckbox(std::string c) {
 	if (it != componentNameToID.end()) {
 		ComponentID cid = it->second;
 
+		if (cid == GetComponentTypeID<EmptyPythonCodeComponent>() ||
+			cid == GetComponentTypeID<LinkPythonCodeComponent>()) {
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 1.0f, 1.0f)); // cyan
+		}
+
 		ImGui::Text("(ID: %u)", cid);
 		ImGui::SameLine();
+
 	}
 
 	if (ImGui::Checkbox(c.c_str(), &hasComponent)) {
@@ -138,6 +107,11 @@ void EntityComponentsControlPanel::ComponentCheckbox(std::string c) {
 		else {
 			RemoveComponentByName(c, config.displayedEntity);
 		}
+	}
+
+	if (c == "EmptyPythonCodeComponent" ||
+		c == "LinkPythonCodeComponent") {
+		ImGui::PopStyleColor(); // cyan
 	}
 
 	if (hasComponent) {

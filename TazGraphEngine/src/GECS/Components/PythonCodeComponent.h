@@ -26,8 +26,11 @@ public:
 	}
 
 	void showGUI(std::vector<BaseComponent*> otherComponents = {}) {
-		ImGui::Separator();
+		//	getSubcomponent<PythonInterpreterPanel>()->setConfig({
+		//.scene = config.scene,
+		//		});
 
+		//	getSubcomponent<PythonInterpreterPanel>()->OnImGuiRender2();
 
 	};
 };
