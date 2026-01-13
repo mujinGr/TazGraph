@@ -14,10 +14,14 @@ void SceneControlPanel::OnImGuiRender()
 	if (ImGui::Begin(windowTitle.c_str())) {
 		if (ImGui::Button("Create Empty - Box")) {
 
+			auto id = std::make_shared<EntityID>(0);
+
 			auto createEmptyCommand = std::make_unique<Command>(
 				"Create Empty Entity",
-				[this]() {
+				[this, id]() mutable {
 					auto& empty(config.scene->manager->addEntity<Empty>());
+
+					*id = empty.getId();
 
 					glm::vec2 position(0, 0);
 
@@ -27,6 +31,9 @@ void SceneControlPanel::OnImGuiRender()
 
 					config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
 					empty.addToGroup(Manager::groupEmpties);
+				},
+				[this, id]() {
+					config.scene->manager->getEntityFromId(*id)->destroy();
 				}
 			);
 

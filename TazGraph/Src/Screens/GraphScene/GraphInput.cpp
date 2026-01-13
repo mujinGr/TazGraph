@@ -774,6 +774,15 @@ void Graph::checkInput() {
 	float accelerationZ = 0.0f;
 	float deltaTime = _app->getFPSLimiter().frameTime / 1000.0f; // Convert to seconds
 
+	bool ctrlDown =
+		_app->_inputManager.isKeyDown(SDLK_LCTRL) ||
+		_app->_inputManager.isKeyDown(SDLK_RCTRL);
+
+	if (ctrlDown && _app->_inputManager.isKeyPressed(SDLK_z)) {
+		manager->undoStack.top()->undo();
+		manager->undoStack.pop();
+	}
+
 	cameraMaxVelocity = manager->grid->getCellSize(); // Adjust multiplier as needed
 
 	if (_app->_inputManager.isKeyPressed(SDLK_w) ||
