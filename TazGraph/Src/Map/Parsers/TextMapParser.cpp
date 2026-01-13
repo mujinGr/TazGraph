@@ -139,7 +139,7 @@ void TextMapParser::parse(Manager& manager,
 	for (const auto& parsedNode : parsedNodes) {
 		auto& node(manager.addEntity<Node>());
 
-		node.addGroup(Manager::groupNodes_0);
+		node.addToGroup(Manager::groupNodes_0);
 
 		//addNodeFunc(node, glm::vec3(x, y, z));
 		nodeEntities.push_back(&node);
@@ -159,7 +159,7 @@ void TextMapParser::parse(Manager& manager,
 	for (const auto& parsedLink : parsedLinks) {
 		auto& link = manager.addEntity<Link>(parsedLink.fromId, parsedLink.toId);
 
-		link.addGroup(Manager::groupLinks_0);
+		link.addToGroup(Manager::groupLinks_0);
 
 		linkEntities.push_back(&link);
 	}

@@ -391,3 +391,38 @@ std::vector<Entity*> Manager::collectEntities(
 
 	return result;
 }
+
+bool Manager::entities_AllSameType(std::vector<Entity*> entities) {
+	bool allSameType = true;
+
+	Taz::EntityType firstType = Taz::EntityType::Unknown;
+
+	for (size_t i = 0; i < entities.size(); ++i) {
+		if (!entities[i]) {
+			allSameType = false;
+			break;
+		}
+
+		// Determine entity type
+		Taz::EntityType currentType = Taz::EntityType::Unknown;
+		if (dynamic_cast<NodeEntity*>(entities[i])) {
+			currentType = Taz::EntityType::Node;
+		}
+		else if (dynamic_cast<LinkEntity*>(entities[i])) {
+			currentType = Taz::EntityType::Link;
+		}
+		else if (dynamic_cast<EmptyEntity*>(entities[i])) {
+			currentType = Taz::EntityType::Empty;
+		}
+
+		if (i == 0) {
+			firstType = currentType;
+		}
+		else if (currentType != firstType) {
+			allSameType = false;
+			break;
+		}
+	}
+
+	return allSameType;
+}

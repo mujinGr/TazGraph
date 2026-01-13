@@ -361,9 +361,28 @@ public:
 		else if constexpr (std::is_same_v<T, LinkEntity>) {
 			return groupedLinkEntities[mGroup];
 		}
+		else if constexpr (std::is_same_v<T, Entity>) {
+			return groupedLinkEntities[mGroup];
+		}
 		else {
 			static_assert(sizeof(T) == 0, "Unsupported entity type.");
 		}
+	}
+
+	inline std::vector<Entity*> getGroup_All(Group mGroup) {
+		std::vector<Entity*> result;
+
+		auto& empties = groupedEmptyEntities[mGroup];
+		auto& nodes = groupedNodeEntities[mGroup];
+		auto& links = groupedLinkEntities[mGroup];
+
+		result.reserve(empties.size() + nodes.size() + links.size());
+
+		result.insert(result.end(), empties.begin(), empties.end());
+		result.insert(result.end(), nodes.begin(), nodes.end());
+		result.insert(result.end(), links.begin(), links.end());
+
+		return result;
 	}
 
 	template <typename T, typename... TArgs>
@@ -482,6 +501,35 @@ public:
 		std::shared_lock lock(entities_mtx);
 		return entities[mId].get();
 	}
+
+	inline std::vector<Entity*> getEntities_FromIds(std::vector<EntityID> mIds) {
+		std::shared_lock lock(entities_mtx);
+
+		std::vector<Entity*> result;
+		result.reserve(mIds.size());
+
+		for (EntityID id : mIds) {
+			if (entities.contains(id)) {
+				result.push_back(entities[id].get());
+			}
+		}
+
+		return result;
+	}
+
+	//? Probably dont need this
+	//inline std::vector<EntityID> getIds_FromEntities(std::vector<Entity*> mEntities) {
+	//	std::shared_lock lock(entities_mtx);
+
+	//	std::vector<EntityID> result;
+	//	result.reserve(mEntities.size());
+
+	//	for (Entity* e : mEntities) {
+	//		result.push_back(e->getId());
+	//	}
+
+	//	return result;
+	//}
 
 	bool hasEntity(EntityID mId) {
 		std::shared_lock lock(entities_mtx);
@@ -661,5 +709,7 @@ public:
 	std::vector<Entity*> collectEntities(
 		std::initializer_list<Manager::groupLabels> groupNames,
 		Taz::EntityType type);
+
+	bool entities_AllSameType(std::vector<Entity*> entities);
 
 };

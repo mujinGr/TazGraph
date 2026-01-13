@@ -34,7 +34,7 @@ void PythonEngineUtil::init_api(py::module_& m, Manager& manager)
 	m.def("addNode", [&manager](float x, float y, float z) {
 		auto& node(manager.addEntity<Node>());
 
-		node.addGroup(Manager::groupNodes_0);
+		node.addToGroup(Manager::groupNodes_0);
 		AssetManager::AddDefaultNode(node, glm::vec3(x, y, z));
 
 		manager.grid->addNode(&node, manager.grid->getGridLevel());
@@ -73,7 +73,7 @@ void PythonEngineUtil::init_api(py::module_& m, Manager& manager)
 
 		auto& link(manager.addEntity<Link>(fromInt, toInt));
 
-		link.addGroup(Manager::groupLinks_0);
+		link.addToGroup(Manager::groupLinks_0);
 		link.addComponent<Line_w_Color>();
 		link.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 255, 255.0f * alpha));
 		link.GetComponent<Line_w_Color>().setDestColor(TazColor(255, 255, 255, 255.0f * alpha));
@@ -174,7 +174,7 @@ void PythonEngineUtil::init_api(py::module_& m, Manager& manager)
 
 		// Create new ghost node
 		auto& ghostNode = manager.addEntity<Node>();
-		ghostNode.addGroup(Manager::groupNodes_0); // Or a separate ghost group
+		ghostNode.addToGroup(Manager::groupNodes_0); // Or a separate ghost group
 
 		// Copy transform
 		if (originalNode->hasComponent<TransformComponent>()) {

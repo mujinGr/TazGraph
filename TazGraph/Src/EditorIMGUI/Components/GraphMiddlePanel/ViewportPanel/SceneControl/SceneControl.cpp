@@ -22,21 +22,21 @@ void SceneControlPanel::OnImGuiRender()
 			empty.addComponent<BoxComponent>();
 
 			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
-			empty.addGroup(Manager::groupEmpties);
+			empty.addToGroup(Manager::groupEmpties);
 			// todo here we also have choose shape option
 		}
 
 		if (ImGui::Button("Create Empty - Plane")) {
 			auto& empty(config.scene->manager->addEntity<Empty>());
 
-			//empty.addGroup(config.c_manager::groupNodes_0);
+			//empty.addToGroup(config.c_manager::groupNodes_0);
 			// todo here we also have choose shape option
 		}
 
 		if (ImGui::Button("Create Empty - Triangle")) {
 			auto& empty(config.scene->manager->addEntity<Empty>());
 
-			//empty.addGroup(config.c_manager::groupNodes_0);
+			//empty.addToGroup(config.c_manager::groupNodes_0);
 			// todo here we also have choose shape option
 		}
 
@@ -50,7 +50,7 @@ void SceneControlPanel::OnImGuiRender()
 			empty.addComponent<SphereComponent>();
 
 			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
-			empty.addGroup(Manager::groupSphereEmpties);
+			empty.addToGroup(Manager::groupSphereEmpties);
 		}
 
 		if (ImGui::Button("Create Empty - Sphere Wireframe")) {
@@ -63,7 +63,7 @@ void SceneControlPanel::OnImGuiRender()
 			empty.addComponent<SphereComponent>();
 
 			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
-			empty.addGroup(Manager::groupWireframeSphereEmpties);
+			empty.addToGroup(Manager::groupWireframeSphereEmpties);
 		}
 
 		ImGui::Separator();
@@ -81,7 +81,7 @@ void SceneControlPanel::OnImGuiRender()
 
 
 			config.scene->manager->grid->addNode(&node, config.scene->manager->grid->getGridLevel());
-			node.addGroup(Manager::groupNodes_0);
+			node.addToGroup(Manager::groupNodes_0);
 		}
 
 		ImGui::Separator();
@@ -102,7 +102,7 @@ void SceneControlPanel::OnImGuiRender()
 
 				link.addComponent<LineFlashAnimatorComponent>();
 
-				link.addGroup(Manager::groupLinks_0);
+				link.addToGroup(Manager::groupLinks_0);
 				config.scene->manager->grid->addLink(&link, config.scene->manager->grid->getGridLevel());
 				errorMessage = ""; // Clear error if successful
 			}

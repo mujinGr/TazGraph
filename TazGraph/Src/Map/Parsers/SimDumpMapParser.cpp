@@ -183,7 +183,7 @@ void SimDumpMapParser::createSteps(
 
 	for (auto it = reader.get_node_iterator(); it != reader.get_node_end(); ++it) {
 		auto& node = manager.addEntityWithId<Node>(i);
-		node.addGroup(Manager::groupNodes_0);
+		node.addToGroup(Manager::groupNodes_0);
 		DataManager::getInstance().mapSimToGraphNodes[it->data.id] = &node;
 		i++;
 	}
@@ -195,7 +195,7 @@ void SimDumpMapParser::createSteps(
 			DataManager::getInstance().mapSimToGraphNodes[it->dst_id]->getId();
 
 		auto& link = manager.addEntityWithId<Link>(i, worldSrc_NodeId, worldDest_NodeId);
-		link.addGroup(Manager::groupLinks_0);
+		link.addToGroup(Manager::groupLinks_0);
 
 		DataManager::getInstance().mapSimToGraphLinks[it->data.id] = &link;
 		i++;
@@ -309,7 +309,7 @@ void SimDumpMapParser::createSteps(
 
 				empty_pathHolder.addComponent<SimDumpData>(id_string);
 				empty_pathHolder.addComponent<PathLinkerComponent>();
-				empty_pathHolder.addGroup(Manager::groupPathLinksHolder);
+				empty_pathHolder.addToGroup(Manager::groupPathLinksHolder);
 				pathEntities[id] = &empty_pathHolder;
 				pathEntity = &empty_pathHolder;
 			}

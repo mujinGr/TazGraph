@@ -10,6 +10,8 @@ struct SelectedInfo {
 	glm::vec3 relativeOffset;
 };
 
+std::vector<EntityID> selectedEntities_RealIds(std::vector<SelectedInfo> sel_entities);
+
 
 class UIElement {
 public:

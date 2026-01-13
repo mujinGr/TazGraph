@@ -87,12 +87,11 @@ void GraphRightPanel::availableFunctions() {
 
 }
 
+
 void GraphRightPanel::ShowGroupComponents() {
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
-
-
 
 	ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 	float size = 10;
@@ -115,13 +114,27 @@ void GraphRightPanel::ShowGroupComponents() {
 	}
 
 	ImGui::Separator();
-	if (config.c_selectedEntities.size() == 1) {
-
-		Entity* entity = config.scene->manager->getEntityFromId(config.c_selectedEntities[0].realEntityId);
+	
+	if (config.c_selectedEntities.empty() && 
+		selectedGroup == -1) 
+	{
+		ImGui::Text("No entities selected");
+		return;
+	}
+	else if (selectedGroup != -1) {
+		getSubcomponent<EntityComponentsControlPanel>()->setConfig({
+			.scene = config.scene,
+			.selectedGroup = selectedGroup
+			});
+		getSubcomponent<EntityComponentsControlPanel>()->OnImGuiRender();
+	}
+	else if(!config.c_selectedEntities.empty()) {
+		std::vector<EntityID> entity_ids =
+			selectedEntities_RealIds(config.c_selectedEntities);
 
 		getSubcomponent<EntityComponentsControlPanel>()->setConfig({
 			.scene = config.scene,
-			.displayedEntity = entity
+			.displayedEntityIds = entity_ids
 			});
 		getSubcomponent<EntityComponentsControlPanel>()->OnImGuiRender();
 	}

@@ -197,6 +197,7 @@
     <ClCompile Include="Src\EditorIMGUI\Components\WarningPanel\WarningPanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\GraphEditorLayer\GraphEditorLayer.cpp" />
     <ClCompile Include="Src\EditorIMGUI\MainMenuEditorLayer\MainMenuEditorLayer.cpp" />
+    <ClCompile Include="Src\EditorIMGUI\UIElement.cpp" />
     <ClCompile Include="Src\Map\Parsers\SimDumpMapParser.cpp" />
     <ClCompile Include="Src\Map\PathParsers\SimDumpPathParser.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\Graph.cpp" />

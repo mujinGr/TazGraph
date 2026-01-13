@@ -2,15 +2,15 @@
 
 void EntityComponentsControlPanel::OnImGuiRender()
 {
-
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-	if (!config.displayedEntity) return;
+	if (!displayedEntities[0]) return;
 
 	std::string windowTitle = "Entity";
-	Node* node = dynamic_cast<Node*>(config.displayedEntity);
-	Link* link = dynamic_cast<Link*>(config.displayedEntity);
-	Empty* empty = dynamic_cast<Empty*>(config.displayedEntity);
+
+	NodeEntity* node = dynamic_cast<NodeEntity*>(displayedEntities[0]);
+	LinkEntity* link = dynamic_cast<LinkEntity*>(displayedEntities[0]);
+	EmptyEntity* empty = dynamic_cast<EmptyEntity*>(displayedEntities[0]);
 
 
 	if (node) {
@@ -23,13 +23,20 @@ void EntityComponentsControlPanel::OnImGuiRender()
 		windowTitle = "Empty Display";
 	}
 
-	EntityID currentId = config.displayedEntity->getId();
+	bool allSameType = config.scene->manager->entities_AllSameType(displayedEntities);
+
+	if (!allSameType) {
+		ImGui::Text("Multiple selection with different entity types");
+		return;
+	}
+
+	EntityID currentId = displayedEntities[0]->getId();
 
 	Manager* man = config.scene->manager;
 
 	if (ImGui::BeginChild(windowTitle.c_str())) {
 
-		config.displayedEntity->imgui_print();
+		displayedEntities[0]->imgui_print();
 
 		ImGui::Separator();
 
@@ -84,39 +91,81 @@ void EntityComponentsControlPanel::OnImGuiRender()
 
 
 void EntityComponentsControlPanel::ComponentCheckbox(std::string c) {
-	bool hasComponent = config.displayedEntity->hasComponentByName(c);
+	int entitiesWithComponent = 0;
+	for (Entity* entity : displayedEntities) {
+		if (entity->hasComponentByName(c)) {
+			entitiesWithComponent++;
+		}
+	}
+	bool hasComponent = entitiesWithComponent > 0;
+	bool mixedState = entitiesWithComponent > 0 && entitiesWithComponent < displayedEntities.size();
 
 	auto it = componentNameToID.find(c);
+	ComponentID cid = (it != componentNameToID.end()) ? it->second : 0;
+
+	bool isPythonComponent = (cid == GetComponentTypeID<EmptyPythonCodeComponent>() ||
+		cid == GetComponentTypeID<LinkPythonCodeComponent>());
+
+	if (isPythonComponent) {
+		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 1.0f, 1.0f)); // cyan
+	}
+
 	if (it != componentNameToID.end()) {
-		ComponentID cid = it->second;
-
-		if (cid == GetComponentTypeID<EmptyPythonCodeComponent>() ||
-			cid == GetComponentTypeID<LinkPythonCodeComponent>()) {
-			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 1.0f, 1.0f)); // cyan
-		}
-
 		ImGui::Text("(ID: %u)", cid);
 		ImGui::SameLine();
-
 	}
 
-	if (ImGui::Checkbox(c.c_str(), &hasComponent)) {
-		if (hasComponent) {
-			AddComponentByName(c, config.displayedEntity);
+	if (mixedState) {
+		ImGui::PushStyleColor(ImGuiCol_CheckMark, ImVec4(1.0f, 0.6f, 0.0f, 1.0f)); // Orange
+		ImGui::PushItemFlag(ImGuiItemFlags_MixedValue, true);
+	}
+
+	bool componentEnabled = hasComponent;
+	if (ImGui::Checkbox(c.c_str(), &componentEnabled)) {
+		// Add or remove component from all entities
+		for (Entity* entity : displayedEntities) {
+			if (componentEnabled && !entity->hasComponentByName(c)) {
+				AddComponentByName(c, entity);
+			}
+			else if (!componentEnabled && entity->hasComponentByName(c)) {
+				RemoveComponentByName(c, entity);
+			}
 		}
-		else {
-			RemoveComponentByName(c, config.displayedEntity);
-		}
 	}
 
-	if (c == "EmptyPythonCodeComponent" ||
-		c == "LinkPythonCodeComponent") {
-		ImGui::PopStyleColor(); // cyan
+	if (mixedState) {
+		ImGui::PopItemFlag();
+		ImGui::PopStyleColor(); // Pop orange checkmark color
 	}
+
+	if (isPythonComponent) {
+		ImGui::PopStyleColor();
+	}
+
 
 	if (hasComponent) {
 		if (ImGui::TreeNode((c + " Properties").c_str())) {
-			getComponentByName(c, config.displayedEntity)->showGUI();
+			if (displayedEntities.size() == 1) {
+				getComponentByName(c, displayedEntities[0])->showGUI();
+			}
+			else {
+				// Find first entity with the component
+				Entity* referenceEntity = nullptr;
+				for (Entity* entity : displayedEntities) {
+					if (entity->hasComponentByName(c)) {
+						referenceEntity = entity;
+						break;
+					}
+				}
+
+				// Show GUI of first entity
+				if (referenceEntity) {
+					// Modify all entities in the group
+					getComponentByName(c, referenceEntity)->showGUI({}, displayedEntities);
+
+					ImGui::TextDisabled("Note: Editing affects all selected entities with this component");
+				}
+			}
 			ImGui::TreePop();
 		}
 	}

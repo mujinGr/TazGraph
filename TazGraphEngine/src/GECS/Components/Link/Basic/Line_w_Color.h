@@ -74,6 +74,10 @@ public:
 	}
 
 	void showGUI(std::vector<BaseComponent*> otherComponents = {}) override {
+		showGUI(otherComponents, { entity });
+	}
+
+	void showGUI(std::vector<BaseComponent*> otherComponents, std::vector<Entity*> otherEntities) override {
 		ImGui::Separator();
 
 		ImVec4 a_color = ImVec4(src_color.r / 255.0f, src_color.g / 255.0f, src_color.b / 255.0f, src_color.a / 255.0f);
@@ -102,5 +106,5 @@ public:
 		}
 
 		ImGui::SliderFloat("Width: ", &width, 0.0f, 10.0f);
-	}
+	};
 };

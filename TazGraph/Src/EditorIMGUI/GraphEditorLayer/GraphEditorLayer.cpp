@@ -195,7 +195,7 @@ void GraphEditorLayer::OnImGuiRender()
 					node.addComponent<Rectangle_w_Color>();
 					node.GetComponent<Rectangle_w_Color>().color = TazColor(0, 0, 224, 255);
 
-					node.addGroup(Manager::groupNodes_0);
+					node.addToGroup(Manager::groupNodes_0);
 
 					manager->grid->addNode(&node, manager->grid->getGridLevel());
 				}
@@ -208,7 +208,7 @@ void GraphEditorLayer::OnImGuiRender()
 
 					link.addComponent<LineFlashAnimatorComponent>();
 
-					link.addGroup(Manager::groupLinks_0);
+					link.addToGroup(Manager::groupLinks_0);
 
 					manager->grid->addLink(&link, manager->grid->getGridLevel());
 				}

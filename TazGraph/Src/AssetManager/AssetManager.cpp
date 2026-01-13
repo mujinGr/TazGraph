@@ -14,7 +14,7 @@ void AssetManager::CreateWorldMap(Entity& worldMap)
 	worldMap.addComponent<SpriteComponent>("worldMap");
 	worldMap.addComponent<TransformComponent>(glm::vec2(200.0f, 320.0f), Manager::groupBackgroundLayer, glm::ivec2(4, 4), 1);
 	worldMap.addComponent<SpriteComponent>();
-	worldMap.addGroup(Manager::panelBackground);
+	worldMap.addToGroup(Manager::panelBackground);
 }
 
 void AssetManager::CreateGroup(Entity& groupNode, glm::vec3 centerGroup, float groupNodeSize, Grid::Level m_level)
@@ -26,7 +26,7 @@ void AssetManager::CreateGroup(Entity& groupNode, glm::vec3 centerGroup, float g
 		groupNode.addComponent<Rectangle_w_Color>();
 		groupNode.GetComponent<Rectangle_w_Color>().color = TazColor(0, 155, 155, 255);
 
-		groupNode.addGroup(Manager::groupGroupNodes_0);
+		groupNode.addToGroup(Manager::groupGroupNodes_0);
 	}
 	else if (m_level == Grid::Level::Outer2) {
 		groupNode.addComponent<TransformComponent>(glm::vec2(centerGroup.x,
@@ -34,7 +34,7 @@ void AssetManager::CreateGroup(Entity& groupNode, glm::vec3 centerGroup, float g
 		groupNode.addComponent<Rectangle_w_Color>();
 		groupNode.GetComponent<Rectangle_w_Color>().color = TazColor(155, 155, 155, 255);
 
-		groupNode.addGroup(Manager::groupGroupNodes_1);
+		groupNode.addToGroup(Manager::groupGroupNodes_1);
 
 	}
 }
@@ -46,14 +46,14 @@ void AssetManager::CreateGroupLink(Entity& groupLink, Grid::Level m_level) {
 		groupLink.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 0, 255));
 		groupLink.GetComponent<Line_w_Color>().setDestColor(TazColor(255, 0, 0, 255));
 
-		groupLink.addGroup(Manager::groupGroupLinks_0);
+		groupLink.addToGroup(Manager::groupGroupLinks_0);
 	}
 	else if (m_level == Grid::Level::Outer2) {
 		groupLink.addComponent<Line_w_Color>();
 		groupLink.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 0, 0, 255));
 		groupLink.GetComponent<Line_w_Color>().setDestColor(TazColor(0, 255, 0, 255));
 
-		groupLink.addGroup(Manager::groupGroupLinks_1);
+		groupLink.addToGroup(Manager::groupGroupLinks_1);
 	}
 
 }

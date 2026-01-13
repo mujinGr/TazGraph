@@ -50,6 +50,11 @@ public:
 	}
 
 	void showGUI(std::vector<BaseComponent*> otherComponents = {}) override {
+		showGUI(otherComponents, { entity });
+
+	}
+
+	void showGUI(std::vector<BaseComponent*> otherComponents, std::vector<Entity*> otherEntities) override {
 		ImGui::Separator();
 
 		ImVec4 a_color = ImVec4(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
@@ -61,8 +66,12 @@ public:
 					   (GLubyte)(a_color.w * 255)
 			};
 
-			color = newColor;
+			for (auto& e : otherEntities) {
+				if (e->hasComponent<BoxComponent>()) {
+					e->GetComponent<BoxComponent>().color = newColor;
+				}
+			}
 		}
+	};
 
-	}
 };

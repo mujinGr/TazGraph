@@ -73,6 +73,10 @@ public:
 		ImGui::Separator();
 	}
 
+	void showGUI(std::vector<BaseComponent*> otherComponents, std::vector<Entity*> otherEntities) override {
+		ImGui::Separator();
+	}
+
 	void createInnerLinks() {
 		for (size_t i = 1; i < pathLinks.size(); i++) {
 			LinkEntity* prevLink = dynamic_cast<LinkEntity*>(entity->getManager()->getEntityFromId(pathLinks[i - 1]));
@@ -95,7 +99,7 @@ public:
 				prevToPortIndex, currFromPortIndex,
 				prevLink->toSlotIndex, currLink->fromSlotIndex
 			);
-			newInnerLink.addGroup(Manager::groupPathInnerLinks);  // or a dedicated group for inner links
+			newInnerLink.addToGroup(Manager::groupPathInnerLinks);  // or a dedicated group for inner links
 			newInnerLink.setConnectionType(LinkEntity::ConnectionType::GHOST_PORT_TO_PORT);
 			// first inner link comp so lineWColor init doesnt trigger
 			newInnerLink.addComponent<InnerLink>(prevLink->getId(), currLink->getId());

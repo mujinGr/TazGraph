@@ -91,7 +91,7 @@ void PythonMapParser::parse(Manager& manager,
 	for (const auto& parsedNode : parsedNodes) {
 		auto& node(manager.addEntity<Node>());
 
-		node.addGroup(Manager::groupNodes_0);
+		node.addToGroup(Manager::groupNodes_0);
 
 		//addNodeFunc(node, glm::vec3(x, y, z));
 		nodeEntities.push_back(&node);
@@ -129,7 +129,7 @@ void PythonMapParser::parse(Manager& manager,
 		auto& link = manager.addEntity<Link>(
 			parsedLink.from->getId(), parsedLink.to->getId());
 
-		link.addGroup(Manager::groupLinks_0);
+		link.addToGroup(Manager::groupLinks_0);
 
 		linkEntities.push_back(&link);
 	}

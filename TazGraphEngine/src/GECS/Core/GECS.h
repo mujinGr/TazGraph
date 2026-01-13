@@ -36,6 +36,7 @@ namespace Layer {
 namespace Taz {
 	enum EntityType
 	{
+		Unknown,
 		Empty,
 		Node,
 		Link,
@@ -117,6 +118,10 @@ public:
 	virtual std::string GetComponentName() { return ""; };
 
 	virtual void showGUI(std::vector<BaseComponent*> otherComponents = {}) {
+		ImGui::Text("MyComponent Properties:");
+	};
+
+	virtual void showGUI(std::vector<BaseComponent*> otherComponents, std::vector<Entity*> otherEntities) {
 		ImGui::Text("MyComponent Properties:");
 	};
 
@@ -322,7 +327,7 @@ public:
 		return groupBitSet[mGroup];
 	}
 
-	virtual void addGroup(Group mGroup);
+	virtual void addToGroup(Group mGroup);
 	virtual void removeGroup(Group mGroup);
 
 	template <typename T> bool hasComponent() const

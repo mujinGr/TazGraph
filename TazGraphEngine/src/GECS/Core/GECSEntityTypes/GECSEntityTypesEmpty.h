@@ -10,8 +10,8 @@ public:
 
 	}
 
-	void addGroup(Group mGroup) override {
-		Entity::addGroup(mGroup);
+	void addToGroup(Group mGroup) override {
+		Entity::addToGroup(mGroup);
 		manager.AddToGroup(this, mGroup);
 	}
 

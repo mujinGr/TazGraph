@@ -57,4 +57,10 @@ public:
 		ImGui::Text("SpringComponent");
 
 	}
+
+	void showGUI(std::vector<BaseComponent*> otherComponents, std::vector<Entity*> otherEntities) override {
+		ImGui::Separator();
+
+		ImGui::Text("SpringComponent");
+	};
 };

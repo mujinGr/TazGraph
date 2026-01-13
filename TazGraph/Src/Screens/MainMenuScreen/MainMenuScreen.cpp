@@ -101,7 +101,7 @@ void MainMenuScreen::onEntry()
 		manager->grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
 
 		Mainmenubackground.addComponent<MainMenuBackground>(&getApp()->_window);
-		Mainmenubackground.addGroup(Manager::groupBackgroundLayer);
+		Mainmenubackground.addToGroup(Manager::groupBackgroundLayer);
 		manager->grid->addEmpty(&Mainmenubackground, manager->grid->getGridLevel());
 	}
 }

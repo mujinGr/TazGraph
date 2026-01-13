@@ -6,7 +6,7 @@
 // Map of component names to functions for adding components
 static const std::unordered_map<std::string, std::function<void(Entity*)>> addComponentMap = {
 	//{"TransformComponent", [](Entity* entity) { entity->addComponent<TransformComponent>(); }},
-	{"SpriteComponent", [](Entity* entity) {entity->addGroup(Manager::groupRenderSprites);entity->addComponent<SpriteComponent>(); }},
+	{"SpriteComponent", [](Entity* entity) {entity->addToGroup(Manager::groupRenderSprites);entity->addComponent<SpriteComponent>(); }},
 	{"ColliderComponent", [](Entity* entity) { entity->addComponent<ColliderComponent>(); }},
 	{"Triangle_w_Color", [](Entity* entity) { entity->addComponent<Triangle_w_Color>(); }},
 	{"Rectangle_w_Color", [](Entity* entity) { entity->addComponent<Rectangle_w_Color>(); }},

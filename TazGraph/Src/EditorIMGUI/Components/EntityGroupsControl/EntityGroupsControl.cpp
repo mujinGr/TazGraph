@@ -40,7 +40,7 @@ void EntityGroupsControlPanel::OnImGuiRender()
 
 			if (ImGui::Checkbox(groupElement.second.c_str(), &hasGroup)) {
 				if (hasGroup) {
-					config.displayedEntity->addGroup(groupElement.first);
+					config.displayedEntity->addToGroup(groupElement.first);
 				}
 				else {
 					config.displayedEntity->removeGroup(groupElement.first);

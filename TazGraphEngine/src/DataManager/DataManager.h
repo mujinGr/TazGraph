@@ -205,7 +205,7 @@ public:
 
 				// create ECS link
 				auto& link = manager.addEntity<Link>((int)idA, (int)idB);
-				link.addGroup(Manager::groupPathLinks);
+				link.addToGroup(Manager::groupPathLinks);
 				link.addComponent<Line_w_Color>();
 
 				link.addComponent<LineFlashAnimatorComponent>();
@@ -233,5 +233,9 @@ public:
 				pathLinker->GetComponent<PathLinkerComponent>().createInnerLinks();
 			}
 		}
+	}
+
+	void addStep(Manager& manager) {
+		manager.steps.push_back(SimulationStep());
 	}
 };
