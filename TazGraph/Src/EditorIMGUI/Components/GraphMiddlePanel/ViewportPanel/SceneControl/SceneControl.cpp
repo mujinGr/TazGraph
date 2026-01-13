@@ -13,16 +13,26 @@ void SceneControlPanel::OnImGuiRender()
 
 	if (ImGui::Begin(windowTitle.c_str())) {
 		if (ImGui::Button("Create Empty - Box")) {
-			auto& empty(config.scene->manager->addEntity<Empty>());
 
-			glm::vec2 position(0, 0);
+			auto createEmptyCommand = std::make_unique<Command>(
+				"Create Empty Entity",
+				[this]() {
+					auto& empty(config.scene->manager->addEntity<Empty>());
 
-			empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+					glm::vec2 position(0, 0);
 
-			empty.addComponent<BoxComponent>();
+					empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
 
-			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
-			empty.addToGroup(Manager::groupEmpties);
+					empty.addComponent<BoxComponent>();
+
+					config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
+					empty.addToGroup(Manager::groupEmpties);
+				}
+			);
+
+			config.scene->manager->undoStack.push(std::move(createEmptyCommand));
+
+			config.scene->manager->undoStack.top()->execute();
 			// todo here we also have choose shape option
 		}
 

@@ -308,5 +308,8 @@
     <ClInclude Include="src\PythonEngine\PythonEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\GECS\Core\Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

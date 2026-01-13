@@ -11,6 +11,7 @@
 #include <regex>
 #include <filesystem>
 #include <shared_mutex>
+#include "Command.h"
 
 namespace fs = std::filesystem;
 
@@ -42,8 +43,12 @@ private:
 
 	bool _update_active_entities = false;
 public:
+	// Simdump
 	std::vector<SimulationStep> steps;
 	int currentStep = 0;
+
+	// Command Pattern
+	std::stack<std::unique_ptr<Command>> undoStack;
 
 	std::vector<EntityID> movedNodes;
 	std::mutex movedNodesMutex;
