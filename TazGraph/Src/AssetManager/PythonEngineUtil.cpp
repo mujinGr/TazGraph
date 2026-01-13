@@ -26,6 +26,7 @@ void PythonEngineUtil::init(Manager& manager)
 	py::globals()["deepCopyLink"] = userapi.attr("deepCopyLink");
 	py::globals()["deleteEntities"] = userapi.attr("deleteEntities");
 	py::globals()["addGroupName"] = userapi.attr("addGroupName");
+	py::globals()["addStep"] = userapi.attr("addStep");
 }
 
 void PythonEngineUtil::init_api(py::module_& m, Manager& manager)
@@ -238,5 +239,10 @@ void PythonEngineUtil::init_api(py::module_& m, Manager& manager)
 	m.def("addGroupName", [&manager](std::string newGroup) -> std::string {
 		manager.addGroup(newGroup);
 		return newGroup;
+		});
+
+	m.def("addStep", [&manager]() -> void {
+		DataManager::getInstance().addSimulationStep(manager);
+
 		});
 }

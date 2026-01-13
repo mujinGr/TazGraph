@@ -235,7 +235,12 @@ public:
 		}
 	}
 
-	void addStep(Manager& manager) {
-		manager.steps.push_back(SimulationStep());
+	void addSimulationStep(Manager& manager) {
+		SimulationStep new_step = SimulationStep();
+
+		new_step.step_index = manager.steps.back().step_index + 1;
+		new_step.timestamp = manager.steps.back().timestamp + 0.01f;
+
+		manager.steps.push_back(new_step);
 	}
 };
