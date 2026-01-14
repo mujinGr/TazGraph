@@ -44,6 +44,27 @@ void {\bfseries Reload\+Accessible\+Files} ()
 \item 
 \Hypertarget{classDataManager_a59fd3a4c38f2b4aad39b793a1d501864}\label{classDataManager_a59fd3a4c38f2b4aad39b793a1d501864} 
 void {\bfseries apply\+Step} (\mbox{\hyperlink{classManager}{Manager}} \&manager, int transition\+To\+Step)
+\item 
+\Hypertarget{classDataManager_abce932e90452f3bf1fee16b0331f8e8c}\label{classDataManager_abce932e90452f3bf1fee16b0331f8e8c} 
+void {\bfseries copy\+Simulation\+Step\+To} (\mbox{\hyperlink{classManager}{Manager}} \&manager, sim\+\_\+dump\+::\+UInt32 source\+Step\+Index, sim\+\_\+dump\+::\+UInt32 target\+Step\+Index, double target\+Timestamp)
+\item 
+\Hypertarget{classDataManager_af3a8b420b0d02f7ab20eeca1182689e3}\label{classDataManager_af3a8b420b0d02f7ab20eeca1182689e3} 
+void {\bfseries reindex\+Steps} (\mbox{\hyperlink{classManager}{Manager}} \&manager)
+\item 
+\Hypertarget{classDataManager_a20ab4f61a5c2b87f002d6e50cbce297b}\label{classDataManager_a20ab4f61a5c2b87f002d6e50cbce297b} 
+void {\bfseries add\+Simulation\+Step} (\mbox{\hyperlink{classManager}{Manager}} \&manager)
+\item 
+\Hypertarget{classDataManager_ac957b990c5a6e0e65507b808d3f053af}\label{classDataManager_ac957b990c5a6e0e65507b808d3f053af} 
+void {\bfseries add\+Simulation\+Step} (\mbox{\hyperlink{classManager}{Manager}} \&manager, sim\+\_\+dump\+::\+UInt32 step, double timestamp, sim\+\_\+dump\+::\+UInt32 copy\+Step)
+\item 
+\Hypertarget{classDataManager_a74fa5d57fa42d378322b798a41fac66e}\label{classDataManager_a74fa5d57fa42d378322b798a41fac66e} 
+void {\bfseries remove\+Simulation\+Step} (\mbox{\hyperlink{classManager}{Manager}} \&manager, sim\+\_\+dump\+::\+UInt32 step)
+\item 
+\Hypertarget{classDataManager_a2ba6e8c27044cc6f47a0c0bc6c34e380}\label{classDataManager_a2ba6e8c27044cc6f47a0c0bc6c34e380} 
+std\+::string {\bfseries simulation\+Step\+To\+String} (const \mbox{\hyperlink{structSimulationStep}{Simulation\+Step}} \&step)
+\item 
+\Hypertarget{classDataManager_a33f59cd3d373acac6e5aad2e2768f17d}\label{classDataManager_a33f59cd3d373acac6e5aad2e2768f17d} 
+std\+::string {\bfseries simulation\+Step\+To\+String} (const \mbox{\hyperlink{classManager}{Manager}} \&manager, int step\+Index)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}

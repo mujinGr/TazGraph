@@ -36,6 +36,7 @@ enum {\bfseries group\+Labels} \+: std\+::size\+\_\+t \{ \newline
 , {\bfseries group\+Port\+Slots}
 , \newline
 {\bfseries text\+Labels}
+, {\bfseries \+\_\+\+\_\+\+COUNT\+\_\+\+\_\+}
  \}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions}
@@ -85,6 +86,9 @@ const std\+::unordered\+\_\+map$<$ Entity\+ID, std\+::unique\+\_\+ptr$<$ \mbox{\
 \Hypertarget{classManager_a65ba0d9aaf68b762b9e65334e407690a}\label{classManager_a65ba0d9aaf68b762b9e65334e407690a} 
 {\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ \& {\bfseries get\+Group} (Group m\+Group)
 \item 
+\Hypertarget{classManager_a95f0552f871c1fd800650e3c7e3cf50a}\label{classManager_a95f0552f871c1fd800650e3c7e3cf50a} 
+std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries get\+Group\+\_\+\+All} (Group m\+Group)
+\item 
 \Hypertarget{classManager_af839738bd35efac781777d59869b166c}\label{classManager_af839738bd35efac781777d59869b166c} 
 {\footnotesize template$<$typename T , typename... TArgs$>$ }\\T \& {\bfseries add\+Entity\+No\+Id} (TArgs \&\&... m\+Args)
 \item 
@@ -105,6 +109,9 @@ void {\bfseries set\+New\+Last\+Entity\+Id} ()
 \item 
 \Hypertarget{classManager_a98a622e3525d41d42668f2fe6e9f6953}\label{classManager_a98a622e3525d41d42668f2fe6e9f6953} 
 \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Entity\+From\+Id} (Entity\+ID m\+Id)
+\item 
+\Hypertarget{classManager_a4943b767c77b1d4e2acb13535c3575bf}\label{classManager_a4943b767c77b1d4e2acb13535c3575bf} 
+std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries get\+Entities\+\_\+\+From\+Ids} (std\+::vector$<$ Entity\+ID $>$ m\+Ids)
 \item 
 \Hypertarget{classManager_a2201be339a3b8246f452065b6c8c726a}\label{classManager_a2201be339a3b8246f452065b6c8c726a} 
 bool {\bfseries has\+Entity} (Entity\+ID m\+Id)
@@ -127,6 +134,9 @@ void {\bfseries remove\+All\+Entities\+From\+Link\+Group} (Group m\+Group)
 \Hypertarget{classManager_a345ffca9efa85b1ee126e85c17926bac}\label{classManager_a345ffca9efa85b1ee126e85c17926bac} 
 std\+::vector$<$ Entity\+ID $>$ {\bfseries adjacent\+Entities} (\mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*}main\+Entity, Group group)
 \item 
+\Hypertarget{classManager_aefd12b083645f5f13a72592e1d5eb960}\label{classManager_aefd12b083645f5f13a72592e1d5eb960} 
+void {\bfseries add\+Group} (std\+::string group\+Name)
+\item 
 \Hypertarget{classManager_a899dd5c5522e4ab16b56fcb6a486e6c9}\label{classManager_a899dd5c5522e4ab16b56fcb6a486e6c9} 
 std\+::string {\bfseries get\+Group\+Name} (Group m\+Group) const
 \item 
@@ -141,15 +151,21 @@ std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{
 \item 
 \Hypertarget{classManager_a5ccce61cbca1a6067cba301cce389944}\label{classManager_a5ccce61cbca1a6067cba301cce389944} 
 std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries collect\+Entities} (std\+::initializer\+\_\+list$<$ Manager\+::group\+Labels $>$ group\+Names, Taz\+::\+Entity\+Type type)
+\item 
+\Hypertarget{classManager_a2c68f4bd1c2a3ff201dd381b8b822109}\label{classManager_a2c68f4bd1c2a3ff201dd381b8b822109} 
+bool {\bfseries entities\+\_\+\+All\+Same\+Type} (std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ entities)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classManager_aa114b9fff270f7761dc3d48bcaa14e89}\label{classManager_aa114b9fff270f7761dc3d48bcaa14e89} 
-std\+::vector$<$ \mbox{\hyperlink{structSimulationStep}{Simulation\+Step}} $>$ {\bfseries steps}
+\Hypertarget{classManager_aa82bc18559060d113f66f2bc8f1bfaa1}\label{classManager_aa82bc18559060d113f66f2bc8f1bfaa1} 
+std\+::list$<$ \mbox{\hyperlink{structSimulationStep}{Simulation\+Step}} $>$ {\bfseries steps}
 \item 
 \Hypertarget{classManager_a73d28f92d91050f25c0c277a76e18a74}\label{classManager_a73d28f92d91050f25c0c277a76e18a74} 
 int {\bfseries current\+Step} = 0
+\item 
+\Hypertarget{classManager_a5f0458b8a8971fa0c48348f764d85775}\label{classManager_a5f0458b8a8971fa0c48348f764d85775} 
+std\+::stack$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classCommand}{Command}} $>$ $>$ {\bfseries undo\+Stack}
 \item 
 \Hypertarget{classManager_a140661a2e65e3d943b71a61cf29d5d62}\label{classManager_a140661a2e65e3d943b71a61cf29d5d62} 
 std\+::vector$<$ Entity\+ID $>$ {\bfseries moved\+Nodes}
@@ -172,9 +188,12 @@ std\+::unordered\+\_\+map$<$ std\+::string, std\+::vector$<$ std\+::string $>$ $
 \Hypertarget{classManager_a49bed531c87cc65f2dbfe00d6d1fa8d6}\label{classManager_a49bed531c87cc65f2dbfe00d6d1fa8d6} 
 std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classGrid}{Grid}} $>$ {\bfseries grid}
 \item 
-\Hypertarget{classManager_a52c59a57eb3afe37d8eca027ddafe394}\label{classManager_a52c59a57eb3afe37d8eca027ddafe394} 
-const std\+::unordered\+\_\+map$<$ Group, std\+::string $>$ {\bfseries group\+Names}
-\end{DoxyCompactItemize}
+\Hypertarget{classManager_afaa1f2034f8c92ceb771d80ab464b398}\label{classManager_afaa1f2034f8c92ceb771d80ab464b398} 
+std\+::unordered\+\_\+map$<$ Group, std\+::string $>$ {\bfseries group\+Names}
+\item 
+\Hypertarget{classManager_a984e722f0dba12a6a2c3da1db7222987}\label{classManager_a984e722f0dba12a6a2c3da1db7222987} 
+std\+::size\+\_\+t {\bfseries next\+Group} = group\+Labels\+::\+\_\+\+\_\+\+COUNT\+\_\+\+\_\+
+\begin{DoxyCompactList}\small\item\em dynamically add groups with Enum! \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Member Function Documentation}

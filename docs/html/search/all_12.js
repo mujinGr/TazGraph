@@ -1,26 +1,6 @@
 var searchData=
 [
-  ['pairhash_0',['PairHash',['../structPairHash.html',1,'']]],
-  ['parse_1',['parse',['../classTextMapParser.html#afcd3244feffeb316fc446e62ed4f50a4',1,'TextMapParser']]],
-  ['parsedlink_2',['ParsedLink',['../structParsedLink.html',1,'']]],
-  ['parsednode_3',['ParsedNode',['../structParsedNode.html',1,'']]],
-  ['parsers_4',['parsers',['../fileFormats.html',1,'File Formats/Parsers'],['../fileFormats.html#Custom',1,'Parsers']]],
-  ['pass_20initialization_5',['2. Render Pass Initialization',['../renderEngine.html#autotoc_md4',1,'']]],
-  ['path_20files_20txt_6',['Path Files (.txt)',['../fileFormats.html#pathFormat',1,'']]],
-  ['pathlinkercomponent_7',['PathLinkerComponent',['../classPathLinkerComponent.html',1,'']]],
-  ['perspectivecamera_8',['PerspectiveCamera',['../classPerspectiveCamera.html',1,'']]],
-  ['pipeline_9',['Graph Rendering Pipeline',['../renderEngine.html#autotoc_md2',1,'']]],
-  ['plaintext_20format_10',['.txt (Custom Plaintext Format)',['../fileFormats.html#txtFormat',1,'']]],
-  ['planecolorrenderer_11',['PlaneColorRenderer',['../classPlaneColorRenderer.html',1,'']]],
-  ['planemodelrenderer_12',['PlaneModelRenderer',['../classPlaneModelRenderer.html',1,'']]],
-  ['portcomponent_13',['PortComponent',['../classPortComponent.html',1,'']]],
-  ['portslotcomponent_14',['PortSlotComponent',['../classPortSlotComponent.html',1,'']]],
-  ['preparedraw_15',['preparedraw',['../classGraph.html#a96825c801c28c85c630dd5dd38c40c7e',1,'Graph::prepareDraw()'],['../classMainMenuScreen.html#aa67f739ccd83abfcc3717f613090e96f',1,'MainMenuScreen::prepareDraw()']]],
-  ['py_20python_20dictionary_20format_16',['.py (Python Dictionary Format)',['../fileFormats.html#pyFormat',1,'']]],
-  ['python_20commands_17',['Python Commands',['../pythonCommands.html',1,'dev_guide']]],
-  ['python_20dictionary_20format_18',['.py (Python Dictionary Format)',['../fileFormats.html#pyFormat',1,'']]],
-  ['pythoncodecomponent_19',['PythonCodeComponent',['../classPythonCodeComponent.html',1,'']]],
-  ['pythoninterpreterconfig_20',['PythonInterpreterConfig',['../structPythonInterpreterConfig.html',1,'']]],
-  ['pythoninterpreterpanel_21',['PythonInterpreterPanel',['../classPythonInterpreterPanel.html',1,'']]],
-  ['pythonmapparser_22',['PythonMapParser',['../classPythonMapParser.html',1,'']]]
+  ['orientationbox_0',['OrientationBox',['../classOrientationBox.html',1,'']]],
+  ['orientationboxconfig_1',['OrientationBoxConfig',['../structOrientationBoxConfig.html',1,'']]],
+  ['orthocamera_2',['OrthoCamera',['../classOrthoCamera.html',1,'']]]
 ];

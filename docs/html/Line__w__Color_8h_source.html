@@ -158,40 +158,44 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordtype">void</span> showGUI(std::vector&lt;BaseComponent*&gt; otherComponents = {}) <span class="keyword">override</span> {</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        ImGui::Separator();</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        ImVec4 a_color = ImVec4(src_color.r / 255.0f, src_color.g / 255.0f, src_color.b / 255.0f, src_color.a / 255.0f);</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">if</span> (ImGui::ColorPicker4(<span class="stringliteral">&quot;TazColor Line Src&quot;</span>, (<span class="keywordtype">float</span>*)&amp;a_color)) {</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <a class="code hl_struct" href="structTazGraphEngine_1_1Color.html">TazColor</a> newColor = {</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                       (GLubyte)(a_color.x * 255),</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                       (GLubyte)(a_color.y * 255),</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>                       (GLubyte)(a_color.z * 255),</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>                       (GLubyte)(a_color.w * 255)</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            };</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            setSrcColor(newColor);</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        }</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        showGUI(otherComponents, { entity });</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    }</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordtype">void</span> showGUI(std::vector&lt;BaseComponent*&gt; otherComponents, std::vector&lt;Entity*&gt; otherEntities)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        ImGui::Separator();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        ImVec4 a_color = ImVec4(src_color.r / 255.0f, src_color.g / 255.0f, src_color.b / 255.0f, src_color.a / 255.0f);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordflow">if</span> (ImGui::ColorPicker4(<span class="stringliteral">&quot;TazColor Line Src&quot;</span>, (<span class="keywordtype">float</span>*)&amp;a_color)) {</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>            <a class="code hl_struct" href="structTazGraphEngine_1_1Color.html">TazColor</a> newColor = {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>                       (GLubyte)(a_color.x * 255),</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                       (GLubyte)(a_color.y * 255),</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                       (GLubyte)(a_color.z * 255),</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                       (GLubyte)(a_color.w * 255)</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>            };</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        ImVec4 b_color = ImVec4(dest_color.r / 255.0f, dest_color.g / 255.0f, dest_color.b / 255.0f, dest_color.a / 255.0f);</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="keywordflow">if</span> (ImGui::ColorPicker4(<span class="stringliteral">&quot;TazColor Line Dest&quot;</span>, (<span class="keywordtype">float</span>*)&amp;b_color)) {</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <a class="code hl_struct" href="structTazGraphEngine_1_1Color.html">TazColor</a> newColor = {</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                       (GLubyte)(b_color.x * 255),</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                       (GLubyte)(b_color.y * 255),</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                       (GLubyte)(b_color.z * 255),</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>                       (GLubyte)(b_color.w * 255)</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            };</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            setDestColor(newColor);</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        }</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        ImGui::SliderFloat(<span class="stringliteral">&quot;Width: &quot;</span>, &amp;width, 0.0f, 10.0f);</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    }</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>};</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            setSrcColor(newColor);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        }</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        ImVec4 b_color = ImVec4(dest_color.r / 255.0f, dest_color.g / 255.0f, dest_color.b / 255.0f, dest_color.a / 255.0f);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">if</span> (ImGui::ColorPicker4(<span class="stringliteral">&quot;TazColor Line Dest&quot;</span>, (<span class="keywordtype">float</span>*)&amp;b_color)) {</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            <a class="code hl_struct" href="structTazGraphEngine_1_1Color.html">TazColor</a> newColor = {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                       (GLubyte)(b_color.x * 255),</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                       (GLubyte)(b_color.y * 255),</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                       (GLubyte)(b_color.z * 255),</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                       (GLubyte)(b_color.w * 255)</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            };</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            setDestColor(newColor);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        }</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        ImGui::SliderFloat(<span class="stringliteral">&quot;Width: &quot;</span>, &amp;width, 0.0f, 10.0f);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    };</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>};</div>
 </div>
 <div class="ttc" id="aclassLineRenderer_html"><div class="ttname"><a href="classLineRenderer.html">LineRenderer</a></div><div class="ttdef"><b>Definition</b> LineRenderer.h:6</div></div>
 <div class="ttc" id="aclassLine__w__Color_html"><div class="ttname"><a href="classLine__w__Color.html">Line_w_Color</a></div><div class="ttdef"><b>Definition</b> Line_w_Color.h:6</div></div>
-<div class="ttc" id="aclassLinkComponent_html"><div class="ttname"><a href="classLinkComponent.html">LinkComponent</a></div><div class="ttdef"><b>Definition</b> GECS.h:134</div></div>
+<div class="ttc" id="aclassLinkComponent_html"><div class="ttname"><a href="classLinkComponent.html">LinkComponent</a></div><div class="ttdef"><b>Definition</b> GECS.h:141</div></div>
 <div class="ttc" id="aclassLinkEntity_html_a73345eff25004221b8a7ffa10835bc85"><div class="ttname"><a href="classLinkEntity.html#a73345eff25004221b8a7ffa10835bc85">LinkEntity::fromPos</a></div><div class="ttdeci">glm::vec3 fromPos</div><div class="ttdoc">When DirectPosition.</div><div class="ttdef"><b>Definition</b> GECSEntity.h:124</div></div>
 <div class="ttc" id="aclassTazGraphEngine_1_1Window_html"><div class="ttname"><a href="classTazGraphEngine_1_1Window.html">TazGraphEngine::Window</a></div><div class="ttdef"><b>Definition</b> Window.h:12</div></div>
 <div class="ttc" id="astructFlashAnimation_html"><div class="ttname"><a href="structFlashAnimation.html">FlashAnimation</a></div><div class="ttdef"><b>Definition</b> FlashAnimation.h:10</div></div>

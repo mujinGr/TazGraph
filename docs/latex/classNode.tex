@@ -24,7 +24,9 @@ Collaboration diagram for Node\+:\nopagebreak
 \Hypertarget{classNode_a6f5a25fc537e0721cab8efc6026a6515}\label{classNode_a6f5a25fc537e0721cab8efc6026a6515} 
 {\bfseries Node} (\mbox{\hyperlink{classManager}{Manager}} \&m\+Manager)
 \item 
-void \mbox{\hyperlink{classNode_a14e0020cba8e11e6786fecde581bcb5d}{add\+Group}} (Group m\+Group) override
+void \mbox{\hyperlink{classNode_a56b0b831c3fd6a9336c8a9f8707a765c}{add\+To\+Group}} (Group m\+Group) override
+\item 
+void \mbox{\hyperlink{classNode_ae72cc3f53aedf41e810050ff0612023e}{remove\+Group}} (Group m\+Group) override
 \item 
 void \mbox{\hyperlink{classNode_a11534136b486a3bf87130d4983a56bfb}{update}} (float delta\+Time)
 \item 
@@ -116,8 +118,6 @@ bool {\bfseries is\+Active} ()
 \item 
 bool {\bfseries has\+Group} (Group m\+Group)
 \item 
-void {\bfseries remove\+Group} (Group m\+Group)
-\item 
 {\footnotesize template$<$typename T $>$ }\\bool {\bfseries has\+Component} () const
 \item 
 {\footnotesize template$<$typename T , typename... TArgs$>$ }\\T \& {\bfseries add\+Component} (TArgs \&\&... m\+Args)
@@ -127,6 +127,8 @@ void {\bfseries remove\+Group} (Group m\+Group)
 virtual void {\bfseries set\+Component\+Entity} (\mbox{\hyperlink{classLinkComponent}{Link\+Component}} \texorpdfstring{$\ast$}{*}c)
 \item 
 {\footnotesize template$<$typename T $>$ }\\T \& {\bfseries Get\+Component} () const
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries Get\+Component\+Ptr} ()
 \item 
 bool {\bfseries has\+Component\+By\+Name} (const std\+::string \&component\+Name)
 \item 
@@ -182,16 +184,6 @@ std\+::optional$<$ Component\+Bit\+Set $>$ {\bfseries node\+Component\+Bit\+Set}
 
 
 \doxysubsection{Member Function Documentation}
-\Hypertarget{classNode_a14e0020cba8e11e6786fecde581bcb5d}\label{classNode_a14e0020cba8e11e6786fecde581bcb5d} 
-\index{Node@{Node}!addGroup@{addGroup}}
-\index{addGroup@{addGroup}!Node@{Node}}
-\doxysubsubsection{\texorpdfstring{addGroup()}{addGroup()}}
-{\footnotesize\ttfamily void Node\+::add\+Group (\begin{DoxyParamCaption}\item[{Group}]{m\+Group }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
-
-
-
-Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
-
 \Hypertarget{classNode_af477692661e4515dd7b6d054f0d72d13}\label{classNode_af477692661e4515dd7b6d054f0d72d13} 
 \index{Node@{Node}!addPorts@{addPorts}}
 \index{addPorts@{addPorts}!Node@{Node}}
@@ -201,6 +193,16 @@ Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
 
 
 Reimplemented from \mbox{\hyperlink{classNodeEntity}{Node\+Entity}}.
+
+\Hypertarget{classNode_a56b0b831c3fd6a9336c8a9f8707a765c}\label{classNode_a56b0b831c3fd6a9336c8a9f8707a765c} 
+\index{Node@{Node}!addToGroup@{addToGroup}}
+\index{addToGroup@{addToGroup}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{addToGroup()}{addToGroup()}}
+{\footnotesize\ttfamily void Node\+::add\+To\+Group (\begin{DoxyParamCaption}\item[{Group}]{m\+Group }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
 
 \Hypertarget{classNode_ae5c74f2820c1ea8ddfdc07eecc16f9d5}\label{classNode_ae5c74f2820c1ea8ddfdc07eecc16f9d5} 
 \index{Node@{Node}!cellUpdate@{cellUpdate}}
@@ -237,6 +239,16 @@ Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
 \index{imgui\_print@{imgui\_print}!Node@{Node}}
 \doxysubsubsection{\texorpdfstring{imgui\_print()}{imgui\_print()}}
 {\footnotesize\ttfamily void Node\+::imgui\+\_\+print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
+
+\Hypertarget{classNode_ae72cc3f53aedf41e810050ff0612023e}\label{classNode_ae72cc3f53aedf41e810050ff0612023e} 
+\index{Node@{Node}!removeGroup@{removeGroup}}
+\index{removeGroup@{removeGroup}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{removeGroup()}{removeGroup()}}
+{\footnotesize\ttfamily void Node\+::remove\+Group (\begin{DoxyParamCaption}\item[{Group}]{m\+Group }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 

@@ -31,28 +31,33 @@
 \DoxyCodeLine{00027\ }
 \DoxyCodeLine{00028\ \textcolor{keyword}{public}:}
 \DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_multisampleEnabled\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00030\ }
-\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ SetMultisample(\textcolor{keywordtype}{bool}\ enable)\ \{}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (enable)\ \{}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ glEnable(GL\_MULTISAMPLE);}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ glDisable(GL\_MULTISAMPLE);}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00038\ \ \ \ \ \}}
-\DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \ \ \ \ uint32\_t\ \_framebufferTexture;}
-\DoxyCodeLine{00041\ \ \ \ \ uint32\_t\ \_multisampledTexture;}
-\DoxyCodeLine{00042\ }
-\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{int}\ \_width,\ \_height;}
-\DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{Framebuffer}}();}
-\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{\string~Framebuffer}}();}
-\DoxyCodeLine{00047\ }
-\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ init(\textcolor{keywordtype}{int}\ windowWidth,\ \textcolor{keywordtype}{int}\ windowHeight,\ \textcolor{keywordtype}{bool}\ enableMSAA,\ \textcolor{keywordtype}{int}\ MSAA\_samples\ =\ 0);}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ Bind();}
-\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ Unbind();}
-\DoxyCodeLine{00052\ \};}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{int}\ \_multisamples\ =\ 0;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ SetMultisample(\textcolor{keywordtype}{bool}\ enable)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (enable)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ glEnable(GL\_MULTISAMPLE);}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ glDisable(GL\_MULTISAMPLE);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ uint32\_t\ \_framebufferTexture;}
+\DoxyCodeLine{00042\ \ \ \ \ uint32\_t\ \_multisampledTexture;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{int}\ \_width,\ \_height;}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{Framebuffer}}();}
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{\string~Framebuffer}}();}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ init(\textcolor{keywordtype}{int}\ windowWidth,\ \textcolor{keywordtype}{int}\ windowHeight,\ \textcolor{keywordtype}{bool}\ enableMSAA,\ \textcolor{keywordtype}{int}\ MSAA\_samples\ =\ 0);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ attachMultisampleTexture(\textcolor{keywordtype}{int}\ windowWidth,\ \textcolor{keywordtype}{int}\ windowHeight);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ attachTexture(\textcolor{keywordtype}{int}\ windowWidth,\ \textcolor{keywordtype}{int}\ windowHeight);}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ Bind();}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{void}\ Unbind();}
+\DoxyCodeLine{00057\ \};}
 
 \end{DoxyCode}

@@ -1,0 +1,31 @@
+\doxysection{Command Class Reference}
+\hypertarget{classCommand}{}\label{classCommand}\index{Command@{Command}}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classCommand_acb868b1383651bcd45590c4cabaf1235}\label{classCommand_acb868b1383651bcd45590c4cabaf1235} 
+using {\bfseries Callback} = std\+::function$<$ void()$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classCommand_aadaca2846fc87844f1c7b2059bbc31f1}\label{classCommand_aadaca2846fc87844f1c7b2059bbc31f1} 
+{\bfseries Command} (const std\+::string \&name, Callback execute\+Func, Callback undo\+Func=nullptr)
+\item 
+\Hypertarget{classCommand_abc8574913684044b0f1a9f810b4e969b}\label{classCommand_abc8574913684044b0f1a9f810b4e969b} 
+void {\bfseries execute} ()
+\item 
+\Hypertarget{classCommand_aec6daa31b134ef3fbd02bd8fa6a369b2}\label{classCommand_aec6daa31b134ef3fbd02bd8fa6a369b2} 
+void {\bfseries undo} ()
+\item 
+\Hypertarget{classCommand_a7c0ce95bf3b71dcb518d9d42575b1382}\label{classCommand_a7c0ce95bf3b71dcb518d9d42575b1382} 
+const std\+::string \& {\bfseries get\+Name} () const
+\item 
+\Hypertarget{classCommand_ab8eedcfc7cf884d4e56bd05b1a577ad8}\label{classCommand_ab8eedcfc7cf884d4e56bd05b1a577ad8} 
+bool {\bfseries can\+Undo} () const
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Core/Command.\+h\end{DoxyCompactItemize}

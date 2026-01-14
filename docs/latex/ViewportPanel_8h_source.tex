@@ -12,7 +12,7 @@
 \DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}HighlightBox/HighlightBox.h"{}}}
 \DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}SceneControl/SceneControl.h"{}}}
 \DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}HoverEntityPanel/HoverEntityPanel.h"{}}}
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../../EntityComponentsControl/EntityComponentsControl.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../../EntityGroupsControl/EntityGroupsControl.h"{}}}
 \DoxyCodeLine{00012\ }
 \DoxyCodeLine{00013\ }
 \DoxyCodeLine{00014\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structViewportPanelConfig}{ViewportPanelConfig}}\ \{}
@@ -32,23 +32,19 @@
 \DoxyCodeLine{00028\ \textcolor{keyword}{public}:}
 \DoxyCodeLine{00029\ }
 \DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{classViewportPanel}{ViewportPanel}}()\ \{}
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \ \ \ \ \}}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{classViewportPanel}{ViewportPanel}}(\textcolor{keywordtype}{bool}\ usePython)\ \{}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ addUIComponent<Minimap>();}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ addUIComponent<OrientationBox>();}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ addUIComponent<SceneControlPanel>();}
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ addUIComponent<HoverEntityPanel>();}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ addUIComponent<HighlightBox>();}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ addUIComponent<EntityComponentsControlPanel>(usePython);}
-\DoxyCodeLine{00041\ \ \ \ \ \}}
-\DoxyCodeLine{00042\ }
-\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{bool}\ isMouseInSecondColumn\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structViewportPanelConfig}{ViewportPanelConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
-\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ updateIsMouseInSecondColumn();}
-\DoxyCodeLine{00048\ \};}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ addUIComponent<Minimap>();}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ addUIComponent<OrientationBox>();}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ addUIComponent<SceneControlPanel>();}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ addUIComponent<HoverEntityPanel>();}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ addUIComponent<HighlightBox>();}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ addUIComponent<EntityGroupsControlPanel>();}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{bool}\ isMouseInSecondColumn\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structViewportPanelConfig}{ViewportPanelConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ updateIsMouseInSecondColumn();}
+\DoxyCodeLine{00044\ \};}
 
 \end{DoxyCode}

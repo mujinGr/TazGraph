@@ -6,6 +6,12 @@
 \Hypertarget{classFramebuffer_a523fbd5364bda1f3b24c16bfe8d3a654}\label{classFramebuffer_a523fbd5364bda1f3b24c16bfe8d3a654} 
 void {\bfseries init} (int window\+Width, int window\+Height, bool enable\+MSAA, int MSAA\+\_\+samples=0)
 \item 
+\Hypertarget{classFramebuffer_aaf697c5911dce1d4ea30da608643f278}\label{classFramebuffer_aaf697c5911dce1d4ea30da608643f278} 
+void {\bfseries attach\+Multisample\+Texture} (int window\+Width, int window\+Height)
+\item 
+\Hypertarget{classFramebuffer_a711aebfde6256e5d9d1cfe26e0d8e2b0}\label{classFramebuffer_a711aebfde6256e5d9d1cfe26e0d8e2b0} 
+void {\bfseries attach\+Texture} (int window\+Width, int window\+Height)
+\item 
 \Hypertarget{classFramebuffer_a967f1ba7c5cf4f631c4d7f8e646c5ac0}\label{classFramebuffer_a967f1ba7c5cf4f631c4d7f8e646c5ac0} 
 void {\bfseries Bind} ()
 \item 
@@ -23,6 +29,9 @@ static void {\bfseries Set\+Multisample} (bool enable)
 \item 
 \Hypertarget{classFramebuffer_a157b22618ba4a2efac2cace4c1abc571}\label{classFramebuffer_a157b22618ba4a2efac2cace4c1abc571} 
 bool {\bfseries \+\_\+multisample\+Enabled} = false
+\item 
+\Hypertarget{classFramebuffer_aadea1f66a802587a3a5f6352cca311d5}\label{classFramebuffer_aadea1f66a802587a3a5f6352cca311d5} 
+int {\bfseries \+\_\+multisamples} = 0
 \item 
 \Hypertarget{classFramebuffer_a99a5bee28d01147038d965761f2cfb94}\label{classFramebuffer_a99a5bee28d01147038d965761f2cfb94} 
 uint32\+\_\+t {\bfseries \+\_\+framebuffer\+Texture}

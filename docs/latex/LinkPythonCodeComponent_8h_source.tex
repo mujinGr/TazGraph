@@ -6,8 +6,8 @@
 \DoxyCodeLine{00002\ }
 \DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
 \DoxyCodeLine{00004\ }
-\DoxyCodeLine{00005\ }
-\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLinkPythonCodeComponent}{LinkPythonCodeComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classPythonCodeComponent}{PythonCodeComponent}},\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classLinkComponent}{LinkComponent}}\ \textcolor{comment}{//transform\ as\ in\ graphics,\ we\ have\ rotation\ and\ scale}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ public\ Component\ need\ to\ be\ first\ for\ scanning}}
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLinkPythonCodeComponent}{LinkPythonCodeComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classLinkComponent}{LinkComponent}},\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classPythonCodeComponent}{PythonCodeComponent}}\ \textcolor{comment}{//transform\ as\ in\ graphics,\ we\ have\ rotation\ and\ scale}}
 \DoxyCodeLine{00007\ \{}
 \DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
 \DoxyCodeLine{00009\ \ \ \ \ std::string\ code\ =\ \textcolor{stringliteral}{"{}"{}};}
@@ -24,7 +24,7 @@
 \DoxyCodeLine{00020\ \ \ \ \ \}}
 \DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override}}
 \DoxyCodeLine{00022\ \textcolor{keyword}{\ \ \ \ }\{}
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ PythonCodeComponent::update(deltaTime);}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classPythonCodeComponent_a3334dd68e45fbe59d4c1ff0992b364ba}{PythonCodeComponent::update}}(deltaTime);}
 \DoxyCodeLine{00024\ }
 \DoxyCodeLine{00025\ }
 \DoxyCodeLine{00026\ \ \ \ \ \}}
@@ -34,10 +34,20 @@
 \DoxyCodeLine{00030\ \ \ \ \ \}}
 \DoxyCodeLine{00031\ }
 \DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents\ =\ \{\})\ \textcolor{keyword}{override}\ \{}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ PythonCodeComponent::showGUI();}
-\DoxyCodeLine{00034\ }
-\DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ \ \ \ \ \};}
-\DoxyCodeLine{00037\ \};}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::CollapsingHeader(\textcolor{stringliteral}{"{}Script"{}}))}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ PythonCodeComponent::showGUI();}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents,\ std::vector<Entity*>\ otherEntities)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ ImGui::TextDisabled(\textcolor{stringliteral}{"{}Modify\ Script\ Components\ Seperately"{}});}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \};}
 
 \end{DoxyCode}

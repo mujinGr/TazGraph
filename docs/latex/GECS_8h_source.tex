@@ -8,483 +8,506 @@
 \DoxyCodeLine{00004\ }
 \DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../../Window/Window.h"{}}}
 \DoxyCodeLine{00006\ }
-\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../../PythonEngine/PythonEngine.h"{}}}
 \DoxyCodeLine{00008\ }
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ CULLING\_OFFSET\ 100}}
+\DoxyCodeLine{00009\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{classPythonInterpreter}{PythonInterpreter}}\&\ pythonInter\ =\ PythonInterpreter::getInstance();}
 \DoxyCodeLine{00010\ }
-\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classBaseComponent}{BaseComponent}};}
-\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classEntity}{Entity}};}
-\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classEmptyEntity}{EmptyEntity}};}
-\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNodeEntity}{NodeEntity}};}
-\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLinkEntity}{LinkEntity}};}
-\DoxyCodeLine{00016\ }
-\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classManager}{Manager}};}
-\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }Window;}
-\DoxyCodeLine{00019\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structCell}{Cell}};}
-\DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ \textcolor{keyword}{using\ }ComponentID\ =\ std::size\_t;}
-\DoxyCodeLine{00022\ \textcolor{keyword}{using\ }Group\ =\ std::size\_t;}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \textcolor{keyword}{using\ }layer\ =\ std::size\_t;}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ CULLING\_OFFSET\ 100}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classBaseComponent}{BaseComponent}};}
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classEntity}{Entity}};}
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classEmptyEntity}{EmptyEntity}};}
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNodeEntity}{NodeEntity}};}
+\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLinkEntity}{LinkEntity}};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classManager}{Manager}};}
+\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }Window;}
+\DoxyCodeLine{00021\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structCell}{Cell}};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{using\ }ComponentID\ =\ std::size\_t;}
+\DoxyCodeLine{00024\ \textcolor{keyword}{using\ }Group\ =\ std::size\_t;}
 \DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \textcolor{keyword}{namespace\ }Layer\ \{}
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{enum}\ layerIndexes\ :\ std::size\_t}
-\DoxyCodeLine{00028\ \ \ \ \ \{}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ action,}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ menubackground}
-\DoxyCodeLine{00031\ \ \ \ \ \};}
-\DoxyCodeLine{00032\ \}}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \textcolor{keyword}{namespace\ }Taz\ \{}
-\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{enum}\ EntityType}
-\DoxyCodeLine{00036\ \ \ \ \ \{}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classEmpty}{Empty}},}
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNode}{Node}},}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLink}{Link}},}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMinimap}{Minimap}}}
-\DoxyCodeLine{00041\ \ \ \ \ \};}
-\DoxyCodeLine{00042\ \}}
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ \textcolor{keyword}{const}\ std::unordered\_map<layer,\ float>\ layerNames\ =\ \{}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \{Layer::action,\ 0.0f\},}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \{Layer::menubackground,\ -\/100.0f\}}
-\DoxyCodeLine{00048\ }
-\DoxyCodeLine{00049\ \};}
-\DoxyCodeLine{00050\ }
-\DoxyCodeLine{00051\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{float}\ getLayerDepth(layer\ mLayer)\ \{}
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordflow}{return}\ layerNames.at(mLayer);}
-\DoxyCodeLine{00053\ \}}
-\DoxyCodeLine{00054\ }
-\DoxyCodeLine{00055\ }
-\DoxyCodeLine{00056\ \textcolor{keyword}{inline}\ ComponentID\ getNewComponentTypeID()}
-\DoxyCodeLine{00057\ \{}
-\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{static}\ ComponentID\ lastID\ =\ 0u;}
-\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordflow}{return}\ lastID++;}
-\DoxyCodeLine{00060\ \}}
-\DoxyCodeLine{00061\ }
-\DoxyCodeLine{00062\ \textcolor{keyword}{inline}\ ComponentID\ getNewNodeComponentTypeID()}
-\DoxyCodeLine{00063\ \{}
-\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{static}\ ComponentID\ lastID\_nodeC\ =\ 0u;}
-\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordflow}{return}\ lastID\_nodeC++;}
-\DoxyCodeLine{00066\ \}}
-\DoxyCodeLine{00067\ }
-\DoxyCodeLine{00068\ \textcolor{keyword}{inline}\ ComponentID\ getNewLinkComponentTypeID()}
-\DoxyCodeLine{00069\ \{}
-\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{static}\ ComponentID\ lastID\_linkC\ =\ 0u;}
-\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordflow}{return}\ lastID\_linkC++;}
-\DoxyCodeLine{00072\ \}}
-\DoxyCodeLine{00073\ }
-\DoxyCodeLine{00074\ }
-\DoxyCodeLine{00075\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{inline}\ ComponentID\ GetComponentTypeID()\ noexcept}
-\DoxyCodeLine{00076\ \{}
-\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{static}\ ComponentID\ typeID\ =\ getNewComponentTypeID();\ \textcolor{comment}{//\ typeID\ is\ unique\ for\ each\ function\ type\ T\ and\ only\ initialized\ once.}}
-\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordflow}{return}\ typeID;}
-\DoxyCodeLine{00079\ \}}
-\DoxyCodeLine{00080\ }
-\DoxyCodeLine{00081\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{inline}\ ComponentID\ GetNodeComponentTypeID()\ noexcept}
-\DoxyCodeLine{00082\ \{}
-\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{static}\ ComponentID\ typeID\ =\ getNewNodeComponentTypeID();\ \textcolor{comment}{//\ typeID\ is\ unique\ for\ each\ function\ type\ T\ and\ only\ initialized\ once.}}
-\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordflow}{return}\ typeID;}
-\DoxyCodeLine{00085\ \}}
-\DoxyCodeLine{00086\ }
-\DoxyCodeLine{00087\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{inline}\ ComponentID\ GetLinkComponentTypeID()\ noexcept}
-\DoxyCodeLine{00088\ \{}
-\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keyword}{static}\ ComponentID\ typeID\ =\ getNewLinkComponentTypeID();\ \textcolor{comment}{//\ typeID\ is\ unique\ for\ each\ function\ type\ T\ and\ only\ initialized\ once.}}
-\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordflow}{return}\ typeID;}
-\DoxyCodeLine{00091\ \}}
-\DoxyCodeLine{00092\ }
-\DoxyCodeLine{00093\ \textcolor{keyword}{constexpr}\ std::size\_t\ maxComponents\ =\ 24;}
-\DoxyCodeLine{00094\ \textcolor{keyword}{constexpr}\ std::size\_t\ maxGroups\ =\ 32;}
+\DoxyCodeLine{00026\ \textcolor{keyword}{using\ }layer\ =\ std::size\_t;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{namespace\ }Layer\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{enum}\ layerIndexes\ :\ std::size\_t}
+\DoxyCodeLine{00030\ \ \ \ \ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ action,}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ menubackground}
+\DoxyCodeLine{00033\ \ \ \ \ \};}
+\DoxyCodeLine{00034\ \}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{namespace\ }Taz\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{enum}\ EntityType}
+\DoxyCodeLine{00038\ \ \ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ Unknown,}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classEmpty}{Empty}},}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNode}{Node}},}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLink}{Link}},}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMinimap}{Minimap}}}
+\DoxyCodeLine{00044\ \ \ \ \ \};}
+\DoxyCodeLine{00045\ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{const}\ std::unordered\_map<layer,\ float>\ layerNames\ =\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \{Layer::action,\ 0.0f\},}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \{Layer::menubackground,\ -\/100.0f\}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{float}\ getLayerDepth(layer\ mLayer)\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordflow}{return}\ layerNames.at(mLayer);}
+\DoxyCodeLine{00056\ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{keyword}{inline}\ ComponentID\ getNewComponentTypeID()}
+\DoxyCodeLine{00060\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{static}\ ComponentID\ lastID\ =\ 0u;}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordflow}{return}\ lastID++;}
+\DoxyCodeLine{00063\ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{keyword}{inline}\ ComponentID\ getNewNodeComponentTypeID()}
+\DoxyCodeLine{00066\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{static}\ ComponentID\ lastID\_nodeC\ =\ 0u;}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordflow}{return}\ lastID\_nodeC++;}
+\DoxyCodeLine{00069\ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{keyword}{inline}\ ComponentID\ getNewLinkComponentTypeID()}
+\DoxyCodeLine{00072\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{static}\ ComponentID\ lastID\_linkC\ =\ 0u;}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{return}\ lastID\_linkC++;}
+\DoxyCodeLine{00075\ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{inline}\ ComponentID\ GetComponentTypeID()\ noexcept}
+\DoxyCodeLine{00079\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{static}\ ComponentID\ typeID\ =\ getNewComponentTypeID();\ \textcolor{comment}{//\ typeID\ is\ unique\ for\ each\ function\ type\ T\ and\ only\ initialized\ once.}}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordflow}{return}\ typeID;}
+\DoxyCodeLine{00082\ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{inline}\ ComponentID\ GetNodeComponentTypeID()\ noexcept}
+\DoxyCodeLine{00085\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keyword}{static}\ ComponentID\ typeID\ =\ getNewNodeComponentTypeID();\ \textcolor{comment}{//\ typeID\ is\ unique\ for\ each\ function\ type\ T\ and\ only\ initialized\ once.}}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordflow}{return}\ typeID;}
+\DoxyCodeLine{00088\ \}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{inline}\ ComponentID\ GetLinkComponentTypeID()\ noexcept}
+\DoxyCodeLine{00091\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{static}\ ComponentID\ typeID\ =\ getNewLinkComponentTypeID();\ \textcolor{comment}{//\ typeID\ is\ unique\ for\ each\ function\ type\ T\ and\ only\ initialized\ once.}}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordflow}{return}\ typeID;}
+\DoxyCodeLine{00094\ \}}
 \DoxyCodeLine{00095\ }
-\DoxyCodeLine{00096\ \textcolor{keyword}{using\ }ComponentBitSet\ =\ std::bitset<maxComponents>;}
-\DoxyCodeLine{00097\ \textcolor{keyword}{using\ }GroupBitSet\ =\ std::bitset<maxGroups>;}
+\DoxyCodeLine{00096\ \textcolor{keyword}{constexpr}\ std::size\_t\ maxComponents\ =\ 24;}
+\DoxyCodeLine{00097\ \textcolor{keyword}{constexpr}\ std::size\_t\ maxGroups\ =\ 32;}
 \DoxyCodeLine{00098\ }
-\DoxyCodeLine{00099\ \textcolor{keyword}{using\ }ComponentArray\ =\ std::array<BaseComponent*,\ maxComponents>;}
-\DoxyCodeLine{00100\ }
-\DoxyCodeLine{00101\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classBaseComponent}{BaseComponent}}}
-\DoxyCodeLine{00102\ \{}
-\DoxyCodeLine{00103\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{bool}\ modifyPosition\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00105\ }
-\DoxyCodeLine{00106\ \ \ \ \ ComponentID\ \textcolor{keywordtype}{id}\ =\ 0u;}
-\DoxyCodeLine{00107\ }
-\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ init()\ \{\}}
-\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \{\}}
-\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{\}}
-\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classLineRenderer}{LineRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{\}}
-\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classPlaneColorRenderer}{PlaneColorRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{\}}
-\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classLightRenderer}{LightRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{\}}
-\DoxyCodeLine{00114\ }
-\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{virtual}\ std::string\ GetComponentName()\ \{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};\ \};}
-\DoxyCodeLine{00116\ }
-\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents\ =\ \{\})\ \{}
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}MyComponent\ Properties:"{}});}
-\DoxyCodeLine{00119\ \ \ \ \ \};}
-\DoxyCodeLine{00120\ }
-\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classBaseComponent}{\string~BaseComponent}}()\ \{\}}
-\DoxyCodeLine{00122\ \};}
+\DoxyCodeLine{00099\ \textcolor{keyword}{using\ }ComponentBitSet\ =\ std::bitset<maxComponents>;}
+\DoxyCodeLine{00100\ \textcolor{keyword}{using\ }GroupBitSet\ =\ std::bitset<maxGroups>;}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \textcolor{keyword}{using\ }ComponentArray\ =\ std::array<BaseComponent*,\ maxComponents>;}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classBaseComponent}{BaseComponent}}}
+\DoxyCodeLine{00105\ \{}
+\DoxyCodeLine{00106\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{bool}\ modifyPosition\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ ComponentID\ \textcolor{keywordtype}{id}\ =\ 0u;}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ init()\ \{\}}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \{\}}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{\}}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classLineRenderer}{LineRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{\}}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classPlaneColorRenderer}{PlaneColorRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{\}}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classLightRenderer}{LightRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{\}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keyword}{virtual}\ std::string\ GetComponentName()\ \{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};\ \};}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents\ =\ \{\})\ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}MyComponent\ Properties:"{}});}
+\DoxyCodeLine{00122\ \ \ \ \ \};}
 \DoxyCodeLine{00123\ }
-\DoxyCodeLine{00124\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classComponent}{Component}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}\ \{}
-\DoxyCodeLine{00125\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00126\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ entity\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00127\ \};}
-\DoxyCodeLine{00128\ }
-\DoxyCodeLine{00129\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNodeComponent}{NodeComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}\ \{}
-\DoxyCodeLine{00130\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00131\ \ \ \ \ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ entity\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00132\ \};}
-\DoxyCodeLine{00133\ }
-\DoxyCodeLine{00134\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLinkComponent}{LinkComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}\ \{}
-\DoxyCodeLine{00135\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00136\ \ \ \ \ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ entity\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00137\ \};}
-\DoxyCodeLine{00138\ }
-\DoxyCodeLine{00139\ \textcolor{keyword}{using\ }EntityID\ =\ std::variant<int,\ std::string>;}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents,\ std::vector<Entity*>\ otherEntities)\ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}MyComponent\ Properties:"{}});}
+\DoxyCodeLine{00126\ \ \ \ \ \};}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classBaseComponent}{\string~BaseComponent}}()\ \{\}}
+\DoxyCodeLine{00129\ \};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classComponent}{Component}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}\ \{}
+\DoxyCodeLine{00132\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00133\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ entity\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00134\ \};}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNodeComponent}{NodeComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}\ \{}
+\DoxyCodeLine{00137\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00138\ \ \ \ \ \mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\ entity\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00139\ \};}
 \DoxyCodeLine{00140\ }
-\DoxyCodeLine{00141\ \textcolor{keyword}{namespace\ }EntityIDUtils\ \{}
-\DoxyCodeLine{00142\ }
-\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}>}
-\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structEntityIDUtils_1_1always__false}{always\_false}}\ :\ std::false\_type\ \{\};}
+\DoxyCodeLine{00141\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLinkComponent}{LinkComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classBaseComponent}{BaseComponent}}\ \{}
+\DoxyCodeLine{00142\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00143\ \ \ \ \ \mbox{\hyperlink{classLinkEntity}{LinkEntity}}*\ entity\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00144\ \};}
 \DoxyCodeLine{00145\ }
-\DoxyCodeLine{00146\ }
-\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keyword}{inline}\ std::string\ toString(\textcolor{keyword}{const}\ EntityID\&\ \textcolor{keywordtype}{id})\ \{}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::visit([](\textcolor{keyword}{auto}\&\&\ v)\ -\/>\ std::string\ \{}
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }T\ =\ std::decay\_t<\textcolor{keyword}{decltype}(v)>;}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ int>)\ \{}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::to\_string(v);}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ std::string>)\ \{}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ v;}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>::value,\ \textcolor{stringliteral}{"{}Unhandled\ type\ in\ EntityID"{}});}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};\ \textcolor{comment}{//\ satisfies\ compiler}}
+\DoxyCodeLine{00146\ \textcolor{keyword}{using\ }EntityID\ =\ std::variant<int,\ std::string>;}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \textcolor{keyword}{namespace\ }EntityIDUtils\ \{}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}>}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structEntityIDUtils_1_1always__false}{always\_false}}\ :\ std::false\_type\ \{\};}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keyword}{inline}\ std::string\ toString(\textcolor{keyword}{const}\ EntityID\&\ \textcolor{keywordtype}{id})\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::visit([](\textcolor{keyword}{auto}\&\&\ v)\ -\/>\ std::string\ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }T\ =\ std::decay\_t<\textcolor{keyword}{decltype}(v)>;}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ int>)\ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::to\_string(v);}
 \DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \},\ id);}
-\DoxyCodeLine{00161\ \ \ \ \ \}}
-\DoxyCodeLine{00162\ }
-\DoxyCodeLine{00163\ \ \ \ \ \textcolor{keyword}{inline}\ EntityID\ fromString(\textcolor{keyword}{const}\ std::string\&\ str)\ \{}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ string\ consists\ only\ of\ digits\ (and\ optional\ sign)}}
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!str.empty()\ \&\&\ (std::isdigit(str[0])\ ||\ (str.size()\ >\ 1\ \&\&\ (str[0]\ ==\ \textcolor{charliteral}{'-\/'})\ \&\&\ std::isdigit(str[1]))))\ \{}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ allDigits\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ (str[0]\ ==\ \textcolor{charliteral}{'-\/'})\ ?\ 1\ :\ 0;\ i\ <\ str.size();\ ++i)\ \{}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!std::isdigit(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\textcolor{keyword}{>}(str[i])))\ \{}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ allDigits\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00174\ }
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (allDigits)\ \{}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ value\ =\ std::stoi(str);}
-\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ EntityID\{\ value\ \};}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\&)\ \{}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00183\ }
-\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ not\ a\ valid\ integer\ or\ conversion\ failed,\ treat\ as\ string}}
-\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ EntityID\{\ str\ \};}
-\DoxyCodeLine{00186\ \ \ \ \ \}}
-\DoxyCodeLine{00187\ }
-\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ areEqual(\textcolor{keyword}{const}\ EntityID\&\ a,\ \textcolor{keyword}{const}\ EntityID\&\ b)\ \{}
-\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ both\ hold\ the\ same\ type}}
-\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (a.index()\ ==\ b.index())\ \{}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::holds\_alternative<int>(a))}
-\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::get<int>(a)\ ==\ std::get<int>(b);}
-\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::get<std::string>(a)\ ==\ std::get<std::string>(b);}
-\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00196\ }
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ types\ differ\ (int\ vs\ string),\ try\ numeric-\/string\ conversion}}
-\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::holds\_alternative<int>(a)\ \&\&\ std::holds\_alternative<std::string>(b))\ \{}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::to\_string(std::get<int>(a))\ ==\ std::get<std::string>(b)\ ||}
-\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::stoi(std::get<std::string>(b))\ ==\ std::get<int>(a);}
-\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::holds\_alternative<std::string>(a)\ \&\&\ std::holds\_alternative<int>(b))\ \{}
-\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::get<std::string>(a)\ ==\ std::to\_string(std::get<int>(b))\ ||}
-\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::stoi(std::get<std::string>(a))\ ==\ std::get<int>(b);}
-\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\&)\ \{}
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Conversion\ failed\ —\ treat\ as\ not\ equal}}
-\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00211\ }
-\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00213\ \ \ \ \ \}}
-\DoxyCodeLine{00214\ \}}
-\DoxyCodeLine{00215\ }
-\DoxyCodeLine{00216\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classEntity}{Entity}}}
-\DoxyCodeLine{00217\ \{}
-\DoxyCodeLine{00218\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00219\ \ \ \ \ EntityID\ \textcolor{keywordtype}{id}\ =\ 0;}
-\DoxyCodeLine{00220\ \textcolor{keyword}{protected}:}
-\DoxyCodeLine{00221\ }
-\DoxyCodeLine{00222\ \ \ \ \ \textcolor{keywordtype}{bool}\ active\ =\ \textcolor{keyword}{true};\ \textcolor{comment}{//\ false\ if\ about\ to\ delete}}
-\DoxyCodeLine{00223\ \ \ \ \ \textcolor{keywordtype}{bool}\ hidden\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ true\ if\ not\ do\ updates}}
-\DoxyCodeLine{00224\ \ \ \ \ ComponentArray\ componentArray\ =\ \{\};\textcolor{comment}{//create\ 2\ arrays,\ this\ is\ for\ the\ fast\ access}}
-\DoxyCodeLine{00225\ }
-\DoxyCodeLine{00226\ \ \ \ \ ComponentBitSet\ componentBitSet;}
-\DoxyCodeLine{00227\ \ \ \ \ GroupBitSet\ groupBitSet;}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<T,\ std::string>)\ \{}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ v;}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>::value,\ \textcolor{stringliteral}{"{}Unhandled\ type\ in\ EntityID"{}});}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};\ \textcolor{comment}{//\ satisfies\ compiler}}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \},\ id);}
+\DoxyCodeLine{00168\ \ \ \ \ \}}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keyword}{inline}\ EntityID\ fromString(\textcolor{keyword}{const}\ std::string\&\ str)\ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ string\ consists\ only\ of\ digits\ (and\ optional\ sign)}}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!str.empty()\ \&\&\ (std::isdigit(str[0])\ ||\ (str.size()\ >\ 1\ \&\&\ (str[0]\ ==\ \textcolor{charliteral}{'-\/'})\ \&\&\ std::isdigit(str[1]))))\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ allDigits\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ (str[0]\ ==\ \textcolor{charliteral}{'-\/'})\ ?\ 1\ :\ 0;\ i\ <\ str.size();\ ++i)\ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!std::isdigit(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\textcolor{keyword}{>}(str[i])))\ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ allDigits\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (allDigits)\ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ value\ =\ std::stoi(str);}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ EntityID\{\ value\ \};}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\&)\ \{}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ not\ a\ valid\ integer\ or\ conversion\ failed,\ treat\ as\ string}}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ EntityID\{\ str\ \};}
+\DoxyCodeLine{00193\ \ \ \ \ \}}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ areEqual(\textcolor{keyword}{const}\ EntityID\&\ a,\ \textcolor{keyword}{const}\ EntityID\&\ b)\ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ both\ hold\ the\ same\ type}}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (a.index()\ ==\ b.index())\ \{}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::holds\_alternative<int>(a))}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::get<int>(a)\ ==\ std::get<int>(b);}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::get<std::string>(a)\ ==\ std::get<std::string>(b);}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ types\ differ\ (int\ vs\ string),\ try\ numeric-\/string\ conversion}}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::holds\_alternative<int>(a)\ \&\&\ std::holds\_alternative<std::string>(b))\ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::to\_string(std::get<int>(a))\ ==\ std::get<std::string>(b)\ ||}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::stoi(std::get<std::string>(b))\ ==\ std::get<int>(a);}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::holds\_alternative<std::string>(a)\ \&\&\ std::holds\_alternative<int>(b))\ \{}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::get<std::string>(a)\ ==\ std::to\_string(std::get<int>(b))\ ||}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::stoi(std::get<std::string>(a))\ ==\ std::get<int>(b);}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\&)\ \{}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Conversion\ failed\ —\ treat\ as\ not\ equal}}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00220\ \ \ \ \ \}}
+\DoxyCodeLine{00221\ \}}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classEntity}{Entity}}}
+\DoxyCodeLine{00224\ \{}
+\DoxyCodeLine{00225\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00226\ \ \ \ \ EntityID\ \textcolor{keywordtype}{id}\ =\ 0;}
+\DoxyCodeLine{00227\ \textcolor{keyword}{protected}:}
 \DoxyCodeLine{00228\ }
-\DoxyCodeLine{00229\ \ \ \ \ std::optional<ComponentArray>\ nodeComponentArray;}
-\DoxyCodeLine{00230\ \ \ \ \ std::optional<ComponentBitSet>\ nodeComponentBitSet;}
-\DoxyCodeLine{00231\ }
-\DoxyCodeLine{00232\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ parent\_entity\ =\ \textcolor{keyword}{nullptr};\ }
-\DoxyCodeLine{00233\ }
-\DoxyCodeLine{00234\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}\&\ \mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}};}
-\DoxyCodeLine{00235\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordtype}{bool}\ isVertical\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00237\ }
-\DoxyCodeLine{00238\ \ \ \ \ \textcolor{keywordtype}{float}\ slotSpacing\ =\ 0.0f;}
-\DoxyCodeLine{00239\ }
-\DoxyCodeLine{00241\ \ \ \ \ std::map\ <\ EntityID,\ EntityID>\ \mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}};}
-\DoxyCodeLine{00242\ }
-\DoxyCodeLine{00243\ \ \ \ \ \textcolor{comment}{//?\ IT\ IS\ FORBIDDEN\ TO\ USE\ setId!!!!!!!!!!!!!!!!!!!!!!}}
-\DoxyCodeLine{00244\ \ \ \ \ \textcolor{keywordtype}{void}\ setId(EntityID\ m\_id)\ \{\ \textcolor{keywordtype}{id}\ =\ m\_id;\ \}}
-\DoxyCodeLine{00245\ }
-\DoxyCodeLine{00246\ \ \ \ \ EntityID\ getId()\ \{\ \textcolor{keywordflow}{return}\ id;\ \}}
-\DoxyCodeLine{00247\ }
-\DoxyCodeLine{00248\ \ \ \ \ \textcolor{keywordtype}{void}\ hide()\ \{}
-\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ hidden\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00250\ \ \ \ \ \}}
-\DoxyCodeLine{00251\ }
-\DoxyCodeLine{00252\ \ \ \ \ \textcolor{keywordtype}{void}\ reveal()\ \{}
-\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ hidden\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00254\ \ \ \ \ \}}
-\DoxyCodeLine{00255\ }
-\DoxyCodeLine{00256\ \ \ \ \ \textcolor{keywordtype}{bool}\ isHidden()\ \{}
-\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ hidden;}
-\DoxyCodeLine{00258\ \ \ \ \ \}}
-\DoxyCodeLine{00259\ }
-\DoxyCodeLine{00260\ \ \ \ \ std::vector<std::unique\_ptr<BaseComponent>>\ components;\ \textcolor{comment}{//create\ 2\ arrays,\ this\ is\ for\ the\ concurrent\ access}}
-\DoxyCodeLine{00261\ }
-\DoxyCodeLine{00262\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}(\mbox{\hyperlink{classManager}{Manager}}\&\ mManager)\ :\ \mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}(mManager)\ \{\}}
-\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classEntity}{\string~Entity}}()\ \{\}}
-\DoxyCodeLine{00264\ }
-\DoxyCodeLine{00265\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)}
-\DoxyCodeLine{00266\ \ \ \ \ \{}
-\DoxyCodeLine{00267\ }
-\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ c\ :\ components)\ \{}
-\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>update(deltaTime);\ \textcolor{comment}{//\ start\ from\ which\ was\ added\ first}}
-\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00271\ \ \ \ \ \}}
-\DoxyCodeLine{00272\ }
-\DoxyCodeLine{00273\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ cellUpdate()\ \{\};}
+\DoxyCodeLine{00229\ \ \ \ \ \textcolor{keywordtype}{bool}\ active\ =\ \textcolor{keyword}{true};\ \textcolor{comment}{//\ false\ if\ about\ to\ delete}}
+\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keywordtype}{bool}\ hidden\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ true\ if\ not\ do\ updates}}
+\DoxyCodeLine{00231\ \ \ \ \ ComponentArray\ componentArray\ =\ \{\};\textcolor{comment}{//create\ 2\ arrays,\ this\ is\ for\ the\ fast\ access}}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \ \ \ \ ComponentBitSet\ componentBitSet;}
+\DoxyCodeLine{00234\ \ \ \ \ GroupBitSet\ groupBitSet;}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \ \ \ \ std::optional<ComponentArray>\ nodeComponentArray;}
+\DoxyCodeLine{00237\ \ \ \ \ std::optional<ComponentBitSet>\ nodeComponentBitSet;}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ parent\_entity\ =\ \textcolor{keyword}{nullptr};\ }
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}\&\ \mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}};}
+\DoxyCodeLine{00242\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{keywordtype}{bool}\ isVertical\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keywordtype}{float}\ slotSpacing\ =\ 0.0f;}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00248\ \ \ \ \ std::map\ <\ EntityID,\ EntityID>\ \mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}};}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{comment}{//?\ IT\ IS\ FORBIDDEN\ TO\ USE\ setId!!!!!!!!!!!!!!!!!!!!!!}}
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keywordtype}{void}\ setId(EntityID\ m\_id)\ \{\ \textcolor{keywordtype}{id}\ =\ m\_id;\ \}}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \ \ \ \ EntityID\ getId()\ \{\ \textcolor{keywordflow}{return}\ id;\ \}}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \ \ \ \ \textcolor{keywordtype}{void}\ hide()\ \{}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ hidden\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00257\ \ \ \ \ \}}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \ \ \textcolor{keywordtype}{void}\ reveal()\ \{}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ hidden\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00261\ \ \ \ \ \}}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keywordtype}{bool}\ isHidden()\ \{}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ hidden;}
+\DoxyCodeLine{00265\ \ \ \ \ \}}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00267\ \ \ \ \ std::vector<std::unique\_ptr<BaseComponent>>\ components;\ \textcolor{comment}{//create\ 2\ arrays,\ this\ is\ for\ the\ concurrent\ access}}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}(\mbox{\hyperlink{classManager}{Manager}}\&\ mManager)\ :\ \mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}}(mManager)\ \{\}}
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classEntity}{\string~Entity}}()\ \{\}}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)}
+\DoxyCodeLine{00273\ \ \ \ \ \{}
 \DoxyCodeLine{00274\ }
-\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{structCell}{Cell}}*\ getOwnerCell()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};\ \};}
-\DoxyCodeLine{00276\ }
-\DoxyCodeLine{00277\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)}
-\DoxyCodeLine{00278\ \ \ \ \ \{}
-\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ c\ :\ components)\ \{}
-\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>draw(e\_index,\ batch,\ window);}
-\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00282\ \ \ \ \ \}}
-\DoxyCodeLine{00283\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classLineRenderer}{LineRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)}
-\DoxyCodeLine{00284\ \ \ \ \ \{}
-\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ c\ :\ components)\ \{}
-\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>draw(e\_index,\ batch,\ window);}
-\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00288\ \ \ \ \ \}}
-\DoxyCodeLine{00289\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classPlaneColorRenderer}{PlaneColorRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)}
-\DoxyCodeLine{00290\ \ \ \ \ \{}
-\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ c\ :\ components)\ \{}
-\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>draw(e\_index,\ batch,\ window);}
-\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00294\ \ \ \ \ \}}
-\DoxyCodeLine{00295\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classLightRenderer}{LightRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)}
-\DoxyCodeLine{00296\ \ \ \ \ \{}
-\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ c\ :\ components)\ \{}
-\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>draw(e\_index,\ batch,\ window);}
-\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00300\ \ \ \ \ \}}
-\DoxyCodeLine{00301\ }
-\DoxyCodeLine{00302\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onCreation()\ \{}
-\DoxyCodeLine{00303\ \ \ \ \ \}}
-\DoxyCodeLine{00304\ }
-\DoxyCodeLine{00305\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ getParentEntity()\ \{}
-\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ parent\_entity;}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ c\ :\ components)\ \{}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>update(deltaTime);\ \textcolor{comment}{//\ start\ from\ which\ was\ added\ first}}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00278\ \ \ \ \ \}}
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00280\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ cellUpdate()\ \{\};}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{structCell}{Cell}}*\ getOwnerCell()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};\ \};}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classPlaneModelRenderer}{PlaneModelRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)}
+\DoxyCodeLine{00285\ \ \ \ \ \{}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ c\ :\ components)\ \{}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>draw(e\_index,\ batch,\ window);}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00289\ \ \ \ \ \}}
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classLineRenderer}{LineRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)}
+\DoxyCodeLine{00291\ \ \ \ \ \{}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ c\ :\ components)\ \{}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>draw(e\_index,\ batch,\ window);}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00295\ \ \ \ \ \}}
+\DoxyCodeLine{00296\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classPlaneColorRenderer}{PlaneColorRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)}
+\DoxyCodeLine{00297\ \ \ \ \ \{}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ c\ :\ components)\ \{}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>draw(e\_index,\ batch,\ window);}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00301\ \ \ \ \ \}}
+\DoxyCodeLine{00302\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ e\_index,\ \mbox{\hyperlink{classLightRenderer}{LightRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)}
+\DoxyCodeLine{00303\ \ \ \ \ \{}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ c\ :\ components)\ \{}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>draw(e\_index,\ batch,\ window);}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00307\ \ \ \ \ \}}
 \DoxyCodeLine{00308\ }
-\DoxyCodeLine{00309\ \ \ \ \ \textcolor{keywordtype}{void}\ setParentEntity(\mbox{\hyperlink{classEntity}{Entity}}*\ pEntity)\ \{}
-\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ parent\_entity\ =\ pEntity;}
-\DoxyCodeLine{00311\ \ \ \ \ \}}
-\DoxyCodeLine{00312\ }
-\DoxyCodeLine{00313\ \ \ \ \ \textcolor{keywordtype}{bool}\ isActive()\ \{\ \textcolor{keywordflow}{return}\ active;\ \}}
-\DoxyCodeLine{00314\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ destroy()\ \{}
-\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ active\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00316\ \ \ \ \ \}\ \textcolor{comment}{//\ destroy\ happens\ relative\ to\ the\ group\ referencing}}
-\DoxyCodeLine{00317\ }
-\DoxyCodeLine{00318\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasGroup(Group\ mGroup)}
-\DoxyCodeLine{00319\ \ \ \ \ \{}
-\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ groupBitSet[mGroup];}
-\DoxyCodeLine{00321\ \ \ \ \ \}}
-\DoxyCodeLine{00322\ }
-\DoxyCodeLine{00323\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ addGroup(Group\ mGroup);}
-\DoxyCodeLine{00324\ \ \ \ \ \textcolor{keywordtype}{void}\ removeGroup(Group\ mGroup);}
-\DoxyCodeLine{00325\ }
-\DoxyCodeLine{00326\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keywordtype}{bool}\ hasComponent()\textcolor{keyword}{\ const}}
-\DoxyCodeLine{00327\ \textcolor{keyword}{\ \ \ \ }\{}
-\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<LinkComponent,\ T>)\ \{}
-\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this}\ \&\&\ componentBitSet[GetLinkComponentTypeID<T>()];}
-\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<NodeComponent,\ T>)\ \{}
-\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this}\ \&\&\ nodeComponentBitSet.has\_value()\ \&\&\ (*nodeComponentBitSet)[GetNodeComponentTypeID<T>()];}
-\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this}\ \&\&\ componentBitSet[GetComponentTypeID<T>()];}
-\DoxyCodeLine{00335\ \ \ \ \ \}}
-\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}...\ TArgs>}
-\DoxyCodeLine{00338\ \ \ \ \ T\&\ \mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}(TArgs\&\&...\ mArgs)}
-\DoxyCodeLine{00339\ \ \ \ \ \{}
-\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ T*\ c(\textcolor{keyword}{new}\ T(std::forward<TArgs>(mArgs)...));}
-\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<LinkComponent,\ T>)\ \{}
-\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_ptr<LinkComponent>\ uPtr\{\ c\ \};}
-\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \ \ components.emplace\_back(std::move(uPtr));}
-\DoxyCodeLine{00344\ }
-\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ setComponentEntity(c);}
-\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ componentArray[GetLinkComponentTypeID<T>()]\ =\ c;}
-\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ componentBitSet[GetLinkComponentTypeID<T>()]\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00348\ }
-\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>id\ =\ GetLinkComponentTypeID<T>();}
-\DoxyCodeLine{00350\ }
-\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>init();}
-\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *c;}
-\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<NodeComponent,\ T>)\ \{}
-\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_ptr<NodeComponent>\ uPtr\{\ c\ \};}
-\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ components.emplace\_back(std::move(uPtr));}
+\DoxyCodeLine{00309\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ onCreation()\ \{}
+\DoxyCodeLine{00310\ \ \ \ \ \}}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ getParentEntity()\ \{}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ parent\_entity;}
+\DoxyCodeLine{00314\ \ \ \ \ \}}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \ \ \ \ \textcolor{keywordtype}{void}\ setParentEntity(\mbox{\hyperlink{classEntity}{Entity}}*\ pEntity)\ \{}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ parent\_entity\ =\ pEntity;}
+\DoxyCodeLine{00318\ \ \ \ \ \}}
+\DoxyCodeLine{00319\ }
+\DoxyCodeLine{00320\ \ \ \ \ \textcolor{keywordtype}{bool}\ isActive()\ \{\ \textcolor{keywordflow}{return}\ active;\ \}}
+\DoxyCodeLine{00321\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ destroy()\ \{}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ active\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00323\ \ \ \ \ \}\ \textcolor{comment}{//\ destroy\ happens\ relative\ to\ the\ group\ referencing}}
+\DoxyCodeLine{00324\ }
+\DoxyCodeLine{00325\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasGroup(Group\ mGroup)}
+\DoxyCodeLine{00326\ \ \ \ \ \{}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ groupBitSet[mGroup];}
+\DoxyCodeLine{00328\ \ \ \ \ \}}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00330\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ addToGroup(Group\ mGroup);}
+\DoxyCodeLine{00331\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ removeGroup(Group\ mGroup);}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00333\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keywordtype}{bool}\ hasComponent()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00334\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<LinkComponent,\ T>)\ \{}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this}\ \&\&\ componentBitSet[GetLinkComponentTypeID<T>()];}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<NodeComponent,\ T>)\ \{}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this}\ \&\&\ nodeComponentBitSet.has\_value()\ \&\&\ (*nodeComponentBitSet)[GetNodeComponentTypeID<T>()];}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this}\ \&\&\ componentBitSet[GetComponentTypeID<T>()];}
+\DoxyCodeLine{00342\ \ \ \ \ \}}
+\DoxyCodeLine{00344\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}...\ TArgs>}
+\DoxyCodeLine{00345\ \ \ \ \ T\&\ \mbox{\hyperlink{classEntity_aafe23d7d7ea7f427ca40454edcae460e}{addComponent}}(TArgs\&\&...\ mArgs)}
+\DoxyCodeLine{00346\ \ \ \ \ \{}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ T*\ c(\textcolor{keyword}{new}\ T(std::forward<TArgs>(mArgs)...));}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<LinkComponent,\ T>)\ \{}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_ptr<LinkComponent>\ uPtr\{\ c\ \};}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ components.emplace\_back(std::move(uPtr));}
+\DoxyCodeLine{00351\ }
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ setComponentEntity(c);}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ componentArray[GetLinkComponentTypeID<T>()]\ =\ c;}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ componentBitSet[GetLinkComponentTypeID<T>()]\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00355\ }
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>id\ =\ GetLinkComponentTypeID<T>();}
 \DoxyCodeLine{00357\ }
-\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ setComponentEntity(c);}
-\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ (*nodeComponentArray)[GetNodeComponentTypeID<T>()]\ =\ c;}
-\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ (*nodeComponentBitSet)[GetNodeComponentTypeID<T>()]\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00361\ }
-\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>id\ =\ GetNodeComponentTypeID<T>();}
-\DoxyCodeLine{00363\ }
-\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>init();}
-\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *c;}
-\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_ptr<Component>\ uPtr\{\ c\ \};}
-\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ components.emplace\_back(std::move(uPtr));}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>init();}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *c;}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<NodeComponent,\ T>)\ \{}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_ptr<NodeComponent>\ uPtr\{\ c\ \};}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ components.emplace\_back(std::move(uPtr));}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ setComponentEntity(c);}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ (*nodeComponentArray)[GetNodeComponentTypeID<T>()]\ =\ c;}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ (*nodeComponentBitSet)[GetNodeComponentTypeID<T>()]\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00368\ }
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>id\ =\ GetNodeComponentTypeID<T>();}
 \DoxyCodeLine{00370\ }
-\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ setComponentEntity(c);}
-\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ componentArray[GetComponentTypeID<T>()]\ =\ c;}
-\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ componentBitSet[GetComponentTypeID<T>()]\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00374\ }
-\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>id\ =\ GetComponentTypeID<T>();}
-\DoxyCodeLine{00376\ }
-\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>init();}
-\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *c;}
-\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00380\ }
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>init();}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *c;}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_ptr<Component>\ uPtr\{\ c\ \};}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ components.emplace\_back(std::move(uPtr));}
+\DoxyCodeLine{00377\ }
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ setComponentEntity(c);}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ componentArray[GetComponentTypeID<T>()]\ =\ c;}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ componentBitSet[GetComponentTypeID<T>()]\ =\ \textcolor{keyword}{true};}
 \DoxyCodeLine{00381\ }
-\DoxyCodeLine{00382\ \ \ \ \ \}}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>id\ =\ GetComponentTypeID<T>();}
 \DoxyCodeLine{00383\ }
-\DoxyCodeLine{00384\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
-\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordtype}{void}\ removeComponent()}
-\DoxyCodeLine{00386\ \ \ \ \ \{}
-\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<LinkComponent,\ T>)}
-\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id}\ =\ GetLinkComponentTypeID<T>();}
-\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ std::remove\_if(components.begin(),\ components.end(),}
-\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{keywordtype}{id}](\textcolor{keyword}{const}\ std::unique\_ptr<BaseComponent>\&\ comp)\ \{}
-\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ typeid(*comp).hash\_code()\ ==\ typeid(T).hash\_code();}
-\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{00394\ }
-\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ components.end())}
-\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ components.erase(it,\ components.end());}
-\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ componentArray[id]\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ componentBitSet[id]\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<NodeComponent,\ T>)}
-\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id}\ =\ GetNodeComponentTypeID<T>();}
-\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ std::remove\_if(components.begin(),\ components.end(),}
-\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{keywordtype}{id}](\textcolor{keyword}{const}\ std::unique\_ptr<BaseComponent>\&\ comp)\ \{}
-\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ typeid(*comp).hash\_code()\ ==\ typeid(T).hash\_code();}
-\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{00409\ }
-\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ components.end())}
-\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ components.erase(it,\ components.end());}
-\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (*nodeComponentArray)[id]\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (*nodeComponentBitSet)[id]\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id}\ =\ GetComponentTypeID<T>();}
-\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ std::remove\_if(components.begin(),\ components.end(),}
-\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{keywordtype}{id}](\textcolor{keyword}{const}\ std::unique\_ptr<BaseComponent>\&\ comp)\ \{}
-\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ typeid(*comp).hash\_code()\ ==\ typeid(T).hash\_code();}
-\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{00424\ }
-\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ components.end())}
-\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ components.erase(it,\ components.end());}
-\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ componentArray[id]\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ componentBitSet[id]\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00432\ \ \ \ \ \}}
-\DoxyCodeLine{00433\ }
-\DoxyCodeLine{00434\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ setComponentEntity(\mbox{\hyperlink{classComponent}{Component}}*\ c)\ \{}
-\DoxyCodeLine{00435\ }
-\DoxyCodeLine{00436\ \ \ \ \ \}}
-\DoxyCodeLine{00437\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ setComponentEntity(\mbox{\hyperlink{classNodeComponent}{NodeComponent}}*\ c)\ \{}
-\DoxyCodeLine{00438\ }
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ c-\/>init();}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *c;}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00387\ }
+\DoxyCodeLine{00388\ }
+\DoxyCodeLine{00389\ \ \ \ \ \}}
+\DoxyCodeLine{00390\ }
+\DoxyCodeLine{00391\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00392\ \ \ \ \ \textcolor{keywordtype}{void}\ removeComponent()}
+\DoxyCodeLine{00393\ \ \ \ \ \{}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<LinkComponent,\ T>)}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id}\ =\ GetLinkComponentTypeID<T>();}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ std::remove\_if(components.begin(),\ components.end(),}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{keywordtype}{id}](\textcolor{keyword}{const}\ std::unique\_ptr<BaseComponent>\&\ comp)\ \{}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ typeid(*comp).hash\_code()\ ==\ typeid(T).hash\_code();}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00401\ }
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ components.end())}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ components.erase(it,\ components.end());}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ componentArray[id]\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ componentBitSet[id]\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<NodeComponent,\ T>)}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id}\ =\ GetNodeComponentTypeID<T>();}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ std::remove\_if(components.begin(),\ components.end(),}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{keywordtype}{id}](\textcolor{keyword}{const}\ std::unique\_ptr<BaseComponent>\&\ comp)\ \{}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ typeid(*comp).hash\_code()\ ==\ typeid(T).hash\_code();}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00416\ }
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ components.end())}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ components.erase(it,\ components.end());}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (*nodeComponentArray)[id]\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (*nodeComponentBitSet)[id]\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id}\ =\ GetComponentTypeID<T>();}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ std::remove\_if(components.begin(),\ components.end(),}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{keywordtype}{id}](\textcolor{keyword}{const}\ std::unique\_ptr<BaseComponent>\&\ comp)\ \{}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ typeid(*comp).hash\_code()\ ==\ typeid(T).hash\_code();}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00431\ }
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ components.end())}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ components.erase(it,\ components.end());}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ componentArray[id]\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ componentBitSet[id]\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00439\ \ \ \ \ \}}
-\DoxyCodeLine{00440\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ setComponentEntity(\mbox{\hyperlink{classLinkComponent}{LinkComponent}}*\ c)\ \{}
-\DoxyCodeLine{00441\ }
-\DoxyCodeLine{00442\ \ \ \ \ \}}
-\DoxyCodeLine{00443\ }
-\DoxyCodeLine{00444\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>\ T\&\ GetComponent()\textcolor{keyword}{\ const}}
-\DoxyCodeLine{00445\ \textcolor{keyword}{\ \ \ \ }\{}
-\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<LinkComponent,\ T>)\ \{}
-\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ptr(componentArray[GetLinkComponentTypeID<T>()]);}
-\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(ptr);}
-\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<NodeComponent,\ T>)\ \{}
-\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ptr((*nodeComponentArray)[GetNodeComponentTypeID<T>()]);}
-\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(ptr);}
-\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ptr(componentArray[GetComponentTypeID<T>()]);}
-\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(ptr);}
-\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00458\ \ \ \ \ \}}
-\DoxyCodeLine{00459\ }
-\DoxyCodeLine{00460\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasComponentByName(\textcolor{keyword}{const}\ std::string\&\ componentName)\ \{}
-\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ component\ :\ components)\ \{}
-\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component\ \&\&}
-\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>GetComponentName()\ ==\ componentName)\ \{}
-\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00468\ \ \ \ \ \}}
-\DoxyCodeLine{00469\ }
-\DoxyCodeLine{00470\ }
-\DoxyCodeLine{00471\ }
-\DoxyCodeLine{00472\ \ \ \ \ \textcolor{comment}{//\ for\ when\ wanting\ to\ add\ new\ entities\ from\ components}}
-\DoxyCodeLine{00473\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ getManager()\ \{}
-\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \&\mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}};}
-\DoxyCodeLine{00475\ \ \ \ \ \}}
-\DoxyCodeLine{00476\ }
-\DoxyCodeLine{00477\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ imgui\_print()\ \{\}}
-\DoxyCodeLine{00478\ }
-\DoxyCodeLine{00479\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ imgui\_display()\ \{\}}
-\DoxyCodeLine{00480\ }
-\DoxyCodeLine{00481\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ removeEntityFromCell()\ \{\}}
-\DoxyCodeLine{00482\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ removeFromCell()\ \{\};}
-\DoxyCodeLine{00483\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ removeFromCells()\ \{\};}
-\DoxyCodeLine{00484\ }
-\DoxyCodeLine{00485\ \};}
-\DoxyCodeLine{00486\ }
+\DoxyCodeLine{00440\ }
+\DoxyCodeLine{00441\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ setComponentEntity(\mbox{\hyperlink{classComponent}{Component}}*\ c)\ \{}
+\DoxyCodeLine{00442\ }
+\DoxyCodeLine{00443\ \ \ \ \ \}}
+\DoxyCodeLine{00444\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ setComponentEntity(\mbox{\hyperlink{classNodeComponent}{NodeComponent}}*\ c)\ \{}
+\DoxyCodeLine{00445\ }
+\DoxyCodeLine{00446\ \ \ \ \ \}}
+\DoxyCodeLine{00447\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ setComponentEntity(\mbox{\hyperlink{classLinkComponent}{LinkComponent}}*\ c)\ \{}
+\DoxyCodeLine{00448\ }
+\DoxyCodeLine{00449\ \ \ \ \ \}}
+\DoxyCodeLine{00450\ }
+\DoxyCodeLine{00451\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>\ T\&\ GetComponent()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00452\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<LinkComponent,\ T>)\ \{}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ptr(componentArray[GetLinkComponentTypeID<T>()]);}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(ptr);}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<NodeComponent,\ T>)\ \{}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ptr((*nodeComponentArray)[GetNodeComponentTypeID<T>()]);}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(ptr);}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ptr(componentArray[GetComponentTypeID<T>()]);}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(ptr);}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00465\ \ \ \ \ \}}
+\DoxyCodeLine{00466\ }
+\DoxyCodeLine{00467\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>\ T*\ GetComponentPtr()}
+\DoxyCodeLine{00468\ \ \ \ \ \{}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<LinkComponent,\ T>)\ \{}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ptr(componentArray[GetLinkComponentTypeID<T>()]);}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(ptr);}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_base\_of\_v<NodeComponent,\ T>)\ \{}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ptr((*nodeComponentArray)[GetNodeComponentTypeID<T>()]);}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(ptr);}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ptr(componentArray[GetComponentTypeID<T>()]);}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(ptr);}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00481\ \ \ \ \ \}}
+\DoxyCodeLine{00482\ }
+\DoxyCodeLine{00483\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasComponentByName(\textcolor{keyword}{const}\ std::string\&\ componentName)\ \{}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ component\ :\ components)\ \{}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component\ \&\&}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>GetComponentName()\ ==\ componentName)\ \{}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00491\ \ \ \ \ \}}
+\DoxyCodeLine{00492\ }
+\DoxyCodeLine{00493\ }
+\DoxyCodeLine{00494\ }
+\DoxyCodeLine{00495\ \ \ \ \ \textcolor{comment}{//\ for\ when\ wanting\ to\ add\ new\ entities\ from\ components}}
+\DoxyCodeLine{00496\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ getManager()\ \{}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \&\mbox{\hyperlink{classEntity_a8c776372c68ea73b2b588e7c8837b315}{manager}};}
+\DoxyCodeLine{00498\ \ \ \ \ \}}
+\DoxyCodeLine{00499\ }
+\DoxyCodeLine{00500\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ imgui\_print()\ \{\}}
+\DoxyCodeLine{00501\ }
+\DoxyCodeLine{00502\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ imgui\_display()\ \{\}}
+\DoxyCodeLine{00503\ }
+\DoxyCodeLine{00504\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ removeEntityFromCell()\ \{\}}
+\DoxyCodeLine{00505\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ removeFromCell()\ \{\};}
+\DoxyCodeLine{00506\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ removeFromCells()\ \{\};}
+\DoxyCodeLine{00507\ }
+\DoxyCodeLine{00508\ \};}
+\DoxyCodeLine{00509\ }
 
 \end{DoxyCode}

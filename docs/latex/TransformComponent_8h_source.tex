@@ -192,38 +192,60 @@
 \DoxyCodeLine{00188\ \ \ \ \ \}}
 \DoxyCodeLine{00189\ }
 \DoxyCodeLine{00190\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents\ =\ \{\})\ \textcolor{keyword}{override}\ \{}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ ImGui::Separator();}
-\DoxyCodeLine{00192\ }
-\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TazPosition\ Controls}}
-\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}TazPosition:"{}});}
-\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ ImGui::SliderFloat3(\textcolor{stringliteral}{"{}\#\#position"{}},\ \&position.x,\ -\/1000.0f,\ 1000.0f);}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ showGUI(otherComponents,\ \{\ entity\ \});}
+\DoxyCodeLine{00192\ \ \ \ \ \};}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents,\ std::vector<Entity*>\ otherEntities)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ ImGui::Separator();}
 \DoxyCodeLine{00196\ }
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::Button(\textcolor{stringliteral}{"{}Apply\ TazPosition\ to\ All\#\#transform\_pos"{}}))\ \{}
-\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ modifyPosition\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (modifyPosition\ \&\&\ !otherComponents.empty())\ \{}
-\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ comp\ :\ otherComponents)\ \{}
-\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}*\ other\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\textcolor{keyword}{>}(comp))\ \{}
-\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ other-\/>position\ =\ position;}
-\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00207\ }
-\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TazSize\ Controls}}
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}TazSize:"{}});}
-\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ ImGui::SliderFloat3(\textcolor{stringliteral}{"{}\#\#size"{}},\ \&size.x,\ 1.0f,\ 100.0f);}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TazPosition\ Controls}}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}TazPosition:"{}});}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ ImGui::SliderFloat3(\textcolor{stringliteral}{"{}\#\#position"{}},\ \&position.x,\ -\/1000.0f,\ 1000.0f);}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::Button(\textcolor{stringliteral}{"{}Apply\ TazPosition\ to\ All\#\#transform\_pos"{}}))\ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ modifyPosition\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (modifyPosition\ \&\&\ !otherComponents.empty())\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ comp\ :\ otherComponents)\ \{}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}*\ other\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\textcolor{keyword}{>}(comp))\ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ other-\/>position\ =\ position;}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00211\ }
-\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TazRotation\ Controls}}
-\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}TazRotation:"{}});}
-\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ ImGui::SliderFloat3(\textcolor{stringliteral}{"{}\#\#rotation"{}},\ glm::value\_ptr(rotation),\ -\/180.0f,\ 180.0f);}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TazSize\ Controls}}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}TazSize:"{}});}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ ImGui::SliderFloat3(\textcolor{stringliteral}{"{}\#\#size"{}},\ \&size.x,\ 1.0f,\ 100.0f);}
 \DoxyCodeLine{00215\ }
-\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}Scale:"{}});}
-\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ ImGui::SliderFloat(\textcolor{stringliteral}{"{}\#\#scale"{}},\ \&scale,\ 0.1f,\ 10.0f);}
-\DoxyCodeLine{00218\ }
-\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Speed\ Control}}
-\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}Speed:"{}});}
-\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ ImGui::InputInt(\textcolor{stringliteral}{"{}\#\#speed"{}},\ \&speed);}
-\DoxyCodeLine{00222\ \ \ \ \ \};}
-\DoxyCodeLine{00223\ \};}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TazRotation\ Controls}}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}TazRotation:"{}});}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ ImGui::SliderFloat3(\textcolor{stringliteral}{"{}\#\#rotation"{}},\ glm::value\_ptr(rotation),\ -\/180.0f,\ 180.0f);}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}Scale:"{}});}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ ImGui::SliderFloat(\textcolor{stringliteral}{"{}\#\#scale"{}},\ \&scale,\ 0.1f,\ 10.0f);}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Speed\ Control}}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}Speed:"{}});}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ ImGui::InputInt(\textcolor{stringliteral}{"{}\#\#speed"{}},\ \&speed);}
+\DoxyCodeLine{00226\ \ \ \ \ \}}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}\&\ operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}\&\ tr)\ \{}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{this}\ ==\ \&tr)\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ velocity\ =\ tr.velocity;}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ rotation\ =\ tr.rotation;}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ position\ =\ tr.position;}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ local\_position\ =\ tr.local\_position;}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ local\_normal\_position\ =\ tr.local\_normal\_position;}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ size\ =\ tr.size;}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ scale\ =\ tr.scale;}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ speed\ =\ tr.speed;}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00244\ \ \ \ \ \}}
+\DoxyCodeLine{00245\ \};}
 
 \end{DoxyCode}

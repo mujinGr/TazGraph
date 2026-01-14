@@ -24,47 +24,47 @@
 \DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{char}\ \_pythonBuffer[1024]\ =\ \textcolor{stringliteral}{"{}"{}};}
 \DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{char}\ \_updateBuffer[4096]\ =\ \textcolor{stringliteral}{"{}"{}};}
 \DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \ \ \ \ std::string\ \_outputText;}
-\DoxyCodeLine{00024\ \ \ \ \ std::string\ \_updateOutputText;}
-\DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{enum}\ console\_state\ \{}
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ Collapsed,}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ Expanded}
-\DoxyCodeLine{00029\ \ \ \ \ \};}
-\DoxyCodeLine{00030\ }
-\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{enum\ class}\ ScriptType\ \{}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ OneOff,}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ OnUpdate}
-\DoxyCodeLine{00034\ \ \ \ \ \};}
-\DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ \ \ \ \ ScriptType\ currentScriptType\ =\ ScriptType::OneOff;}
+\DoxyCodeLine{00023\ \ \ \ \ py::object\ \_stdout\_buffer;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ std::string\ \_outputText;}
+\DoxyCodeLine{00026\ \ \ \ \ std::string\ \_updateOutputText;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{enum}\ console\_state\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ Collapsed,}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ Expanded}
+\DoxyCodeLine{00031\ \ \ \ \ \};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{enum\ class}\ ScriptType\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ OneOff,}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ OnUpdate}
+\DoxyCodeLine{00036\ \ \ \ \ \};}
 \DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \ \ \ \ console\_state\ state\ =\ console\_state::Collapsed;}
-\DoxyCodeLine{00039\ \ \ \ \ console\_state\ last\_state\ =\ console\_state::Collapsed;}
-\DoxyCodeLine{00040\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00041\ }
-\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{float}\ default\_pythonConsoleHeight\ =\ 400.0f;}
+\DoxyCodeLine{00038\ \ \ \ \ ScriptType\ currentScriptType\ =\ ScriptType::OneOff;}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ console\_state\ state\ =\ console\_state::Collapsed;}
+\DoxyCodeLine{00041\ \ \ \ \ console\_state\ last\_state\ =\ console\_state::Collapsed;}
+\DoxyCodeLine{00042\ \textcolor{keyword}{public}:}
 \DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ \ \ \ \ ImRect\ titleBarRect;}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{float}\ default\_pythonConsoleHeight\ =\ 400.0f;}
 \DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{float}\ intervalSec\ =\ 1.0f;}
-\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{double}\ lastExecTime\ =\ 0.0;}
-\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{bool}\ useInterval\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{bool}\ updatePaused\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00050\ }
-\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{bool}\ inputActive\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00046\ \ \ \ \ ImRect\ titleBarRect;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{float}\ intervalSec\ =\ 1.0f;}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{double}\ lastExecTime\ =\ 0.0;}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{bool}\ useInterval\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{bool}\ updatePaused\ =\ \textcolor{keyword}{true};}
 \DoxyCodeLine{00052\ }
-\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{bool}\ init\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{bool}\ inputActive\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00054\ }
-\DoxyCodeLine{00055\ }
-\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{bool}\ readyToExecute\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00057\ }
-\DoxyCodeLine{00058\ \ \ \ \ ImGuiChildFlags\ flags\ =\ ImGuiChildFlags\_ResizeY\ |\ ImGuiWindowFlags\_NoSavedSettings;}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{bool}\ firstLoop\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{bool}\ readyToClear\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{bool}\ readyToExecute\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00059\ }
-\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{classPythonInterpreterPanel}{PythonInterpreterPanel}}();}
-\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ init\_api(py::module\_\&\ m,\ \mbox{\hyperlink{classManager}{Manager}}\&\ manager);}
-\DoxyCodeLine{00062\ }
-\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00060\ \ \ \ \ ImGuiChildFlags\ flags\ =\ ImGuiChildFlags\_ResizeY\ |\ ImGuiWindowFlags\_NoSavedSettings;}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{classPythonInterpreterPanel_a08e9a7f14884babd7f9e0016e1f623e8}{PythonInterpreterPanel}}();}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classPythonInterpreterPanel_ab999a83ba0526ab8a80ad7358f346e92}{update}}(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
 \DoxyCodeLine{00064\ }
 \DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structPythonInterpreterConfig}{PythonInterpreterConfig}}\&\ cfg)\ \{}
 \DoxyCodeLine{00066\ }
@@ -73,10 +73,10 @@
 \DoxyCodeLine{00069\ }
 \DoxyCodeLine{00070\ \ \ \ \ \}}
 \DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender2();}
-\DoxyCodeLine{00073\ }
-\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ setFlags();}
-\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ innerTable();}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ setFlags();}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ innerTable();}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ clearOutput();}
 \DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classPythonInterpreterPanel_ad68d86236b802b650b7f12149ba53d88}{runScript}}();}
 \DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ runUpdateScript(\textcolor{keywordtype}{float}\ deltaTime);}
 \DoxyCodeLine{00078\ \};}

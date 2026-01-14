@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TazGraph Project: /mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/EntityComponentsControl/EntityComponentsControl.h Source File</title>
+<title>TazGraph Project: /mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/EditorIMGUI/Components/GraphRightPanel/EntityComponentsControl/EntityComponentsControl.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -74,7 +74,7 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_09b1ff4369ed9fd91d5e250699b03ef2.html">TazGraph</a></li><li class="navelem"><a class="el" href="dir_3f423d6722606df6946b79f1f4f6c816.html">Src</a></li><li class="navelem"><a class="el" href="dir_348193136382623313fa0dac57b5dd0c.html">EditorIMGUI</a></li><li class="navelem"><a class="el" href="dir_f2305a85f4f806e711c61524fd0d4eac.html">Components</a></li><li class="navelem"><a class="el" href="dir_7378c8d428d97bcbce7855e6dfa25938.html">EntityComponentsControl</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_09b1ff4369ed9fd91d5e250699b03ef2.html">TazGraph</a></li><li class="navelem"><a class="el" href="dir_3f423d6722606df6946b79f1f4f6c816.html">Src</a></li><li class="navelem"><a class="el" href="dir_348193136382623313fa0dac57b5dd0c.html">EditorIMGUI</a></li><li class="navelem"><a class="el" href="dir_f2305a85f4f806e711c61524fd0d4eac.html">Components</a></li><li class="navelem"><a class="el" href="dir_a481b229c79a6a3c93082d37080152dd.html">GraphRightPanel</a></li><li class="navelem"><a class="el" href="dir_fb6c275e879e7bb619043f22d7e686e6.html">EntityComponentsControl</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -83,40 +83,46 @@ $(document).ready(function() { init_codefold(0); });
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;../../UIElement.h&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;../PythonInterpreterPanel/PythonInterpreterPanel.h&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;../../../UIElement.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;../../PythonInterpreterPanel/PythonInterpreterPanel.h&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="foldopen" id="foldopen00006" data-start="{" data-end="};">
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="structEntityComponentsConfig.html">    6</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEntityComponentsConfig.html">EntityComponentsConfig</a> {</div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <a class="code hl_class" href="classIScene.html">IScene</a>* scene;</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    <a class="code hl_class" href="classEntity.html">Entity</a>* displayedEntity = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>};</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    std::vector&lt;EntityID&gt; displayedEntityIds;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="keywordtype">int</span> selectedGroup = -1;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>};</div>
 </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="classEntityComponentsControlPanel.html">   11</a></span><span class="keyword">class </span><a class="code hl_class" href="classEntityComponentsControlPanel.html">EntityComponentsControlPanel</a> : <span class="keyword">public</span> <a class="code hl_class" href="classUIElement.html">UIElement</a></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>{</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <a class="code hl_struct" href="structEntityComponentsConfig.html">EntityComponentsConfig</a> config;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    EntityID _lastEntityDisplayed = 0;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <a class="code hl_class" href="classEntityComponentsControlPanel.html">EntityComponentsControlPanel</a>(<span class="keywordtype">bool</span> usePython) {</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="keywordflow">if</span> (usePython) {</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            addUIComponent&lt;PythonInterpreterPanel&gt;();</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        }</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    }</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">void</span> setConfig(<span class="keyword">const</span> <a class="code hl_struct" href="structEntityComponentsConfig.html">EntityComponentsConfig</a>&amp; cfg) { config = cfg; }</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">void</span> OnImGuiRender() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">void</span> ComponentCheckbox(std::string c);</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>};</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="};">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classEntityComponentsControlPanel.html">   12</a></span><span class="keyword">class </span><a class="code hl_class" href="classEntityComponentsControlPanel.html">EntityComponentsControlPanel</a> : <span class="keyword">public</span> <a class="code hl_class" href="classUIElement.html">UIElement</a></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>{</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <a class="code hl_struct" href="structEntityComponentsConfig.html">EntityComponentsConfig</a> config;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    std::vector&lt;Entity*&gt; displayedEntities;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <a class="code hl_class" href="classEntityComponentsControlPanel.html">EntityComponentsControlPanel</a>(<span class="keywordtype">bool</span> usePython) {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keywordflow">if</span> (usePython) {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            addUIComponent&lt;PythonInterpreterPanel&gt;();</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        }</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    }</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">void</span> setConfig(<span class="keyword">const</span> <a class="code hl_struct" href="structEntityComponentsConfig.html">EntityComponentsConfig</a>&amp; cfg) {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        config = cfg;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        displayedEntities = config.selectedGroup != -1 ?</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            config.scene-&gt;manager-&gt;getGroup_All(config.selectedGroup)</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            : config.scene-&gt;manager-&gt;getEntities_FromIds(config.displayedEntityIds);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">void</span> OnImGuiRender() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordtype">void</span> ComponentCheckbox(std::string c);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>};</div>
 </div>
-<div class="ttc" id="aclassEntityComponentsControlPanel_html"><div class="ttname"><a href="classEntityComponentsControlPanel.html">EntityComponentsControlPanel</a></div><div class="ttdef"><b>Definition</b> EntityComponentsControl.h:12</div></div>
-<div class="ttc" id="aclassEntity_html"><div class="ttname"><a href="classEntity.html">Entity</a></div><div class="ttdef"><b>Definition</b> GECS.h:217</div></div>
+<div class="ttc" id="aclassEntityComponentsControlPanel_html"><div class="ttname"><a href="classEntityComponentsControlPanel.html">EntityComponentsControlPanel</a></div><div class="ttdef"><b>Definition</b> EntityComponentsControl.h:13</div></div>
 <div class="ttc" id="aclassIScene_html"><div class="ttname"><a href="classIScene.html">IScene</a></div><div class="ttdef"><b>Definition</b> IScene.h:25</div></div>
-<div class="ttc" id="aclassUIElement_html"><div class="ttname"><a href="classUIElement.html">UIElement</a></div><div class="ttdef"><b>Definition</b> UIElement.h:14</div></div>
+<div class="ttc" id="aclassUIElement_html"><div class="ttname"><a href="classUIElement.html">UIElement</a></div><div class="ttdef"><b>Definition</b> UIElement.h:16</div></div>
 <div class="ttc" id="astructEntityComponentsConfig_html"><div class="ttname"><a href="structEntityComponentsConfig.html">EntityComponentsConfig</a></div><div class="ttdef"><b>Definition</b> EntityComponentsControl.h:6</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

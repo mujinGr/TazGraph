@@ -113,9 +113,25 @@
 \DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_maxScale;}
 \DoxyCodeLine{00110\ \ \ \ \ \}}
 \DoxyCodeLine{00111\ }
-\DoxyCodeLine{00112\ }
-\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{float}\ \_minScale\ =\ 0.1f,\ \_maxScale\ =\ 5.0f;}
-\DoxyCodeLine{00114\ }
-\DoxyCodeLine{00115\ \};}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{void}\ setAspect(\textcolor{keywordtype}{float}\ newAspectX,\ \textcolor{keywordtype}{float}\ newAspectY)}
+\DoxyCodeLine{00113\ \ \ \ \ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ aspect\ =\ newAspectX/\ newAspectY;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \_projectionMatrix\ =\ glm::perspective(}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ glm::radians(fov),}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ aspect,}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ nearPlane,}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ zFar}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ updateCameraOrientation();}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ glm::mat4(1.0f);}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \_cameraMatrix\ =\ \_projectionMatrix\ *\ \_viewMatrix;}
+\DoxyCodeLine{00127\ \ \ \ \ \}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordtype}{float}\ \_minScale\ =\ 0.1f,\ \_maxScale\ =\ 5.0f;}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \};}
 
 \end{DoxyCode}

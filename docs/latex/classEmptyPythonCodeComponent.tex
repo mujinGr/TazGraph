@@ -2,7 +2,8 @@
 \hypertarget{classEmptyPythonCodeComponent}{}\label{classEmptyPythonCodeComponent}\index{EmptyPythonCodeComponent@{EmptyPythonCodeComponent}}
 
 
-Inheritance diagram for Empty\+Python\+Code\+Component\+:\nopagebreak
+Inheritance diagram for Empty\+Python\+Code\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,11 +12,12 @@ Inheritance diagram for Empty\+Python\+Code\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Empty\+Python\+Code\+Component\+:\nopagebreak
+Collaboration diagram for Empty\+Python\+Code\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{classEmptyPythonCodeComponent__coll__graph}
+\includegraphics[width=330pt]{classEmptyPythonCodeComponent__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -28,17 +30,8 @@ void \mbox{\hyperlink{classEmptyPythonCodeComponent_aafe6648cc71fe1bf7db94758115
 std\+::string \mbox{\hyperlink{classEmptyPythonCodeComponent_a5910c2e363778008f6b0236969e1423a}{Get\+Component\+Name}} () override
 \item 
 void \mbox{\hyperlink{classEmptyPythonCodeComponent_a8c4c800841aec00ae07e5f79c5331f8a}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\}) override
-\end{DoxyCompactItemize}
-\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classPythonCodeComponent}{Python\+Code\+Component}}}
-\begin{DoxyCompactItemize}
 \item 
-void {\bfseries init} ()
-\item 
-void {\bfseries update} (float delta\+Time)
-\item 
-std\+::string {\bfseries Get\+Component\+Name} ()
-\item 
-void {\bfseries show\+GUI} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\})
+void \mbox{\hyperlink{classEmptyPythonCodeComponent_ad4aba4b8681df249ae86357cae48dadb}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components, std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ other\+Entities) override
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
@@ -51,12 +44,24 @@ virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classP
 \item 
 virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
 \end{DoxyCompactItemize}
-\doxysubsubsection*{Additional Inherited Members}
-\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classPythonCodeComponent}{Python\+Code\+Component}}}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classPythonCodeComponent}{Python\+Code\+Component}}}
 \begin{DoxyCompactItemize}
 \item 
-std\+::string {\bfseries code} = "{}"{}
+void {\bfseries init} ()
+\item 
+void \mbox{\hyperlink{classPythonCodeComponent_a3334dd68e45fbe59d4c1ff0992b364ba}{update}} (float delta\+Time)
+\item 
+std\+::string {\bfseries Get\+Component\+Name} ()
+\item 
+void {\bfseries show\+GUI} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\})
+\item 
+void {\bfseries clear\+Output} ()
+\item 
+void \mbox{\hyperlink{classPythonCodeComponent_a9da98d55996ae1f84aede5bf9990a7a6}{run\+Script}} ()
+\item 
+void {\bfseries run\+Update\+Script} (float delta\+Time)
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
 \begin{DoxyCompactItemize}
 \item 
@@ -68,6 +73,23 @@ std\+::string {\bfseries code} = "{}"{}
 bool {\bfseries modify\+Position} = false
 \item 
 Component\+ID {\bfseries id} = 0u
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classPythonCodeComponent}{Python\+Code\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+float {\bfseries interval\+Sec} = 1.\+0f
+\item 
+double {\bfseries last\+Exec\+Time} = 0.\+0
+\item 
+bool {\bfseries use\+Interval} = false
+\item 
+bool {\bfseries update\+Paused} = true
+\item 
+bool {\bfseries input\+Active} = false
+\item 
+bool {\bfseries ready\+To\+Clear} = false
+\item 
+bool {\bfseries ready\+To\+Execute} = false
 \end{DoxyCompactItemize}
 
 
@@ -92,10 +114,20 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
+\Hypertarget{classEmptyPythonCodeComponent_ad4aba4b8681df249ae86357cae48dadb}\label{classEmptyPythonCodeComponent_ad4aba4b8681df249ae86357cae48dadb} 
+\index{EmptyPythonCodeComponent@{EmptyPythonCodeComponent}!showGUI@{showGUI}}
+\index{showGUI@{showGUI}!EmptyPythonCodeComponent@{EmptyPythonCodeComponent}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Empty\+Python\+Code\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Entities }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
 \Hypertarget{classEmptyPythonCodeComponent_a8c4c800841aec00ae07e5f79c5331f8a}\label{classEmptyPythonCodeComponent_a8c4c800841aec00ae07e5f79c5331f8a} 
 \index{EmptyPythonCodeComponent@{EmptyPythonCodeComponent}!showGUI@{showGUI}}
 \index{showGUI@{showGUI}!EmptyPythonCodeComponent@{EmptyPythonCodeComponent}}
-\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Empty\+Python\+Code\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 

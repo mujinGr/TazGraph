@@ -123,9 +123,9 @@ virtual void {\bfseries destroy} ()
 \item 
 bool {\bfseries has\+Group} (Group m\+Group)
 \item 
-virtual void {\bfseries add\+Group} (Group m\+Group)
+virtual void {\bfseries add\+To\+Group} (Group m\+Group)
 \item 
-void {\bfseries remove\+Group} (Group m\+Group)
+virtual void {\bfseries remove\+Group} (Group m\+Group)
 \item 
 {\footnotesize template$<$typename T $>$ }\\bool {\bfseries has\+Component} () const
 \item 
@@ -138,6 +138,8 @@ virtual void {\bfseries set\+Component\+Entity} (\mbox{\hyperlink{classComponent
 virtual void {\bfseries set\+Component\+Entity} (\mbox{\hyperlink{classNodeComponent}{Node\+Component}} \texorpdfstring{$\ast$}{*}c)
 \item 
 {\footnotesize template$<$typename T $>$ }\\T \& {\bfseries Get\+Component} () const
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries Get\+Component\+Ptr} ()
 \item 
 bool {\bfseries has\+Component\+By\+Name} (const std\+::string \&component\+Name)
 \item 

@@ -119,8 +119,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6f5a25fc537e0721cab8efc6026a6515" id="r_a6f5a25fc537e0721cab8efc6026a6515"><td class="memItemLeft" align="right" valign="top"><a id="a6f5a25fc537e0721cab8efc6026a6515" name="a6f5a25fc537e0721cab8efc6026a6515"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Node</b> (<a class="el" href="classManager.html">Manager</a> &amp;mManager)</td></tr>
 <tr class="separator:a6f5a25fc537e0721cab8efc6026a6515"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14e0020cba8e11e6786fecde581bcb5d" id="r_a14e0020cba8e11e6786fecde581bcb5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a14e0020cba8e11e6786fecde581bcb5d">addGroup</a> (Group mGroup) override</td></tr>
-<tr class="separator:a14e0020cba8e11e6786fecde581bcb5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56b0b831c3fd6a9336c8a9f8707a765c" id="r_a56b0b831c3fd6a9336c8a9f8707a765c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a56b0b831c3fd6a9336c8a9f8707a765c">addToGroup</a> (Group mGroup) override</td></tr>
+<tr class="separator:a56b0b831c3fd6a9336c8a9f8707a765c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae72cc3f53aedf41e810050ff0612023e" id="r_ae72cc3f53aedf41e810050ff0612023e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#ae72cc3f53aedf41e810050ff0612023e">removeGroup</a> (Group mGroup) override</td></tr>
+<tr class="separator:ae72cc3f53aedf41e810050ff0612023e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11534136b486a3bf87130d4983a56bfb" id="r_a11534136b486a3bf87130d4983a56bfb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a11534136b486a3bf87130d4983a56bfb">update</a> (float deltaTime)</td></tr>
 <tr class="separator:a11534136b486a3bf87130d4983a56bfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5c74f2820c1ea8ddfdc07eecc16f9d5" id="r_ae5c74f2820c1ea8ddfdc07eecc16f9d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#ae5c74f2820c1ea8ddfdc07eecc16f9d5">cellUpdate</a> () override</td></tr>
@@ -229,9 +231,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isActive</b> ()</td><
 <tr class="memitem:acfb6240560624c026ffc24af4d469b68 inherit pub_methods_classEntity" id="r_acfb6240560624c026ffc24af4d469b68"><td class="memItemLeft" align="right" valign="top">
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasGroup</b> (Group mGroup)</td></tr>
 <tr class="separator:acfb6240560624c026ffc24af4d469b68 inherit pub_methods_classEntity"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2245c79a64e79de629f02dade10e3927 inherit pub_methods_classEntity" id="r_a2245c79a64e79de629f02dade10e3927"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>removeGroup</b> (Group mGroup)</td></tr>
-<tr class="separator:a2245c79a64e79de629f02dade10e3927 inherit pub_methods_classEntity"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa622a8d79153a90d0e3b9b992ca2d38b inherit pub_methods_classEntity" id="r_aa622a8d79153a90d0e3b9b992ca2d38b"><td class="memTemplParams" colspan="2">
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aa622a8d79153a90d0e3b9b992ca2d38b inherit pub_methods_classEntity"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>hasComponent</b> () const</td></tr>
@@ -252,6 +251,10 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setComponentE
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ae74a347c72ec25bba32d5ead90ec70d5 inherit pub_methods_classEntity"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>GetComponent</b> () const</td></tr>
 <tr class="separator:ae74a347c72ec25bba32d5ead90ec70d5 inherit pub_methods_classEntity"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a666384a4f55429d4e0b078b710cd7afe inherit pub_methods_classEntity" id="r_a666384a4f55429d4e0b078b710cd7afe"><td class="memTemplParams" colspan="2">
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a666384a4f55429d4e0b078b710cd7afe inherit pub_methods_classEntity"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>GetComponentPtr</b> ()</td></tr>
+<tr class="separator:a666384a4f55429d4e0b078b710cd7afe inherit pub_methods_classEntity"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abfccd7de2e036fce287fdb218f57fea3 inherit pub_methods_classEntity" id="r_abfccd7de2e036fce287fdb218f57fea3"><td class="memItemLeft" align="right" valign="top">
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasComponentByName</b> (const std::string &amp;componentName)</td></tr>
 <tr class="separator:abfccd7de2e036fce287fdb218f57fea3 inherit pub_methods_classEntity"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -320,34 +323,6 @@ std::optional&lt; ComponentBitSet &gt;&#160;</td><td class="memItemRight" valign
 <tr class="separator:a8c776372c68ea73b2b588e7c8837b315 inherit pro_attribs_classEntity"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a14e0020cba8e11e6786fecde581bcb5d" name="a14e0020cba8e11e6786fecde581bcb5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14e0020cba8e11e6786fecde581bcb5d">&#9670;&#160;</a></span>addGroup()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Node::addGroup </td>
-          <td>(</td>
-          <td class="paramtype">Group&#160;</td>
-          <td class="paramname"><em>mGroup</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Reimplemented from <a class="el" href="classEntity.html">Entity</a>.</p>
-
-</div>
-</div>
 <a id="af477692661e4515dd7b6d054f0d72d13" name="af477692661e4515dd7b6d054f0d72d13"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af477692661e4515dd7b6d054f0d72d13">&#9670;&#160;</a></span>addPorts()</h2>
 
@@ -372,6 +347,34 @@ std::optional&lt; ComponentBitSet &gt;&#160;</td><td class="memItemRight" valign
 </div><div class="memdoc">
 
 <p>Reimplemented from <a class="el" href="classNodeEntity.html">NodeEntity</a>.</p>
+
+</div>
+</div>
+<a id="a56b0b831c3fd6a9336c8a9f8707a765c" name="a56b0b831c3fd6a9336c8a9f8707a765c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56b0b831c3fd6a9336c8a9f8707a765c">&#9670;&#160;</a></span>addToGroup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Node::addToGroup </td>
+          <td>(</td>
+          <td class="paramtype">Group&#160;</td>
+          <td class="paramname"><em>mGroup</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="classEntity.html">Entity</a>.</p>
 
 </div>
 </div>
@@ -469,6 +472,34 @@ std::optional&lt; ComponentBitSet &gt;&#160;</td><td class="memItemRight" valign
           <td class="memname">void Node::imgui_print </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="classEntity.html">Entity</a>.</p>
+
+</div>
+</div>
+<a id="ae72cc3f53aedf41e810050ff0612023e" name="ae72cc3f53aedf41e810050ff0612023e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae72cc3f53aedf41e810050ff0612023e">&#9670;&#160;</a></span>removeGroup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Node::removeGroup </td>
+          <td>(</td>
+          <td class="paramtype">Group&#160;</td>
+          <td class="paramname"><em>mGroup</em></td><td>)</td>
           <td></td>
         </tr>
       </table>

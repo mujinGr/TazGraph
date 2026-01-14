@@ -78,11 +78,11 @@ virtual void {\bfseries destroy} ()
 \Hypertarget{classEntity_acfb6240560624c026ffc24af4d469b68}\label{classEntity_acfb6240560624c026ffc24af4d469b68} 
 bool {\bfseries has\+Group} (Group m\+Group)
 \item 
-\Hypertarget{classEntity_a712c05a013e928943c26c3a5b1467f01}\label{classEntity_a712c05a013e928943c26c3a5b1467f01} 
-virtual void {\bfseries add\+Group} (Group m\+Group)
+\Hypertarget{classEntity_aeb129b7b82a948ba5c67c19c2b6069a0}\label{classEntity_aeb129b7b82a948ba5c67c19c2b6069a0} 
+virtual void {\bfseries add\+To\+Group} (Group m\+Group)
 \item 
 \Hypertarget{classEntity_a2245c79a64e79de629f02dade10e3927}\label{classEntity_a2245c79a64e79de629f02dade10e3927} 
-void {\bfseries remove\+Group} (Group m\+Group)
+virtual void {\bfseries remove\+Group} (Group m\+Group)
 \item 
 \Hypertarget{classEntity_aa622a8d79153a90d0e3b9b992ca2d38b}\label{classEntity_aa622a8d79153a90d0e3b9b992ca2d38b} 
 {\footnotesize template$<$typename T $>$ }\\bool {\bfseries has\+Component} () const
@@ -104,6 +104,9 @@ virtual void {\bfseries set\+Component\+Entity} (\mbox{\hyperlink{classLinkCompo
 \item 
 \Hypertarget{classEntity_ae74a347c72ec25bba32d5ead90ec70d5}\label{classEntity_ae74a347c72ec25bba32d5ead90ec70d5} 
 {\footnotesize template$<$typename T $>$ }\\T \& {\bfseries Get\+Component} () const
+\item 
+\Hypertarget{classEntity_a666384a4f55429d4e0b078b710cd7afe}\label{classEntity_a666384a4f55429d4e0b078b710cd7afe} 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries Get\+Component\+Ptr} ()
 \item 
 \Hypertarget{classEntity_abfccd7de2e036fce287fdb218f57fea3}\label{classEntity_abfccd7de2e036fce287fdb218f57fea3} 
 bool {\bfseries has\+Component\+By\+Name} (const std\+::string \&component\+Name)

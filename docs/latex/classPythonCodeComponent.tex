@@ -15,22 +15,62 @@ Inheritance diagram for Python\+Code\+Component\+:\nopagebreak
 \Hypertarget{classPythonCodeComponent_ad1200892d886c48bdc3bc42d6ea79147}\label{classPythonCodeComponent_ad1200892d886c48bdc3bc42d6ea79147} 
 void {\bfseries init} ()
 \item 
-\Hypertarget{classPythonCodeComponent_a3334dd68e45fbe59d4c1ff0992b364ba}\label{classPythonCodeComponent_a3334dd68e45fbe59d4c1ff0992b364ba} 
-void {\bfseries update} (float delta\+Time)
+void \mbox{\hyperlink{classPythonCodeComponent_a3334dd68e45fbe59d4c1ff0992b364ba}{update}} (float delta\+Time)
 \item 
 \Hypertarget{classPythonCodeComponent_a53ca921186587fa2af182171fefae332}\label{classPythonCodeComponent_a53ca921186587fa2af182171fefae332} 
 std\+::string {\bfseries Get\+Component\+Name} ()
 \item 
 \Hypertarget{classPythonCodeComponent_a395c31fb7518a32a49fdde5856ec1b92}\label{classPythonCodeComponent_a395c31fb7518a32a49fdde5856ec1b92} 
 void {\bfseries show\+GUI} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\})
+\item 
+\Hypertarget{classPythonCodeComponent_af3bda7e538e51654e506cde28f5c0e23}\label{classPythonCodeComponent_af3bda7e538e51654e506cde28f5c0e23} 
+void {\bfseries clear\+Output} ()
+\item 
+void \mbox{\hyperlink{classPythonCodeComponent_a9da98d55996ae1f84aede5bf9990a7a6}{run\+Script}} ()
+\item 
+\Hypertarget{classPythonCodeComponent_ad457c1c43d417c65f305957a1a1ae2a3}\label{classPythonCodeComponent_ad457c1c43d417c65f305957a1a1ae2a3} 
+void {\bfseries run\+Update\+Script} (float delta\+Time)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classPythonCodeComponent_a3966b532178e9e064108f58072d0e4c5}\label{classPythonCodeComponent_a3966b532178e9e064108f58072d0e4c5} 
-std\+::string {\bfseries code} = "{}"{}
+\Hypertarget{classPythonCodeComponent_a5b9db672109e65e78605008b2729054a}\label{classPythonCodeComponent_a5b9db672109e65e78605008b2729054a} 
+float {\bfseries interval\+Sec} = 1.\+0f
+\item 
+\Hypertarget{classPythonCodeComponent_a64c0cb93c41c9df46adfae267365d731}\label{classPythonCodeComponent_a64c0cb93c41c9df46adfae267365d731} 
+double {\bfseries last\+Exec\+Time} = 0.\+0
+\item 
+\Hypertarget{classPythonCodeComponent_a74bc09df136e5ec318ad32964c347488}\label{classPythonCodeComponent_a74bc09df136e5ec318ad32964c347488} 
+bool {\bfseries use\+Interval} = false
+\item 
+\Hypertarget{classPythonCodeComponent_a7a0635d860dde0b841d50204d794bf65}\label{classPythonCodeComponent_a7a0635d860dde0b841d50204d794bf65} 
+bool {\bfseries update\+Paused} = true
+\item 
+\Hypertarget{classPythonCodeComponent_af824ddf98bfa76692c70343f702cff3d}\label{classPythonCodeComponent_af824ddf98bfa76692c70343f702cff3d} 
+bool {\bfseries input\+Active} = false
+\item 
+\Hypertarget{classPythonCodeComponent_a6b8252598e4c61cb7c1becf7a044f1f2}\label{classPythonCodeComponent_a6b8252598e4c61cb7c1becf7a044f1f2} 
+bool {\bfseries ready\+To\+Clear} = false
+\item 
+\Hypertarget{classPythonCodeComponent_a5e1e09f211920692212eda5d3a03db5f}\label{classPythonCodeComponent_a5e1e09f211920692212eda5d3a03db5f} 
+bool {\bfseries ready\+To\+Execute} = false
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classPythonCodeComponent_a9da98d55996ae1f84aede5bf9990a7a6}\label{classPythonCodeComponent_a9da98d55996ae1f84aede5bf9990a7a6} 
+\index{PythonCodeComponent@{PythonCodeComponent}!runScript@{runScript}}
+\index{runScript@{runScript}!PythonCodeComponent@{PythonCodeComponent}}
+\doxysubsubsection{\texorpdfstring{runScript()}{runScript()}}
+{\footnotesize\ttfamily void Python\+Code\+Component\+::run\+Script (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+safe\+\_\+putenv("{}\+PYTHONHOME=\+C\+:\textbackslash{}\textbackslash{}\+Users\textbackslash{}\textbackslash{}lefte\textbackslash{}\textbackslash{}\+App\+Data\textbackslash{}\textbackslash{}\+Local\textbackslash{}\textbackslash{}\+Programs\textbackslash{}\textbackslash{}\+Python\textbackslash{}\textbackslash{}\+Python313"{});\Hypertarget{classPythonCodeComponent_a3334dd68e45fbe59d4c1ff0992b364ba}\label{classPythonCodeComponent_a3334dd68e45fbe59d4c1ff0992b364ba} 
+\index{PythonCodeComponent@{PythonCodeComponent}!update@{update}}
+\index{update@{update}!PythonCodeComponent@{PythonCodeComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Python\+Code\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+? keep this
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

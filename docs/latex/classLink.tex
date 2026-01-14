@@ -38,7 +38,9 @@ Collaboration diagram for Link\+:\nopagebreak
 \item 
 void \mbox{\hyperlink{classLink_a8bb5ef196098fa449944fa4efea7aa12}{on\+Creation}} () override
 \item 
-void \mbox{\hyperlink{classLink_af923a34bebca519289df41e03061923a}{add\+Group}} (Group m\+Group) override
+void \mbox{\hyperlink{classLink_a1960c3eb11d28a74fb7915056b487eaa}{add\+To\+Group}} (Group m\+Group) override
+\item 
+void \mbox{\hyperlink{classLink_a7af78ef15b73975a0394d1c8f988b930}{remove\+Group}} (Group m\+Group) override
 \item 
 void \mbox{\hyperlink{classLink_a289e226c7bbb2a872da3b54de4fb3e73}{update}} (float delta\+Time) override
 \item 
@@ -155,8 +157,6 @@ bool {\bfseries is\+Active} ()
 \item 
 bool {\bfseries has\+Group} (Group m\+Group)
 \item 
-void {\bfseries remove\+Group} (Group m\+Group)
-\item 
 {\footnotesize template$<$typename T $>$ }\\bool {\bfseries has\+Component} () const
 \item 
 {\footnotesize template$<$typename T , typename... TArgs$>$ }\\T \& {\bfseries add\+Component} (TArgs \&\&... m\+Args)
@@ -168,6 +168,8 @@ virtual void {\bfseries set\+Component\+Entity} (\mbox{\hyperlink{classComponent
 virtual void {\bfseries set\+Component\+Entity} (\mbox{\hyperlink{classNodeComponent}{Node\+Component}} \texorpdfstring{$\ast$}{*}c)
 \item 
 {\footnotesize template$<$typename T $>$ }\\T \& {\bfseries Get\+Component} () const
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries Get\+Component\+Ptr} ()
 \item 
 bool {\bfseries has\+Component\+By\+Name} (const std\+::string \&component\+Name)
 \item 
@@ -257,11 +259,11 @@ std\+::optional$<$ Component\+Bit\+Set $>$ {\bfseries node\+Component\+Bit\+Set}
 
 Reimplemented from \mbox{\hyperlink{classLinkEntity}{Link\+Entity}}.
 
-\Hypertarget{classLink_af923a34bebca519289df41e03061923a}\label{classLink_af923a34bebca519289df41e03061923a} 
-\index{Link@{Link}!addGroup@{addGroup}}
-\index{addGroup@{addGroup}!Link@{Link}}
-\doxysubsubsection{\texorpdfstring{addGroup()}{addGroup()}}
-{\footnotesize\ttfamily void Link\+::add\+Group (\begin{DoxyParamCaption}\item[{Group}]{m\+Group }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+\Hypertarget{classLink_a1960c3eb11d28a74fb7915056b487eaa}\label{classLink_a1960c3eb11d28a74fb7915056b487eaa} 
+\index{Link@{Link}!addToGroup@{addToGroup}}
+\index{addToGroup@{addToGroup}!Link@{Link}}
+\doxysubsubsection{\texorpdfstring{addToGroup()}{addToGroup()}}
+{\footnotesize\ttfamily void Link\+::add\+To\+Group (\begin{DoxyParamCaption}\item[{Group}]{m\+Group }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
@@ -326,6 +328,16 @@ Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
 
 
 Reimplemented from \mbox{\hyperlink{classLinkEntity}{Link\+Entity}}.
+
+\Hypertarget{classLink_a7af78ef15b73975a0394d1c8f988b930}\label{classLink_a7af78ef15b73975a0394d1c8f988b930} 
+\index{Link@{Link}!removeGroup@{removeGroup}}
+\index{removeGroup@{removeGroup}!Link@{Link}}
+\doxysubsubsection{\texorpdfstring{removeGroup()}{removeGroup()}}
+{\footnotesize\ttfamily void Link\+::remove\+Group (\begin{DoxyParamCaption}\item[{Group}]{m\+Group }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
 
 \Hypertarget{classLink_acbb7da5f93d542f46f3b619a5a7fb26d}\label{classLink_acbb7da5f93d542f46f3b619a5a7fb26d} 
 \index{Link@{Link}!setConnectionType@{setConnectionType}}

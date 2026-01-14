@@ -127,24 +127,28 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    }</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">void</span> showGUI(std::vector&lt;BaseComponent*&gt; otherComponents = {}) <span class="keyword">override</span> {</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        ImGui::Separator();</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        ImVec4 a_color = ImVec4(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">if</span> (ImGui::ColorPicker4(<span class="stringliteral">&quot;TazColor&quot;</span>, (<span class="keywordtype">float</span>*)&amp;a_color)) {</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            <a class="code hl_struct" href="structTazGraphEngine_1_1Color.html">TazColor</a> newColor = {</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                       (GLubyte)(a_color.x * 255),</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                       (GLubyte)(a_color.y * 255),</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                       (GLubyte)(a_color.z * 255),</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                       (GLubyte)(a_color.w * 255)</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            };</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            color = newColor;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        }</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    }</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>};</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        showGUI(otherComponents, { entity });</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    }</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">void</span> showGUI(std::vector&lt;BaseComponent*&gt; otherComponents, std::vector&lt;Entity*&gt; otherEntities)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        ImGui::Separator();</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        ImVec4 a_color = ImVec4(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordflow">if</span> (ImGui::ColorPicker4(<span class="stringliteral">&quot;TazColor&quot;</span>, (<span class="keywordtype">float</span>*)&amp;a_color)) {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            <a class="code hl_struct" href="structTazGraphEngine_1_1Color.html">TazColor</a> newColor = {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                       (GLubyte)(a_color.x * 255),</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                       (GLubyte)(a_color.y * 255),</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                       (GLubyte)(a_color.z * 255),</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                       (GLubyte)(a_color.w * 255)</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            };</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            color = newColor;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    }</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>};</div>
 </div>
-<div class="ttc" id="aclassComponent_html"><div class="ttname"><a href="classComponent.html">Component</a></div><div class="ttdef"><b>Definition</b> GECS.h:124</div></div>
+<div class="ttc" id="aclassComponent_html"><div class="ttname"><a href="classComponent.html">Component</a></div><div class="ttdef"><b>Definition</b> GECS.h:131</div></div>
 <div class="ttc" id="aclassLightRenderer_html"><div class="ttname"><a href="classLightRenderer.html">LightRenderer</a></div><div class="ttdef"><b>Definition</b> LightRenderer.h:15</div></div>
 <div class="ttc" id="aclassLineRenderer_html"><div class="ttname"><a href="classLineRenderer.html">LineRenderer</a></div><div class="ttdef"><b>Definition</b> LineRenderer.h:6</div></div>
 <div class="ttc" id="aclassPlaneColorRenderer_html"><div class="ttname"><a href="classPlaneColorRenderer.html">PlaneColorRenderer</a></div><div class="ttdef"><b>Definition</b> PlaneColorRenderer.h:14</div></div>

@@ -1,3 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classTazGraphEngine_1_1Window.html" title=" " alt="" coords="5,5,192,31"/>
+<area shape="rect" id="Node000000" href="$classTaz_1_1Renderer.html" title=" " alt="" coords="5,80,116,105"/>
+<area shape="rect" id="Node000001" href="$classLightRenderer.html" title=" " alt="" coords="186,5,299,31"/>
+<area shape="poly" id="edge62_Node000000_Node000001" title=" " alt="" coords="96,71,163,40,195,28,197,33,165,44,98,76"/>
+<area shape="rect" id="Node000002" href="$classLineRenderer.html" title=" " alt="" coords="189,55,297,80"/>
+<area shape="poly" id="edge63_Node000000_Node000002" title=" " alt="" coords="129,80,188,72,189,77,130,86"/>
+<area shape="rect" id="Node000003" href="$classPlaneColorRenderer.html" title=" " alt="" coords="167,104,318,129"/>
+<area shape="poly" id="edge64_Node000000_Node000003" title=" " alt="" coords="130,99,167,104,166,109,129,104"/>
+<area shape="rect" id="Node000004" href="$classPlaneModelRenderer.html" title=" " alt="" coords="164,153,321,179"/>
+<area shape="poly" id="edge65_Node000000_Node000004" title=" " alt="" coords="100,109,165,138,200,151,198,156,163,143,98,114"/>
 </map>

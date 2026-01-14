@@ -24,7 +24,9 @@ Collaboration diagram for Empty\+:\nopagebreak
 \Hypertarget{classEmpty_ae59db34a6294d5321b1aff0dac5a1464}\label{classEmpty_ae59db34a6294d5321b1aff0dac5a1464} 
 {\bfseries Empty} (\mbox{\hyperlink{classManager}{Manager}} \&m\+Manager)
 \item 
-void \mbox{\hyperlink{classEmpty_aa9c0da390178a837a170d44494c0dcb5}{add\+Group}} (Group m\+Group) override
+void \mbox{\hyperlink{classEmpty_af7a3b2bb630c088678c34285c1f69185}{add\+To\+Group}} (Group m\+Group) override
+\item 
+void \mbox{\hyperlink{classEmpty_a9964487e890373467931400f67d44494}{remove\+Group}} (Group m\+Group) override
 \item 
 void \mbox{\hyperlink{classEmpty_af1047729d6ce988ef89b4db7add2e917}{update}} (float delta\+Time)
 \item 
@@ -87,8 +89,6 @@ bool {\bfseries is\+Active} ()
 \item 
 bool {\bfseries has\+Group} (Group m\+Group)
 \item 
-void {\bfseries remove\+Group} (Group m\+Group)
-\item 
 {\footnotesize template$<$typename T $>$ }\\bool {\bfseries has\+Component} () const
 \item 
 {\footnotesize template$<$typename T , typename... TArgs$>$ }\\T \& {\bfseries add\+Component} (TArgs \&\&... m\+Args)
@@ -100,6 +100,8 @@ virtual void {\bfseries set\+Component\+Entity} (\mbox{\hyperlink{classNodeCompo
 virtual void {\bfseries set\+Component\+Entity} (\mbox{\hyperlink{classLinkComponent}{Link\+Component}} \texorpdfstring{$\ast$}{*}c)
 \item 
 {\footnotesize template$<$typename T $>$ }\\T \& {\bfseries Get\+Component} () const
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \texorpdfstring{$\ast$}{*} {\bfseries Get\+Component\+Ptr} ()
 \item 
 bool {\bfseries has\+Component\+By\+Name} (const std\+::string \&component\+Name)
 \item 
@@ -150,11 +152,11 @@ std\+::optional$<$ Component\+Bit\+Set $>$ {\bfseries node\+Component\+Bit\+Set}
 
 
 \doxysubsection{Member Function Documentation}
-\Hypertarget{classEmpty_aa9c0da390178a837a170d44494c0dcb5}\label{classEmpty_aa9c0da390178a837a170d44494c0dcb5} 
-\index{Empty@{Empty}!addGroup@{addGroup}}
-\index{addGroup@{addGroup}!Empty@{Empty}}
-\doxysubsubsection{\texorpdfstring{addGroup()}{addGroup()}}
-{\footnotesize\ttfamily void Empty\+::add\+Group (\begin{DoxyParamCaption}\item[{Group}]{m\+Group }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+\Hypertarget{classEmpty_af7a3b2bb630c088678c34285c1f69185}\label{classEmpty_af7a3b2bb630c088678c34285c1f69185} 
+\index{Empty@{Empty}!addToGroup@{addToGroup}}
+\index{addToGroup@{addToGroup}!Empty@{Empty}}
+\doxysubsubsection{\texorpdfstring{addToGroup()}{addToGroup()}}
+{\footnotesize\ttfamily void Empty\+::add\+To\+Group (\begin{DoxyParamCaption}\item[{Group}]{m\+Group }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
@@ -185,6 +187,16 @@ Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
 \index{imgui\_print@{imgui\_print}!Empty@{Empty}}
 \doxysubsubsection{\texorpdfstring{imgui\_print()}{imgui\_print()}}
 {\footnotesize\ttfamily void Empty\+::imgui\+\_\+print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classEntity}{Entity}}.
+
+\Hypertarget{classEmpty_a9964487e890373467931400f67d44494}\label{classEmpty_a9964487e890373467931400f67d44494} 
+\index{Empty@{Empty}!removeGroup@{removeGroup}}
+\index{removeGroup@{removeGroup}!Empty@{Empty}}
+\doxysubsubsection{\texorpdfstring{removeGroup()}{removeGroup()}}
+{\footnotesize\ttfamily void Empty\+::remove\+Group (\begin{DoxyParamCaption}\item[{Group}]{m\+Group }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 

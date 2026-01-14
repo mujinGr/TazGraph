@@ -2,7 +2,8 @@
 \hypertarget{classLinkPythonCodeComponent}{}\label{classLinkPythonCodeComponent}\index{LinkPythonCodeComponent@{LinkPythonCodeComponent}}
 
 
-Inheritance diagram for Link\+Python\+Code\+Component\+:\nopagebreak
+Inheritance diagram for Link\+Python\+Code\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,11 +12,12 @@ Inheritance diagram for Link\+Python\+Code\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Link\+Python\+Code\+Component\+:\nopagebreak
+Collaboration diagram for Link\+Python\+Code\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{classLinkPythonCodeComponent__coll__graph}
+\includegraphics[width=340pt]{classLinkPythonCodeComponent__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -28,17 +30,8 @@ void \mbox{\hyperlink{classLinkPythonCodeComponent_ac2a75cf20620139b544f0b5736f6
 std\+::string \mbox{\hyperlink{classLinkPythonCodeComponent_addca693332b6889e3fb26dd1c83ac804}{Get\+Component\+Name}} () override
 \item 
 void \mbox{\hyperlink{classLinkPythonCodeComponent_a453a57db70eebc7e2fb9df4abb044718}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\}) override
-\end{DoxyCompactItemize}
-\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classPythonCodeComponent}{Python\+Code\+Component}}}
-\begin{DoxyCompactItemize}
 \item 
-void {\bfseries init} ()
-\item 
-void {\bfseries update} (float delta\+Time)
-\item 
-std\+::string {\bfseries Get\+Component\+Name} ()
-\item 
-void {\bfseries show\+GUI} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\})
+void \mbox{\hyperlink{classLinkPythonCodeComponent_a47fed1e2f85633e0e2230623ae80b539}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components, std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ other\+Entities) override
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}}
 \begin{DoxyCompactItemize}
@@ -51,15 +44,27 @@ virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classP
 \item 
 virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
 \end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classPythonCodeComponent}{Python\+Code\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries init} ()
+\item 
+void \mbox{\hyperlink{classPythonCodeComponent_a3334dd68e45fbe59d4c1ff0992b364ba}{update}} (float delta\+Time)
+\item 
+std\+::string {\bfseries Get\+Component\+Name} ()
+\item 
+void {\bfseries show\+GUI} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\})
+\item 
+void {\bfseries clear\+Output} ()
+\item 
+void \mbox{\hyperlink{classPythonCodeComponent_a9da98d55996ae1f84aede5bf9990a7a6}{run\+Script}} ()
+\item 
+void {\bfseries run\+Update\+Script} (float delta\+Time)
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
 \Hypertarget{classLinkPythonCodeComponent_aa101043f0dc2dff7189584673be2c6e2}\label{classLinkPythonCodeComponent_aa101043f0dc2dff7189584673be2c6e2} 
-std\+::string {\bfseries code} = "{}"{}
-\end{DoxyCompactItemize}
-\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classPythonCodeComponent}{Python\+Code\+Component}}}
-\begin{DoxyCompactItemize}
-\item 
 std\+::string {\bfseries code} = "{}"{}
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classLinkComponent}{Link\+Component}}}
@@ -73,6 +78,23 @@ std\+::string {\bfseries code} = "{}"{}
 bool {\bfseries modify\+Position} = false
 \item 
 Component\+ID {\bfseries id} = 0u
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classPythonCodeComponent}{Python\+Code\+Component}}}
+\begin{DoxyCompactItemize}
+\item 
+float {\bfseries interval\+Sec} = 1.\+0f
+\item 
+double {\bfseries last\+Exec\+Time} = 0.\+0
+\item 
+bool {\bfseries use\+Interval} = false
+\item 
+bool {\bfseries update\+Paused} = true
+\item 
+bool {\bfseries input\+Active} = false
+\item 
+bool {\bfseries ready\+To\+Clear} = false
+\item 
+bool {\bfseries ready\+To\+Execute} = false
 \end{DoxyCompactItemize}
 
 
@@ -97,10 +119,20 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
+\Hypertarget{classLinkPythonCodeComponent_a47fed1e2f85633e0e2230623ae80b539}\label{classLinkPythonCodeComponent_a47fed1e2f85633e0e2230623ae80b539} 
+\index{LinkPythonCodeComponent@{LinkPythonCodeComponent}!showGUI@{showGUI}}
+\index{showGUI@{showGUI}!LinkPythonCodeComponent@{LinkPythonCodeComponent}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Link\+Python\+Code\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Entities }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
 \Hypertarget{classLinkPythonCodeComponent_a453a57db70eebc7e2fb9df4abb044718}\label{classLinkPythonCodeComponent_a453a57db70eebc7e2fb9df4abb044718} 
 \index{LinkPythonCodeComponent@{LinkPythonCodeComponent}!showGUI@{showGUI}}
 \index{showGUI@{showGUI}!LinkPythonCodeComponent@{LinkPythonCodeComponent}}
-\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Link\+Python\+Code\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 

@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['commands_0',['Python Commands',['../pythonCommands.html',1,'dev_guide']]]
+  ['camera_20controls_0',['Camera Controls',['../cameraControls.html',1,'']]],
+  ['commands_1',['Python Commands',['../pythonCommands.html',1,'dev_guide']]],
+  ['controls_2',['Camera Controls',['../cameraControls.html',1,'']]]
 ];

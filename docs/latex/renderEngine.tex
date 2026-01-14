@@ -1,7 +1,7 @@
 \doxysection{Render Engine}
 \hypertarget{renderEngine}{}\label{renderEngine}\index{Render Engine@{Render Engine}}
-\hypertarget{renderEngine_autotoc_md2}{}\doxysubsubsubsection{\texorpdfstring{Graph Rendering Pipeline}{Graph Rendering Pipeline}}\label{renderEngine_autotoc_md2}
-All rendering logic is handled in {\ttfamily Graph\+::draw()}.\hypertarget{renderEngine_autotoc_md3}{}\doxyparagraph{\texorpdfstring{1. Shader Setup}{1. Shader Setup}}\label{renderEngine_autotoc_md3}
+\hypertarget{renderEngine_autotoc_md7}{}\doxysubsubsubsection{\texorpdfstring{Graph Rendering Pipeline}{Graph Rendering Pipeline}}\label{renderEngine_autotoc_md7}
+All rendering logic is handled in {\ttfamily Graph\+::draw()}.\hypertarget{renderEngine_autotoc_md8}{}\doxyparagraph{\texorpdfstring{1. Shader Setup}{1. Shader Setup}}\label{renderEngine_autotoc_md8}
 GLSL shader programs are loaded and set up using the resource manager. Uniforms (e.\+g. camera matrix, rotation) are passed before rendering\+:
 
 
@@ -11,7 +11,7 @@ GLSL shader programs are loaded and set up using the resource manager. Uniforms 
 \DoxyCodeLine{glUniformMatrix4fv(pLocation,\ 1,\ GL\_FALSE,\ glm::value\_ptr(rotationMatrix));}
 
 \end{DoxyCode}
-\hypertarget{renderEngine_autotoc_md4}{}\doxyparagraph{\texorpdfstring{2. Render Pass Initialization}{2. Render Pass Initialization}}\label{renderEngine_autotoc_md4}
+\hypertarget{renderEngine_autotoc_md9}{}\doxyparagraph{\texorpdfstring{2. Render Pass Initialization}{2. Render Pass Initialization}}\label{renderEngine_autotoc_md9}
 Before batching begins, the renderers are prepared. This includes setting up internal buffers and clearing previous frame data.
 
 
@@ -25,7 +25,7 @@ Before batching begins, the renderers are prepared. This includes setting up int
 \DoxyCodeLine{...}
 
 \end{DoxyCode}
-\hypertarget{renderEngine_autotoc_md5}{}\doxyparagraph{\texorpdfstring{3. Render Batching (\+Multithreaded)}{3. Render Batching (Multithreaded)}}\label{renderEngine_autotoc_md5}
+\hypertarget{renderEngine_autotoc_md10}{}\doxyparagraph{\texorpdfstring{3. Render Batching (\+Multithreaded)}{3. Render Batching (Multithreaded)}}\label{renderEngine_autotoc_md10}
 Entities are grouped and passed to the appropriate renderer via render\+Batch. This uses multithreading to fill buffers (mesh\+Elements \& mesh\+Arrays) efficiently.
 
 
@@ -37,7 +37,7 @@ Entities are grouped and passed to the appropriate renderer via render\+Batch. T
 \DoxyCodeLine{);}
 
 \end{DoxyCode}
-\hypertarget{renderEngine_autotoc_md6}{}\doxyparagraph{\texorpdfstring{4. Instance Rendering}{4. Instance Rendering}}\label{renderEngine_autotoc_md6}
+\hypertarget{renderEngine_autotoc_md11}{}\doxyparagraph{\texorpdfstring{4. Instance Rendering}{4. Instance Rendering}}\label{renderEngine_autotoc_md11}
 After batching, each renderer draws its instances and clears its buffers\+:
 
 
@@ -50,7 +50,7 @@ After batching, each renderer draws its instances and clears its buffers\+:
 \end{DoxyCode}
  Repeat for each renderer (e.\+g. \+\_\+\+Line\+Renderer, \+\_\+\+Plane\+Model\+Renderer, \+\_\+\+Light\+Renderer) in your preferred draw order.
 
-{\ttfamily Not all \doxylink{classEntity}{Entity} Components can draw with all renderers (e.\+g. Sprite \doxylink{classComponent}{Component} is used to specifically draw for \doxylink{classPlaneModelRenderer}{Plane\+Model\+Renderer}). The draw function in the component indicates the renderers used\+: {\ttfamily void draw(size\+\_\+t v\+\_\+index,}{\ttfamily \doxylink{classPlaneModelRenderer}{Plane\+Model\+Renderer}}{\ttfamily \& batch, \doxylink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}\& window) \{ ... \} }}\hypertarget{renderEngine_autotoc_md7}{}\doxysubsubsubsection{\texorpdfstring{Custom Renderers}{Custom Renderers}}\label{renderEngine_autotoc_md7}
+{\ttfamily Not all \doxylink{classEntity}{Entity} Components can draw with all renderers (e.\+g. Sprite \doxylink{classComponent}{Component} is used to specifically draw for \doxylink{classPlaneModelRenderer}{Plane\+Model\+Renderer}). The draw function in the component indicates the renderers used\+: {\ttfamily void draw(size\+\_\+t v\+\_\+index,}{\ttfamily \doxylink{classPlaneModelRenderer}{Plane\+Model\+Renderer}}{\ttfamily \& batch, \doxylink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}\& window) \{ ... \} }}\hypertarget{renderEngine_autotoc_md12}{}\doxysubsubsubsection{\texorpdfstring{Custom Renderers}{Custom Renderers}}\label{renderEngine_autotoc_md12}
 Renderers in Taz\+Graph are grouped by the attributes they support, which directly affects the shaders they use. This design makes rendering highly memory-\/efficient, but each renderer is tailored for a specific use case.
 
 Each renderer sets a fixed number of per-\/vertex and per-\/instance attributes. For example, the {\ttfamily \doxylink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} expects shaders with the following layout\+:

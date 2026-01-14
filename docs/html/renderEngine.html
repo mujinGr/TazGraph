@@ -76,16 +76,16 @@ $(function() {
   <div class="headertitle"><div class="title">Render Engine</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h3><a class="anchor" id="autotoc_md2"></a>
+<div class="textblock"><h3><a class="anchor" id="autotoc_md7"></a>
 Graph Rendering Pipeline</h3>
 <p>All rendering logic is handled in <code>Graph::draw()</code>.</p>
-<h4><a class="anchor" id="autotoc_md3"></a>
+<h4><a class="anchor" id="autotoc_md8"></a>
 1. Shader Setup</h4>
 <p>GLSL shader programs are loaded and set up using the resource manager. Uniforms (e.g. camera matrix, rotation) are passed before rendering:</p>
 <div class="fragment"><div class="line">_resourceManager.setupShader(glsl_color, *main_camera2D);</div>
 <div class="line">GLint pLocation = glsl_color.getUniformLocation(<span class="stringliteral">&quot;rotationMatrix&quot;</span>);</div>
 <div class="line">glUniformMatrix4fv(pLocation, 1, GL_FALSE, glm::value_ptr(rotationMatrix));</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md4"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md9"></a>
 2. Render Pass Initialization</h4>
 <p>Before batching begins, the renderers are prepared. This includes setting up internal buffers and clearing previous frame data.</p>
 <div class="fragment"><div class="line">    _PlaneModelRenderer.initTextureQuadBatch(</div>
@@ -96,7 +96,7 @@ Graph Rendering Pipeline</h3>
 <div class="line">    _PlaneModelRenderer.initBatchSize();</div>
 <div class="line">...</div>
 <div class="ttc" id="aclassNodeEntity_html"><div class="ttname"><a href="classNodeEntity.html">NodeEntity</a></div><div class="ttdef"><b>Definition</b> GECSEntity.h:40</div></div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md5"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md10"></a>
 3. Render Batching (Multithreaded)</h4>
 <p>Entities are grouped and passed to the appropriate renderer via renderBatch. This uses multithreading to fill buffers (meshElements &amp; meshArrays) efficiently.</p>
 <div class="fragment"><div class="line"> cpp</div>
@@ -105,7 +105,7 @@ Graph Rendering Pipeline</h3>
 <div class="line">    _LineRenderer</div>
 <div class="line">);</div>
 <div class="ttc" id="aclassLinkEntity_html"><div class="ttname"><a href="classLinkEntity.html">LinkEntity</a></div><div class="ttdef"><b>Definition</b> GECSEntity.h:108</div></div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md6"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md11"></a>
 4. Instance Rendering</h4>
 <p>After batching, each renderer draws its instances and clears its buffers:</p>
 <div class="fragment"><div class="line"> cpp</div>
@@ -114,7 +114,7 @@ Graph Rendering Pipeline</h3>
 <div class="line">glsl_color.unuse();</div>
 </div><!-- fragment --><p> Repeat for each renderer (e.g. _LineRenderer, _PlaneModelRenderer, _LightRenderer) in your preferred draw order.</p>
 <p><code style="color : limegreen">Not all <a class="el" href="classEntity.html">Entity</a> Components can draw with all renderers (e.g. Sprite <a class="el" href="classComponent.html">Component</a> is used to specifically draw for <a class="el" href="classPlaneModelRenderer.html">PlaneModelRenderer</a>). The draw function in the component indicates the renderers used: <code>void draw(size_t v_index,</code><code style="color : red"><a class="el" href="classPlaneModelRenderer.html">PlaneModelRenderer</a></code><code>&amp; batch, <a class="el" href="classTazGraphEngine_1_1Window.html">TazGraphEngine::Window</a>&amp; window) { ... } </code></code></p>
-<h3><a class="anchor" id="autotoc_md7"></a>
+<h3><a class="anchor" id="autotoc_md12"></a>
 Custom Renderers</h3>
 <p>Renderers in TazGraph are grouped by the attributes they support, which directly affects the shaders they use. This design makes rendering highly memory-efficient, but each renderer is tailored for a specific use case.</p>
 <p>Each renderer sets a fixed number of per-vertex and per-instance attributes. For example, the <code><a class="el" href="classPlaneColorRenderer.html">PlaneColorRenderer</a></code> expects shaders with the following layout:</p>

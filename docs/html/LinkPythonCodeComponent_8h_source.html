@@ -85,9 +85,9 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;../../../Components.h&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// public Component need to be first for scanning</span></div>
 <div class="foldopen" id="foldopen00006" data-start="{" data-end="};">
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="classLinkPythonCodeComponent.html">    6</a></span><span class="keyword">class </span><a class="code hl_class" href="classLinkPythonCodeComponent.html">LinkPythonCodeComponent</a> : <span class="keyword">public</span> <a class="code hl_class" href="classPythonCodeComponent.html">PythonCodeComponent</a>, <span class="keyword">public</span> <a class="code hl_class" href="classLinkComponent.html">LinkComponent</a> <span class="comment">//transform as in graphics, we have rotation and scale</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="classLinkPythonCodeComponent.html">    6</a></span><span class="keyword">class </span><a class="code hl_class" href="classLinkPythonCodeComponent.html">LinkPythonCodeComponent</a> : <span class="keyword">public</span> <a class="code hl_class" href="classLinkComponent.html">LinkComponent</a>, <span class="keyword">public</span> <a class="code hl_class" href="classPythonCodeComponent.html">PythonCodeComponent</a> <span class="comment">//transform as in graphics, we have rotation and scale</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    std::string code = <span class="stringliteral">&quot;&quot;</span>;</div>
@@ -104,7 +104,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    }</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordtype">void</span> update(<span class="keywordtype">float</span> deltaTime)<span class="keyword"> override</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">    </span>{</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        PythonCodeComponent::update(deltaTime);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <a class="code hl_function" href="classPythonCodeComponent.html#a3334dd68e45fbe59d4c1ff0992b364ba">PythonCodeComponent::update</a>(deltaTime);</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    }</div>
@@ -114,15 +114,26 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    }</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">void</span> showGUI(std::vector&lt;BaseComponent*&gt; otherComponents = {}) <span class="keyword">override</span> {</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        PythonCodeComponent::showGUI();</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    };</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>};</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">if</span> (ImGui::CollapsingHeader(<span class="stringliteral">&quot;Script&quot;</span>))</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            PythonCodeComponent::showGUI();</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    };</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordtype">void</span> showGUI(std::vector&lt;BaseComponent*&gt; otherComponents, std::vector&lt;Entity*&gt; otherEntities)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        ImGui::TextDisabled(<span class="stringliteral">&quot;Modify Script Components Seperately&quot;</span>);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>};</div>
 </div>
-<div class="ttc" id="aclassLinkComponent_html"><div class="ttname"><a href="classLinkComponent.html">LinkComponent</a></div><div class="ttdef"><b>Definition</b> GECS.h:134</div></div>
+<div class="ttc" id="aclassLinkComponent_html"><div class="ttname"><a href="classLinkComponent.html">LinkComponent</a></div><div class="ttdef"><b>Definition</b> GECS.h:141</div></div>
 <div class="ttc" id="aclassLinkPythonCodeComponent_html"><div class="ttname"><a href="classLinkPythonCodeComponent.html">LinkPythonCodeComponent</a></div><div class="ttdef"><b>Definition</b> LinkPythonCodeComponent.h:7</div></div>
 <div class="ttc" id="aclassPythonCodeComponent_html"><div class="ttname"><a href="classPythonCodeComponent.html">PythonCodeComponent</a></div><div class="ttdef"><b>Definition</b> PythonCodeComponent.h:6</div></div>
+<div class="ttc" id="aclassPythonCodeComponent_html_a3334dd68e45fbe59d4c1ff0992b364ba"><div class="ttname"><a href="classPythonCodeComponent.html#a3334dd68e45fbe59d4c1ff0992b364ba">PythonCodeComponent::update</a></div><div class="ttdeci">void update(float deltaTime)</div><div class="ttdef"><b>Definition</b> PythonCodeComponent.h:52</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

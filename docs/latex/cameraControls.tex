@@ -1,0 +1,15 @@
+\chapter{Camera Controls}
+\hypertarget{cameraControls}{}\label{cameraControls}\index{Camera Controls@{Camera Controls}}
+\hypertarget{cameraControls_autotoc_md0}{}\doxysubsubsection{\texorpdfstring{Camera Control System}{Camera Control System}}\label{cameraControls_autotoc_md0}
+Location\+: Graph\+Input.\+cpp/h\hypertarget{cameraControls_autotoc_md1}{}\doxysection{\texorpdfstring{Input Manager Methods\+:}{Input Manager Methods:}}\label{cameraControls_autotoc_md1}
+Returns TRUE while key is held down (continuous) \+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Down(\+SDLK\+\_\+\+W) // "{}\+W key is currently pressed"{}
+
+Returns TRUE only on first frame key is pressed (one-\/time) \+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Pressed(\+SDL\+\_\+\+SPACE) // "{}\+Space was just pressed this frame"{}\hypertarget{cameraControls_autotoc_md2}{}\doxysection{\texorpdfstring{Camera Movement Logic\+:}{Camera Movement Logic:}}\label{cameraControls_autotoc_md2}
+\hypertarget{cameraControls_autotoc_md3}{}\doxysubsection{\texorpdfstring{WASD Movement (\+Perspective Camera)\+:}{WASD Movement (Perspective Camera):}}\label{cameraControls_autotoc_md3}
+In check\+Input() function\+: if (\+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Down(\+SDLK\+\_\+w) \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Down(\+SDLK\+\_\+\+UP)) \{ accelerationY += camera\+Acceleration; \} else if (\+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Down(\+SDLK\+\_\+s) \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Down(\+SDLK\+\_\+\+DOWN)) \{ accelerationY -\/= camera\+Acceleration; \} Similar for A (left), D (right), Q (down), E (up)\hypertarget{cameraControls_autotoc_md4}{}\doxysubsection{\texorpdfstring{Middle Mouse Rotation\+:}{Middle Mouse Rotation:}}\label{cameraControls_autotoc_md4}
+if (\+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Pressed(\+SDL\+\_\+\+BUTTON\+\_\+\+MIDDLE)) \{ \+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+set\+Panning\+Point(\+\_\+viewport\+Mouse\+Position); main\+\_\+camera2\+D-\/\texorpdfstring{$>$}{>}set\+Panning\+Aim\+Pos(main\+\_\+camera2\+D-\/\texorpdfstring{$>$}{>}get\+Aim\+Pos() -\/ main\+\_\+camera2\+D-\/\texorpdfstring{$>$}{>}get\+Position()); \} // this sets the reference point for rotation
+
+...... ~\newline
+
+
+else if (\+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Down(\+SDL\+\_\+\+BUTTON\+\_\+\+MIDDLE)) \{ Calculate new camera position based on the mouse movement glm\+::vec3 delta = glm\+::vec3(\+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+calculate\+Panning\+Delta(\+\_\+viewport\+Mouse\+Position), 0.\+0f); main\+\_\+camera2\+D-\/\texorpdfstring{$>$}{>}move\+Aim\+Pos(main\+\_\+camera2\+D-\/\texorpdfstring{$>$}{>}get\+Panning\+Aim\+Pos(), delta); \} // this rotates camera to reference the panning position 

@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['warningconfig_0',['WarningConfig',['../structWarningConfig.html',1,'']]],
-  ['warningpanel_1',['WarningPanel',['../classWarningPanel.html',1,'']]],
-  ['window_2',['Window',['../classTazGraphEngine_1_1Window.html',1,'TazGraphEngine']]],
-  ['wireframebatch_3',['WireFrameBatch',['../structWireFrameBatch.html',1,'']]],
-  ['wireframeinstancedata_4',['WireframeInstanceData',['../structWireframeInstanceData.html',1,'']]],
-  ['wireframemeshrenderer_5',['WireframeMeshRenderer',['../structWireframeMeshRenderer.html',1,'']]],
-  ['with_3a_6',['Built with:',['../index.html#autotoc_md12',1,'']]]
+  ['vertex_0',['Vertex',['../structTazGraphEngine_1_1Vertex.html',1,'TazGraphEngine']]],
+  ['viewportpanel_1',['ViewportPanel',['../classViewportPanel.html',1,'']]],
+  ['viewportpanelconfig_2',['ViewportPanelConfig',['../structViewportPanelConfig.html',1,'']]],
+  ['visibleentitiesconfig_3',['VisibleEntitiesConfig',['../structVisibleEntitiesConfig.html',1,'']]],
+  ['visibleentitiespanel_4',['VisibleEntitiesPanel',['../classVisibleEntitiesPanel.html',1,'']]]
 ];

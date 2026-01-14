@@ -21,9 +21,9 @@ Collaboration diagram for Python\+Interpreter\+Panel\+:\nopagebreak
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classPythonInterpreterPanel_ae132cef621806713785154213cbe2d1c}\label{classPythonInterpreterPanel_ae132cef621806713785154213cbe2d1c} 
-void {\bfseries init\+\_\+api} (py\+::module\+\_\+ \&m, \mbox{\hyperlink{classManager}{Manager}} \&manager)
-\item 
+\Hypertarget{classPythonInterpreterPanel_a08e9a7f14884babd7f9e0016e1f623e8}\label{classPythonInterpreterPanel_a08e9a7f14884babd7f9e0016e1f623e8} 
+{\bfseries Python\+Interpreter\+Panel} ()
+\begin{DoxyCompactList}\small\item\em !!!!! Python to run needs to be on the context of scene, not render thread \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classPythonInterpreterPanel_ab999a83ba0526ab8a80ad7358f346e92}{update}} (float delta\+Time) override
 \item 
 \Hypertarget{classPythonInterpreterPanel_a355abb9354a6e9b6dce82c28f2a2bafb}\label{classPythonInterpreterPanel_a355abb9354a6e9b6dce82c28f2a2bafb} 
@@ -31,14 +31,14 @@ void {\bfseries set\+Config} (const \mbox{\hyperlink{structPythonInterpreterConf
 \item 
 void \mbox{\hyperlink{classPythonInterpreterPanel_a2770a63063a754ffae173d42d7c27d7e}{On\+Im\+Gui\+Render}} () override
 \item 
-\Hypertarget{classPythonInterpreterPanel_a3ca9473ada79cbb5552b65fedf673bae}\label{classPythonInterpreterPanel_a3ca9473ada79cbb5552b65fedf673bae} 
-void {\bfseries On\+Im\+Gui\+Render2} ()
-\item 
 \Hypertarget{classPythonInterpreterPanel_aa0102cbce08606b55f15656ac99a0324}\label{classPythonInterpreterPanel_aa0102cbce08606b55f15656ac99a0324} 
 void {\bfseries set\+Flags} ()
 \item 
 \Hypertarget{classPythonInterpreterPanel_a001c6d0028b3a55653c3ed6999ed812d}\label{classPythonInterpreterPanel_a001c6d0028b3a55653c3ed6999ed812d} 
 void {\bfseries inner\+Table} ()
+\item 
+\Hypertarget{classPythonInterpreterPanel_a223cfc06016a46dacfc044b7d496d66f}\label{classPythonInterpreterPanel_a223cfc06016a46dacfc044b7d496d66f} 
+void {\bfseries clear\+Output} ()
 \item 
 void \mbox{\hyperlink{classPythonInterpreterPanel_ad68d86236b802b650b7f12149ba53d88}{run\+Script}} ()
 \item 
@@ -76,8 +76,11 @@ bool {\bfseries update\+Paused} = true
 \Hypertarget{classPythonInterpreterPanel_ab99c6fdcebb0ee1a9a08a6d3ffa89619}\label{classPythonInterpreterPanel_ab99c6fdcebb0ee1a9a08a6d3ffa89619} 
 bool {\bfseries input\+Active} = false
 \item 
-\Hypertarget{classPythonInterpreterPanel_a37098d611e08df5a1403283754b903a1}\label{classPythonInterpreterPanel_a37098d611e08df5a1403283754b903a1} 
-bool {\bfseries init} = true
+\Hypertarget{classPythonInterpreterPanel_a309dfdaccc8a497aba38871a556019a8}\label{classPythonInterpreterPanel_a309dfdaccc8a497aba38871a556019a8} 
+bool {\bfseries first\+Loop} = true
+\item 
+\Hypertarget{classPythonInterpreterPanel_a157fbcc5299d5e56d7983937ddd787c6}\label{classPythonInterpreterPanel_a157fbcc5299d5e56d7983937ddd787c6} 
+bool {\bfseries ready\+To\+Clear} = false
 \item 
 \Hypertarget{classPythonInterpreterPanel_a1c27fbb2d1610c1da72d9921aa59a056}\label{classPythonInterpreterPanel_a1c27fbb2d1610c1da72d9921aa59a056} 
 bool {\bfseries ready\+To\+Execute} = false
@@ -135,7 +138,7 @@ safe\+\_\+putenv("{}\+PYTHONHOME=\+C\+:\textbackslash{}\textbackslash{}\+Users\t
 \doxysubsubsection{\texorpdfstring{update()}{update()}}
 {\footnotesize\ttfamily void Python\+Interpreter\+Panel\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
-
+? keep this
 
 Reimplemented from \mbox{\hyperlink{classUIElement}{UIElement}}.
 

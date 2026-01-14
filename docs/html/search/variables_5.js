@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rectangle_0',['rectangle',['../classRectangleFlashAnimatorComponent.html#a68b149f1effb94fc63a2d2bc69e4da73',1,'RectangleFlashAnimatorComponent']]]
+  ['nextgroup_0',['nextGroup',['../classManager.html#a984e722f0dba12a6a2c3da1db7222987',1,'Manager']]]
 ];
