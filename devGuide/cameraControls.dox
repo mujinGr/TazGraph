@@ -1,0 +1,45 @@
+/**
+  @page cameraControls Camera Controls
+
+### Camera Control System
+
+Location: GraphInput.cpp/h
+
+# Input Manager Methods:
+
+// Returns TRUE while key is held down (continuous)
+_app->_inputManager.isKeyDown(SDLK_W)  // "W key is currently pressed"
+
+// Returns TRUE only on first frame key is pressed (one-time)
+_app->_inputManager.isKeyPressed(SDL_SPACE)  // "Space was just pressed this frame"
+
+
+# Camera Movement Logic:
+##WASD Movement (Perspective Camera):
+
+// In checkInput() function:
+	if (_app->_inputManager.isKeyDown(SDLK_w) ||
+		_app->_inputManager.isKeyDown(SDLK_UP)) {
+		accelerationY += cameraAcceleration;
+	}
+	else if (_app->_inputManager.isKeyDown(SDLK_s) ||
+		_app->_inputManager.isKeyDown(SDLK_DOWN)) {
+		accelerationY -= cameraAcceleration;
+	}
+// Similar for A (left), D (right), Q (down), E (up)
+
+##Middle Mouse Rotation:
+if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
+				_app->_inputManager.setPanningPoint(_viewportMousePosition);
+				main_camera2D->setPanningAimPos(main_camera2D->getAimPos() - main_camera2D->getPosition());
+			} // this sets the reference point for rotation
+
+......		
+
+else if (_app->_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
+	// Calculate new camera position based on the mouse movement
+	glm::vec3 delta = glm::vec3(_app->_inputManager.calculatePanningDelta(_viewportMousePosition), 0.0f);
+	main_camera2D->moveAimPos(main_camera2D->getPanningAimPos(), delta);
+} // this rotates camera to reference the panning position
+
+*/

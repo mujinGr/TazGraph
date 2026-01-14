@@ -2,6 +2,7 @@
   @page pythonCommands Python Commands
 
 These are some of the commands supported:
+```cpp
 - addNode
 - addLink
 - getNodes
@@ -9,9 +10,12 @@ These are some of the commands supported:
 - getSimNodes
 - deepCopyNode
 - deleteEntities
+```
 <b>.</b>
 <b>.</b>
 <b>.</b>
 
-You can add more at TazGraph/Src/EditorIMGUI/Components/PythonInterpreterPanel/PythonInterpreterPanel.cpp
+You can add more at ```cpp TazGraph/Src/AssetManager/PythonEngineUtil.cpp ```
+If you need to add function related to control of simdump simulation go to: ```cpp TazGraphEngine/src/DataManager/DataManager.h ```
+
 */
