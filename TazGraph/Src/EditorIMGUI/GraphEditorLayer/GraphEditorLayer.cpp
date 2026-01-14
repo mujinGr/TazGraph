@@ -5,11 +5,17 @@ void GraphEditorLayer::OnImGuiRender()
 	Manager* manager = config.scene->manager;
 	glm::vec2 viewportMousePos = config.viewportMousePosition;
 
+	if (!manager->grid)
+	{
+		return;
+	}
+
 	ImGuiViewport* window = ImGui::GetMainViewport();
 	ImGui::SetNextWindowPos(window->Pos);
 	ImGui::SetNextWindowSize(window->Size);
 
 	ImGuiInterface::StyleColorsCustom(&ImGui::GetStyle());
+
 
 	if (ImGui::Begin("Main Window", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus))
 	{
