@@ -109,6 +109,22 @@ public:
 		return _maxScale;
 	}
 
+	void setAspect(float newAspectX, float newAspectY)
+	{
+		aspect = newAspectX/ newAspectY;
+		_projectionMatrix = glm::perspective(
+			glm::radians(fov),
+			aspect,
+			nearPlane,
+			zFar
+		);
+
+		updateCameraOrientation();
+
+		_cameraMatrix = glm::mat4(1.0f);
+
+		_cameraMatrix = _projectionMatrix * _viewMatrix;
+	}
 
 	float _minScale = 0.1f, _maxScale = 5.0f;
 

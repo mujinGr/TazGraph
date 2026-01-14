@@ -701,10 +701,57 @@ void Graph::checkInput() {
 				) {
 				selectEntityFromRay(rayOrigin, rayDirection, CTRLD_LEFT_CLICK);
 
+				if (!_selectedEntities.empty()) {
+
+					auto id = _selectedEntities.back().realEntityId;
+					Entity* entity = manager->getEntityFromId(id);
+
+					TransformComponent tr = entity->GetComponent<TransformComponent>();
+
+					auto moveEntityCommand = std::make_unique<Command>(
+						"moveEntityCommand",
+						[this, id, tr]() mutable {
+						},
+						[this, id, tr]() {
+							Entity* entity = manager->getEntityFromId(id);
+							*entity->GetComponentPtr<TransformComponent>() = tr;
+
+						}
+					);
+
+					manager->undoStack.push(std::move(moveEntityCommand));
+
+					manager->undoStack.top()->execute();
+				}
+
 			}
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) { // this is for selection and moving around nodes
 				_holdStartTime = SDL_GetTicks();
 				selectEntityFromRay(rayOrigin, rayDirection, SDL_BUTTON_LEFT);
+
+				if (!_selectedEntities.empty()) {
+					auto id = _selectedEntities.back().realEntityId;
+					Entity* entity = manager->getEntityFromId(id);
+
+					TransformComponent tr = entity->GetComponent<TransformComponent>();
+
+					auto moveEntityCommand = std::make_unique<Command>(
+						"moveEntityCommand",
+						[this, id, tr]() mutable {
+						},
+						[this, id, tr]() {
+							Entity* entity = manager->getEntityFromId(id);
+							*entity->GetComponentPtr<TransformComponent>() = tr;
+
+						}
+
+					);
+
+					manager->undoStack.push(std::move(moveEntityCommand));
+
+					manager->undoStack.top()->execute();
+				}
+
 			}
 
 			if (_app->_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
@@ -728,12 +775,57 @@ void Graph::checkInput() {
 		{
 			if (!_app->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
 				//_selectedEntities = nullptr;
+				if (_isDraggingSelectionBox && !_selectedEntities.empty()) {
+
+
+					struct EntityTransform {
+						EntityID id;
+						TransformComponent originalTransform;
+					};
+
+					std::vector<EntityTransform> originalTransforms;
+
+					// Capture current state for all selected entities
+					for (const auto& selected : _selectedEntities) {
+						Entity* entity = manager->getEntityFromId(selected.realEntityId);
+						if (entity && entity->hasComponent<TransformComponent>()) {
+							originalTransforms.push_back({
+								selected.realEntityId,
+								entity->GetComponent<TransformComponent>()
+								});
+						}
+					}
+
+
+					auto moveEntitiesCommand = std::make_unique<Command>(
+						"Move Multiple Entities",
+						[this, originalTransforms]() {
+						},
+						[this, originalTransforms]() {
+							// Undo: Restore original transforms
+							for (const auto& et : originalTransforms) {
+								Entity* entity = manager->getEntityFromId(et.id);
+								if (entity && entity->hasComponent<TransformComponent>()) {
+									*entity->GetComponentPtr<TransformComponent>() = et.originalTransform;
+								}
+							}
+						}
+					);
+
+
+					manager->undoStack.push(std::move(moveEntitiesCommand));
+
+					manager->undoStack.top()->execute();
+				}
+
 				_isDraggingSelectionBox = false;
 				_selectionStartPos = glm::vec2(0);
 				_selectionCurrentPos = glm::vec2(0);
 
 				_selectionWindowStartPos = glm::vec2(0);
 				_selectionWindowCurrentPos = glm::vec2(0);
+
+
 			}
 		}
 		break;
@@ -773,6 +865,17 @@ void Graph::checkInput() {
 	float accelerationY = 0.0f;
 	float accelerationZ = 0.0f;
 	float deltaTime = _app->getFPSLimiter().frameTime / 1000.0f; // Convert to seconds
+
+	bool ctrlDown =
+		_app->_inputManager.isKeyDown(SDLK_LCTRL) ||
+		_app->_inputManager.isKeyDown(SDLK_RCTRL);
+
+	if (ctrlDown && _app->_inputManager.isKeyPressed(SDLK_z)) {
+		if (!manager->undoStack.empty()) {
+			manager->undoStack.top()->undo();
+			manager->undoStack.pop();
+		}
+	}
 
 	cameraMaxVelocity = manager->grid->getCellSize(); // Adjust multiplier as needed
 

@@ -101,7 +101,7 @@ void Graph::prepareDraw()
 				if (!overlayEnt || std::get<int>(sel.overlayEntityId) < 0) {
 					// Overlay somehow missing, recreate it
 					auto& newEnt = manager->addEntity<Empty>();
-					newEnt.addGroup(Manager::groupSelectedEntities);
+					newEnt.addToGroup(Manager::groupSelectedEntities);
 					newEnt.addComponent<BoxComponent>();
 					newEnt.GetComponent<BoxComponent>().color = TazColor(255, 255, 0, 255);
 					manager->grid->addEmpty(&newEnt, manager->grid->getGridLevel());
@@ -169,7 +169,7 @@ void Graph::prepareDraw()
 				if (!overlayEnt || std::get<int>(sel.overlayEntityId) < 0) {
 					// Overlay somehow missing, recreate it
 					auto& newEnt = manager->addEntity<Link>(LinkEntity::ConnectionType::DIRECT_POSITIONS);
-					newEnt.addGroup(Manager::groupSelectedEntities);
+					newEnt.addToGroup(Manager::groupSelectedEntities);
 					newEnt.addComponent<Line_w_Color>();
 
 					newEnt.GetComponent<Line_w_Color>().setDestColor(TazColor(255, 255, 0, 255));
@@ -222,7 +222,7 @@ void Graph::prepareDraw()
 		arrowsBatch.rotationMatrix = rotationMatrix;
 		frameData.batches.push_back(arrowsBatch);
 	}
-	// 4. Sprite Models Batch
+	// 4.1 Sprite Models Batch
 	{
 		Taz::GECSRenderBatch spritesBatch;
 		spritesBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneModel;
@@ -233,6 +233,20 @@ void Graph::prepareDraw()
 		spritesBatch.entities = manager->collectVisibleEntities({
 			Manager::groupRenderSprites
 			}, Taz::EntityType::Empty);
+		spritesBatch.count = spritesBatch.entities.size();
+		frameData.batches.push_back(spritesBatch);
+	}
+	// 4.2 Node Sprite Models Batch
+	{
+		Taz::GECSRenderBatch spritesBatch;
+		spritesBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneModel;
+		spritesBatch.mesh_type = Taz::RenderBatch::MeshType::Quad;
+
+		spritesBatch.batchName = manager->getGroupName(Manager::groupRenderSprites);
+		spritesBatch.shaderName = "texture";
+		spritesBatch.entities = manager->collectVisibleEntities({
+			Manager::groupRenderSprites
+			}, Taz::EntityType::Node);
 		spritesBatch.count = spritesBatch.entities.size();
 		frameData.batches.push_back(spritesBatch);
 	}
@@ -339,7 +353,7 @@ void Graph::prepareDraw()
 		last_renderDebug = renderDebug;
 		auto makeQuad = [&](glm::vec3 size, glm::vec3 pos) {
 			auto& e = manager->addEntity<Empty>();
-			e.addGroup(Manager::groupDebugRectangleEntities);
+			e.addToGroup(Manager::groupDebugRectangleEntities);
 
 			auto& c = e.addComponent<TransformComponent>();
 			auto& r = e.addComponent<Rectangle_w_Color>();
@@ -360,7 +374,7 @@ void Graph::prepareDraw()
 		for (auto& cell : manager->grid->getIntersectedCameraCells(*main_camera2D))
 		{
 			auto& e = manager->addEntity<Empty>();
-			e.addGroup(Manager::groupDebugBoxEntities);
+			e.addToGroup(Manager::groupDebugBoxEntities);
 
 			auto& c = e.addComponent<TransformComponent>();
 			auto& b = e.addComponent<BoxComponent>();
@@ -373,7 +387,7 @@ void Graph::prepareDraw()
 
 		auto addBoxFromEntity = [&](Entity* ent) {
 			auto& e = manager->addEntity<Empty>();
-			e.addGroup(Manager::groupDebugBoxEntities);
+			e.addToGroup(Manager::groupDebugBoxEntities);
 
 			auto& tr = ent->GetComponent<TransformComponent>();
 
@@ -465,6 +479,8 @@ void Graph::renderDraw()
 	Framebuffer::SetMultisample(_viewportFramebuffer._multisampleEnabled);
 
 	_viewportFramebuffer.Bind();
+	glViewport(0, 0, _viewportFramebuffer._width, _viewportFramebuffer._height);
+
 	glDepthMask(GL_TRUE);
 	////////////OPENGL USE
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);

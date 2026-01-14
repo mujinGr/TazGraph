@@ -13,7 +13,6 @@
 #include "../Threader/Threader.h"
 #include "../Threader/RenderCommandQueue.h"
 
-
 class AppInterface {
 public:
 	AppInterface(int threadCount, int msaa_samples, std::string openFile,

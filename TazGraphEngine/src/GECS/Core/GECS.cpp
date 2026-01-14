@@ -1,6 +1,6 @@
 #include "GECS.h"
 //#include "TransformComponent.h"
-void Entity::addGroup(Group mGroup)
+void Entity::addToGroup(Group mGroup)
 {
 	groupBitSet[mGroup] = true;
 }

@@ -39,6 +39,17 @@ void GraphMiddlePanel::OnImGuiRender()
 	}
 	bool childActive = ImGui::BeginChild("Viewport");
 	if (childActive) {
+
+		getSubcomponent<ViewportPanel>()->setConfig({
+			.c_fb = config.c_framebuffer,
+			.c_minimap_fb = config.c_minimapFramebuffer,
+			.c_storedWindowPos = config.c_viewportPos,
+			.c_storedWindowSize = config.c_viewportSize,
+			.startPos = config.startPos,
+			.currPos = config.currPos,
+			});
+		getSubcomponent<ViewportPanel>()->OnImGuiRender();
+		
 		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 		Manager* man = config.scene->manager;
@@ -51,16 +62,6 @@ void GraphMiddlePanel::OnImGuiRender()
 				main_camera2D.get());
 
 		}
-
-		getSubcomponent<ViewportPanel>()->setConfig({
-			.c_fb = config.c_framebuffer,
-			.c_minimap_fb = config.c_minimapFramebuffer,
-			.c_storedWindowPos = config.c_viewportPos,
-			.c_storedWindowSize = config.c_viewportSize,
-			.startPos = config.startPos,
-			.currPos = config.currPos,
-			});
-		getSubcomponent<ViewportPanel>()->OnImGuiRender();
 
 	}
 	ImGui::EndChild();//? Needs to be outside

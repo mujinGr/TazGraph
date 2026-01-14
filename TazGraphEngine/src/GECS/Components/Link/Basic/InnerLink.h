@@ -42,4 +42,8 @@ public:
 
 
 	};
+
+	void showGUI(std::vector<BaseComponent*> otherComponents, std::vector<Entity*> otherEntities) override {
+		ImGui::Separator();
+	};
 };

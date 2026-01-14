@@ -8,7 +8,7 @@
 #include "HighlightBox/HighlightBox.h"
 #include "SceneControl/SceneControl.h"
 #include "HoverEntityPanel/HoverEntityPanel.h"
-#include "../../EntityComponentsControl/EntityComponentsControl.h"
+#include "../../EntityGroupsControl/EntityGroupsControl.h"
 
 
 struct ViewportPanelConfig {
@@ -28,16 +28,12 @@ private:
 public:
 
 	ViewportPanel() {
-
-	}
-
-	ViewportPanel(bool usePython) {
 		addUIComponent<Minimap>();
 		addUIComponent<OrientationBox>();
 		addUIComponent<SceneControlPanel>();
 		addUIComponent<HoverEntityPanel>();
 		addUIComponent<HighlightBox>();
-		addUIComponent<EntityComponentsControlPanel>(usePython);
+		addUIComponent<EntityGroupsControlPanel>();
 	}
 
 	bool isMouseInSecondColumn = false;

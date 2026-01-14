@@ -13,23 +13,23 @@ TazGraphEngine::Window::~Window()
 int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int screenHeight, float scale, unsigned int currentFlags) {
 
 	//Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
-	Uint32 flags = (1 << 1) | (1 << 5) | (1 << 7);
+	Uint32 flags = 0x0;
 	_screenWidth = screenWidth * scale;
 	_screenHeight = screenHeight * scale;
 	_scale = scale;
 
-	if (currentFlags & INVISIBLE) {
+	if (currentFlags & TazGraphEngine::WindowFlags::INVISIBLE) {
 		flags |= SDL_WINDOW_HIDDEN;
 	}
-	if (currentFlags & VISIBLE) {
-		flags &= ~INVISIBLE;
+	if (currentFlags & TazGraphEngine::WindowFlags::VISIBLE) {
+		flags |= SDL_WINDOW_SHOWN;
 	}
-	if (currentFlags & FULLSCREEN) {
-		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-	}
-	if (currentFlags & BORDERLESS) {
+	if (currentFlags & TazGraphEngine::WindowFlags::BORDERLESS) {
 		flags |= SDL_WINDOW_BORDERLESS;
 	}
+	flags |= SDL_WINDOW_MAXIMIZED;
+	flags |= SDL_WINDOW_OPENGL;
+	flags |= SDL_WINDOW_RESIZABLE;
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);

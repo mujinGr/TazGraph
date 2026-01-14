@@ -28,7 +28,7 @@ public:
 
 	GraphMiddlePanel(bool usePython) {
 		addUIComponent<GraphTopBar>();
-		addUIComponent<ViewportPanel>(usePython);
+		addUIComponent<ViewportPanel>();
 		if (usePython) {
 			addUIComponent<PythonInterpreterPanel>();
 		}

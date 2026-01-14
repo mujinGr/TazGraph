@@ -11,6 +11,7 @@
 #include <regex>
 #include <filesystem>
 #include <shared_mutex>
+#include "Command.h"
 
 namespace fs = std::filesystem;
 
@@ -42,8 +43,12 @@ private:
 
 	bool _update_active_entities = false;
 public:
-	std::vector<SimulationStep> steps;
+	// Simdump
+	std::list<SimulationStep> steps;
 	int currentStep = 0;
+
+	// Command Pattern
+	std::stack<std::unique_ptr<Command>> undoStack;
 
 	std::vector<EntityID> movedNodes;
 	std::mutex movedNodesMutex;
@@ -275,16 +280,19 @@ public:
 	void AddToGroup(EmptyEntity* mEntity, Group mGroup)
 	{
 		groupedEmptyEntities[mGroup].emplace_back(mEntity);
+		aboutTo_updateActiveEntities();
 	}
 
 	void AddToGroup(NodeEntity* mEntity, Group mGroup)
 	{
 		groupedNodeEntities[mGroup].emplace_back(mEntity);
+		aboutTo_updateActiveEntities();
 	}
 
 	void AddLinkToGroup(LinkEntity* mEntity, Group mGroup)
 	{
 		groupedLinkEntities[mGroup].emplace_back(mEntity);
+		aboutTo_updateActiveEntities();
 	}
 
 	const std::unordered_map<EntityID, std::unique_ptr<Entity>>& getEntities() const {
@@ -358,9 +366,28 @@ public:
 		else if constexpr (std::is_same_v<T, LinkEntity>) {
 			return groupedLinkEntities[mGroup];
 		}
+		else if constexpr (std::is_same_v<T, Entity>) {
+			return groupedLinkEntities[mGroup];
+		}
 		else {
 			static_assert(sizeof(T) == 0, "Unsupported entity type.");
 		}
+	}
+
+	inline std::vector<Entity*> getGroup_All(Group mGroup) {
+		std::vector<Entity*> result;
+
+		auto& empties = groupedEmptyEntities[mGroup];
+		auto& nodes = groupedNodeEntities[mGroup];
+		auto& links = groupedLinkEntities[mGroup];
+
+		result.reserve(empties.size() + nodes.size() + links.size());
+
+		result.insert(result.end(), empties.begin(), empties.end());
+		result.insert(result.end(), nodes.begin(), nodes.end());
+		result.insert(result.end(), links.begin(), links.end());
+
+		return result;
 	}
 
 	template <typename T, typename... TArgs>
@@ -480,6 +507,35 @@ public:
 		return entities[mId].get();
 	}
 
+	inline std::vector<Entity*> getEntities_FromIds(std::vector<EntityID> mIds) {
+		std::shared_lock lock(entities_mtx);
+
+		std::vector<Entity*> result;
+		result.reserve(mIds.size());
+
+		for (EntityID id : mIds) {
+			if (entities.contains(id)) {
+				result.push_back(entities[id].get());
+			}
+		}
+
+		return result;
+	}
+
+	//? Probably dont need this
+	//inline std::vector<EntityID> getIds_FromEntities(std::vector<Entity*> mEntities) {
+	//	std::shared_lock lock(entities_mtx);
+
+	//	std::vector<EntityID> result;
+	//	result.reserve(mEntities.size());
+
+	//	for (Entity* e : mEntities) {
+	//		result.push_back(e->getId());
+	//	}
+
+	//	return result;
+	//}
+
 	bool hasEntity(EntityID mId) {
 		std::shared_lock lock(entities_mtx);
 		return entities.contains(mId);
@@ -590,9 +646,11 @@ public:
 
 		//fore
 		textLabels,
+		__COUNT__
 	};
 
-	const std::unordered_map<Group, std::string> groupNames = {
+
+	std::unordered_map<Group, std::string> groupNames = {
 		{groupBackgroundLayer, "groupBackgroundLayer" },
 		{panelBackground, "panelBackground"},
 
@@ -635,6 +693,14 @@ public:
 		{ textLabels,"textLabels" },
 	};
 
+	//! dynamically add groups with Enum!
+	std::size_t nextGroup = groupLabels::__COUNT__;
+
+	void addGroup(std::string groupName) {
+		auto newGroup = nextGroup++;
+		groupNames.insert(std::make_pair(newGroup, groupName));
+	}
+
 	std::string getGroupName(Group mGroup) const;
 
 	void scanComponentNames(const std::string& folderPath);
@@ -648,5 +714,7 @@ public:
 	std::vector<Entity*> collectEntities(
 		std::initializer_list<Manager::groupLabels> groupNames,
 		Taz::EntityType type);
+
+	bool entities_AllSameType(std::vector<Entity*> entities);
 
 };

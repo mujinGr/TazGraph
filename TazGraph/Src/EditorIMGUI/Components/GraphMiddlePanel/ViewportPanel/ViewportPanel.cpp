@@ -8,7 +8,6 @@ void ViewportPanel::OnImGuiRender()
 	ImVec2 pos = ImGui::GetCursorScreenPos();
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 
-	// Render your scene texture
 	ImGui::Image(
 		reinterpret_cast<void*>(static_cast<uintptr_t>(config.c_fb->_framebufferTexture)),
 		viewportPanelSize,
@@ -16,6 +15,7 @@ void ViewportPanel::OnImGuiRender()
 		ImVec2(1, 0)
 	);
 
+	//? Dont remove this
 	*config.c_storedWindowPos = ImGui::GetWindowPos();
 	*config.c_storedWindowSize = viewportPanelSize;
 

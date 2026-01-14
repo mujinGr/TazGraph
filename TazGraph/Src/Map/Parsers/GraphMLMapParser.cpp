@@ -49,7 +49,7 @@ void GraphMLMapParser::parse(Manager& manager,
 		// Create node entity
 		auto& entity = manager.addEntity<Node>();
 
-		entity.addGroup(Manager::groupNodes_0);
+		entity.addToGroup(Manager::groupNodes_0);
 
 		glm::vec3 position(x, y, 0);
 		addNodeFunc(entity, position);
@@ -70,7 +70,7 @@ void GraphMLMapParser::parse(Manager& manager,
 		// Create link entity (assuming you have a way to reference nodes by ID)
 		auto& link = manager.addEntity<Link>(sourceId, targetId);
 
-		link.addGroup(Manager::groupLinks_0);
+		link.addToGroup(Manager::groupLinks_0);
 
 		addLinkFunc(link);
 

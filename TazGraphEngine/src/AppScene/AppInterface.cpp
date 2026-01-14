@@ -313,6 +313,7 @@ void AppInterface::onSDLEvent(SDL_Event& evnt) {
 		switch (evnt.window.event) {
 		case SDL_WINDOWEVENT_SIZE_CHANGED:
 		case SDL_WINDOWEVENT_RESIZED:
+			//? Dont have this on each resize, it messes up viewport sizes
 			int newWidth = evnt.window.data1;
 			int newHeight = evnt.window.data2;
 			// Handle window resizing, update viewport or other necessary elements
@@ -346,6 +347,14 @@ bool AppInterface::init() {
 	_audioEngine.init();
 
 	CameraManager::getInstance().initializeCameras();
+
+	int newWidth = 0;
+	int newHeight = 0;
+
+	SDL_GetWindowSize(_window._sdlWindow, &newWidth, &newHeight);
+	// Handle window resizing, update viewport or other necessary elements
+	//_window.setScreenWidth(newWidth);
+	//_window.setScreenHeight(newHeight);
 
 	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 	initRenderers();

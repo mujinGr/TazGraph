@@ -69,7 +69,7 @@ void GraphLeftPanel::OnImGuiRender()
 
 					auto& textLabel = config.scene->manager->addEntityFromParent<Empty>(node, "label");
 
-					textLabel.addGroup(Manager::textLabels);
+					textLabel.addToGroup(Manager::textLabels);
 
 					textLabel.addComponent<TransformComponent>(0.0f);
 					textLabel.GetComponent<TransformComponent>().local_position = glm::vec3(0);
@@ -307,11 +307,11 @@ void GraphLeftPanel::ChooseLayoutPanel() {
 
 				if (_clusterLayout) {
 					/*for (NodeEntity* node : nodes) {
-						node->addGroup(config.scene->manager::groupColliders);
+						node->addToGroup(config.scene->manager::groupColliders);
 					}*/
 
 					for (Entity* node : nodes) {
-						node->addGroup(Manager::groupColliders);
+						node->addToGroup(Manager::groupColliders);
 						node->addComponent<ColliderComponent>(
 							config.scene->manager,
 							node->GetComponent<TransformComponent>().size);

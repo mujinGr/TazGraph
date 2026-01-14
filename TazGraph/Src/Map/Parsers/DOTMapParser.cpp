@@ -34,7 +34,7 @@ void DOTMapParser::parse(Manager& manager,
 		auto& entity = manager.addEntity<Node>();
 		entity.setId(nodeId);
 
-		entity.addGroup(Manager::groupNodes_0);
+		entity.addToGroup(Manager::groupNodes_0);
 
 		glm::vec3 position(0.0f);
 		addNodeFunc(entity, position);
@@ -57,7 +57,7 @@ void DOTMapParser::parse(Manager& manager,
 		int toId = std::stoi(targetStr.c_str());
 
 		auto& link = manager.addEntity<Link>(fromId, toId);
-		link.addGroup(Manager::groupLinks_0);
+		link.addToGroup(Manager::groupLinks_0);
 
 		addLinkFunc(link);
 	}

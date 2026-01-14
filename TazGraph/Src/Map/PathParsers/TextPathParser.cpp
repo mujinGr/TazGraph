@@ -66,7 +66,7 @@ void TextPathParser::parse(Manager& manager,
 		}
 
 		auto& pathLinker = manager.addEntity<Empty>();
-		pathLinker.addGroup(Manager::groupPathLinksHolder);
+		pathLinker.addToGroup(Manager::groupPathLinksHolder);
 		
 		auto& plc = pathLinker.addComponent<PathLinkerComponent>();
 
@@ -86,7 +86,7 @@ void TextPathParser::parse(Manager& manager,
 
 			auto& link = manager.addEntity<Link>(idA, idB);
 
-			link.addGroup(Manager::groupPathLinks);
+			link.addToGroup(Manager::groupPathLinks);
 
 			addLinkFunc(link);
 

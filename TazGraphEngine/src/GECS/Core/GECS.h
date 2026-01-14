@@ -4,7 +4,9 @@
 
 #include "../../Window/Window.h"
 
+#include "../../PythonEngine/PythonEngine.h"
 
+inline PythonInterpreter& pythonInter = PythonInterpreter::getInstance();
 
 #define CULLING_OFFSET 100
 
@@ -34,6 +36,7 @@ namespace Layer {
 namespace Taz {
 	enum EntityType
 	{
+		Unknown,
 		Empty,
 		Node,
 		Link,
@@ -115,6 +118,10 @@ public:
 	virtual std::string GetComponentName() { return ""; };
 
 	virtual void showGUI(std::vector<BaseComponent*> otherComponents = {}) {
+		ImGui::Text("MyComponent Properties:");
+	};
+
+	virtual void showGUI(std::vector<BaseComponent*> otherComponents, std::vector<Entity*> otherEntities) {
 		ImGui::Text("MyComponent Properties:");
 	};
 
@@ -320,8 +327,8 @@ public:
 		return groupBitSet[mGroup];
 	}
 
-	virtual void addGroup(Group mGroup);
-	void removeGroup(Group mGroup);
+	virtual void addToGroup(Group mGroup);
+	virtual void removeGroup(Group mGroup);
 
 	template <typename T> bool hasComponent() const
 	{
@@ -454,6 +461,22 @@ public:
 		else {
 			auto ptr(componentArray[GetComponentTypeID<T>()]);
 			return *static_cast<T*>(ptr);
+		}
+	}
+
+	template<typename T> T* GetComponentPtr()
+	{
+		if constexpr (std::is_base_of_v<LinkComponent, T>) {
+			auto ptr(componentArray[GetLinkComponentTypeID<T>()]);
+			return static_cast<T*>(ptr);
+		}
+		else if constexpr (std::is_base_of_v<NodeComponent, T>) {
+			auto ptr((*nodeComponentArray)[GetNodeComponentTypeID<T>()]);
+			return static_cast<T*>(ptr);
+		}
+		else {
+			auto ptr(componentArray[GetComponentTypeID<T>()]);
+			return static_cast<T*>(ptr);
 		}
 	}
 

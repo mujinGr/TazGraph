@@ -19,8 +19,9 @@ void Graph::update(float deltaTime) //game objects updating
 		last_showGrid = false;
 		DataManager::getInstance().mapToLoad = "";
 		_selectedEntities.clear();
-	}
 
+		peu.init(*manager);
+	}
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
@@ -42,6 +43,8 @@ void Graph::update(float deltaTime) //game objects updating
 
 	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
 	*/
+	py::gil_scoped_release release;
+
 	if (_firstLoop) {
 		manager->updateFully(deltaTime);
 	}
@@ -101,7 +104,7 @@ void Graph::update(float deltaTime) //game objects updating
 								auto& transform = node->GetComponent<TransformComponent>();
 
 								auto& mnode = manager->addEntity<Node>();
-								mnode.addGroup(Manager::groupMinimapNodes);
+								mnode.addToGroup(Manager::groupMinimapNodes);
 
 								auto& mtrans = mnode.addComponent<TransformComponent>();
 								mtrans.position.x = transform.position.x;
@@ -132,7 +135,7 @@ void Graph::update(float deltaTime) //game objects updating
 
 						// Create a new entity in the minimap group
 						auto& mnode = manager->addEntity<Node>();
-						mnode.addGroup(Manager::groupMinimapNodes);
+						mnode.addToGroup(Manager::groupMinimapNodes);
 
 						// Copy/scale transform
 						auto& mtrans = mnode.addComponent<TransformComponent>();
@@ -314,7 +317,7 @@ void Graph::update(float deltaTime) //game objects updating
 			vert_gridLink.GetComponent<Line_w_Color>().width = 1.0f;
 			vert_gridLink.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 255, 64));
 
-			vert_gridLink.addGroup(Manager::groupGridLinks);
+			vert_gridLink.addToGroup(Manager::groupGridLinks);
 
 			manager->grid->addLink(&vert_gridLink, manager->grid->Level::Basic);
 			manager->grid->addLink(&vert_gridLink, manager->grid->Level::Outer1);
@@ -333,7 +336,7 @@ void Graph::update(float deltaTime) //game objects updating
 			hor_gridLink.GetComponent<Line_w_Color>().width = 1.0f;
 			hor_gridLink.GetComponent<Line_w_Color>().setSrcColor(TazColor(255, 255, 255, 64));
 
-			hor_gridLink.addGroup(Manager::groupGridLinks);
+			hor_gridLink.addToGroup(Manager::groupGridLinks);
 
 			manager->grid->addLink(&hor_gridLink, manager->grid->Level::Basic);
 			manager->grid->addLink(&hor_gridLink, manager->grid->Level::Outer1);

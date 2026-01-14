@@ -27,6 +27,7 @@ private:
 
 public:
 	bool _multisampleEnabled = false;
+	int _multisamples = 0;
 
 	static void SetMultisample(bool enable) {
 		if (enable) {
@@ -46,6 +47,10 @@ public:
 	~Framebuffer();
 
 	void init(int windowWidth, int windowHeight, bool enableMSAA, int MSAA_samples = 0);
+
+	void attachMultisampleTexture(int windowWidth, int windowHeight);
+
+	void attachTexture(int windowWidth, int windowHeight);
 
 	void Bind();
 	void Unbind();

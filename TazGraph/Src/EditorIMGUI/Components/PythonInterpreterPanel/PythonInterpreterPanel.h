@@ -20,6 +20,8 @@ private:
 	char _pythonBuffer[1024] = "";
 	char _updateBuffer[4096] = "";
 
+	py::object _stdout_buffer;
+
 	std::string _outputText;
 	std::string _updateOutputText;
 
@@ -50,16 +52,14 @@ public:
 
 	bool inputActive = false;
 
-	bool init = true;
+	bool firstLoop = true;
 
-
+	bool readyToClear = false;
 	bool readyToExecute = false;
 
 	ImGuiChildFlags flags = ImGuiChildFlags_ResizeY | ImGuiWindowFlags_NoSavedSettings;
 
 	PythonInterpreterPanel();
-	void init_api(py::module_& m, Manager& manager);
-
 	void update(float deltaTime) override;
 
 	void setConfig(const PythonInterpreterConfig& cfg) {
@@ -69,10 +69,10 @@ public:
 
 	}
 	void OnImGuiRender() override;
-	void OnImGuiRender2();
 
 	void setFlags();
 	void innerTable();
+	void clearOutput();
 	void runScript();
 	void runUpdateScript(float deltaTime);
 };

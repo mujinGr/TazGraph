@@ -13,75 +13,126 @@ void SceneControlPanel::OnImGuiRender()
 
 	if (ImGui::Begin(windowTitle.c_str())) {
 		if (ImGui::Button("Create Empty - Box")) {
-			auto& empty(config.scene->manager->addEntity<Empty>());
 
-			glm::vec2 position(0, 0);
+			auto id = std::make_shared<EntityID>(0);
 
-			empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+			auto createEmptyCommand = std::make_unique<Command>(
+				"Create Empty Entity",
+				[this, id]() mutable {
+					auto& empty(config.scene->manager->addEntity<Empty>());
 
-			empty.addComponent<BoxComponent>();
+					*id = empty.getId();
 
-			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
-			empty.addGroup(Manager::groupEmpties);
+					glm::vec2 position(0, 0);
+
+					empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+
+					empty.addComponent<BoxComponent>();
+
+					config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
+					empty.addToGroup(Manager::groupEmpties);
+				},
+				[this, id]() {
+					config.scene->manager->getEntityFromId(*id)->destroy();
+				}
+			);
+
+			config.scene->manager->undoStack.push(std::move(createEmptyCommand));
+
+			config.scene->manager->undoStack.top()->execute();
 			// todo here we also have choose shape option
 		}
 
 		if (ImGui::Button("Create Empty - Plane")) {
 			auto& empty(config.scene->manager->addEntity<Empty>());
 
-			//empty.addGroup(config.c_manager::groupNodes_0);
+			//empty.addToGroup(config.c_manager::groupNodes_0);
 			// todo here we also have choose shape option
 		}
 
 		if (ImGui::Button("Create Empty - Triangle")) {
 			auto& empty(config.scene->manager->addEntity<Empty>());
 
-			//empty.addGroup(config.c_manager::groupNodes_0);
+			//empty.addToGroup(config.c_manager::groupNodes_0);
 			// todo here we also have choose shape option
 		}
 
 		if (ImGui::Button("Create Empty - Sphere")) {
-			auto& empty(config.scene->manager->addEntity<Empty>());
 
-			glm::vec2 position(0, 0);
+			auto id = std::make_shared<EntityID>(0);
 
-			empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+			auto createEmptyCommand = std::make_unique<Command>(
+				"Create Empty Sphere Entity",
+				[this, id]() mutable {
+					auto& empty(config.scene->manager->addEntity<Empty>());
+					*id = empty.getId();
+					glm::vec2 position(0, 0);
+					empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+					empty.addComponent<SphereComponent>();
+					config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
+					empty.addToGroup(Manager::groupSphereEmpties);
+				},
+				[this, id]() {
+					config.scene->manager->getEntityFromId(*id)->destroy();
+				}
+			);
 
-			empty.addComponent<SphereComponent>();
+			config.scene->manager->undoStack.push(std::move(createEmptyCommand));
 
-			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
-			empty.addGroup(Manager::groupSphereEmpties);
+			config.scene->manager->undoStack.top()->execute();
+
 		}
 
 		if (ImGui::Button("Create Empty - Sphere Wireframe")) {
-			auto& empty(config.scene->manager->addEntity<Empty>());
 
-			glm::vec2 position(0, 0);
 
-			empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+			auto id = std::make_shared<EntityID>(0);
 
-			empty.addComponent<SphereComponent>();
+			auto createEmptyCommand = std::make_unique<Command>(
+				"Create Empty Wireframe Sphere Entity",
+				[this, id]() mutable {
+					auto& empty(config.scene->manager->addEntity<Empty>());
+					*id = empty.getId();
+					glm::vec2 position(0, 0);
+					empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+					empty.addComponent<SphereComponent>();
+					config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
+					empty.addToGroup(Manager::groupWireframeSphereEmpties);
+				},
+				[this, id]() {
+					config.scene->manager->getEntityFromId(*id)->destroy();
+				}
+			);
+			config.scene->manager->undoStack.push(std::move(createEmptyCommand));
 
-			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
-			empty.addGroup(Manager::groupWireframeSphereEmpties);
+			config.scene->manager->undoStack.top()->execute();
 		}
 
 		ImGui::Separator();
 
 		if (ImGui::Button("Create Node Entity")) {
-			auto& node(config.scene->manager->addEntity<Node>());
 
-			glm::vec2 position(0, 0);
+			auto id = std::make_shared<EntityID>(0);
 
-			node.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
-			node.addComponent<Rectangle_w_Color>();
-			node.GetComponent<Rectangle_w_Color>().color = TazColor(150, 150, 150, 255);
+			auto createEmptyCommand = std::make_unique<Command>(
+				"Create Node Entity",
+				[this, id]() mutable {
+					auto& node(config.scene->manager->addEntity<Node>());
+					*id = node.getId();
+					glm::vec2 position(0, 0);
+					node.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+					node.addComponent<Rectangle_w_Color>();
+					node.GetComponent<Rectangle_w_Color>().color = TazColor(150, 150, 150, 255);
+					node.GetComponent<TransformComponent>().update(0.0f); // update children positions
 
-			node.GetComponent<TransformComponent>().update(0.0f); // update children positions
+					config.scene->manager->grid->addNode(&node, config.scene->manager->grid->getGridLevel());
+					node.addToGroup(Manager::groupNodes_0);
+				},
+				[this, id]() {
+					config.scene->manager->getEntityFromId(*id)->destroy();
+				}
+			);
 
-
-			config.scene->manager->grid->addNode(&node, config.scene->manager->grid->getGridLevel());
-			node.addGroup(Manager::groupNodes_0);
 		}
 
 		ImGui::Separator();
@@ -102,7 +153,7 @@ void SceneControlPanel::OnImGuiRender()
 
 				link.addComponent<LineFlashAnimatorComponent>();
 
-				link.addGroup(Manager::groupLinks_0);
+				link.addToGroup(Manager::groupLinks_0);
 				config.scene->manager->grid->addLink(&link, config.scene->manager->grid->getGridLevel());
 				errorMessage = ""; // Clear error if successful
 			}

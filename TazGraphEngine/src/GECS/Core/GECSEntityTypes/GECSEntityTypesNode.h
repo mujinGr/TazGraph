@@ -12,9 +12,14 @@ public:
 
 	}
 
-	void addGroup(Group mGroup) override {
-		Entity::addGroup(mGroup);
+	void addToGroup(Group mGroup) override {
+		Entity::addToGroup(mGroup);
 		manager.AddToGroup(this, mGroup);
+	}
+
+	void removeGroup(Group mGroup) override {
+		Entity::removeGroup(mGroup);
+		manager.aboutTo_updateActiveEntities();
 	}
 
 	virtual ~Node() {
@@ -106,7 +111,7 @@ public:
 			}
 
 			auto& port = getManager()->addEntityFromParent<Empty>(this, t_portName);
-			port.addGroup(Manager::groupPorts);
+			port.addToGroup(Manager::groupPorts);
 			port.addComponent<TransformComponent>(glm::vec3(0), glm::vec3(0), 1.0f);
 
 

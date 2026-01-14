@@ -40,7 +40,7 @@ public:
 	{
 
 	}
-	
+
 	Link(
 		Manager& mManager,
 		ConnectionType m_type
@@ -58,9 +58,14 @@ public:
 		}
 	}
 
-	void addGroup(Group mGroup) override {
-		Entity::addGroup(mGroup);
+	void addToGroup(Group mGroup) override {
+		Entity::addToGroup(mGroup);
 		manager.AddLinkToGroup(this, mGroup);
+	}
+
+	void removeGroup(Group mGroup) override {
+		Entity::removeGroup(mGroup);
+		manager.aboutTo_updateActiveEntities();
 	}
 
 	virtual ~Link() {
@@ -258,7 +263,7 @@ public:
 
 			// Create new slot
 			auto& newSlot = node->getManager()->addEntityFromParent<Empty>(newPortEntity);
-			newSlot.addGroup(Manager::groupPortSlots);
+			newSlot.addToGroup(Manager::groupPortSlots);
 
 			TransformComponent& portTransform = newPortEntity->GetComponent<TransformComponent>();
 			newSlot.addComponent<TransformComponent>(
@@ -429,7 +434,7 @@ public:
 		// Rotate the arrowhead to point in the direction of the connection
 		temp_arrowHead.GetComponent<TransformComponent>().setRotation(glm::vec3(0.0f, 0.0f, angleRadians + glm::half_pi<float>()));
 
-		temp_arrowHead.addGroup(Manager::groupArrowHeads_0);
+		temp_arrowHead.addToGroup(Manager::groupArrowHeads_0);
 		temp_arrowHead.setParentEntity(this);
 		children[LinkChildren_ToString(ARROWHEAD)] = temp_arrowHead.getId();
 	}

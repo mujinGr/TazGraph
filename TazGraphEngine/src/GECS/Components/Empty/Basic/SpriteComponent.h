@@ -149,6 +149,10 @@ public:
 	}
 
 	void showGUI(std::vector<BaseComponent*> otherComponents = {}) override {
+		showGUI(otherComponents, { entity });
+	};
+
+	void showGUI(std::vector<BaseComponent*> otherComponents, std::vector<Entity*> otherEntities) override {
 		ImGui::Separator();
 
 		// Get the list of texture names
@@ -165,5 +169,5 @@ public:
 				}
 			}
 		}
-	};
+	}
 };

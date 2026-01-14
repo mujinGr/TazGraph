@@ -8,6 +8,7 @@
 
 #include "../../AssetManager/AssetManager.h"
 #include "../../EditorIMGUI/GraphEditorLayer/GraphEditorLayer.h"
+#include "../../AssetManager/PythonEngineUtil.h"
 
 class Map;
 class SceneManager;
@@ -126,6 +127,8 @@ private:
 	float cameraAcceleration = 10.0f;
 	float cameraMaxVelocity = 200.0f;
 	float cameraFriction = 0.9f;
+
+	PythonEngineUtil peu;
 };
 
 

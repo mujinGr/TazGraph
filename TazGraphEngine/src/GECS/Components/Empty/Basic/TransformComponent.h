@@ -188,6 +188,10 @@ public:
 	}
 
 	void showGUI(std::vector<BaseComponent*> otherComponents = {}) override {
+		showGUI(otherComponents, { entity });
+	};
+
+	void showGUI(std::vector<BaseComponent*> otherComponents, std::vector<Entity*> otherEntities) override {
 		ImGui::Separator();
 
 		// TazPosition Controls
@@ -219,5 +223,23 @@ public:
 		// Speed Control
 		ImGui::Text("Speed:");
 		ImGui::InputInt("##speed", &speed);
-	};
+	}
+
+	TransformComponent& operator=(const TransformComponent& tr) {
+		if (this == &tr) {
+			return *this;
+		}
+
+		velocity = tr.velocity;
+		rotation = tr.rotation;
+		position = tr.position;
+		local_position = tr.local_position;
+		local_normal_position = tr.local_normal_position;
+		size = tr.size;
+
+		scale = tr.scale;
+		speed = tr.speed;
+
+		return *this;
+	}
 };

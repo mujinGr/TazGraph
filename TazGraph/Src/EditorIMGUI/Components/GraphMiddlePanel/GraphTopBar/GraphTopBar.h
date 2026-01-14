@@ -28,10 +28,13 @@ public:
 	void setConfig(const GraphTopConfig& cfg) {
 		config = cfg;
 		if (!inited) {
+			auto stepIt = cfg.scene->manager->steps.begin();
+			std::advance(stepIt, config.scene->getApp()->initialStep);
+
 			interpolation =
 				config.scene->getApp()->initialTimestamp ? config.scene->getApp()->initialTimestamp :
 
-				(config.scene->getApp()->initialStep ? cfg.scene->manager->steps[config.scene->getApp()->initialStep].timestamp :
+				(config.scene->getApp()->initialStep ? stepIt->timestamp :
 
 					(cfg.scene->manager->steps.empty() ?
 						0.0f : cfg.scene->manager->steps.begin()->timestamp));
