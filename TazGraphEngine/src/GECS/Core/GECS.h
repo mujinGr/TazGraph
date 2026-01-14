@@ -464,6 +464,22 @@ public:
 		}
 	}
 
+	template<typename T> T* GetComponentPtr()
+	{
+		if constexpr (std::is_base_of_v<LinkComponent, T>) {
+			auto ptr(componentArray[GetLinkComponentTypeID<T>()]);
+			return static_cast<T*>(ptr);
+		}
+		else if constexpr (std::is_base_of_v<NodeComponent, T>) {
+			auto ptr((*nodeComponentArray)[GetNodeComponentTypeID<T>()]);
+			return static_cast<T*>(ptr);
+		}
+		else {
+			auto ptr(componentArray[GetComponentTypeID<T>()]);
+			return static_cast<T*>(ptr);
+		}
+	}
+
 	bool hasComponentByName(const std::string& componentName) {
 		for (auto& component : components) {
 			if (component &&

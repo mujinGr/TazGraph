@@ -58,47 +58,81 @@ void SceneControlPanel::OnImGuiRender()
 		}
 
 		if (ImGui::Button("Create Empty - Sphere")) {
-			auto& empty(config.scene->manager->addEntity<Empty>());
 
-			glm::vec2 position(0, 0);
+			auto id = std::make_shared<EntityID>(0);
 
-			empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+			auto createEmptyCommand = std::make_unique<Command>(
+				"Create Empty Sphere Entity",
+				[this, id]() mutable {
+					auto& empty(config.scene->manager->addEntity<Empty>());
+					*id = empty.getId();
+					glm::vec2 position(0, 0);
+					empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+					empty.addComponent<SphereComponent>();
+					config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
+					empty.addToGroup(Manager::groupSphereEmpties);
+				},
+				[this, id]() {
+					config.scene->manager->getEntityFromId(*id)->destroy();
+				}
+			);
 
-			empty.addComponent<SphereComponent>();
+			config.scene->manager->undoStack.push(std::move(createEmptyCommand));
 
-			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
-			empty.addToGroup(Manager::groupSphereEmpties);
+			config.scene->manager->undoStack.top()->execute();
+
 		}
 
 		if (ImGui::Button("Create Empty - Sphere Wireframe")) {
-			auto& empty(config.scene->manager->addEntity<Empty>());
 
-			glm::vec2 position(0, 0);
 
-			empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+			auto id = std::make_shared<EntityID>(0);
 
-			empty.addComponent<SphereComponent>();
+			auto createEmptyCommand = std::make_unique<Command>(
+				"Create Empty Wireframe Sphere Entity",
+				[this, id]() mutable {
+					auto& empty(config.scene->manager->addEntity<Empty>());
+					*id = empty.getId();
+					glm::vec2 position(0, 0);
+					empty.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+					empty.addComponent<SphereComponent>();
+					config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
+					empty.addToGroup(Manager::groupWireframeSphereEmpties);
+				},
+				[this, id]() {
+					config.scene->manager->getEntityFromId(*id)->destroy();
+				}
+			);
+			config.scene->manager->undoStack.push(std::move(createEmptyCommand));
 
-			config.scene->manager->grid->addEmpty(&empty, config.scene->manager->grid->getGridLevel());
-			empty.addToGroup(Manager::groupWireframeSphereEmpties);
+			config.scene->manager->undoStack.top()->execute();
 		}
 
 		ImGui::Separator();
 
 		if (ImGui::Button("Create Node Entity")) {
-			auto& node(config.scene->manager->addEntity<Node>());
 
-			glm::vec2 position(0, 0);
+			auto id = std::make_shared<EntityID>(0);
 
-			node.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
-			node.addComponent<Rectangle_w_Color>();
-			node.GetComponent<Rectangle_w_Color>().color = TazColor(150, 150, 150, 255);
+			auto createEmptyCommand = std::make_unique<Command>(
+				"Create Node Entity",
+				[this, id]() mutable {
+					auto& node(config.scene->manager->addEntity<Node>());
+					*id = node.getId();
+					glm::vec2 position(0, 0);
+					node.addComponent<TransformComponent>(position, Layer::action, glm::vec3(10.0f), 1);
+					node.addComponent<Rectangle_w_Color>();
+					node.GetComponent<Rectangle_w_Color>().color = TazColor(150, 150, 150, 255);
+					node.GetComponent<TransformComponent>().update(0.0f); // update children positions
 
-			node.GetComponent<TransformComponent>().update(0.0f); // update children positions
+					config.scene->manager->grid->addNode(&node, config.scene->manager->grid->getGridLevel());
+					node.addToGroup(Manager::groupNodes_0);
+				},
+				[this, id]() {
+					config.scene->manager->getEntityFromId(*id)->destroy();
+				}
+			);
 
-
-			config.scene->manager->grid->addNode(&node, config.scene->manager->grid->getGridLevel());
-			node.addToGroup(Manager::groupNodes_0);
 		}
 
 		ImGui::Separator();
