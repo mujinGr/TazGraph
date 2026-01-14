@@ -2,7 +2,7 @@ var searchData=
 [
   ['camera_20_3a_0',['WASD Movement (Perspective Camera):',['../cameraControls.html#autotoc_md3',1,'']]],
   ['camera_20control_20system_1',['Camera Control System',['../cameraControls.html#autotoc_md0',1,'']]],
-  ['camera_20controls_2',['Camera Controls',['../cameraControls.html',1,'']]],
+  ['camera_20controls_2',['Camera Controls',['../cameraControls.html',1,'dev_guide']]],
   ['camera_20movement_20logic_3a_3',['Camera Movement Logic:',['../cameraControls.html#autotoc_md2',1,'']]],
   ['cameramanager_4',['CameraManager',['../classCameraManager.html',1,'']]],
   ['camerapanel_5',['CameraPanel',['../classCameraPanel.html',1,'']]],
@@ -21,7 +21,7 @@ var searchData=
   ['component_18',['Component',['../classComponent.html',1,'']]],
   ['consolelogger_19',['ConsoleLogger',['../classTazGraphEngine_1_1ConsoleLogger.html',1,'TazGraphEngine']]],
   ['control_20system_20',['Camera Control System',['../cameraControls.html#autotoc_md0',1,'']]],
-  ['controls_21',['Camera Controls',['../cameraControls.html',1,'']]],
+  ['controls_21',['Camera Controls',['../cameraControls.html',1,'dev_guide']]],
   ['core_20architecture_3a_22',['Core Architecture:',['../graphEngine.html#autotoc_md5',1,'']]],
   ['custom_20plaintext_20format_23',['.txt (Custom Plaintext Format)',['../fileFormats.html#txtFormat',1,'']]],
   ['custom_20renderers_24',['Custom Renderers',['../renderEngine.html#autotoc_md12',1,'']]],
