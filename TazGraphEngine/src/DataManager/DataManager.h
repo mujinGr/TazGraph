@@ -133,7 +133,10 @@ public:
 	{
 		// Nodes
 
-		for (auto& node : manager.steps[transitionToStep].nodes) {
+		auto stepIt = manager.steps.begin();
+		std::advance(stepIt, transitionToStep);
+
+		for (auto& node : stepIt->nodes) {
 			NodeEntity* t_node = node.first;
 
 			if (t_node->hasComponent<TransformComponent>() &&
@@ -154,8 +157,7 @@ public:
 		}
 
 		// Links
-
-		for (auto& link : manager.steps[transitionToStep].links) {
+		for (auto& link : stepIt->links) {
 			LinkEntity* t_link = link.first;
 
 			if (t_link->hasComponent<Line_w_Color>()) {
@@ -178,10 +180,12 @@ public:
 		}
 
 		// Paths
-		for (size_t i = 0; i < manager.steps[transitionToStep].paths.size(); i++) {
+		for (size_t i = 0; i < stepIt->paths.size(); i++) {
 
-			auto& path = manager.
-				steps[transitionToStep].paths[i];
+			auto stepIt = manager.steps.begin();
+			std::advance(stepIt, transitionToStep);
+
+			auto& path = stepIt->paths[i];
 
 			auto& plc = path.first->GetComponent<PathLinkerComponent>();
 
@@ -235,6 +239,42 @@ public:
 		}
 	}
 
+	void copySimulationStepTo(
+		Manager& manager,
+		sim_dump::UInt32 sourceStepIndex,
+		sim_dump::UInt32 targetStepIndex,
+		double targetTimestamp
+	)
+	{
+		auto src = std::find_if(
+			manager.steps.begin(),
+			manager.steps.end(),
+			[&](const SimulationStep& s) {
+				return s.step_index == sourceStepIndex;
+			}
+		);
+
+		if (src == manager.steps.end()) {
+			TAZ_ERROR("Source SimulationStep not found");
+			return;
+		}
+
+		SimulationStep copied = *src; // deep copy of vectors
+		copied.step_index = targetStepIndex;
+		copied.timestamp = targetTimestamp;
+
+		manager.steps.push_back(std::move(copied));
+	}
+
+
+	void reindexSteps(Manager& manager)
+	{
+		sim_dump::UInt32 idx = 0;
+		for (auto& step : manager.steps) {
+			step.step_index = idx++;
+		}
+	}
+
 	void addSimulationStep(Manager& manager) {
 		SimulationStep new_step = SimulationStep();
 
@@ -242,5 +282,107 @@ public:
 		new_step.timestamp = manager.steps.back().timestamp + 0.01f;
 
 		manager.steps.push_back(new_step);
+
+		reindexSteps(manager);
+	}
+
+
+	void addSimulationStep(Manager& manager, sim_dump::UInt32 step, double timestamp, sim_dump::UInt32 copyStep) {
+		SimulationStep new_step = SimulationStep();
+
+		new_step.step_index = step;
+		new_step.timestamp = timestamp;
+
+		if (step >= manager.steps.size()) {
+			manager.steps.push_back(new_step);
+			return;
+		}
+
+		auto it = manager.steps.begin();
+		std::advance(it, step);
+
+		manager.steps.insert(it, new_step); // there are 2 steps with same index but 
+		//newly insterted is before the other
+
+		reindexSteps(manager);
+	}
+
+	void removeSimulationStep(Manager& manager, sim_dump::UInt32 step) {
+		if (step >= manager.steps.size()) {
+			TAZ_ERROR("SimulationStep to remove not found");
+			return;
+		}
+		auto it = manager.steps.begin();
+		std::advance(it, step);
+
+		manager.steps.erase(it);
+
+		reindexSteps(manager);
+	}
+
+
+	std::string simulationStepToString(const SimulationStep& step)
+	{
+		std::ostringstream out;
+
+		out << "=== Simulation Step ===\n";
+		out << "Index: " << step.step_index << "\n";
+		out << "Timestamp: " << step.timestamp << "\n";
+
+		// ---- Nodes ----
+		out << "Nodes (" << step.nodes.size() << ")\n";
+		for (const auto& [node, simNode] : step.nodes) {
+			out << "  Node ptr: " << node
+				<< " pos: (" << simNode.position.x
+				<< ", " << simNode.position.y
+				<< ", " << simNode.position.z << ")"
+				<< " size: " << simNode.size.value
+				<< "\n";
+		}
+
+		// ---- Links ----
+		out << "Links (" << step.links.size() << ")\n";
+		for (const auto& [link, simLink] : step.links) {
+			out << "  Link ptr: " << link
+				<< " width: " << simLink.width
+				<< "\n";
+		}
+
+		// ---- Paths ----
+		out << "Paths (" << step.paths.size() << ")\n";
+		for (const auto& [pathEntity, simPath] : step.paths) {
+			out << "  Path ptr: " << pathEntity
+				<< " width: " << simPath.width
+				<< " links: ";
+
+			for (EntityID id : simPath.link_ids) {
+				out << EntityIDUtils::toString(id) << " ";
+			}
+			out << "\n";
+		}
+
+		out << "=======================\n";
+
+		return out.str();
+	}
+
+	std::string simulationStepToString(const Manager& manager, int stepIndex)
+	{
+		std::ostringstream out;
+
+		auto it = std::find_if(
+			manager.steps.begin(),
+			manager.steps.end(),
+			[&](const SimulationStep& s) { return s.step_index == stepIndex; }
+		);
+
+		if (it != manager.steps.end()) {
+			out << simulationStepToString(*it);
+		}
+		else {
+			out << "SimulationStep " << stepIndex << " not found.\n";
+		}
+
+		return out.str();
 	}
 };

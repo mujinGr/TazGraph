@@ -27,6 +27,8 @@ void PythonEngineUtil::init(Manager& manager)
 	py::globals()["deleteEntities"] = userapi.attr("deleteEntities");
 	py::globals()["addGroupName"] = userapi.attr("addGroupName");
 	py::globals()["addStep"] = userapi.attr("addStep");
+	py::globals()["removeStep"] = userapi.attr("removeStep");
+	py::globals()["printStep"] = userapi.attr("printStep");
 }
 
 void PythonEngineUtil::init_api(py::module_& m, Manager& manager)
@@ -243,6 +245,24 @@ void PythonEngineUtil::init_api(py::module_& m, Manager& manager)
 
 	m.def("addStep", [&manager]() -> void {
 		DataManager::getInstance().addSimulationStep(manager);
+
+		});
+
+	m.def("addStep", [&manager](sim_dump::UInt32 step, double timestamp, sim_dump::UInt32 copyStep) -> void {
+		DataManager::getInstance().addSimulationStep(manager, step, timestamp, copyStep);
+
+		});
+
+	m.def("removeStep", [&manager](sim_dump::UInt32 step) -> void {
+		DataManager::getInstance().removeSimulationStep(manager, step);
+
+		});
+
+	m.def("printStep", [&manager](int step) -> void {
+		auto text = DataManager::getInstance()
+			.simulationStepToString(manager, step);
+
+		py::print(text);
 
 		});
 }

@@ -16,16 +16,23 @@ void GraphTopBar::update(float deltaTime) {
 
 		// here, get interpolation and manager steps intervals
 		int targetStep = -1;
-		for (size_t i = 0; i < manager->steps.size(); ++i) {
-			if (interpolation >= manager->steps[i].timestamp) {
-				// For the last step, we need to be exactly at or beyond it
-				if (i == manager->steps.size() - 1) {
-					targetStep = static_cast<int>(i);
-					interpolation = manager->steps[i].timestamp; // Clamp to exact value
+		int i = 0;
+		for (auto it = manager->steps.begin(); it != manager->steps.end(); ++it, ++i)
+		{
+			auto nextIt = std::next(it);
+
+			if (interpolation >= it->timestamp)
+			{
+				// Last step
+				if (nextIt == manager->steps.end())
+				{
+					targetStep = i;
+					interpolation = it->timestamp; // clamp
 				}
-				// For other steps, check if we're before the next step
-				else if (interpolation < manager->steps[i + 1].timestamp) {
-					targetStep = static_cast<int>(i);
+				// Between this step and the next one
+				else if (interpolation < nextIt->timestamp)
+				{
+					targetStep = i;
 				}
 			}
 		}
@@ -149,7 +156,11 @@ void GraphTopBar::OnImGuiRender()
 		if (ImGui::ArrowButton("##prev_step", ImGuiDir_Left)) {
 			if (hasSteps && manager->currentStep > 0) {
 				manager->currentStep--;
-				interpolation = manager->steps[manager->currentStep].timestamp;
+
+				auto stepIt = manager->steps.begin();
+				std::advance(stepIt, manager->currentStep);
+
+				interpolation = stepIt->timestamp;
 				DataManager::getInstance().applyStep(*manager, manager->currentStep);
 				interpolation_running = false;
 			}
@@ -163,7 +174,11 @@ void GraphTopBar::OnImGuiRender()
 		if (ImGui::ArrowButton("##next_step", ImGuiDir_Right)) {
 			if (hasSteps && manager->currentStep < manager->steps.size() - 1) {
 				manager->currentStep++;
-				interpolation = manager->steps[manager->currentStep].timestamp;
+
+				auto stepIt = manager->steps.begin();
+				std::advance(stepIt, manager->currentStep);
+
+				interpolation = stepIt->timestamp;
 				DataManager::getInstance().applyStep(*manager, manager->currentStep);
 				interpolation_running = false;
 			}

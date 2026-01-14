@@ -44,7 +44,7 @@ private:
 	bool _update_active_entities = false;
 public:
 	// Simdump
-	std::vector<SimulationStep> steps;
+	std::list<SimulationStep> steps;
 	int currentStep = 0;
 
 	// Command Pattern
