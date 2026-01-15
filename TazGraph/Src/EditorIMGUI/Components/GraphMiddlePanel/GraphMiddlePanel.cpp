@@ -30,13 +30,13 @@ void GraphMiddlePanel::OnImGuiRender()
 			}
 		}
 	}
-	else if (activeManagerKey != config.scene->managerName && !config.scene->managerName.empty()) {
-		// TazNormal tab switching (no closure)
-		auto managerIt = config.scene->managers.find(config.scene->managerName);
-		if (managerIt != config.scene->managers.end()) {
-			config.scene->setManager(config.scene->managerName);
-		}
-	}
+	//!else if (activeManagerKey != config.scene->managerName && !config.scene->managerName.empty()) {
+	//!	// TazNormal tab switching (no closure)
+	//!	auto managerIt = config.scene->managers.find(config.scene->managerName);
+	//!	if (managerIt != config.scene->managers.end()) {
+	//!		config.scene->setManager(config.scene->managerName);
+	//!	}
+	//!}
 	bool childActive = ImGui::BeginChild("Viewport");
 	if (childActive) {
 
@@ -49,7 +49,7 @@ void GraphMiddlePanel::OnImGuiRender()
 			.currPos = config.currPos,
 			});
 		getSubcomponent<ViewportPanel>()->OnImGuiRender();
-		
+
 		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 		Manager* man = config.scene->manager;

@@ -401,7 +401,7 @@ public:
 			entities.emplace(e->getId(), std::move(uPtr));
 		}
 
-		e->onCreation();
+		e->onCreation(); //? dont change its position, huge loading times
 
 		aboutTo_updateActiveEntities();
 

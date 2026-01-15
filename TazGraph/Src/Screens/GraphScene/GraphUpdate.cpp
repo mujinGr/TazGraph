@@ -12,7 +12,7 @@ void Graph::update(float deltaTime) //game objects updating
 			!mapName.empty()) &&
 		setManager(mapName)
 		) {
-		manager->resetEntityId();
+		editingManager->resetEntityId();
 
 		map->loadMap(
 			DataManager::getInstance().mapToLoad.c_str(),
@@ -24,7 +24,15 @@ void Graph::update(float deltaTime) //game objects updating
 		DataManager::getInstance().mapToLoad = "";
 		_selectedEntities.clear();
 
-		peu.init(*manager);
+		peu.init(*editingManager);
+
+		int readIndex = getApp()->activeIndex.load();
+
+		getApp()->queues[readIndex].Wait();
+
+		std::swap(manager, editingManager);
+
+		editingManager = nullptr;
 	}
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));

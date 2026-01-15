@@ -14,7 +14,13 @@ void LoadingUI::OnImGuiRender()
 
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize;
 	bool open = true;
-	ImGui::Begin("Loading...", &open, window_flags);
+
+	if (!ImGui::IsPopupOpen("Loading...")) {
+		ImGui::OpenPopup("Loading...");
+	}
+
+
+	ImGui::BeginPopupModal("Loading...", &open, window_flags);
 
 	DataManager::getInstance().ReloadAccessibleFiles();
 
@@ -80,5 +86,5 @@ void LoadingUI::OnImGuiRender()
 		DataManager::getInstance().loading = false;
 	}
 
-	ImGui::End();
+	ImGui::EndPopup();
 }

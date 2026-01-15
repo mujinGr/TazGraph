@@ -175,23 +175,23 @@ bool Graph::setManager(std::string m_managerName)
 	}
 
 	IScene::setManager(m_managerName);
-	manager->setThreader(_app->threadPool);
+	editingManager->setThreader(_app->threadPool);
 
-	if (!manager->grid)
+	if (!editingManager->grid)
 	{
-		manager->grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
-		manager->setComponentNames();
+		editingManager->grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
+		editingManager->setComponentNames();
 	}
 
 	if (!map) {
-		Graph::map = new Map(*manager, 1, 32);
+		Graph::map = new Map(*editingManager, 1, 32);
 	}
-	map->manager = manager;
+	map->manager = editingManager;
 
 	main_camera2D->makeCameraDirty();
 	minimap_camera2D->makeCameraDirty();
 
-	manager->aboutTo_updateActiveEntities();
+	editingManager->aboutTo_updateActiveEntities();
 
 	return managerIsNew;
 }

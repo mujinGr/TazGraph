@@ -182,7 +182,7 @@ void SimDumpMapParser::createSteps(
 	int i = 0;
 
 	for (auto it = reader.get_node_iterator(); it != reader.get_node_end(); ++it) {
-		auto& node = manager.addEntityWithId<Node>(i);
+		auto& node(manager.addEntityWithId<Node>(i));
 		node.addToGroup(Manager::groupNodes_0);
 		DataManager::getInstance().mapSimToGraphNodes[it->data.id] = &node;
 		i++;

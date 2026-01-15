@@ -5,11 +5,6 @@ void GraphEditorLayer::OnImGuiRender()
 	Manager* manager = config.scene->manager;
 	glm::vec2 viewportMousePos = config.viewportMousePosition;
 
-	if (!manager->grid)
-	{
-		return;
-	}
-
 	ImGuiViewport* window = ImGui::GetMainViewport();
 	ImGui::SetNextWindowPos(window->Pos);
 	ImGui::SetNextWindowSize(window->Size);

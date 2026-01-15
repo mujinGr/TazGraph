@@ -76,7 +76,7 @@ public:
 			if (it == managers.end()) {
 				managers[m_managerName] = new Manager();
 			}
-			manager = managers[m_managerName];
+			editingManager = managers[m_managerName];
 			managerName = m_managerName;
 		}
 		return false;
@@ -85,7 +85,9 @@ public:
 	std::unordered_map<std::string, Manager*> managers = {
 	};
 
+	Manager* editingManager = nullptr;    // Currently active (render thread uses this)
 	Manager* manager = nullptr;
+
 	std::string managerName = "";
 
 	bool last_renderDebug = false;
