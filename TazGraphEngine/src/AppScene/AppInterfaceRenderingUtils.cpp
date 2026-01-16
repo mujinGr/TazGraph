@@ -164,7 +164,7 @@ void AppInterface::drawPlaneColorBatch(
 		) {
 		glEnable(GL_POLYGON_OFFSET_FILL);
 		glPolygonOffset(0.0f, -1.0f);
-		lineRenderer.endBatch(batch);
+		planeColorRenderer.endBatch(batch);
 		glDisable(GL_POLYGON_OFFSET_FILL);
 	}
 	else {

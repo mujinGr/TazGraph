@@ -122,8 +122,11 @@ void AssetManager::createGroupLayout(Manager* manager, Grid::Level m_level) {
 		// remove all links
 		for (const auto& childCell : cell->children) {
 			for (auto& linkId : childCell->links) {
+				if (std::holds_alternative<int>(linkId) &&
+					std::get<int>(linkId) < 0) {// exclude grid lines
+					continue;
+				}
 				auto entity = manager->getEntityFromId(linkId);
-
 				entity->hide();
 			}
 		}

@@ -705,23 +705,28 @@ void Graph::checkInput() {
 
 					auto id = _selectedEntities.back().realEntityId;
 					Entity* entity = manager->getEntityFromId(id);
+						
+					if (dynamic_cast<NodeEntity*>(entity) ||
+						dynamic_cast<EmptyEntity*>(entity))
+					{
 
-					TransformComponent tr = entity->GetComponent<TransformComponent>();
+						TransformComponent tr = entity->GetComponent<TransformComponent>();
 
-					auto moveEntityCommand = std::make_unique<Command>(
-						"moveEntityCommand",
-						[this, id, tr]() mutable {
-						},
-						[this, id, tr]() {
-							Entity* entity = manager->getEntityFromId(id);
-							*entity->GetComponentPtr<TransformComponent>() = tr;
+						auto moveEntityCommand = std::make_unique<Command>(
+							"moveEntityCommand",
+							[this, id, tr]() mutable {
+							},
+							[this, id, tr]() {
+								Entity* entity = manager->getEntityFromId(id);
+								*entity->GetComponentPtr<TransformComponent>() = tr;
 
-						}
-					);
+							}
+						);
 
-					manager->undoStack.push(std::move(moveEntityCommand));
+						manager->undoStack.push(std::move(moveEntityCommand));
 
-					manager->undoStack.top()->execute();
+						manager->undoStack.top()->execute();
+					}
 				}
 
 			}
@@ -733,23 +738,27 @@ void Graph::checkInput() {
 					auto id = _selectedEntities.back().realEntityId;
 					Entity* entity = manager->getEntityFromId(id);
 
-					TransformComponent tr = entity->GetComponent<TransformComponent>();
+					if (dynamic_cast<NodeEntity*>(entity) ||
+						dynamic_cast<EmptyEntity*>(entity))
+					{
+						TransformComponent tr = entity->GetComponent<TransformComponent>();
 
-					auto moveEntityCommand = std::make_unique<Command>(
-						"moveEntityCommand",
-						[this, id, tr]() mutable {
-						},
-						[this, id, tr]() {
-							Entity* entity = manager->getEntityFromId(id);
-							*entity->GetComponentPtr<TransformComponent>() = tr;
+						auto moveEntityCommand = std::make_unique<Command>(
+							"moveEntityCommand",
+							[this, id, tr]() mutable {
+							},
+							[this, id, tr]() {
+								Entity* entity = manager->getEntityFromId(id);
+								*entity->GetComponentPtr<TransformComponent>() = tr;
 
-						}
+							}
 
-					);
+						);
 
-					manager->undoStack.push(std::move(moveEntityCommand));
+						manager->undoStack.push(std::move(moveEntityCommand));
 
-					manager->undoStack.top()->execute();
+						manager->undoStack.top()->execute();
+					}
 				}
 
 			}
