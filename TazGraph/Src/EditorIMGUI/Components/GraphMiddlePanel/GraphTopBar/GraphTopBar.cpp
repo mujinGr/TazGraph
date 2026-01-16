@@ -78,9 +78,12 @@ void GraphTopBar::OnImGuiRender()
 				bool open = true;
 
 				if (ImGui::BeginTabItem(name.c_str(), &open, ImGuiTabItemFlags_None)) {
-					if (name.c_str() != DataManager::getInstance().getMapToLoad()) {
+					if (activeTabs_no == config.scene->managers.size() && // if there is no change in tabs then we can change them
+						name != DataManager::getInstance().getMapToLoad())
+					{
 						DataManager::getInstance().setMapToLoad(name);
 					}
+					activeTabs_no = config.scene->managers.size();
 					ImGui::EndTabItem();
 				}
 				if (!open) {

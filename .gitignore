@@ -24,3 +24,4 @@ build/
 
 TazGraph/imgui.ini
 TazGraph/assets/Maps/*.simdmp
+TazGraph/file_log.txt

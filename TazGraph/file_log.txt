@@ -20,11 +20,10 @@ arial     317
 arial     60
 Font added: arial from assets/Fonts/arial.ttf size 14.000000
 Font added: bold from assets/Fonts/Figerona-VF.ttf size 16.000000
-380.000000 328.495575
-378.750000 310.875122
-342.916656 397.718781
-394.583344 343.598816
-398.333344 339.193695
+394.583344 325.349060
+397.916656 306.470001
+349.583344 402.123901
+395.416656 337.935089
 Waiting for render command...
 Executing init command
 Subsystems Initialised...
@@ -56,6 +55,7 @@ sauronEye     1200
 sauronEye     1200
 600
 sauronEye     600
+Current Working Directory: "C:\\Users\\lefte\\Mujin\\MastersThesis\\Taz\\TazGraph\\TazGraph"
 Current Working Directory: "C:\\Users\\lefte\\Mujin\\MastersThesis\\Taz\\TazGraph\\TazGraph"
 Current Working Directory: "C:\\Users\\lefte\\Mujin\\MastersThesis\\Taz\\TazGraph\\TazGraph"
 Current Working Directory: "C:\\Users\\lefte\\Mujin\\MastersThesis\\Taz\\TazGraph\\TazGraph"
