@@ -4,7 +4,7 @@
 */
 
 #include "Graph.h"
-#include "../../Map/Map.h"
+#include "../../Map/GraphLoader.h"
 
 
 #undef main
@@ -183,10 +183,10 @@ bool Graph::setManager(std::string m_managerName)
 		editingManager->setComponentNames();
 	}
 
-	if (!map) {
-		Graph::map = new Map(*editingManager, 1, 32);
+	if (!graphLoader) {
+		Graph::graphLoader = new GraphLoader(*editingManager, 1, 32);
 	}
-	map->manager = editingManager;
+	graphLoader->manager = editingManager;
 
 	main_camera2D->makeCameraDirty();
 	minimap_camera2D->makeCameraDirty();

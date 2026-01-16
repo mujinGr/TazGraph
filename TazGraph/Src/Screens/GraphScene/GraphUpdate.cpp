@@ -4,31 +4,37 @@ void Graph::update(float deltaTime) //game objects updating
 {
 	ZoneScopedN("Graph-Update");
 
-	std::string mapName = DataManager::getInstance().mapToLoad;
 
 	// on Graph Load / Graph Change
 	if (
-		(!manager ||
-			!mapName.empty()) &&
-		setManager(mapName)
-		) {
-		editingManager->resetEntityId();
+		(!manager || // manager is null for first time loading
+			DataManager::getInstance().getManagerChangeRequested())
+		)
+	{
+		int readIndex = getApp()->activeIndex.load();
 
-		map->loadMap(
-			DataManager::getInstance().mapToLoad.c_str(),
-			std::bind(&AssetManager::AddDefaultNode, std::placeholders::_1, std::placeholders::_2),
-			std::bind(&AssetManager::AddDefaultLink, std::placeholders::_1),
-			&_app->threadPool
-		);
+		getApp()->queues[readIndex].Wait();
+
+		std::string mapName = DataManager::getInstance().getMapToLoad();
+		DataManager::getInstance().setManagerChangeRequested(false);
+
+		if (setManager(mapName))
+		{
+			editingManager->resetEntityId();
+
+			graphLoader->loadMap(
+				DataManager::getInstance().getMapToLoad().c_str(),
+				std::bind(&AssetManager::AddDefaultNode, std::placeholders::_1, std::placeholders::_2),
+				std::bind(&AssetManager::AddDefaultLink, std::placeholders::_1),
+				&_app->threadPool
+			);
+		}
+
 		last_showGrid = false;
-		DataManager::getInstance().mapToLoad = "";
 		_selectedEntities.clear();
 
 		peu.init(*editingManager);
 
-		int readIndex = getApp()->activeIndex.load();
-
-		getApp()->queues[readIndex].Wait();
 
 		std::swap(manager, editingManager);
 

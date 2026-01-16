@@ -19,12 +19,12 @@
 #include <random>
 #include <ctime>
 
-class Map
+class GraphLoader
 {
 public:
 
-	Map(Manager& m_manager, int ms, int ns);
-	~Map();
+	GraphLoader(Manager& m_manager, int ms, int ns);
+	~GraphLoader();
 
 	void saveMap(const char* fileName);
 

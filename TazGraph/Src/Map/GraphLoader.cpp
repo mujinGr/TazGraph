@@ -1,4 +1,4 @@
-#include "Map.h"
+#include "GraphLoader.h"
 
 #include "TazGraphEngine.h"
 
@@ -7,22 +7,22 @@
 #include <limits>
 
 
-Map::Map(Manager& m_manager, int ms, int ns) : manager(&m_manager), mapScale(ms), nodeSize(ns) //probably initiallization
+GraphLoader::GraphLoader(Manager& m_manager, int ms, int ns) : manager(&m_manager), mapScale(ms), nodeSize(ns) //probably initiallization
 {
 	scaledSize = ms * ns;
 }
 
-Map::~Map()
+GraphLoader::~GraphLoader()
 {
 
 }
 
 
-void Map::saveMap(const char* fileName) {
+void GraphLoader::saveMap(const char* fileName) {
 
 	std::string text = "assets/Maps/" + std::string(fileName);
 
-	std::unique_ptr<IMapParser> processor;
+	std::unique_ptr<IGraphParser> processor;
 	if (text.find(".py") != std::string::npos) {
 		processor = std::make_unique<PythonMapParser>();
 	}
@@ -47,7 +47,7 @@ void Map::saveMap(const char* fileName) {
 }
 
 
-void Map::loadMap(
+void GraphLoader::loadMap(
 	const char* fileName,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
 	std::function<void(Entity&)> addLinkFunc,
@@ -60,7 +60,7 @@ void Map::loadMap(
 		filePath = "assets/Maps/" + filePath;
 	}
 
-	std::unique_ptr<IMapParser> processor;
+	std::unique_ptr<IGraphParser> processor;
 	if (filePath.find(".py") != std::string::npos) {
 		processor = std::make_unique<PythonMapParser>();
 	}
@@ -100,7 +100,7 @@ void Map::loadMap(
 
 }
 
-void Map::loadPaths(
+void GraphLoader::loadPaths(
 	const char* fileName,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
 	std::function<void(Entity&)> addLinkFunc,
@@ -108,7 +108,7 @@ void Map::loadPaths(
 ) {
 	std::string text = "assets/Paths/" + std::string(fileName);
 
-	std::unique_ptr<IMapParser> processor;
+	std::unique_ptr<IGraphParser> processor;
 
 	processor = std::make_unique<TextPathParser>();
 

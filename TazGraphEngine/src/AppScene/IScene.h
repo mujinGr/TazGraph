@@ -77,7 +77,6 @@ public:
 				managers[m_managerName] = new Manager();
 			}
 			editingManager = managers[m_managerName];
-			managerName = m_managerName;
 		}
 		return false;
 	};
@@ -87,8 +86,6 @@ public:
 
 	Manager* editingManager = nullptr;    // Currently active (render thread uses this)
 	Manager* manager = nullptr;
-
-	std::string managerName = "";
 
 	bool last_renderDebug = false;
 	bool renderDebug = false;

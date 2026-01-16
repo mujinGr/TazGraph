@@ -78,8 +78,8 @@ void GraphTopBar::OnImGuiRender()
 				bool open = true;
 
 				if (ImGui::BeginTabItem(name.c_str(), &open, ImGuiTabItemFlags_None)) {
-					if (!config.scene->managerName.empty()) {
-						config.scene->managerName = name;
+					if (name.c_str() != DataManager::getInstance().getMapToLoad()) {
+						DataManager::getInstance().setMapToLoad(name);
 					}
 					ImGui::EndTabItem();
 				}
@@ -87,18 +87,22 @@ void GraphTopBar::OnImGuiRender()
 					tabToClose = name;
 
 					// If we're closing the currently active tab, switch to another one
-					if (!config.scene->managerName.empty() && config.scene->managerName.compare(name) == 0 && config.scene->managers.size() > 1) {
+					if (!DataManager::getInstance().getMapToLoad().empty() &&
+						DataManager::getInstance().getMapToLoad().compare(name) == 0 &&
+						config.scene->managers.size() > 1)
+					{
 						// Find a different tab to make active
 						for (const std::string& tabName : openTabs) {
 							if (tabName != name) {
-								config.scene->managerName = tabName;
+								DataManager::getInstance().setMapToLoad(tabName);
 								break;
 							}
 						}
 					}
-					else if (!config.scene->managerName.empty() && config.scene->managers.size() == 1) {
+					else if (!DataManager::getInstance().getMapToLoad().empty() &&
+						config.scene->managers.size() == 1) {
 						// If this is the last tab, clear the current active
-						config.scene->managerName.clear();
+						DataManager::getInstance().setMapToLoad("");
 					}
 				}
 			}

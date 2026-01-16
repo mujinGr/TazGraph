@@ -1,9 +1,9 @@
 #pragma once
-#include "../IMapParser.h"
+#include "../IGraphParser.h"
 
 #include <simdump/include/sim_dump/filereader.h>
 
-class SimDumpPathParser : public IMapParser {
+class SimDumpPathParser : public IGraphParser {
 public:
 	SimDumpPathParser();
 	void readFile(std::string m_fileName) override;

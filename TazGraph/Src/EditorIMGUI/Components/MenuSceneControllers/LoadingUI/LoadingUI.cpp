@@ -80,7 +80,7 @@ void LoadingUI::OnImGuiRender()
 #endif
 
 		// Store the full path somewhere if you use it for loading
-		DataManager::getInstance().mapToLoad = selectedPath;
+		DataManager::getInstance().setMapToLoad(selectedPath);
 
 		// Optional: automatically close loading UI
 		DataManager::getInstance().loading = false;

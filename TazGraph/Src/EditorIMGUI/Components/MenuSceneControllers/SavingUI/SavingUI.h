@@ -2,10 +2,10 @@
 
 
 #include "../../../UIElement.h"
-#include "../../../../Map/Map.h"
+#include "../../../../Map/GraphLoader.h"
 
 struct SavingUIConfig {
-	Map* c_map;
+	GraphLoader* c_map;
 };
 
 class SavingUI : public UIElement

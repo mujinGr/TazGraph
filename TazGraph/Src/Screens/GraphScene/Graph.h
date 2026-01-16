@@ -60,7 +60,7 @@ public:
 	virtual void EndRender() override;
 
 
-	Map* map = nullptr;
+	GraphLoader* graphLoader = nullptr;
 	//std::unique_ptr<Grid> grid;
 
 private:

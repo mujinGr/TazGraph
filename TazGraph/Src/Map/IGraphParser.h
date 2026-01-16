@@ -28,9 +28,9 @@ struct DetailParsedLink {
 };
 
 
-class IMapParser {
+class IGraphParser {
 public:
-	virtual ~IMapParser() = default;
+	virtual ~IGraphParser() = default;
 
 	virtual void readFile(std::string m_fileName) = 0;
 

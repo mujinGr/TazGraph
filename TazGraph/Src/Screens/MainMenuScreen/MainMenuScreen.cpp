@@ -245,13 +245,13 @@ void MainMenuScreen::drawUI() {
 		_mainMenuLayer.getSubcomponent<LoadingUI>()->OnImGuiRender();
 		char* loadMapPath = DataManager::getInstance().data.input;
 		if (strlen(loadMapPath) && !DataManager::getInstance().isLoading()) {
-			DataManager::getInstance().mapToLoad = loadMapPath;
+			DataManager::getInstance().setMapToLoad(loadMapPath);
 			_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 			currentState = SceneState::CHANGE_NEXT;
 		}
 	}
 	if (!getApp()->openFile.empty()) {
-		DataManager::getInstance().mapToLoad = getApp()->openFile;
+		DataManager::getInstance().setMapToLoad(getApp()->openFile);
 		_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 		currentState = SceneState::CHANGE_NEXT;
 	}

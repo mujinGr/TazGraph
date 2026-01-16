@@ -21,6 +21,10 @@ namespace Taz {
 
 
 class DataManager {
+private:
+	std::string requestedMap;
+	std::atomic<bool> managerChangeRequested{ false };
+
 public:
 	// Gets the single instance of CameraManager (singleton)
 	static DataManager& getInstance() {
@@ -33,7 +37,6 @@ public:
 	ImGui::ComboAutoSelectData data;
 	ImGui::ComboAutoSelectData pathData;
 
-	std::string mapToLoad;
 
 	std::vector<std::string> fileNames;
 	std::vector<std::string> pollingFileNames;
@@ -51,6 +54,25 @@ public:
 	std::map<int, NodeEntity*> mapSimToGraphNodes;
 	std::map<int, LinkEntity*> mapSimToGraphLinks;
 	std::map<int, EmptyEntity*> mapSimToGraphPaths;
+
+	void setMapToLoad(const std::string& name) {
+		if (managerChangeRequested.load() == true) return;
+
+		requestedMap = name;
+		managerChangeRequested.store(true);
+	}
+
+	std::string getMapToLoad() {
+		return requestedMap;
+	}
+
+	bool getManagerChangeRequested() {
+		return managerChangeRequested.load();
+	}
+
+	void setManagerChangeRequested(bool m_request) {
+		managerChangeRequested.store(m_request);
+	}
 
 	void setPathLoading(bool loading)
 	{

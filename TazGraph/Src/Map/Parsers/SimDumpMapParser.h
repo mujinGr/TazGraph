@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../IMapParser.h"
+#include "../IGraphParser.h"
 #include "simdump/include/sim_dump/filereader.h"
 #include "simdump/include/sim_dump/filewriter.h"
 
@@ -8,7 +8,7 @@
 
 using namespace sim_dump;
 
-class SimDumpMapParser : public IMapParser {
+class SimDumpMapParser : public IGraphParser {
 public:
 	SimDumpMapParser();
 	void readFile(std::string m_fileName) override;
