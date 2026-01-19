@@ -101,7 +101,6 @@ public:
 
 	Taz::FrameRenderData frameDataBuffers[2];
 	Taz::FrameRenderData minimap_frameDataBuffers[2];
-	std::atomic<int> activeFrameIndex = 0;
 
 protected:
 	AppInterface* _app = nullptr;

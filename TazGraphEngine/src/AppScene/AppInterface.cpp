@@ -103,13 +103,15 @@ void AppInterface::run() {
 
 			prepareDraw();
 
+			int writeIndex = 1 - activeIndex.load();
+			activeIndex.store(writeIndex);
 
 		}
 		if (_isRunning) {
 			// Get the write index (opposite of active)
-			int writeIndex = 1 - activeIndex.load();
+			int readIndex = activeIndex.load();
 
-			queues[writeIndex].Submit([this]() {
+			queues[readIndex].Submit([this]() {
 				// Process ImGui events on render thread
 				{
 					std::lock_guard<std::mutex> lock(imguiEventsMutex);
@@ -119,14 +121,12 @@ void AppInterface::run() {
 				}
 				renderDraw();
 				});
-			queues[writeIndex].Submit([this]() {
+			queues[readIndex].Submit([this]() {
 				drawUI();  // This calls ImGui rendering - MUST be on render thread
 				});
-			queues[writeIndex].Submit([this]() {
+			queues[readIndex].Submit([this]() {
 				swapBuffer();  // This calls ImGui rendering - MUST be on render thread
 				});
-			// Swap buffers - make write buffer active
-			activeIndex.store(writeIndex);
 
 			// Signal frame ready
 			{

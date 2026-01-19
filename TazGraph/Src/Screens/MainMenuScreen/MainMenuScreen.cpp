@@ -129,7 +129,7 @@ void MainMenuScreen::update(float deltaTime)
 void MainMenuScreen::prepareDraw()
 {
 
-	int writeIndex = 1 - activeFrameIndex.load();
+	int writeIndex = 1 - getApp()->activeIndex.load();
 
 	auto& frameData = frameDataBuffers[writeIndex];
 
@@ -167,13 +167,12 @@ void MainMenuScreen::prepareDraw()
 		}
 	}
 
-	activeFrameIndex.store(writeIndex);
 }
 
 void MainMenuScreen::renderDraw()
 {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
-	int readIndex = activeFrameIndex.load();
+	int readIndex = getApp()->activeIndex.load();
 	auto& frameData = frameDataBuffers[readIndex];
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

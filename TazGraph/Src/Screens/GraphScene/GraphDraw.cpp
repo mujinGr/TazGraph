@@ -22,8 +22,7 @@ void Graph::prepareDraw()
 	glm::vec3 cameraAimPos = main_camera2D->getAimPos();
 	glm::vec3 directionToCamera = glm::normalize(cameraAimPos - main_camera2D->eyePos);
 	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
-	int writeIndex = 1 - activeFrameIndex.load();
-
+	int writeIndex = 1 - getApp()->activeIndex.load();
 	auto& frameData = frameDataBuffers[writeIndex];
 
 	rotationMatrix = getRotationMatrix(cameraEulerAngles);
@@ -466,14 +465,13 @@ void Graph::prepareDraw()
 			getApp()->prepareBatch(batch);
 		}
 	}
-	activeFrameIndex.store(writeIndex);
 }
 
 void Graph::renderDraw()
 {
 	ZoneScopedN("Graph-RenderDraw");
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
-	int readIndex = activeFrameIndex.load();
+	int readIndex = getApp()->activeIndex.load();
 	auto& frameData = frameDataBuffers[readIndex];
 
 	Framebuffer::SetMultisample(_viewportFramebuffer._multisampleEnabled);
@@ -514,7 +512,7 @@ void Graph::renderDraw()
 
 
 void Graph::minimapPrepareDraw() {
-	int writeIndex = 1 - activeFrameIndex.load();
+	int writeIndex = 1 - getApp()->activeIndex.load();
 
 	auto& minimap_frameData = minimap_frameDataBuffers[writeIndex];
 
@@ -575,7 +573,7 @@ void Graph::minimapPrepareDraw() {
 }
 
 void Graph::minimapRenderDraw() {
-	int readIndex = activeFrameIndex.load();
+	int readIndex = getApp()->activeIndex.load();
 	auto& minimap_frameData = minimap_frameDataBuffers[readIndex];
 
 	std::shared_ptr<OrthoCamera> minimap_camera2D =
