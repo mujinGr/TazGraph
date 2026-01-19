@@ -103,6 +103,7 @@ void AppInterface::run() {
 
 			prepareDraw();
 
+			// Make builded frame ready
 			int writeIndex = 1 - activeIndex.load();
 			activeIndex.store(writeIndex);
 

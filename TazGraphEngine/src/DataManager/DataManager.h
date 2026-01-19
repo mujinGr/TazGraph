@@ -261,11 +261,9 @@ public:
 		}
 	}
 
-	void copySimulationStepTo(
+	SimulationStep deepCopySimulationStepTo(
 		Manager& manager,
-		sim_dump::UInt32 sourceStepIndex,
-		sim_dump::UInt32 targetStepIndex,
-		double targetTimestamp
+		sim_dump::UInt32 sourceStepIndex
 	)
 	{
 		auto src = std::find_if(
@@ -278,14 +276,12 @@ public:
 
 		if (src == manager.steps.end()) {
 			TAZ_ERROR("Source SimulationStep not found");
-			return;
+			return SimulationStep();
 		}
 
-		SimulationStep copied = *src; // deep copy of vectors
-		copied.step_index = targetStepIndex;
-		copied.timestamp = targetTimestamp;
+		SimulationStep copied = SimulationStep(*src); // deep copy of vectors
 
-		manager.steps.push_back(std::move(copied));
+		return copied;
 	}
 
 
@@ -310,7 +306,14 @@ public:
 
 
 	void addSimulationStep(Manager& manager, sim_dump::UInt32 step, double timestamp, sim_dump::UInt32 copyStep) {
-		SimulationStep new_step = SimulationStep();
+		SimulationStep new_step;
+
+		if (copyStep != -1) {
+			new_step = deepCopySimulationStepTo(manager, copyStep);
+		}
+		else {
+			new_step = SimulationStep();
+		}
 
 		new_step.step_index = step;
 		new_step.timestamp = timestamp;

@@ -248,7 +248,7 @@ void PythonEngineUtil::init_api(py::module_& m, Manager& manager)
 
 		});
 
-	m.def("addStep", [&manager](sim_dump::UInt32 step, double timestamp, sim_dump::UInt32 copyStep) -> void {
+	m.def("addStep", [&manager](sim_dump::UInt32 step, double timestamp, sim_dump::UInt32 copyStep = -1) -> void {
 		DataManager::getInstance().addSimulationStep(manager, step, timestamp, copyStep);
 
 		});
