@@ -29,6 +29,7 @@
 #include <type_traits>
 #include <sstream>
 #include <unordered_set>
+#include <list>
 // SDL
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_image.h>
