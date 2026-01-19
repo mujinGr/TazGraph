@@ -41,11 +41,13 @@ void Graph::update(float deltaTime) //game objects updating
 		editingManager = nullptr;
 	}
 
+	if (graphLoader) // could be empty when new graph
+		graphLoader->update(deltaTime);
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
 
-	graphLoader->update(deltaTime);
 
 	main_camera2D->update();
 	hud_camera2D->update();
@@ -327,6 +329,9 @@ void Graph::update(float deltaTime) //game objects updating
 
 	if (!last_showGrid && showGrid) {
 		last_showGrid = showGrid;
+
+		manager->removeAllEntitiesFromLinkGroup(Manager::groupGridLinks);
+
 		for (int i = 0; i <= AXIS_CELLS; i++) {
 			// Vertical lines (constant X, varying Y)
 			glm::vec3 startV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), -AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);

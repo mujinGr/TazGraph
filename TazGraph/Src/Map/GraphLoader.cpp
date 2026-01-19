@@ -118,7 +118,9 @@ void GraphLoader::loadPaths(
 
 void GraphLoader::update(float deltaTime)
 {
-	processor->elapsedDelta += deltaTime;
-	processor->update(deltaTime);
+	if (processor) {
+		processor->elapsedDelta += deltaTime;
+		processor->update(deltaTime);
+	}
 }
 

@@ -13,14 +13,20 @@ void LoadingUI::OnImGuiRender()
 	ImGui::SetNextWindowSize(windowSize);
 
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize;
-	bool open = true;
+	bool open = DataManager::getInstance().loading;
 
 	if (!ImGui::IsPopupOpen("Loading...")) {
 		ImGui::OpenPopup("Loading...");
 	}
 
-
 	ImGui::BeginPopupModal("Loading...", &open, window_flags);
+
+	if (!open) {
+		std::memset(DataManager::getInstance().data.input, 0, sizeof(DataManager::getInstance().data.input));
+		DataManager::getInstance().loading = false;
+		ImGui::CloseCurrentPopup();
+		return;
+	}
 
 	DataManager::getInstance().ReloadAccessibleFiles();
 
@@ -45,10 +51,6 @@ void LoadingUI::OnImGuiRender()
 		DataManager::getInstance().loading = false;
 	}
 
-	if (!open) {
-		std::memset(DataManager::getInstance().data.input, 0, sizeof(DataManager::getInstance().data.input));
-		DataManager::getInstance().loading = false;
-	}
 
 	// Render the file browser window
 	fileDialog.Display();
