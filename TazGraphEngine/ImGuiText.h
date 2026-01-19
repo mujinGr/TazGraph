@@ -13,8 +13,8 @@ namespace TazGraphEngine {
 		glm::mat4 view = camera->getViewMatrix();
 		glm::mat4 proj = camera->getProjMatrix();
 
-		ImVec2 pos = ImGui::GetCursorScreenPos();
-		ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+		ImVec2 pos = ImGui::GetWindowPos();
+		ImVec2 viewportSize = ImGui::GetWindowSize();
 
 
 		// Convert world to clip space
