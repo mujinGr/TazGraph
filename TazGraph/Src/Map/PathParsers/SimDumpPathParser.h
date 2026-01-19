@@ -25,4 +25,6 @@ public:
 
 	void closeFile() override;
 
+	void update(float deltaTime) override;
+
 };

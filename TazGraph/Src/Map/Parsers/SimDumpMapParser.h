@@ -23,6 +23,8 @@ public:
 
 	void closeFile() override;
 
+	void update(float deltaTime) override;
+
 private:
 	void createSteps(sim_dump::FileReader& reader, Manager& manager,
 		std::function<void(Entity&, glm::vec3)> addNodeFunc,

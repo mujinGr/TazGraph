@@ -20,6 +20,10 @@ void PythonMapParser::closeFile() {
 	file.close();
 }
 
+void PythonMapParser::update(float deltaTime)
+{
+}
+
 void PythonMapParser::parse(Manager& manager,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
 	std::function<void(Entity&)> addLinkFunc)

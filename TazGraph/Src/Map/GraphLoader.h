@@ -37,8 +37,12 @@ public:
 
 	void loadPaths(const char* fileName, std::function<void(Entity&, glm::vec3)> addNodeFunc, std::function<void(Entity&)> addLinkFunc, Threader* m_threadPool);
 
+	void update(float deltaTime);
+
 	Manager* manager;
 private:
+	std::unique_ptr<IGraphParser> processor;
+
 	int mapScale;
 	int nodeSize;
 	int scaledSize;

@@ -22,7 +22,6 @@ void GraphLoader::saveMap(const char* fileName) {
 
 	std::string text = "assets/Maps/" + std::string(fileName);
 
-	std::unique_ptr<IGraphParser> processor;
 	if (text.find(".py") != std::string::npos) {
 		processor = std::make_unique<PythonMapParser>();
 	}
@@ -60,7 +59,6 @@ void GraphLoader::loadMap(
 		filePath = "assets/Maps/" + filePath;
 	}
 
-	std::unique_ptr<IGraphParser> processor;
 	if (filePath.find(".py") != std::string::npos) {
 		processor = std::make_unique<PythonMapParser>();
 	}
@@ -108,13 +106,19 @@ void GraphLoader::loadPaths(
 ) {
 	std::string text = "assets/Paths/" + std::string(fileName);
 
-	std::unique_ptr<IGraphParser> processor;
+	std::unique_ptr<IGraphParser> path_processor;
 
-	processor = std::make_unique<TextPathParser>();
+	path_processor = std::make_unique<TextPathParser>();
 
-	processor->readFile(text);
-	processor->parse(*manager, addNodeFunc, addLinkFunc);
-	processor->closeFile();
+	path_processor->readFile(text);
+	path_processor->parse(*manager, addNodeFunc, addLinkFunc);
+	path_processor->closeFile();
 
+}
+
+void GraphLoader::update(float deltaTime)
+{
+	processor->elapsedDelta += deltaTime;
+	processor->update(deltaTime);
 }
 

@@ -15,6 +15,10 @@ void DOTMapParser::closeFile() {
 	file.close();
 }
 
+void DOTMapParser::update(float deltaTime)
+{
+}
+
 void DOTMapParser::parse(Manager& manager,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
 	std::function<void(Entity&)> addLinkFunc)

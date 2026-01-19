@@ -55,6 +55,10 @@ void TextMapParser::closeFile() {
 	file.close();
 }
 
+void TextMapParser::update(float deltaTime)
+{
+}
+
 void TextMapParser::parse(Manager& manager,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
 	std::function<void(Entity&)> addLinkFunc)

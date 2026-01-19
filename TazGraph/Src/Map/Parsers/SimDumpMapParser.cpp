@@ -87,6 +87,14 @@ void SimDumpMapParser::closeFile() {
 	file.close();
 }
 
+void SimDumpMapParser::update(float deltaTime)
+{
+	std::ostringstream oss;
+	oss << elapsedDelta;
+
+	TAZ_LOG(oss.str());
+}
+
 void SimDumpMapParser::parse(Manager& manager,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
 	std::function<void(Entity&)> addLinkFunc)

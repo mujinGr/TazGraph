@@ -16,6 +16,8 @@ public:
 
 	void closeFile() override;
 
+	void update(float deltaTime) override;
+
 private:
 	tinyxml2::XMLDocument doc;
 

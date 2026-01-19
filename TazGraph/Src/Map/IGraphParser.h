@@ -30,6 +30,8 @@ struct DetailParsedLink {
 
 class IGraphParser {
 public:
+	float elapsedDelta = 0;
+
 	virtual ~IGraphParser() = default;
 
 	virtual void readFile(std::string m_fileName) = 0;
@@ -43,6 +45,7 @@ public:
 
 	virtual void closeFile() = 0;
 
+	virtual void update(float deltaTime) = 0; //! for background processing
 
 	Threader* _threader = nullptr;
 
