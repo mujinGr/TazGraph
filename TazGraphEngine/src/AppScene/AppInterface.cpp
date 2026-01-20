@@ -119,6 +119,7 @@ void AppInterface::run() {
 					for (auto& event : imguiEvents) {
 						ImGui_ImplSDL2_ProcessEvent(&event);
 					}
+					imguiEvents.clear();
 				}
 				renderDraw();
 				});
@@ -331,7 +332,7 @@ void AppInterface::onSDLEvent(SDL_Event& evnt) {
 
 bool AppInterface::init() {
 	//Initialize SDL
-	SDL_Init(SDL_INIT_EVERYTHING);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 
 	//Tell SDL that we want a double buffered window so we dont get
 	//any flickering

@@ -9,6 +9,8 @@
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
+#include <winsock2.h>
+#include <ws2tcpip.h>
 #include <Windows.h>
 #include <psapi.h>
 #pragma comment(lib, "psapi.lib")

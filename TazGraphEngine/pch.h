@@ -30,6 +30,21 @@
 #include <sstream>
 #include <unordered_set>
 #include <list>
+
+// Network
+#if defined(TAZ_PLATFORM_LINUX) 
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+using socket_t = int;
+#define close_socket close
+#endif
+#if defined(TAZ_PLATFORM_WINDOWS)
+#pragma comment(lib, "ws2_32.lib")
+using socket_t = SOCKET;
+#define close_socket closesocket
+#endif
+
 // SDL
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_image.h>

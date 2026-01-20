@@ -410,4 +410,39 @@ public:
 
 		return out.str();
 	}
+
+	void connectClient(int port) {
+#ifdef _WIN32
+		WSADATA wsa;
+		WSAStartup(MAKEWORD(2, 2), &wsa);
+#endif
+
+		socket_t sock = socket(AF_INET, SOCK_STREAM, 0);
+		if (sock < 0) {
+			perror("socket error");
+			return;
+		}
+
+		sockaddr_in addr{};
+		addr.sin_family = AF_INET;
+		addr.sin_port = htons((u_short)port);
+		inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr);
+
+		if (connect(sock, (sockaddr*)&addr, sizeof(addr)) < 0) {
+			perror("connect error");
+			close_socket(sock);
+			return;
+		}
+
+		char input[1024];
+		while (fgets(input, sizeof(input), stdin)) {
+			send(sock, input, (int)strlen(input), 0);
+		}
+
+		close_socket(sock);
+
+#ifdef _WIN32
+		WSACleanup();
+#endif
+	}
 };

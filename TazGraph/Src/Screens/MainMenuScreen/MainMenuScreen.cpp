@@ -194,11 +194,6 @@ void MainMenuScreen::checkInput() {
 	}
 
 	SDL_Event evnt;
-	{
-		std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);
-		getApp()->imguiEvents.clear(); // Clear previous frame's events
-	}
-
 	while (SDL_PollEvent(&evnt)) {
 		{
 			std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);

@@ -17,6 +17,7 @@ void PythonEngineUtil::init(Manager& manager)
 	py::module_::import("sys").attr("modules")["tazpyapi"] = userapi;
 
 	py::globals()["openFile"] = userapi.attr("openFile");
+	py::globals()["openClient"] = userapi.attr("openClient");
 	py::globals()["addNode"] = userapi.attr("addNode");
 	py::globals()["addLink"] = userapi.attr("addLink");
 	py::globals()["getNodes"] = userapi.attr("getNodes");
@@ -35,7 +36,11 @@ void PythonEngineUtil::init(Manager& manager)
 void PythonEngineUtil::init_api(py::module_& m, Manager& manager)
 {
 	m.def("openFile", [](std::string file) -> void {
+		DataManager::getInstance().setMapToLoad(file);
+		});
 
+	m.def("openClient", [](int port) -> void {
+		DataManager::getInstance().connectClient(port);
 		});
 
 
