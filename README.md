@@ -51,6 +51,16 @@ In TazGraph/:
 `../x64/Release/TazGraph.exe `**`N`**
 where N is the number of threads to use
 
+**Arguments**:\
+[--num-threads=X] ${\color{green} \# \space number \space of \space worker\space threads\space (int)}$ \
+[--MSAA=V] ${\color{green} \# \space multisample\space anti-aliasing\space level\space (int, e.g. 0, 2, 4, 8)}$\
+[--open-file=Y] ${\color{green} \# \space path\space to\space file\space opened\space on\space startup\space (string)}$\
+[--initial-timestamp=Z] ${\color{green} \#\space initial\space time\space value\space when\space starting\space playback/simulation\space (float\space or\space int)}$\
+[--initial-step=W] ${\color{green} \#\space initial\space simulation\space step/frame index (int)}$\
+[--use-python=C] ${\color{green} \#\space enable\space Python\space scripting\space (0\space =\space off,\space 1\space =\space on)}$\
+[--bg-color=FR,FG,FB,FA] ${\color{green} \#\space background\space color\space as\space RGBA\space floats\space in\space range\space [0,1]}$\
+[--grid=G] ${\color{green} \#\space grid\space mode\space or\space grid\space size\space (int\space or\space enum,\space depending\space on\space implementation)}$
+
 ## Intro
 
 Originally developed to support HPC simulation workflows, TazGraph enables real-time rendering of over 10,000 nodes and 60,000 links on consumer-grade hardware. It provides a flexible and extensible interface for visualizing complex systems using intuitive node-link diagrams.
