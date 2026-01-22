@@ -16,6 +16,11 @@ namespace Taz {
 		std::vector<GECSRenderBatch> batches;
 		glm::vec4 backgroundColor;
 		bool renderDebug = false;
+
+		PlaneModelRenderer planeModelRenderer;
+		PlaneColorRenderer planeColorRenderer;
+		LineRenderer lineRenderer;
+		LightRenderer lightRenderer;
 	};
 }
 

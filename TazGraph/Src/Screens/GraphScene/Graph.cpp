@@ -39,6 +39,24 @@ void Graph::onEntry()
 {
 	getApp()->enqueueRenderCommand([this]() {
 		/////////////////////////////////////////////
+
+		for (int i = 0; i < 2; i++) {
+			auto& frameData = frameDataBuffers[i];
+
+			frameData.planeColorRenderer.init();
+			frameData.lineRenderer.init();
+			frameData.planeModelRenderer.init();
+			frameData.lightRenderer.init();
+
+			auto& minimap_frameData = minimap_frameDataBuffers[i];
+
+			minimap_frameData.planeColorRenderer.init();
+			minimap_frameData.lineRenderer.init();
+			minimap_frameData.planeModelRenderer.init();
+			minimap_frameData.lightRenderer.init();
+		}
+		/////////////////////////////////////////////
+
 		getApp()->resourceManager.addGLSLProgram("color");
 		getApp()->resourceManager.addGLSLProgram("texture");
 		getApp()->resourceManager.addGLSLProgram("framebuffer");

@@ -1,7 +1,7 @@
 #include "Graph.h"
 #include <tracy/public/tracy/Tracy.hpp>
 
-void Graph::prepareDraw()
+void Graph::prepareDraw(int index)
 {
 	ZoneScopedN("Graph-prepareDraw");
 
@@ -22,16 +22,17 @@ void Graph::prepareDraw()
 	glm::vec3 cameraAimPos = main_camera2D->getAimPos();
 	glm::vec3 directionToCamera = glm::normalize(cameraAimPos - main_camera2D->eyePos);
 	glm::vec3 cameraEulerAngles = main_camera2D->getEulerAnglesFromDirection(directionToCamera);
-	int writeIndex = 1 - getApp()->activeIndex.load();
+
+	int writeIndex = index;
 	auto& frameData = frameDataBuffers[writeIndex];
 
 	rotationMatrix = getRotationMatrix(cameraEulerAngles);
 	frameData.batches.clear();
 
-	getApp()->planeColorRenderer.begin();
-	getApp()->lineRenderer.begin();
-	getApp()->planeModelRenderer.begin();
-	getApp()->lightRenderer.begin();
+	frameData.planeColorRenderer.begin();
+	frameData.lineRenderer.begin();
+	frameData.planeModelRenderer.begin();
+	frameData.lightRenderer.begin();
 
 	// 0. Grid Rendering
 	if (showGrid) {
@@ -458,16 +459,16 @@ void Graph::prepareDraw()
 		}
 	}
 
-	minimapPrepareDraw();
+	minimapPrepareDraw(index);
 
 	{
 		for (auto& batch : frameData.batches) {
-			getApp()->prepareBatch(batch);
+			getApp()->prepareBatch(batch, frameData);
 		}
 	}
 }
 
-void Graph::renderDraw()
+void Graph::renderDraw(int index)
 {
 	ZoneScopedN("Graph-RenderDraw");
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
@@ -507,12 +508,12 @@ void Graph::renderDraw()
 
 	_viewportFramebuffer.Unbind();
 
-	minimapRenderDraw();
+	minimapRenderDraw(index);
 }
 
 
-void Graph::minimapPrepareDraw() {
-	int writeIndex = 1 - getApp()->activeIndex.load();
+void Graph::minimapPrepareDraw(int index) {
+	int writeIndex = index;
 
 	auto& minimap_frameData = minimap_frameDataBuffers[writeIndex];
 
@@ -565,15 +566,15 @@ void Graph::minimapPrepareDraw() {
 	//! Prepare Draw Batches by Frame
 	{
 		for (auto& batch : minimap_frameData.batches) {
-			getApp()->prepareBatch(batch);
+			getApp()->prepareBatch(batch, minimap_frameData);
 		}
 	}
 
 
 }
 
-void Graph::minimapRenderDraw() {
-	int readIndex = getApp()->activeIndex.load();
+void Graph::minimapRenderDraw(int index) {
+	int readIndex = index;
 	auto& minimap_frameData = minimap_frameDataBuffers[readIndex];
 
 	std::shared_ptr<OrthoCamera> minimap_camera2D =

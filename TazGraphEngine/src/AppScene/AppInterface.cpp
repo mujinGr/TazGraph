@@ -78,6 +78,7 @@ void AppInterface::run() {
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
 			{
+
 				update(deltaTime);
 			}
 
@@ -92,19 +93,17 @@ void AppInterface::run() {
 		}
 
 		if (_isRunning) {
+			int writeIndex = 1 - activeIndex.load();
+			//TAZ_LOG("prepareDraw Write" + oss.str());
 			{
-				std::unique_lock<std::mutex> lock(frameMutex);
-				frameConsumedCV.wait(lock, [this]() {
-					return frameConsumed.load() || !_isRunning;
-					});
+				queues[writeIndex].Wait();
 
 				if (!_isRunning) break;
 			}
 
-			prepareDraw();
+			prepareDraw(writeIndex);
 
 			// Make builded frame ready
-			int writeIndex = 1 - activeIndex.load();
 			activeIndex.store(writeIndex);
 
 		}
@@ -112,7 +111,8 @@ void AppInterface::run() {
 			// Get the write index (opposite of active)
 			int readIndex = activeIndex.load();
 
-			queues[readIndex].Submit([this]() {
+			queues[readIndex].Submit([this, readIndex]() {
+
 				// Process ImGui events on render thread
 				{
 					std::lock_guard<std::mutex> lock(imguiEventsMutex);
@@ -121,22 +121,11 @@ void AppInterface::run() {
 					}
 					imguiEvents.clear();
 				}
-				renderDraw();
-				});
-			queues[readIndex].Submit([this]() {
+				renderDraw(readIndex);
 				drawUI();  // This calls ImGui rendering - MUST be on render thread
-				});
-			queues[readIndex].Submit([this]() {
 				swapBuffer();  // This calls ImGui rendering - MUST be on render thread
 				});
 
-			// Signal frame ready
-			{
-				std::lock_guard<std::mutex> lock(frameMutex);
-				frameConsumed.store(false);
-				frameReady.store(true);
-			}
-			frameReadyCV.notify_one();
 		}
 
 		_limiter.end();
@@ -162,7 +151,6 @@ void AppInterface::enqueueRenderCommand(std::function<void()> cmd) {
 }
 
 void AppInterface::waitForRenderCommand() {
-	TAZ_LOG("Waiting for render command...");
 	std::unique_lock<std::mutex> lock(initMutex);
 	initCV.wait(lock, [this]() {
 		return initCommandComplete.load();
@@ -174,23 +162,14 @@ void AppInterface::waitForRenderThreadExit() {
 
 		int writeIndex = 1 - activeIndex.load();
 
-		queues[writeIndex].Submit([this]() {
-			planeModelRenderer.dispose();
-			lineRenderer.dispose();
-			planeColorRenderer.dispose();
-			lightRenderer.dispose();
+		queues[writeIndex].Submit([this, writeIndex]() {
+			disposeRenderers(writeIndex);
 			resourceManager.disposeGLSLPrograms();
 			});
 
 		// Signal the render thread to exit
 		_isRunning = false;
 
-		// Wake it up if it's waiting on any condition variable
-		{
-			std::lock_guard<std::mutex> lock(frameMutex);
-			frameReadyCV.notify_all();
-			frameConsumedCV.notify_all();
-		}
 		{
 			std::lock_guard<std::mutex> lock(initMutex);
 			initCV.notify_all();
@@ -212,18 +191,9 @@ void AppInterface::RenderThreadFunc() {
 		bool shouldProcessInit = false;
 
 		{
-			std::unique_lock<std::mutex> lock(frameMutex);
-
-			// Wait for either frame ready OR a short timeout to check init commands
-			frameReadyCV.wait_for(lock, std::chrono::milliseconds(1), [this]() {
-				return frameReady.load() || !_isRunning;
-				});
-
 			if (!_isRunning) break;
 
-			if (frameReady.load()) {
-				shouldProcessFrame = true;
-			}
+			shouldProcessFrame = true;
 		}
 
 		// Check for init commands (without blocking frame rendering)
@@ -238,7 +208,6 @@ void AppInterface::RenderThreadFunc() {
 		if (shouldProcessInit) {
 			std::lock_guard<std::mutex> lock(initMutex);
 			if (initCommandReady.load()) {
-				TAZ_LOG("Executing init command");
 				initQueue.Execute();
 				initCommandReady.store(false);
 				initCommandComplete.store(true);
@@ -248,19 +217,13 @@ void AppInterface::RenderThreadFunc() {
 
 		// Process frame rendering
 		if (shouldProcessFrame) {
-			int readIndex = activeIndex.load();
+			for (auto i = 0; i < 2; i++) {
+				if (queues[i].isReady) {
+					ZoneScopedN("Execute Render Commands");
 
-			{
-				ZoneScopedN("Execute Render Commands");
-				queues[readIndex].Execute();
+					queues[i].Execute();
+				}
 			}
-
-			{
-				std::lock_guard<std::mutex> lock(frameMutex);
-				frameReady.store(false);
-				frameConsumed.store(true);
-			}
-			frameConsumedCV.notify_one();
 		}
 	}
 
@@ -372,7 +335,7 @@ bool AppInterface::init() {
 }
 
 void AppInterface::initRenderers() {
-	planeModelRenderer.init();
+	/*planeModelRenderer.init();
 	generateSphereMesh(
 		lightRenderer.sphereVertices,
 		lightRenderer.sphereIndices);
@@ -388,7 +351,7 @@ void AppInterface::initRenderers() {
 	generateSphereMesh(
 		planeColorRenderer.sphereVertices,
 		planeColorRenderer.sphereIndices);
-	planeColorRenderer.init();
+	planeColorRenderer.init();*/
 }
 
 bool AppInterface::initSystems() {
@@ -456,24 +419,24 @@ void AppInterface::update(float deltaTime) {
 
 }
 
-void AppInterface::prepareDraw()
+void AppInterface::prepareDraw(int index)
 {
 	if (!_sceneList || !_sceneList->getCurrent())
 		return;
 
 	if (_sceneList->getCurrent()->getState() == SceneState::RUNNING) {
-		_sceneList->getCurrent()->prepareDraw();
+		_sceneList->getCurrent()->prepareDraw(index);
 	}
 }
 
-void AppInterface::renderDraw()
+void AppInterface::renderDraw(int index)
 {
 	glViewport(0, 0, _window.getScreenWidth(), _window.getScreenHeight());
 	if (!_sceneList || !_sceneList->getCurrent())
 		return;
 
 	if (_sceneList->getCurrent()->getState() == SceneState::RUNNING) {
-		_sceneList->getCurrent()->renderDraw();
+		_sceneList->getCurrent()->renderDraw(index);
 	}
 }
 
@@ -498,6 +461,14 @@ void AppInterface::drawUI()
 	}
 	// Rendering
 	_sceneList->getCurrent()->EndRender();
+}
+
+void AppInterface::disposeRenderers(int index) {
+	if (!_sceneList || !_sceneList->getCurrent())
+		return;
+	if (_sceneList->getCurrent()->getState() == SceneState::RUNNING) {
+		_sceneList->getCurrent()->disposeRenderers(index);
+	}
 }
 
 void AppInterface::swapBuffer()

@@ -46,11 +46,11 @@ public:
 
 	virtual void update(float deltaTime) override;
 
-	virtual void prepareDraw() override;
-	virtual void renderDraw() override;
+	virtual void prepareDraw(int index) override;
+	virtual void renderDraw(int index) override;
 
-	void minimapPrepareDraw();
-	void minimapRenderDraw();
+	void minimapPrepareDraw(int index);
+	void minimapRenderDraw(int index);
 
 	virtual void SwapBufferDraw() override;
 

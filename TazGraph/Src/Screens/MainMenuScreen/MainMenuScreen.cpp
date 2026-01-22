@@ -35,6 +35,23 @@ void MainMenuScreen::destroy()
 void MainMenuScreen::onEntry()
 {
 	getApp()->enqueueRenderCommand([this]() {
+
+		for (int i = 0; i < 2; i++) {
+			auto& frameData = frameDataBuffers[i];
+
+			frameData.planeColorRenderer.init();
+			frameData.lineRenderer.init();
+			frameData.planeModelRenderer.init();
+			frameData.lightRenderer.init();
+
+			auto& minimap_frameData = minimap_frameDataBuffers[i];
+
+			minimap_frameData.planeColorRenderer.init();
+			minimap_frameData.lineRenderer.init();
+			minimap_frameData.planeModelRenderer.init();
+			minimap_frameData.lightRenderer.init();
+		}
+
 		getApp()->resourceManager.addGLSLProgram("texture");
 		getApp()->resourceManager.addGLSLProgram("color");
 
@@ -115,6 +132,8 @@ void MainMenuScreen::onExit()
 
 void MainMenuScreen::update(float deltaTime)
 {
+	ZoneScopedN("Main-Update");
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
 
@@ -126,8 +145,10 @@ void MainMenuScreen::update(float deltaTime)
 }
 
 
-void MainMenuScreen::prepareDraw()
+void MainMenuScreen::prepareDraw(int index)
 {
+	ZoneScopedN("Main-PrepareDraw");
+
 
 	int writeIndex = 1 - getApp()->activeIndex.load();
 
@@ -156,21 +177,23 @@ void MainMenuScreen::prepareDraw()
 
 	}
 
-	getApp()->planeColorRenderer.begin();
-	getApp()->lineRenderer.begin();
-	getApp()->planeModelRenderer.begin();
-	getApp()->lightRenderer.begin();
+	frameData.planeColorRenderer.begin();
+	frameData.lineRenderer.begin();
+	frameData.planeModelRenderer.begin();
+	frameData.lightRenderer.begin();
 
 	{
 		for (auto& batch : frameData.batches) {
-			getApp()->prepareBatch(batch);
+			getApp()->prepareBatch(batch, frameData);
 		}
 	}
 
 }
 
-void MainMenuScreen::renderDraw()
+void MainMenuScreen::renderDraw(int index)
 {
+	ZoneScopedN("Main-RenderDraw");
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	int readIndex = getApp()->activeIndex.load();
 	auto& frameData = frameDataBuffers[readIndex];
@@ -186,6 +209,8 @@ void MainMenuScreen::renderDraw()
 }
 
 void MainMenuScreen::checkInput() {
+	ZoneScopedN("Main-CheckInput");
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
@@ -226,6 +251,8 @@ void MainMenuScreen::updateUI(float deltaTime) {
 }
 
 void MainMenuScreen::drawUI() {
+	ZoneScopedN("Main-DrawUI");
+
 	_mainMenuLayer.setConfig({
 		   .onStartClicked = [this]() { MainMenuScreen::onStartSimulator(); },
 		   .onExitClicked = [this]() { requestExit = true; }
@@ -252,6 +279,8 @@ void MainMenuScreen::drawUI() {
 }
 
 void MainMenuScreen::SwapBufferDraw() {
+	ZoneScopedN("Main-SwapBuffer");
+
 	getApp()->_window.swapBuffer();
 }
 

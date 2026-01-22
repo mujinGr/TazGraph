@@ -47,8 +47,8 @@ public:
 	virtual void checkInput() = 0;
 
 	virtual void update(float deltaTime) = 0;
-	virtual void prepareDraw() = 0;
-	virtual void renderDraw() = 0;
+	virtual void prepareDraw(int index) = 0;
+	virtual void renderDraw(int index) = 0;
 
 	virtual void SwapBufferDraw() = 0;
 
@@ -56,6 +56,13 @@ public:
 	virtual void updateUI(float deltaTime) = 0;
 	virtual void drawUI() = 0;
 	virtual void EndRender() = 0;
+
+	virtual void disposeRenderers(int index) {
+		frameDataBuffers[index].planeColorRenderer.dispose();
+		frameDataBuffers[index].lineRenderer.dispose();
+		frameDataBuffers[index].planeColorRenderer.dispose();
+		frameDataBuffers[index].lightRenderer.dispose();
+	};
 
 	int getSceneIndex() const {
 		return _sceneIndex;

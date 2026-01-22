@@ -7,11 +7,12 @@ struct RenderCommandQueue {
 	std::vector<std::function<void()>> commands;
 	std::mutex mutex;
 	std::condition_variable cv;
+	bool isReady = false;
 
 	void Submit(std::function<void()> cmd) {
 		std::lock_guard<std::mutex> lock(mutex);
 		commands.push_back(std::move(cmd));
-		cv.notify_one();
+		isReady = true;
 	}
 
 	void Execute() {
@@ -19,6 +20,7 @@ struct RenderCommandQueue {
 		for (auto& cmd : commands) cmd();
 		commands.clear();
 		cv.notify_all();
+		isReady = false;
 	}
 
 	void Wait() {

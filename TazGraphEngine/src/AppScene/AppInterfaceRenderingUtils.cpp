@@ -38,66 +38,72 @@ void AppInterface::drawBatch(const std::vector<Entity*>& entities, LightRenderer
 }
 
 void AppInterface::prepareBatch(
-	Taz::GECSRenderBatch& batch)
+	Taz::GECSRenderBatch& batch,
+	Taz::FrameRenderData& frameData
+)
 {
 	switch (batch.renderer_type) {
 	case Taz::RenderBatch::RendererType::Line:
-		prepareLineBatch(batch);
+		prepareLineBatch(batch, frameData);
 		break;
 	case Taz::RenderBatch::RendererType::PlaneColor:
-		preparePlaneColorBatch(batch);
+		preparePlaneColorBatch(batch, frameData);
 		break;
 	case Taz::RenderBatch::RendererType::PlaneModel:
-		preparePlaneModelBatch(batch);
+		preparePlaneModelBatch(batch, frameData);
 		break;
 	case Taz::RenderBatch::RendererType::Light:
-		prepareLightBatch(batch);
+		prepareLightBatch(batch, frameData);
 		break;
 	}
 }
 
 void AppInterface::prepareLineBatch(
-	Taz::GECSRenderBatch& batch
+	Taz::GECSRenderBatch& batch,
+	Taz::FrameRenderData& frameData
 )
 {
 	//lineRenderer.initBatch(batch);
-	lineRenderer.initBatch(batch);
+	frameData.lineRenderer.initBatch(batch);
 
-	drawBatch(batch.entities, lineRenderer);
+	drawBatch(batch.entities, frameData.lineRenderer);
 }
 
 void AppInterface::preparePlaneColorBatch(
-	Taz::GECSRenderBatch& batch)
+	Taz::GECSRenderBatch& batch,
+	Taz::FrameRenderData& frameData)
 {
-	planeColorRenderer.initBatch(batch);
+	frameData.planeColorRenderer.initBatch(batch);
 
 	// Fill batch data
-	drawBatch(batch.entities, planeColorRenderer);
+	drawBatch(batch.entities, frameData.planeColorRenderer);
 }
 
 void AppInterface::preparePlaneModelBatch(
-	Taz::GECSRenderBatch& batch)
+	Taz::GECSRenderBatch& batch,
+	Taz::FrameRenderData& frameData)
 {
-	planeModelRenderer.initBatch(batch);
+	frameData.planeModelRenderer.initBatch(batch);
 
 	// Fill batch data
-	drawBatch(batch.entities, planeModelRenderer);
+	drawBatch(batch.entities, frameData.planeModelRenderer);
 }
 
 void AppInterface::prepareLightBatch(
-	Taz::GECSRenderBatch& batch
+	Taz::GECSRenderBatch& batch,
+	Taz::FrameRenderData& frameData
 )
 {
-	lightRenderer.initBatch(batch);
+	frameData.lightRenderer.initBatch(batch);
 
 	// Fill batch data
-	drawBatch(batch.entities, lightRenderer);
+	drawBatch(batch.entities, frameData.lightRenderer);
 }
 
 
 void AppInterface::renderBatch(
 	const Taz::GECSRenderBatch& batch,
-	const Taz::FrameRenderData& frameData,
+	Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
 	if (batch.count == 0) return;
@@ -120,7 +126,7 @@ void AppInterface::renderBatch(
 
 void AppInterface::drawLineBatch(
 	const Taz::GECSRenderBatch& batch,
-	const Taz::FrameRenderData& frameData,
+	Taz::FrameRenderData& frameData,
 	ICamera& camera
 )
 {
@@ -137,11 +143,11 @@ void AppInterface::drawLineBatch(
 		) {
 		glEnable(GL_POLYGON_OFFSET_FILL);
 		glPolygonOffset(0.0f, -1.0f);
-		lineRenderer.endBatch(batch);
+		frameData.lineRenderer.endBatch(batch);
 		glDisable(GL_POLYGON_OFFSET_FILL);
 	}
 	else {
-		lineRenderer.endBatch(batch);
+		frameData.lineRenderer.endBatch(batch);
 	}
 
 	shader.unuse();
@@ -150,7 +156,7 @@ void AppInterface::drawLineBatch(
 
 void AppInterface::drawPlaneColorBatch(
 	const Taz::GECSRenderBatch& batch,
-	const Taz::FrameRenderData& frameData,
+	Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
 	// Setup shader and render
@@ -164,11 +170,11 @@ void AppInterface::drawPlaneColorBatch(
 		) {
 		glEnable(GL_POLYGON_OFFSET_FILL);
 		glPolygonOffset(0.0f, -1.0f);
-		planeColorRenderer.endBatch(batch);
+		frameData.planeColorRenderer.endBatch(batch);
 		glDisable(GL_POLYGON_OFFSET_FILL);
 	}
 	else {
-		planeColorRenderer.endBatch(batch);
+		frameData.planeColorRenderer.endBatch(batch);
 	}
 	shader.unuse();
 
@@ -176,21 +182,21 @@ void AppInterface::drawPlaneColorBatch(
 
 void AppInterface::drawPlaneModelBatch(
 	const Taz::GECSRenderBatch& batch,
-	const Taz::FrameRenderData& frameData,
+	Taz::FrameRenderData& frameData,
 	ICamera& camera)
 {
 	// Setup shader and render
 	auto& shader = *resourceManager.getGLSLProgram(batch.shaderName);
 	resourceManager.setupShader(shader, camera);
 
-	planeModelRenderer.endBatch(batch);
+	frameData.planeModelRenderer.endBatch(batch);
 	shader.unuse();
 
 }
 
 void AppInterface::drawLightBatch(
 	const Taz::GECSRenderBatch& batch,
-	const Taz::FrameRenderData& frameData,
+	Taz::FrameRenderData& frameData,
 	ICamera& camera
 )
 {
@@ -198,7 +204,7 @@ void AppInterface::drawLightBatch(
 	auto& shader = *resourceManager.getGLSLProgram(batch.shaderName);
 	resourceManager.setupShader(shader, camera);
 
-	lightRenderer.endBatch(batch);
+	frameData.lightRenderer.endBatch(batch);
 	shader.unuse();
 
 }

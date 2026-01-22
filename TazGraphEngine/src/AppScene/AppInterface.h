@@ -13,6 +13,10 @@
 #include "../Threader/Threader.h"
 #include "../Threader/RenderCommandQueue.h"
 
+#define BUFFERS_NO 2
+
+
+
 class AppInterface {
 public:
 	AppInterface(int threadCount, int msaa_samples, std::string openFile,
@@ -55,15 +59,10 @@ public:
 	std::array<float, 4> backgroundColor;
 	bool useGrid = false;
 
-	std::mutex frameMutex;
-	std::condition_variable frameReadyCV;
-	std::condition_variable frameConsumedCV;
 	std::condition_variable initCommandCV;
 
-	RenderCommandQueue queues[2];
+	RenderCommandQueue queues[BUFFERS_NO];
 	std::atomic<int> activeIndex = 0;
-	std::atomic<bool> frameReady{ false };
-	std::atomic<bool> frameConsumed{ true };
 
 	RenderCommandQueue initQueue;
 	std::mutex initMutex;
@@ -74,37 +73,32 @@ public:
 	std::vector<SDL_Event> imguiEvents;
 	std::mutex imguiEventsMutex;
 
-	PlaneModelRenderer planeModelRenderer;
-	PlaneColorRenderer planeColorRenderer;
-	LineRenderer lineRenderer;
-	LightRenderer lightRenderer;
-
 	ResourceManager resourceManager;
 
 	void renderBatch(
 		const Taz::GECSRenderBatch& batch,
-		const Taz::FrameRenderData& frameData,
+		Taz::FrameRenderData& frameData,
 		ICamera& camera
 	);
 
 	void drawLineBatch(
 		const Taz::GECSRenderBatch& batch,
-		const Taz::FrameRenderData& frameData,
+		Taz::FrameRenderData& frameData,
 		ICamera& camera
 	);
 	void drawPlaneColorBatch(
 		const Taz::GECSRenderBatch& batch,
-		const Taz::FrameRenderData& frameData,
+		Taz::FrameRenderData& frameData,
 		ICamera& camera
 	);
 	void drawPlaneModelBatch(
 		const Taz::GECSRenderBatch& batch,
-		const Taz::FrameRenderData& frameData,
+		Taz::FrameRenderData& frameData,
 		ICamera& camera
 	);
 	void drawLightBatch(
 		const Taz::GECSRenderBatch& batch,
-		const Taz::FrameRenderData& frameData,
+		Taz::FrameRenderData& frameData,
 		ICamera& camera
 	);
 
@@ -113,23 +107,25 @@ public:
 	void drawBatch(const std::vector<Entity*>& entities, PlaneModelRenderer& batch);
 	void drawBatch(const std::vector<Entity*>& entities, LightRenderer& batch);
 
-	void prepareBatch(Taz::GECSRenderBatch& batch);
+	void prepareBatch(Taz::GECSRenderBatch& batch, Taz::FrameRenderData& frameData);
 
-	void prepareLineBatch(Taz::GECSRenderBatch& batch);
-	void preparePlaneColorBatch(Taz::GECSRenderBatch& batch);
-	void preparePlaneModelBatch(Taz::GECSRenderBatch& batch);
-	void prepareLightBatch(Taz::GECSRenderBatch& batch);
+	void prepareLineBatch(Taz::GECSRenderBatch& batch, Taz::FrameRenderData& frameData);
+	void preparePlaneColorBatch(Taz::GECSRenderBatch& batch, Taz::FrameRenderData& frameData);
+	void preparePlaneModelBatch(Taz::GECSRenderBatch& batch, Taz::FrameRenderData& frameData);
+	void prepareLightBatch(Taz::GECSRenderBatch& batch, Taz::FrameRenderData& frameData);
 
 
 protected:
 	virtual void checkInput();
 	virtual void update(float deltaTime);
 
-	virtual void prepareDraw();
-	virtual void renderDraw();
+	virtual void prepareDraw(int index);
+	virtual void renderDraw(int index);
 
 	virtual void updateUI(float deltaTime);
 	virtual void drawUI();
+
+	void disposeRenderers(int index);
 
 	virtual void swapBuffer();
 
