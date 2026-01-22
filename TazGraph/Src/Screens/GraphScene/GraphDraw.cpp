@@ -549,6 +549,12 @@ void Graph::minimapPrepareDraw(int index) {
 	glm::mat4 minimap_rotationMatrix = glm::mat4(1.0f);
 
 	minimap_frameData.batches.clear();
+
+	minimap_frameData.planeColorRenderer.begin();
+	minimap_frameData.lineRenderer.begin();
+	minimap_frameData.planeModelRenderer.begin();
+	minimap_frameData.lightRenderer.begin();
+	
 	{
 		Taz::GECSRenderBatch minimapBatch;
 		minimapBatch.renderer_type = Taz::RenderBatch::RendererType::PlaneColor;
