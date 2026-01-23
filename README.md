@@ -89,12 +89,6 @@ into a unified environment.
 - 3D Models with Lighting  
 - Simulation Play  
 
-## TODO
-
-- [ ] Have beautiful and convinient UI 
-- [ ] Extend Python API for nodes and on update execute
-- [ ] Take Apache Arrow Data and execute large simulations
-
 ![alt text](TazGraph/assets/Sprites/Screenshot_9.png)
 ![alt text](TazGraph/assets/Sprites/Screenshot_1.png) 
 ![alt text](TazGraph/assets/Sprites/Screenshot_2.png)

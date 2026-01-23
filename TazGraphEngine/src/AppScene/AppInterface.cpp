@@ -59,8 +59,14 @@ void AppInterface::run() {
 	_limiter.setMaxFPS(60.0f);
 
 	while (_isRunning) {
+		int tracy_index = 1 - activeIndex.load();
 		ZoneScoped;
+		ZoneName("Run", tracy_index);
 		FrameMark;
+
+
+
+
 
 		_limiter.begin();
 
@@ -97,7 +103,13 @@ void AppInterface::run() {
 			//TAZ_LOG("prepareDraw Write" + oss.str());
 			{
 				queues[writeIndex].Wait();
-
+				SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
+				glFlush(); //! This is is necessary to avoid white flashes
+				//! It makes CPU to wait for GPU, because when entering prepare draw
+				//! it may be seemingly from CPU side that swapBuffer has finished
+				//! but from GPU side it has not. White flashes are caused by ultra fast
+				//! prepareDraw.
+				SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 				if (!_isRunning) break;
 			}
 
@@ -221,8 +233,10 @@ void AppInterface::RenderThreadFunc() {
 
 		// Process frame rendering
 		if (shouldProcessFrame) {
+			std::string oss = "Execute Render Commands" + renderIndex;
 			if (queues[renderIndex].isReady) {
-				ZoneScopedN("Execute Render Commands");
+				ZoneScoped;
+				ZoneName(oss.c_str(), renderIndex);
 
 				queues[renderIndex].Execute();
 				renderIndex = 1 - renderIndex;

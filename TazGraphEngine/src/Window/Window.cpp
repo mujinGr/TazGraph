@@ -73,7 +73,7 @@ int TazGraphEngine::Window::create(std::string windowName, int screenWidth, int 
 	//Check the OpenGL version
 	//std::cout << "***   OpenGL Version: " << glGetString(GL_VERSION) << "    ***\n";
 	//Set VSYNC
-	SDL_GL_SetSwapInterval(0);
+	SDL_GL_SetSwapInterval(1);
 	int interval = SDL_GL_GetSwapInterval();
 	std::ostringstream oss;
 	oss << "VSync: " << (interval == 0 ? "OFF" : "ON");

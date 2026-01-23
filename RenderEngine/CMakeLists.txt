@@ -44,7 +44,8 @@ include_directories(${SDL2_INCLUDE_DIRS})
 
 add_compile_options(-pedantic)
 add_compile_definitions(TRACY_ENABLE)
-
+add_compile_definitions(TRACY_NO_INVARIANT_CHECK)
+add_compile_definitions(TRACY_TIMER_FALLBACK)
 # Find SDL2 Mixer library
 find_package(SDL2_mixer REQUIRED)
 find_package(SDL2_image REQUIRED)

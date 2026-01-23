@@ -27,7 +27,8 @@ set(ALL_FILES
 
 add_compile_options(-pedantic)
 add_compile_definitions(TRACY_ENABLE)
-
+add_compile_definitions(TRACY_NO_INVARIANT_CHECK)
+add_compile_definitions(TRACY_TIMER_FALLBACK)
 ################################################################################
 # Setting libs with find_package
 ################################################################################

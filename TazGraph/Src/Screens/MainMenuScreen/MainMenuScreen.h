@@ -45,4 +45,7 @@ private:
 	int _prevSceneIndex = SCENE_INDEX_GRAPHPLAY;
 
 	MainMenuEditorLayer _mainMenuLayer;
+
+	Framebuffer _main_viewportFramebuffer;
+
 };

@@ -54,6 +54,7 @@ void MainMenuScreen::onEntry()
 
 		getApp()->resourceManager.addGLSLProgram("texture");
 		getApp()->resourceManager.addGLSLProgram("color");
+		getApp()->resourceManager.addGLSLProgram("framebuffer");
 
 		if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 		{
@@ -68,11 +69,24 @@ void MainMenuScreen::onEntry()
 			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
 			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
 
+			getApp()->resourceManager.getGLSLProgram("framebuffer")->compileAndLinkShaders("Src/Shaders/framebuffer.vert", "Src/Shaders/framebuffer.frag");
+			getApp()->resourceManager.getGLSLProgram("framebuffer")->addAttribute("inPos");
+			getApp()->resourceManager.getGLSLProgram("framebuffer")->addAttribute("inTexCoords");
+
 			getApp()->resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
 			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
 			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
 			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
 		}
+		getApp()->resourceManager.getGLSLProgram("framebuffer")->use();
+		glUniform1i(
+			glGetUniformLocation(getApp()->resourceManager.getGLSLProgram("framebuffer")->getProgramID(), "screenTexture")
+			, 0);
+		getApp()->resourceManager.getGLSLProgram("framebuffer")->unuse();
+
+
+
+		_main_viewportFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight(), getApp()->useMSAA, getApp()->MSAA_samples);
 
 		if (TTF_Init() == -1)
 		{
@@ -197,6 +211,10 @@ void MainMenuScreen::renderDraw(int index)
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	int readIndex = getApp()->activeIndex.load();
 	auto& frameData = frameDataBuffers[readIndex];
+
+	_main_viewportFramebuffer.Bind();
+	glViewport(0, 0, _main_viewportFramebuffer._width, _main_viewportFramebuffer._height);
+
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
@@ -206,6 +224,7 @@ void MainMenuScreen::renderDraw(int index)
 			getApp()->renderBatch(batch, frameData, *main_camera2D);
 		}
 	}
+	_main_viewportFramebuffer.Unbind();
 }
 
 void MainMenuScreen::checkInput() {
@@ -255,7 +274,8 @@ void MainMenuScreen::drawUI() {
 
 	_mainMenuLayer.setConfig({
 		   .onStartClicked = [this]() { MainMenuScreen::onStartSimulator(); },
-		   .onExitClicked = [this]() { requestExit = true; }
+		   .onExitClicked = [this]() { requestExit = true; },
+		   .viewportFramebuffer = &_main_viewportFramebuffer,
 		});
 
 	_mainMenuLayer.OnImGuiRender();
