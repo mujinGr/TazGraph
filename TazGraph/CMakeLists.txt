@@ -9,12 +9,6 @@ set(APPIMAGE_NAME "TazGraph-${PROJECT_VERSION}-x86_64.AppImage")
 # Check if we're building for AppImage
 option(BUILD_APPIMAGE "Build AppImage bundle" OFF)
 
-
-
-# Recursively find all header and source files in Components and all subdirectories
-file(GLOB_RECURSE EDITOR_COMPONENTS_HEADERS "Src/EditorIMGUI/Components/*.h")
-file(GLOB_RECURSE EDITOR_COMPONENTS_SOURCES "Src/EditorIMGUI/Components/*.cpp")
-
 ################################################################################
 # Source groups
 ################################################################################
@@ -32,6 +26,7 @@ set(ALL_FILES
 )
 
 add_compile_options(-pedantic)
+add_compile_definitions(TRACY_ENABLE)
 
 ################################################################################
 # Setting libs with find_package
@@ -103,122 +98,6 @@ if(BUILD_APPIMAGE)
 endif()
 
 
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    VS_GLOBAL_KEYWORD "Win32Proj"
-)
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
-    )
-endif()
-################################################################################
-# MSVC runtime library
-################################################################################
-get_property(MSVC_RUNTIME_LIBRARY_DEFAULT TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY)
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
-        $<$<CONFIG:Debug>:
-            MultiThreadedDebugDLL
-        >
-        $<$<NOT:$<OR:$<CONFIG:Debug>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
-    )
-endif()
-set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_LIBRARY_STR})
-
-################################################################################
-# Compile definitions
-################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        "$<$<CONFIG:Debug>:"
-            "_DEBUG"
-        ">"
-        "$<$<CONFIG:Release>:"
-            "NDEBUG"
-        ">"
-        "_CONSOLE;"
-        "UNICODE;"
-        "_UNICODE"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        "$<$<CONFIG:Debug>:"
-            "_DEBUG"
-        ">"
-        "$<$<CONFIG:Release>:"
-            "NDEBUG"
-        ">"
-        "WIN32;"
-        "_CONSOLE;"
-        "UNICODE;"
-        "_UNICODE"
-    )
-endif()
-
-################################################################################
-# Compile and link options
-################################################################################
-if(MSVC)
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /Oi;
-                /Gy;
-                /O2;
-            >
-            /permissive-;
-            /sdl;
-            /W3;
-            ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
-            ${DEFAULT_CXX_EXCEPTION_HANDLING}
-        )
-    elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /Oi;
-                /Gy;
-                /O2;
-            >
-            /permissive-;
-            /sdl;
-            /W3;
-            ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
-            ${DEFAULT_CXX_EXCEPTION_HANDLING}
-        )
-    endif()
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-                /INCREMENTAL
-            >
-            $<$<CONFIG:Release>:
-                /OPT:REF;
-                /OPT:ICF;
-                /INCREMENTAL:NO
-            >
-            /DEBUG;
-            /SUBSYSTEM:CONSOLE
-        )
-    elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-                /INCREMENTAL
-            >
-            $<$<CONFIG:Release>:
-                /OPT:REF;
-                /OPT:ICF;
-                /INCREMENTAL:NO
-            >
-            /DEBUG;
-            /SUBSYSTEM:CONSOLE
-        )
-    endif()
-endif()
-
 ################################################################################
 # Dependencies
 ################################################################################
@@ -239,18 +118,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     TazGraphEngine
 )
 
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set(ADDITIONAL_LIBRARY_DEPENDENCIES
-        "$<$<CONFIG:Debug>:"
-            "SDL2;"
-            "SDL2main;"
-            "SDL2_image;"
-            "SDL2_ttf;"
-            "SDL2_mixer;"
-            "TazGraphEngine"
-        ">"
-    )
-endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_IMAGE_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_ttf::SDL2_ttf)
@@ -279,7 +146,7 @@ if(EXISTS "${PROJECT_SOURCE_DIR}/TazGraph/Src/Shaders")
 endif()
 
 # Install animators from TazGraphEngine
-if(EXISTS "${TAZGRAPHENGINE_DIR}/TazGraphEngine/src/GECS/Animators")
+if(EXISTS "${PROJECT_SOURCE_DIR}/TazGraphEngine/src/GECS/Animators")
     install(DIRECTORY "${TAZGRAPHENGINE_DIR}/src/GECS/Animators"
         DESTINATION assets/GECS
         PATTERN ".git*" EXCLUDE
@@ -302,7 +169,7 @@ if(EXISTS "${PROJECT_SOURCE_DIR}/deploy/${PROJECT_NAME}.desktop")
 endif()
     
 # Install icons
-if(EXISTS "${PROJECT_SOURCE_DIR}/deploy/icons")
+if(EXISTS "${PROJECT_SOURCE_DIR}/TazGraph/assets/Sprites")
     install(DIRECTORY "${PROJECT_SOURCE_DIR}/deploy/icons" DESTINATION share/icons/hicolor)
 endif()
     

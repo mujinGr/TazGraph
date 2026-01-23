@@ -52,14 +52,15 @@ In TazGraph/:
 where N is the number of threads to use
 
 **Arguments**:\
-[--num-threads=X] ${\color{green} \# \space number \space of \space worker\space threads\space (int)}$ \
-[--MSAA=V] ${\color{green} \# \space multisample\space anti-aliasing\space level\space (int, e.g. 0, 2, 4, 8)}$\
-[--open-file=Y] ${\color{green} \# \space path\space to\space file\space opened\space on\space startup\space (string)}$\
-[--initial-timestamp=Z] ${\color{green} \#\space initial\space time\space value\space when\space starting\space playback/simulation\space (float\space or\space int)}$\
-[--initial-step=W] ${\color{green} \#\space initial\space simulation\space step/frame index (int)}$\
-[--use-python=C] ${\color{green} \#\space enable\space Python\space scripting\space (0\space =\space off,\space 1\space =\space on)}$\
-[--bg-color=FR,FG,FB,FA] ${\color{green} \#\space background\space color\space as\space RGBA\space floats\space in\space range\space [0,1]}$\
-[--grid=G] ${\color{green} \#\space grid\space mode\space or\space grid\space size\space (int\space or\space enum,\space depending\space on\space implementation)}$
+
+- `--num-threads=X` <span style="color:green"># number of worker threads (int)</span>
+- `--MSAA=V` <span style="color:green"># multisample anti-aliasing level (int, e.g. 0, 2, 4, 8)</span>
+- `--open-file=Y` <span style="color:green"># path to file opened on startup (string)</span>
+- `--initial-timestamp=Z` <span style="color:green"># initial time value when starting playback/simulation (float or int)</span>
+- `--initial-step=W` <span style="color:green"># initial simulation step/frame index (int)</span>
+- `--use-python=C` <span style="color:green"># enable Python scripting (0 = off, 1 = on)</span>
+- `--bg-color=FR,FG,FB,FA` <span style="color:green"># background color as RGBA floats in range [0,1]</span>
+- `--grid=G` <span style="color:green"># grid mode or grid size (int or enum)</span>
 
 ## Intro
 

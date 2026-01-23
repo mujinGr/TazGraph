@@ -68,4 +68,10 @@ using socket_t = SOCKET;
 // CUSTOM
 #include <ImGuiComboAutoselect/imgui_combo_autoselect.h>
 
+// PyBind11
+#include <pybind11/pybind11.h>
+#include <pybind11/embed.h>
+
+namespace py = pybind11;
+
 #endif //PCH_H

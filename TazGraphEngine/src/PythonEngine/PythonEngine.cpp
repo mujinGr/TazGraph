@@ -7,8 +7,8 @@ std::unique_ptr<py::scoped_interpreter> PythonInterpreter::pythonRuntime = nullp
 
 PythonInterpreter::PythonInterpreter()
 {
-    if (!pythonRuntime) {
-        pythonRuntime = std::make_unique<py::scoped_interpreter>();
-    }
+	if (!pythonRuntime) {
+		pythonRuntime = std::make_unique<py::scoped_interpreter>();
+	}
 
 }

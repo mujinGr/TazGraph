@@ -115,6 +115,8 @@ void AppInterface::run() {
 
 				// Process ImGui events on render thread
 				{
+					ZoneScopedN("Process Input");
+
 					std::lock_guard<std::mutex> lock(imguiEventsMutex);
 					for (auto& event : imguiEvents) {
 						ImGui_ImplSDL2_ProcessEvent(&event);
@@ -185,6 +187,8 @@ void AppInterface::RenderThreadFunc() {
 	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 	tracy::SetThreadName("Render Thread");
 
+	int renderIndex = 1;
+
 	while (_isRunning)
 	{
 		bool shouldProcessFrame = false;
@@ -217,12 +221,11 @@ void AppInterface::RenderThreadFunc() {
 
 		// Process frame rendering
 		if (shouldProcessFrame) {
-			for (auto i = 0; i < 2; i++) {
-				if (queues[i].isReady) {
-					ZoneScopedN("Execute Render Commands");
+			if (queues[renderIndex].isReady) {
+				ZoneScopedN("Execute Render Commands");
 
-					queues[i].Execute();
-				}
+				queues[renderIndex].Execute();
+				renderIndex = 1 - renderIndex;
 			}
 		}
 	}

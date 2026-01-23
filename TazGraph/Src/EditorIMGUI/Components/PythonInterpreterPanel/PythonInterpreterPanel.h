@@ -2,10 +2,8 @@
 
 #include "../../UIElement.h"
 
-#include <pybind11/pybind11.h>
-#include <pybind11/embed.h>
-
-namespace py = pybind11;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattributes"
 
 struct PythonInterpreterConfig {
 	IScene* scene;
@@ -57,7 +55,7 @@ public:
 	bool readyToClear = false;
 	bool readyToExecute = false;
 
-	ImGuiChildFlags flags = ImGuiChildFlags_ResizeY | ImGuiWindowFlags_NoSavedSettings;
+	ImGuiChildFlags flags = ImGuiWindowFlags_NoSavedSettings;
 
 	PythonInterpreterPanel();
 	void update(float deltaTime) override;
@@ -76,3 +74,5 @@ public:
 	void runScript();
 	void runUpdateScript(float deltaTime);
 };
+
+#pragma GCC diagnostic pop

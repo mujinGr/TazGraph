@@ -2,17 +2,20 @@
 
 #include "../Components.h"
 
-class PythonCodeComponent //transform as in graphics, we have rotation and scale
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattributes"
+
+class PythonCodeComponent
 {
 private:
 	char _pythonBuffer[1024] = "";
 	char _updateBuffer[4096] = "";
 
-	py::object _stdout_buffer;
-	py::module_ sys;
-
 	std::string _outputText;
 	std::string _updateOutputText;
+
+	py::object _stdout_buffer;
+	py::module_ sys;
 
 	enum console_state {
 		Collapsed,
@@ -72,6 +75,7 @@ public:
 		}
 
 		sys = py::module_::import("sys"); //!? keep this
+		_stdout_buffer = sys.attr("stdout");
 		_stdout_buffer = sys.attr("stdout");
 	}
 
@@ -211,3 +215,5 @@ public:
 		}
 	}
 };
+
+#pragma GCC diagnostic pop
