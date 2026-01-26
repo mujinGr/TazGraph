@@ -136,66 +136,25 @@ if(EXISTS "${PROJECT_SOURCE_DIR}/TazGraph/assets")
     )
 endif()
 
-# Install shaders from Src/Shaders
-if(EXISTS "${PROJECT_SOURCE_DIR}/TazGraph/Src/Shaders")
-    install(DIRECTORY "${PROJECT_SOURCE_DIR}/TazGraph/Src/Shaders"
-        DESTINATION assets
-        FILES_MATCHING PATTERN "*.vert" PATTERN "*.frag" PATTERN "*.glsl"
-        PATTERN ".git*" EXCLUDE
-        PATTERN "*~" EXCLUDE
-    )
-endif()
 
-# Install animators from TazGraphEngine
-if(EXISTS "${PROJECT_SOURCE_DIR}/TazGraphEngine/src/GECS/Animators")
-    install(DIRECTORY "${TAZGRAPHENGINE_DIR}/src/GECS/Animators"
-        DESTINATION assets/GECS
-        PATTERN ".git*" EXCLUDE
-        PATTERN "*~" EXCLUDE
-    )
-endif()
-
-# Install sounds if exists
-if(EXISTS "${PROJECT_SOURCE_DIR}/TazGraph/Sounds")
-    install(DIRECTORY "${PROJECT_SOURCE_DIR}/Sounds"
-        DESTINATION .
-        PATTERN ".git*" EXCLUDE
-        PATTERN "*~" EXCLUDE
-    )
-endif()
-    
-# Install desktop file  
-if(EXISTS "${PROJECT_SOURCE_DIR}/deploy/${PROJECT_NAME}.desktop")
-    install(FILES "${PROJECT_SOURCE_DIR}/deploy/${PROJECT_NAME}.desktop" DESTINATION share/applications)
-endif()
-    
-# Install icons
-if(EXISTS "${PROJECT_SOURCE_DIR}/TazGraph/assets/Sprites")
-    install(DIRECTORY "${PROJECT_SOURCE_DIR}/deploy/icons" DESTINATION share/icons/hicolor)
-endif()
+function(create_desktop_file NAME COMMENT)
+        set(DESKTOP_CONTENT
+            "[Desktop Entry]\\n"
+            "Type=Application\\n"
+            "Name=${NAME}\\n"
+            "Comment=${COMMENT}\\n"
+            "Exec=${NAME}\\n"
+            "Icon=${NAME}\\n"
+            "Categories=Graphics;Science;\\n"
+            "Terminal=false\\n"
+        )
+endfunction()
     
 # AppImage target
 if(BUILD_APPIMAGE)
-    # Check for linuxdeploy
-    find_program(LINUXDEPLOY_EXE linuxdeploy-x86_64.AppImage
-        HINTS /usr/local/bin /usr/bin /bin
-        PATHS ${CMAKE_SOURCE_DIR}
-    )
-        
-    if(NOT LINUXDEPLOY_EXE)
-        message(WARNING "linuxdeploy not found. Downloading...")
-        file(DOWNLOAD 
-            https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-            ${CMAKE_BINARY_DIR}/linuxdeploy-x86_64.AppImage
-            TIMEOUT 60
-        )
-        file(CHMOD ${CMAKE_BINARY_DIR}/linuxdeploy-x86_64.AppImage FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE)
-        set(LINUXDEPLOY_EXE ${CMAKE_BINARY_DIR}/linuxdeploy-x86_64.AppImage)
-    endif()
-        
     # Check for appimagetool
     find_program(APPIMAGETOOL_EXE appimagetool-x86_64.AppImage
-        HINTS /usr/local/bin /usr/bin /bin
+        HINTS ${CMAKE_BINARY_DIR}
     )
         
     if(NOT APPIMAGETOOL_EXE)
@@ -209,119 +168,69 @@ if(BUILD_APPIMAGE)
         set(APPIMAGETOOL_EXE ${CMAKE_BINARY_DIR}/appimagetool-x86_64.AppImage)
     endif()
         
-    # Create desktop file if it doesn't exist
-    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/deploy/${PROJECT_NAME}.desktop")
-        file(WRITE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.desktop"
-            "[Desktop Entry]
-            Type=Application
-            Name=TazGraph
-            Comment=Graph Visualization Tool
-            Exec=${PROJECT_NAME}
-            Icon=${PROJECT_NAME}
-            Categories=Graphics;Science;
-            Terminal=false
-            ")
-    endif()
+    # need to first create them before copying them inside AppDir
+    file(WRITE "${CMAKE_BINARY_DIR}/AppRun"
+    "#!/bin/bash
+    APPDIR=\"\${APPDIR:-\$(dirname \"\$(readlink -f \"\$0\")\")}\"\n
+    export LD_LIBRARY_PATH=\"\$APPDIR/TazGraph:\$LD_LIBRARY_PATH\"
+    export PATH=\"\$APPDIR/TazGraph:\$PATH\"
+
+    cd \"\$APPDIR/TazGraph\"
+    exec \"\$APPDIR/TazGraph/TazGraph\" \"\$@\"
+    ")
+
+    file(CHMOD ${CMAKE_BINARY_DIR}/AppRun FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
         
-    # Create icon if it doesn't exist
-    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/deploy/icons/256x256/apps/${PROJECT_NAME}.png")
-        # Create a simple placeholder icon
-        find_program(CONVERT_EXE convert)
-        if(CONVERT_EXE)
-            execute_process(
-                COMMAND ${CONVERT_EXE} -size 256x256 xc:#4A90E2 -pointsize 72 -fill white -gravity center -annotate 0 "TG" ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.png
-            )
-        endif()
-    endif()
-        
+    file(WRITE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.desktop" ${DESKTOP_CONTENT})
+    
     # Custom target for AppImage
     add_custom_target(appimage
         # Build the project
         COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --config ${CMAKE_BUILD_TYPE}
         
-        # Create AppDir structure
+        # Create AppDir structure with TazGraph and TazGraphEngine folders
         COMMAND rm -rf ${CMAKE_BINARY_DIR}/AppDir
-        COMMAND mkdir -p ${CMAKE_BINARY_DIR}/AppDir/usr/bin
-        COMMAND mkdir -p ${CMAKE_BINARY_DIR}/AppDir/assets
+        COMMAND mkdir -p ${CMAKE_BINARY_DIR}/AppDir/TazGraph/assets
+        COMMAND mkdir -p ${CMAKE_BINARY_DIR}/AppDir/TazGraphEngine/src/GECS
         
-        # Copy executable
-        COMMAND cp $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/AppDir/usr/bin/
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/AppRun ${CMAKE_BINARY_DIR}/AppDir/
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.desktop ${CMAKE_BINARY_DIR}/AppDir/
+
+
+        # Copy executable to TazGraph folder as well
+        COMMAND cp $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/AppDir/TazGraph/
         
-        # Copy AppRun script
-        COMMAND cp ${CMAKE_BINARY_DIR}/AppRun ${CMAKE_BINARY_DIR}/AppDir/
-        COMMAND chmod +x ${CMAKE_BINARY_DIR}/AppDir/AppRun
+        # Copy and icon
+        COMMAND cp ${PROJECT_SOURCE_DIR}/TazGraph/assets/Sprites/TazGraph_whitebg-8.png ${CMAKE_BINARY_DIR}/AppDir/${PROJECT_NAME}.png
         
-        # Copy desktop file and icon
-        COMMAND cp ${DESKTOP_FILE} ${CMAKE_BINARY_DIR}/AppDir/
-        COMMAND cp ${ICON_FILE} ${CMAKE_BINARY_DIR}/AppDir/${PROJECT_NAME}.png
-        
-        # Copy assets from TazGraph/assets
+        # Copy assets to TazGraph/assets
         COMMAND ${CMAKE_COMMAND} -E copy_directory 
-                ${PROJECT_SOURCE_DIR}/assets 
-                ${CMAKE_BINARY_DIR}/AppDir/assets
+                ${PROJECT_SOURCE_DIR}/TazGraph/assets 
+                ${CMAKE_BINARY_DIR}/AppDir/TazGraph/assets
                 
-        # Copy shaders
+        # Copy shaders to TazGraph/assets
         COMMAND ${CMAKE_COMMAND} -E copy_directory 
-                ${PROJECT_SOURCE_DIR}/Src/Shaders 
-                ${CMAKE_BINARY_DIR}/AppDir/assets/Shaders
+                ${PROJECT_SOURCE_DIR}/TazGraph/Src/Shaders 
+                ${CMAKE_BINARY_DIR}/AppDir/TazGraph/Src/Shaders
                 
-        # Copy animators from TazGraphEngine
+        # Copy animators to TazGraphEngine/GECS
         COMMAND ${CMAKE_COMMAND} -E copy_directory 
-                ${TAZGRAPHENGINE_DIR}/src/GECS/Animators 
-                ${CMAKE_BINARY_DIR}/AppDir/assets/GECS/Animators
+                ${PROJECT_SOURCE_DIR}/TazGraphEngine/src/GECS/Animators 
+                ${CMAKE_BINARY_DIR}/AppDir/TazGraphEngine/src/GECS/Animators
                 
-        # Copy sounds if they exist
-        COMMAND if [ -d "${PROJECT_SOURCE_DIR}/Sounds" ]; then 
-                ${CMAKE_COMMAND} -E copy_directory 
-                ${PROJECT_SOURCE_DIR}/Sounds 
-                ${CMAKE_BINARY_DIR}/AppDir/Sounds; fi
-                
-        # Run linuxdeploy to bundle dependencies
-        COMMAND cd ${CMAKE_BINARY_DIR} && 
-                ${LINUXDEPLOY} 
-                --appdir=AppDir 
-                --executable=AppDir/usr/bin/${PROJECT_NAME}
-                --desktop-file=AppDir/${PROJECT_NAME}.desktop
-                --icon-file=AppDir/${PROJECT_NAME}.png
-                --output=appimage
-        
+        # Copy Sounds to TazGraph/Sounds
+        COMMAND ${CMAKE_COMMAND} -E copy_directory 
+                ${PROJECT_SOURCE_DIR}/TazGraph/Sounds 
+                ${CMAKE_BINARY_DIR}/AppDir/TazGraph/Sounds
+    
+
+        COMMAND ${APPIMAGETOOL_EXE} ${CMAKE_BINARY_DIR}/AppDir 
+                ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.AppImage
+
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        COMMENT "Creating AppImage with all assets"
+        COMMENT "Creating AppImage with TazGraph and TazGraphEngine structure"
         VERBATIM
     )
-        
-    # Alternative simpler AppImage target
-    add_custom_target(appimage-simple
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/AppDir/usr/bin
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/AppDir/usr/bin/
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.desktop ${CMAKE_BINARY_DIR}/AppDir/
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.png ${CMAKE_BINARY_DIR}/AppDir/
-        COMMAND ${LINUXDEPLOY_EXE} --appdir ${CMAKE_BINARY_DIR}/AppDir --output appimage
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        DEPENDS ${PROJECT_NAME}
-        COMMENT "Creating simple AppImage"
-    )
-        
-    # Python plugin for linuxdeploy (if using Python)
-    add_custom_target(appimage-with-python
-        COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target install --config ${CMAKE_BUILD_TYPE}
-        COMMAND rm -rf ${CMAKE_BINARY_DIR}/AppDir
-        # Download Python plugin
-        COMMAND wget -q -O ${CMAKE_BINARY_DIR}/linuxdeploy-plugin-python-x86_64.AppImage 
-            https://github.com/linuxdeploy/linuxdeploy-plugin-python/releases/download/continuous/linuxdeploy-plugin-python-x86_64.AppImage
-        COMMAND chmod +x ${CMAKE_BINARY_DIR}/linuxdeploy-plugin-python-x86_64.AppImage
-        # Run linuxdeploy with Python plugin
-        COMMAND ${LINUXDEPLOY_EXE} 
-            --appdir=${CMAKE_BINARY_DIR}/AppDir
-            --executable=${CMAKE_INSTALL_PREFIX}/bin/${PROJECT_NAME}
-            --desktop-file=${CMAKE_BINARY_DIR}/${PROJECT_NAME}.desktop
-            --icon-file=${CMAKE_BINARY_DIR}/${PROJECT_NAME}.png
-            --plugin=python
-            --output=appimage
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        DEPENDS ${PROJECT_NAME}
-        COMMENT "Creating AppImage with Python support"
-    )
-        
-endif() # BUILD_APPIMAGE
+
+endif()  # BUILD_APPIMAGE
 

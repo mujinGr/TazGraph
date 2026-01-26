@@ -151,7 +151,6 @@ void AppInterface::run() {
 		}
 		TracyPlot("FPS", _limiter.fps); // Plot FPS over time
 		TracyPlot("Frame Time (ms)", frameTime); // Plot frame time
-		FrameMark;
 	}
 }
 
@@ -237,6 +236,8 @@ void AppInterface::RenderThreadFunc() {
 			if (queues[renderIndex].isReady) {
 				ZoneScoped;
 				ZoneName(oss.c_str(), renderIndex);
+
+				glFlush(); 
 
 				queues[renderIndex].Execute();
 				renderIndex = 1 - renderIndex;
