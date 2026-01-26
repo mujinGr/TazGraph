@@ -170,7 +170,7 @@
   <ItemGroup>
     <ClCompile Include="Src\App\App.cpp" />
     <ClCompile Include="Src\AssetManager\AssetManager.cpp" />
-    <ClCompile Include="Src\AssetManager\PythonEngineUtil.cpp" />
+    <ClCompile Include="Src\AssetManager\PythonEngineCommands.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\GraphMiddlePanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HighlightBox\HighlightBox.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\EntityComponentsControl\EntityComponentsControl.cpp" />
@@ -217,7 +217,7 @@
   <ItemGroup>
     <ClInclude Include="Src\App\App.h" />
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
-    <ClInclude Include="Src\AssetManager\PythonEngineUtil.h" />
+    <ClInclude Include="Src\AssetManager\PythonEngineCommands.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\GraphMiddlePanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HighlightBox\HighlightBox.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\EntityComponentsControl\EntityComponentsControl.h" />

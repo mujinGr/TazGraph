@@ -4,10 +4,10 @@
 
 #include "AssetManager.h"
 
-class PythonEngineUtil
+class PythonEngineCommands
 {
 public:
-	PythonEngineUtil();
+	PythonEngineCommands();
 
 
 	void init(Manager& manager);

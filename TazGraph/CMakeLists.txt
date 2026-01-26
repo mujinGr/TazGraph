@@ -137,18 +137,8 @@ if(EXISTS "${PROJECT_SOURCE_DIR}/TazGraph/assets")
 endif()
 
 
-function(create_desktop_file NAME COMMENT)
-        set(DESKTOP_CONTENT
-            "[Desktop Entry]\\n"
-            "Type=Application\\n"
-            "Name=${NAME}\\n"
-            "Comment=${COMMENT}\\n"
-            "Exec=${NAME}\\n"
-            "Icon=${NAME}\\n"
-            "Categories=Graphics;Science;\\n"
-            "Terminal=false\\n"
-        )
-endfunction()
+
+
     
 # AppImage target
 if(BUILD_APPIMAGE)
@@ -181,6 +171,16 @@ if(BUILD_APPIMAGE)
 
     file(CHMOD ${CMAKE_BINARY_DIR}/AppRun FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
         
+    set(DESKTOP_CONTENT "[Desktop Entry]
+Type=Application
+Name=${PROJECT_NAME}
+Comment=3D Graph Editor
+Exec=${PROJECT_NAME}
+Icon=${PROJECT_NAME}
+Categories=Graphics;
+Terminal=false
+")
+
     file(WRITE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.desktop" ${DESKTOP_CONTENT})
     
     # Custom target for AppImage

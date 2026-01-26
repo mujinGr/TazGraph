@@ -1,10 +1,10 @@
-#include "PythonEngineUtil.h"
+#include "PythonEngineCommands.h"
 
-PythonEngineUtil::PythonEngineUtil()
+PythonEngineCommands::PythonEngineCommands()
 {
 }
 
-void PythonEngineUtil::init(Manager& manager)
+void PythonEngineCommands::init(Manager& manager)
 {
 	py::exec(R"(
 				import sys
@@ -33,7 +33,7 @@ void PythonEngineUtil::init(Manager& manager)
 	py::globals()["printStep"] = userapi.attr("printStep");
 }
 
-void PythonEngineUtil::init_api(py::module_& m, Manager& manager)
+void PythonEngineCommands::init_api(py::module_& m, Manager& manager)
 {
 	m.def("openFile", [](std::string file) -> void {
 		DataManager::getInstance().setMapToLoad(file);
