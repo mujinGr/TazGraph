@@ -49,7 +49,8 @@ After batching, each renderer draws its instances and clears its buffers\+:
  Repeat for each renderer (e.\+g. \+\_\+\+Line\+Renderer, \+\_\+\+Plane\+Model\+Renderer, \+\_\+\+Light\+Renderer) in your preferred draw order.
 
 {\ttfamily Not all \doxylink{classEntity}{Entity} Components can draw with all renderers (e.\+g. Sprite \doxylink{classComponent}{Component} is used to specifically draw for \doxylink{classPlaneModelRenderer}{Plane\+Model\+Renderer}). The draw function in the component indicates the renderers used\+: {\ttfamily void draw(size\+\_\+t v\+\_\+index,}{\ttfamily \doxylink{classPlaneModelRenderer}{Plane\+Model\+Renderer}}{\ttfamily \& batch, \doxylink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}\& window) \{ ... \} }}\hypertarget{renderEngine_autotoc_md12}{}\doxysubsubsubsection{\texorpdfstring{Custom Renderers}{Custom Renderers}}\label{renderEngine_autotoc_md12}
-Renderers in Taz\+Graph are grouped by the attributes they support, which directly affects the shaders they use. This design makes rendering highly memory-\/efficient, but each renderer is tailored for a specific use case.
+Renderers in Taz\+Graph are grouped by the attributes they support, which directly affects the shaders they use. ~\newline
+ This design makes rendering highly memory-\/efficient, but each renderer is tailored for a specific use case.
 
 Each renderer sets a fixed number of per-\/vertex and per-\/instance attributes. For example, the {\ttfamily \doxylink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} expects shaders with the following layout\+:
 
@@ -79,4 +80,6 @@ To create a new renderer -\/ for example, a {\bfseries{textured plane with shadi
 \item you need to implement a new renderer class that matches the data layout and rendering logic required for that effect.
 \end{DoxyItemize}
 
-In the following folder\+: {\ttfamily Taz\+Graph\+Engine/\+Renderers/\+Plane\+Renderers/\+Plane\+Lit\+Text\+Renderer} use one of the existing renderers as a base, then write glsl shader to match the renderer under {\ttfamily Taz\+Graph/\+Src/\+Shaders}, implement a {\ttfamily draw} function in a component that uses that renderer and then pass that renderer as argument for {\ttfamily render\+Batch} in {\ttfamily Graph\+::draw()}. 
+In the following folder\+: {\ttfamily Taz\+Graph\+Engine/\+Renderers/\+Plane\+Renderers/\+Plane\+Lit\+Text\+Renderer} ~\newline
+ use one of the existing renderers as a base, then write glsl shader to match the renderer under {\ttfamily Taz\+Graph/\+Src/\+Shaders},~\newline
+ implement a {\ttfamily draw} function in a component that uses that renderer and then pass that renderer as argument for {\ttfamily render\+Batch} in {\ttfamily Graph\+::draw()}. 

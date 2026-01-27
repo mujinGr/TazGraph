@@ -6,15 +6,15 @@ TazGraph is a modular, high-performance 3D graph editor built in C++ with OpenGL
 
 
 ## Getting Started
-create a build folder in root
-necessary programs: cmake, g++
-Ubuntu: 
-`sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev libglew-dev libglm-dev libopengl`
+create a build folder in root<br>
+necessary programs: cmake, g++<br>
+Ubuntu: <br>
+`sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev libglew-dev libglm-dev libopengl`<br>
 
-`sudo apt install python3-dev libpython3-dev python3.12-dev libjs-sphinxdoc`
+`sudo apt install python3-dev libpython3-dev python3.12-dev libjs-sphinxdoc`<br>
 
-if libopengl does not exist:
-`sudo apt install freeglut3-dev mesa-common-dev`
+if libopengl does not exist: <br>
+`sudo apt install freeglut3-dev mesa-common-dev` <br>
 
 ><b>Windows (Visual Studio 2022)</b> <br>
 The project was primarily tested on Visual Studio 2022. <br>
@@ -27,12 +27,12 @@ directly by editing the .vcxproj file to point to the locations of the libraries
 (e.g. `$(SolutionDir)deps/lib;C:\Users\lefte\AppData\Local\Programs\Python\Python313\libs;`, `$(SolutionDir)deps\include;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include`)
 
 Start by cloning the repository with <br>
-\
+
 Github:<br>
-`git clone --recursive https://github.com/mujinGr/TazGraph.git`
-\
+`git clone --recursive https://github.com/mujinGr/TazGraph.git`<br>
+<br>
 GitLab:<br>
-`git clone --recursive https://carvgit.ics.forth.gr/kotsonas/tazgraph.git`
+`git clone --recursive https://carvgit.ics.forth.gr/kotsonas/tazgraph.git`<br>
 
 If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
 

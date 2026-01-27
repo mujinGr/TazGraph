@@ -5,11 +5,18 @@
  
 
 Taz\+Graph is a modular, high-\/performance 3D graph editor built in C++ with Open\+GL, designed for efficient visualization and interaction with large-\/scale graph data.\hypertarget{index_autotoc_md14}{}\doxysection{\texorpdfstring{Getting Started}{Getting Started}}\label{index_autotoc_md14}
-create a build folder in root necessary programs\+: cmake, g++ Ubuntu\+: {\ttfamily sudo apt-\/get install libsdl2-\/dev libsdl2-\/image-\/dev libsdl2-\/ttf-\/dev libsdl2-\/mixer-\/dev libglew-\/dev libglm-\/dev libopengl}
+create a build folder in root~\newline
+ necessary programs\+: cmake, g++~\newline
+ Ubuntu\+: ~\newline
+ {\ttfamily sudo apt-\/get install libsdl2-\/dev libsdl2-\/image-\/dev libsdl2-\/ttf-\/dev libsdl2-\/mixer-\/dev libglew-\/dev libglm-\/dev libopengl}~\newline
 
-{\ttfamily sudo apt install python3-\/dev libpython3-\/dev python3.\+12-\/dev libjs-\/sphinxdoc}
 
-if libopengl does not exist\+: {\ttfamily sudo apt install freeglut3-\/dev mesa-\/common-\/dev}
+{\ttfamily sudo apt install python3-\/dev libpython3-\/dev python3.\+12-\/dev libjs-\/sphinxdoc}~\newline
+
+
+if libopengl does not exist\+: ~\newline
+ {\ttfamily sudo apt install freeglut3-\/dev mesa-\/common-\/dev} ~\newline
+
 
 \texorpdfstring{$>$}{>}{\bfseries{Windows (Visual Studio 2022)}} ~\newline
  The project was primarily tested on Visual Studio 2022. ~\newline
@@ -22,9 +29,14 @@ if libopengl does not exist\+: {\ttfamily sudo apt install freeglut3-\/dev mesa-
  (e.\+g. {\ttfamily \$(Solution\+Dir)deps/lib;C\+:\textbackslash{}Users\textbackslash{}lefte\textbackslash{}App\+Data\textbackslash{}Local\textbackslash{}Programs\textbackslash{}Python\textbackslash{}Python313\textbackslash{}libs;}, {\ttfamily \$(Solution\+Dir)deps\textbackslash{}include;C\+:\textbackslash{}Users\textbackslash{}lefte\textbackslash{}App\+Data\textbackslash{}Local\textbackslash{}Programs\textbackslash{}Python\textbackslash{}Python313\textbackslash{}include})
 
 Start by cloning the repository with ~\newline
- \textbackslash{} Github\+:~\newline
- {\ttfamily git clone -\/-\/recursive \href{https://github.com/mujinGr/TazGraph.git}{\texttt{ https\+://github.\+com/mujin\+Gr/\+Taz\+Graph.\+git}}} \textbackslash{} Git\+Lab\+:~\newline
- {\ttfamily git clone -\/-\/recursive \href{https://carvgit.ics.forth.gr/kotsonas/tazgraph.git}{\texttt{ https\+://carvgit.\+ics.\+forth.\+gr/kotsonas/tazgraph.\+git}}}
+
+
+Github\+:~\newline
+ {\ttfamily git clone -\/-\/recursive \href{https://github.com/mujinGr/TazGraph.git}{\texttt{ https\+://github.\+com/mujin\+Gr/\+Taz\+Graph.\+git}}}~\newline
+ ~\newline
+ Git\+Lab\+:~\newline
+ {\ttfamily git clone -\/-\/recursive \href{https://carvgit.ics.forth.gr/kotsonas/tazgraph.git}{\texttt{ https\+://carvgit.\+ics.\+forth.\+gr/kotsonas/tazgraph.\+git}}}~\newline
+
 
 If the repository was cloned non-\/recursively previously, use {\ttfamily git submodule update -\/-\/init} to clone the necessary submodules.\hypertarget{index_autotoc_md15}{}\doxysubsection{\texorpdfstring{Build}{Build}}\label{index_autotoc_md15}
 {\ttfamily mkdir build} \textbackslash{} {\ttfamily cd build} \textbackslash{} {\ttfamily cmake -\/DCMAKE\+\_\+\+BUILD\+\_\+\+TYPE=Release ..} \textbackslash{} {\ttfamily make}

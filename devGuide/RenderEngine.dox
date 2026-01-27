@@ -67,7 +67,7 @@ The draw function in the component indicates the renderers used:
 
 ### Custom Renderers
 
-Renderers in TazGraph are grouped by the attributes they support, which directly affects the shaders they use. 
+Renderers in TazGraph are grouped by the attributes they support, which directly affects the shaders they use. <br>
 This design makes rendering highly memory-efficient, but each renderer is tailored for a specific use case.
 
 Each renderer sets a fixed number of per-vertex and per-instance attributes. 
@@ -93,8 +93,8 @@ Currently, the engine includes the following specific renderers:
 To create a new renderer - for example, a **textured plane with shading** 
 - you need to implement a new renderer class that matches the data layout and rendering logic required for that effect.
 
-In the following folder: `TazGraphEngine/Renderers/PlaneRenderers/PlaneLitTextRenderer` 
-use one of the existing renderers as a base, then write glsl shader to match the renderer under `TazGraph/Src/Shaders`, 
+In the following folder: `TazGraphEngine/Renderers/PlaneRenderers/PlaneLitTextRenderer` <br>
+use one of the existing renderers as a base, then write glsl shader to match the renderer under `TazGraph/Src/Shaders`,<br> 
 implement a `draw` function in a component that uses that renderer and then pass that renderer as argument for `renderBatch` in `Graph::draw()`.
 
 

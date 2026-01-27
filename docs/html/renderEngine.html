@@ -114,7 +114,8 @@ Graph Rendering Pipeline</h3>
 <p><code style="color : limegreen">Not all <a class="el" href="classEntity.html">Entity</a> Components can draw with all renderers (e.g. Sprite <a class="el" href="classComponent.html">Component</a> is used to specifically draw for <a class="el" href="classPlaneModelRenderer.html">PlaneModelRenderer</a>). The draw function in the component indicates the renderers used: <code>void draw(size_t v_index,</code><code style="color : red"><a class="el" href="classPlaneModelRenderer.html">PlaneModelRenderer</a></code><code>&amp; batch, <a class="el" href="classTazGraphEngine_1_1Window.html">TazGraphEngine::Window</a>&amp; window) { ... } </code></code></p>
 <h3><a class="anchor" id="autotoc_md12"></a>
 Custom Renderers</h3>
-<p>Renderers in TazGraph are grouped by the attributes they support, which directly affects the shaders they use. This design makes rendering highly memory-efficient, but each renderer is tailored for a specific use case.</p>
+<p>Renderers in TazGraph are grouped by the attributes they support, which directly affects the shaders they use. <br  />
+ This design makes rendering highly memory-efficient, but each renderer is tailored for a specific use case.</p>
 <p>Each renderer sets a fixed number of per-vertex and per-instance attributes. For example, the <code><a class="el" href="classPlaneColorRenderer.html">PlaneColorRenderer</a></code> expects shaders with the following layout:</p>
 <div class="fragment"><div class="line">layout (location = 0) in vec3 aPos; <span class="comment">//vertex Pos</span></div>
 <div class="line">layout (location = 1) in vec3 aNormal; <span class="comment">//vertex Normal</span></div>
@@ -133,7 +134,9 @@ Custom Renderers</h3>
 <p>To create a new renderer - for example, a <b>textured plane with shading</b></p><ul>
 <li>you need to implement a new renderer class that matches the data layout and rendering logic required for that effect.</li>
 </ul>
-<p>In the following folder: <code>TazGraphEngine/Renderers/PlaneRenderers/PlaneLitTextRenderer</code> use one of the existing renderers as a base, then write glsl shader to match the renderer under <code>TazGraph/Src/Shaders</code>, implement a <code>draw</code> function in a component that uses that renderer and then pass that renderer as argument for <code>renderBatch</code> in <code>Graph::draw()</code>. </p>
+<p>In the following folder: <code>TazGraphEngine/Renderers/PlaneRenderers/PlaneLitTextRenderer</code> <br  />
+ use one of the existing renderers as a base, then write glsl shader to match the renderer under <code>TazGraph/Src/Shaders</code>,<br  />
+ implement a <code>draw</code> function in a component that uses that renderer and then pass that renderer as argument for <code>renderBatch</code> in <code>Graph::draw()</code>. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

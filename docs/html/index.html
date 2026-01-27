@@ -76,9 +76,16 @@ $(function() {
 <p>TazGraph is a modular, high-performance 3D graph editor built in C++ with OpenGL, designed for efficient visualization and interaction with large-scale graph data.</p>
 <h1><a class="anchor" id="autotoc_md14"></a>
 Getting Started</h1>
-<p>create a build folder in root necessary programs: cmake, g++ Ubuntu: <code>sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev libglew-dev libglm-dev libopengl</code></p>
-<p><code>sudo apt install python3-dev libpython3-dev python3.12-dev libjs-sphinxdoc</code></p>
-<p>if libopengl does not exist: <code>sudo apt install freeglut3-dev mesa-common-dev</code></p>
+<p>create a build folder in root<br  />
+ necessary programs: cmake, g++<br  />
+ Ubuntu: <br  />
+ <code>sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev libglew-dev libglm-dev libopengl</code><br  />
+</p>
+<p><code>sudo apt install python3-dev libpython3-dev python3.12-dev libjs-sphinxdoc</code><br  />
+</p>
+<p>if libopengl does not exist: <br  />
+ <code>sudo apt install freeglut3-dev mesa-common-dev</code> <br  />
+</p>
 <p>&gt;<b>Windows (Visual Studio 2022)</b> <br  />
  The project was primarily tested on Visual Studio 2022. <br  />
  &gt;- Build settings are defined in the .vcxproj file.<br  />
@@ -89,9 +96,13 @@ Getting Started</h1>
  directly by editing the .vcxproj file to point to the locations of the libraries on your system.<br  />
  (e.g. <code>$(SolutionDir)deps/lib;C:\Users\lefte\AppData\Local\Programs\Python\Python313\libs;</code>, <code>$(SolutionDir)deps\include;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include</code>)</p>
 <p>Start by cloning the repository with <br  />
- \ Github:<br  />
- <code>git clone --recursive <a href="https://github.com/mujinGr/TazGraph.git">https://github.com/mujinGr/TazGraph.git</a></code> \ GitLab:<br  />
- <code>git clone --recursive <a href="https://carvgit.ics.forth.gr/kotsonas/tazgraph.git">https://carvgit.ics.forth.gr/kotsonas/tazgraph.git</a></code></p>
+</p>
+<p>Github:<br  />
+ <code>git clone --recursive <a href="https://github.com/mujinGr/TazGraph.git">https://github.com/mujinGr/TazGraph.git</a></code><br  />
+ <br  />
+ GitLab:<br  />
+ <code>git clone --recursive <a href="https://carvgit.ics.forth.gr/kotsonas/tazgraph.git">https://carvgit.ics.forth.gr/kotsonas/tazgraph.git</a></code><br  />
+</p>
 <p>If the repository was cloned non-recursively previously, use <code>git submodule update --init</code> to clone the necessary submodules.</p>
 <h2><a class="anchor" id="autotoc_md15"></a>
 Build</h2>
