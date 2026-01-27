@@ -4197,7 +4197,7 @@
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A24AA43B7CA34978B9BFEF876F17C86E"
             {
             "Name" = "8:TazGraph Shortcut"
-            "Arguments" = "8:--num-threads=7 --MSAA=4 --use-python=true"
+            "Arguments" = "8:--num-threads=8 --MSAA=4 --use-python=true"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"

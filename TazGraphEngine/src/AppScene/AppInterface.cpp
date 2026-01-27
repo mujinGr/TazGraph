@@ -237,7 +237,7 @@ void AppInterface::RenderThreadFunc() {
 				ZoneScoped;
 				ZoneName(oss.c_str(), renderIndex);
 
-				glFlush(); 
+				glFlush();
 
 				queues[renderIndex].Execute();
 				renderIndex = 1 - renderIndex;
@@ -405,9 +405,15 @@ void AppInterface::update(float deltaTime) {
 		switch (_sceneList->getCurrent()->getState()) {
 		case SceneState::CHANGE_NEXT:
 			_sceneList->getCurrent()->onExit();
+
+			queues[0].Wait();
+			queues[1].Wait();
+
 			_sceneList->moveNext();
 			if (_sceneList->getCurrent()) {
 				_sceneList->getCurrent()->setRunning();
+
+
 				_sceneList->getCurrent()->onEntry();
 			}
 			break;
@@ -434,7 +440,6 @@ void AppInterface::update(float deltaTime) {
 	default:
 		break;
 	}
-
 }
 
 void AppInterface::prepareDraw(int index)

@@ -166,7 +166,10 @@ if(BUILD_APPIMAGE)
     export PATH=\"\$APPDIR/TazGraph:\$PATH\"
 
     cd \"\$APPDIR/TazGraph\"
-    exec \"\$APPDIR/TazGraph/TazGraph\" \"\$@\"
+    
+    DEFAULT_ARGS=\"--num-threads=8 --MSAA=4\"
+
+    exec \"\$APPDIR/TazGraph/TazGraph\" $DEFAULT_ARGS \"\$@\"
     ")
 
     file(CHMOD ${CMAKE_BINARY_DIR}/AppRun FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
@@ -175,7 +178,7 @@ if(BUILD_APPIMAGE)
 Type=Application
 Name=${PROJECT_NAME}
 Comment=3D Graph Editor
-Exec=${PROJECT_NAME}
+Exec=${PROJECT_NAME} --num-threads=8 --MSAA=4
 Icon=${PROJECT_NAME}
 Categories=Graphics;
 Terminal=false
@@ -217,6 +220,11 @@ Terminal=false
         COMMAND ${CMAKE_COMMAND} -E copy_directory 
                 ${PROJECT_SOURCE_DIR}/TazGraphEngine/src/GECS/Animators 
                 ${CMAKE_BINARY_DIR}/AppDir/TazGraphEngine/src/GECS/Animators
+        
+        # Copy Components to TazGraphEngine/GECS
+        COMMAND ${CMAKE_COMMAND} -E copy_directory 
+                ${PROJECT_SOURCE_DIR}/TazGraphEngine/src/GECS/Components
+                ${CMAKE_BINARY_DIR}/AppDir/TazGraphEngine/src/GECS/Components
                 
         # Copy Sounds to TazGraph/Sounds
         COMMAND ${CMAKE_COMMAND} -E copy_directory 
