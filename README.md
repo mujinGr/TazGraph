@@ -6,27 +6,33 @@ TazGraph is a modular, high-performance 3D graph editor built in C++ with OpenGL
 
 
 ## Getting Started
-create a build folder in root
-necessary programs: cmake, g++
-Ubuntu: 
-`sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev libglew-dev libglm-dev libopengl`
+create a build folder in root<br>
+necessary programs: cmake, g++<br>
+Ubuntu: <br>
+`sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev libglew-dev libglm-dev libopengl`<br>
 
-`sudo apt install python3-dev libpython3-dev python3.12-dev libjs-sphinxdoc`
+`sudo apt install python3-dev libpython3-dev python3.12-dev libjs-sphinxdoc`<br>
 
-if libopengl does not exist:
-`sudo apt install freeglut3-dev mesa-common-dev`
+if libopengl does not exist: <br>
+`sudo apt install freeglut3-dev mesa-common-dev` <br>
 
-><b>Windows (Visual Studio 2022)</b>\
-The project was primarily tested on Visual Studio 2022. 
->- Build settings are defined in the .vcxproj file.
->- Some large libraries (e.g., SDL, GLEW, Python) are not included locally in the repository. Instead, only their DLLs are committed. From these DLLs you can check which versions were used, but you may also use your own versions.
->- Library paths can be configured either through Project Properties in Visual Studio or directly by editing the .vcxproj file to point to the locations of the libraries on your system. (e.g. `$(SolutionDir)deps/lib;C:\Users\lefte\AppData\Local\Programs\Python\Python313\libs;`, `$(SolutionDir)deps\include;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include`)
+><b>Windows (Visual Studio 2022)</b> <br>
+The project was primarily tested on Visual Studio 2022. <br>
+>- Build settings are defined in the .vcxproj file.<br>
+>- Some large libraries (e.g., SDL, GLEW, Python) are not included locally in the repository. <br>
+Instead, only their DLLs are committed. From these DLLs you can check which versions were used, <br>
+but you may also use your own versions.<br>
+>- Library paths can be configured either through Project Properties in Visual Studio or <br>
+directly by editing the .vcxproj file to point to the locations of the libraries on your system.<br>
+(e.g. `$(SolutionDir)deps/lib;C:\Users\lefte\AppData\Local\Programs\Python\Python313\libs;`, `$(SolutionDir)deps\include;C:\Users\lefte\AppData\Local\Programs\Python\Python313\include`)
 
-Start by cloning the repository with
-Github:
-`git clone --recursive https://github.com/mujinGr/TazGraph.git`
-GitLab:
-`git clone --recursive https://carvgit.ics.forth.gr/kotsonas/tazgraph.git`
+Start by cloning the repository with <br>
+
+Github:<br>
+`git clone --recursive https://github.com/mujinGr/TazGraph.git`<br>
+<br>
+GitLab:<br>
+`git clone --recursive https://carvgit.ics.forth.gr/kotsonas/tazgraph.git`<br>
 
 If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
 
@@ -64,11 +70,16 @@ where N is the number of threads to use
 
 ## Intro
 
-Originally developed to support HPC simulation workflows, TazGraph enables real-time rendering of over 10,000 nodes and 60,000 links on consumer-grade hardware. It provides a flexible and extensible interface for visualizing complex systems using intuitive node-link diagrams.
-
-TazGraph is powered by a custom Entity-Component System (ECS) inspired by game engines. Entities (nodes, links, or empty) are modular, scriptable, and dynamically composed at runtime. The system supports multi-threaded batching, instanced rendering, and a 3D interactive workspace with support for multiple graphs and statistical overlays.
-
-Unlike many existing graph tools that are either limited in scope or hard to extend, TazGraph offers a lightweight, cross-platform platform ideal for rapid prototyping, HPC monitoring, and deep structural analysis.
+Originally developed to support HPC simulation workflows, <br>
+TazGraph enables real-time rendering of over 10,000 nodes and 60,000 links on consumer-grade hardware.<br>
+It provides a flexible and extensible interface for visualizing complex systems using intuitive node-link diagrams.<br>
+<br>
+TazGraph is powered by a custom Entity-Component System (ECS) inspired by game engines. <br>
+Entities (nodes, links, or empty) are modular, scriptable, and dynamically composed at runtime. <br>
+The system supports multi-threaded batching, instanced rendering, and a 3D interactive workspace with support for multiple graphs and statistical overlays.<br>
+<br>
+Unlike many existing graph tools that are either limited in scope or hard to extend,<br>
+TazGraph offers a lightweight, cross-platform platform ideal for rapid prototyping, HPC monitoring, and deep structural analysis.
 
 #### Built with:
 - C++ & OpenGL
