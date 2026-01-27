@@ -111,7 +111,7 @@ void EntityComponentsControlPanel::ComponentCheckbox(std::string c) {
 	}
 
 	if (it != componentNameToID.end()) {
-		ImGui::Text("(ID: %u)", cid);
+		ImGui::Text("(ID: %lu)", cid);
 		ImGui::SameLine();
 	}
 

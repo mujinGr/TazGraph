@@ -11,7 +11,8 @@ Inheritance diagram for App\+Interface\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for App\+Interface\+:\nopagebreak
+Collaboration diagram for App\+Interface\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -24,8 +25,7 @@ Collaboration diagram for App\+Interface\+:\nopagebreak
 \Hypertarget{classAppInterface_a2bd9148eba3981fa3b447278897b0f99}\label{classAppInterface_a2bd9148eba3981fa3b447278897b0f99} 
 {\bfseries App\+Interface} (int thread\+Count, int msaa\+\_\+samples, std\+::string open\+File, double initial\+Timestamp, int initial\+Step, bool use\+Python, std\+::array$<$ float, 4 $>$ bg, bool use\+Grid)
 \item 
-\Hypertarget{classAppInterface_a26b76a00a9254ec76d34dbff4f95dabe}\label{classAppInterface_a26b76a00a9254ec76d34dbff4f95dabe} 
-void {\bfseries run} ()
+void \mbox{\hyperlink{classAppInterface_a26b76a00a9254ec76d34dbff4f95dabe}{run}} ()
 \item 
 \Hypertarget{classAppInterface_a9f2e163a5688e996089f1ad96c6d5a60}\label{classAppInterface_a9f2e163a5688e996089f1ad96c6d5a60} 
 void {\bfseries enqueue\+Render\+Command} (std\+::function$<$ void()$>$ cmd)
@@ -60,20 +60,20 @@ void {\bfseries on\+SDLEvent} (SDL\+\_\+\+Event \&evnt)
 \Hypertarget{classAppInterface_a08bf5f44f12bdafb2ebe16681583e01b}\label{classAppInterface_a08bf5f44f12bdafb2ebe16681583e01b} 
 \mbox{\hyperlink{classAudioEngine}{Audio\+Engine}} \& {\bfseries get\+Audio\+Engine} ()
 \item 
-\Hypertarget{classAppInterface_af9017206411eff1cb72b1dd49ee4589f}\label{classAppInterface_af9017206411eff1cb72b1dd49ee4589f} 
-void {\bfseries render\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+\Hypertarget{classAppInterface_a98972f7740859f581e16ac424777e1b6}\label{classAppInterface_a98972f7740859f581e16ac424777e1b6} 
+void {\bfseries render\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
 \item 
-\Hypertarget{classAppInterface_ad1d822c0b7367357faa02c3c5fee546b}\label{classAppInterface_ad1d822c0b7367357faa02c3c5fee546b} 
-void {\bfseries draw\+Line\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+\Hypertarget{classAppInterface_a17bfb117cebc7bf463eb3d69bd367321}\label{classAppInterface_a17bfb117cebc7bf463eb3d69bd367321} 
+void {\bfseries draw\+Line\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
 \item 
-\Hypertarget{classAppInterface_a86a1204ca5778934e3ad21f55463b07e}\label{classAppInterface_a86a1204ca5778934e3ad21f55463b07e} 
-void {\bfseries draw\+Plane\+Color\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+\Hypertarget{classAppInterface_aa92a6767e16668d72f841441270e74f4}\label{classAppInterface_aa92a6767e16668d72f841441270e74f4} 
+void {\bfseries draw\+Plane\+Color\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
 \item 
-\Hypertarget{classAppInterface_a6e7ac06245f864cc38ee6555e2189e70}\label{classAppInterface_a6e7ac06245f864cc38ee6555e2189e70} 
-void {\bfseries draw\+Plane\+Model\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+\Hypertarget{classAppInterface_ad79095f139af0a49be2586354bf40e39}\label{classAppInterface_ad79095f139af0a49be2586354bf40e39} 
+void {\bfseries draw\+Plane\+Model\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
 \item 
-\Hypertarget{classAppInterface_a3a99ac4f0f6349379285690892535f67}\label{classAppInterface_a3a99ac4f0f6349379285690892535f67} 
-void {\bfseries draw\+Light\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+\Hypertarget{classAppInterface_a1dd3044b0a8751f2d605d9bf43adbabd}\label{classAppInterface_a1dd3044b0a8751f2d605d9bf43adbabd} 
+void {\bfseries draw\+Light\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
 \item 
 \Hypertarget{classAppInterface_a36a6deb0d5322f51fac32f5c8046a208}\label{classAppInterface_a36a6deb0d5322f51fac32f5c8046a208} 
 void {\bfseries draw\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch)
@@ -87,20 +87,20 @@ void {\bfseries draw\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEntit
 \Hypertarget{classAppInterface_a74eb78079aef561049abfb4aca2ae027}\label{classAppInterface_a74eb78079aef561049abfb4aca2ae027} 
 void {\bfseries draw\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch)
 \item 
-\Hypertarget{classAppInterface_ac0f00d4ac074d72b09fd70273d516b2c}\label{classAppInterface_ac0f00d4ac074d72b09fd70273d516b2c} 
-void {\bfseries prepare\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+\Hypertarget{classAppInterface_a076c24c76550229ef8d19f470d6ee0e0}\label{classAppInterface_a076c24c76550229ef8d19f470d6ee0e0} 
+void {\bfseries prepare\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data)
 \item 
-\Hypertarget{classAppInterface_a61493642e8a603d1586b538d42f0eb62}\label{classAppInterface_a61493642e8a603d1586b538d42f0eb62} 
-void {\bfseries prepare\+Line\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+\Hypertarget{classAppInterface_a97a2738c69fe3fbaaade258ed6cb5cbc}\label{classAppInterface_a97a2738c69fe3fbaaade258ed6cb5cbc} 
+void {\bfseries prepare\+Line\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data)
 \item 
-\Hypertarget{classAppInterface_aa58db6a911d694bca1caab06d2d36dfc}\label{classAppInterface_aa58db6a911d694bca1caab06d2d36dfc} 
-void {\bfseries prepare\+Plane\+Color\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+\Hypertarget{classAppInterface_a5b12544146a2101a06ce339c3cc0011e}\label{classAppInterface_a5b12544146a2101a06ce339c3cc0011e} 
+void {\bfseries prepare\+Plane\+Color\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data)
 \item 
-\Hypertarget{classAppInterface_a7fbc68311942cb50dac7186df3daa8a0}\label{classAppInterface_a7fbc68311942cb50dac7186df3daa8a0} 
-void {\bfseries prepare\+Plane\+Model\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+\Hypertarget{classAppInterface_a283ae09613919e19af6206b5306e8508}\label{classAppInterface_a283ae09613919e19af6206b5306e8508} 
+void {\bfseries prepare\+Plane\+Model\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data)
 \item 
-\Hypertarget{classAppInterface_a4d16066a5505882a2381c1533642a231}\label{classAppInterface_a4d16066a5505882a2381c1533642a231} 
-void {\bfseries prepare\+Light\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+\Hypertarget{classAppInterface_a5df5902398ce0a54224022f03c15a608}\label{classAppInterface_a5df5902398ce0a54224022f03c15a608} 
+void {\bfseries prepare\+Light\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -138,29 +138,14 @@ std\+::array$<$ float, 4 $>$ {\bfseries background\+Color}
 \Hypertarget{classAppInterface_a42778759ed195f12ff5dafa0c1aeb257}\label{classAppInterface_a42778759ed195f12ff5dafa0c1aeb257} 
 bool {\bfseries use\+Grid} = false
 \item 
-\Hypertarget{classAppInterface_a7b7cd79d30512cca8357f740fa847d5f}\label{classAppInterface_a7b7cd79d30512cca8357f740fa847d5f} 
-std\+::mutex {\bfseries frame\+Mutex}
-\item 
-\Hypertarget{classAppInterface_ad22d71306e1d6a41ab8180aae56657d9}\label{classAppInterface_ad22d71306e1d6a41ab8180aae56657d9} 
-std\+::condition\+\_\+variable {\bfseries frame\+Ready\+CV}
-\item 
-\Hypertarget{classAppInterface_adbbb7f9337b9290ea5cf9521e38ac286}\label{classAppInterface_adbbb7f9337b9290ea5cf9521e38ac286} 
-std\+::condition\+\_\+variable {\bfseries frame\+Consumed\+CV}
-\item 
 \Hypertarget{classAppInterface_a231d3d8f53c96c9b167446dd9d7c34ab}\label{classAppInterface_a231d3d8f53c96c9b167446dd9d7c34ab} 
 std\+::condition\+\_\+variable {\bfseries init\+Command\+CV}
 \item 
-\Hypertarget{classAppInterface_a8adb97e246c6e906f4ed30636e59f360}\label{classAppInterface_a8adb97e246c6e906f4ed30636e59f360} 
-\mbox{\hyperlink{structRenderCommandQueue}{Render\+Command\+Queue}} {\bfseries queues} \mbox{[}2\mbox{]}
+\Hypertarget{classAppInterface_ac18c13d2a3aa3e9e75bc013d2bd7893b}\label{classAppInterface_ac18c13d2a3aa3e9e75bc013d2bd7893b} 
+\mbox{\hyperlink{structRenderCommandQueue}{Render\+Command\+Queue}} {\bfseries queues} \mbox{[}BUFFERS\+\_\+\+NO\mbox{]}
 \item 
 \Hypertarget{classAppInterface_a93a0d430f7d51116e07c6295642815e8}\label{classAppInterface_a93a0d430f7d51116e07c6295642815e8} 
 std\+::atomic$<$ int $>$ {\bfseries active\+Index} = 0
-\item 
-\Hypertarget{classAppInterface_af1f67a1279c88e213876484b22696bd3}\label{classAppInterface_af1f67a1279c88e213876484b22696bd3} 
-std\+::atomic$<$ bool $>$ {\bfseries frame\+Ready} \{ false \}
-\item 
-\Hypertarget{classAppInterface_aeae8424fb5ced13b695e50afddbbe802}\label{classAppInterface_aeae8424fb5ced13b695e50afddbbe802} 
-std\+::atomic$<$ bool $>$ {\bfseries frame\+Consumed} \{ true \}
 \item 
 \Hypertarget{classAppInterface_af0e164adb23ceefa5508dde7e9d53c4a}\label{classAppInterface_af0e164adb23ceefa5508dde7e9d53c4a} 
 \mbox{\hyperlink{structRenderCommandQueue}{Render\+Command\+Queue}} {\bfseries init\+Queue}
@@ -183,18 +168,6 @@ std\+::vector$<$ SDL\+\_\+\+Event $>$ {\bfseries imgui\+Events}
 \Hypertarget{classAppInterface_a8d09987057c5c8ae71d34145643e8068}\label{classAppInterface_a8d09987057c5c8ae71d34145643e8068} 
 std\+::mutex {\bfseries imgui\+Events\+Mutex}
 \item 
-\Hypertarget{classAppInterface_a76afb04458922446ec64a30bf1521136}\label{classAppInterface_a76afb04458922446ec64a30bf1521136} 
-\mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} {\bfseries plane\+Model\+Renderer}
-\item 
-\Hypertarget{classAppInterface_a78c6f2f44a80c97938aec77d0099499c}\label{classAppInterface_a78c6f2f44a80c97938aec77d0099499c} 
-\mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} {\bfseries plane\+Color\+Renderer}
-\item 
-\Hypertarget{classAppInterface_a42354b5105d6ee97ab2027caaa38c53f}\label{classAppInterface_a42354b5105d6ee97ab2027caaa38c53f} 
-\mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} {\bfseries line\+Renderer}
-\item 
-\Hypertarget{classAppInterface_aa61528b72b48aa11d2d13a99810182e0}\label{classAppInterface_aa61528b72b48aa11d2d13a99810182e0} 
-\mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} {\bfseries light\+Renderer}
-\item 
 \Hypertarget{classAppInterface_a3504e83399ca38c45de2ed3e44a0a500}\label{classAppInterface_a3504e83399ca38c45de2ed3e44a0a500} 
 \mbox{\hyperlink{classResourceManager}{Resource\+Manager}} {\bfseries resource\+Manager}
 \end{DoxyCompactItemize}
@@ -207,17 +180,20 @@ virtual void {\bfseries check\+Input} ()
 \Hypertarget{classAppInterface_ab65dd7dc60b57727029688ae3fe80297}\label{classAppInterface_ab65dd7dc60b57727029688ae3fe80297} 
 virtual void {\bfseries update} (float delta\+Time)
 \item 
-\Hypertarget{classAppInterface_ac54356d7d57b68a394764d5c77480de6}\label{classAppInterface_ac54356d7d57b68a394764d5c77480de6} 
-virtual void {\bfseries prepare\+Draw} ()
+\Hypertarget{classAppInterface_a8f2b8fa5c32e2c1c593d72f3c2edb45b}\label{classAppInterface_a8f2b8fa5c32e2c1c593d72f3c2edb45b} 
+virtual void {\bfseries prepare\+Draw} (int index)
 \item 
-\Hypertarget{classAppInterface_ac0f25f64fdcb74001830c4d56c0f2ecb}\label{classAppInterface_ac0f25f64fdcb74001830c4d56c0f2ecb} 
-virtual void {\bfseries render\+Draw} ()
+\Hypertarget{classAppInterface_a23fbe92ce8ada5579c1ded1d87beda0b}\label{classAppInterface_a23fbe92ce8ada5579c1ded1d87beda0b} 
+virtual void {\bfseries render\+Draw} (int index)
 \item 
 \Hypertarget{classAppInterface_a77939bd391813ab0052e9cd8dd2e3192}\label{classAppInterface_a77939bd391813ab0052e9cd8dd2e3192} 
 virtual void {\bfseries update\+UI} (float delta\+Time)
 \item 
 \Hypertarget{classAppInterface_a7e80a703ef8f2fd8a838e21dfaea0e2a}\label{classAppInterface_a7e80a703ef8f2fd8a838e21dfaea0e2a} 
 virtual void {\bfseries draw\+UI} ()
+\item 
+\Hypertarget{classAppInterface_a3ebcc1151190e89f45f1894de34db2c1}\label{classAppInterface_a3ebcc1151190e89f45f1894de34db2c1} 
+void {\bfseries dispose\+Renderers} (int index)
 \item 
 \Hypertarget{classAppInterface_a39d677fd22d1ab2128e79ec1153788a6}\label{classAppInterface_a39d677fd22d1ab2128e79ec1153788a6} 
 virtual void {\bfseries swap\+Buffer} ()
@@ -253,6 +229,17 @@ const float {\bfseries SCALE\+\_\+\+SPEED} = 0.\+1f
 std\+::thread {\bfseries render\+Thread}
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classAppInterface_a26b76a00a9254ec76d34dbff4f95dabe}\label{classAppInterface_a26b76a00a9254ec76d34dbff4f95dabe} 
+\index{AppInterface@{AppInterface}!run@{run}}
+\index{run@{run}!AppInterface@{AppInterface}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void App\+Interface\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+This is is necessary to avoid white flashes
+
+It makes CPU to wait for GPU, because when entering prepare draw it may be seemingly from CPU side that swap\+Buffer has finished but from GPU side it has not. White flashes are caused by ultra fast prepare\+Draw.
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

@@ -16,11 +16,20 @@ namespace Taz {
 		std::vector<GECSRenderBatch> batches;
 		glm::vec4 backgroundColor;
 		bool renderDebug = false;
+
+		PlaneModelRenderer planeModelRenderer;
+		PlaneColorRenderer planeColorRenderer;
+		LineRenderer lineRenderer;
+		LightRenderer lightRenderer;
 	};
 }
 
 
 class DataManager {
+private:
+	std::string requestedMap;
+	std::atomic<bool> managerChangeRequested{ false };
+
 public:
 	// Gets the single instance of CameraManager (singleton)
 	static DataManager& getInstance() {
@@ -33,7 +42,6 @@ public:
 	ImGui::ComboAutoSelectData data;
 	ImGui::ComboAutoSelectData pathData;
 
-	std::string mapToLoad;
 
 	std::vector<std::string> fileNames;
 	std::vector<std::string> pollingFileNames;
@@ -51,6 +59,25 @@ public:
 	std::map<int, NodeEntity*> mapSimToGraphNodes;
 	std::map<int, LinkEntity*> mapSimToGraphLinks;
 	std::map<int, EmptyEntity*> mapSimToGraphPaths;
+
+	void setMapToLoad(const std::string& name) {
+		if (managerChangeRequested.load() == true) return;
+
+		requestedMap = name;
+		managerChangeRequested.store(true);
+	}
+
+	std::string getMapToLoad() {
+		return requestedMap;
+	}
+
+	bool getManagerChangeRequested() {
+		return managerChangeRequested.load();
+	}
+
+	void setManagerChangeRequested(bool m_request) {
+		managerChangeRequested.store(m_request);
+	}
 
 	void setPathLoading(bool loading)
 	{
@@ -239,11 +266,9 @@ public:
 		}
 	}
 
-	void copySimulationStepTo(
+	SimulationStep deepCopySimulationStepTo(
 		Manager& manager,
-		sim_dump::UInt32 sourceStepIndex,
-		sim_dump::UInt32 targetStepIndex,
-		double targetTimestamp
+		sim_dump::UInt32 sourceStepIndex
 	)
 	{
 		auto src = std::find_if(
@@ -256,14 +281,12 @@ public:
 
 		if (src == manager.steps.end()) {
 			TAZ_ERROR("Source SimulationStep not found");
-			return;
+			return SimulationStep();
 		}
 
-		SimulationStep copied = *src; // deep copy of vectors
-		copied.step_index = targetStepIndex;
-		copied.timestamp = targetTimestamp;
+		SimulationStep copied = SimulationStep(*src); // deep copy of vectors
 
-		manager.steps.push_back(std::move(copied));
+		return copied;
 	}
 
 
@@ -288,7 +311,14 @@ public:
 
 
 	void addSimulationStep(Manager& manager, sim_dump::UInt32 step, double timestamp, sim_dump::UInt32 copyStep) {
-		SimulationStep new_step = SimulationStep();
+		SimulationStep new_step;
+
+		if (copyStep != -1) {
+			new_step = deepCopySimulationStepTo(manager, copyStep);
+		}
+		else {
+			new_step = SimulationStep();
+		}
 
 		new_step.step_index = step;
 		new_step.timestamp = timestamp;
@@ -384,5 +414,40 @@ public:
 		}
 
 		return out.str();
+	}
+
+	void connectClient(int port) {
+#ifdef _WIN32
+		WSADATA wsa;
+		WSAStartup(MAKEWORD(2, 2), &wsa);
+#endif
+
+		socket_t sock = socket(AF_INET, SOCK_STREAM, 0);
+		if (sock < 0) {
+			perror("socket error");
+			return;
+		}
+
+		sockaddr_in addr{};
+		addr.sin_family = AF_INET;
+		addr.sin_port = htons((u_short)port);
+		inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr);
+
+		if (connect(sock, (sockaddr*)&addr, sizeof(addr)) < 0) {
+			perror("connect error");
+			close_socket(sock);
+			return;
+		}
+
+		char input[1024];
+		while (fgets(input, sizeof(input), stdin)) {
+			send(sock, input, (int)strlen(input), 0);
+		}
+
+		close_socket(sock);
+
+#ifdef _WIN32
+		WSACleanup();
+#endif
 	}
 };

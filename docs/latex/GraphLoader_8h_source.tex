@@ -1,0 +1,55 @@
+\doxysection{Graph\+Loader.\+h}
+\hypertarget{GraphLoader_8h_source}{}\label{GraphLoader_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/Map/GraphLoader.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraph/Src/Map/GraphLoader.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <JsonParser.h>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}TazGraphEngine.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}./Parsers/TextMapParser.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}./Parsers/PythonMapParser.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}./Parsers/GraphMLMapParser.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}./Parsers/DOTMapParser.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}./Parsers/SimDumpMapParser.h"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}./PathParsers/TextPathParser.h"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <random>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <ctime>}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGraphLoader}{GraphLoader}}}
+\DoxyCodeLine{00023\ \{}
+\DoxyCodeLine{00024\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{classGraphLoader}{GraphLoader}}(\mbox{\hyperlink{classManager}{Manager}}\&\ m\_manager,\ \textcolor{keywordtype}{int}\ ms,\ \textcolor{keywordtype}{int}\ ns);}
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{classGraphLoader}{\string~GraphLoader}}();}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ saveMap(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fileName);}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ loadMap(}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fileName,}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3)>\ addNodeFunc,}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&)>\ addLinkFunc,}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structThreader}{Threader}}*\ m\_threadPool}
+\DoxyCodeLine{00036\ \ \ \ \ );}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ loadPaths(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fileName,\ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3)>\ addNodeFunc,\ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&)>\ addLinkFunc,\ \mbox{\hyperlink{structThreader}{Threader}}*\ m\_threadPool);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime);}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ manager;}
+\DoxyCodeLine{00043\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00044\ \ \ \ \ std::unique\_ptr<IGraphParser>\ processor;}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{int}\ mapScale;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{int}\ nodeSize;}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{int}\ scaledSize;}
+\DoxyCodeLine{00049\ \};}
+
+\end{DoxyCode}

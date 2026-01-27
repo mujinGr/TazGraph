@@ -1,0 +1,49 @@
+#pragma once
+#include <string>
+#include <fstream>
+#include <sstream>
+
+#include <JsonParser.h>
+
+#include "TazGraphEngine.h"
+
+#include "./Parsers/TextMapParser.h"
+#include "./Parsers/PythonMapParser.h"
+#include "./Parsers/GraphMLMapParser.h"
+#include "./Parsers/DOTMapParser.h"
+#include "./Parsers/SimDumpMapParser.h"
+
+#include "./PathParsers/TextPathParser.h"
+
+#include <algorithm>
+#include <random>
+#include <ctime>
+
+class GraphLoader
+{
+public:
+
+	GraphLoader(Manager& m_manager, int ms, int ns);
+	~GraphLoader();
+
+	void saveMap(const char* fileName);
+
+	void loadMap(
+		const char* fileName,
+		std::function<void(Entity&, glm::vec3)> addNodeFunc,
+		std::function<void(Entity&)> addLinkFunc,
+		Threader* m_threadPool
+	);
+
+	void loadPaths(const char* fileName, std::function<void(Entity&, glm::vec3)> addNodeFunc, std::function<void(Entity&)> addLinkFunc, Threader* m_threadPool);
+
+	void update(float deltaTime);
+
+	Manager* manager;
+private:
+	std::unique_ptr<IGraphParser> processor;
+
+	int mapScale;
+	int nodeSize;
+	int scaledSize;
+};

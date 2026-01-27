@@ -2,6 +2,26 @@
 
 void MainMenuEditorLayer::OnImGuiRender()
 {
+	ImGuiViewport* window = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(window->Pos);
+	ImGui::SetNextWindowSize(window->Size);
+
+	ImGui::Begin("##Main Viewport", nullptr,
+		ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoCollapse |
+		ImGuiWindowFlags_NoBringToFrontOnFocus);
+
+	ImVec2 pos = ImGui::GetCursorScreenPos();
+	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+
+	ImGui::Image(
+		reinterpret_cast<void*>(static_cast<uintptr_t>(config.viewportFramebuffer->_framebufferTexture)),
+		viewportPanelSize,
+		ImVec2(0, 1),
+		ImVec2(1, 0)
+	);
+
 	// Constants
 	const float BUTTON_WIDTH = 240;
 	const float BUTTON_HEIGHT = 45;
@@ -23,7 +43,7 @@ void MainMenuEditorLayer::OnImGuiRender()
 
 	ImGuiInterface::StyleColorsCustom(&ImGui::GetStyle());
 
-	ImGui::Begin("Control Window", NULL,
+	ImGui::BeginChild("Control Window", ImVec2(0, 0), false,
 		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
 
@@ -57,5 +77,8 @@ void MainMenuEditorLayer::OnImGuiRender()
 	if (boldFont) ImGui::PopFont();
 
 	ImGui::SetWindowFontScale(1.0f);
+	ImGui::EndChild();
+
+
 	ImGui::End();
 }

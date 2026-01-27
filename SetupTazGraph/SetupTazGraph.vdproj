@@ -279,12 +279,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_64C52EAC48E84D9198C012A2D9568AC3"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_6762EE3E1CFF4163AFB7D407B1067AB4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -441,6 +435,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_94AD25CA162D4CABBBA445F361674FF7"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_97C5D074718325D944D0F2318B6D8806"
+        "OwnerKey" = "8:_C094B42BE53141559364B959CF329859"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_97D2C8EEDB0B4A3EBD456A2869A66D1D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -555,8 +561,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C6260334D04746C08CE2377F48780D52"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_C6A6E4679EB1280EE339A012DEF20A9D"
+        "OwnerKey" = "8:_C094B42BE53141559364B959CF329859"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C794578B36C742EB890D6D059F637391"
+        "OwnerKey" = "8:_C094B42BE53141559364B959CF329859"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1680,26 +1692,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_64C52EAC48E84D9198C012A2D9568AC3"
-            {
-            "SourcePath" = "8:..\\TazGraph\\assets\\Maps\\network_large2.py"
-            "TargetName" = "8:network_large2.py"
-            "Tag" = "8:"
-            "Folder" = "8:_F101979399234100B038A3CED452D2E5"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6762EE3E1CFF4163AFB7D407B1067AB4"
             {
             "SourcePath" = "8:..\\TazGraph\\assets\\Paths\\pathTest1.txt"
@@ -2220,6 +2212,46 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_94AD25CA162D4CABBBA445F361674FF7"
+            {
+            "SourcePath" = "8:..\\TazGraph\\assets\\Sprites\\infoIcon.png"
+            "TargetName" = "8:infoIcon.png"
+            "Tag" = "8:"
+            "Folder" = "8:_D7CB6F29B99B4BBE90014D40E4A8F343"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_97C5D074718325D944D0F2318B6D8806"
+            {
+            "SourcePath" = "8:IMM32.dll"
+            "TargetName" = "8:IMM32.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_97D2C8EEDB0B4A3EBD456A2869A66D1D"
             {
             "SourcePath" = "8:..\\TazGraphEngine\\src\\GECS\\Components\\Empty\\Basic\\PortComponent.h"
@@ -2580,12 +2612,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C6260334D04746C08CE2377F48780D52"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C6A6E4679EB1280EE339A012DEF20A9D"
             {
-            "SourcePath" = "8:..\\TazGraph\\assets\\Maps\\test_medium_save.txt"
-            "TargetName" = "8:test_medium_save.txt"
+            "SourcePath" = "8:SDL2.dll"
+            "TargetName" = "8:SDL2.dll"
             "Tag" = "8:"
-            "Folder" = "8:_F101979399234100B038A3CED452D2E5"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2597,7 +2629,27 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C794578B36C742EB890D6D059F637391"
+            {
+            "SourcePath" = "8:SDL2_mixer.dll"
+            "TargetName" = "8:SDL2_mixer.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1C634C63DCA14A60A2817A0135EDD7F6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CAB3D4ADB10249C4927AF4199375EEB9"
@@ -3512,7 +3564,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SetupTazGraph"
         "ProductCode" = "8:{37418A61-8388-4349-8EEE-A35B065E761C}"
-        "PackageCode" = "8:{8775223A-CE6D-48E3-8747-575327F1531D}"
+        "PackageCode" = "8:{E5AA0C69-A68E-4FAB-8C47-5CBBF873D53A}"
         "UpgradeCode" = "8:{19FB55AD-545C-49D0-98BD-2B39B484D3E5}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
@@ -3677,7 +3729,7 @@
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A24AA43B7CA34978B9BFEF876F17C86E"
             {
             "Name" = "8:TazGraph Shortcut"
-            "Arguments" = "8:--num-threads=7 --MSAA=4 --use-python=true"
+            "Arguments" = "8:--num-threads=8 --MSAA=4 --use-python=true"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"

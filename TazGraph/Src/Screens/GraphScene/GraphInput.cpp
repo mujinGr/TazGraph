@@ -371,12 +371,6 @@ void Graph::checkInput() {
 
 	SDL_Event evnt;
 
-	{
-		std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);
-		getApp()->imguiEvents.clear(); // Clear previous frame's events
-	}
-
-
 	while (SDL_PollEvent(&evnt)) {
 		{
 			std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);
@@ -706,22 +700,27 @@ void Graph::checkInput() {
 					auto id = _selectedEntities.back().realEntityId;
 					Entity* entity = manager->getEntityFromId(id);
 
-					TransformComponent tr = entity->GetComponent<TransformComponent>();
+					if (dynamic_cast<NodeEntity*>(entity) ||
+						dynamic_cast<EmptyEntity*>(entity))
+					{
 
-					auto moveEntityCommand = std::make_unique<Command>(
-						"moveEntityCommand",
-						[this, id, tr]() mutable {
-						},
-						[this, id, tr]() {
-							Entity* entity = manager->getEntityFromId(id);
-							*entity->GetComponentPtr<TransformComponent>() = tr;
+						TransformComponent tr = entity->GetComponent<TransformComponent>();
 
-						}
-					);
+						auto moveEntityCommand = std::make_unique<Command>(
+							"moveEntityCommand",
+							[this, id, tr]() mutable {
+							},
+							[this, id, tr]() {
+								Entity* entity = manager->getEntityFromId(id);
+								*entity->GetComponentPtr<TransformComponent>() = tr;
 
-					manager->undoStack.push(std::move(moveEntityCommand));
+							}
+						);
 
-					manager->undoStack.top()->execute();
+						manager->undoStack.push(std::move(moveEntityCommand));
+
+						manager->undoStack.top()->execute();
+					}
 				}
 
 			}
@@ -733,23 +732,27 @@ void Graph::checkInput() {
 					auto id = _selectedEntities.back().realEntityId;
 					Entity* entity = manager->getEntityFromId(id);
 
-					TransformComponent tr = entity->GetComponent<TransformComponent>();
+					if (dynamic_cast<NodeEntity*>(entity) ||
+						dynamic_cast<EmptyEntity*>(entity))
+					{
+						TransformComponent tr = entity->GetComponent<TransformComponent>();
 
-					auto moveEntityCommand = std::make_unique<Command>(
-						"moveEntityCommand",
-						[this, id, tr]() mutable {
-						},
-						[this, id, tr]() {
-							Entity* entity = manager->getEntityFromId(id);
-							*entity->GetComponentPtr<TransformComponent>() = tr;
+						auto moveEntityCommand = std::make_unique<Command>(
+							"moveEntityCommand",
+							[this, id, tr]() mutable {
+							},
+							[this, id, tr]() {
+								Entity* entity = manager->getEntityFromId(id);
+								*entity->GetComponentPtr<TransformComponent>() = tr;
 
-						}
+							}
 
-					);
+						);
 
-					manager->undoStack.push(std::move(moveEntityCommand));
+						manager->undoStack.push(std::move(moveEntityCommand));
 
-					manager->undoStack.top()->execute();
+						manager->undoStack.top()->execute();
+					}
 				}
 
 			}

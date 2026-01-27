@@ -19,6 +19,10 @@ void TextPathParser::closeFile() {
 	file.close();
 }
 
+void TextPathParser::update(float deltaTime)
+{
+}
+
 void TextPathParser::parse(Manager& manager,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
 	std::function<void(Entity&)> addLinkFunc)
@@ -67,7 +71,7 @@ void TextPathParser::parse(Manager& manager,
 
 		auto& pathLinker = manager.addEntity<Empty>();
 		pathLinker.addToGroup(Manager::groupPathLinksHolder);
-		
+
 		auto& plc = pathLinker.addComponent<PathLinkerComponent>();
 
 		// parse optional attributes

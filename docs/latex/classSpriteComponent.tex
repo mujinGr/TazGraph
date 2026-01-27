@@ -2,7 +2,8 @@
 \hypertarget{classSpriteComponent}{}\label{classSpriteComponent}\index{SpriteComponent@{SpriteComponent}}
 
 
-Inheritance diagram for Sprite\+Component\+:\nopagebreak
+Inheritance diagram for Sprite\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,7 +12,8 @@ Inheritance diagram for Sprite\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Sprite\+Component\+:\nopagebreak
+Collaboration diagram for Sprite\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,6 +22,45 @@ Collaboration diagram for Sprite\+Component\+:\nopagebreak
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classSpriteComponent_a29c4301c1bc5cdeb700d91084dfea7ff}\label{classSpriteComponent_a29c4301c1bc5cdeb700d91084dfea7ff} 
+{\bfseries Sprite\+Component} (std\+::string id)
+\item 
+\Hypertarget{classSpriteComponent_a4d4336efa85499ce5d6dcd2ac0b787a6}\label{classSpriteComponent_a4d4336efa85499ce5d6dcd2ac0b787a6} 
+{\bfseries Sprite\+Component} (\mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} clr)
+\item 
+\Hypertarget{classSpriteComponent_ae47ee6781f0d926df3e310d6a2c67573}\label{classSpriteComponent_ae47ee6781f0d926df3e310d6a2c67573} 
+void {\bfseries set\+Tex} (std\+::string id)
+\item 
+void \mbox{\hyperlink{classSpriteComponent_addac0e2d311e76cf9413599c92d7a76a}{init}} () override
+\item 
+void \mbox{\hyperlink{classSpriteComponent_af1d193599abcc79b51b12cdb24f9cbec}{update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{classSpriteComponent_a35406791549de87ad530053c7e86cef1}{draw}} (size\+\_\+t v\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+\Hypertarget{classSpriteComponent_af0eb058a853ae91a8518a66a4e596f26}\label{classSpriteComponent_af0eb058a853ae91a8518a66a4e596f26} 
+void {\bfseries Set\+Animation} (int idX, int idY, size\+\_\+t fr, float sp, const Animation\+::anim\+Type type, int reps=0)
+\item 
+\Hypertarget{classSpriteComponent_acb8a67d581d0e161f6cefa7a52742d73}\label{classSpriteComponent_acb8a67d581d0e161f6cefa7a52742d73} 
+void {\bfseries Set\+Flash\+Animation} (size\+\_\+t fr, float sp, const Animation\+::anim\+Type type, const std\+::vector$<$ float $>$ \&flash\+Times, \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} flashC, int reps=0)
+\item 
+\Hypertarget{classSpriteComponent_a0db3cf67dfcc989f757955186f91d89e}\label{classSpriteComponent_a0db3cf67dfcc989f757955186f91d89e} 
+void {\bfseries set\+Curr\+Frame} ()
+\item 
+\Hypertarget{classSpriteComponent_af972a29823c8f40e4cf4f459d128ecd1}\label{classSpriteComponent_af972a29823c8f40e4cf4f459d128ecd1} 
+void {\bfseries set\+Flash\+Frame} ()
+\item 
+\Hypertarget{classSpriteComponent_ab17f0aa1022043dd2addd81c5baa9a7f}\label{classSpriteComponent_ab17f0aa1022043dd2addd81c5baa9a7f} 
+void {\bfseries Destroy\+Tex} ()
+\item 
+\Hypertarget{classSpriteComponent_a8bbe9df99317f998f0cdd993e6ff34c6}\label{classSpriteComponent_a8bbe9df99317f998f0cdd993e6ff34c6} 
+void {\bfseries Destroy\+Gl\+Tex} ()
+\item 
+std\+::string \mbox{\hyperlink{classSpriteComponent_a490a59e5636b4458cb0a9d2a0ec906df}{Get\+Component\+Name}} () override
+\item 
+void \mbox{\hyperlink{classSpriteComponent_af4a821b123fe77dc4a0d1b6cb924438c}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\}) override
+\item 
+void \mbox{\hyperlink{classSpriteComponent_aac652bcd252c8528e023c5ac5c89d9c5}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components, std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ other\+Entities) override
 \item 
 \Hypertarget{classSpriteComponent_a29c4301c1bc5cdeb700d91084dfea7ff}\label{classSpriteComponent_a29c4301c1bc5cdeb700d91084dfea7ff} 
 {\bfseries Sprite\+Component} (std\+::string id)
@@ -81,7 +122,7 @@ std\+::string {\bfseries texture\+\_\+name} = "{}"{}
 \Hypertarget{classSpriteComponent_aebef25f99fb6584098bab6bfee42a9dc}\label{classSpriteComponent_aebef25f99fb6584098bab6bfee42a9dc} 
 \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} {\bfseries color} = \{ 255, 255, 255, 255 \}
 \item 
-\Hypertarget{classSpriteComponent_a73e0ed30934991be535aeb7ec4ae1c85}\label{classSpriteComponent_a73e0ed30934991be535aeb7ec4ae1c85} 
+\Hypertarget{classSpriteComponent_a5595f61d74e2ba952949ce951dbb5196}\label{classSpriteComponent_a5595f61d74e2ba952949ce951dbb5196} 
 \mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
 \item 
 \Hypertarget{classSpriteComponent_a69ad5edaded85c0f4fdf8ff0097bf4e2}\label{classSpriteComponent_a69ad5edaded85c0f4fdf8ff0097bf4e2} 
@@ -117,7 +158,17 @@ Component\+ID {\bfseries id} = 0u
 \Hypertarget{classSpriteComponent_a35406791549de87ad530053c7e86cef1}\label{classSpriteComponent_a35406791549de87ad530053c7e86cef1} 
 \index{SpriteComponent@{SpriteComponent}!draw@{draw}}
 \index{draw@{draw}!SpriteComponent@{SpriteComponent}}
-\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Sprite\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{v\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classSpriteComponent_a35406791549de87ad530053c7e86cef1}\label{classSpriteComponent_a35406791549de87ad530053c7e86cef1} 
+\index{SpriteComponent@{SpriteComponent}!draw@{draw}}
+\index{draw@{draw}!SpriteComponent@{SpriteComponent}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Sprite\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{v\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
@@ -127,7 +178,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classSpriteComponent_a490a59e5636b4458cb0a9d2a0ec906df}\label{classSpriteComponent_a490a59e5636b4458cb0a9d2a0ec906df} 
 \index{SpriteComponent@{SpriteComponent}!GetComponentName@{GetComponentName}}
 \index{GetComponentName@{GetComponentName}!SpriteComponent@{SpriteComponent}}
-\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::string Sprite\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classSpriteComponent_a490a59e5636b4458cb0a9d2a0ec906df}\label{classSpriteComponent_a490a59e5636b4458cb0a9d2a0ec906df} 
+\index{SpriteComponent@{SpriteComponent}!GetComponentName@{GetComponentName}}
+\index{GetComponentName@{GetComponentName}!SpriteComponent@{SpriteComponent}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily std\+::string Sprite\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -137,7 +198,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classSpriteComponent_addac0e2d311e76cf9413599c92d7a76a}\label{classSpriteComponent_addac0e2d311e76cf9413599c92d7a76a} 
 \index{SpriteComponent@{SpriteComponent}!init@{init}}
 \index{init@{init}!SpriteComponent@{SpriteComponent}}
-\doxysubsubsection{\texorpdfstring{init()}{init()}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Sprite\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classSpriteComponent_addac0e2d311e76cf9413599c92d7a76a}\label{classSpriteComponent_addac0e2d311e76cf9413599c92d7a76a} 
+\index{SpriteComponent@{SpriteComponent}!init@{init}}
+\index{init@{init}!SpriteComponent@{SpriteComponent}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Sprite\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -147,7 +218,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classSpriteComponent_aac652bcd252c8528e023c5ac5c89d9c5}\label{classSpriteComponent_aac652bcd252c8528e023c5ac5c89d9c5} 
 \index{SpriteComponent@{SpriteComponent}!showGUI@{showGUI}}
 \index{showGUI@{showGUI}!SpriteComponent@{SpriteComponent}}
-\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily void Sprite\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Entities }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classSpriteComponent_aac652bcd252c8528e023c5ac5c89d9c5}\label{classSpriteComponent_aac652bcd252c8528e023c5ac5c89d9c5} 
+\index{SpriteComponent@{SpriteComponent}!showGUI@{showGUI}}
+\index{showGUI@{showGUI}!SpriteComponent@{SpriteComponent}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
 {\footnotesize\ttfamily void Sprite\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Entities }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -157,7 +238,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classSpriteComponent_af4a821b123fe77dc4a0d1b6cb924438c}\label{classSpriteComponent_af4a821b123fe77dc4a0d1b6cb924438c} 
 \index{SpriteComponent@{SpriteComponent}!showGUI@{showGUI}}
 \index{showGUI@{showGUI}!SpriteComponent@{SpriteComponent}}
-\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily void Sprite\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classSpriteComponent_af4a821b123fe77dc4a0d1b6cb924438c}\label{classSpriteComponent_af4a821b123fe77dc4a0d1b6cb924438c} 
+\index{SpriteComponent@{SpriteComponent}!showGUI@{showGUI}}
+\index{showGUI@{showGUI}!SpriteComponent@{SpriteComponent}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
 {\footnotesize\ttfamily void Sprite\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -167,7 +258,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classSpriteComponent_af1d193599abcc79b51b12cdb24f9cbec}\label{classSpriteComponent_af1d193599abcc79b51b12cdb24f9cbec} 
 \index{SpriteComponent@{SpriteComponent}!update@{update}}
 \index{update@{update}!SpriteComponent@{SpriteComponent}}
-\doxysubsubsection{\texorpdfstring{update()}{update()}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Sprite\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classSpriteComponent_af1d193599abcc79b51b12cdb24f9cbec}\label{classSpriteComponent_af1d193599abcc79b51b12cdb24f9cbec} 
+\index{SpriteComponent@{SpriteComponent}!update@{update}}
+\index{update@{update}!SpriteComponent@{SpriteComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Sprite\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -176,6 +277,7 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/build/\+App\+Dir/\+Taz\+Graph\+Engine/src/\+GECS/\+Components/\+Empty/\+Basic/Sprite\+Component.\+h\item 
 /mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Components/\+Empty/\+Basic/Sprite\+Component.\+h\end{DoxyCompactItemize}

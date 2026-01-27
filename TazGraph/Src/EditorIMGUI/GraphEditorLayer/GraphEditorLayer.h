@@ -7,7 +7,7 @@
 #include "../Components/GraphLeftPanel/GraphLeftPanel.h"
 #include "../Components/GraphMiddlePanel/GraphMiddlePanel.h"
 #include "../Components/GraphRightPanel/GraphRightPanel.h"
-#include "../../Map/Map.h"
+#include "../../Map/GraphLoader.h"
 
 
 
@@ -26,7 +26,7 @@ struct GraphEditorLayerConfig {
 
 	std::vector<SelectedInfo>* selectedEntities;
 
-	Map* map = nullptr;
+	GraphLoader* graphLoader = nullptr;
 
 	Entity* onHoverEntity = nullptr;
 	Entity* displayedEntity = nullptr;

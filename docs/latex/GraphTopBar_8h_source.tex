@@ -27,26 +27,28 @@
 \DoxyCodeLine{00023\ }
 \DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{bool}\ inited\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structGraphTopConfig}{GraphTopConfig}}\&\ cfg)\ \{}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ config\ =\ cfg;}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!inited)\ \{}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ stepIt\ =\ cfg.scene-\/>manager-\/>steps.begin();}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ std::advance(stepIt,\ config.scene-\/>getApp()-\/>initialStep);}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ interpolation\ =}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.scene-\/>getApp()-\/>initialTimestamp\ ?\ config.scene-\/>getApp()-\/>initialTimestamp\ :}
-\DoxyCodeLine{00036\ }
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (config.scene-\/>getApp()-\/>initialStep\ ?\ stepIt-\/>timestamp\ :}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ activeTabs\_no\ =\ 0;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structGraphTopConfig}{GraphTopConfig}}\&\ cfg)\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ config\ =\ cfg;}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!inited)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ stepIt\ =\ cfg.scene-\/>manager-\/>steps.begin();}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ std::advance(stepIt,\ config.scene-\/>getApp()-\/>initialStep);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ interpolation\ =}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.scene-\/>getApp()-\/>initialTimestamp\ ?\ config.scene-\/>getApp()-\/>initialTimestamp\ :}
 \DoxyCodeLine{00038\ }
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (cfg.scene-\/>manager-\/>steps.empty()\ ?}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0.0f\ :\ cfg.scene-\/>manager-\/>steps.begin()-\/>timestamp));}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ inited\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00043\ \ \ \ \ \}}
-\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00045\ \ \ \ \ std::string\ getTabToClose();}
-\DoxyCodeLine{00046\ \};}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (config.scene-\/>getApp()-\/>initialStep\ ?\ stepIt-\/>timestamp\ :}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (cfg.scene-\/>manager-\/>steps.empty()\ ?}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0.0f\ :\ cfg.scene-\/>manager-\/>steps.begin()-\/>timestamp));}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ inited\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00047\ \ \ \ \ std::string\ getTabToClose();}
+\DoxyCodeLine{00048\ \};}
 
 \end{DoxyCode}

@@ -25,8 +25,8 @@ public:
 
 	virtual void update(float deltaTime) override;
 
-	virtual void prepareDraw() override;
-	virtual void renderDraw() override;
+	virtual void prepareDraw(int index) override;
+	virtual void renderDraw(int index) override;
 
 	virtual void BeginRender() override;
 	virtual void updateUI(float deltaTime) override;
@@ -45,4 +45,7 @@ private:
 	int _prevSceneIndex = SCENE_INDEX_GRAPHPLAY;
 
 	MainMenuEditorLayer _mainMenuLayer;
+
+	Framebuffer _main_viewportFramebuffer;
+
 };

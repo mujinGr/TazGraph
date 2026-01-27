@@ -1,0 +1,23 @@
+\doxysection{Linux Deploy}
+\hypertarget{appImage}{}\label{appImage}\index{Linux Deploy@{Linux Deploy}}
+you can deploy the editor on Ubuntu using app\+Image\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cmake\ ..\ -\/DCMAKE\_BUILD\_TYPE=Release\ -\/DBUILD\_APPIMAGE=ON}
+\DoxyCodeLine{\ }
+\DoxyCodeLine{make\ appimage}
+
+\end{DoxyCode}
+ to create App\+Dir "{}wget appimage"{} and do\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ARCH=x86\_64\ ./appimagetool-\/x86\_64.AppImage\ AppDir\ TazGraph.AppImage}
+
+\end{DoxyCode}
+
+
+zip and deploy zip with App\+Dir and Taz\+Graph.\+App\+Image (may need to remove .Dir\+Icon if it exists)
+
+User may need to do chmod +x on Taz\+Graph.\+App\+Image 

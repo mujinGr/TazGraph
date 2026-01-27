@@ -2,7 +2,8 @@
 \hypertarget{classSimDumpMapParser}{}\label{classSimDumpMapParser}\index{SimDumpMapParser@{SimDumpMapParser}}
 
 
-Inheritance diagram for Sim\+Dump\+Map\+Parser\+:\nopagebreak
+Inheritance diagram for Sim\+Dump\+Map\+Parser\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,7 +12,8 @@ Inheritance diagram for Sim\+Dump\+Map\+Parser\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Sim\+Dump\+Map\+Parser\+:\nopagebreak
+Collaboration diagram for Sim\+Dump\+Map\+Parser\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -28,18 +30,22 @@ void \mbox{\hyperlink{classSimDumpMapParser_aa6039ee1538dd37636a0ec64e43fc4b6}{w
 void \mbox{\hyperlink{classSimDumpMapParser_a7fa09fd2ce11a3e3da476fece4cb33cb}{parse}} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$ add\+Node\+Func, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$ add\+Link\+Func) override
 \item 
 void \mbox{\hyperlink{classSimDumpMapParser_a68e21b8c4cd323db43bc7af37bf71bbd}{close\+File}} () override
+\item 
+void \mbox{\hyperlink{classSimDumpMapParser_a68d791f368590cae9852e829db766dd5}{update}} (float delta\+Time) override
 \end{DoxyCompactItemize}
-\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}}
 \begin{DoxyCompactItemize}
 \item 
 void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mthreader)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
-\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}}
 \begin{DoxyCompactItemize}
 \item 
+float {\bfseries elapsed\+Delta} = 0
+\item 
 \mbox{\hyperlink{structThreader}{Threader}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+threader} = nullptr
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em for background processing \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Member Function Documentation}
@@ -51,7 +57,7 @@ void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mt
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 \Hypertarget{classSimDumpMapParser_a7fa09fd2ce11a3e3da476fece4cb33cb}\label{classSimDumpMapParser_a7fa09fd2ce11a3e3da476fece4cb33cb} 
 \index{SimDumpMapParser@{SimDumpMapParser}!parse@{parse}}
@@ -61,7 +67,7 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 \Hypertarget{classSimDumpMapParser_a051d62e9e6624621724f867d208afdd6}\label{classSimDumpMapParser_a051d62e9e6624621724f867d208afdd6} 
 \index{SimDumpMapParser@{SimDumpMapParser}!readFile@{readFile}}
@@ -71,7 +77,17 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
+
+\Hypertarget{classSimDumpMapParser_a68d791f368590cae9852e829db766dd5}\label{classSimDumpMapParser_a68d791f368590cae9852e829db766dd5} 
+\index{SimDumpMapParser@{SimDumpMapParser}!update@{update}}
+\index{update@{update}!SimDumpMapParser@{SimDumpMapParser}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Sim\+Dump\+Map\+Parser\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 \Hypertarget{classSimDumpMapParser_aa6039ee1538dd37636a0ec64e43fc4b6}\label{classSimDumpMapParser_aa6039ee1538dd37636a0ec64e43fc4b6} 
 \index{SimDumpMapParser@{SimDumpMapParser}!writeFile@{writeFile}}
@@ -81,7 +97,7 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 
 

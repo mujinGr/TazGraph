@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['children_0',['children',['../classEntity.html#a722b64082911a5ac809ff8e13e12a544',1,'Entity']]]
+  ['batches_0',['batches',['../structMeshRenderer.html#a815fc0d8477caa2edf59256f21a76dfb',1,'MeshRenderer']]]
 ];

@@ -83,7 +83,8 @@ Inheritance diagram for templateComponent:</div>
 <map name="atemplateComponent_inherit__map" id="atemplateComponent_inherit__map">
 <area shape="rect" title=" " alt="" coords="5,152,161,177"/>
 <area shape="rect" href="classComponent.html" title=" " alt="" coords="35,79,132,104"/>
-<area shape="poly" title=" " alt="" coords="86,118,86,152,81,152,81,118"/>
+<area shape="poly" title=" " alt="" coords="77,118,79,152,74,152,72,118"/>
+<area shape="poly" title=" " alt="" coords="95,118,93,152,88,152,89,118"/>
 <area shape="rect" href="classBaseComponent.html" title=" " alt="" coords="19,5,148,31"/>
 <area shape="poly" title=" " alt="" coords="86,44,86,79,81,79,81,44"/>
 </map>
@@ -95,7 +96,8 @@ Collaboration diagram for templateComponent:</div>
 <map name="atemplateComponent_coll__map" id="atemplateComponent_coll__map">
 <area shape="rect" title=" " alt="" coords="32,256,188,281"/>
 <area shape="rect" href="classComponent.html" title=" " alt="" coords="61,181,159,207"/>
-<area shape="poly" title=" " alt="" coords="113,221,113,256,107,256,107,221"/>
+<area shape="poly" title=" " alt="" coords="104,220,106,256,100,256,99,221"/>
+<area shape="poly" title=" " alt="" coords="121,221,120,256,114,256,116,220"/>
 <area shape="rect" href="classBaseComponent.html" title=" " alt="" coords="5,93,135,119"/>
 <area shape="poly" title=" " alt="" coords="84,130,107,180,102,182,79,132"/>
 <area shape="rect" href="classEntity.html" title=" " alt="" coords="159,93,219,119"/>
@@ -108,6 +110,16 @@ Collaboration diagram for templateComponent:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a28b4d76ec2981bd71af64acc64756adb" id="r_a28b4d76ec2981bd71af64acc64756adb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtemplateComponent.html#a28b4d76ec2981bd71af64acc64756adb">init</a> () override</td></tr>
+<tr class="separator:a28b4d76ec2981bd71af64acc64756adb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23a77a85774b0f89777dd907b76b8549" id="r_a23a77a85774b0f89777dd907b76b8549"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtemplateComponent.html#a23a77a85774b0f89777dd907b76b8549">update</a> (float deltaTime) override</td></tr>
+<tr class="separator:a23a77a85774b0f89777dd907b76b8549"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19baad260b3870cc5d28816d8a28f883" id="r_a19baad260b3870cc5d28816d8a28f883"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtemplateComponent.html#a19baad260b3870cc5d28816d8a28f883">GetComponentName</a> () override</td></tr>
+<tr class="separator:a19baad260b3870cc5d28816d8a28f883"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a340cd466810b9197af2c9c4f8f4e1afb" id="r_a340cd466810b9197af2c9c4f8f4e1afb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtemplateComponent.html#a340cd466810b9197af2c9c4f8f4e1afb">showGUI</a> (std::vector&lt; <a class="el" href="classBaseComponent.html">BaseComponent</a> * &gt; otherComponents={}) override</td></tr>
+<tr class="separator:a340cd466810b9197af2c9c4f8f4e1afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f541cc805671b9ed104a6c368610bdf" id="r_a0f541cc805671b9ed104a6c368610bdf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtemplateComponent.html#a0f541cc805671b9ed104a6c368610bdf">showGUI</a> (std::vector&lt; <a class="el" href="classBaseComponent.html">BaseComponent</a> * &gt; otherComponents, std::vector&lt; <a class="el" href="classEntity.html">Entity</a> * &gt; otherEntities) override</td></tr>
+<tr class="separator:a0f541cc805671b9ed104a6c368610bdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28b4d76ec2981bd71af64acc64756adb" id="r_a28b4d76ec2981bd71af64acc64756adb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtemplateComponent.html#a28b4d76ec2981bd71af64acc64756adb">init</a> () override</td></tr>
 <tr class="separator:a28b4d76ec2981bd71af64acc64756adb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23a77a85774b0f89777dd907b76b8549" id="r_a23a77a85774b0f89777dd907b76b8549"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtemplateComponent.html#a23a77a85774b0f89777dd907b76b8549">update</a> (float deltaTime) override</td></tr>
@@ -151,7 +163,34 @@ ComponentID&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> = 0u</t
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a19baad260b3870cc5d28816d8a28f883" name="a19baad260b3870cc5d28816d8a28f883"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19baad260b3870cc5d28816d8a28f883">&#9670;&#160;</a></span>GetComponentName()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a19baad260b3870cc5d28816d8a28f883">&#9670;&#160;</a></span>GetComponentName() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string templateComponent::GetComponentName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="classBaseComponent.html">BaseComponent</a>.</p>
+
+</div>
+</div>
+<a id="a19baad260b3870cc5d28816d8a28f883" name="a19baad260b3870cc5d28816d8a28f883"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19baad260b3870cc5d28816d8a28f883">&#9670;&#160;</a></span>GetComponentName() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -178,7 +217,34 @@ ComponentID&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> = 0u</t
 </div>
 </div>
 <a id="a28b4d76ec2981bd71af64acc64756adb" name="a28b4d76ec2981bd71af64acc64756adb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a28b4d76ec2981bd71af64acc64756adb">&#9670;&#160;</a></span>init()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a28b4d76ec2981bd71af64acc64756adb">&#9670;&#160;</a></span>init() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void templateComponent::init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="classBaseComponent.html">BaseComponent</a>.</p>
+
+</div>
+</div>
+<a id="a28b4d76ec2981bd71af64acc64756adb" name="a28b4d76ec2981bd71af64acc64756adb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28b4d76ec2981bd71af64acc64756adb">&#9670;&#160;</a></span>init() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -205,7 +271,45 @@ ComponentID&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> = 0u</t
 </div>
 </div>
 <a id="a0f541cc805671b9ed104a6c368610bdf" name="a0f541cc805671b9ed104a6c368610bdf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f541cc805671b9ed104a6c368610bdf">&#9670;&#160;</a></span>showGUI() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f541cc805671b9ed104a6c368610bdf">&#9670;&#160;</a></span>showGUI() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void templateComponent::showGUI </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="classBaseComponent.html">BaseComponent</a> * &gt;&#160;</td>
+          <td class="paramname"><em>otherComponents</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="classEntity.html">Entity</a> * &gt;&#160;</td>
+          <td class="paramname"><em>otherEntities</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="classBaseComponent.html">BaseComponent</a>.</p>
+
+</div>
+</div>
+<a id="a0f541cc805671b9ed104a6c368610bdf" name="a0f541cc805671b9ed104a6c368610bdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f541cc805671b9ed104a6c368610bdf">&#9670;&#160;</a></span>showGUI() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -243,7 +347,35 @@ ComponentID&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> = 0u</t
 </div>
 </div>
 <a id="a340cd466810b9197af2c9c4f8f4e1afb" name="a340cd466810b9197af2c9c4f8f4e1afb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a340cd466810b9197af2c9c4f8f4e1afb">&#9670;&#160;</a></span>showGUI() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a340cd466810b9197af2c9c4f8f4e1afb">&#9670;&#160;</a></span>showGUI() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void templateComponent::showGUI </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="classBaseComponent.html">BaseComponent</a> * &gt;&#160;</td>
+          <td class="paramname"><em>otherComponents</em> = <code>{}</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="classBaseComponent.html">BaseComponent</a>.</p>
+
+</div>
+</div>
+<a id="a340cd466810b9197af2c9c4f8f4e1afb" name="a340cd466810b9197af2c9c4f8f4e1afb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a340cd466810b9197af2c9c4f8f4e1afb">&#9670;&#160;</a></span>showGUI() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -271,7 +403,7 @@ ComponentID&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> = 0u</t
 </div>
 </div>
 <a id="a23a77a85774b0f89777dd907b76b8549" name="a23a77a85774b0f89777dd907b76b8549"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23a77a85774b0f89777dd907b76b8549">&#9670;&#160;</a></span>update()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a23a77a85774b0f89777dd907b76b8549">&#9670;&#160;</a></span>update() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -298,8 +430,37 @@ ComponentID&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> = 0u</t
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/<a class="el" href="templateComponent_8h_source.html">templateComponent.h</a></li>
+<a id="a23a77a85774b0f89777dd907b76b8549" name="a23a77a85774b0f89777dd907b76b8549"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23a77a85774b0f89777dd907b76b8549">&#9670;&#160;</a></span>update() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void templateComponent::update </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>deltaTime</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="classBaseComponent.html">BaseComponent</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/build/AppDir/TazGraphEngine/src/GECS/Components/<a class="el" href="build_2AppDir_2TazGraphEngine_2src_2GECS_2Components_2templateComponent_8h_source.html">templateComponent.h</a></li>
+<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/<a class="el" href="TazGraphEngine_2src_2GECS_2Components_2templateComponent_8h_source.html">templateComponent.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

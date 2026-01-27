@@ -1,8 +1,7 @@
 #pragma once
 
-#include <pybind11/pybind11.h>
-#include <pybind11/embed.h>
-namespace py = pybind11;
+#include "../../pch.h"
+
 class PythonInterpreter
 {
 public:

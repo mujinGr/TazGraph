@@ -11,9 +11,20 @@ create a build folder in root necessary programs\+: cmake, g++ Ubuntu\+: {\ttfam
 
 if libopengl does not exist\+: {\ttfamily sudo apt install freeglut3-\/dev mesa-\/common-\/dev}
 
-\texorpdfstring{$>$}{>}{\bfseries{Windows (Visual Studio 2022)}}\textbackslash{} The project was primarily tested on Visual Studio 2022. \texorpdfstring{$>$}{>}-\/ Build settings are defined in the .vcxproj file. \texorpdfstring{$>$}{>}-\/ Some large libraries (e.\+g., SDL, GLEW, Python) are not included locally in the repository. Instead, only their DLLs are committed. From these DLLs you can check which versions were used, but you may also use your own versions. \texorpdfstring{$>$}{>}-\/ Library paths can be configured either through Project Properties in Visual Studio or directly by editing the .vcxproj file to point to the locations of the libraries on your system. (e.\+g. {\ttfamily \$(Solution\+Dir)deps/lib;C\+:\textbackslash{}Users\textbackslash{}lefte\textbackslash{}App\+Data\textbackslash{}Local\textbackslash{}Programs\textbackslash{}Python\textbackslash{}Python313\textbackslash{}libs;}, {\ttfamily \$(Solution\+Dir)deps\textbackslash{}include;C\+:\textbackslash{}Users\textbackslash{}lefte\textbackslash{}App\+Data\textbackslash{}Local\textbackslash{}Programs\textbackslash{}Python\textbackslash{}Python313\textbackslash{}include})
+\texorpdfstring{$>$}{>}{\bfseries{Windows (Visual Studio 2022)}} ~\newline
+ The project was primarily tested on Visual Studio 2022. ~\newline
+ \texorpdfstring{$>$}{>}-\/ Build settings are defined in the .vcxproj file.~\newline
+ \texorpdfstring{$>$}{>}-\/ Some large libraries (e.\+g., SDL, GLEW, Python) are not included locally in the repository. ~\newline
+ Instead, only their DLLs are committed. From these DLLs you can check which versions were used, ~\newline
+ but you may also use your own versions.~\newline
+ \texorpdfstring{$>$}{>}-\/ Library paths can be configured either through Project Properties in Visual Studio or ~\newline
+ directly by editing the .vcxproj file to point to the locations of the libraries on your system.~\newline
+ (e.\+g. {\ttfamily \$(Solution\+Dir)deps/lib;C\+:\textbackslash{}Users\textbackslash{}lefte\textbackslash{}App\+Data\textbackslash{}Local\textbackslash{}Programs\textbackslash{}Python\textbackslash{}Python313\textbackslash{}libs;}, {\ttfamily \$(Solution\+Dir)deps\textbackslash{}include;C\+:\textbackslash{}Users\textbackslash{}lefte\textbackslash{}App\+Data\textbackslash{}Local\textbackslash{}Programs\textbackslash{}Python\textbackslash{}Python313\textbackslash{}include})
 
-Start by cloning the repository with \textbackslash{} Github\+: {\ttfamily git clone -\/-\/recursive \href{https://github.com/mujinGr/TazGraph.git}{\texttt{ https\+://github.\+com/mujin\+Gr/\+Taz\+Graph.\+git}}} \textbackslash{} Git\+Lab\+: {\ttfamily git clone -\/-\/recursive \href{https://carvgit.ics.forth.gr/kotsonas/tazgraph.git}{\texttt{ https\+://carvgit.\+ics.\+forth.\+gr/kotsonas/tazgraph.\+git}}}
+Start by cloning the repository with ~\newline
+ \textbackslash{} Github\+:~\newline
+ {\ttfamily git clone -\/-\/recursive \href{https://github.com/mujinGr/TazGraph.git}{\texttt{ https\+://github.\+com/mujin\+Gr/\+Taz\+Graph.\+git}}} \textbackslash{} Git\+Lab\+:~\newline
+ {\ttfamily git clone -\/-\/recursive \href{https://carvgit.ics.forth.gr/kotsonas/tazgraph.git}{\texttt{ https\+://carvgit.\+ics.\+forth.\+gr/kotsonas/tazgraph.\+git}}}
 
 If the repository was cloned non-\/recursively previously, use {\ttfamily git submodule update -\/-\/init} to clone the necessary submodules.\hypertarget{index_autotoc_md15}{}\doxysubsection{\texorpdfstring{Build}{Build}}\label{index_autotoc_md15}
 {\ttfamily mkdir build} \textbackslash{} {\ttfamily cd build} \textbackslash{} {\ttfamily cmake -\/DCMAKE\+\_\+\+BUILD\+\_\+\+TYPE=Release ..} \textbackslash{} {\ttfamily make}
@@ -22,12 +33,31 @@ in Taz\+Graph/\+Taz\+Graph/\+: {\ttfamily ../build/\+Taz\+Graph/\+Taz\+Graph}\te
 
 {\bfseries{For Windows}}\+:\textbackslash{} In root folder\+: {\ttfamily msbuild Taz\+Graph.\+sln /p\+:Configuration=Release /p\+:Platform=x64}
 
-In Taz\+Graph/\+: {\ttfamily ../x64/\+Release/\+Taz\+Graph.exe}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily N}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} where N is the number of threads to use\hypertarget{index_autotoc_md16}{}\doxysection{\texorpdfstring{Intro}{Intro}}\label{index_autotoc_md16}
-Originally developed to support HPC simulation workflows, Taz\+Graph enables real-\/time rendering of over 10,000 nodes and 60,000 links on consumer-\/grade hardware. It provides a flexible and extensible interface for visualizing complex systems using intuitive node-\/link diagrams.
+In Taz\+Graph/\+: {\ttfamily ../x64/\+Release/\+Taz\+Graph.exe}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily N}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} where N is the number of threads to use
 
-Taz\+Graph is powered by a custom Entity-\/\+Component System (ECS) inspired by game engines. Entities (nodes, links, or empty) are modular, scriptable, and dynamically composed at runtime. The system supports multi-\/threaded batching, instanced rendering, and a 3D interactive workspace with support for multiple graphs and statistical overlays.
+{\bfseries{Arguments}}\+:\textbackslash{}
 
-Unlike many existing graph tools that are either limited in scope or hard to extend, Taz\+Graph offers a lightweight, cross-\/platform platform ideal for rapid prototyping, HPC monitoring, and deep structural analysis.\hypertarget{index_autotoc_md17}{}\doxysubsubsection{\texorpdfstring{Built with\+:}{Built with:}}\label{index_autotoc_md17}
+
+\begin{DoxyItemize}
+\item {\ttfamily -\/-\/num-\/threads=X} \# number of worker threads (int)
+\item {\ttfamily -\/-\/MSAA=V} \# multisample anti-\/aliasing level (int, e.\+g. 0, 2, 4, 8)
+\item {\ttfamily -\/-\/open-\/file=Y} \# path to file opened on startup (string)
+\item {\ttfamily -\/-\/initial-\/timestamp=Z} \# initial time value when starting playback/simulation (float or int)
+\item {\ttfamily -\/-\/initial-\/step=W} \# initial simulation step/frame index (int)
+\item {\ttfamily -\/-\/use-\/python=C} \# enable Python scripting (0 = off, 1 = on)
+\item {\ttfamily -\/-\/bg-\/color=FR,FG,FB,FA} \# background color as RGBA floats in range \mbox{[}0,1\mbox{]}
+\item {\ttfamily -\/-\/grid=G} \# grid mode or grid size (int or enum)
+\end{DoxyItemize}\hypertarget{index_autotoc_md16}{}\doxysection{\texorpdfstring{Intro}{Intro}}\label{index_autotoc_md16}
+Originally developed to support HPC simulation workflows, ~\newline
+ Taz\+Graph enables real-\/time rendering of over 10,000 nodes and 60,000 links on consumer-\/grade hardware.~\newline
+ It provides a flexible and extensible interface for visualizing complex systems using intuitive node-\/link diagrams.~\newline
+ ~\newline
+ Taz\+Graph is powered by a custom Entity-\/\+Component System (ECS) inspired by game engines. ~\newline
+ Entities (nodes, links, or empty) are modular, scriptable, and dynamically composed at runtime. ~\newline
+ The system supports multi-\/threaded batching, instanced rendering, and a 3D interactive workspace with support for multiple graphs and statistical overlays.~\newline
+ ~\newline
+ Unlike many existing graph tools that are either limited in scope or hard to extend,~\newline
+ Taz\+Graph offers a lightweight, cross-\/platform platform ideal for rapid prototyping, HPC monitoring, and deep structural analysis.\hypertarget{index_autotoc_md17}{}\doxysubsubsection{\texorpdfstring{Built with\+:}{Built with:}}\label{index_autotoc_md17}
 
 \begin{DoxyItemize}
 \item C++ \& Open\+GL
@@ -53,15 +83,9 @@ Built with performance and flexibility in mind, Taz\+Graph integrates real-\/tim
 
 \item Simulation Play ~\newline
 
-\end{DoxyItemize}\hypertarget{index_autotoc_md19}{}\doxysection{\texorpdfstring{TODO}{TODO}}\label{index_autotoc_md19}
-
-\begin{DoxyItemize}
-\item \mbox{[} \mbox{]} Have beautiful and convinient UI
-\item \mbox{[} \mbox{]} Extend Python API for nodes and on update execute
-\item \mbox{[} \mbox{]} Take Apache Arrow Data and execute large simulations
 \end{DoxyItemize}
 
-  \hypertarget{index_autotoc_md20}{}\doxysection{\texorpdfstring{Developer Guide\+: $<$a href="{}https\+://mujingr.\+github.\+io/\+Taz\+Graph/html/dev\+\_\+guide.\+html"{} $>$\+Doxy\+Dev\+Guide$<$/a$>$}{Developer Guide: <a href="https://mujingr.github.io/TazGraph/html/dev\_guide.html" >DoxyDevGuide</a>}}\label{index_autotoc_md20}
+  \hypertarget{index_autotoc_md19}{}\doxysection{\texorpdfstring{Developer Guide\+: $<$a href="{}https\+://mujingr.\+github.\+io/\+Taz\+Graph/html/dev\+\_\+guide.\+html"{} $>$\+Doxy\+Dev\+Guide$<$/a$>$}{Developer Guide: <a href="https://mujingr.github.io/TazGraph/html/dev\_guide.html" >DoxyDevGuide</a>}}\label{index_autotoc_md19}
 Full Documentation\+: \href{https://mujingr.github.io/TazGraph/html/index.html}{\texttt{ Doxy\+Document}} \textbackslash{} Or download the pdf documentation\+: \href{https://github.com/mujinGr/TazGraph/blob/docs/docs/latex/refman.pdf}{\texttt{ PDF Documentation}}
 
 \href{https://www.buymeacoffee.com/mujingr}{\texttt{ }} 

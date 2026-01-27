@@ -1,0 +1,72 @@
+\doxysection{Spring\+Component.\+h}
+\hypertarget{TazGraphEngine_2src_2GECS_2Components_2Link_2Util_2SpringComponent_8h_source}{}\label{TazGraphEngine_2src_2GECS_2Components_2Link_2Util_2SpringComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/Link/Util/SpringComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/Link/Util/SpringComponent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classSpringComponent}{SpringComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classLinkComponent}{LinkComponent}}}
+\DoxyCodeLine{00006\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordtype}{int}\ deltaThreshold\ =\ 300;}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{float}\ springStrength\ =\ 0.00002f;}
+\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{classSpringComponent}{SpringComponent}}()}
+\DoxyCodeLine{00013\ \ \ \ \ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classSpringComponent}{\string~SpringComponent}}()\ \{}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00022\ \ \ \ \ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ glm::vec3\ posA\ =\ entity-\/>\mbox{\hyperlink{classLinkEntity_a73345eff25004221b8a7ffa10835bc85}{fromPos}};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ glm::vec3\ posB\ =\ entity-\/>toPos;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ glm::vec3\ delta\ =\ posB\ -\/\ posA;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ glm::vec3\ attraction\ =\ delta\ *\ springStrength;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (glm::length(delta)\ >\ deltaThreshold)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>getManager()-\/>getEntityFromId(}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>getFromNode()}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ )-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().velocity\ +=\ attraction;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>getManager()-\/>getEntityFromId(}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>getToNode()}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ )-\/>GetComponent<TransformComponent>().velocity\ -\/=\ attraction;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*springStrength\ -\/=\ 0.001f;}}
+\DoxyCodeLine{00042\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (springStrength\ <\ 0)\ \{}}
+\DoxyCodeLine{00043\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ entity-\/>removeComponent<SpringComponent>();}}
+\DoxyCodeLine{00044\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}*/}}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ v\_index,\ \mbox{\hyperlink{classLineRenderer}{LineRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}SpringComponent"{}};}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents\ =\ \{\})\ \textcolor{keyword}{override}\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ ImGui::Separator();}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}SpringComponent"{}});}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents,\ std::vector<Entity*>\ otherEntities)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ ImGui::Separator();}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}SpringComponent"{}});}
+\DoxyCodeLine{00065\ \ \ \ \ \};}
+\DoxyCodeLine{00066\ \};}
+
+\end{DoxyCode}

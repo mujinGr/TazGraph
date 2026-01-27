@@ -4,28 +4,50 @@ void Graph::update(float deltaTime) //game objects updating
 {
 	ZoneScopedN("Graph-Update");
 
-	std::string mapName = DataManager::getInstance().mapToLoad;
 
 	// on Graph Load / Graph Change
-	if (!manager && setManager(mapName)) {
-		manager->resetEntityId();
+	if (
+		(!manager || // manager is null for first time loading
+			DataManager::getInstance().getManagerChangeRequested())
+		)
+	{
+		int readIndex = getApp()->activeIndex.load();
 
-		map->loadMap(
-			DataManager::getInstance().mapToLoad.c_str(),
-			std::bind(&AssetManager::AddDefaultNode, std::placeholders::_1, std::placeholders::_2),
-			std::bind(&AssetManager::AddDefaultLink, std::placeholders::_1),
-			&_app->threadPool
-		);
+		getApp()->queues[readIndex].Wait();
+
+		std::string mapName = DataManager::getInstance().getMapToLoad();
+		DataManager::getInstance().setManagerChangeRequested(false);
+
+		if (setManager(mapName))
+		{
+			editingManager->resetEntityId();
+
+			graphLoader->loadMap(
+				DataManager::getInstance().getMapToLoad().c_str(),
+				std::bind(&AssetManager::AddDefaultNode, std::placeholders::_1, std::placeholders::_2),
+				std::bind(&AssetManager::AddDefaultLink, std::placeholders::_1),
+				&_app->threadPool
+			);
+		}
+
 		last_showGrid = false;
-		DataManager::getInstance().mapToLoad = "";
 		_selectedEntities.clear();
 
-		peu.init(*manager);
+		peu.init(*editingManager);
+
+
+		std::swap(manager, editingManager);
+
+		editingManager = nullptr;
 	}
+
+	if (graphLoader) // could be empty when new graph
+		graphLoader->update(deltaTime);
 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 	std::shared_ptr<OrthoCamera> minimap_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("minimap"));
+
 
 	main_camera2D->update();
 	hud_camera2D->update();
@@ -307,6 +329,9 @@ void Graph::update(float deltaTime) //game objects updating
 
 	if (!last_showGrid && showGrid) {
 		last_showGrid = showGrid;
+
+		manager->removeAllEntitiesFromLinkGroup(Manager::groupGridLinks);
+
 		for (int i = 0; i <= AXIS_CELLS; i++) {
 			// Vertical lines (constant X, varying Y)
 			glm::vec3 startV((i - AXIS_CELLS / 2.0f) * manager->grid->getCellSize(), -AXIS_CELLS / 2.0f * manager->grid->getCellSize(), z);

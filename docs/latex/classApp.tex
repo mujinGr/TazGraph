@@ -11,7 +11,8 @@ Inheritance diagram for App\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for App\+:\nopagebreak
+Collaboration diagram for App\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -35,7 +36,7 @@ virtual void \mbox{\hyperlink{classApp_aaf21c7c873ed7a3efb872a9172e2c869}{on\+Ex
 \item 
 {\bfseries App\+Interface} (int thread\+Count, int msaa\+\_\+samples, std\+::string open\+File, double initial\+Timestamp, int initial\+Step, bool use\+Python, std\+::array$<$ float, 4 $>$ bg, bool use\+Grid)
 \item 
-void {\bfseries run} ()
+void \mbox{\hyperlink{classAppInterface_a26b76a00a9254ec76d34dbff4f95dabe}{run}} ()
 \item 
 void {\bfseries enqueue\+Render\+Command} (std\+::function$<$ void()$>$ cmd)
 \item 
@@ -53,15 +54,15 @@ void {\bfseries on\+SDLEvent} (SDL\+\_\+\+Event \&evnt)
 \item 
 \mbox{\hyperlink{classAudioEngine}{Audio\+Engine}} \& {\bfseries get\+Audio\+Engine} ()
 \item 
-void {\bfseries render\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+void {\bfseries render\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
 \item 
-void {\bfseries draw\+Line\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+void {\bfseries draw\+Line\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
 \item 
-void {\bfseries draw\+Plane\+Color\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+void {\bfseries draw\+Plane\+Color\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
 \item 
-void {\bfseries draw\+Plane\+Model\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+void {\bfseries draw\+Plane\+Model\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
 \item 
-void {\bfseries draw\+Light\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, const \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
+void {\bfseries draw\+Light\+Batch} (const \mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data, \mbox{\hyperlink{classICamera}{ICamera}} \&camera)
 \item 
 void {\bfseries draw\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} \&batch)
 \item 
@@ -71,15 +72,15 @@ void {\bfseries draw\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEntit
 \item 
 void {\bfseries draw\+Batch} (const std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ \&entities, \mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} \&batch)
 \item 
-void {\bfseries prepare\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+void {\bfseries prepare\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data)
 \item 
-void {\bfseries prepare\+Line\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+void {\bfseries prepare\+Line\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data)
 \item 
-void {\bfseries prepare\+Plane\+Color\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+void {\bfseries prepare\+Plane\+Color\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data)
 \item 
-void {\bfseries prepare\+Plane\+Model\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+void {\bfseries prepare\+Plane\+Model\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data)
 \item 
-void {\bfseries prepare\+Light\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch)
+void {\bfseries prepare\+Light\+Batch} (\mbox{\hyperlink{structTaz_1_1GECSRenderBatch}{Taz\+::\+GECSRender\+Batch}} \&batch, \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} \&frame\+Data)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classAppInterface}{App\+Interface}}}
@@ -107,21 +108,11 @@ std\+::array$<$ float, 4 $>$ {\bfseries background\+Color}
 \item 
 bool {\bfseries use\+Grid} = false
 \item 
-std\+::mutex {\bfseries frame\+Mutex}
-\item 
-std\+::condition\+\_\+variable {\bfseries frame\+Ready\+CV}
-\item 
-std\+::condition\+\_\+variable {\bfseries frame\+Consumed\+CV}
-\item 
 std\+::condition\+\_\+variable {\bfseries init\+Command\+CV}
 \item 
-\mbox{\hyperlink{structRenderCommandQueue}{Render\+Command\+Queue}} {\bfseries queues} \mbox{[}2\mbox{]}
+\mbox{\hyperlink{structRenderCommandQueue}{Render\+Command\+Queue}} {\bfseries queues} \mbox{[}BUFFERS\+\_\+\+NO\mbox{]}
 \item 
 std\+::atomic$<$ int $>$ {\bfseries active\+Index} = 0
-\item 
-std\+::atomic$<$ bool $>$ {\bfseries frame\+Ready} \{ false \}
-\item 
-std\+::atomic$<$ bool $>$ {\bfseries frame\+Consumed} \{ true \}
 \item 
 \mbox{\hyperlink{structRenderCommandQueue}{Render\+Command\+Queue}} {\bfseries init\+Queue}
 \item 
@@ -137,14 +128,6 @@ std\+::vector$<$ SDL\+\_\+\+Event $>$ {\bfseries imgui\+Events}
 \item 
 std\+::mutex {\bfseries imgui\+Events\+Mutex}
 \item 
-\mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} {\bfseries plane\+Model\+Renderer}
-\item 
-\mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} {\bfseries plane\+Color\+Renderer}
-\item 
-\mbox{\hyperlink{classLineRenderer}{Line\+Renderer}} {\bfseries line\+Renderer}
-\item 
-\mbox{\hyperlink{classLightRenderer}{Light\+Renderer}} {\bfseries light\+Renderer}
-\item 
 \mbox{\hyperlink{classResourceManager}{Resource\+Manager}} {\bfseries resource\+Manager}
 \end{DoxyCompactItemize}
 \doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classAppInterface}{App\+Interface}}}
@@ -154,13 +137,15 @@ virtual void {\bfseries check\+Input} ()
 \item 
 virtual void {\bfseries update} (float delta\+Time)
 \item 
-virtual void {\bfseries prepare\+Draw} ()
+virtual void {\bfseries prepare\+Draw} (int index)
 \item 
-virtual void {\bfseries render\+Draw} ()
+virtual void {\bfseries render\+Draw} (int index)
 \item 
 virtual void {\bfseries update\+UI} (float delta\+Time)
 \item 
 virtual void {\bfseries draw\+UI} ()
+\item 
+void {\bfseries dispose\+Renderers} (int index)
 \item 
 virtual void {\bfseries swap\+Buffer} ()
 \item 

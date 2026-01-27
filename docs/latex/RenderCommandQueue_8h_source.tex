@@ -10,17 +10,29 @@
 \DoxyCodeLine{00006\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structRenderCommandQueue}{RenderCommandQueue}}\ \{}
 \DoxyCodeLine{00007\ \ \ \ \ std::vector<std::function<void()>>\ commands;}
 \DoxyCodeLine{00008\ \ \ \ \ std::mutex\ mutex;}
-\DoxyCodeLine{00009\ }
-\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{void}\ Submit(std::function<\textcolor{keywordtype}{void}()>\ cmd)\ \{}
-\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(mutex);}
-\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ commands.push\_back(std::move(cmd));}
-\DoxyCodeLine{00013\ \ \ \ \ \}}
-\DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ Execute()\ \{}
-\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(mutex);}
-\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ cmd\ :\ commands)\ cmd();}
-\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ commands.clear();}
-\DoxyCodeLine{00019\ \ \ \ \ \}}
-\DoxyCodeLine{00020\ \};}
+\DoxyCodeLine{00009\ \ \ \ \ std::condition\_variable\ cv;}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{bool}\ isReady\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{void}\ Submit(std::function<\textcolor{keywordtype}{void}()>\ cmd)\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(mutex);}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ commands.push\_back(std::move(cmd));}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ isReady\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00016\ \ \ \ \ \}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ Execute()\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(mutex);}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ cmd\ :\ commands)\ cmd();}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ commands.clear();}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ cv.notify\_all();}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ isReady\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00024\ \ \ \ \ \}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ Wait()\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ std::unique\_lock<std::mutex>\ lock(mutex);}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ cv.wait(lock,\ [\textcolor{keyword}{this}]()\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ commands.empty();}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00031\ \ \ \ \ \}}
+\DoxyCodeLine{00032\ \};}
 
 \end{DoxyCode}

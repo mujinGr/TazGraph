@@ -4,7 +4,7 @@
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../IMapParser.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../IGraphParser.h"{}}}
 \DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}simdump/include/sim\_dump/filereader.h"{}}}
 \DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}simdump/include/sim\_dump/filewriter.h"{}}}
 \DoxyCodeLine{00006\ }
@@ -12,7 +12,7 @@
 \DoxyCodeLine{00008\ }
 \DoxyCodeLine{00009\ \textcolor{keyword}{using\ namespace\ }sim\_dump;}
 \DoxyCodeLine{00010\ }
-\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classSimDumpMapParser}{SimDumpMapParser}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIMapParser}{IMapParser}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classSimDumpMapParser}{SimDumpMapParser}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIGraphParser}{IGraphParser}}\ \{}
 \DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
 \DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{classSimDumpMapParser}{SimDumpMapParser}}();}
 \DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{void}\ readFile(std::string\ m\_fileName)\ \textcolor{keyword}{override};}
@@ -27,17 +27,19 @@
 \DoxyCodeLine{00023\ }
 \DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ closeFile()\ \textcolor{keyword}{override};}
 \DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ createSteps(sim\_dump::FileReader\&\ reader,\ \mbox{\hyperlink{classManager}{Manager}}\&\ manager,}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3)>\ addNodeFunc,}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&)>\ addLinkFunc);}
-\DoxyCodeLine{00030\ }
-\DoxyCodeLine{00031\ \ \ \ \ std::string\ fileName;}
-\DoxyCodeLine{00032\ \ \ \ \ std::ifstream\ file;}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ std::vector<SimulationStep::TazSimulationNode>\ parsedNodes;}
-\DoxyCodeLine{00035\ \ \ \ \ std::vector<SimulationStep::TazSimulationLink>\ parsedLinks;}
-\DoxyCodeLine{00036\ }
-\DoxyCodeLine{00037\ \};}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ createSteps(sim\_dump::FileReader\&\ reader,\ \mbox{\hyperlink{classManager}{Manager}}\&\ manager,}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&,\ glm::vec3)>\ addNodeFunc,}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classEntity}{Entity}}\&)>\ addLinkFunc);}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ std::string\ fileName;}
+\DoxyCodeLine{00034\ \ \ \ \ std::ifstream\ file;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ std::vector<SimulationStep::TazSimulationNode>\ parsedNodes;}
+\DoxyCodeLine{00037\ \ \ \ \ std::vector<SimulationStep::TazSimulationLink>\ parsedLinks;}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \};}
 
 \end{DoxyCode}

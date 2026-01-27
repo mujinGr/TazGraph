@@ -3,8 +3,6 @@
 
 //!!!!!! Python to run needs to be on the context of scene, not render thread
 
-namespace py = pybind11;
-
 PythonInterpreterPanel::PythonInterpreterPanel()
 {
 }
@@ -134,7 +132,7 @@ void PythonInterpreterPanel::setFlags() {
 
 		if (mouse.x + collisionPadding > min.x && mouse.x < max.x && mouse.y > min.y && mouse.y < max.y)
 		{
-			flags = ImGuiChildFlags_ResizeY | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
+			flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
 		}
 	}
 

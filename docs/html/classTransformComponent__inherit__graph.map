@@ -1,7 +1,8 @@
 <map id="TransformComponent" name="TransformComponent">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,152,168,177"/>
 <area shape="rect" id="Node000002" href="$classComponent.html" title=" " alt="" coords="38,79,135,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,118,89,152,84,152,84,118"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,118,82,152,77,152,75,118"/>
+<area shape="poly" id="edge3_Node000001_Node000002" title=" " alt="" coords="98,118,96,152,91,152,93,118"/>
 <area shape="rect" id="Node000003" href="$classBaseComponent.html" title=" " alt="" coords="22,5,151,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="89,44,89,79,84,79,84,44"/>
 </map>

@@ -1,6 +1,7 @@
 /**
   @page pythonCommands Python Commands
 
+#Commands:
 These are some of the commands supported:
 ```cpp
 - addNode
@@ -15,7 +16,38 @@ These are some of the commands supported:
 <b>.</b>
 <b>.</b>
 
-You can add more at ```cpp TazGraph/Src/AssetManager/PythonEngineUtil.cpp ```
-If you need to add function related to control of simdump simulation go to: ```cpp TazGraphEngine/src/DataManager/DataManager.h ```
+You can add more at 
+```cpp 
+TazGraph/Src/AssetManager/PythonEngineCommands.cpp 
+```
+If you need to add function related to control of simdump simulation go to: 
+```cpp 
+TazGraphEngine/src/DataManager/DataManager.h 
+```
 
+#Save/Load Python state
+Using python, we can also save the state of envirnoment in .pkl format by executing:
+```cpp
+
+import pickle
+
+def my_object():
+    return 4;
+
+
+with open("state.pkl", "wb") as f:
+    pickle.dump(my_object, f)
+
+
+```
+
+To load, do:
+```cpp
+
+with open("state.pkl", "rb") as f:
+    my_object = pickle.load(f)
+
+print(my_object());
+
+```
 */

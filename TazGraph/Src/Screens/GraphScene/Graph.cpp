@@ -4,7 +4,7 @@
 */
 
 #include "Graph.h"
-#include "../../Map/Map.h"
+#include "../../Map/GraphLoader.h"
 
 
 #undef main
@@ -39,6 +39,24 @@ void Graph::onEntry()
 {
 	getApp()->enqueueRenderCommand([this]() {
 		/////////////////////////////////////////////
+
+		for (int i = 0; i < 2; i++) {
+			auto& frameData = frameDataBuffers[i];
+
+			frameData.planeColorRenderer.init();
+			frameData.lineRenderer.init();
+			frameData.planeModelRenderer.init();
+			frameData.lightRenderer.init();
+
+			auto& minimap_frameData = minimap_frameDataBuffers[i];
+
+			minimap_frameData.planeColorRenderer.init();
+			minimap_frameData.lineRenderer.init();
+			minimap_frameData.planeModelRenderer.init();
+			minimap_frameData.lightRenderer.init();
+		}
+		/////////////////////////////////////////////
+
 		getApp()->resourceManager.addGLSLProgram("color");
 		getApp()->resourceManager.addGLSLProgram("texture");
 		getApp()->resourceManager.addGLSLProgram("framebuffer");
@@ -175,23 +193,23 @@ bool Graph::setManager(std::string m_managerName)
 	}
 
 	IScene::setManager(m_managerName);
-	manager->setThreader(_app->threadPool);
+	editingManager->setThreader(_app->threadPool);
 
-	if (!manager->grid)
+	if (!editingManager->grid)
 	{
-		manager->grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
-		manager->setComponentNames();
+		editingManager->grid = std::make_unique<Grid>(ROW_CELL_SIZE, COLUMN_CELL_SIZE, DEPTH_CELL_SIZE, CELL_SIZE);
+		editingManager->setComponentNames();
 	}
 
-	if (!map) {
-		Graph::map = new Map(*manager, 1, 32);
+	if (!graphLoader) {
+		Graph::graphLoader = new GraphLoader(*editingManager, 1, 32);
 	}
-	map->manager = manager;
+	graphLoader->manager = editingManager;
 
 	main_camera2D->makeCameraDirty();
 	minimap_camera2D->makeCameraDirty();
 
-	manager->aboutTo_updateActiveEntities();
+	editingManager->aboutTo_updateActiveEntities();
 
 	return managerIsNew;
 }

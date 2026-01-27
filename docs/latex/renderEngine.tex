@@ -30,7 +30,6 @@ Entities are grouped and passed to the appropriate renderer via render\+Batch. T
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\ cpp}
 \DoxyCodeLine{renderBatch(}
 \DoxyCodeLine{\ \ \ \ manager-\/>getVisibleGroup<\mbox{\hyperlink{classLinkEntity}{LinkEntity}}>(Manager::groupLinks\_0),}
 \DoxyCodeLine{\ \ \ \ \_LineRenderer}
@@ -42,7 +41,6 @@ After batching, each renderer draws its instances and clears its buffers\+:
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\ cpp}
 \DoxyCodeLine{\_PlaneColorRenderer.end();}
 \DoxyCodeLine{\_PlaneColorRenderer.renderBatch(\&glsl\_color);}
 \DoxyCodeLine{glsl\_color.unuse();}

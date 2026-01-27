@@ -3,11 +3,11 @@
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}../IMapParser.h"{}}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}../IGraphParser.h"{}}}
 \DoxyCodeLine{00003\ }
 \DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <simdump/include/sim\_dump/filereader.h>}}
 \DoxyCodeLine{00005\ }
-\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classSimDumpPathParser}{SimDumpPathParser}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIMapParser}{IMapParser}}\ \{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classSimDumpPathParser}{SimDumpPathParser}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIGraphParser}{IGraphParser}}\ \{}
 \DoxyCodeLine{00007\ \textcolor{keyword}{public}:}
 \DoxyCodeLine{00008\ \ \ \ \ \mbox{\hyperlink{classSimDumpPathParser}{SimDumpPathParser}}();}
 \DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{void}\ readFile(std::string\ m\_fileName)\ \textcolor{keyword}{override};}
@@ -29,6 +29,8 @@
 \DoxyCodeLine{00025\ }
 \DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ closeFile()\ \textcolor{keyword}{override};}
 \DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \};}
 
 \end{DoxyCode}

@@ -36,18 +36,6 @@ source_group("Header Files" FILES ${Header_Files})
 source_group("Source Files" FILES ${Source_Files})
 
 ################################################################################
-# Setting libs with local folder
-################################################################################
-#set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/include")
-#set(LIB_DIR "${PROJECT_SOURCE_DIR}/deps/lib")
-
-#message("project source dir: ${PROJECT_SOURCE_DIR}")
-#message("deps include dir: ${INCLUDE_DIR}")
-
-#include_directories(${INCLUDE_DIR})
-#link_directories(${LIB_DIR})
-
-################################################################################
 # Setting libs with find_package
 ################################################################################
 # Find SDL2 core library
@@ -55,7 +43,9 @@ find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
 add_compile_options(-pedantic)
-
+add_compile_definitions(TRACY_ENABLE)
+add_compile_definitions(TRACY_NO_INVARIANT_CHECK)
+add_compile_definitions(TRACY_TIMER_FALLBACK)
 # Find SDL2 Mixer library
 find_package(SDL2_mixer REQUIRED)
 find_package(SDL2_image REQUIRED)
@@ -118,7 +108,7 @@ include_directories(${PYBIND11_INCLUDE_DIR})
 set(DOTPARSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/simdump/include")
 include_directories(${DOTPARSER_INCLUDE_DIR})
 
-set(FILEBROWSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/imgui-filebrowser")
+set(FILEBROWSER_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vendors/imgui-filebrowser") # header only
 include_directories(${FILEBROWSER_INCLUDE_DIR})
 #file(GLOB IMGUI_SOURCES ${PROJECT_NAME}/imgui/*.cpp)
 #target_sources(${PROJECT_NAME} PRIVATE ${IMGUI_SOURCES})
@@ -135,114 +125,6 @@ add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
 use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
 set(ROOT_NAMESPACE RenderEngine)
-
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    VS_GLOBAL_KEYWORD "Win32Proj"
-)
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
-    )
-endif()
-################################################################################
-# Compile definitions
-################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        "$<$<CONFIG:Debug>:"
-            "_DEBUG"
-        ">"
-        "$<$<CONFIG:Release>:"
-            "NDEBUG"
-        ">"
-        "_CONSOLE;"
-        "UNICODE;"
-        "_UNICODE"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        "$<$<CONFIG:Debug>:"
-            "_DEBUG"
-        ">"
-        "$<$<CONFIG:Release>:"
-            "NDEBUG"
-        ">"
-        "WIN32;"
-        "_CONSOLE;"
-        "UNICODE;"
-        "_UNICODE"
-    )
-endif()
-
-################################################################################
-# Compile and link options
-################################################################################
-if(MSVC)
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /Oi;
-                /Gy;
-                /O2;
-            >
-            /permissive-;
-            /sdl;
-            /W3;
-            ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
-            ${DEFAULT_CXX_EXCEPTION_HANDLING}
-        )
-    elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /Oi;
-                /Gy
-            >
-            /permissive-;
-            /sdl;
-            /W3;
-            ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
-            ${DEFAULT_CXX_EXCEPTION_HANDLING}
-        )
-    endif()
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /DEBUG;
-                /OPT:REF;
-                /OPT:ICF
-            >
-            /SUBSYSTEM:CONSOLE
-        )
-    elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /OPT:REF;
-                /OPT:ICF
-            >
-            /DEBUG;
-            /SUBSYSTEM:CONSOLE
-        )
-    endif()
-endif()
-
-################################################################################
-# Dependencies
-################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set(ADDITIONAL_LIBRARY_DEPENDENCIES
-        "$<$<CONFIG:Debug>:"
-            "SDL2;"
-            "SDL2main;"
-            "SDL2_image;"
-            "SDL2_ttf;"
-            "SDL2_mixer;"
-        ">"
-    )
-endif()
 
 message(STATUS "Current build configuration: ${CMAKE_BUILD_TYPE}")
 

@@ -11,7 +11,8 @@ Inheritance diagram for IScene\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for IScene\+:\nopagebreak
+Collaboration diagram for IScene\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -44,9 +45,9 @@ virtual void {\bfseries check\+Input} ()=0
 \item 
 virtual void \mbox{\hyperlink{classIScene_a2d3d5c6baf101610ba91f74940d2486b}{update}} (float delta\+Time)=0
 \item 
-virtual void \mbox{\hyperlink{classIScene_a125cd69ede7f7bd30ead327529ecb5b5}{prepare\+Draw}} ()=0
+virtual void \mbox{\hyperlink{classIScene_a0c418ae57b2a9a91052e34edd8355fc8}{prepare\+Draw}} (int index)=0
 \item 
-virtual void \mbox{\hyperlink{classIScene_a8939447b023e67cb0a071af87253d863}{render\+Draw}} ()=0
+virtual void \mbox{\hyperlink{classIScene_a1526cae696f87a58ef7e638db7ddfb13}{render\+Draw}} (int index)=0
 \item 
 \Hypertarget{classIScene_aedb12bdf4819d2cb7f99d662d09717f8}\label{classIScene_aedb12bdf4819d2cb7f99d662d09717f8} 
 virtual void {\bfseries Swap\+Buffer\+Draw} ()=0
@@ -61,6 +62,9 @@ virtual void {\bfseries draw\+UI} ()=0
 \item 
 \Hypertarget{classIScene_abaa96aeb72f9e6f3fca46367c9d1a96f}\label{classIScene_abaa96aeb72f9e6f3fca46367c9d1a96f} 
 virtual void {\bfseries End\+Render} ()=0
+\item 
+\Hypertarget{classIScene_a93d280ec4b5645ce11294459898a2090}\label{classIScene_a93d280ec4b5645ce11294459898a2090} 
+virtual void {\bfseries dispose\+Renderers} (int index)
 \item 
 \Hypertarget{classIScene_a1575f71f0414b12a59294fab4ecce703}\label{classIScene_a1575f71f0414b12a59294fab4ecce703} 
 int {\bfseries get\+Scene\+Index} () const
@@ -85,11 +89,11 @@ virtual bool {\bfseries set\+Manager} (std\+::string m\+\_\+manager\+Name)
 \item 
 std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{classIScene_ad1897b6e44c9dd75a3d89e6f6e2d33fa}{managers}}
 \item 
+\Hypertarget{classIScene_a572d15021471890dbddbf99f22ad9a15}\label{classIScene_a572d15021471890dbddbf99f22ad9a15} 
+\mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} {\bfseries editing\+Manager} = nullptr
+\item 
 \Hypertarget{classIScene_ae0f2c46534f60987f7f8a93819b68d64}\label{classIScene_ae0f2c46534f60987f7f8a93819b68d64} 
 \mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} {\bfseries manager} = nullptr
-\item 
-\Hypertarget{classIScene_abf67860a605341889b760d72c7516ae6}\label{classIScene_abf67860a605341889b760d72c7516ae6} 
-std\+::string {\bfseries manager\+Name} = "{}"{}
 \item 
 \Hypertarget{classIScene_a32c9cfd58aa46207840bcc648d85515e}\label{classIScene_a32c9cfd58aa46207840bcc648d85515e} 
 bool {\bfseries last\+\_\+render\+Debug} = false
@@ -117,9 +121,6 @@ bool {\bfseries request\+Exit} = false
 \item 
 \Hypertarget{classIScene_af5d66e2502ac5ab68b8f0bf44895f36f}\label{classIScene_af5d66e2502ac5ab68b8f0bf44895f36f} 
 \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} {\bfseries minimap\+\_\+frame\+Data\+Buffers} \mbox{[}2\mbox{]}
-\item 
-\Hypertarget{classIScene_aa75d6de09bd1b8ac062fc2f4b9fd8d44}\label{classIScene_aa75d6de09bd1b8ac062fc2f4b9fd8d44} 
-std\+::atomic$<$ int $>$ {\bfseries active\+Frame\+Index} = 0
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
@@ -139,25 +140,25 @@ class {\bfseries Scene\+List}
 
 
 \doxysubsection{Member Function Documentation}
-\Hypertarget{classIScene_a125cd69ede7f7bd30ead327529ecb5b5}\label{classIScene_a125cd69ede7f7bd30ead327529ecb5b5} 
+\Hypertarget{classIScene_a0c418ae57b2a9a91052e34edd8355fc8}\label{classIScene_a0c418ae57b2a9a91052e34edd8355fc8} 
 \index{IScene@{IScene}!prepareDraw@{prepareDraw}}
 \index{prepareDraw@{prepareDraw}!IScene@{IScene}}
 \doxysubsubsection{\texorpdfstring{prepareDraw()}{prepareDraw()}}
-{\footnotesize\ttfamily virtual void IScene\+::prepare\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+{\footnotesize\ttfamily virtual void IScene\+::prepare\+Draw (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
 
 
 
-Implemented in \mbox{\hyperlink{classGraph_a96825c801c28c85c630dd5dd38c40c7e}{Graph}}, and \mbox{\hyperlink{classMainMenuScreen_aa67f739ccd83abfcc3717f613090e96f}{Main\+Menu\+Screen}}.
+Implemented in \mbox{\hyperlink{classGraph_a34a8bc7dfe592f79a9f55e30b38e8b05}{Graph}}, and \mbox{\hyperlink{classMainMenuScreen_a67f041ce0bc919aecbc4e665eeaa2917}{Main\+Menu\+Screen}}.
 
-\Hypertarget{classIScene_a8939447b023e67cb0a071af87253d863}\label{classIScene_a8939447b023e67cb0a071af87253d863} 
+\Hypertarget{classIScene_a1526cae696f87a58ef7e638db7ddfb13}\label{classIScene_a1526cae696f87a58ef7e638db7ddfb13} 
 \index{IScene@{IScene}!renderDraw@{renderDraw}}
 \index{renderDraw@{renderDraw}!IScene@{IScene}}
 \doxysubsubsection{\texorpdfstring{renderDraw()}{renderDraw()}}
-{\footnotesize\ttfamily virtual void IScene\+::render\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+{\footnotesize\ttfamily virtual void IScene\+::render\+Draw (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
 
 
 
-Implemented in \mbox{\hyperlink{classGraph_a57959b5902869e2bc1d4e1d0800ddc0a}{Graph}}, and \mbox{\hyperlink{classMainMenuScreen_a911aaf23ef4c76dcf7f939a8cfdd4fc1}{Main\+Menu\+Screen}}.
+Implemented in \mbox{\hyperlink{classGraph_aa0c0c0d497654e679d36266580f7824e}{Graph}}, and \mbox{\hyperlink{classMainMenuScreen_ad6d9a2ffc7d7795850944193d2b6ea30}{Main\+Menu\+Screen}}.
 
 \Hypertarget{classIScene_a2d3d5c6baf101610ba91f74940d2486b}\label{classIScene_a2d3d5c6baf101610ba91f74940d2486b} 
 \index{IScene@{IScene}!update@{update}}

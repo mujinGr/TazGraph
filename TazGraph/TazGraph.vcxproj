@@ -170,7 +170,7 @@
   <ItemGroup>
     <ClCompile Include="Src\App\App.cpp" />
     <ClCompile Include="Src\AssetManager\AssetManager.cpp" />
-    <ClCompile Include="Src\AssetManager\PythonEngineUtil.cpp" />
+    <ClCompile Include="Src\AssetManager\PythonEngineCommands.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\GraphMiddlePanel.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HighlightBox\HighlightBox.cpp" />
     <ClCompile Include="Src\EditorIMGUI\Components\GraphRightPanel\EntityComponentsControl\EntityComponentsControl.cpp" />
@@ -207,7 +207,7 @@
     <ClCompile Include="Src\Screens\GraphScene\GraphUI.cpp" />
     <ClCompile Include="Src\Screens\GraphScene\GraphUpdate.cpp" />
     <ClCompile Include="Src\Screens\MainMenuScreen\MainMenuScreen.cpp" />
-    <ClCompile Include="Src\Map\Map.cpp" />
+    <ClCompile Include="Src\Map\GraphLoader.cpp" />
     <ClCompile Include="Src\Map\Parsers\DOTMapParser.cpp" />
     <ClCompile Include="Src\Map\Parsers\GraphMLMapParser.cpp" />
     <ClCompile Include="Src\Map\Parsers\PythonMapParser.cpp" />
@@ -217,7 +217,7 @@
   <ItemGroup>
     <ClInclude Include="Src\App\App.h" />
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
-    <ClInclude Include="Src\AssetManager\PythonEngineUtil.h" />
+    <ClInclude Include="Src\AssetManager\PythonEngineCommands.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\GraphMiddlePanel.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphMiddlePanel\ViewportPanel\HighlightBox\HighlightBox.h" />
     <ClInclude Include="Src\EditorIMGUI\Components\GraphRightPanel\EntityComponentsControl\EntityComponentsControl.h" />
@@ -253,8 +253,8 @@
     <ClInclude Include="Src\Screens\MainMenuScreen\MainMenuScreen.h" />
     <ClInclude Include="Src\Map\Parsers\DOTMapParser.h" />
     <ClInclude Include="Src\Map\Parsers\GraphMLMapParser.h" />
-    <ClInclude Include="Src\Map\IMapParser.h" />
-    <ClInclude Include="Src\Map\Map.h" />
+    <ClInclude Include="Src\Map\IGraphParser.h" />
+    <ClInclude Include="Src\Map\GraphLoader.h" />
     <ClInclude Include="Src\Map\Parsers\PythonMapParser.h" />
     <ClInclude Include="Src\Map\Parsers\TextMapParser.h" />
     <ClInclude Include="Src\Map\PathParsers\TextPathParser.h" />

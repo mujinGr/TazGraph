@@ -2,7 +2,8 @@
 \hypertarget{structAnimation}{}\label{structAnimation}\index{Animation@{Animation}}
 
 
-Inheritance diagram for Animation\+:\nopagebreak
+Inheritance diagram for Animation\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -13,7 +14,26 @@ Inheritance diagram for Animation\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 \Hypertarget{structAnimation_a4a53520e7b1569ca3477cf26e4500856}\label{structAnimation_a4a53520e7b1569ca3477cf26e4500856} 
-enum {\bfseries anim\+Type} \{ {\bfseries ANIMTYPE\+\_\+\+NONE} = 0
+enum {\bfseries anim\+Type} \{ \newline
+{\bfseries ANIMTYPE\+\_\+\+NONE} = 0
+, {\bfseries ANIMTYPE\+\_\+\+PLAY\+\_\+\+N\+\_\+\+TIMES} = 1
+, {\bfseries ANIMTYPE\+\_\+\+LOOPED} = 2
+, {\bfseries ANIMTYPE\+\_\+\+BACK\+\_\+\+FORTH} = 3
+, \newline
+{\bfseries ANIMTYPE\+\_\+\+NONE} = 0
+, {\bfseries ANIMTYPE\+\_\+\+PLAY\+\_\+\+N\+\_\+\+TIMES} = 1
+, {\bfseries ANIMTYPE\+\_\+\+LOOPED} = 2
+, {\bfseries ANIMTYPE\+\_\+\+BACK\+\_\+\+FORTH} = 3
+ \}
+\item 
+\Hypertarget{structAnimation_a4a53520e7b1569ca3477cf26e4500856}\label{structAnimation_a4a53520e7b1569ca3477cf26e4500856} 
+enum {\bfseries anim\+Type} \{ \newline
+{\bfseries ANIMTYPE\+\_\+\+NONE} = 0
+, {\bfseries ANIMTYPE\+\_\+\+PLAY\+\_\+\+N\+\_\+\+TIMES} = 1
+, {\bfseries ANIMTYPE\+\_\+\+LOOPED} = 2
+, {\bfseries ANIMTYPE\+\_\+\+BACK\+\_\+\+FORTH} = 3
+, \newline
+{\bfseries ANIMTYPE\+\_\+\+NONE} = 0
 , {\bfseries ANIMTYPE\+\_\+\+PLAY\+\_\+\+N\+\_\+\+TIMES} = 1
 , {\bfseries ANIMTYPE\+\_\+\+LOOPED} = 2
 , {\bfseries ANIMTYPE\+\_\+\+BACK\+\_\+\+FORTH} = 3
@@ -21,6 +41,21 @@ enum {\bfseries anim\+Type} \{ {\bfseries ANIMTYPE\+\_\+\+NONE} = 0
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structAnimation_a64b6ffeffccf726c65d2e9e1060ca768}\label{structAnimation_a64b6ffeffccf726c65d2e9e1060ca768} 
+{\bfseries Animation} (int ix, int iy, size\+\_\+t f, float s, const std\+::string \+\_\+type, int \+\_\+reps=0)
+\item 
+\Hypertarget{structAnimation_a82437e57e42155a17c4553e74f6b15dd}\label{structAnimation_a82437e57e42155a17c4553e74f6b15dd} 
+{\bfseries Animation} (int ix, int iy, size\+\_\+t f, float s, const anim\+Type \+\_\+type, int \+\_\+reps=0)
+\item 
+\Hypertarget{structAnimation_a07399a3186895976748b0242528e22b7}\label{structAnimation_a07399a3186895976748b0242528e22b7} 
+void {\bfseries advance\+Frame} (float delta\+Time)
+\item 
+\Hypertarget{structAnimation_a001b199e6952ef158283cb84cdbc3421}\label{structAnimation_a001b199e6952ef158283cb84cdbc3421} 
+void {\bfseries reset\+Frame\+Index} ()
+\item 
+\Hypertarget{structAnimation_a99f2268b72a10e199c51264f218b3c2a}\label{structAnimation_a99f2268b72a10e199c51264f218b3c2a} 
+bool {\bfseries has\+Finished} ()
 \item 
 \Hypertarget{structAnimation_a64b6ffeffccf726c65d2e9e1060ca768}\label{structAnimation_a64b6ffeffccf726c65d2e9e1060ca768} 
 {\bfseries Animation} (int ix, int iy, size\+\_\+t f, float s, const std\+::string \+\_\+type, int \+\_\+reps=0)
@@ -78,6 +113,7 @@ bool {\bfseries finished} = false
 \end{DoxyCompactItemize}
 
 
-The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/build/\+App\+Dir/\+Taz\+Graph\+Engine/src/\+GECS/\+Animators/Animation.\+h\item 
 /mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Animators/Animation.\+h\end{DoxyCompactItemize}

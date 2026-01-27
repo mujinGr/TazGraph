@@ -29,8 +29,8 @@
 \DoxyCodeLine{00025\ }
 \DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
 \DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMainMenuScreen_aa67f739ccd83abfcc3717f613090e96f}{prepareDraw}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMainMenuScreen_a911aaf23ef4c76dcf7f939a8cfdd4fc1}{renderDraw}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMainMenuScreen_a67f041ce0bc919aecbc4e665eeaa2917}{prepareDraw}}(\textcolor{keywordtype}{int}\ index)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMainMenuScreen_ad6d9a2ffc7d7795850944193d2b6ea30}{renderDraw}}(\textcolor{keywordtype}{int}\ index)\ \textcolor{keyword}{override};}
 \DoxyCodeLine{00030\ }
 \DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ BeginRender()\ \textcolor{keyword}{override};}
 \DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ updateUI(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
@@ -49,6 +49,9 @@
 \DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{int}\ \_prevSceneIndex\ =\ SCENE\_INDEX\_GRAPHPLAY;}
 \DoxyCodeLine{00046\ }
 \DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{classMainMenuEditorLayer}{MainMenuEditorLayer}}\ \_mainMenuLayer;}
-\DoxyCodeLine{00048\ \};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{Framebuffer}}\ \_main\_viewportFramebuffer;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \};}
 
 \end{DoxyCode}

@@ -6,79 +6,79 @@
 \DoxyCodeLine{00002\ }
 \DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../UIElement.h"{}}}
 \DoxyCodeLine{00004\ }
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <pybind11/pybind11.h>}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <pybind11/embed.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ GCC\ diagnostic\ push}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ GCC\ diagnostic\ ignored\ "{}-\/Wattributes"{}}}
 \DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }py\ =\ pybind11;}
-\DoxyCodeLine{00009\ }
-\DoxyCodeLine{00010\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structPythonInterpreterConfig}{PythonInterpreterConfig}}\ \{}
-\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classIScene}{IScene}}*\ scene;}
-\DoxyCodeLine{00012\ \ \ \ \ ImVec2*\ viewportPos;}
-\DoxyCodeLine{00013\ \ \ \ \ ImVec2*\ viewportSize;}
-\DoxyCodeLine{00014\ \};}
-\DoxyCodeLine{00015\ }
-\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPythonInterpreterPanel}{PythonInterpreterPanel}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
-\DoxyCodeLine{00017\ \{}
-\DoxyCodeLine{00018\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{structPythonInterpreterConfig}{PythonInterpreterConfig}}\ \ config;}
-\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{char}\ \_pythonBuffer[1024]\ =\ \textcolor{stringliteral}{"{}"{}};}
-\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{char}\ \_updateBuffer[4096]\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00008\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structPythonInterpreterConfig}{PythonInterpreterConfig}}\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{classIScene}{IScene}}*\ scene;}
+\DoxyCodeLine{00010\ \ \ \ \ ImVec2*\ viewportPos;}
+\DoxyCodeLine{00011\ \ \ \ \ ImVec2*\ viewportSize;}
+\DoxyCodeLine{00012\ \};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPythonInterpreterPanel}{PythonInterpreterPanel}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{structPythonInterpreterConfig}{PythonInterpreterConfig}}\ \ config;}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{char}\ \_pythonBuffer[1024]\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{char}\ \_updateBuffer[4096]\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ py::object\ \_stdout\_buffer;}
 \DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \ \ \ \ py::object\ \_stdout\_buffer;}
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ \ \ \ \ std::string\ \_outputText;}
-\DoxyCodeLine{00026\ \ \ \ \ std::string\ \_updateOutputText;}
-\DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{enum}\ console\_state\ \{}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ Collapsed,}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ Expanded}
-\DoxyCodeLine{00031\ \ \ \ \ \};}
-\DoxyCodeLine{00032\ }
-\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{enum\ class}\ ScriptType\ \{}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ OneOff,}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ OnUpdate}
-\DoxyCodeLine{00036\ \ \ \ \ \};}
+\DoxyCodeLine{00023\ \ \ \ \ std::string\ \_outputText;}
+\DoxyCodeLine{00024\ \ \ \ \ std::string\ \_updateOutputText;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{enum}\ console\_state\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ Collapsed,}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ Expanded}
+\DoxyCodeLine{00029\ \ \ \ \ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{enum\ class}\ ScriptType\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ OneOff,}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ OnUpdate}
+\DoxyCodeLine{00034\ \ \ \ \ \};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ ScriptType\ currentScriptType\ =\ ScriptType::OneOff;}
 \DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \ \ \ \ ScriptType\ currentScriptType\ =\ ScriptType::OneOff;}
-\DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \ \ \ \ console\_state\ state\ =\ console\_state::Collapsed;}
-\DoxyCodeLine{00041\ \ \ \ \ console\_state\ last\_state\ =\ console\_state::Collapsed;}
-\DoxyCodeLine{00042\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00038\ \ \ \ \ console\_state\ state\ =\ console\_state::Collapsed;}
+\DoxyCodeLine{00039\ \ \ \ \ console\_state\ last\_state\ =\ console\_state::Collapsed;}
+\DoxyCodeLine{00040\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{float}\ default\_pythonConsoleHeight\ =\ 400.0f;}
 \DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{float}\ default\_pythonConsoleHeight\ =\ 400.0f;}
+\DoxyCodeLine{00044\ \ \ \ \ ImRect\ titleBarRect;}
 \DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \ \ \ \ ImRect\ titleBarRect;}
-\DoxyCodeLine{00047\ }
-\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{float}\ intervalSec\ =\ 1.0f;}
-\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{double}\ lastExecTime\ =\ 0.0;}
-\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{bool}\ useInterval\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{bool}\ updatePaused\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{float}\ intervalSec\ =\ 1.0f;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{double}\ lastExecTime\ =\ 0.0;}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{bool}\ useInterval\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{bool}\ updatePaused\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{bool}\ inputActive\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00052\ }
-\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{bool}\ inputActive\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{bool}\ firstLoop\ =\ \textcolor{keyword}{true};}
 \DoxyCodeLine{00054\ }
-\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{bool}\ firstLoop\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{bool}\ readyToClear\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{bool}\ readyToExecute\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{bool}\ readyToClear\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{bool}\ readyToExecute\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ ImGuiChildFlags\ flags\ =\ ImGuiWindowFlags\_NoSavedSettings;}
 \DoxyCodeLine{00059\ }
-\DoxyCodeLine{00060\ \ \ \ \ ImGuiChildFlags\ flags\ =\ ImGuiChildFlags\_ResizeY\ |\ ImGuiWindowFlags\_NoSavedSettings;}
-\DoxyCodeLine{00061\ }
-\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{classPythonInterpreterPanel_a08e9a7f14884babd7f9e0016e1f623e8}{PythonInterpreterPanel}}();}
-\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classPythonInterpreterPanel_ab999a83ba0526ab8a80ad7358f346e92}{update}}(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{classPythonInterpreterPanel_a08e9a7f14884babd7f9e0016e1f623e8}{PythonInterpreterPanel}}();}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classPythonInterpreterPanel_ab999a83ba0526ab8a80ad7358f346e92}{update}}(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structPythonInterpreterConfig}{PythonInterpreterConfig}}\&\ cfg)\ \{}
 \DoxyCodeLine{00064\ }
-\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structPythonInterpreterConfig}{PythonInterpreterConfig}}\&\ cfg)\ \{}
-\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ config\ =\ cfg;}
 \DoxyCodeLine{00067\ }
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ config\ =\ cfg;}
-\DoxyCodeLine{00069\ }
-\DoxyCodeLine{00070\ \ \ \ \ \}}
-\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ setFlags();}
-\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ innerTable();}
-\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ clearOutput();}
-\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classPythonInterpreterPanel_ad68d86236b802b650b7f12149ba53d88}{runScript}}();}
-\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ runUpdateScript(\textcolor{keywordtype}{float}\ deltaTime);}
-\DoxyCodeLine{00078\ \};}
+\DoxyCodeLine{00068\ \ \ \ \ \}}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ setFlags();}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ innerTable();}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ clearOutput();}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classPythonInterpreterPanel_ad68d86236b802b650b7f12149ba53d88}{runScript}}();}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ runUpdateScript(\textcolor{keywordtype}{float}\ deltaTime);}
+\DoxyCodeLine{00076\ \};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#pragma\ GCC\ diagnostic\ pop}}
 
 \end{DoxyCode}

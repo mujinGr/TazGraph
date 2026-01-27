@@ -7,6 +7,8 @@
 struct MainMenuEditorLayerConfig {
 	std::function<void()> onStartClicked;
 	std::function<void()> onExitClicked;
+	Framebuffer* viewportFramebuffer = nullptr;
+
 };
 
 class MainMenuEditorLayer : public UIElement

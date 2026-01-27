@@ -1,0 +1,55 @@
+\doxysection{Inner\+Link.\+h}
+\hypertarget{build_2AppDir_2TazGraphEngine_2src_2GECS_2Components_2Link_2Basic_2InnerLink_8h_source}{}\label{build_2AppDir_2TazGraphEngine_2src_2GECS_2Components_2Link_2Basic_2InnerLink_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/build/AppDir/TazGraphEngine/src/GECS/Components/Link/Basic/InnerLink.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/build/AppDir/TazGraphEngine/src/GECS/Components/Link/Basic/InnerLink.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classInnerLink}{InnerLink}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classLinkComponent}{LinkComponent}}\ \textcolor{comment}{//transform\ as\ in\ graphics,\ we\ have\ rotation\ and\ scale}}
+\DoxyCodeLine{00006\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00008\ \ \ \ \ EntityID\ first\_pathLink\ =\ 0;}
+\DoxyCodeLine{00009\ \ \ \ \ EntityID\ second\_pathLink\ =\ 0;}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classInnerLink}{InnerLink}}()}
+\DoxyCodeLine{00012\ \ \ \ \ \{}
+\DoxyCodeLine{00013\ \ \ \ \ \}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{classInnerLink}{InnerLink}}(}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ EntityID\ first,}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ EntityID\ second}
+\DoxyCodeLine{00018\ \ \ \ \ )\ :}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ first\_pathLink(first),}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ second\_pathLink(second)}
+\DoxyCodeLine{00021\ \ \ \ \ \{}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \}}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{classInnerLink}{\string~InnerLink}}()}
+\DoxyCodeLine{00025\ \ \ \ \ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00029\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00030\ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00032\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}InnerLink"{}};}
+\DoxyCodeLine{00038\ \ \ \ \ \}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents\ =\ \{\})\ \textcolor{keyword}{override}\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ ImGui::Separator();}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents,\ std::vector<Entity*>\ otherEntities)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ ImGui::Separator();}
+\DoxyCodeLine{00048\ \ \ \ \ \};}
+\DoxyCodeLine{00049\ \};}
+
+\end{DoxyCode}

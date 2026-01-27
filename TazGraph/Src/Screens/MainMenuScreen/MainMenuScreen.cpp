@@ -35,8 +35,26 @@ void MainMenuScreen::destroy()
 void MainMenuScreen::onEntry()
 {
 	getApp()->enqueueRenderCommand([this]() {
+
+		for (int i = 0; i < 2; i++) {
+			auto& frameData = frameDataBuffers[i];
+
+			frameData.planeColorRenderer.init();
+			frameData.lineRenderer.init();
+			frameData.planeModelRenderer.init();
+			frameData.lightRenderer.init();
+
+			auto& minimap_frameData = minimap_frameDataBuffers[i];
+
+			minimap_frameData.planeColorRenderer.init();
+			minimap_frameData.lineRenderer.init();
+			minimap_frameData.planeModelRenderer.init();
+			minimap_frameData.lightRenderer.init();
+		}
+
 		getApp()->resourceManager.addGLSLProgram("texture");
 		getApp()->resourceManager.addGLSLProgram("color");
+		getApp()->resourceManager.addGLSLProgram("framebuffer");
 
 		if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 		{
@@ -51,11 +69,24 @@ void MainMenuScreen::onEntry()
 			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexColor");
 			getApp()->resourceManager.getGLSLProgram("texture")->addAttribute("vertexUV");
 
+			getApp()->resourceManager.getGLSLProgram("framebuffer")->compileAndLinkShaders("Src/Shaders/framebuffer.vert", "Src/Shaders/framebuffer.frag");
+			getApp()->resourceManager.getGLSLProgram("framebuffer")->addAttribute("inPos");
+			getApp()->resourceManager.getGLSLProgram("framebuffer")->addAttribute("inTexCoords");
+
 			getApp()->resourceManager.getGLSLProgram("color")->compileAndLinkShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
 			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexPosition");
 			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexColor");
 			getApp()->resourceManager.getGLSLProgram("color")->addAttribute("vertexUV");
 		}
+		getApp()->resourceManager.getGLSLProgram("framebuffer")->use();
+		glUniform1i(
+			glGetUniformLocation(getApp()->resourceManager.getGLSLProgram("framebuffer")->getProgramID(), "screenTexture")
+			, 0);
+		getApp()->resourceManager.getGLSLProgram("framebuffer")->unuse();
+
+
+
+		_main_viewportFramebuffer.init(_app->_window.getScreenWidth(), _app->_window.getScreenHeight(), getApp()->useMSAA, getApp()->MSAA_samples);
 
 		if (TTF_Init() == -1)
 		{
@@ -115,6 +146,8 @@ void MainMenuScreen::onExit()
 
 void MainMenuScreen::update(float deltaTime)
 {
+	ZoneScopedN("Main-Update");
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
 
@@ -126,10 +159,12 @@ void MainMenuScreen::update(float deltaTime)
 }
 
 
-void MainMenuScreen::prepareDraw()
+void MainMenuScreen::prepareDraw(int index)
 {
+	ZoneScopedN("Main-PrepareDraw");
 
-	int writeIndex = 1 - activeFrameIndex.load();
+
+	int writeIndex = 1 - getApp()->activeIndex.load();
 
 	auto& frameData = frameDataBuffers[writeIndex];
 
@@ -156,25 +191,30 @@ void MainMenuScreen::prepareDraw()
 
 	}
 
-	getApp()->planeColorRenderer.begin();
-	getApp()->lineRenderer.begin();
-	getApp()->planeModelRenderer.begin();
-	getApp()->lightRenderer.begin();
+	frameData.planeColorRenderer.begin();
+	frameData.lineRenderer.begin();
+	frameData.planeModelRenderer.begin();
+	frameData.lightRenderer.begin();
 
 	{
 		for (auto& batch : frameData.batches) {
-			getApp()->prepareBatch(batch);
+			getApp()->prepareBatch(batch, frameData);
 		}
 	}
 
-	activeFrameIndex.store(writeIndex);
 }
 
-void MainMenuScreen::renderDraw()
+void MainMenuScreen::renderDraw(int index)
 {
+	ZoneScopedN("Main-RenderDraw");
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("mainMenu_main"));
-	int readIndex = activeFrameIndex.load();
+	int readIndex = getApp()->activeIndex.load();
 	auto& frameData = frameDataBuffers[readIndex];
+
+	_main_viewportFramebuffer.Bind();
+	glViewport(0, 0, _main_viewportFramebuffer._width, _main_viewportFramebuffer._height);
+
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
@@ -184,9 +224,12 @@ void MainMenuScreen::renderDraw()
 			getApp()->renderBatch(batch, frameData, *main_camera2D);
 		}
 	}
+	_main_viewportFramebuffer.Unbind();
 }
 
 void MainMenuScreen::checkInput() {
+	ZoneScopedN("Main-CheckInput");
+
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
@@ -195,11 +238,6 @@ void MainMenuScreen::checkInput() {
 	}
 
 	SDL_Event evnt;
-	{
-		std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);
-		getApp()->imguiEvents.clear(); // Clear previous frame's events
-	}
-
 	while (SDL_PollEvent(&evnt)) {
 		{
 			std::lock_guard<std::mutex> lock(getApp()->imguiEventsMutex);
@@ -232,9 +270,12 @@ void MainMenuScreen::updateUI(float deltaTime) {
 }
 
 void MainMenuScreen::drawUI() {
+	ZoneScopedN("Main-DrawUI");
+
 	_mainMenuLayer.setConfig({
 		   .onStartClicked = [this]() { MainMenuScreen::onStartSimulator(); },
-		   .onExitClicked = [this]() { requestExit = true; }
+		   .onExitClicked = [this]() { requestExit = true; },
+		   .viewportFramebuffer = &_main_viewportFramebuffer,
 		});
 
 	_mainMenuLayer.OnImGuiRender();
@@ -245,19 +286,21 @@ void MainMenuScreen::drawUI() {
 		_mainMenuLayer.getSubcomponent<LoadingUI>()->OnImGuiRender();
 		char* loadMapPath = DataManager::getInstance().data.input;
 		if (strlen(loadMapPath) && !DataManager::getInstance().isLoading()) {
-			DataManager::getInstance().mapToLoad = loadMapPath;
+			DataManager::getInstance().setMapToLoad(loadMapPath);
 			_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 			currentState = SceneState::CHANGE_NEXT;
 		}
 	}
 	if (!getApp()->openFile.empty()) {
-		DataManager::getInstance().mapToLoad = getApp()->openFile;
+		DataManager::getInstance().setMapToLoad(getApp()->openFile);
 		_nextSceneIndex = SCENE_INDEX_GRAPHPLAY;
 		currentState = SceneState::CHANGE_NEXT;
 	}
 }
 
 void MainMenuScreen::SwapBufferDraw() {
+	ZoneScopedN("Main-SwapBuffer");
+
 	getApp()->_window.swapBuffer();
 }
 

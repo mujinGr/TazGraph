@@ -8,7 +8,7 @@
 
 #include "../../AssetManager/AssetManager.h"
 #include "../../EditorIMGUI/GraphEditorLayer/GraphEditorLayer.h"
-#include "../../AssetManager/PythonEngineUtil.h"
+#include "../../AssetManager/PythonEngineCommands.h"
 
 class Map;
 class SceneManager;
@@ -46,11 +46,11 @@ public:
 
 	virtual void update(float deltaTime) override;
 
-	virtual void prepareDraw() override;
-	virtual void renderDraw() override;
+	virtual void prepareDraw(int index) override;
+	virtual void renderDraw(int index) override;
 
-	void minimapPrepareDraw();
-	void minimapRenderDraw();
+	void minimapPrepareDraw(int index);
+	void minimapRenderDraw(int index);
 
 	virtual void SwapBufferDraw() override;
 
@@ -60,7 +60,7 @@ public:
 	virtual void EndRender() override;
 
 
-	Map* map = nullptr;
+	GraphLoader* graphLoader = nullptr;
 	//std::unique_ptr<Grid> grid;
 
 private:
@@ -128,7 +128,7 @@ private:
 	float cameraMaxVelocity = 200.0f;
 	float cameraFriction = 0.9f;
 
-	PythonEngineUtil peu;
+	PythonEngineCommands peu;
 };
 
 

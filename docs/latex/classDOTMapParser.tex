@@ -2,7 +2,8 @@
 \hypertarget{classDOTMapParser}{}\label{classDOTMapParser}\index{DOTMapParser@{DOTMapParser}}
 
 
-Inheritance diagram for DOTMap\+Parser\+:\nopagebreak
+Inheritance diagram for DOTMap\+Parser\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,7 +12,8 @@ Inheritance diagram for DOTMap\+Parser\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for DOTMap\+Parser\+:\nopagebreak
+Collaboration diagram for DOTMap\+Parser\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -28,18 +30,22 @@ void \mbox{\hyperlink{classDOTMapParser_a525ae3c22b68822f3e2b9a7de6caba04}{write
 void \mbox{\hyperlink{classDOTMapParser_afe91d7d1da38e74488623606904d5e4b}{parse}} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$ add\+Node\+Func, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$ add\+Link\+Func) override
 \item 
 void \mbox{\hyperlink{classDOTMapParser_a75ff6c3d90b2be7af2ac74972763dd39}{close\+File}} () override
+\item 
+void \mbox{\hyperlink{classDOTMapParser_a31a4b4cc8996a4362ad8e7337630bf2a}{update}} (float delta\+Time) override
 \end{DoxyCompactItemize}
-\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}}
 \begin{DoxyCompactItemize}
 \item 
 void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mthreader)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
-\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}}
 \begin{DoxyCompactItemize}
 \item 
+float {\bfseries elapsed\+Delta} = 0
+\item 
 \mbox{\hyperlink{structThreader}{Threader}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+threader} = nullptr
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em for background processing \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Member Function Documentation}
@@ -51,7 +57,7 @@ void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mt
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 \Hypertarget{classDOTMapParser_afe91d7d1da38e74488623606904d5e4b}\label{classDOTMapParser_afe91d7d1da38e74488623606904d5e4b} 
 \index{DOTMapParser@{DOTMapParser}!parse@{parse}}
@@ -61,7 +67,7 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 \Hypertarget{classDOTMapParser_abd5680b0fe1c45a23015bbf3f9880e34}\label{classDOTMapParser_abd5680b0fe1c45a23015bbf3f9880e34} 
 \index{DOTMapParser@{DOTMapParser}!readFile@{readFile}}
@@ -71,7 +77,17 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
+
+\Hypertarget{classDOTMapParser_a31a4b4cc8996a4362ad8e7337630bf2a}\label{classDOTMapParser_a31a4b4cc8996a4362ad8e7337630bf2a} 
+\index{DOTMapParser@{DOTMapParser}!update@{update}}
+\index{update@{update}!DOTMapParser@{DOTMapParser}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void DOTMap\+Parser\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 \Hypertarget{classDOTMapParser_a525ae3c22b68822f3e2b9a7de6caba04}\label{classDOTMapParser_a525ae3c22b68822f3e2b9a7de6caba04} 
 \index{DOTMapParser@{DOTMapParser}!writeFile@{writeFile}}
@@ -81,7 +97,7 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 
 

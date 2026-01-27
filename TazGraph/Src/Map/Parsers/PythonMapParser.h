@@ -1,7 +1,7 @@
 #pragma once
-#include "../IMapParser.h"
+#include "../IGraphParser.h"
 
-class PythonMapParser : public IMapParser {
+class PythonMapParser : public IGraphParser {
 public:
 	PythonMapParser();
 	void readFile(std::string m_fileName) override;
@@ -15,6 +15,8 @@ public:
 	) override;
 
 	void closeFile() override;
+
+	void update(float deltaTime) override;
 
 private:
 	std::ifstream file;

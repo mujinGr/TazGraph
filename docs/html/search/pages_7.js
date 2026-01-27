@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mb_0',['TazGraph (40.9 MB)',['../index.html',1,'']]]
+  ['linux_20deploy_0',['Linux Deploy',['../appImage.html',1,'dev_guide']]]
 ];

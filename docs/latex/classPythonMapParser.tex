@@ -2,7 +2,8 @@
 \hypertarget{classPythonMapParser}{}\label{classPythonMapParser}\index{PythonMapParser@{PythonMapParser}}
 
 
-Inheritance diagram for Python\+Map\+Parser\+:\nopagebreak
+Inheritance diagram for Python\+Map\+Parser\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,7 +12,8 @@ Inheritance diagram for Python\+Map\+Parser\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Python\+Map\+Parser\+:\nopagebreak
+Collaboration diagram for Python\+Map\+Parser\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -28,18 +30,22 @@ void \mbox{\hyperlink{classPythonMapParser_a79009f3f949ce370febc4693682aa614}{wr
 void \mbox{\hyperlink{classPythonMapParser_a6872fb8bae02bf5a7543d9a427459b89}{parse}} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$ add\+Node\+Func, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$ add\+Link\+Func) override
 \item 
 void \mbox{\hyperlink{classPythonMapParser_a22e10f497d094f9fe014842b6fd054ba}{close\+File}} () override
+\item 
+void \mbox{\hyperlink{classPythonMapParser_a183ad8394f50281d833f78bd8b17b153}{update}} (float delta\+Time) override
 \end{DoxyCompactItemize}
-\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}}
 \begin{DoxyCompactItemize}
 \item 
 void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mthreader)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
-\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}}
 \begin{DoxyCompactItemize}
 \item 
+float {\bfseries elapsed\+Delta} = 0
+\item 
 \mbox{\hyperlink{structThreader}{Threader}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+threader} = nullptr
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em for background processing \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Member Function Documentation}
@@ -51,7 +57,7 @@ void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mt
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 \Hypertarget{classPythonMapParser_a6872fb8bae02bf5a7543d9a427459b89}\label{classPythonMapParser_a6872fb8bae02bf5a7543d9a427459b89} 
 \index{PythonMapParser@{PythonMapParser}!parse@{parse}}
@@ -61,7 +67,7 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 \Hypertarget{classPythonMapParser_a1f7a27fa1839ac71f75e615ec89b8abe}\label{classPythonMapParser_a1f7a27fa1839ac71f75e615ec89b8abe} 
 \index{PythonMapParser@{PythonMapParser}!readFile@{readFile}}
@@ -71,7 +77,17 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
+
+\Hypertarget{classPythonMapParser_a183ad8394f50281d833f78bd8b17b153}\label{classPythonMapParser_a183ad8394f50281d833f78bd8b17b153} 
+\index{PythonMapParser@{PythonMapParser}!update@{update}}
+\index{update@{update}!PythonMapParser@{PythonMapParser}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Python\+Map\+Parser\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 \Hypertarget{classPythonMapParser_a79009f3f949ce370febc4693682aa614}\label{classPythonMapParser_a79009f3f949ce370febc4693682aa614} 
 \index{PythonMapParser@{PythonMapParser}!writeFile@{writeFile}}
@@ -81,7 +97,7 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 
 

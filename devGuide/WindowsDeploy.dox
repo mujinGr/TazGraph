@@ -1,0 +1,14 @@
+/**
+  @page msi Windows Deploy
+
+you can deploy the editor on Windows using Visual Studio IDE 2022(with msi):
+
+Need to install: 
+"Microsoft Visual Studio Installer Projects 2022"
+that will enable IDE to modify "SetupTazGraph" project, which is responsible
+for creating the .msi and its .exe files.
+
+Right-click on Project->Build while configuration is "Release"
+Some dlls may break the app, but they should be already cleaned and handled (like OPENGL.dll or IMM32.dll)
+
+*/

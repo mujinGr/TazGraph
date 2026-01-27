@@ -2,7 +2,8 @@
 \hypertarget{classLinkPythonCodeComponent}{}\label{classLinkPythonCodeComponent}\index{LinkPythonCodeComponent@{LinkPythonCodeComponent}}
 
 
-Inheritance diagram for Link\+Python\+Code\+Component\+:\nopagebreak
+Inheritance diagram for Link\+Python\+Code\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,7 +12,8 @@ Inheritance diagram for Link\+Python\+Code\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Link\+Python\+Code\+Component\+:\nopagebreak
+Collaboration diagram for Link\+Python\+Code\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,6 +22,16 @@ Collaboration diagram for Link\+Python\+Code\+Component\+:\nopagebreak
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classLinkPythonCodeComponent_abd712ad21b8bf510ce14e92c81dcd647}{init}} () override
+\item 
+void \mbox{\hyperlink{classLinkPythonCodeComponent_ac2a75cf20620139b544f0b5736f667e1}{update}} (float delta\+Time) override
+\item 
+std\+::string \mbox{\hyperlink{classLinkPythonCodeComponent_addca693332b6889e3fb26dd1c83ac804}{Get\+Component\+Name}} () override
+\item 
+void \mbox{\hyperlink{classLinkPythonCodeComponent_a453a57db70eebc7e2fb9df4abb044718}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\}) override
+\item 
+void \mbox{\hyperlink{classLinkPythonCodeComponent_a47fed1e2f85633e0e2230623ae80b539}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components, std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ other\+Entities) override
 \item 
 void \mbox{\hyperlink{classLinkPythonCodeComponent_abd712ad21b8bf510ce14e92c81dcd647}{init}} () override
 \item 
@@ -44,6 +56,20 @@ virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classL
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classPythonCodeComponent}{Python\+Code\+Component}}}
 \begin{DoxyCompactItemize}
+\item 
+void {\bfseries init} ()
+\item 
+void \mbox{\hyperlink{classPythonCodeComponent_a3334dd68e45fbe59d4c1ff0992b364ba}{update}} (float delta\+Time)
+\item 
+std\+::string {\bfseries Get\+Component\+Name} ()
+\item 
+void {\bfseries show\+GUI} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\})
+\item 
+void {\bfseries clear\+Output} ()
+\item 
+void \mbox{\hyperlink{classPythonCodeComponent_a9da98d55996ae1f84aede5bf9990a7a6}{run\+Script}} ()
+\item 
+void {\bfseries run\+Update\+Script} (float delta\+Time)
 \item 
 void {\bfseries init} ()
 \item 
@@ -100,7 +126,17 @@ bool {\bfseries ready\+To\+Execute} = false
 \Hypertarget{classLinkPythonCodeComponent_addca693332b6889e3fb26dd1c83ac804}\label{classLinkPythonCodeComponent_addca693332b6889e3fb26dd1c83ac804} 
 \index{LinkPythonCodeComponent@{LinkPythonCodeComponent}!GetComponentName@{GetComponentName}}
 \index{GetComponentName@{GetComponentName}!LinkPythonCodeComponent@{LinkPythonCodeComponent}}
-\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::string Link\+Python\+Code\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classLinkPythonCodeComponent_addca693332b6889e3fb26dd1c83ac804}\label{classLinkPythonCodeComponent_addca693332b6889e3fb26dd1c83ac804} 
+\index{LinkPythonCodeComponent@{LinkPythonCodeComponent}!GetComponentName@{GetComponentName}}
+\index{GetComponentName@{GetComponentName}!LinkPythonCodeComponent@{LinkPythonCodeComponent}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily std\+::string Link\+Python\+Code\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -110,7 +146,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classLinkPythonCodeComponent_abd712ad21b8bf510ce14e92c81dcd647}\label{classLinkPythonCodeComponent_abd712ad21b8bf510ce14e92c81dcd647} 
 \index{LinkPythonCodeComponent@{LinkPythonCodeComponent}!init@{init}}
 \index{init@{init}!LinkPythonCodeComponent@{LinkPythonCodeComponent}}
-\doxysubsubsection{\texorpdfstring{init()}{init()}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Link\+Python\+Code\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classLinkPythonCodeComponent_abd712ad21b8bf510ce14e92c81dcd647}\label{classLinkPythonCodeComponent_abd712ad21b8bf510ce14e92c81dcd647} 
+\index{LinkPythonCodeComponent@{LinkPythonCodeComponent}!init@{init}}
+\index{init@{init}!LinkPythonCodeComponent@{LinkPythonCodeComponent}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Link\+Python\+Code\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -120,7 +166,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classLinkPythonCodeComponent_a47fed1e2f85633e0e2230623ae80b539}\label{classLinkPythonCodeComponent_a47fed1e2f85633e0e2230623ae80b539} 
 \index{LinkPythonCodeComponent@{LinkPythonCodeComponent}!showGUI@{showGUI}}
 \index{showGUI@{showGUI}!LinkPythonCodeComponent@{LinkPythonCodeComponent}}
-\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily void Link\+Python\+Code\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Entities }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classLinkPythonCodeComponent_a47fed1e2f85633e0e2230623ae80b539}\label{classLinkPythonCodeComponent_a47fed1e2f85633e0e2230623ae80b539} 
+\index{LinkPythonCodeComponent@{LinkPythonCodeComponent}!showGUI@{showGUI}}
+\index{showGUI@{showGUI}!LinkPythonCodeComponent@{LinkPythonCodeComponent}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
 {\footnotesize\ttfamily void Link\+Python\+Code\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Entities }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -130,7 +186,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classLinkPythonCodeComponent_a453a57db70eebc7e2fb9df4abb044718}\label{classLinkPythonCodeComponent_a453a57db70eebc7e2fb9df4abb044718} 
 \index{LinkPythonCodeComponent@{LinkPythonCodeComponent}!showGUI@{showGUI}}
 \index{showGUI@{showGUI}!LinkPythonCodeComponent@{LinkPythonCodeComponent}}
-\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily void Link\+Python\+Code\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classLinkPythonCodeComponent_a453a57db70eebc7e2fb9df4abb044718}\label{classLinkPythonCodeComponent_a453a57db70eebc7e2fb9df4abb044718} 
+\index{LinkPythonCodeComponent@{LinkPythonCodeComponent}!showGUI@{showGUI}}
+\index{showGUI@{showGUI}!LinkPythonCodeComponent@{LinkPythonCodeComponent}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
 {\footnotesize\ttfamily void Link\+Python\+Code\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -140,7 +206,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classLinkPythonCodeComponent_ac2a75cf20620139b544f0b5736f667e1}\label{classLinkPythonCodeComponent_ac2a75cf20620139b544f0b5736f667e1} 
 \index{LinkPythonCodeComponent@{LinkPythonCodeComponent}!update@{update}}
 \index{update@{update}!LinkPythonCodeComponent@{LinkPythonCodeComponent}}
-\doxysubsubsection{\texorpdfstring{update()}{update()}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Link\+Python\+Code\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classLinkPythonCodeComponent_ac2a75cf20620139b544f0b5736f667e1}\label{classLinkPythonCodeComponent_ac2a75cf20620139b544f0b5736f667e1} 
+\index{LinkPythonCodeComponent@{LinkPythonCodeComponent}!update@{update}}
+\index{update@{update}!LinkPythonCodeComponent@{LinkPythonCodeComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Link\+Python\+Code\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -149,6 +225,7 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/build/\+App\+Dir/\+Taz\+Graph\+Engine/src/\+GECS/\+Components/\+Link/\+Basic/Link\+Python\+Code\+Component.\+h\item 
 /mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Components/\+Link/\+Basic/Link\+Python\+Code\+Component.\+h\end{DoxyCompactItemize}

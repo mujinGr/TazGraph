@@ -2,9 +2,12 @@ set(PROJECT_NAME TazGraph)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# Recursively find all header and source files in Components and all subdirectories
-file(GLOB_RECURSE EDITOR_COMPONENTS_HEADERS "Src/EditorIMGUI/Components/*.h")
-file(GLOB_RECURSE EDITOR_COMPONENTS_SOURCES "Src/EditorIMGUI/Components/*.cpp")
+
+# AppImage output name
+set(APPIMAGE_NAME "TazGraph-${PROJECT_VERSION}-x86_64.AppImage")
+
+# Check if we're building for AppImage
+option(BUILD_APPIMAGE "Build AppImage bundle" OFF)
 
 ################################################################################
 # Source groups
@@ -23,7 +26,9 @@ set(ALL_FILES
 )
 
 add_compile_options(-pedantic)
-
+add_compile_definitions(TRACY_ENABLE)
+add_compile_definitions(TRACY_NO_INVARIANT_CHECK)
+add_compile_definitions(TRACY_TIMER_FALLBACK)
 ################################################################################
 # Setting libs with find_package
 ################################################################################
@@ -87,121 +92,12 @@ add_executable(${PROJECT_NAME} ${ALL_FILES})
 use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
 set(ROOT_NAMESPACE TazGraph)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    VS_GLOBAL_KEYWORD "Win32Proj"
-)
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
-    )
-endif()
-################################################################################
-# MSVC runtime library
-################################################################################
-get_property(MSVC_RUNTIME_LIBRARY_DEFAULT TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY)
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
-        $<$<CONFIG:Debug>:
-            MultiThreadedDebugDLL
-        >
-        $<$<NOT:$<OR:$<CONFIG:Debug>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
-    )
-endif()
-set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_LIBRARY_STR})
 
-################################################################################
-# Compile definitions
-################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        "$<$<CONFIG:Debug>:"
-            "_DEBUG"
-        ">"
-        "$<$<CONFIG:Release>:"
-            "NDEBUG"
-        ">"
-        "_CONSOLE;"
-        "UNICODE;"
-        "_UNICODE"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        "$<$<CONFIG:Debug>:"
-            "_DEBUG"
-        ">"
-        "$<$<CONFIG:Release>:"
-            "NDEBUG"
-        ">"
-        "WIN32;"
-        "_CONSOLE;"
-        "UNICODE;"
-        "_UNICODE"
-    )
+if(BUILD_APPIMAGE)
+    set(CMAKE_INSTALL_RPATH "$ORIGIN/lib")
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
-################################################################################
-# Compile and link options
-################################################################################
-if(MSVC)
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /Oi;
-                /Gy;
-                /O2;
-            >
-            /permissive-;
-            /sdl;
-            /W3;
-            ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
-            ${DEFAULT_CXX_EXCEPTION_HANDLING}
-        )
-    elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /Oi;
-                /Gy;
-                /O2;
-            >
-            /permissive-;
-            /sdl;
-            /W3;
-            ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
-            ${DEFAULT_CXX_EXCEPTION_HANDLING}
-        )
-    endif()
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-                /INCREMENTAL
-            >
-            $<$<CONFIG:Release>:
-                /OPT:REF;
-                /OPT:ICF;
-                /INCREMENTAL:NO
-            >
-            /DEBUG;
-            /SUBSYSTEM:CONSOLE
-        )
-    elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-                /INCREMENTAL
-            >
-            $<$<CONFIG:Release>:
-                /OPT:REF;
-                /OPT:ICF;
-                /INCREMENTAL:NO
-            >
-            /DEBUG;
-            /SUBSYSTEM:CONSOLE
-        )
-    endif()
-endif()
 
 ################################################################################
 # Dependencies
@@ -223,19 +119,126 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     TazGraphEngine
 )
 
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set(ADDITIONAL_LIBRARY_DEPENDENCIES
-        "$<$<CONFIG:Debug>:"
-            "SDL2;"
-            "SDL2main;"
-            "SDL2_image;"
-            "SDL2_ttf;"
-            "SDL2_mixer;"
-            "TazGraphEngine"
-        ">"
-    )
-endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_IMAGE_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_ttf::SDL2_ttf)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Python3_LIBRARIES})
+
+# Install target
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+    
+# Install data files if needed
+if(EXISTS "${PROJECT_SOURCE_DIR}/TazGraph/assets")
+    install(DIRECTORY "${PROJECT_SOURCE_DIR}/TazGraph/assets" 
+        DESTINATION .
+        PATTERN ".git*" EXCLUDE
+        PATTERN "*~" EXCLUDE
+    )
+endif()
+
+
+
+
+    
+# AppImage target
+if(BUILD_APPIMAGE)
+    # Check for appimagetool
+    find_program(APPIMAGETOOL_EXE appimagetool-x86_64.AppImage
+        HINTS ${CMAKE_BINARY_DIR}
+    )
+        
+    if(NOT APPIMAGETOOL_EXE)
+        message(WARNING "appimagetool not found. Downloading...")
+        file(DOWNLOAD 
+            https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+            ${CMAKE_BINARY_DIR}/appimagetool-x86_64.AppImage
+            TIMEOUT 60
+        )
+        file(CHMOD ${CMAKE_BINARY_DIR}/appimagetool-x86_64.AppImage FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE)
+        set(APPIMAGETOOL_EXE ${CMAKE_BINARY_DIR}/appimagetool-x86_64.AppImage)
+    endif()
+        
+    # need to first create them before copying them inside AppDir
+    file(WRITE "${CMAKE_BINARY_DIR}/AppRun"
+    "#!/bin/bash
+    APPDIR=\"\${APPDIR:-\$(dirname \"\$(readlink -f \"\$0\")\")}\"\n
+    export LD_LIBRARY_PATH=\"\$APPDIR/TazGraph:\$LD_LIBRARY_PATH\"
+    export PATH=\"\$APPDIR/TazGraph:\$PATH\"
+
+    cd \"\$APPDIR/TazGraph\"
+    
+    DEFAULT_ARGS=\"--num-threads=8 --MSAA=4\"
+
+    exec \"\$APPDIR/TazGraph/TazGraph\" $DEFAULT_ARGS \"\$@\"
+    ")
+
+    file(CHMOD ${CMAKE_BINARY_DIR}/AppRun FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+        
+    set(DESKTOP_CONTENT "[Desktop Entry]
+Type=Application
+Name=${PROJECT_NAME}
+Comment=3D Graph Editor
+Exec=${PROJECT_NAME} --num-threads=8 --MSAA=4
+Icon=${PROJECT_NAME}
+Categories=Graphics;
+Terminal=false
+")
+
+    file(WRITE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.desktop" ${DESKTOP_CONTENT})
+    
+    # Custom target for AppImage
+    add_custom_target(appimage
+        # Build the project
+        COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --config ${CMAKE_BUILD_TYPE}
+        
+        # Create AppDir structure with TazGraph and TazGraphEngine folders
+        COMMAND rm -rf ${CMAKE_BINARY_DIR}/AppDir
+        COMMAND mkdir -p ${CMAKE_BINARY_DIR}/AppDir/TazGraph/assets
+        COMMAND mkdir -p ${CMAKE_BINARY_DIR}/AppDir/TazGraphEngine/src/GECS
+        
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/AppRun ${CMAKE_BINARY_DIR}/AppDir/
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.desktop ${CMAKE_BINARY_DIR}/AppDir/
+
+
+        # Copy executable to TazGraph folder as well
+        COMMAND cp $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/AppDir/TazGraph/
+        
+        # Copy and icon
+        COMMAND cp ${PROJECT_SOURCE_DIR}/TazGraph/assets/Sprites/TazGraph_whitebg-8.png ${CMAKE_BINARY_DIR}/AppDir/${PROJECT_NAME}.png
+        
+        # Copy assets to TazGraph/assets
+        COMMAND ${CMAKE_COMMAND} -E copy_directory 
+                ${PROJECT_SOURCE_DIR}/TazGraph/assets 
+                ${CMAKE_BINARY_DIR}/AppDir/TazGraph/assets
+                
+        # Copy shaders to TazGraph/assets
+        COMMAND ${CMAKE_COMMAND} -E copy_directory 
+                ${PROJECT_SOURCE_DIR}/TazGraph/Src/Shaders 
+                ${CMAKE_BINARY_DIR}/AppDir/TazGraph/Src/Shaders
+                
+        # Copy animators to TazGraphEngine/GECS
+        COMMAND ${CMAKE_COMMAND} -E copy_directory 
+                ${PROJECT_SOURCE_DIR}/TazGraphEngine/src/GECS/Animators 
+                ${CMAKE_BINARY_DIR}/AppDir/TazGraphEngine/src/GECS/Animators
+        
+        # Copy Components to TazGraphEngine/GECS
+        COMMAND ${CMAKE_COMMAND} -E copy_directory 
+                ${PROJECT_SOURCE_DIR}/TazGraphEngine/src/GECS/Components
+                ${CMAKE_BINARY_DIR}/AppDir/TazGraphEngine/src/GECS/Components
+                
+        # Copy Sounds to TazGraph/Sounds
+        COMMAND ${CMAKE_COMMAND} -E copy_directory 
+                ${PROJECT_SOURCE_DIR}/TazGraph/Sounds 
+                ${CMAKE_BINARY_DIR}/AppDir/TazGraph/Sounds
+    
+
+        COMMAND ${APPIMAGETOOL_EXE} ${CMAKE_BINARY_DIR}/AppDir 
+                ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.AppImage
+
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Creating AppImage with TazGraph and TazGraphEngine structure"
+        VERBATIM
+    )
+
+endif()  # BUILD_APPIMAGE
+

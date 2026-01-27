@@ -34,7 +34,7 @@ Before batching begins, the renderers are prepared. This includes setting up int
 Entities are grouped and passed to the appropriate renderer via renderBatch. 
 This uses multithreading to fill buffers (meshElements & meshArrays) efficiently.
 
-``` cpp
+```cpp
 renderBatch(
     manager->getVisibleGroup<LinkEntity>(Manager::groupLinks_0),
     _LineRenderer
@@ -45,7 +45,7 @@ renderBatch(
 
 After batching, each renderer draws its instances and clears its buffers:
 
-``` cpp
+```cpp
 _PlaneColorRenderer.end();
 _PlaneColorRenderer.renderBatch(&glsl_color);
 glsl_color.unuse();

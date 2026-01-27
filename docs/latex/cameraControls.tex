@@ -2,14 +2,46 @@
 \hypertarget{cameraControls}{}\label{cameraControls}\index{Camera Controls@{Camera Controls}}
 \hypertarget{cameraControls_autotoc_md0}{}\doxysubsubsubsection{\texorpdfstring{Camera Control System}{Camera Control System}}\label{cameraControls_autotoc_md0}
 Location\+: Graph\+Input.\+cpp/h\hypertarget{cameraControls_autotoc_md1}{}\doxysubsection{\texorpdfstring{Input Manager Methods\+:}{Input Manager Methods:}}\label{cameraControls_autotoc_md1}
-Returns TRUE while key is held down (continuous) \+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Down(\+SDLK\+\_\+\+W) // "{}\+W key is currently pressed"{}
 
-Returns TRUE only on first frame key is pressed (one-\/time) \+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Pressed(\+SDL\+\_\+\+SPACE) // "{}\+Space was just pressed this frame"{}\hypertarget{cameraControls_autotoc_md2}{}\doxysubsection{\texorpdfstring{Camera Movement Logic\+:}{Camera Movement Logic:}}\label{cameraControls_autotoc_md2}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ Returns\ TRUE\ while\ key\ is\ held\ down\ (continuous)}}
+\DoxyCodeLine{\_app-\/>\_inputManager.isKeyDown(SDLK\_W)\ \ \textcolor{comment}{//\ "{}W\ key\ is\ currently\ pressed"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Returns\ TRUE\ only\ on\ first\ frame\ key\ is\ pressed\ (one-\/time)}}
+\DoxyCodeLine{\_app-\/>\_inputManager.isKeyPressed(SDL\_SPACE)\ \ \textcolor{comment}{//\ "{}Space\ was\ just\ pressed\ this\ frame"{}}}
+
+\end{DoxyCode}
+\hypertarget{cameraControls_autotoc_md2}{}\doxysubsection{\texorpdfstring{Camera Movement Logic\+:}{Camera Movement Logic:}}\label{cameraControls_autotoc_md2}
 \hypertarget{cameraControls_autotoc_md3}{}\doxysubsubsection{\texorpdfstring{WASD Movement (\+Perspective Camera)\+:}{WASD Movement (Perspective Camera):}}\label{cameraControls_autotoc_md3}
-In check\+Input() function\+: if (\+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Down(\+SDLK\+\_\+w) \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Down(\+SDLK\+\_\+\+UP)) \{ accelerationY += camera\+Acceleration; \} else if (\+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Down(\+SDLK\+\_\+s) \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Down(\+SDLK\+\_\+\+DOWN)) \{ accelerationY -\/= camera\+Acceleration; \} Similar for A (left), D (right), Q (down), E (up)\hypertarget{cameraControls_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Middle Mouse Rotation\+:}{Middle Mouse Rotation:}}\label{cameraControls_autotoc_md4}
-if (\+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Pressed(\+SDL\+\_\+\+BUTTON\+\_\+\+MIDDLE)) \{ \+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+set\+Panning\+Point(\+\_\+viewport\+Mouse\+Position); main\+\_\+camera2\+D-\/\texorpdfstring{$>$}{>}set\+Panning\+Aim\+Pos(main\+\_\+camera2\+D-\/\texorpdfstring{$>$}{>}get\+Aim\+Pos() -\/ main\+\_\+camera2\+D-\/\texorpdfstring{$>$}{>}get\+Position()); \} // this sets the reference point for rotation
 
-...... ~\newline
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ In\ checkInput()\ function:}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}\ (\_app-\/>\_inputManager.isKeyDown(SDLK\_w)\ ||}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \_app-\/>\_inputManager.isKeyDown(SDLK\_UP))\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ accelerationY\ +=\ cameraAcceleration;}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_app-\/>\_inputManager.isKeyDown(SDLK\_s)\ ||}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \_app-\/>\_inputManager.isKeyDown(SDLK\_DOWN))\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ accelerationY\ -\/=\ cameraAcceleration;}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\textcolor{comment}{//\ Similar\ for\ A\ (left),\ D\ (right),\ Q\ (down),\ E\ (up)}}
 
+\end{DoxyCode}
+\hypertarget{cameraControls_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Middle Mouse Rotation\+:}{Middle Mouse Rotation:}}\label{cameraControls_autotoc_md4}
 
-else if (\+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+is\+Key\+Down(\+SDL\+\_\+\+BUTTON\+\_\+\+MIDDLE)) \{ Calculate new camera position based on the mouse movement glm\+::vec3 delta = glm\+::vec3(\+\_\+app-\/\texorpdfstring{$>$}{>}\+\_\+input\+Manager.\+calculate\+Panning\+Delta(\+\_\+viewport\+Mouse\+Position), 0.\+0f); main\+\_\+camera2\+D-\/\texorpdfstring{$>$}{>}move\+Aim\+Pos(main\+\_\+camera2\+D-\/\texorpdfstring{$>$}{>}get\+Panning\+Aim\+Pos(), delta); \} // this rotates camera to reference the panning position 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{if}\ (\_app-\/>\_inputManager.isKeyPressed(SDL\_BUTTON\_MIDDLE))\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_app-\/>\_inputManager.setPanningPoint(\_viewportMousePosition);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ main\_camera2D-\/>setPanningAimPos(main\_camera2D-\/>getAimPos()\ -\/\ main\_camera2D-\/>getPosition());}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{comment}{//\ this\ sets\ the\ reference\ point\ for\ rotation}}
+\DoxyCodeLine{}
+\DoxyCodeLine{......\ \ \ \ \ \ }
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_app-\/>\_inputManager.isKeyDown(SDL\_BUTTON\_MIDDLE))\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Calculate\ new\ camera\ position\ based\ on\ the\ mouse\ movement}}
+\DoxyCodeLine{\ \ \ \ glm::vec3\ delta\ =\ glm::vec3(\_app-\/>\_inputManager.calculatePanningDelta(\_viewportMousePosition),\ 0.0f);}
+\DoxyCodeLine{\ \ \ \ main\_camera2D-\/>moveAimPos(main\_camera2D-\/>getPanningAimPos(),\ delta);}
+\DoxyCodeLine{\}\ \textcolor{comment}{//\ this\ rotates\ camera\ to\ reference\ the\ panning\ position}}
+
+\end{DoxyCode}
+ 

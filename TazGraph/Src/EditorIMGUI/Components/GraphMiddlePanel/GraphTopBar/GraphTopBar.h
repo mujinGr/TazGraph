@@ -23,6 +23,8 @@ private:
 
 	bool inited = false;
 
+	int activeTabs_no = 0;
+
 public:
 	void update(float deltaTime) override;
 	void setConfig(const GraphTopConfig& cfg) {

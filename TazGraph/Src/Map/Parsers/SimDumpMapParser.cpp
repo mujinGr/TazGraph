@@ -87,6 +87,14 @@ void SimDumpMapParser::closeFile() {
 	file.close();
 }
 
+void SimDumpMapParser::update(float deltaTime)
+{
+	std::ostringstream oss;
+	oss << elapsedDelta;
+
+	TAZ_LOG(oss.str());
+}
+
 void SimDumpMapParser::parse(Manager& manager,
 	std::function<void(Entity&, glm::vec3)> addNodeFunc,
 	std::function<void(Entity&)> addLinkFunc)
@@ -182,7 +190,7 @@ void SimDumpMapParser::createSteps(
 	int i = 0;
 
 	for (auto it = reader.get_node_iterator(); it != reader.get_node_end(); ++it) {
-		auto& node = manager.addEntityWithId<Node>(i);
+		auto& node(manager.addEntityWithId<Node>(i));
 		node.addToGroup(Manager::groupNodes_0);
 		DataManager::getInstance().mapSimToGraphNodes[it->data.id] = &node;
 		i++;

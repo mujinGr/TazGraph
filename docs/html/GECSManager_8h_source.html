@@ -481,7 +481,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>            entities.emplace(e-&gt;getId(), std::move(uPtr));</div>
 <div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>        }</div>
 <div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span> </div>
-<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>        e-&gt;onCreation();</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>        e-&gt;onCreation(); <span class="comment">//? dont change its position, huge loading times</span></div>
 <div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span> </div>
 <div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>        aboutTo_updateActiveEntities();</div>
 <div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span> </div>

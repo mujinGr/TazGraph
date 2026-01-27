@@ -2,7 +2,6 @@
 
 void GraphMiddlePanel::OnImGuiRender()
 {
-	std::string activeManagerKey = config.scene->managerName;
 	getSubcomponent<GraphTopBar>()->setConfig(
 		{
 			.scene = config.scene
@@ -16,27 +15,17 @@ void GraphMiddlePanel::OnImGuiRender()
 		if (managerIt != config.scene->managers.end()) {
 			config.scene->managers.erase(managerIt);
 
-			if (closedTab == activeManagerKey) {
-				if (!config.scene->managerName.empty() &&
-					config.scene->managers.find(config.scene->managerName) != config.scene->managers.end()) {
-					config.scene->setManager(config.scene->managerName);
-				}
-				else if (!config.scene->managers.empty()) {
-					config.scene->setManager(config.scene->managers.begin()->first);
-				}
-				else {
-					activeManagerKey = "";
-				}
+			if (!DataManager::getInstance().getMapToLoad().empty() &&
+				config.scene->managers.find(DataManager::getInstance().getMapToLoad()) != config.scene->managers.end())
+			{
+			}
+			else if (!config.scene->managers.empty())
+			{
+				DataManager::getInstance().setMapToLoad(config.scene->managers.begin()->first);
 			}
 		}
 	}
-	else if (activeManagerKey != config.scene->managerName && !config.scene->managerName.empty()) {
-		// TazNormal tab switching (no closure)
-		auto managerIt = config.scene->managers.find(config.scene->managerName);
-		if (managerIt != config.scene->managers.end()) {
-			config.scene->setManager(config.scene->managerName);
-		}
-	}
+
 	bool childActive = ImGui::BeginChild("Viewport");
 	if (childActive) {
 
@@ -49,7 +38,7 @@ void GraphMiddlePanel::OnImGuiRender()
 			.currPos = config.currPos,
 			});
 		getSubcomponent<ViewportPanel>()->OnImGuiRender();
-		
+
 		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 		Manager* man = config.scene->manager;

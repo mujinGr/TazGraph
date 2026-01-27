@@ -1,7 +1,8 @@
 <map id="InnerLink" name="InnerLink">
 <area shape="rect" id="Node000001" title=" " alt="" coords="73,405,155,431"/>
 <area shape="rect" id="Node000002" href="$classLinkComponent.html" title=" " alt="" coords="52,331,176,356"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,370,117,405,111,405,111,370"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,370,110,405,104,405,103,370"/>
+<area shape="poly" id="edge8_Node000001_Node000002" title=" " alt="" coords="125,370,124,405,118,405,120,370"/>
 <area shape="rect" id="Node000003" href="$classBaseComponent.html" title=" " alt="" coords="5,243,135,268"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="85,279,110,329,106,331,80,282"/>
 <area shape="rect" id="Node000004" href="$classLinkEntity.html" title=" " alt="" coords="159,243,245,268"/>

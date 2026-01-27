@@ -47,8 +47,8 @@ public:
 	virtual void checkInput() = 0;
 
 	virtual void update(float deltaTime) = 0;
-	virtual void prepareDraw() = 0;
-	virtual void renderDraw() = 0;
+	virtual void prepareDraw(int index) = 0;
+	virtual void renderDraw(int index) = 0;
 
 	virtual void SwapBufferDraw() = 0;
 
@@ -56,6 +56,13 @@ public:
 	virtual void updateUI(float deltaTime) = 0;
 	virtual void drawUI() = 0;
 	virtual void EndRender() = 0;
+
+	virtual void disposeRenderers(int index) {
+		frameDataBuffers[index].planeColorRenderer.dispose();
+		frameDataBuffers[index].lineRenderer.dispose();
+		frameDataBuffers[index].planeColorRenderer.dispose();
+		frameDataBuffers[index].lightRenderer.dispose();
+	};
 
 	int getSceneIndex() const {
 		return _sceneIndex;
@@ -76,8 +83,7 @@ public:
 			if (it == managers.end()) {
 				managers[m_managerName] = new Manager();
 			}
-			manager = managers[m_managerName];
-			managerName = m_managerName;
+			editingManager = managers[m_managerName];
 		}
 		return false;
 	};
@@ -85,8 +91,8 @@ public:
 	std::unordered_map<std::string, Manager*> managers = {
 	};
 
+	Manager* editingManager = nullptr;    // Currently active (render thread uses this)
 	Manager* manager = nullptr;
-	std::string managerName = "";
 
 	bool last_renderDebug = false;
 	bool renderDebug = false;
@@ -102,7 +108,6 @@ public:
 
 	Taz::FrameRenderData frameDataBuffers[2];
 	Taz::FrameRenderData minimap_frameDataBuffers[2];
-	std::atomic<int> activeFrameIndex = 0;
 
 protected:
 	AppInterface* _app = nullptr;

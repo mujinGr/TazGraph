@@ -1,7 +1,7 @@
 #pragma once
-#include "../IMapParser.h"
+#include "../IGraphParser.h"
 
-class DOTMapParser : public IMapParser {
+class DOTMapParser : public IGraphParser {
 public:
 	DOTMapParser();
 	void readFile(std::string m_fileName) override;
@@ -15,6 +15,8 @@ public:
 	) override;
 
 	void closeFile() override;
+
+	void update(float deltaTime) override;
 
 private:
 	std::ifstream file;

@@ -3,9 +3,9 @@
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}../IMapParser.h"{}}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}../IGraphParser.h"{}}}
 \DoxyCodeLine{00003\ }
-\DoxyCodeLine{00004\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGraphMLMapParser}{GraphMLMapParser}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIMapParser}{IMapParser}}\ \{}
+\DoxyCodeLine{00004\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGraphMLMapParser}{GraphMLMapParser}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classIGraphParser}{IGraphParser}}\ \{}
 \DoxyCodeLine{00005\ \textcolor{keyword}{public}:}
 \DoxyCodeLine{00006\ \ \ \ \ \mbox{\hyperlink{classGraphMLMapParser}{GraphMLMapParser}}();}
 \DoxyCodeLine{00007\ \ \ \ \ \textcolor{keywordtype}{void}\ readFile(std::string\ m\_fileName)\ \textcolor{keyword}{override};}
@@ -20,10 +20,12 @@
 \DoxyCodeLine{00016\ }
 \DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ closeFile()\ \textcolor{keyword}{override};}
 \DoxyCodeLine{00018\ }
-\DoxyCodeLine{00019\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00020\ \ \ \ \ tinyxml2::XMLDocument\ doc;}
-\DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \ \ tinyxml2::XMLError\ file;}
-\DoxyCodeLine{00023\ \};}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00022\ \ \ \ \ tinyxml2::XMLDocument\ doc;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ tinyxml2::XMLError\ file;}
+\DoxyCodeLine{00025\ \};}
 
 \end{DoxyCode}

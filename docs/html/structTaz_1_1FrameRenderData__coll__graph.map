@@ -1,0 +1,16 @@
+<map id="Taz::FrameRenderData" name="Taz::FrameRenderData">
+<area shape="rect" id="Node000001" title=" " alt="" coords="257,168,426,193"/>
+<area shape="rect" id="Node000002" href="$classPlaneModelRenderer.html" title=" " alt="" coords="5,80,163,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,117,99,131,108,142,133,153,169,162,257,172,256,178,168,167,131,158,105,146,94,134,87,120"/>
+<area shape="rect" id="Node000003" href="$classTaz_1_1Renderer.html" title=" " alt="" coords="253,5,363,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="260,37,120,83,119,77,259,32"/>
+<area shape="rect" id="Node000004" href="$classPlaneColorRenderer.html" title=" " alt="" coords="187,80,338,105"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="296,44,272,81,268,78,291,41"/>
+<area shape="rect" id="Node000005" href="$classLineRenderer.html" title=" " alt="" coords="362,80,470,105"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="338,36,400,78,397,82,335,41"/>
+<area shape="rect" id="Node000006" href="$classLightRenderer.html" title=" " alt="" coords="494,80,607,105"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="360,32,513,77,512,83,359,37"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="255,119,255,132,258,143,271,156,289,166,286,170,268,160,254,145,249,132,250,119"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="411,119,397,146,367,170,363,166,393,142,407,117"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="534,117,518,133,499,146,463,161,427,171,425,166,462,156,496,142,515,129,531,114"/>
+</map>

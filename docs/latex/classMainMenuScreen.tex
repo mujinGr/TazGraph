@@ -11,7 +11,8 @@ Inheritance diagram for Main\+Menu\+Screen\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Main\+Menu\+Screen\+:\nopagebreak
+Collaboration diagram for Main\+Menu\+Screen\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -35,9 +36,9 @@ virtual void \mbox{\hyperlink{classMainMenuScreen_a716b313d20d57ec4c73217eb6cb63
 \item 
 virtual void \mbox{\hyperlink{classMainMenuScreen_ae83cb9003aa6add0ca1b6b2d8fca9ec0}{update}} (float delta\+Time) override
 \item 
-virtual void \mbox{\hyperlink{classMainMenuScreen_aa67f739ccd83abfcc3717f613090e96f}{prepare\+Draw}} () override
+virtual void \mbox{\hyperlink{classMainMenuScreen_a67f041ce0bc919aecbc4e665eeaa2917}{prepare\+Draw}} (int index) override
 \item 
-virtual void \mbox{\hyperlink{classMainMenuScreen_a911aaf23ef4c76dcf7f939a8cfdd4fc1}{render\+Draw}} () override
+virtual void \mbox{\hyperlink{classMainMenuScreen_ad6d9a2ffc7d7795850944193d2b6ea30}{render\+Draw}} (int index) override
 \item 
 virtual void \mbox{\hyperlink{classMainMenuScreen_a8921ec111c7cc274a30ab824941e566b}{Begin\+Render}} () override
 \item 
@@ -51,6 +52,8 @@ virtual void \mbox{\hyperlink{classMainMenuScreen_ae7c3e7b3c118d30afde8f54635e4c
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIScene}{IScene}}}
 \begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries dispose\+Renderers} (int index)
 \item 
 int {\bfseries get\+Scene\+Index} () const
 \item 
@@ -70,9 +73,9 @@ virtual bool {\bfseries set\+Manager} (std\+::string m\+\_\+manager\+Name)
 \item 
 std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{classIScene_ad1897b6e44c9dd75a3d89e6f6e2d33fa}{managers}}
 \item 
-\mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} {\bfseries manager} = nullptr
+\mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} {\bfseries editing\+Manager} = nullptr
 \item 
-std\+::string {\bfseries manager\+Name} = "{}"{}
+\mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} {\bfseries manager} = nullptr
 \item 
 bool {\bfseries last\+\_\+render\+Debug} = false
 \item 
@@ -91,8 +94,6 @@ bool {\bfseries request\+Exit} = false
 \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} {\bfseries frame\+Data\+Buffers} \mbox{[}2\mbox{]}
 \item 
 \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} {\bfseries minimap\+\_\+frame\+Data\+Buffers} \mbox{[}2\mbox{]}
-\item 
-std\+::atomic$<$ int $>$ {\bfseries active\+Frame\+Index} = 0
 \end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classIScene}{IScene}}}
 \begin{DoxyCompactItemize}
@@ -194,21 +195,21 @@ Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
 Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
-\Hypertarget{classMainMenuScreen_aa67f739ccd83abfcc3717f613090e96f}\label{classMainMenuScreen_aa67f739ccd83abfcc3717f613090e96f} 
+\Hypertarget{classMainMenuScreen_a67f041ce0bc919aecbc4e665eeaa2917}\label{classMainMenuScreen_a67f041ce0bc919aecbc4e665eeaa2917} 
 \index{MainMenuScreen@{MainMenuScreen}!prepareDraw@{prepareDraw}}
 \index{prepareDraw@{prepareDraw}!MainMenuScreen@{MainMenuScreen}}
 \doxysubsubsection{\texorpdfstring{prepareDraw()}{prepareDraw()}}
-{\footnotesize\ttfamily void Main\+Menu\+Screen\+::prepare\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void Main\+Menu\+Screen\+::prepare\+Draw (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 Prepare Frame
 
 Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
-\Hypertarget{classMainMenuScreen_a911aaf23ef4c76dcf7f939a8cfdd4fc1}\label{classMainMenuScreen_a911aaf23ef4c76dcf7f939a8cfdd4fc1} 
+\Hypertarget{classMainMenuScreen_ad6d9a2ffc7d7795850944193d2b6ea30}\label{classMainMenuScreen_ad6d9a2ffc7d7795850944193d2b6ea30} 
 \index{MainMenuScreen@{MainMenuScreen}!renderDraw@{renderDraw}}
 \index{renderDraw@{renderDraw}!MainMenuScreen@{MainMenuScreen}}
 \doxysubsubsection{\texorpdfstring{renderDraw()}{renderDraw()}}
-{\footnotesize\ttfamily void Main\+Menu\+Screen\+::render\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void Main\+Menu\+Screen\+::render\+Draw (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 render Frame
 

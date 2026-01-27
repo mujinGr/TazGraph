@@ -81,20 +81,40 @@ Camera Control System</h3>
 <p>Location: GraphInput.cpp/h</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Input Manager Methods:</h1>
-<p>Returns TRUE while key is held down (continuous) _app-&gt;_inputManager.isKeyDown(SDLK_W) // "W key is currently pressed"</p>
-<p>Returns TRUE only on first frame key is pressed (one-time) _app-&gt;_inputManager.isKeyPressed(SDL_SPACE) // "Space was just pressed this frame"</p>
-<h1><a class="anchor" id="autotoc_md2"></a>
+<div class="fragment"><div class="line"><span class="comment">// Returns TRUE while key is held down (continuous)</span></div>
+<div class="line">_app-&gt;_inputManager.isKeyDown(SDLK_W)  <span class="comment">// &quot;W key is currently pressed&quot;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Returns TRUE only on first frame key is pressed (one-time)</span></div>
+<div class="line">_app-&gt;_inputManager.isKeyPressed(SDL_SPACE)  <span class="comment">// &quot;Space was just pressed this frame&quot;</span></div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md2"></a>
 Camera Movement Logic:</h1>
 <h2><a class="anchor" id="autotoc_md3"></a>
 WASD Movement (Perspective Camera):</h2>
-<p>In checkInput() function: if (_app-&gt;_inputManager.isKeyDown(SDLK_w) || _app-&gt;_inputManager.isKeyDown(SDLK_UP)) { accelerationY += cameraAcceleration; } else if (_app-&gt;_inputManager.isKeyDown(SDLK_s) || _app-&gt;_inputManager.isKeyDown(SDLK_DOWN)) { accelerationY -= cameraAcceleration; } Similar for A (left), D (right), Q (down), E (up)</p>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<div class="fragment"><div class="line"><span class="comment">// In checkInput() function:</span></div>
+<div class="line">    <span class="keywordflow">if</span> (_app-&gt;_inputManager.isKeyDown(SDLK_w) ||</div>
+<div class="line">        _app-&gt;_inputManager.isKeyDown(SDLK_UP)) {</div>
+<div class="line">        accelerationY += cameraAcceleration;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (_app-&gt;_inputManager.isKeyDown(SDLK_s) ||</div>
+<div class="line">        _app-&gt;_inputManager.isKeyDown(SDLK_DOWN)) {</div>
+<div class="line">        accelerationY -= cameraAcceleration;</div>
+<div class="line">    }</div>
+<div class="line"><span class="comment">// Similar for A (left), D (right), Q (down), E (up)</span></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md4"></a>
 Middle Mouse Rotation:</h2>
-<p>if (_app-&gt;_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) { _app-&gt;_inputManager.setPanningPoint(_viewportMousePosition); main_camera2D-&gt;setPanningAimPos(main_camera2D-&gt;getAimPos() - main_camera2D-&gt;getPosition()); } // this sets the reference point for rotation</p>
-<p>...... <br  />
-</p>
-<p>else if (_app-&gt;_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) { Calculate new camera position based on the mouse movement glm::vec3 delta = glm::vec3(_app-&gt;_inputManager.calculatePanningDelta(_viewportMousePosition), 0.0f); main_camera2D-&gt;moveAimPos(main_camera2D-&gt;getPanningAimPos(), delta); } // this rotates camera to reference the panning position </p>
-</div></div><!-- contents -->
+<div class="fragment"><div class="line"><span class="keywordflow">if</span> (_app-&gt;_inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {</div>
+<div class="line">                _app-&gt;_inputManager.setPanningPoint(_viewportMousePosition);</div>
+<div class="line">                main_camera2D-&gt;setPanningAimPos(main_camera2D-&gt;getAimPos() - main_camera2D-&gt;getPosition());</div>
+<div class="line">            } <span class="comment">// this sets the reference point for rotation</span></div>
+<div class="line"> </div>
+<div class="line">......      </div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">else</span> <span class="keywordflow">if</span> (_app-&gt;_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {</div>
+<div class="line">    <span class="comment">// Calculate new camera position based on the mouse movement</span></div>
+<div class="line">    glm::vec3 delta = glm::vec3(_app-&gt;_inputManager.calculatePanningDelta(_viewportMousePosition), 0.0f);</div>
+<div class="line">    main_camera2D-&gt;moveAimPos(main_camera2D-&gt;getPanningAimPos(), delta);</div>
+<div class="line">} <span class="comment">// this rotates camera to reference the panning position</span></div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

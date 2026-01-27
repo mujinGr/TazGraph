@@ -11,20 +11,22 @@
 \DoxyCodeLine{00007\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structMainMenuEditorLayerConfig}{MainMenuEditorLayerConfig}}\ \{}
 \DoxyCodeLine{00008\ \ \ \ \ std::function<void()>\ onStartClicked;}
 \DoxyCodeLine{00009\ \ \ \ \ std::function<void()>\ onExitClicked;}
-\DoxyCodeLine{00010\ \};}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{classFramebuffer}{Framebuffer}}*\ viewportFramebuffer\ =\ \textcolor{keyword}{nullptr};}
 \DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMainMenuEditorLayer}{MainMenuEditorLayer}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
-\DoxyCodeLine{00013\ \{}
-\DoxyCodeLine{00014\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{structMainMenuEditorLayerConfig}{MainMenuEditorLayerConfig}}\ config;}
-\DoxyCodeLine{00016\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classMainMenuEditorLayer}{MainMenuEditorLayer}}()\ \{}
-\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ addUIComponent<LoadingUI>();}
-\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ addUIComponent<NewMapUI>();}
-\DoxyCodeLine{00020\ \ \ \ \ \}}
-\DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structMainMenuEditorLayerConfig}{MainMenuEditorLayerConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
-\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00024\ \};}
+\DoxyCodeLine{00012\ \};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMainMenuEditorLayer}{MainMenuEditorLayer}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classUIElement}{UIElement}}}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{structMainMenuEditorLayerConfig}{MainMenuEditorLayerConfig}}\ config;}
+\DoxyCodeLine{00018\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{classMainMenuEditorLayer}{MainMenuEditorLayer}}()\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ addUIComponent<LoadingUI>();}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ addUIComponent<NewMapUI>();}
+\DoxyCodeLine{00022\ \ \ \ \ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ setConfig(\textcolor{keyword}{const}\ \mbox{\hyperlink{structMainMenuEditorLayerConfig}{MainMenuEditorLayerConfig}}\&\ cfg)\ \{\ config\ =\ cfg;\ \}}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ OnImGuiRender()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00026\ \};}
 
 \end{DoxyCode}

@@ -81,7 +81,7 @@ Inheritance diagram for TextPathParser:</div>
 <div class="center"><img src="classTextPathParser__inherit__graph.png" border="0" usemap="#aTextPathParser_inherit__map" alt="Inheritance graph"/></div>
 <map name="aTextPathParser_inherit__map" id="aTextPathParser_inherit__map">
 <area shape="rect" title=" " alt="" coords="5,79,123,104"/>
-<area shape="rect" href="classIMapParser.html" title="Abstract base class for all map parsers." alt="" coords="17,5,111,31"/>
+<area shape="rect" href="classIGraphParser.html" title="Abstract base class for all map parsers." alt="" coords="11,5,117,31"/>
 <area shape="poly" title=" " alt="" coords="67,44,67,79,61,79,61,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -91,7 +91,7 @@ Collaboration diagram for TextPathParser:</div>
 <div class="center"><img src="classTextPathParser__coll__graph.png" border="0" usemap="#aTextPathParser_coll__map" alt="Collaboration graph"/></div>
 <map name="aTextPathParser_coll__map" id="aTextPathParser_coll__map">
 <area shape="rect" title=" " alt="" coords="5,256,123,281"/>
-<area shape="rect" href="classIMapParser.html" title="Abstract base class for all map parsers." alt="" coords="17,181,111,207"/>
+<area shape="rect" href="classIGraphParser.html" title="Abstract base class for all map parsers." alt="" coords="11,181,117,207"/>
 <area shape="poly" title=" " alt="" coords="67,221,67,256,61,256,61,221"/>
 <area shape="rect" href="structThreader.html" title=" " alt="" coords="24,93,104,119"/>
 <area shape="poly" title=" " alt="" coords="67,133,67,181,61,181,61,133"/>
@@ -110,17 +110,23 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1a3ce131a9eb00173e6a064193bdc9dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e4a7519bc612fcf5b90854defa3f806" id="r_a6e4a7519bc612fcf5b90854defa3f806"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTextPathParser.html#a6e4a7519bc612fcf5b90854defa3f806">closeFile</a> () override</td></tr>
 <tr class="separator:a6e4a7519bc612fcf5b90854defa3f806"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classIMapParser"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classIMapParser')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classIMapParser.html">IMapParser</a></td></tr>
-<tr class="memitem:ad4fa6f2083d501f3fcd7654411cd4b90 inherit pub_methods_classIMapParser" id="r_ad4fa6f2083d501f3fcd7654411cd4b90"><td class="memItemLeft" align="right" valign="top">
+<tr class="memitem:a0c0635f99e022603cc15281f3e41de97" id="r_a0c0635f99e022603cc15281f3e41de97"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTextPathParser.html#a0c0635f99e022603cc15281f3e41de97">update</a> (float deltaTime) override</td></tr>
+<tr class="separator:a0c0635f99e022603cc15281f3e41de97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classIGraphParser"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classIGraphParser')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classIGraphParser.html">IGraphParser</a></td></tr>
+<tr class="memitem:a63b06eae1760721aa35b7a01d6d1b2e6 inherit pub_methods_classIGraphParser" id="r_a63b06eae1760721aa35b7a01d6d1b2e6"><td class="memItemLeft" align="right" valign="top">
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setThreader</b> (<a class="el" href="structThreader.html">Threader</a> &amp;mthreader)</td></tr>
-<tr class="separator:ad4fa6f2083d501f3fcd7654411cd4b90 inherit pub_methods_classIMapParser"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a63b06eae1760721aa35b7a01d6d1b2e6 inherit pub_methods_classIGraphParser"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_attribs_classIMapParser"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classIMapParser')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classIMapParser.html">IMapParser</a></td></tr>
-<tr class="memitem:a0a07a1ad04d36e4f4147a2116a704521 inherit pub_attribs_classIMapParser" id="r_a0a07a1ad04d36e4f4147a2116a704521"><td class="memItemLeft" align="right" valign="top">
+<tr class="inherit_header pub_attribs_classIGraphParser"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classIGraphParser')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classIGraphParser.html">IGraphParser</a></td></tr>
+<tr class="memitem:a6c9d4f96f8b82a30f7965ffb9a2a525a inherit pub_attribs_classIGraphParser" id="r_a6c9d4f96f8b82a30f7965ffb9a2a525a"><td class="memItemLeft" align="right" valign="top">
+float&#160;</td><td class="memItemRight" valign="bottom"><b>elapsedDelta</b> = 0</td></tr>
+<tr class="separator:a6c9d4f96f8b82a30f7965ffb9a2a525a inherit pub_attribs_classIGraphParser"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37eb9b2210707a21a7842711fc23ad6c inherit pub_attribs_classIGraphParser" id="r_a37eb9b2210707a21a7842711fc23ad6c"><td class="memItemLeft" align="right" valign="top">
 <a class="el" href="structThreader.html">Threader</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_threader</b> = nullptr</td></tr>
-<tr class="separator:a0a07a1ad04d36e4f4147a2116a704521 inherit pub_attribs_classIMapParser"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a37eb9b2210707a21a7842711fc23ad6c inherit pub_attribs_classIGraphParser"><td class="mdescLeft">&#160;</td><td class="mdescRight">for background processing <br /></td></tr>
+<tr class="separator:a37eb9b2210707a21a7842711fc23ad6c inherit pub_attribs_classIGraphParser"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a6e4a7519bc612fcf5b90854defa3f806" name="a6e4a7519bc612fcf5b90854defa3f806"></a>
@@ -146,7 +152,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="classIMapParser.html">IMapParser</a>.</p>
+<p>Implements <a class="el" href="classIGraphParser.html">IGraphParser</a>.</p>
 
 </div>
 </div>
@@ -190,7 +196,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="classIMapParser.html">IMapParser</a>.</p>
+<p>Implements <a class="el" href="classIGraphParser.html">IGraphParser</a>.</p>
 
 </div>
 </div>
@@ -218,7 +224,35 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="classIMapParser.html">IMapParser</a>.</p>
+<p>Implements <a class="el" href="classIGraphParser.html">IGraphParser</a>.</p>
+
+</div>
+</div>
+<a id="a0c0635f99e022603cc15281f3e41de97" name="a0c0635f99e022603cc15281f3e41de97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c0635f99e022603cc15281f3e41de97">&#9670;&#160;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TextPathParser::update </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>deltaTime</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classIGraphParser.html">IGraphParser</a>.</p>
 
 </div>
 </div>
@@ -256,7 +290,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="classIMapParser.html">IMapParser</a>.</p>
+<p>Implements <a class="el" href="classIGraphParser.html">IGraphParser</a>.</p>
 
 </div>
 </div>

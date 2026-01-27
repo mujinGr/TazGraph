@@ -6,5 +6,7 @@
 - @subpage fileFormats
 - @subpage pythonCommands
 - @subpage cameraControls
+- @subpage appImage
+- @subpage msi
 
 */

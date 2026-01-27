@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['minimappreparedraw_0',['minimapPrepareDraw',['../classGraph.html#af0db6aff4dc8ba24d59153f9d29af2b0',1,'Graph']]],
-  ['minimaprenderdraw_1',['minimapRenderDraw',['../classGraph.html#a2232ce0c107b5ea6ffe7245bbb89c93f',1,'Graph']]]
+  ['minimappreparedraw_0',['minimapPrepareDraw',['../classGraph.html#a8df0005169032a88470633d5fd18688f',1,'Graph']]],
+  ['minimaprenderdraw_1',['minimapRenderDraw',['../classGraph.html#af57d6c5534c098d0a08d3c2760332d45',1,'Graph']]]
 ];

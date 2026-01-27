@@ -1,43 +1,62 @@
 <map id="Component" name="Component">
-<area shape="rect" id="Node000001" title=" " alt="" coords="183,425,280,451"/>
-<area shape="rect" id="Node000003" href="$classAnimatorComponent.html" title=" " alt="" coords="378,5,535,31"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,412,243,328,262,217,289,111,307,70,326,41,350,26,377,17,379,22,352,30,330,45,311,72,294,112,267,218,249,329,238,412"/>
-<area shape="rect" id="Node000005" href="$classBoxComponent.html" title=" " alt="" coords="395,55,518,80"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="234,411,246,337,266,241,293,150,309,115,326,91,358,72,394,64,395,69,360,77,330,95,313,117,298,152,271,242,251,338,239,412"/>
-<area shape="rect" id="Node000006" href="$classColliderComponent.html" title=" " alt="" coords="383,104,530,129"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="230,411,235,354,248,281,261,242,277,205,299,170,326,140,353,124,383,115,384,120,355,129,330,144,303,173,282,207,266,244,254,282,240,355,235,412"/>
-<area shape="rect" id="Node000007" href="$classEmptyPythonCodeComponent.html" title=" " alt="" coords="348,153,565,179"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="232,411,240,362,256,302,283,241,303,213,326,189,347,176,349,181,330,193,307,217,288,244,261,304,245,364,237,411"/>
-<area shape="rect" id="Node000008" href="$classMainMenuBackground.html" title=" " alt="" coords="373,203,540,228"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="235,411,245,372,263,325,289,278,306,257,326,239,348,226,372,218,374,223,350,231,330,243,310,261,294,281,268,327,250,374,240,412"/>
-<area shape="rect" id="Node000009" href="$classMovingAnimatorComponent.html" title=" " alt="" coords="354,252,559,277"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="239,411,271,349,296,315,326,288,352,275,355,279,330,292,300,319,276,351,244,414"/>
-<area shape="rect" id="Node000010" href="$classPathLinkerComponent.html" title=" " alt="" coords="375,301,539,327"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="247,412,280,373,302,353,327,337,374,320,376,325,329,342,306,358,284,377,251,416"/>
-<area shape="rect" id="Node000011" href="$classPortComponent.html" title=" " alt="" coords="395,351,518,376"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="264,416,327,386,394,369,395,374,329,391,266,421"/>
-<area shape="rect" id="Node000012" href="$classPortSlotComponent.html" title=" " alt="" coords="383,400,531,425"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="294,428,382,418,383,424,294,434"/>
-<area shape="rect" id="Node000013" href="$classRectangleFlashAnimatorComponent.html" title=" " alt="" coords="328,449,585,475"/>
-<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="294,442,338,447,337,452,293,447"/>
-<area shape="rect" id="Node000014" href="$classRectangle__w__Color.html" title=" " alt="" coords="383,499,530,524"/>
-<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="266,455,329,485,384,499,382,504,327,490,264,460"/>
-<area shape="rect" id="Node000015" href="$classRigidBodyComponent.html" title=" " alt="" coords="375,548,538,573"/>
-<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="251,460,284,499,306,519,329,534,376,551,374,556,327,539,302,523,281,503,247,464"/>
-<area shape="rect" id="Node000016" href="$classSimDumpData.html" title=" " alt="" coords="398,597,515,623"/>
-<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="244,462,275,525,300,557,329,584,363,599,398,606,397,612,361,604,327,588,296,561,271,528,239,465"/>
-<area shape="rect" id="Node000017" href="$classSphereComponent.html" title=" " alt="" coords="385,647,528,672"/>
-<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="240,464,250,503,268,549,294,595,310,616,330,633,356,647,386,655,384,660,354,652,326,638,306,619,289,598,263,551,245,504,235,465"/>
-<area shape="rect" id="Node000018" href="$classSpriteComponent.html" title=" " alt="" coords="389,696,524,721"/>
-<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="237,465,245,513,260,572,288,632,307,659,330,683,358,698,390,706,388,711,356,703,326,687,303,663,283,635,255,574,239,514,232,466"/>
-<area shape="rect" id="Node000019" href="$classTransformComponent.html" title=" " alt="" coords="375,745,538,771"/>
-<area shape="poly" id="edge18_Node000001_Node000019" title=" " alt="" coords="235,465,240,521,253,594,265,632,282,669,303,703,330,732,351,745,376,753,374,759,349,750,326,736,299,706,277,671,260,634,248,595,234,522,230,465"/>
-<area shape="rect" id="Node000020" href="$classTriangle__w__Color.html" title=" " alt="" coords="391,795,523,820"/>
-<area shape="poly" id="edge19_Node000001_Node000020" title=" " alt="" coords="239,464,251,539,271,634,298,724,313,759,330,781,358,798,391,806,390,811,356,803,326,785,308,761,293,726,266,636,246,540,234,465"/>
-<area shape="rect" id="Node000021" href="$classtemplateComponent.html" title=" " alt="" coords="379,844,535,869"/>
-<area shape="poly" id="edge20_Node000001_Node000021" title=" " alt="" coords="238,464,248,548,267,658,294,764,311,804,330,831,352,845,379,854,377,859,350,850,326,835,306,807,289,765,262,659,243,548,233,464"/>
-<area shape="rect" id="Node000002" href="$classBaseComponent.html" title=" " alt="" coords="5,425,135,451"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,435,182,435,182,441,148,441"/>
-<area shape="rect" id="Node000004" href="$classFlashAnimatorComponent.html" title=" " alt="" coords="633,5,825,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="549,15,633,15,633,21,549,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="183,426,280,451"/>
+<area shape="rect" id="Node000003" href="$classAnimatorComponent.html" title=" " alt="" coords="378,6,535,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,412,244,330,263,223,290,121,307,81,326,54,350,38,378,29,379,34,353,43,330,58,312,84,295,123,268,224,250,331,239,413"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="232,412,242,325,261,211,289,101,306,59,326,30,346,16,368,8,413,3,413,9,369,13,348,21,330,34,311,61,294,103,266,212,248,326,237,413"/>
+<area shape="rect" id="Node000005" href="$classBoxComponent.html" title=" " alt="" coords="395,55,518,81"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="235,412,247,340,267,248,293,160,309,127,326,103,358,84,394,75,395,81,360,89,330,107,314,129,298,162,272,249,252,341,240,413"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="233,412,245,335,265,235,292,141,308,104,326,79,358,60,394,53,395,58,360,65,330,83,313,107,297,142,270,236,250,336,238,413"/>
+<area shape="rect" id="Node000006" href="$classColliderComponent.html" title=" " alt="" coords="383,105,530,130"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="230,411,236,357,250,287,262,250,279,214,300,181,326,153,353,136,382,127,384,132,355,141,330,157,304,185,283,217,267,252,255,288,241,358,236,412"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="230,412,234,353,247,276,259,235,276,196,298,160,326,129,353,112,383,104,384,109,355,117,330,133,302,163,281,199,264,237,252,277,239,354,235,412"/>
+<area shape="rect" id="Node000007" href="$classEmptyPythonCodeComponent.html" title=" " alt="" coords="348,154,565,179"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="233,412,241,366,257,309,285,251,304,225,326,202,354,186,385,177,386,182,356,191,330,206,308,228,289,254,262,311,246,367,238,413"/>
+<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="232,411,238,361,254,297,266,264,282,232,302,203,326,178,347,165,349,170,330,182,306,206,286,235,271,266,259,299,243,362,237,412"/>
+<area shape="rect" id="Node000008" href="$classMainMenuBackground.html" title=" " alt="" coords="373,203,540,229"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="237,412,248,375,265,332,291,288,326,251,357,235,390,226,392,231,359,240,330,255,296,291,270,334,253,377,242,413"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="234,411,243,370,261,319,288,269,306,247,326,227,348,214,372,207,374,212,350,219,330,231,309,250,292,272,266,322,248,371,239,413"/>
+<area shape="rect" id="Node000009" href="$classMovingAnimatorComponent.html" title=" " alt="" coords="354,253,559,278"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="243,412,275,355,298,325,327,300,361,284,398,275,399,281,363,289,329,305,302,329,279,358,248,414"/>
+<area shape="poly" id="edge15_Node000001_Node000009" title=" " alt="" coords="237,411,249,379,268,342,294,306,326,276,352,263,355,268,330,281,298,310,273,345,254,382,242,413"/>
+<area shape="rect" id="Node000010" href="$classPathLinkerComponent.html" title=" " alt="" coords="375,302,539,327"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="254,414,286,380,327,350,369,333,411,325,412,330,370,339,329,354,290,384,258,417"/>
+<area shape="poly" id="edge17_Node000001_Node000010" title=" " alt="" coords="242,412,276,367,300,344,327,326,374,309,376,314,329,330,303,348,280,370,246,416"/>
+<area shape="rect" id="Node000011" href="$classPortComponent.html" title=" " alt="" coords="395,351,518,377"/>
+<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="284,417,327,399,379,384,426,374,427,379,380,390,329,404,286,422"/>
+<area shape="poly" id="edge19_Node000001_Node000011" title=" " alt="" coords="251,415,286,393,327,375,394,358,395,364,329,380,288,398,254,419"/>
+<area shape="rect" id="Node000012" href="$classPortSlotComponent.html" title=" " alt="" coords="383,401,531,426"/>
+<area shape="poly" id="edge20_Node000001_Node000012" title=" " alt="" coords="294,437,409,423,409,429,294,442"/>
+<area shape="poly" id="edge21_Node000001_Node000012" title=" " alt="" coords="292,421,382,410,383,416,293,426"/>
+<area shape="rect" id="Node000013" href="$classRectangleFlashAnimatorComponent.html" title=" " alt="" coords="328,450,585,475"/>
+<area shape="poly" id="edge22_Node000001_Node000013" title=" " alt="" coords="294,451,328,455,327,460,294,456"/>
+<area shape="poly" id="edge23_Node000001_Node000013" title=" " alt="" coords="294,434,408,447,407,453,294,440"/>
+<area shape="rect" id="Node000014" href="$classRectangle__w__Color.html" title=" " alt="" coords="383,499,530,525"/>
+<area shape="poly" id="edge24_Node000001_Node000014" title=" " alt="" coords="254,458,288,479,329,497,384,511,382,516,327,502,286,484,251,463"/>
+<area shape="poly" id="edge25_Node000001_Node000014" title=" " alt="" coords="286,455,329,473,379,487,425,497,424,502,378,492,327,478,284,460"/>
+<area shape="rect" id="Node000015" href="$classRigidBodyComponent.html" title=" " alt="" coords="375,549,538,574"/>
+<area shape="poly" id="edge26_Node000001_Node000015" title=" " alt="" coords="246,462,280,507,303,529,329,547,376,563,374,568,327,552,300,533,276,510,242,465"/>
+<area shape="poly" id="edge27_Node000001_Node000015" title=" " alt="" coords="258,460,289,493,329,523,368,538,408,546,407,551,367,543,327,528,286,497,254,463"/>
+<area shape="rect" id="Node000016" href="$classSimDumpData.html" title=" " alt="" coords="398,598,515,623"/>
+<area shape="poly" id="edge28_Node000001_Node000016" title=" " alt="" coords="241,463,254,495,272,532,298,567,329,596,363,611,398,618,397,623,361,617,327,601,294,571,268,535,249,497,237,465"/>
+<area shape="poly" id="edge29_Node000001_Node000016" title=" " alt="" coords="248,463,279,519,302,548,329,572,363,588,398,596,397,601,361,593,327,577,298,552,275,522,243,465"/>
+<area shape="rect" id="Node000017" href="$classSphereComponent.html" title=" " alt="" coords="385,647,528,673"/>
+<area shape="poly" id="edge30_Node000001_Node000017" title=" " alt="" coords="239,465,248,506,265,556,292,605,309,627,330,646,356,660,386,667,384,672,354,665,326,650,305,631,288,608,261,558,243,508,234,466"/>
+<area shape="poly" id="edge31_Node000001_Node000017" title=" " alt="" coords="242,464,253,500,270,543,295,586,330,622,357,636,387,645,386,650,355,641,326,626,291,589,265,546,248,502,237,465"/>
+<area shape="rect" id="Node000018" href="$classSpriteComponent.html" title=" " alt="" coords="389,697,524,722"/>
+<area shape="poly" id="edge32_Node000001_Node000018" title=" " alt="" coords="237,465,243,515,259,578,271,611,286,642,306,671,330,695,358,711,390,718,388,723,356,716,326,699,302,674,282,645,266,613,254,580,238,516,231,466"/>
+<area shape="poly" id="edge33_Node000001_Node000018" title=" " alt="" coords="238,465,246,510,262,566,289,623,308,649,330,671,358,687,390,695,388,700,356,692,326,675,304,652,285,626,257,568,241,511,233,466"/>
+<area shape="rect" id="Node000019" href="$classTransformComponent.html" title=" " alt="" coords="375,746,538,771"/>
+<area shape="poly" id="edge34_Node000001_Node000019" title=" " alt="" coords="235,465,239,524,252,600,264,640,280,679,302,714,330,745,348,757,369,764,412,769,412,774,368,769,346,761,326,749,298,717,276,681,259,642,247,601,234,524,230,465"/>
+<area shape="poly" id="edge35_Node000001_Node000019" title=" " alt="" coords="236,465,241,519,255,589,267,625,283,660,304,693,330,721,353,735,379,743,378,748,351,740,326,725,300,696,278,663,262,627,250,590,235,520,230,465"/>
+<area shape="rect" id="Node000020" href="$classTriangle__w__Color.html" title=" " alt="" coords="391,795,523,821"/>
+<area shape="poly" id="edge36_Node000001_Node000020" title=" " alt="" coords="238,465,250,542,270,641,297,735,313,771,330,794,349,807,372,815,417,818,417,823,370,820,347,812,326,798,308,773,292,737,265,642,245,543,233,465"/>
+<area shape="poly" id="edge37_Node000001_Node000020" title=" " alt="" coords="240,464,252,536,272,628,298,715,313,748,330,770,358,787,391,795,390,800,356,792,326,774,309,751,293,717,267,630,247,537,235,465"/>
+<area shape="rect" id="Node000021" href="$classtemplateComponent.html" title=" " alt="" coords="379,845,535,870"/>
+<area shape="poly" id="edge38_Node000001_Node000021" title=" " alt="" coords="237,465,248,551,266,665,294,774,311,816,330,843,350,857,373,865,397,868,419,867,419,873,396,873,371,870,347,862,326,847,306,818,289,776,261,667,242,552,232,465"/>
+<area shape="poly" id="edge39_Node000001_Node000021" title=" " alt="" coords="239,465,250,546,268,653,295,755,312,793,330,819,352,834,379,843,377,848,350,839,326,823,307,796,290,756,263,654,244,547,233,465"/>
+<area shape="rect" id="Node000002" href="$classBaseComponent.html" title=" " alt="" coords="5,426,135,451"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,436,182,436,182,441,148,441"/>
+<area shape="rect" id="Node000004" href="$classFlashAnimatorComponent.html" title=" " alt="" coords="633,6,825,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="549,24,633,25,633,30,549,30"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="549,7,633,7,633,13,549,13"/>
 </map>

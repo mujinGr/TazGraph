@@ -1,3 +1,17 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structImGuiConfig.html" title=" " alt="" coords="5,5,108,31"/>
+<area shape="rect" id="Node000000" href="$classIGraphParser.html" title="Abstract base class for all map parsers." alt="" coords="5,153,111,179"/>
+<area shape="rect" id="Node000001" href="$classDOTMapParser.html" title=" " alt="" coords="177,5,295,31"/>
+<area shape="poly" id="edge48_Node000000_Node000001" title=" " alt="" coords="71,140,106,89,130,63,157,40,179,28,182,33,160,44,133,66,110,93,75,143"/>
+<area shape="rect" id="Node000002" href="$classGraphMLMapParser.html" title=" " alt="" coords="162,55,310,80"/>
+<area shape="poly" id="edge49_Node000000_Node000002" title=" " alt="" coords="82,142,116,115,157,89,185,78,187,83,160,94,119,119,85,146"/>
+<area shape="rect" id="Node000003" href="$classPythonMapParser.html" title=" " alt="" coords="169,104,303,129"/>
+<area shape="poly" id="edge50_Node000000_Node000003" title=" " alt="" coords="117,147,188,127,190,132,118,152"/>
+<area shape="rect" id="Node000004" href="$classSimDumpMapParser.html" title=" " alt="" coords="159,153,313,179"/>
+<area shape="poly" id="edge51_Node000000_Node000004" title=" " alt="" coords="125,163,158,163,158,169,125,169"/>
+<area shape="rect" id="Node000005" href="$classSimDumpPathParser.html" title=" " alt="" coords="159,203,313,228"/>
+<area shape="poly" id="edge52_Node000000_Node000005" title=" " alt="" coords="118,180,190,200,188,205,117,185"/>
+<area shape="rect" id="Node000006" href="$classTextMapParser.html" title=" " alt="" coords="177,252,295,277"/>
+<area shape="poly" id="edge53_Node000000_Node000006" title=" " alt="" coords="86,186,120,212,160,237,190,249,188,254,157,242,117,216,82,190"/>
+<area shape="rect" id="Node000007" href="$classTextPathParser.html" title=" " alt="" coords="177,301,295,327"/>
+<area shape="poly" id="edge54_Node000000_Node000007" title=" " alt="" coords="75,189,110,238,134,264,160,286,184,299,182,304,157,291,130,268,106,242,71,192"/>
 </map>

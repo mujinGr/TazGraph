@@ -11,7 +11,8 @@ Inheritance diagram for Graph\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Graph\+:\nopagebreak
+Collaboration diagram for Graph\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -38,13 +39,13 @@ virtual void \mbox{\hyperlink{classGraph_a9e8504a56f5f60c644dc02df8cbfc8cc}{on\+
 \item 
 virtual void \mbox{\hyperlink{classGraph_a1650103e02a76aeba4243f1f02842fa8}{update}} (float delta\+Time) override
 \item 
-virtual void \mbox{\hyperlink{classGraph_a96825c801c28c85c630dd5dd38c40c7e}{prepare\+Draw}} () override
+virtual void \mbox{\hyperlink{classGraph_a34a8bc7dfe592f79a9f55e30b38e8b05}{prepare\+Draw}} (int index) override
 \item 
-virtual void \mbox{\hyperlink{classGraph_a57959b5902869e2bc1d4e1d0800ddc0a}{render\+Draw}} () override
+virtual void \mbox{\hyperlink{classGraph_aa0c0c0d497654e679d36266580f7824e}{render\+Draw}} (int index) override
 \item 
-void \mbox{\hyperlink{classGraph_af0db6aff4dc8ba24d59153f9d29af2b0}{minimap\+Prepare\+Draw}} ()
+void \mbox{\hyperlink{classGraph_a8df0005169032a88470633d5fd18688f}{minimap\+Prepare\+Draw}} (int index)
 \item 
-void \mbox{\hyperlink{classGraph_a2232ce0c107b5ea6ffe7245bbb89c93f}{minimap\+Render\+Draw}} ()
+void \mbox{\hyperlink{classGraph_af57d6c5534c098d0a08d3c2760332d45}{minimap\+Render\+Draw}} (int index)
 \item 
 virtual void \mbox{\hyperlink{classGraph_ab36adb51e00b7de3c2b9263c6dbc4865}{Swap\+Buffer\+Draw}} () override
 \item 
@@ -59,6 +60,8 @@ virtual void \mbox{\hyperlink{classGraph_a3f4232cac916943bedc8c9d23b9fed2a}{End\
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIScene}{IScene}}}
 \begin{DoxyCompactItemize}
 \item 
+virtual void {\bfseries dispose\+Renderers} (int index)
+\item 
 int {\bfseries get\+Scene\+Index} () const
 \item 
 void {\bfseries set\+Running} ()
@@ -72,17 +75,17 @@ void {\bfseries set\+Parent\+App} (\mbox{\hyperlink{classAppInterface}{App\+Inte
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classGraph_adc8e5856c06a07ffae07be54bf5072aa}\label{classGraph_adc8e5856c06a07ffae07be54bf5072aa} 
-\mbox{\hyperlink{classMap}{Map}} \texorpdfstring{$\ast$}{*} {\bfseries map} = nullptr
+\Hypertarget{classGraph_a08d227835258cb421c7a0215b7d1b0e2}\label{classGraph_a08d227835258cb421c7a0215b7d1b0e2} 
+\mbox{\hyperlink{classGraphLoader}{Graph\+Loader}} \texorpdfstring{$\ast$}{*} {\bfseries graph\+Loader} = nullptr
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classIScene}{IScene}}}
 \begin{DoxyCompactItemize}
 \item 
 std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{classIScene_ad1897b6e44c9dd75a3d89e6f6e2d33fa}{managers}}
 \item 
-\mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} {\bfseries manager} = nullptr
+\mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} {\bfseries editing\+Manager} = nullptr
 \item 
-std\+::string {\bfseries manager\+Name} = "{}"{}
+\mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*} {\bfseries manager} = nullptr
 \item 
 bool {\bfseries last\+\_\+render\+Debug} = false
 \item 
@@ -101,8 +104,6 @@ bool {\bfseries request\+Exit} = false
 \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} {\bfseries frame\+Data\+Buffers} \mbox{[}2\mbox{]}
 \item 
 \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz\+::\+Frame\+Render\+Data}} {\bfseries minimap\+\_\+frame\+Data\+Buffers} \mbox{[}2\mbox{]}
-\item 
-std\+::atomic$<$ int $>$ {\bfseries active\+Frame\+Index} = 0
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classIScene}{IScene}}}
@@ -185,17 +186,17 @@ Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
 Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
-\Hypertarget{classGraph_af0db6aff4dc8ba24d59153f9d29af2b0}\label{classGraph_af0db6aff4dc8ba24d59153f9d29af2b0} 
+\Hypertarget{classGraph_a8df0005169032a88470633d5fd18688f}\label{classGraph_a8df0005169032a88470633d5fd18688f} 
 \index{Graph@{Graph}!minimapPrepareDraw@{minimapPrepareDraw}}
 \index{minimapPrepareDraw@{minimapPrepareDraw}!Graph@{Graph}}
 \doxysubsubsection{\texorpdfstring{minimapPrepareDraw()}{minimapPrepareDraw()}}
-{\footnotesize\ttfamily void Graph\+::minimap\+Prepare\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Graph\+::minimap\+Prepare\+Draw (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})}
 
-Prepare Draw Batches by Frame\Hypertarget{classGraph_a2232ce0c107b5ea6ffe7245bbb89c93f}\label{classGraph_a2232ce0c107b5ea6ffe7245bbb89c93f} 
+Prepare Draw Batches by Frame\Hypertarget{classGraph_af57d6c5534c098d0a08d3c2760332d45}\label{classGraph_af57d6c5534c098d0a08d3c2760332d45} 
 \index{Graph@{Graph}!minimapRenderDraw@{minimapRenderDraw}}
 \index{minimapRenderDraw@{minimapRenderDraw}!Graph@{Graph}}
 \doxysubsubsection{\texorpdfstring{minimapRenderDraw()}{minimapRenderDraw()}}
-{\footnotesize\ttfamily void Graph\+::minimap\+Render\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Graph\+::minimap\+Render\+Draw (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})}
 
 render Frame\Hypertarget{classGraph_a4955e1d0607e9e3cfc64f6260bd3ba4d}\label{classGraph_a4955e1d0607e9e3cfc64f6260bd3ba4d} 
 \index{Graph@{Graph}!onEntry@{onEntry}}
@@ -217,21 +218,21 @@ Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
 Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
-\Hypertarget{classGraph_a96825c801c28c85c630dd5dd38c40c7e}\label{classGraph_a96825c801c28c85c630dd5dd38c40c7e} 
+\Hypertarget{classGraph_a34a8bc7dfe592f79a9f55e30b38e8b05}\label{classGraph_a34a8bc7dfe592f79a9f55e30b38e8b05} 
 \index{Graph@{Graph}!prepareDraw@{prepareDraw}}
 \index{prepareDraw@{prepareDraw}!Graph@{Graph}}
 \doxysubsubsection{\texorpdfstring{prepareDraw()}{prepareDraw()}}
-{\footnotesize\ttfamily void Graph\+::prepare\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void Graph\+::prepare\+Draw (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 Prepare Frame
 
 Implements \mbox{\hyperlink{classIScene}{IScene}}.
 
-\Hypertarget{classGraph_a57959b5902869e2bc1d4e1d0800ddc0a}\label{classGraph_a57959b5902869e2bc1d4e1d0800ddc0a} 
+\Hypertarget{classGraph_aa0c0c0d497654e679d36266580f7824e}\label{classGraph_aa0c0c0d497654e679d36266580f7824e} 
 \index{Graph@{Graph}!renderDraw@{renderDraw}}
 \index{renderDraw@{renderDraw}!Graph@{Graph}}
 \doxysubsubsection{\texorpdfstring{renderDraw()}{renderDraw()}}
-{\footnotesize\ttfamily void Graph\+::render\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void Graph\+::render\+Draw (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 render Frame
 

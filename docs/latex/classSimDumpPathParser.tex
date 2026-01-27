@@ -2,7 +2,8 @@
 \hypertarget{classSimDumpPathParser}{}\label{classSimDumpPathParser}\index{SimDumpPathParser@{SimDumpPathParser}}
 
 
-Inheritance diagram for Sim\+Dump\+Path\+Parser\+:\nopagebreak
+Inheritance diagram for Sim\+Dump\+Path\+Parser\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,7 +12,8 @@ Inheritance diagram for Sim\+Dump\+Path\+Parser\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Sim\+Dump\+Path\+Parser\+:\nopagebreak
+Collaboration diagram for Sim\+Dump\+Path\+Parser\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -31,18 +33,22 @@ void \mbox{\hyperlink{classSimDumpPathParser_a0d9858b1f202b2d65d8807b159b0e410}{
 void {\bfseries parse} (\mbox{\hyperlink{classManager}{Manager}} \&manager, sim\+\_\+dump\+::\+File\+Reader \&reader, std\+::vector$<$ \mbox{\hyperlink{classNodeEntity}{Node\+Entity}} \texorpdfstring{$\ast$}{*} $>$ \&node\+Entities, std\+::vector$<$ \mbox{\hyperlink{classLinkEntity}{Link\+Entity}} \texorpdfstring{$\ast$}{*} $>$ \&link\+Entities, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$ add\+Node\+Func, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$ add\+Link\+Func)
 \item 
 void \mbox{\hyperlink{classSimDumpPathParser_a0c5ace8c91a3ad70ed25e7a4e2ddd707}{close\+File}} () override
+\item 
+void \mbox{\hyperlink{classSimDumpPathParser_a66eb2865829b0a399b6fec586a566170}{update}} (float delta\+Time) override
 \end{DoxyCompactItemize}
-\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}}
 \begin{DoxyCompactItemize}
 \item 
 void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mthreader)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
-\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}}
 \begin{DoxyCompactItemize}
 \item 
+float {\bfseries elapsed\+Delta} = 0
+\item 
 \mbox{\hyperlink{structThreader}{Threader}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+threader} = nullptr
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em for background processing \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Member Function Documentation}
@@ -54,7 +60,7 @@ void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mt
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 \Hypertarget{classSimDumpPathParser_a0d9858b1f202b2d65d8807b159b0e410}\label{classSimDumpPathParser_a0d9858b1f202b2d65d8807b159b0e410} 
 \index{SimDumpPathParser@{SimDumpPathParser}!parse@{parse}}
@@ -64,7 +70,7 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 \Hypertarget{classSimDumpPathParser_abfa2e9cfb3191c08140c85285b1157c3}\label{classSimDumpPathParser_abfa2e9cfb3191c08140c85285b1157c3} 
 \index{SimDumpPathParser@{SimDumpPathParser}!readFile@{readFile}}
@@ -74,7 +80,17 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
+
+\Hypertarget{classSimDumpPathParser_a66eb2865829b0a399b6fec586a566170}\label{classSimDumpPathParser_a66eb2865829b0a399b6fec586a566170} 
+\index{SimDumpPathParser@{SimDumpPathParser}!update@{update}}
+\index{update@{update}!SimDumpPathParser@{SimDumpPathParser}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Sim\+Dump\+Path\+Parser\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 \Hypertarget{classSimDumpPathParser_ad214b143e90cb1b890c109290254d245}\label{classSimDumpPathParser_ad214b143e90cb1b890c109290254d245} 
 \index{SimDumpPathParser@{SimDumpPathParser}!writeFile@{writeFile}}
@@ -84,7 +100,7 @@ Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
 
 
 
-Implements \mbox{\hyperlink{classIMapParser}{IMap\+Parser}}.
+Implements \mbox{\hyperlink{classIGraphParser}{IGraph\+Parser}}.
 
 
 

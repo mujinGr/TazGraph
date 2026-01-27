@@ -1,0 +1,85 @@
+\doxysection{IGraph\+Parser Class Reference}
+\hypertarget{classIGraphParser}{}\label{classIGraphParser}\index{IGraphParser@{IGraphParser}}
+
+
+Abstract base class for all map parsers.  
+
+
+
+
+{\ttfamily \#include $<$IGraph\+Parser.\+h$>$}
+
+
+
+Inheritance diagram for IGraph\+Parser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{classIGraphParser__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for IGraph\+Parser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{classIGraphParser__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classIGraphParser_a0322c42f4743d5eb13ab06788d404fc3}\label{classIGraphParser_a0322c42f4743d5eb13ab06788d404fc3} 
+virtual void {\bfseries read\+File} (std\+::string m\+\_\+file\+Name)=0
+\item 
+\Hypertarget{classIGraphParser_a64a658b7efcdf5f1a6d87518d7968ced}\label{classIGraphParser_a64a658b7efcdf5f1a6d87518d7968ced} 
+virtual void {\bfseries write\+File} (std\+::string m\+\_\+file\+Name, \mbox{\hyperlink{classManager}{Manager}} \&manager)=0
+\item 
+virtual void \mbox{\hyperlink{classIGraphParser_a4acb25347ddd1753c6f7751786e98117}{parse}} (\mbox{\hyperlink{classManager}{Manager}} \&manager, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$ add\+Node\+Func, std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$ add\+Link\+Func)=0
+\item 
+\Hypertarget{classIGraphParser_a851b4b5136859ca6fb5394239c81413d}\label{classIGraphParser_a851b4b5136859ca6fb5394239c81413d} 
+virtual void {\bfseries close\+File} ()=0
+\item 
+\Hypertarget{classIGraphParser_a15db52d645c9f741835c55c4429c4a18}\label{classIGraphParser_a15db52d645c9f741835c55c4429c4a18} 
+virtual void {\bfseries update} (float delta\+Time)=0
+\item 
+\Hypertarget{classIGraphParser_a63b06eae1760721aa35b7a01d6d1b2e6}\label{classIGraphParser_a63b06eae1760721aa35b7a01d6d1b2e6} 
+void {\bfseries set\+Threader} (\mbox{\hyperlink{structThreader}{Threader}} \&mthreader)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classIGraphParser_a6c9d4f96f8b82a30f7965ffb9a2a525a}\label{classIGraphParser_a6c9d4f96f8b82a30f7965ffb9a2a525a} 
+float {\bfseries elapsed\+Delta} = 0
+\item 
+\Hypertarget{classIGraphParser_a37eb9b2210707a21a7842711fc23ad6c}\label{classIGraphParser_a37eb9b2210707a21a7842711fc23ad6c} 
+\mbox{\hyperlink{structThreader}{Threader}} \texorpdfstring{$\ast$}{*} {\bfseries \+\_\+threader} = nullptr
+\begin{DoxyCompactList}\small\item\em for background processing \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Abstract base class for all map parsers. 
+
+Additionally, parsers can use a \doxylink{structThreader}{Threader} to enhance performance with multithreaded parsing.
+
+(see \doxylink{fileFormats}{Supported File Formats}) 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classIGraphParser_a4acb25347ddd1753c6f7751786e98117}\label{classIGraphParser_a4acb25347ddd1753c6f7751786e98117} 
+\index{IGraphParser@{IGraphParser}!parse@{parse}}
+\index{parse@{parse}!IGraphParser@{IGraphParser}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily virtual void IGraph\+Parser\+::parse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classManager}{Manager}} \&}]{manager,  }\item[{std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&, glm\+::vec3)$>$}]{add\+Node\+Func,  }\item[{std\+::function$<$ void(\mbox{\hyperlink{classEntity}{Entity}} \&)$>$}]{add\+Link\+Func }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classTextMapParser_afcd3244feffeb316fc446e62ed4f50a4}{Text\+Map\+Parser}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph/\+Src/\+Map/IGraph\+Parser.\+h\end{DoxyCompactItemize}

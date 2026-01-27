@@ -1,0 +1,251 @@
+\doxysection{Transform\+Component.\+h}
+\hypertarget{TazGraphEngine_2src_2GECS_2Components_2Empty_2Basic_2TransformComponent_8h_source}{}\label{TazGraphEngine_2src_2GECS_2Components_2Empty_2Basic_2TransformComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/Empty/Basic/TransformComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/Empty/Basic/TransformComponent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../../../Animators/MovingAnimation.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTransformComponent}{TransformComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classComponent}{Component}}\ \textcolor{comment}{//transform\ as\ in\ graphics,\ we\ have\ rotation\ and\ scale}}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ \ \ glm::vec3\ velocity\ =\ glm::vec3(0);}
+\DoxyCodeLine{00010\ \ \ \ \ glm::vec3\ rotation\ =\ \{\ 0.0f,0.0f,0.0f\ \};}
+\DoxyCodeLine{00011\ \ \ \ \ glm::vec3\ position\ =\ glm::vec3(0);}
+\DoxyCodeLine{00012\ \ \ \ \ glm::vec3\ local\_position\ =\ glm::vec3(0);}
+\DoxyCodeLine{00013\ \ \ \ \ glm::vec3\ local\_normal\_position\ =\ glm::vec3(0);}
+\DoxyCodeLine{00014\ \ \ \ \ glm::vec3\ size\ =\ glm::vec3(0);}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ glm::vec3\ last\_position\ =\ glm::vec3(0);}
+\DoxyCodeLine{00017\ \ \ \ \ glm::vec3\ last\_size\ =\ glm::vec3(0);}
+\DoxyCodeLine{00018\ \ \ \ \ glm::vec3\ last\_velocity\ =\ glm::vec3(0);}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{float}\ scale\ =\ 1;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{int}\ speed\ =\ 1;}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}\ moving\_animation;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}()}
+\DoxyCodeLine{00027\ \ \ \ \ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}(\textcolor{keywordtype}{float}\ sc)}
+\DoxyCodeLine{00031\ \ \ \ \ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ scale\ =\ sc;}
+\DoxyCodeLine{00033\ \ \ \ \ \}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}(glm::vec2\ m\_position)}
+\DoxyCodeLine{00036\ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ position.x\ =\ m\_position.x;}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ position.y\ =\ m\_position.y;}
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}(glm::vec3\ m\_position)}
+\DoxyCodeLine{00042\ \ \ \ \ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ position\ =\ m\_position;}
+\DoxyCodeLine{00044\ \ \ \ \ \}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}(glm::vec2\ m\_position,\ layer\ layer,\ glm::vec2\ m\_size,\ \textcolor{keywordtype}{float}\ sc)\ :\ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}(m\_position)\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ position\ =\ \{\ m\_position.x,\ m\_position.y,\ getLayerDepth(layer)\ \};}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ size\ =\ \{\ m\_size.x,\ m\_size.y,\ 0.0f\ \};}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ scale\ =\ sc;}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}(glm::vec2\ m\_position,\ layer\ layer,\ glm::vec2\ size,\ \textcolor{keywordtype}{float}\ sc,\ \textcolor{keywordtype}{int}\ sp)\ :\ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}(m\_position,\ layer,\ size,\ sc)}
+\DoxyCodeLine{00053\ \ \ \ \ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ speed\ =\ sp;}
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}(glm::vec2\ m\_position,\ layer\ layer,\ glm::vec3\ m\_size,\ \textcolor{keywordtype}{float}\ sc)\ :\ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}(m\_position)\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ size\ =\ m\_size;}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ scale\ =\ sc;}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}(glm::vec2\ m\_position,\ layer\ layer,\ glm::vec3\ size,\ \textcolor{keywordtype}{float}\ sc,\ \textcolor{keywordtype}{int}\ sp)\ :\ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}(m\_position,\ layer,\ size,\ sc)}
+\DoxyCodeLine{00063\ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ speed\ =\ sp;}
+\DoxyCodeLine{00065\ \ \ \ \ \}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}(glm::vec3\ m\_position,\ glm::vec3\ m\_size,\ \textcolor{keywordtype}{float}\ sc)\ :\ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}(m\_position)\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ size\ =\ m\_size;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ scale\ =\ sc;}
+\DoxyCodeLine{00070\ \ \ \ \ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00073\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00074\ \ \ \ \ \}}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{00076\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity-\/>getParentEntity()}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \&\&\ (\textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(entity-\/>getParentEntity())}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ||\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classEmptyEntity}{EmptyEntity}}*\textcolor{keyword}{>}(entity-\/>getParentEntity())))}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ parent\ =\ entity-\/>getParentEntity();}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ parentTR\ =\ \&parent-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!glm::all(glm::equal(local\_normal\_position,\ glm::vec3(0.0f))))\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position\ =\ parentTR-\/>getPosition()\ +\ local\_normal\_position\ *\ parentTR-\/>size\ /\ 2.0f;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position\ =\ parentTR-\/>getPosition()\ +\ local\_position;}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (position\ ==\ last\_position\ \&\&\ size\ ==\ last\_size\ \&\&\ velocity\ ==\ last\_velocity)\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ entity-\/>cellUpdate();}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ last\_position\ =\ position;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ last\_size\ =\ size;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ last\_velocity\ =\ velocity;}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ position.x\ +=\ velocity.x\ *\ speed\ *\ deltaTime;}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ position.y\ +=\ velocity.y\ *\ speed\ *\ deltaTime;}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ velocity\ *=\ 0.98f;}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{void}\ initChild()\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity-\/>getParentEntity()}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \&\&\ (\textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classNodeEntity}{NodeEntity}}*\textcolor{keyword}{>}(entity-\/>getParentEntity())}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ||\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classEmptyEntity}{EmptyEntity}}*\textcolor{keyword}{>}(entity-\/>getParentEntity())))}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classEntity}{Entity}}*\ parent\ =\ entity-\/>getParentEntity();}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ parentTR\ =\ \&parent-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!glm::all(glm::equal(local\_normal\_position,\ glm::vec3(0.0f))))\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position\ =\ parentTR-\/>getPosition()\ +\ local\_normal\_position\ *\ parentTR-\/>size\ /\ 2.0f;}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position\ =\ parentTR-\/>getPosition()\ +\ local\_position;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00126\ \ \ \ \ \}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \ \ \ \ glm::vec3\ getSizeCenter()\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ glm::vec3(size.x\ *\ scale\ /\ 2,\ size.y\ *\ scale\ /\ 2,\ size.z\ *\ scale\ /\ 2);}
+\DoxyCodeLine{00130\ \ \ \ \ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ glm::vec3\ getPosition()\ \{}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ position;}
+\DoxyCodeLine{00134\ \ \ \ \ \}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordtype}{void}\ setPosition\_X(\textcolor{keywordtype}{float}\ newPosition\_X)\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ position.x\ =\ newPosition\_X;}
+\DoxyCodeLine{00138\ \ \ \ \ \}}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{void}\ setPosition\_Y(\textcolor{keywordtype}{float}\ newPosition\_Y)\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ position.y\ =\ newPosition\_Y;}
+\DoxyCodeLine{00141\ \ \ \ \ \}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ glm::vec3\ getVelocity()\ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ velocity;}
+\DoxyCodeLine{00145\ \ \ \ \ \}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordtype}{void}\ setVelocity\_X(\textcolor{keywordtype}{float}\ newVelocity\_X)\ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ velocity.x\ =\ newVelocity\_X;}
+\DoxyCodeLine{00149\ \ \ \ \ \}}
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordtype}{void}\ setVelocity\_Y(\textcolor{keywordtype}{float}\ newVelocity\_Y)\ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ velocity.y\ =\ newVelocity\_Y;}
+\DoxyCodeLine{00152\ \ \ \ \ \}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordtype}{void}\ setRotation(glm::vec3\ m\_rotation)\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ rotation\ =\ m\_rotation;}
+\DoxyCodeLine{00156\ \ \ \ \ \}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordtype}{void}\ SetMovingAnimation(}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ glm::vec3\ m\_startingPos,}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ fr,}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ sp,}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ Animation::animType\ type,}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\ distance,}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\ dest\_rotation,}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ reps\ =\ 0)}
+\DoxyCodeLine{00166\ \ \ \ \ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ moving\_animation\ =\ \mbox{\hyperlink{classMovingAnimation}{MovingAnimation}}(m\_startingPos,\ fr,\ sp,\ type,\ distance,\ dest\_rotation,\ reps);}
+\DoxyCodeLine{00168\ \ \ \ \ \}}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordtype}{void}\ setMoveFrame()\ \{}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ progress\ =\ (float)moving\_animation.cur\_frame\_index\ /}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float})moving\_animation.total\_frames;}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ linear\ interpolation}}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ newX\ =\ moving\_animation.startingPosition.x\ +}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ ((moving\_animation.distance.x)\ *\ progress);}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ newY\ =\ moving\_animation.startingPosition.y\ +}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ ((moving\_animation.distance.y)\ *\ progress);\ \textcolor{comment}{//\ Fixed\ typo:\ was\ .x\ instead\ of\ .y}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ setPosition\_X(newX);}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ setPosition\_Y(newY);}
+\DoxyCodeLine{00184\ \ \ \ \ \}}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}TransformComponent"{}};}
+\DoxyCodeLine{00188\ \ \ \ \ \}}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents\ =\ \{\})\ \textcolor{keyword}{override}\ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ showGUI(otherComponents,\ \{\ entity\ \});}
+\DoxyCodeLine{00192\ \ \ \ \ \};}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents,\ std::vector<Entity*>\ otherEntities)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ ImGui::Separator();}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TazPosition\ Controls}}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}TazPosition:"{}});}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ ImGui::SliderFloat3(\textcolor{stringliteral}{"{}\#\#position"{}},\ \&position.x,\ -\/1000.0f,\ 1000.0f);}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::Button(\textcolor{stringliteral}{"{}Apply\ TazPosition\ to\ All\#\#transform\_pos"{}}))\ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ modifyPosition\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (modifyPosition\ \&\&\ !otherComponents.empty())\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ comp\ :\ otherComponents)\ \{}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}*\ other\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\textcolor{keyword}{>}(comp))\ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ other-\/>position\ =\ position;}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TazSize\ Controls}}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}TazSize:"{}});}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ ImGui::SliderFloat3(\textcolor{stringliteral}{"{}\#\#size"{}},\ \&size.x,\ 1.0f,\ 100.0f);}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TazRotation\ Controls}}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}TazRotation:"{}});}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ ImGui::SliderFloat3(\textcolor{stringliteral}{"{}\#\#rotation"{}},\ glm::value\_ptr(rotation),\ -\/180.0f,\ 180.0f);}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}Scale:"{}});}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ ImGui::SliderFloat(\textcolor{stringliteral}{"{}\#\#scale"{}},\ \&scale,\ 0.1f,\ 10.0f);}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Speed\ Control}}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ ImGui::Text(\textcolor{stringliteral}{"{}Speed:"{}});}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ ImGui::InputInt(\textcolor{stringliteral}{"{}\#\#speed"{}},\ \&speed);}
+\DoxyCodeLine{00226\ \ \ \ \ \}}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}\&\ operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}\&\ tr)\ \{}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{this}\ ==\ \&tr)\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ velocity\ =\ tr.velocity;}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ rotation\ =\ tr.rotation;}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ position\ =\ tr.position;}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ local\_position\ =\ tr.local\_position;}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ local\_normal\_position\ =\ tr.local\_normal\_position;}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ size\ =\ tr.size;}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ scale\ =\ tr.scale;}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ speed\ =\ tr.speed;}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00244\ \ \ \ \ \}}
+\DoxyCodeLine{00245\ \};}
+
+\end{DoxyCode}

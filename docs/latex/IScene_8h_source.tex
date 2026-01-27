@@ -51,8 +51,8 @@
 \DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ checkInput()\ =\ 0;}
 \DoxyCodeLine{00048\ }
 \DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ =\ 0;}
-\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ prepareDraw()\ =\ 0;}
-\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ renderDraw()\ =\ 0;}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ prepareDraw(\textcolor{keywordtype}{int}\ index)\ =\ 0;}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ renderDraw(\textcolor{keywordtype}{int}\ index)\ =\ 0;}
 \DoxyCodeLine{00052\ }
 \DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ SwapBufferDraw()\ =\ 0;}
 \DoxyCodeLine{00054\ }
@@ -61,57 +61,62 @@
 \DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ drawUI()\ =\ 0;}
 \DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ EndRender()\ =\ 0;}
 \DoxyCodeLine{00059\ }
-\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{int}\ getSceneIndex()\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_sceneIndex;}
-\DoxyCodeLine{00062\ \ \ \ \ \}}
-\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ setRunning()\ \{}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ currentState\ =\ SceneState::RUNNING;}
-\DoxyCodeLine{00065\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ disposeRenderers(\textcolor{keywordtype}{int}\ index)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ frameDataBuffers[index].planeColorRenderer.dispose();}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ frameDataBuffers[index].lineRenderer.dispose();}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ frameDataBuffers[index].planeColorRenderer.dispose();}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ frameDataBuffers[index].lightRenderer.dispose();}
+\DoxyCodeLine{00065\ \ \ \ \ \};}
 \DoxyCodeLine{00066\ }
-\DoxyCodeLine{00067\ \ \ \ \ SceneState\ getState()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ currentState;\ \}}
-\DoxyCodeLine{00068\ }
-\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ setParentApp(\mbox{\hyperlink{classAppInterface}{AppInterface}}*\ app)\ \{\ \_app\ =\ app;\ \}}
-\DoxyCodeLine{00070\ }
-\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{classAppInterface}{AppInterface}}*\ getApp()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \_app;\ \}}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ setManager(std::string\ m\_managerName)\ \{}
-\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_managerName.empty())\ \{}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ managers.find(m\_managerName);}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ ==\ managers.end())\ \{}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ managers[m\_managerName]\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classManager}{Manager}}();}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ manager\ =\ managers[m\_managerName];}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ managerName\ =\ m\_managerName;}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00083\ \ \ \ \ \};}
-\DoxyCodeLine{00084\ }
-\DoxyCodeLine{00085\ \ \ \ \ std::unordered\_map<std::string,\ Manager*>\ managers\ =\ \{}
-\DoxyCodeLine{00086\ \ \ \ \ \};}
-\DoxyCodeLine{00087\ }
-\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ manager\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00089\ \ \ \ \ std::string\ managerName\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{int}\ getSceneIndex()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_sceneIndex;}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{void}\ setRunning()\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ currentState\ =\ SceneState::RUNNING;}
+\DoxyCodeLine{00072\ \ \ \ \ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ SceneState\ getState()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ currentState;\ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ setParentApp(\mbox{\hyperlink{classAppInterface}{AppInterface}}*\ app)\ \{\ \_app\ =\ app;\ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{classAppInterface}{AppInterface}}*\ getApp()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \_app;\ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ setManager(std::string\ m\_managerName)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_managerName.empty())\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ managers.find(m\_managerName);}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ ==\ managers.end())\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ managers[m\_managerName]\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classManager}{Manager}}();}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ editingManager\ =\ managers[m\_managerName];}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00089\ \ \ \ \ \};}
 \DoxyCodeLine{00090\ }
-\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{bool}\ last\_renderDebug\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{bool}\ renderDebug\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00091\ \ \ \ \ std::unordered\_map<std::string,\ Manager*>\ managers\ =\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \};}
 \DoxyCodeLine{00093\ }
-\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{bool}\ showGrid\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{bool}\ last\_showGrid\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00094\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ editingManager\ =\ \textcolor{keyword}{nullptr};\ \ \ \ \textcolor{comment}{//\ Currently\ active\ (render\ thread\ uses\ this)}}
+\DoxyCodeLine{00095\ \ \ \ \ \mbox{\hyperlink{classManager}{Manager}}*\ manager\ =\ \textcolor{keyword}{nullptr};}
 \DoxyCodeLine{00096\ }
-\DoxyCodeLine{00097\ \ \ \ \ SceneState\ currentState\ =\ SceneState::NONE;}
-\DoxyCodeLine{00098\ }
-\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{float}\ backgroundColor[4]\ =\ \{\ 0.8f,\ 0.8f,\ 0.8f,\ 1.0f\ \};}
-\DoxyCodeLine{00100\ }
-\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{bool}\ requestExit\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{bool}\ last\_renderDebug\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{bool}\ renderDebug\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordtype}{bool}\ showGrid\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{bool}\ last\_showGrid\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00102\ }
-\DoxyCodeLine{00103\ \ \ \ \ \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz::FrameRenderData}}\ frameDataBuffers[2];}
-\DoxyCodeLine{00104\ \ \ \ \ \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz::FrameRenderData}}\ minimap\_frameDataBuffers[2];}
-\DoxyCodeLine{00105\ \ \ \ \ std::atomic<int>\ activeFrameIndex\ =\ 0;}
+\DoxyCodeLine{00103\ \ \ \ \ SceneState\ currentState\ =\ SceneState::NONE;}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordtype}{float}\ backgroundColor[4]\ =\ \{\ 0.8f,\ 0.8f,\ 0.8f,\ 1.0f\ \};}
 \DoxyCodeLine{00106\ }
-\DoxyCodeLine{00107\ \textcolor{keyword}{protected}:}
-\DoxyCodeLine{00108\ \ \ \ \ \mbox{\hyperlink{classAppInterface}{AppInterface}}*\ \_app\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{int}\ \_sceneIndex\ =\ -\/1;}
-\DoxyCodeLine{00110\ }
-\DoxyCodeLine{00111\ \};}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{bool}\ requestExit\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz::FrameRenderData}}\ frameDataBuffers[2];}
+\DoxyCodeLine{00110\ \ \ \ \ \mbox{\hyperlink{structTaz_1_1FrameRenderData}{Taz::FrameRenderData}}\ minimap\_frameDataBuffers[2];}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00113\ \ \ \ \ \mbox{\hyperlink{classAppInterface}{AppInterface}}*\ \_app\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{int}\ \_sceneIndex\ =\ -\/1;}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \};}
 
 \end{DoxyCode}

@@ -2,7 +2,8 @@
 \hypertarget{classRectangleFlashAnimatorComponent}{}\label{classRectangleFlashAnimatorComponent}\index{RectangleFlashAnimatorComponent@{RectangleFlashAnimatorComponent}}
 
 
-Inheritance diagram for Rectangle\+Flash\+Animator\+Component\+:\nopagebreak
+Inheritance diagram for Rectangle\+Flash\+Animator\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,7 +12,8 @@ Inheritance diagram for Rectangle\+Flash\+Animator\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Rectangle\+Flash\+Animator\+Component\+:\nopagebreak
+Collaboration diagram for Rectangle\+Flash\+Animator\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,6 +22,24 @@ Collaboration diagram for Rectangle\+Flash\+Animator\+Component\+:\nopagebreak
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classRectangleFlashAnimatorComponent_ac527d7a3c89410155fe5cf6216550617}{init}} () override
+\item 
+void \mbox{\hyperlink{classRectangleFlashAnimatorComponent_a164c2b67b740c6c5d2819b0e49a2797c}{update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{classRectangleFlashAnimatorComponent_af91e1c76ff54c8f6d72b22ba2666a910}{draw}} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window) override
+\item 
+\Hypertarget{classRectangleFlashAnimatorComponent_a10ee7b555c043b926cca923a6a7f9527}\label{classRectangleFlashAnimatorComponent_a10ee7b555c043b926cca923a6a7f9527} 
+void {\bfseries Play} (const std\+::string \&anim\+Name, int reps=0)
+\item 
+\Hypertarget{classRectangleFlashAnimatorComponent_a7005b4efc962dbd5357e8dc5d2e04859}\label{classRectangleFlashAnimatorComponent_a7005b4efc962dbd5357e8dc5d2e04859} 
+void {\bfseries Play} (const std\+::string \&anim\+Name, \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} m\+\_\+dest\+Color, int reps=0)
+\item 
+\Hypertarget{classRectangleFlashAnimatorComponent_afe28da4935c12b569d99a905edfb0f62}\label{classRectangleFlashAnimatorComponent_afe28da4935c12b569d99a905edfb0f62} 
+void {\bfseries reset\+Animation} ()
+\item 
+\Hypertarget{classRectangleFlashAnimatorComponent_a422c42b715cc37bd4167cb1a003a971e}\label{classRectangleFlashAnimatorComponent_a422c42b715cc37bd4167cb1a003a971e} 
+std\+::string {\bfseries get\+Play\+Name} ()
 \item 
 void \mbox{\hyperlink{classRectangleFlashAnimatorComponent_ac527d7a3c89410155fe5cf6216550617}{init}} () override
 \item 
@@ -57,7 +77,7 @@ virtual void {\bfseries show\+GUI} (std\+::vector$<$ \mbox{\hyperlink{classBaseC
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classRectangleFlashAnimatorComponent_a68b149f1effb94fc63a2d2bc69e4da73}\label{classRectangleFlashAnimatorComponent_a68b149f1effb94fc63a2d2bc69e4da73} 
+\Hypertarget{classRectangleFlashAnimatorComponent_adcb37f284a94f001fff9e4289d3d8900}\label{classRectangleFlashAnimatorComponent_adcb37f284a94f001fff9e4289d3d8900} 
 \mbox{\hyperlink{classRectangle__w__Color}{Rectangle\+\_\+w\+\_\+\+Color}} \texorpdfstring{$\ast$}{*} {\bfseries rectangle} = nullptr
 \begin{DoxyCompactList}\small\item\em also we use Moving\+Animator instead of simple Animator so that entities use less memory and we use it to entities that have triggers that change their animation \end{DoxyCompactList}\item 
 \Hypertarget{classRectangleFlashAnimatorComponent_ab5f12852c1b84e6a33a04ccfb2ef932c}\label{classRectangleFlashAnimatorComponent_ab5f12852c1b84e6a33a04ccfb2ef932c} 
@@ -84,7 +104,17 @@ Component\+ID {\bfseries id} = 0u
 \Hypertarget{classRectangleFlashAnimatorComponent_af91e1c76ff54c8f6d72b22ba2666a910}\label{classRectangleFlashAnimatorComponent_af91e1c76ff54c8f6d72b22ba2666a910} 
 \index{RectangleFlashAnimatorComponent@{RectangleFlashAnimatorComponent}!draw@{draw}}
 \index{draw@{draw}!RectangleFlashAnimatorComponent@{RectangleFlashAnimatorComponent}}
-\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Rectangle\+Flash\+Animator\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{e\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classRectangleFlashAnimatorComponent_af91e1c76ff54c8f6d72b22ba2666a910}\label{classRectangleFlashAnimatorComponent_af91e1c76ff54c8f6d72b22ba2666a910} 
+\index{RectangleFlashAnimatorComponent@{RectangleFlashAnimatorComponent}!draw@{draw}}
+\index{draw@{draw}!RectangleFlashAnimatorComponent@{RectangleFlashAnimatorComponent}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Rectangle\+Flash\+Animator\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{e\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -94,7 +124,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classRectangleFlashAnimatorComponent_ac527d7a3c89410155fe5cf6216550617}\label{classRectangleFlashAnimatorComponent_ac527d7a3c89410155fe5cf6216550617} 
 \index{RectangleFlashAnimatorComponent@{RectangleFlashAnimatorComponent}!init@{init}}
 \index{init@{init}!RectangleFlashAnimatorComponent@{RectangleFlashAnimatorComponent}}
-\doxysubsubsection{\texorpdfstring{init()}{init()}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Rectangle\+Flash\+Animator\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classRectangleFlashAnimatorComponent_ac527d7a3c89410155fe5cf6216550617}\label{classRectangleFlashAnimatorComponent_ac527d7a3c89410155fe5cf6216550617} 
+\index{RectangleFlashAnimatorComponent@{RectangleFlashAnimatorComponent}!init@{init}}
+\index{init@{init}!RectangleFlashAnimatorComponent@{RectangleFlashAnimatorComponent}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Rectangle\+Flash\+Animator\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -104,7 +144,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classRectangleFlashAnimatorComponent_a164c2b67b740c6c5d2819b0e49a2797c}\label{classRectangleFlashAnimatorComponent_a164c2b67b740c6c5d2819b0e49a2797c} 
 \index{RectangleFlashAnimatorComponent@{RectangleFlashAnimatorComponent}!update@{update}}
 \index{update@{update}!RectangleFlashAnimatorComponent@{RectangleFlashAnimatorComponent}}
-\doxysubsubsection{\texorpdfstring{update()}{update()}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Rectangle\+Flash\+Animator\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classRectangleFlashAnimatorComponent_a164c2b67b740c6c5d2819b0e49a2797c}\label{classRectangleFlashAnimatorComponent_a164c2b67b740c6c5d2819b0e49a2797c} 
+\index{RectangleFlashAnimatorComponent@{RectangleFlashAnimatorComponent}!update@{update}}
+\index{update@{update}!RectangleFlashAnimatorComponent@{RectangleFlashAnimatorComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Rectangle\+Flash\+Animator\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -113,6 +163,7 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/build/\+App\+Dir/\+Taz\+Graph\+Engine/src/\+GECS/\+Animators/\+Rectangle\+Animators/Rectangle\+Flash\+Animator\+Component.\+h\item 
 /mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Animators/\+Rectangle\+Animators/Rectangle\+Flash\+Animator\+Component.\+h\end{DoxyCompactItemize}

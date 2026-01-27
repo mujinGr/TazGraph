@@ -8,6 +8,9 @@ void {\bfseries Submit} (std\+::function$<$ void()$>$ cmd)
 \item 
 \Hypertarget{structRenderCommandQueue_a50a31df49cf890ebe89b9a4c5ad79a7e}\label{structRenderCommandQueue_a50a31df49cf890ebe89b9a4c5ad79a7e} 
 void {\bfseries Execute} ()
+\item 
+\Hypertarget{structRenderCommandQueue_a04600ffbbcf03049693834804b6af0ba}\label{structRenderCommandQueue_a04600ffbbcf03049693834804b6af0ba} 
+void {\bfseries Wait} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -17,6 +20,12 @@ std\+::vector$<$ std\+::function$<$ void()$>$ $>$ {\bfseries commands}
 \item 
 \Hypertarget{structRenderCommandQueue_aed019499f6e3eb71ee3154c0f05587f7}\label{structRenderCommandQueue_aed019499f6e3eb71ee3154c0f05587f7} 
 std\+::mutex {\bfseries mutex}
+\item 
+\Hypertarget{structRenderCommandQueue_ad4aac088e591cf6628529deda994e6d2}\label{structRenderCommandQueue_ad4aac088e591cf6628529deda994e6d2} 
+std\+::condition\+\_\+variable {\bfseries cv}
+\item 
+\Hypertarget{structRenderCommandQueue_af20aba3a34aacf6dbbf4fdc5c261fb3d}\label{structRenderCommandQueue_af20aba3a34aacf6dbbf4fdc5c261fb3d} 
+bool {\bfseries is\+Ready} = false
 \end{DoxyCompactItemize}
 
 

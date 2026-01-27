@@ -1,0 +1,94 @@
+\doxysection{Port\+Component.\+h}
+\hypertarget{TazGraphEngine_2src_2GECS_2Components_2Empty_2Basic_2PortComponent_8h_source}{}\label{TazGraphEngine_2src_2GECS_2Components_2Empty_2Basic_2PortComponent_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/Empty/Basic/PortComponent.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/Empty/Basic/PortComponent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPortSlotComponent}{PortSlotComponent}};}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ todo\ this\ can\ be\ generally\ a\ flexbox}}
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPortComponent}{PortComponent}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classComponent}{Component}}}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{bool}\ tempIsVertical\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00011\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ color\ =\ \{\ 255,\ 255,\ 255,\ 255\ \};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{classTransformComponent}{TransformComponent}}*\ transform\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classPortComponent}{PortComponent}}()}
+\DoxyCodeLine{00018\ \ \ \ \ \{}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{classPortComponent}{PortComponent}}(\textcolor{keywordtype}{bool}\ m\_isVertical)}
+\DoxyCodeLine{00023\ \ \ \ \ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ tempIsVertical\ =\ m\_isVertical;}
+\DoxyCodeLine{00025\ \ \ \ \ \}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{classPortComponent}{\string~PortComponent}}()\ \{}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ transform\ =\ \&entity-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>();}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ entity-\/>isVertical\ =\ tempIsVertical;}
+\DoxyCodeLine{00034\ \ \ \ \ \}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ transform-\/>size.x\ =\ entity-\/>getParentEntity()-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().size.x;}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ transform-\/>size.y\ =\ entity-\/>getParentEntity()-\/>GetComponent<\mbox{\hyperlink{classTransformComponent}{TransformComponent}}>().size.y;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ childrenSize\ =\ entity-\/>\mbox{\hyperlink{classEntity_a722b64082911a5ac809ff8e13e12a544}{children}}.size();}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity-\/>isVertical)\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (childrenSize\ >\ 1)}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>slotSpacing\ =\ transform-\/>size.x\ /\ childrenSize;}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>slotSpacing\ =\ transform-\/>size.x;}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{\ \textcolor{comment}{//\ Vertical}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (childrenSize\ >\ 1)}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>slotSpacing\ =\ transform-\/>size.y\ /\ childrenSize;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity-\/>slotSpacing\ =\ transform-\/>size.y;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ v\_index,\ \mbox{\hyperlink{classPlaneColorRenderer}{PlaneColorRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ glm::vec2\ size(1,\ 1);}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ batch.\mbox{\hyperlink{classPlaneColorRenderer_ab28e7d3ecb98b1802ec664c9c89a375b}{draw}}(v\_index,\ size,\ transform-\/>getPosition(),\ transform-\/>rotation,\ color);}
+\DoxyCodeLine{00058\ \ \ \ \ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}PortComponent"{}};}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents\ =\ \{\})\ \textcolor{keyword}{override}\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ showGUI(otherComponents,\ \{\ entity\ \});}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents,\ std::vector<Entity*>\ otherEntities)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ ImGui::Separator();}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ ImVec4\ a\_color\ =\ ImVec4(color.r\ /\ 255.0f,\ color.g\ /\ 255.0f,\ color.b\ /\ 255.0f,\ color.a\ /\ 255.0f);}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::ColorPicker4(\textcolor{stringliteral}{"{}TazColor"{}},\ (\textcolor{keywordtype}{float}*)\&a\_color))\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ newColor\ =\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (GLubyte)(a\_color.x\ *\ 255),}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (GLubyte)(a\_color.y\ *\ 255),}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (GLubyte)(a\_color.z\ *\ 255),}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (GLubyte)(a\_color.w\ *\ 255)}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ ent\ :\ otherEntities)\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ent-\/>GetComponent<\mbox{\hyperlink{classPortComponent}{PortComponent}}>().color\ =\ newColor;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \};}
+
+\end{DoxyCode}

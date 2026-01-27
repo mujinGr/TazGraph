@@ -1,0 +1,116 @@
+\doxysection{Line\+\_\+w\+\_\+\+Color.\+h}
+\hypertarget{TazGraphEngine_2src_2GECS_2Components_2Link_2Basic_2Line__w__Color_8h_source}{}\label{TazGraphEngine_2src_2GECS_2Components_2Link_2Basic_2Line__w__Color_8h_source}\index{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/Link/Basic/Line\_w\_Color.h@{/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Components/Link/Basic/Line\_w\_Color.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../../../Components.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classLinkComponent}{LinkComponent}}}
+\DoxyCodeLine{00006\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00008\ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ default\_src\_color\ =\ \{\ 255,\ 255,\ 255,\ 255\ \};}
+\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ src\_color\ =\ \{\ 255,\ 255,\ 255,\ 255\ \};}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ default\_dest\_color\ =\ \{\ 255,\ 255,\ 255,\ 255\ \};}
+\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ dest\_color\ =\ \{\ 255,\ 255,\ 255,\ 255\ \};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}\ flash\_animation;}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{float}\ width\ =\ 5.0f;}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classLine__w__Color}{Line\_w\_Color}}()}
+\DoxyCodeLine{00019\ \ \ \ \ \{}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classLine__w__Color}{\string~Line\_w\_Color}}()\ \{}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ init()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ entity-\/>setConnectionType(entity-\/>type);}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ entity-\/>updateConnection();}
+\DoxyCodeLine{00030\ \ \ \ \ \}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00033\ \ \ \ \ \}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(\textcolor{keywordtype}{size\_t}\ v\_index,\ \mbox{\hyperlink{classLineRenderer}{LineRenderer}}\&\ batch,\ \mbox{\hyperlink{classTazGraphEngine_1_1Window}{TazGraphEngine::Window}}\&\ window)\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{comment}{//float\ tempScreenScale\ =\ window.getScale();}}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ batch.drawLine(v\_index,\ entity-\/>\mbox{\hyperlink{classLinkEntity_a73345eff25004221b8a7ffa10835bc85}{fromPos}},\ entity-\/>toPos,\ src\_color,\ dest\_color,\ width);}
+\DoxyCodeLine{00038\ \ \ \ \ \}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ setSrcColor(\mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ clr)\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ default\_src\_color\ =\ clr;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ src\_color\ =\ clr;}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ setDestColor(\mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ clr)\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ default\_dest\_color\ =\ clr;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ dest\_color\ =\ clr;}
+\DoxyCodeLine{00048\ \ \ \ \ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ SetFlashAnimation(\textcolor{keywordtype}{size\_t}\ fr,\ \textcolor{keywordtype}{float}\ sp,\ \textcolor{keyword}{const}\ Animation::animType\ type,\ \textcolor{keyword}{const}\ std::vector<float>\&\ flashTimes,\ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ flashC,\ \textcolor{keywordtype}{int}\ reps\ =\ 0)}
+\DoxyCodeLine{00051\ \ \ \ \ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ flash\_animation\ =\ \mbox{\hyperlink{structFlashAnimation}{FlashAnimation}}(fr,\ sp,\ type,\ flashTimes,\ flashC,\ reps);}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ setFlashFrame()\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ t\ =\ this-\/>flash\_animation.interpolation\_a;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ <\ 0.33f)\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>src\_color\ =\ TazColor::fromVec4(glm::mix(default\_src\_color.toVec4(),\ this-\/>flash\_animation.flashColor.toVec4(),\ 3\ *\ t));}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (t\ <\ 0.66f)\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>src\_color\ =\ TazColor::fromVec4(glm::mix(this-\/>flash\_animation.flashColor.toVec4(),\ default\_src\_color.toVec4(),\ std::min((3\ *\ (t\ -\/\ 0.33f)),\ 1.0f)));}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>dest\_color\ =\ TazColor::fromVec4(glm::mix(default\_dest\_color.toVec4(),\ this-\/>flash\_animation.flashColor.toVec4(),\ 3\ *\ (t\ -\/\ 0.33f)));}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>dest\_color\ =\ TazColor::fromVec4(glm::mix(this-\/>flash\_animation.flashColor.toVec4(),\ default\_dest\_color.toVec4(),\ std::min((3\ *\ (t\ -\/\ 0.66f)),\ 1.0f)));}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Smooth\ transition\ using\ lerp\ (linear\ interpolation)}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ std::string\ GetComponentName()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Line\_w\_Color"{}};}
+\DoxyCodeLine{00074\ \ \ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents\ =\ \{\})\ \textcolor{keyword}{override}\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ showGUI(otherComponents,\ \{\ entity\ \});}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ showGUI(std::vector<BaseComponent*>\ otherComponents,\ std::vector<Entity*>\ otherEntities)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ ImGui::Separator();}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ ImVec4\ a\_color\ =\ ImVec4(src\_color.r\ /\ 255.0f,\ src\_color.g\ /\ 255.0f,\ src\_color.b\ /\ 255.0f,\ src\_color.a\ /\ 255.0f);}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::ColorPicker4(\textcolor{stringliteral}{"{}TazColor\ Line\ Src"{}},\ (\textcolor{keywordtype}{float}*)\&a\_color))\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ newColor\ =\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (GLubyte)(a\_color.x\ *\ 255),}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (GLubyte)(a\_color.y\ *\ 255),}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (GLubyte)(a\_color.z\ *\ 255),}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (GLubyte)(a\_color.w\ *\ 255)}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ setSrcColor(newColor);}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ ImVec4\ b\_color\ =\ ImVec4(dest\_color.r\ /\ 255.0f,\ dest\_color.g\ /\ 255.0f,\ dest\_color.b\ /\ 255.0f,\ dest\_color.a\ /\ 255.0f);}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::ColorPicker4(\textcolor{stringliteral}{"{}TazColor\ Line\ Dest"{}},\ (\textcolor{keywordtype}{float}*)\&b\_color))\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structTazGraphEngine_1_1Color}{TazColor}}\ newColor\ =\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (GLubyte)(b\_color.x\ *\ 255),}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (GLubyte)(b\_color.y\ *\ 255),}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (GLubyte)(b\_color.z\ *\ 255),}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (GLubyte)(b\_color.w\ *\ 255)}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ setDestColor(newColor);}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ ImGui::SliderFloat(\textcolor{stringliteral}{"{}Width:\ "{}},\ \&width,\ 0.0f,\ 10.0f);}
+\DoxyCodeLine{00109\ \ \ \ \ \};}
+\DoxyCodeLine{00110\ \};}
+
+\end{DoxyCode}

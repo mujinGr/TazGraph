@@ -80,6 +80,18 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:ac7d9917440c90632c60a5abbc9867fb4" id="r_ac7d9917440c90632c60a5abbc9867fb4"><td class="memItemLeft" align="right" valign="top"><a id="ac7d9917440c90632c60a5abbc9867fb4" name="ac7d9917440c90632c60a5abbc9867fb4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setMapToLoad</b> (const std::string &amp;name)</td></tr>
+<tr class="separator:ac7d9917440c90632c60a5abbc9867fb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a246d7d29967b50fb6f491e669da6be" id="r_a6a246d7d29967b50fb6f491e669da6be"><td class="memItemLeft" align="right" valign="top"><a id="a6a246d7d29967b50fb6f491e669da6be" name="a6a246d7d29967b50fb6f491e669da6be"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getMapToLoad</b> ()</td></tr>
+<tr class="separator:a6a246d7d29967b50fb6f491e669da6be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a952fd0dd33b2da17c2931679666aa571" id="r_a952fd0dd33b2da17c2931679666aa571"><td class="memItemLeft" align="right" valign="top"><a id="a952fd0dd33b2da17c2931679666aa571" name="a952fd0dd33b2da17c2931679666aa571"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>getManagerChangeRequested</b> ()</td></tr>
+<tr class="separator:a952fd0dd33b2da17c2931679666aa571"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ab08b7e94f4f8802a021e26ba798d20" id="r_a0ab08b7e94f4f8802a021e26ba798d20"><td class="memItemLeft" align="right" valign="top"><a id="a0ab08b7e94f4f8802a021e26ba798d20" name="a0ab08b7e94f4f8802a021e26ba798d20"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setManagerChangeRequested</b> (bool m_request)</td></tr>
+<tr class="separator:a0ab08b7e94f4f8802a021e26ba798d20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefd06b6ec638a4a21e323f356a72b0b8" id="r_aefd06b6ec638a4a21e323f356a72b0b8"><td class="memItemLeft" align="right" valign="top"><a id="aefd06b6ec638a4a21e323f356a72b0b8" name="aefd06b6ec638a4a21e323f356a72b0b8"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setPathLoading</b> (bool loading)</td></tr>
 <tr class="separator:aefd06b6ec638a4a21e323f356a72b0b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,9 +134,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ReloadAccessibleFiles
 <tr class="memitem:a59fd3a4c38f2b4aad39b793a1d501864" id="r_a59fd3a4c38f2b4aad39b793a1d501864"><td class="memItemLeft" align="right" valign="top"><a id="a59fd3a4c38f2b4aad39b793a1d501864" name="a59fd3a4c38f2b4aad39b793a1d501864"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>applyStep</b> (<a class="el" href="classManager.html">Manager</a> &amp;manager, int transitionToStep)</td></tr>
 <tr class="separator:a59fd3a4c38f2b4aad39b793a1d501864"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abce932e90452f3bf1fee16b0331f8e8c" id="r_abce932e90452f3bf1fee16b0331f8e8c"><td class="memItemLeft" align="right" valign="top"><a id="abce932e90452f3bf1fee16b0331f8e8c" name="abce932e90452f3bf1fee16b0331f8e8c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>copySimulationStepTo</b> (<a class="el" href="classManager.html">Manager</a> &amp;manager, sim_dump::UInt32 sourceStepIndex, sim_dump::UInt32 targetStepIndex, double targetTimestamp)</td></tr>
-<tr class="separator:abce932e90452f3bf1fee16b0331f8e8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12a11eb6f1133c24270409615a106da1" id="r_a12a11eb6f1133c24270409615a106da1"><td class="memItemLeft" align="right" valign="top"><a id="a12a11eb6f1133c24270409615a106da1" name="a12a11eb6f1133c24270409615a106da1"></a>
+<a class="el" href="structSimulationStep.html">SimulationStep</a>&#160;</td><td class="memItemRight" valign="bottom"><b>deepCopySimulationStepTo</b> (<a class="el" href="classManager.html">Manager</a> &amp;manager, sim_dump::UInt32 sourceStepIndex)</td></tr>
+<tr class="separator:a12a11eb6f1133c24270409615a106da1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3a8b420b0d02f7ab20eeca1182689e3" id="r_af3a8b420b0d02f7ab20eeca1182689e3"><td class="memItemLeft" align="right" valign="top"><a id="af3a8b420b0d02f7ab20eeca1182689e3" name="af3a8b420b0d02f7ab20eeca1182689e3"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>reindexSteps</b> (<a class="el" href="classManager.html">Manager</a> &amp;manager)</td></tr>
 <tr class="separator:af3a8b420b0d02f7ab20eeca1182689e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,6 +155,9 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>simulationStep
 <tr class="memitem:a33f59cd3d373acac6e5aad2e2768f17d" id="r_a33f59cd3d373acac6e5aad2e2768f17d"><td class="memItemLeft" align="right" valign="top"><a id="a33f59cd3d373acac6e5aad2e2768f17d" name="a33f59cd3d373acac6e5aad2e2768f17d"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>simulationStepToString</b> (const <a class="el" href="classManager.html">Manager</a> &amp;manager, int stepIndex)</td></tr>
 <tr class="separator:a33f59cd3d373acac6e5aad2e2768f17d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a263820db0ed1d285416e551e04ed13bc" id="r_a263820db0ed1d285416e551e04ed13bc"><td class="memItemLeft" align="right" valign="top"><a id="a263820db0ed1d285416e551e04ed13bc" name="a263820db0ed1d285416e551e04ed13bc"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>connectClient</b> (int port)</td></tr>
+<tr class="separator:a263820db0ed1d285416e551e04ed13bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -158,9 +173,6 @@ ImGui::ComboAutoSelectData&#160;</td><td class="memItemRight" valign="bottom"><b
 <tr class="memitem:a771c4f0784c9477c58436a054c571306" id="r_a771c4f0784c9477c58436a054c571306"><td class="memItemLeft" align="right" valign="top"><a id="a771c4f0784c9477c58436a054c571306" name="a771c4f0784c9477c58436a054c571306"></a>
 ImGui::ComboAutoSelectData&#160;</td><td class="memItemRight" valign="bottom"><b>pathData</b></td></tr>
 <tr class="separator:a771c4f0784c9477c58436a054c571306"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad10aee447a284641f3a45deb4de03a18" id="r_ad10aee447a284641f3a45deb4de03a18"><td class="memItemLeft" align="right" valign="top"><a id="ad10aee447a284641f3a45deb4de03a18" name="ad10aee447a284641f3a45deb4de03a18"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>mapToLoad</b></td></tr>
-<tr class="separator:ad10aee447a284641f3a45deb4de03a18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ad4d001a5bc75e56038ae1fd0e39b7c" id="r_a5ad4d001a5bc75e56038ae1fd0e39b7c"><td class="memItemLeft" align="right" valign="top"><a id="a5ad4d001a5bc75e56038ae1fd0e39b7c" name="a5ad4d001a5bc75e56038ae1fd0e39b7c"></a>
 std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>fileNames</b></td></tr>
 <tr class="separator:a5ad4d001a5bc75e56038ae1fd0e39b7c"><td class="memSeparator" colspan="2">&#160;</td></tr>

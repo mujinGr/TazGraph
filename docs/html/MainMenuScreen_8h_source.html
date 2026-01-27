@@ -109,8 +109,8 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> update(<span class="keywordtype">float</span> deltaTime) <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classMainMenuScreen.html#aa67f739ccd83abfcc3717f613090e96f">prepareDraw</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classMainMenuScreen.html#a911aaf23ef4c76dcf7f939a8cfdd4fc1">renderDraw</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classMainMenuScreen.html#a67f041ce0bc919aecbc4e665eeaa2917">prepareDraw</a>(<span class="keywordtype">int</span> index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classMainMenuScreen.html#ad6d9a2ffc7d7795850944193d2b6ea30">renderDraw</a>(<span class="keywordtype">int</span> index) <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> BeginRender() <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> updateUI(<span class="keywordtype">float</span> deltaTime) <span class="keyword">override</span>;</div>
@@ -129,13 +129,17 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">int</span> _prevSceneIndex = SCENE_INDEX_GRAPHPLAY;</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <a class="code hl_class" href="classMainMenuEditorLayer.html">MainMenuEditorLayer</a> _mainMenuLayer;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>};</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <a class="code hl_class" href="classFramebuffer.html">Framebuffer</a> _main_viewportFramebuffer;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>};</div>
 </div>
+<div class="ttc" id="aclassFramebuffer_html"><div class="ttname"><a href="classFramebuffer.html">Framebuffer</a></div><div class="ttdef"><b>Definition</b> Framebuffer.h:6</div></div>
 <div class="ttc" id="aclassIScene_html"><div class="ttname"><a href="classIScene.html">IScene</a></div><div class="ttdef"><b>Definition</b> IScene.h:25</div></div>
-<div class="ttc" id="aclassMainMenuEditorLayer_html"><div class="ttname"><a href="classMainMenuEditorLayer.html">MainMenuEditorLayer</a></div><div class="ttdef"><b>Definition</b> MainMenuEditorLayer.h:13</div></div>
+<div class="ttc" id="aclassMainMenuEditorLayer_html"><div class="ttname"><a href="classMainMenuEditorLayer.html">MainMenuEditorLayer</a></div><div class="ttdef"><b>Definition</b> MainMenuEditorLayer.h:15</div></div>
 <div class="ttc" id="aclassMainMenuScreen_html"><div class="ttname"><a href="classMainMenuScreen.html">MainMenuScreen</a></div><div class="ttdef"><b>Definition</b> MainMenuScreen.h:9</div></div>
-<div class="ttc" id="aclassMainMenuScreen_html_a911aaf23ef4c76dcf7f939a8cfdd4fc1"><div class="ttname"><a href="classMainMenuScreen.html#a911aaf23ef4c76dcf7f939a8cfdd4fc1">MainMenuScreen::renderDraw</a></div><div class="ttdeci">virtual void renderDraw() override</div><div class="ttdef"><b>Definition</b> MainMenuScreen.cpp:173</div></div>
-<div class="ttc" id="aclassMainMenuScreen_html_aa67f739ccd83abfcc3717f613090e96f"><div class="ttname"><a href="classMainMenuScreen.html#aa67f739ccd83abfcc3717f613090e96f">MainMenuScreen::prepareDraw</a></div><div class="ttdeci">virtual void prepareDraw() override</div><div class="ttdef"><b>Definition</b> MainMenuScreen.cpp:129</div></div>
+<div class="ttc" id="aclassMainMenuScreen_html_a67f041ce0bc919aecbc4e665eeaa2917"><div class="ttname"><a href="classMainMenuScreen.html#a67f041ce0bc919aecbc4e665eeaa2917">MainMenuScreen::prepareDraw</a></div><div class="ttdeci">virtual void prepareDraw(int index) override</div><div class="ttdef"><b>Definition</b> MainMenuScreen.cpp:162</div></div>
+<div class="ttc" id="aclassMainMenuScreen_html_ad6d9a2ffc7d7795850944193d2b6ea30"><div class="ttname"><a href="classMainMenuScreen.html#ad6d9a2ffc7d7795850944193d2b6ea30">MainMenuScreen::renderDraw</a></div><div class="ttdeci">virtual void renderDraw(int index) override</div><div class="ttdef"><b>Definition</b> MainMenuScreen.cpp:207</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

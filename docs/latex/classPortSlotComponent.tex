@@ -2,7 +2,8 @@
 \hypertarget{classPortSlotComponent}{}\label{classPortSlotComponent}\index{PortSlotComponent@{PortSlotComponent}}
 
 
-Inheritance diagram for Port\+Slot\+Component\+:\nopagebreak
+Inheritance diagram for Port\+Slot\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,7 +12,8 @@ Inheritance diagram for Port\+Slot\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Port\+Slot\+Component\+:\nopagebreak
+Collaboration diagram for Port\+Slot\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,6 +22,21 @@ Collaboration diagram for Port\+Slot\+Component\+:\nopagebreak
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classPortSlotComponent_a4510d061bca08c1ce8e7027a02f2f996}{init}} () override
+\item 
+void \mbox{\hyperlink{classPortSlotComponent_adfcfa061e071ca8b07e34a530c409ced}{update}} (float delta\+Time) override
+\item 
+\Hypertarget{classPortSlotComponent_aa11be7fb5fbc4adf0023aa288019c5c3}\label{classPortSlotComponent_aa11be7fb5fbc4adf0023aa288019c5c3} 
+glm\+::vec3 {\bfseries get\+Slot\+Position} () const
+\item 
+void \mbox{\hyperlink{classPortSlotComponent_aeb74a7cdda843d55721358ec2f1c3e60}{draw}} (size\+\_\+t v\+\_\+index, \mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window)
+\item 
+std\+::string \mbox{\hyperlink{classPortSlotComponent_a52f5bba3172190354d1472b89267847a}{Get\+Component\+Name}} () override
+\item 
+void \mbox{\hyperlink{classPortSlotComponent_aacb89f1939bbdb94694537fb72fc6cbe}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components=\{\}) override
+\item 
+void \mbox{\hyperlink{classPortSlotComponent_a73649bc337e969114dc4ca9399cefe83}{show\+GUI}} (std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$ other\+Components, std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$ other\+Entities) override
 \item 
 void \mbox{\hyperlink{classPortSlotComponent_a4510d061bca08c1ce8e7027a02f2f996}{init}} () override
 \item 
@@ -51,7 +68,7 @@ virtual void {\bfseries draw} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classL
 \Hypertarget{classPortSlotComponent_afb77bb5b1e74d1c76b582de834f2ebef}\label{classPortSlotComponent_afb77bb5b1e74d1c76b582de834f2ebef} 
 int {\bfseries index} = -\/1
 \item 
-\Hypertarget{classPortSlotComponent_a07a1c29aae3efd0679f8558f16254246}\label{classPortSlotComponent_a07a1c29aae3efd0679f8558f16254246} 
+\Hypertarget{classPortSlotComponent_a6af146493ecf16fbe83e0d614cf19111}\label{classPortSlotComponent_a6af146493ecf16fbe83e0d614cf19111} 
 \mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
@@ -72,7 +89,17 @@ Component\+ID {\bfseries id} = 0u
 \Hypertarget{classPortSlotComponent_aeb74a7cdda843d55721358ec2f1c3e60}\label{classPortSlotComponent_aeb74a7cdda843d55721358ec2f1c3e60} 
 \index{PortSlotComponent@{PortSlotComponent}!draw@{draw}}
 \index{draw@{draw}!PortSlotComponent@{PortSlotComponent}}
-\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Port\+Slot\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{v\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classPortSlotComponent_aeb74a7cdda843d55721358ec2f1c3e60}\label{classPortSlotComponent_aeb74a7cdda843d55721358ec2f1c3e60} 
+\index{PortSlotComponent@{PortSlotComponent}!draw@{draw}}
+\index{draw@{draw}!PortSlotComponent@{PortSlotComponent}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Port\+Slot\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{v\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneColorRenderer}{Plane\+Color\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
@@ -82,7 +109,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classPortSlotComponent_a52f5bba3172190354d1472b89267847a}\label{classPortSlotComponent_a52f5bba3172190354d1472b89267847a} 
 \index{PortSlotComponent@{PortSlotComponent}!GetComponentName@{GetComponentName}}
 \index{GetComponentName@{GetComponentName}!PortSlotComponent@{PortSlotComponent}}
-\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::string Port\+Slot\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classPortSlotComponent_a52f5bba3172190354d1472b89267847a}\label{classPortSlotComponent_a52f5bba3172190354d1472b89267847a} 
+\index{PortSlotComponent@{PortSlotComponent}!GetComponentName@{GetComponentName}}
+\index{GetComponentName@{GetComponentName}!PortSlotComponent@{PortSlotComponent}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily std\+::string Port\+Slot\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -92,7 +129,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classPortSlotComponent_a4510d061bca08c1ce8e7027a02f2f996}\label{classPortSlotComponent_a4510d061bca08c1ce8e7027a02f2f996} 
 \index{PortSlotComponent@{PortSlotComponent}!init@{init}}
 \index{init@{init}!PortSlotComponent@{PortSlotComponent}}
-\doxysubsubsection{\texorpdfstring{init()}{init()}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Port\+Slot\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classPortSlotComponent_a4510d061bca08c1ce8e7027a02f2f996}\label{classPortSlotComponent_a4510d061bca08c1ce8e7027a02f2f996} 
+\index{PortSlotComponent@{PortSlotComponent}!init@{init}}
+\index{init@{init}!PortSlotComponent@{PortSlotComponent}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Port\+Slot\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -102,7 +149,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classPortSlotComponent_a73649bc337e969114dc4ca9399cefe83}\label{classPortSlotComponent_a73649bc337e969114dc4ca9399cefe83} 
 \index{PortSlotComponent@{PortSlotComponent}!showGUI@{showGUI}}
 \index{showGUI@{showGUI}!PortSlotComponent@{PortSlotComponent}}
-\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily void Port\+Slot\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Entities }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classPortSlotComponent_a73649bc337e969114dc4ca9399cefe83}\label{classPortSlotComponent_a73649bc337e969114dc4ca9399cefe83} 
+\index{PortSlotComponent@{PortSlotComponent}!showGUI@{showGUI}}
+\index{showGUI@{showGUI}!PortSlotComponent@{PortSlotComponent}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
 {\footnotesize\ttfamily void Port\+Slot\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classEntity}{Entity}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Entities }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -112,7 +169,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classPortSlotComponent_aacb89f1939bbdb94694537fb72fc6cbe}\label{classPortSlotComponent_aacb89f1939bbdb94694537fb72fc6cbe} 
 \index{PortSlotComponent@{PortSlotComponent}!showGUI@{showGUI}}
 \index{showGUI@{showGUI}!PortSlotComponent@{PortSlotComponent}}
-\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily void Port\+Slot\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classPortSlotComponent_aacb89f1939bbdb94694537fb72fc6cbe}\label{classPortSlotComponent_aacb89f1939bbdb94694537fb72fc6cbe} 
+\index{PortSlotComponent@{PortSlotComponent}!showGUI@{showGUI}}
+\index{showGUI@{showGUI}!PortSlotComponent@{PortSlotComponent}}
+\doxysubsubsection{\texorpdfstring{showGUI()}{showGUI()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
 {\footnotesize\ttfamily void Port\+Slot\+Component\+::show\+GUI (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classBaseComponent}{Base\+Component}} \texorpdfstring{$\ast$}{*} $>$}]{other\+Components = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -122,7 +189,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classPortSlotComponent_adfcfa061e071ca8b07e34a530c409ced}\label{classPortSlotComponent_adfcfa061e071ca8b07e34a530c409ced} 
 \index{PortSlotComponent@{PortSlotComponent}!update@{update}}
 \index{update@{update}!PortSlotComponent@{PortSlotComponent}}
-\doxysubsubsection{\texorpdfstring{update()}{update()}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Port\+Slot\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classPortSlotComponent_adfcfa061e071ca8b07e34a530c409ced}\label{classPortSlotComponent_adfcfa061e071ca8b07e34a530c409ced} 
+\index{PortSlotComponent@{PortSlotComponent}!update@{update}}
+\index{update@{update}!PortSlotComponent@{PortSlotComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Port\+Slot\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -131,6 +208,7 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/build/\+App\+Dir/\+Taz\+Graph\+Engine/src/\+GECS/\+Components/\+Empty/\+Basic/Port\+Slot\+Component.\+h\item 
 /mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Components/\+Empty/\+Basic/Port\+Slot\+Component.\+h\end{DoxyCompactItemize}

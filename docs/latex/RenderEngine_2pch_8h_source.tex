@@ -35,6 +35,102 @@
 \DoxyCodeLine{00031\ }
 \DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
 \DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//PCH\_H}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ <tracy/public/tracy/Tracy.hpp>}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{comment}{//namespace\ TracyAligned\ \{}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//\#if\ defined(\_WIN32)\ ||\ defined(\_\_CYGWIN\_\_)}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//\#include\ <malloc.h>}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ \ inline\ void*\ aligned\_alloc(size\_t\ alignment,\ size\_t\ size)\ \{}}
+\DoxyCodeLine{00041\ \textcolor{comment}{//\ \ \ \ \ \ return\ \_aligned\_malloc(size,\ alignment);}}
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ \ inline\ void\ aligned\_free(void*\ ptr)\ \{}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ \ \ \ \ \ \_aligned\_free(ptr);}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{00046\ \textcolor{comment}{//\#elif\ defined(\_\_linux\_\_)\ ||\ defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{00047\ \textcolor{comment}{//\#include\ <stdlib.h>}}
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ \ inline\ void*\ aligned\_alloc(size\_t\ alignment,\ size\_t\ size)\ \{}}
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ \ \ \ \ \ void*\ ptr\ =\ nullptr;}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ \ \ \ \ \ if\ (posix\_memalign(\&ptr,\ alignment,\ size)\ !=\ 0)\ \{}}
+\DoxyCodeLine{00051\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ return\ nullptr;}}
+\DoxyCodeLine{00052\ \textcolor{comment}{//\ \ \ \ \ \ \}}}
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ \ \ \ \ \ return\ ptr;}}
+\DoxyCodeLine{00054\ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{00055\ \textcolor{comment}{//\ \ inline\ void\ aligned\_free(void*\ ptr)\ \{}}
+\DoxyCodeLine{00056\ \textcolor{comment}{//\ \ \ \ \ \ free(ptr);}}
+\DoxyCodeLine{00057\ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{00058\ \textcolor{comment}{//\#else}}
+\DoxyCodeLine{00059\ \textcolor{comment}{//\ \ inline\ void*\ aligned\_alloc(size\_t\ alignment,\ size\_t\ size)\ \{}}
+\DoxyCodeLine{00060\ \textcolor{comment}{//\ \ \ \ \ \ size\_t\ extra\ =\ alignment\ -\/\ 1\ +\ sizeof(void*);}}
+\DoxyCodeLine{00061\ \textcolor{comment}{//\ \ \ \ \ \ void*\ original\ =\ malloc(size\ +\ extra);}}
+\DoxyCodeLine{00062\ \textcolor{comment}{//\ \ \ \ \ \ if\ (!original)\ return\ nullptr;}}
+\DoxyCodeLine{00063\ \textcolor{comment}{//}}
+\DoxyCodeLine{00064\ \textcolor{comment}{//\ \ \ \ \ \ void*\ ptr\ =\ reinterpret\_cast<void*>(}}
+\DoxyCodeLine{00065\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ (reinterpret\_cast<uintptr\_t>(original)\ +\ extra)\ \&\ \string~(alignment\ -\/\ 1));}}
+\DoxyCodeLine{00066\ \textcolor{comment}{//\ \ \ \ \ \ reinterpret\_cast<void**>(ptr)[-\/1]\ =\ original;}}
+\DoxyCodeLine{00067\ \textcolor{comment}{//\ \ \ \ \ \ return\ ptr;}}
+\DoxyCodeLine{00068\ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{00069\ \textcolor{comment}{//}}
+\DoxyCodeLine{00070\ \textcolor{comment}{//\ \ inline\ void\ aligned\_free(void*\ ptr)\ \{}}
+\DoxyCodeLine{00071\ \textcolor{comment}{//\ \ \ \ \ \ if\ (!ptr)\ return;}}
+\DoxyCodeLine{00072\ \textcolor{comment}{//\ \ \ \ \ \ void*\ original\ =\ reinterpret\_cast<void**>(ptr)[-\/1];}}
+\DoxyCodeLine{00073\ \textcolor{comment}{//\ \ \ \ \ \ free(original);}}
+\DoxyCodeLine{00074\ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{00075\ \textcolor{comment}{//\#endif}}
+\DoxyCodeLine{00076\ \textcolor{comment}{//}}
+\DoxyCodeLine{00077\ \textcolor{comment}{//\ \ //\ Tracy-\/profiled\ aligned\ allocation}}
+\DoxyCodeLine{00078\ \textcolor{comment}{//\ \ inline\ void*\ tracy\_aligned\_alloc(size\_t\ size,\ size\_t\ alignment)\ \{}}
+\DoxyCodeLine{00079\ \textcolor{comment}{//\ \ \ \ \ \ void*\ ptr\ =\ aligned\_alloc(alignment,\ size);}}
+\DoxyCodeLine{00080\ \textcolor{comment}{//\#ifdef\ TRACY\_ENABLE}}
+\DoxyCodeLine{00081\ \textcolor{comment}{//\ \ \ \ \ \ if\ (ptr)\ \{}}
+\DoxyCodeLine{00082\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ TracyAlloc(ptr,\ size);}}
+\DoxyCodeLine{00083\ \textcolor{comment}{//\ \ \ \ \ \ \}}}
+\DoxyCodeLine{00084\ \textcolor{comment}{//\#endif}}
+\DoxyCodeLine{00085\ \textcolor{comment}{//\ \ \ \ \ \ return\ ptr;}}
+\DoxyCodeLine{00086\ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{00087\ \textcolor{comment}{//}}
+\DoxyCodeLine{00088\ \textcolor{comment}{//\ \ inline\ void\ tracy\_aligned\_free(void*\ ptr)\ \{}}
+\DoxyCodeLine{00089\ \textcolor{comment}{//\ \ \ \ \ \ if\ (!ptr)\ return;}}
+\DoxyCodeLine{00090\ \textcolor{comment}{//\#ifdef\ TRACY\_ENABLE}}
+\DoxyCodeLine{00091\ \textcolor{comment}{//\ \ \ \ \ \ TracyFree(ptr);}}
+\DoxyCodeLine{00092\ \textcolor{comment}{//\#endif}}
+\DoxyCodeLine{00093\ \textcolor{comment}{//\ \ \ \ \ \ aligned\_free(ptr);}}
+\DoxyCodeLine{00094\ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{00095\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{00096\ \textcolor{comment}{//}}
+\DoxyCodeLine{00098\ \textcolor{comment}{//inline\ void*\ operator\ new(size\_t\ size,\ std::align\_val\_t\ al)\ \{}}
+\DoxyCodeLine{00099\ \textcolor{comment}{//\ \ return\ TracyAligned::tracy\_aligned\_alloc(size,\ static\_cast<size\_t>(al));}}
+\DoxyCodeLine{00100\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{00101\ \textcolor{comment}{//}}
+\DoxyCodeLine{00102\ \textcolor{comment}{//inline\ void*\ operator\ new[](size\_t\ size,\ std::align\_val\_t\ al)\ \{}}
+\DoxyCodeLine{00103\ \textcolor{comment}{//\ \ return\ operator\ new(size,\ al);}}
+\DoxyCodeLine{00104\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{00105\ \textcolor{comment}{//}}
+\DoxyCodeLine{00106\ \textcolor{comment}{//inline\ void*\ operator\ new(size\_t\ size)\ \{}}
+\DoxyCodeLine{00107\ \textcolor{comment}{//\#ifdef\ TRACY\_ENABLE}}
+\DoxyCodeLine{00108\ \textcolor{comment}{//\ \ void*\ ptr\ =\ std::malloc(size);}}
+\DoxyCodeLine{00109\ \textcolor{comment}{//\ \ TracyAlloc(ptr,\ size);}}
+\DoxyCodeLine{00110\ \textcolor{comment}{//\ \ return\ ptr;}}
+\DoxyCodeLine{00111\ \textcolor{comment}{//\#else}}
+\DoxyCodeLine{00112\ \textcolor{comment}{//\ \ return\ std::malloc(size);}}
+\DoxyCodeLine{00113\ \textcolor{comment}{//\#endif}}
+\DoxyCodeLine{00114\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{00115\ \textcolor{comment}{//}}
+\DoxyCodeLine{00116\ \textcolor{comment}{//inline\ void\ operator\ delete(void*\ ptr,\ std::align\_val\_t\ al)\ noexcept\ \{}}
+\DoxyCodeLine{00117\ \textcolor{comment}{//\ \ TracyAligned::tracy\_aligned\_free(ptr);}}
+\DoxyCodeLine{00118\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{00119\ \textcolor{comment}{//}}
+\DoxyCodeLine{00120\ \textcolor{comment}{//inline\ void\ operator\ delete[](void*\ ptr,\ std::align\_val\_t\ al)\ noexcept\ \{}}
+\DoxyCodeLine{00121\ \textcolor{comment}{//\ \ operator\ delete(ptr,\ al);}}
+\DoxyCodeLine{00122\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{00123\ \textcolor{comment}{//}}
+\DoxyCodeLine{00124\ \textcolor{comment}{//inline\ void\ operator\ delete(void*\ ptr)\ noexcept\ \{}}
+\DoxyCodeLine{00125\ \textcolor{comment}{//\#ifdef\ TRACY\_ENABLE}}
+\DoxyCodeLine{00126\ \textcolor{comment}{//\ \ TracyFree(ptr);}}
+\DoxyCodeLine{00127\ \textcolor{comment}{//\#endif}}
+\DoxyCodeLine{00128\ \textcolor{comment}{//\ \ std::free(ptr);}}
+\DoxyCodeLine{00129\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//PCH\_H}}
 
 \end{DoxyCode}

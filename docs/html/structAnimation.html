@@ -84,23 +84,60 @@ Inheritance diagram for Animation:</div>
 <map name="aAnimation_inherit__map" id="aAnimation_inherit__map">
 <area shape="rect" title=" " alt="" coords="100,5,189,31"/>
 <area shape="rect" href="structFlashAnimation.html" title=" " alt="" coords="5,79,129,104"/>
-<area shape="poly" title=" " alt="" coords="124,42,82,80,78,76,120,38"/>
+<area shape="poly" title=" " alt="" coords="117,41,75,80,71,76,113,37"/>
+<area shape="poly" title=" " alt="" coords="131,43,88,81,85,77,128,39"/>
 <area shape="rect" href="classMovingAnimation.html" title=" " alt="" coords="153,79,291,104"/>
-<area shape="poly" title=" " alt="" coords="169,38,211,76,208,80,165,42"/>
+<area shape="poly" title=" " alt="" coords="162,39,204,77,201,81,158,43"/>
+<area shape="poly" title=" " alt="" coords="176,37,218,76,214,80,173,41"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a4a53520e7b1569ca3477cf26e4500856" id="r_a4a53520e7b1569ca3477cf26e4500856"><td class="memItemLeft" align="right" valign="top"><a id="a4a53520e7b1569ca3477cf26e4500856" name="a4a53520e7b1569ca3477cf26e4500856"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>animType</b> { <b>ANIMTYPE_NONE</b> = 0
+<tr class="memitem:a4a53520e7b1569ca3477cf26e4500856" id="r_a4a53520e7b1569ca3477cf26e4500856"><td class="memItemLeft" align="right" valign="top"><a id="a4a53520e7b1569ca3477cf26e4500856" name="a4a53520e7b1569ca3477cf26e4500856"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>animType</b> { <br />
+&#160;&#160;<b>ANIMTYPE_NONE</b> = 0
 , <b>ANIMTYPE_PLAY_N_TIMES</b> = 1
 , <b>ANIMTYPE_LOOPED</b> = 2
 , <b>ANIMTYPE_BACK_FORTH</b> = 3
+, <br />
+&#160;&#160;<b>ANIMTYPE_NONE</b> = 0
+, <b>ANIMTYPE_PLAY_N_TIMES</b> = 1
+, <b>ANIMTYPE_LOOPED</b> = 2
+, <b>ANIMTYPE_BACK_FORTH</b> = 3
+<br />
+ }</td></tr>
+<tr class="separator:a4a53520e7b1569ca3477cf26e4500856"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a53520e7b1569ca3477cf26e4500856" id="r_a4a53520e7b1569ca3477cf26e4500856"><td class="memItemLeft" align="right" valign="top"><a id="a4a53520e7b1569ca3477cf26e4500856" name="a4a53520e7b1569ca3477cf26e4500856"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>animType</b> { <br />
+&#160;&#160;<b>ANIMTYPE_NONE</b> = 0
+, <b>ANIMTYPE_PLAY_N_TIMES</b> = 1
+, <b>ANIMTYPE_LOOPED</b> = 2
+, <b>ANIMTYPE_BACK_FORTH</b> = 3
+, <br />
+&#160;&#160;<b>ANIMTYPE_NONE</b> = 0
+, <b>ANIMTYPE_PLAY_N_TIMES</b> = 1
+, <b>ANIMTYPE_LOOPED</b> = 2
+, <b>ANIMTYPE_BACK_FORTH</b> = 3
+<br />
  }</td></tr>
 <tr class="separator:a4a53520e7b1569ca3477cf26e4500856"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a64b6ffeffccf726c65d2e9e1060ca768" id="r_a64b6ffeffccf726c65d2e9e1060ca768"><td class="memItemLeft" align="right" valign="top"><a id="a64b6ffeffccf726c65d2e9e1060ca768" name="a64b6ffeffccf726c65d2e9e1060ca768"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Animation</b> (int ix, int iy, size_t f, float s, const std::string _type, int _reps=0)</td></tr>
+<tr class="separator:a64b6ffeffccf726c65d2e9e1060ca768"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82437e57e42155a17c4553e74f6b15dd" id="r_a82437e57e42155a17c4553e74f6b15dd"><td class="memItemLeft" align="right" valign="top"><a id="a82437e57e42155a17c4553e74f6b15dd" name="a82437e57e42155a17c4553e74f6b15dd"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Animation</b> (int ix, int iy, size_t f, float s, const animType _type, int _reps=0)</td></tr>
+<tr class="separator:a82437e57e42155a17c4553e74f6b15dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07399a3186895976748b0242528e22b7" id="r_a07399a3186895976748b0242528e22b7"><td class="memItemLeft" align="right" valign="top"><a id="a07399a3186895976748b0242528e22b7" name="a07399a3186895976748b0242528e22b7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>advanceFrame</b> (float deltaTime)</td></tr>
+<tr class="separator:a07399a3186895976748b0242528e22b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a001b199e6952ef158283cb84cdbc3421" id="r_a001b199e6952ef158283cb84cdbc3421"><td class="memItemLeft" align="right" valign="top"><a id="a001b199e6952ef158283cb84cdbc3421" name="a001b199e6952ef158283cb84cdbc3421"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>resetFrameIndex</b> ()</td></tr>
+<tr class="separator:a001b199e6952ef158283cb84cdbc3421"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99f2268b72a10e199c51264f218b3c2a" id="r_a99f2268b72a10e199c51264f218b3c2a"><td class="memItemLeft" align="right" valign="top"><a id="a99f2268b72a10e199c51264f218b3c2a" name="a99f2268b72a10e199c51264f218b3c2a"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasFinished</b> ()</td></tr>
+<tr class="separator:a99f2268b72a10e199c51264f218b3c2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64b6ffeffccf726c65d2e9e1060ca768" id="r_a64b6ffeffccf726c65d2e9e1060ca768"><td class="memItemLeft" align="right" valign="top"><a id="a64b6ffeffccf726c65d2e9e1060ca768" name="a64b6ffeffccf726c65d2e9e1060ca768"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Animation</b> (int ix, int iy, size_t f, float s, const std::string _type, int _reps=0)</td></tr>
 <tr class="separator:a64b6ffeffccf726c65d2e9e1060ca768"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,8 +193,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>flow_direction</b> = 1
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>finished</b> = false</td></tr>
 <tr class="separator:a1170889964a9c5ee8ca167e164126bf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Animators/<a class="el" href="Animation_8h_source.html">Animation.h</a></li>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/build/AppDir/TazGraphEngine/src/GECS/Animators/<a class="el" href="build_2AppDir_2TazGraphEngine_2src_2GECS_2Animators_2Animation_8h_source.html">Animation.h</a></li>
+<li>/mnt/c/Users/lefte/Mujin/MastersThesis/Taz/TazGraph/TazGraphEngine/src/GECS/Animators/<a class="el" href="TazGraphEngine_2src_2GECS_2Animators_2Animation_8h_source.html">Animation.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

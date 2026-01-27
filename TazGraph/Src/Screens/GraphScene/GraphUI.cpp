@@ -40,7 +40,7 @@ void Graph::drawUI() {
 
 		.selectedEntities = &_selectedEntities,
 
-		.map = map,
+		.graphLoader = graphLoader,
 
 		.onHoverEntity = _onHoverEntity,
 		.displayedEntity = _displayedEntity,

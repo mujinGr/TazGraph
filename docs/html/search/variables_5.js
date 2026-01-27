@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nextgroup_0',['nextGroup',['../classManager.html#a984e722f0dba12a6a2c3da1db7222987',1,'Manager']]]
+  ['manager_0',['manager',['../classEntity.html#a8c776372c68ea73b2b588e7c8837b315',1,'Entity']]]
 ];

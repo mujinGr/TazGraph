@@ -59,8 +59,14 @@ void AppInterface::run() {
 	_limiter.setMaxFPS(60.0f);
 
 	while (_isRunning) {
+		int tracy_index = 1 - activeIndex.load();
 		ZoneScoped;
+		ZoneName("Run", tracy_index);
 		FrameMark;
+
+
+
+
 
 		_limiter.begin();
 
@@ -78,6 +84,7 @@ void AppInterface::run() {
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
 			{
+
 				update(deltaTime);
 			}
 
@@ -92,49 +99,47 @@ void AppInterface::run() {
 		}
 
 		if (_isRunning) {
+			int writeIndex = 1 - activeIndex.load();
+			//TAZ_LOG("prepareDraw Write" + oss.str());
 			{
-				std::unique_lock<std::mutex> lock(frameMutex);
-				frameConsumedCV.wait(lock, [this]() {
-					return frameConsumed.load() || !_isRunning;
-					});
-
+				queues[writeIndex].Wait();
+				SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
+				glFlush(); //! This is is necessary to avoid white flashes
+				//! It makes CPU to wait for GPU, because when entering prepare draw
+				//! it may be seemingly from CPU side that swapBuffer has finished
+				//! but from GPU side it has not. White flashes are caused by ultra fast
+				//! prepareDraw.
+				SDL_GL_MakeCurrent(_window._sdlWindow, nullptr);
 				if (!_isRunning) break;
 			}
 
-			prepareDraw();
+			prepareDraw(writeIndex);
 
+			// Make builded frame ready
+			activeIndex.store(writeIndex);
 
 		}
 		if (_isRunning) {
 			// Get the write index (opposite of active)
-			int writeIndex = 1 - activeIndex.load();
+			int readIndex = activeIndex.load();
 
-			queues[writeIndex].Submit([this]() {
+			queues[readIndex].Submit([this, readIndex]() {
+
 				// Process ImGui events on render thread
 				{
+					ZoneScopedN("Process Input");
+
 					std::lock_guard<std::mutex> lock(imguiEventsMutex);
 					for (auto& event : imguiEvents) {
 						ImGui_ImplSDL2_ProcessEvent(&event);
 					}
+					imguiEvents.clear();
 				}
-				renderDraw();
-				});
-			queues[writeIndex].Submit([this]() {
+				renderDraw(readIndex);
 				drawUI();  // This calls ImGui rendering - MUST be on render thread
-				});
-			queues[writeIndex].Submit([this]() {
 				swapBuffer();  // This calls ImGui rendering - MUST be on render thread
 				});
-			// Swap buffers - make write buffer active
-			activeIndex.store(writeIndex);
 
-			// Signal frame ready
-			{
-				std::lock_guard<std::mutex> lock(frameMutex);
-				frameConsumed.store(false);
-				frameReady.store(true);
-			}
-			frameReadyCV.notify_one();
 		}
 
 		_limiter.end();
@@ -146,7 +151,6 @@ void AppInterface::run() {
 		}
 		TracyPlot("FPS", _limiter.fps); // Plot FPS over time
 		TracyPlot("Frame Time (ms)", frameTime); // Plot frame time
-		FrameMark;
 	}
 }
 
@@ -160,7 +164,6 @@ void AppInterface::enqueueRenderCommand(std::function<void()> cmd) {
 }
 
 void AppInterface::waitForRenderCommand() {
-	TAZ_LOG("Waiting for render command...");
 	std::unique_lock<std::mutex> lock(initMutex);
 	initCV.wait(lock, [this]() {
 		return initCommandComplete.load();
@@ -172,23 +175,14 @@ void AppInterface::waitForRenderThreadExit() {
 
 		int writeIndex = 1 - activeIndex.load();
 
-		queues[writeIndex].Submit([this]() {
-			planeModelRenderer.dispose();
-			lineRenderer.dispose();
-			planeColorRenderer.dispose();
-			lightRenderer.dispose();
+		queues[writeIndex].Submit([this, writeIndex]() {
+			disposeRenderers(writeIndex);
 			resourceManager.disposeGLSLPrograms();
 			});
 
 		// Signal the render thread to exit
 		_isRunning = false;
 
-		// Wake it up if it's waiting on any condition variable
-		{
-			std::lock_guard<std::mutex> lock(frameMutex);
-			frameReadyCV.notify_all();
-			frameConsumedCV.notify_all();
-		}
 		{
 			std::lock_guard<std::mutex> lock(initMutex);
 			initCV.notify_all();
@@ -204,24 +198,17 @@ void AppInterface::RenderThreadFunc() {
 	SDL_GL_MakeCurrent(_window._sdlWindow, _window.glContext);
 	tracy::SetThreadName("Render Thread");
 
+	int renderIndex = 1;
+
 	while (_isRunning)
 	{
 		bool shouldProcessFrame = false;
 		bool shouldProcessInit = false;
 
 		{
-			std::unique_lock<std::mutex> lock(frameMutex);
-
-			// Wait for either frame ready OR a short timeout to check init commands
-			frameReadyCV.wait_for(lock, std::chrono::milliseconds(1), [this]() {
-				return frameReady.load() || !_isRunning;
-				});
-
 			if (!_isRunning) break;
 
-			if (frameReady.load()) {
-				shouldProcessFrame = true;
-			}
+			shouldProcessFrame = true;
 		}
 
 		// Check for init commands (without blocking frame rendering)
@@ -236,7 +223,6 @@ void AppInterface::RenderThreadFunc() {
 		if (shouldProcessInit) {
 			std::lock_guard<std::mutex> lock(initMutex);
 			if (initCommandReady.load()) {
-				TAZ_LOG("Executing init command");
 				initQueue.Execute();
 				initCommandReady.store(false);
 				initCommandComplete.store(true);
@@ -246,19 +232,16 @@ void AppInterface::RenderThreadFunc() {
 
 		// Process frame rendering
 		if (shouldProcessFrame) {
-			int readIndex = activeIndex.load();
+			std::string oss = "Execute Render Commands" + renderIndex;
+			if (queues[renderIndex].isReady) {
+				ZoneScoped;
+				ZoneName(oss.c_str(), renderIndex);
 
-			{
-				ZoneScopedN("Execute Render Commands");
-				queues[readIndex].Execute();
-			}
+				glFlush();
 
-			{
-				std::lock_guard<std::mutex> lock(frameMutex);
-				frameReady.store(false);
-				frameConsumed.store(true);
+				queues[renderIndex].Execute();
+				renderIndex = 1 - renderIndex;
 			}
-			frameConsumedCV.notify_one();
 		}
 	}
 
@@ -330,7 +313,7 @@ void AppInterface::onSDLEvent(SDL_Event& evnt) {
 
 bool AppInterface::init() {
 	//Initialize SDL
-	SDL_Init(SDL_INIT_EVERYTHING);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 
 	//Tell SDL that we want a double buffered window so we dont get
 	//any flickering
@@ -370,7 +353,7 @@ bool AppInterface::init() {
 }
 
 void AppInterface::initRenderers() {
-	planeModelRenderer.init();
+	/*planeModelRenderer.init();
 	generateSphereMesh(
 		lightRenderer.sphereVertices,
 		lightRenderer.sphereIndices);
@@ -386,7 +369,7 @@ void AppInterface::initRenderers() {
 	generateSphereMesh(
 		planeColorRenderer.sphereVertices,
 		planeColorRenderer.sphereIndices);
-	planeColorRenderer.init();
+	planeColorRenderer.init();*/
 }
 
 bool AppInterface::initSystems() {
@@ -422,9 +405,15 @@ void AppInterface::update(float deltaTime) {
 		switch (_sceneList->getCurrent()->getState()) {
 		case SceneState::CHANGE_NEXT:
 			_sceneList->getCurrent()->onExit();
+
+			queues[0].Wait();
+			queues[1].Wait();
+
 			_sceneList->moveNext();
 			if (_sceneList->getCurrent()) {
 				_sceneList->getCurrent()->setRunning();
+
+
 				_sceneList->getCurrent()->onEntry();
 			}
 			break;
@@ -451,27 +440,26 @@ void AppInterface::update(float deltaTime) {
 	default:
 		break;
 	}
-
 }
 
-void AppInterface::prepareDraw()
+void AppInterface::prepareDraw(int index)
 {
 	if (!_sceneList || !_sceneList->getCurrent())
 		return;
 
 	if (_sceneList->getCurrent()->getState() == SceneState::RUNNING) {
-		_sceneList->getCurrent()->prepareDraw();
+		_sceneList->getCurrent()->prepareDraw(index);
 	}
 }
 
-void AppInterface::renderDraw()
+void AppInterface::renderDraw(int index)
 {
 	glViewport(0, 0, _window.getScreenWidth(), _window.getScreenHeight());
 	if (!_sceneList || !_sceneList->getCurrent())
 		return;
 
 	if (_sceneList->getCurrent()->getState() == SceneState::RUNNING) {
-		_sceneList->getCurrent()->renderDraw();
+		_sceneList->getCurrent()->renderDraw(index);
 	}
 }
 
@@ -496,6 +484,14 @@ void AppInterface::drawUI()
 	}
 	// Rendering
 	_sceneList->getCurrent()->EndRender();
+}
+
+void AppInterface::disposeRenderers(int index) {
+	if (!_sceneList || !_sceneList->getCurrent())
+		return;
+	if (_sceneList->getCurrent()->getState() == SceneState::RUNNING) {
+		_sceneList->getCurrent()->disposeRenderers(index);
+	}
 }
 
 void AppInterface::swapBuffer()

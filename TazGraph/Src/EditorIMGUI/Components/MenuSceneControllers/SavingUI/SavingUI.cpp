@@ -11,8 +11,20 @@ void SavingUI::OnImGuiRender()
 	ImGui::SetNextWindowSize(windowSize);
 
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize;
-	bool open = true;
-	ImGui::Begin("Saving...", &open, window_flags);
+	
+	bool open = DataManager::getInstance().saving;
+
+	if (!ImGui::IsPopupOpen("Saving...")) {
+		ImGui::OpenPopup("Saving...");
+	}
+
+	ImGui::BeginPopupModal("Saving...", &open, window_flags);
+
+	if (!open) {
+		DataManager::getInstance().saving = false;
+		ImGui::CloseCurrentPopup();
+		return;
+	}
 
 	DataManager::getInstance().ReloadAccessibleFiles();
 
@@ -31,9 +43,6 @@ void SavingUI::OnImGuiRender()
 		DataManager::getInstance().filesLoaded = false;
 	}
 
-	if (!open) {
-		DataManager::getInstance().saving = false;
-	}
 
-	ImGui::End();
+	ImGui::EndPopup();
 }

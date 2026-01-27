@@ -11,6 +11,7 @@ void GraphEditorLayer::OnImGuiRender()
 
 	ImGuiInterface::StyleColorsCustom(&ImGui::GetStyle());
 
+
 	if (ImGui::Begin("Main Window", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus))
 	{
 		getSubcomponent<MenuDropdownPanel>()->setConfig({ .scene = config.scene });
@@ -168,7 +169,7 @@ void GraphEditorLayer::OnImGuiRender()
 		if (DataManager::getInstance().isSaving()) {
 			getSubcomponent<MenuDropdownPanel>()->
 				getSubcomponent<SavingUI>()->setConfig({
-				.c_map = config.map
+				.c_map = config.graphLoader
 					});
 			getSubcomponent<MenuDropdownPanel>()->
 				getSubcomponent<SavingUI>()->
@@ -223,19 +224,18 @@ void GraphEditorLayer::OnImGuiRender()
 
 			char* loadMapPath = DataManager::getInstance().data.input;
 			if (strlen(loadMapPath) && !DataManager::getInstance().isLoading()) {
-				DataManager::getInstance().mapToLoad = loadMapPath;
+				DataManager::getInstance().setMapToLoad(loadMapPath);
 			}
 		}
 		if (!config.scene->getApp()->openFile.empty()) {
-			DataManager::getInstance().mapToLoad =
-				config.scene->getApp()->openFile;
+			DataManager::getInstance().setMapToLoad(config.scene->getApp()->openFile);
 		}
 		if (DataManager::getInstance().isLoadingPath()) {
 			DataManager::getInstance().setPathLoading(false);
 
 			std::string loadPathName = DataManager::getInstance().getPathLoading();
 
-			config.map->loadPaths(loadPathName.c_str(),
+			config.graphLoader->loadPaths(loadPathName.c_str(),
 				std::bind(&AssetManager::AddDefaultNode, std::placeholders::_1, std::placeholders::_2),
 				std::bind(&AssetManager::AddPathLink, std::placeholders::_1),
 				nullptr);

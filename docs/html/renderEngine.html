@@ -99,8 +99,7 @@ Graph Rendering Pipeline</h3>
 </div><!-- fragment --><h4><a class="anchor" id="autotoc_md10"></a>
 3. Render Batching (Multithreaded)</h4>
 <p>Entities are grouped and passed to the appropriate renderer via renderBatch. This uses multithreading to fill buffers (meshElements &amp; meshArrays) efficiently.</p>
-<div class="fragment"><div class="line"> cpp</div>
-<div class="line">renderBatch(</div>
+<div class="fragment"><div class="line">renderBatch(</div>
 <div class="line">    manager-&gt;getVisibleGroup&lt;<a class="code hl_class" href="classLinkEntity.html">LinkEntity</a>&gt;(Manager::groupLinks_0),</div>
 <div class="line">    _LineRenderer</div>
 <div class="line">);</div>
@@ -108,8 +107,7 @@ Graph Rendering Pipeline</h3>
 </div><!-- fragment --><h4><a class="anchor" id="autotoc_md11"></a>
 4. Instance Rendering</h4>
 <p>After batching, each renderer draws its instances and clears its buffers:</p>
-<div class="fragment"><div class="line"> cpp</div>
-<div class="line">_PlaneColorRenderer.end();</div>
+<div class="fragment"><div class="line">_PlaneColorRenderer.end();</div>
 <div class="line">_PlaneColorRenderer.renderBatch(&amp;glsl_color);</div>
 <div class="line">glsl_color.unuse();</div>
 </div><!-- fragment --><p> Repeat for each renderer (e.g. _LineRenderer, _PlaneModelRenderer, _LightRenderer) in your preferred draw order.</p>

@@ -76,7 +76,7 @@ $(function() {
   <div class="headertitle"><div class="title">Python Commands</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>These are some of the commands supported: </p><div class="fragment"><div class="line">- addNode</div>
+<div class="textblock"><p>#Commands: These are some of the commands supported: </p><div class="fragment"><div class="line">- addNode</div>
 <div class="line">- addLink</div>
 <div class="line">- getNodes</div>
 <div class="line">- getCurrentStep</div>
@@ -84,8 +84,23 @@ $(function() {
 <div class="line">- deepCopyNode</div>
 <div class="line">- deleteEntities</div>
 </div><!-- fragment --><p> <b>.</b> <b>.</b> <b>.</b></p>
-<p>You can add more at <code>cpp TazGraph/Src/AssetManager/PythonEngineUtil.cpp</code> If you need to add function related to control of simdump simulation go to: <code>cpp <a class="el" href="DataManager_8h_source.html">TazGraphEngine/src/DataManager/DataManager.h</a></code> </p>
-</div></div><!-- contents -->
+<p>You can add more at </p><div class="fragment"><div class="line">TazGraph/Src/AssetManager/<a class="code hl_class" href="classPythonEngineCommands.html">PythonEngineCommands</a>.cpp </div>
+<div class="ttc" id="aclassPythonEngineCommands_html"><div class="ttname"><a href="classPythonEngineCommands.html">PythonEngineCommands</a></div><div class="ttdef"><b>Definition</b> PythonEngineCommands.h:8</div></div>
+</div><!-- fragment --><p> If you need to add function related to control of simdump simulation go to: </p><div class="fragment"><div class="line">TazGraphEngine/src/<a class="code hl_class" href="classDataManager.html">DataManager</a>/<a class="code hl_class" href="classDataManager.html">DataManager</a>.h </div>
+<div class="ttc" id="aclassDataManager_html"><div class="ttname"><a href="classDataManager.html">DataManager</a></div><div class="ttdef"><b>Definition</b> DataManager.h:28</div></div>
+</div><!-- fragment --><p>#Save/Load Python state Using python, we can also save the state of envirnoment in .pkl format by executing: </p><div class="fragment"><div class="line"><span class="keyword">import</span> pickle</div>
+<div class="line"> </div>
+<div class="line">def my_object():</div>
+<div class="line">    return 4;</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">with open(<span class="stringliteral">&quot;state.pkl&quot;</span>, <span class="stringliteral">&quot;wb&quot;</span>) as f:</div>
+<div class="line">    pickle.dump(my_object, f)</div>
+</div><!-- fragment --><p>To load, do: </p><div class="fragment"><div class="line">with open(<span class="stringliteral">&quot;state.pkl&quot;</span>, <span class="stringliteral">&quot;rb&quot;</span>) as f:</div>
+<div class="line">    my_object = pickle.load(f)</div>
+<div class="line"> </div>
+<div class="line">print(my_object());</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

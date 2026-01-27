@@ -3,6 +3,18 @@
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+\Hypertarget{classDataManager_ac7d9917440c90632c60a5abbc9867fb4}\label{classDataManager_ac7d9917440c90632c60a5abbc9867fb4} 
+void {\bfseries set\+Map\+To\+Load} (const std\+::string \&name)
+\item 
+\Hypertarget{classDataManager_a6a246d7d29967b50fb6f491e669da6be}\label{classDataManager_a6a246d7d29967b50fb6f491e669da6be} 
+std\+::string {\bfseries get\+Map\+To\+Load} ()
+\item 
+\Hypertarget{classDataManager_a952fd0dd33b2da17c2931679666aa571}\label{classDataManager_a952fd0dd33b2da17c2931679666aa571} 
+bool {\bfseries get\+Manager\+Change\+Requested} ()
+\item 
+\Hypertarget{classDataManager_a0ab08b7e94f4f8802a021e26ba798d20}\label{classDataManager_a0ab08b7e94f4f8802a021e26ba798d20} 
+void {\bfseries set\+Manager\+Change\+Requested} (bool m\+\_\+request)
+\item 
 \Hypertarget{classDataManager_aefd06b6ec638a4a21e323f356a72b0b8}\label{classDataManager_aefd06b6ec638a4a21e323f356a72b0b8} 
 void {\bfseries set\+Path\+Loading} (bool loading)
 \item 
@@ -45,8 +57,8 @@ void {\bfseries Reload\+Accessible\+Files} ()
 \Hypertarget{classDataManager_a59fd3a4c38f2b4aad39b793a1d501864}\label{classDataManager_a59fd3a4c38f2b4aad39b793a1d501864} 
 void {\bfseries apply\+Step} (\mbox{\hyperlink{classManager}{Manager}} \&manager, int transition\+To\+Step)
 \item 
-\Hypertarget{classDataManager_abce932e90452f3bf1fee16b0331f8e8c}\label{classDataManager_abce932e90452f3bf1fee16b0331f8e8c} 
-void {\bfseries copy\+Simulation\+Step\+To} (\mbox{\hyperlink{classManager}{Manager}} \&manager, sim\+\_\+dump\+::\+UInt32 source\+Step\+Index, sim\+\_\+dump\+::\+UInt32 target\+Step\+Index, double target\+Timestamp)
+\Hypertarget{classDataManager_a12a11eb6f1133c24270409615a106da1}\label{classDataManager_a12a11eb6f1133c24270409615a106da1} 
+\mbox{\hyperlink{structSimulationStep}{Simulation\+Step}} {\bfseries deep\+Copy\+Simulation\+Step\+To} (\mbox{\hyperlink{classManager}{Manager}} \&manager, sim\+\_\+dump\+::\+UInt32 source\+Step\+Index)
 \item 
 \Hypertarget{classDataManager_af3a8b420b0d02f7ab20eeca1182689e3}\label{classDataManager_af3a8b420b0d02f7ab20eeca1182689e3} 
 void {\bfseries reindex\+Steps} (\mbox{\hyperlink{classManager}{Manager}} \&manager)
@@ -65,6 +77,9 @@ std\+::string {\bfseries simulation\+Step\+To\+String} (const \mbox{\hyperlink{s
 \item 
 \Hypertarget{classDataManager_a33f59cd3d373acac6e5aad2e2768f17d}\label{classDataManager_a33f59cd3d373acac6e5aad2e2768f17d} 
 std\+::string {\bfseries simulation\+Step\+To\+String} (const \mbox{\hyperlink{classManager}{Manager}} \&manager, int step\+Index)
+\item 
+\Hypertarget{classDataManager_a263820db0ed1d285416e551e04ed13bc}\label{classDataManager_a263820db0ed1d285416e551e04ed13bc} 
+void {\bfseries connect\+Client} (int port)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
@@ -80,9 +95,6 @@ Im\+Gui\+::\+Combo\+Auto\+Select\+Data {\bfseries data}
 \item 
 \Hypertarget{classDataManager_a771c4f0784c9477c58436a054c571306}\label{classDataManager_a771c4f0784c9477c58436a054c571306} 
 Im\+Gui\+::\+Combo\+Auto\+Select\+Data {\bfseries path\+Data}
-\item 
-\Hypertarget{classDataManager_ad10aee447a284641f3a45deb4de03a18}\label{classDataManager_ad10aee447a284641f3a45deb4de03a18} 
-std\+::string {\bfseries map\+To\+Load}
 \item 
 \Hypertarget{classDataManager_a5ad4d001a5bc75e56038ae1fd0e39b7c}\label{classDataManager_a5ad4d001a5bc75e56038ae1fd0e39b7c} 
 std\+::vector$<$ std\+::string $>$ {\bfseries file\+Names}

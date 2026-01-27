@@ -1,9 +1,11 @@
 <map id="EmptyPythonCodeComponent" name="EmptyPythonCodeComponent">
 <area shape="rect" id="Node000001" title=" " alt="" coords="41,152,259,177"/>
 <area shape="rect" id="Node000002" href="$classComponent.html" title=" " alt="" coords="21,79,119,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,111,139,150,135,154,91,115"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,112,132,150,128,154,84,116"/>
+<area shape="poly" id="edge4_Node000001_Node000002" title=" " alt="" coords="102,111,146,150,142,154,99,115"/>
 <area shape="rect" id="Node000003" href="$classBaseComponent.html" title=" " alt="" coords="5,5,135,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="73,44,73,79,67,79,67,44"/>
 <area shape="rect" id="Node000004" href="$classPythonCodeComponent.html" title=" " alt="" coords="143,79,317,104"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="209,115,165,154,161,150,205,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="201,115,158,154,154,150,198,111"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="216,116,172,154,168,150,212,112"/>
 </map>

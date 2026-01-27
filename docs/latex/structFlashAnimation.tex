@@ -2,7 +2,8 @@
 \hypertarget{structFlashAnimation}{}\label{structFlashAnimation}\index{FlashAnimation@{FlashAnimation}}
 
 
-Inheritance diagram for Flash\+Animation\+:\nopagebreak
+Inheritance diagram for Flash\+Animation\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,18 +12,38 @@ Inheritance diagram for Flash\+Animation\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Flash\+Animation\+:\nopagebreak
+Collaboration diagram for Flash\+Animation\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=292pt]{structFlashAnimation__coll__graph}
+\includegraphics[width=305pt]{structFlashAnimation__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
 \Hypertarget{structFlashAnimation_af6961fc91c477745a0a4fa003a533045}\label{structFlashAnimation_af6961fc91c477745a0a4fa003a533045} 
-enum class {\bfseries Flash\+State} \{ {\bfseries FLASH\+\_\+\+OUT}
+enum class {\bfseries Flash\+State} \{ \newline
+{\bfseries FLASH\+\_\+\+OUT}
+, {\bfseries EASE\+\_\+\+IN}
+, {\bfseries FLASH\+\_\+\+IN}
+, {\bfseries EASE\+\_\+\+OUT}
+, \newline
+{\bfseries FLASH\+\_\+\+OUT}
+, {\bfseries EASE\+\_\+\+IN}
+, {\bfseries FLASH\+\_\+\+IN}
+, {\bfseries EASE\+\_\+\+OUT}
+ \}
+\item 
+\Hypertarget{structFlashAnimation_af6961fc91c477745a0a4fa003a533045}\label{structFlashAnimation_af6961fc91c477745a0a4fa003a533045} 
+enum class {\bfseries Flash\+State} \{ \newline
+{\bfseries FLASH\+\_\+\+OUT}
+, {\bfseries EASE\+\_\+\+IN}
+, {\bfseries FLASH\+\_\+\+IN}
+, {\bfseries EASE\+\_\+\+OUT}
+, \newline
+{\bfseries FLASH\+\_\+\+OUT}
 , {\bfseries EASE\+\_\+\+IN}
 , {\bfseries FLASH\+\_\+\+IN}
 , {\bfseries EASE\+\_\+\+OUT}
@@ -32,7 +53,26 @@ enum class {\bfseries Flash\+State} \{ {\bfseries FLASH\+\_\+\+OUT}
 \begin{DoxyCompactItemize}
 \item 
 \Hypertarget{structAnimation_a4a53520e7b1569ca3477cf26e4500856}\label{structAnimation_a4a53520e7b1569ca3477cf26e4500856} 
-enum {\bfseries anim\+Type} \{ {\bfseries ANIMTYPE\+\_\+\+NONE} = 0
+enum {\bfseries anim\+Type} \{ \newline
+{\bfseries ANIMTYPE\+\_\+\+NONE} = 0
+, {\bfseries ANIMTYPE\+\_\+\+PLAY\+\_\+\+N\+\_\+\+TIMES} = 1
+, {\bfseries ANIMTYPE\+\_\+\+LOOPED} = 2
+, {\bfseries ANIMTYPE\+\_\+\+BACK\+\_\+\+FORTH} = 3
+, \newline
+{\bfseries ANIMTYPE\+\_\+\+NONE} = 0
+, {\bfseries ANIMTYPE\+\_\+\+PLAY\+\_\+\+N\+\_\+\+TIMES} = 1
+, {\bfseries ANIMTYPE\+\_\+\+LOOPED} = 2
+, {\bfseries ANIMTYPE\+\_\+\+BACK\+\_\+\+FORTH} = 3
+ \}
+\item 
+\Hypertarget{structAnimation_a4a53520e7b1569ca3477cf26e4500856}\label{structAnimation_a4a53520e7b1569ca3477cf26e4500856} 
+enum {\bfseries anim\+Type} \{ \newline
+{\bfseries ANIMTYPE\+\_\+\+NONE} = 0
+, {\bfseries ANIMTYPE\+\_\+\+PLAY\+\_\+\+N\+\_\+\+TIMES} = 1
+, {\bfseries ANIMTYPE\+\_\+\+LOOPED} = 2
+, {\bfseries ANIMTYPE\+\_\+\+BACK\+\_\+\+FORTH} = 3
+, \newline
+{\bfseries ANIMTYPE\+\_\+\+NONE} = 0
 , {\bfseries ANIMTYPE\+\_\+\+PLAY\+\_\+\+N\+\_\+\+TIMES} = 1
 , {\bfseries ANIMTYPE\+\_\+\+LOOPED} = 2
 , {\bfseries ANIMTYPE\+\_\+\+BACK\+\_\+\+FORTH} = 3
@@ -40,6 +80,18 @@ enum {\bfseries anim\+Type} \{ {\bfseries ANIMTYPE\+\_\+\+NONE} = 0
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structFlashAnimation_a54207399bf7ce116168dfe0e34a430ae}\label{structFlashAnimation_a54207399bf7ce116168dfe0e34a430ae} 
+{\bfseries Flash\+Animation} (size\+\_\+t f, float s, const std\+::string \+\_\+type, const std\+::vector$<$ float $>$ \&flash\+Times, \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} flashC, int \+\_\+reps=0)
+\item 
+\Hypertarget{structFlashAnimation_a30a4ced2f11f91d09d88f4ee69d7fa4e}\label{structFlashAnimation_a30a4ced2f11f91d09d88f4ee69d7fa4e} 
+{\bfseries Flash\+Animation} (size\+\_\+t f, float s, const anim\+Type \+\_\+type, const std\+::vector$<$ float $>$ \&flash\+Times, \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} flashC, int \+\_\+reps=0)
+\item 
+\Hypertarget{structFlashAnimation_a4e4288c7ff1d093540151b68fd51cce9}\label{structFlashAnimation_a4e4288c7ff1d093540151b68fd51cce9} 
+void {\bfseries advance\+Frame} (float delta\+Time)
+\item 
+\Hypertarget{structFlashAnimation_a7a07d0336b052dda7c5660c37713387e}\label{structFlashAnimation_a7a07d0336b052dda7c5660c37713387e} 
+std\+::vector$<$ float $>$ {\bfseries get\+Speeds\+As\+Vector} () const
 \item 
 \Hypertarget{structFlashAnimation_a54207399bf7ce116168dfe0e34a430ae}\label{structFlashAnimation_a54207399bf7ce116168dfe0e34a430ae} 
 {\bfseries Flash\+Animation} (size\+\_\+t f, float s, const std\+::string \+\_\+type, const std\+::vector$<$ float $>$ \&flash\+Times, \mbox{\hyperlink{structTazGraphEngine_1_1Color}{Taz\+Color}} flashC, int \+\_\+reps=0)
@@ -65,6 +117,16 @@ void {\bfseries advance\+Frame} (float delta\+Time)
 void {\bfseries reset\+Frame\+Index} ()
 \item 
 bool {\bfseries has\+Finished} ()
+\item 
+{\bfseries Animation} (int ix, int iy, size\+\_\+t f, float s, const std\+::string \+\_\+type, int \+\_\+reps=0)
+\item 
+{\bfseries Animation} (int ix, int iy, size\+\_\+t f, float s, const anim\+Type \+\_\+type, int \+\_\+reps=0)
+\item 
+void {\bfseries advance\+Frame} (float delta\+Time)
+\item 
+void {\bfseries reset\+Frame\+Index} ()
+\item 
+bool {\bfseries has\+Finished} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -72,7 +134,7 @@ bool {\bfseries has\+Finished} ()
 \Hypertarget{structFlashAnimation_a667b1c806d9adb59dd170ba6a7d45b08}\label{structFlashAnimation_a667b1c806d9adb59dd170ba6a7d45b08} 
 float {\bfseries interpolation\+\_\+a} = 0.\+0f
 \item 
-\Hypertarget{structFlashAnimation_ac8957fcafabbeba79acfe8a8d6822206}\label{structFlashAnimation_ac8957fcafabbeba79acfe8a8d6822206} 
+\Hypertarget{structFlashAnimation_a2cbe0ed5083b98078baba6e91ba23fe1}\label{structFlashAnimation_a2cbe0ed5083b98078baba6e91ba23fe1} 
 std\+::map$<$ Flash\+State, float $>$ {\bfseries speeds}
 \item 
 \Hypertarget{structFlashAnimation_a4a37804a6f17f0af0c9e574a0485784f}\label{structFlashAnimation_a4a37804a6f17f0af0c9e574a0485784f} 
@@ -110,6 +172,7 @@ bool {\bfseries finished} = false
 \end{DoxyCompactItemize}
 
 
-The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/build/\+App\+Dir/\+Taz\+Graph\+Engine/src/\+GECS/\+Animators/Flash\+Animation.\+h\item 
 /mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Animators/Flash\+Animation.\+h\end{DoxyCompactItemize}

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['icamera_0',['ICamera',['../classICamera.html',1,'']]],
-  ['imapparser_1',['IMapParser',['../classIMapParser.html',1,'']]],
+  ['igraphparser_1',['IGraphParser',['../classIGraphParser.html',1,'']]],
   ['imguiconfig_2',['ImGuiConfig',['../structImGuiConfig.html',1,'']]],
   ['imguipanel_3',['ImGuiPanel',['../classImGuiPanel.html',1,'']]],
   ['innerlink_4',['InnerLink',['../classInnerLink.html',1,'']]],

@@ -114,7 +114,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		else if (arg.find("--MSAA=") == 0) {
-			msaaSamples = std::stoi(arg.substr(7)); // Length of "--initial-step="
+			msaaSamples = std::stoi(arg.substr(7)); // Length of "--MSAA="
 		}
 		else if (arg.find("--open-file=") == 0) {
 			openFile = arg.substr(12); // Length of "--open-file="
@@ -133,16 +133,16 @@ int main(int argc, char* argv[]) {
 			backgroundColor = parsedColor;
 		}
 		else if (arg.find("--grid=") == 0) {
-			useGrid = stringToBool(arg.substr(7)); // Length of "--use-python="
+			useGrid = stringToBool(arg.substr(7)); // Length of "--grid="
 		}
 		else {
 			std::cerr << "Unknown argument: " << arg << "\n";
 			std::cerr << "Usage: " << argv[0] << R"(
  [--num-threads=X]
+ [--MSAA=V]
  [--open-file=Y]
  [--initial-timestamp=Z]
  [--initial-step=W]
- [--MSAA=V]
  [--use-python=C]
  [--bg-color=FR,FG,FB,FA]
  [--grid=G]

@@ -2,7 +2,8 @@
 \hypertarget{classColliderComponent}{}\label{classColliderComponent}\index{ColliderComponent@{ColliderComponent}}
 
 
-Inheritance diagram for Collider\+Component\+:\nopagebreak
+Inheritance diagram for Collider\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,7 +12,8 @@ Inheritance diagram for Collider\+Component\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Collider\+Component\+:\nopagebreak
+Collaboration diagram for Collider\+Component\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,6 +22,26 @@ Collaboration diagram for Collider\+Component\+:\nopagebreak
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classColliderComponent_a2c21b3d4e0cfbf4c7b143c85c981ac33}\label{classColliderComponent_a2c21b3d4e0cfbf4c7b143c85c981ac33} 
+{\bfseries Collider\+Component} (\mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*}manager, glm\+::vec3 box\+Collider\+\_\+size)
+\item 
+void \mbox{\hyperlink{classColliderComponent_a9c0c763d047f6c0d62429cce48011093}{init}} () override
+\item 
+void \mbox{\hyperlink{classColliderComponent_ad680854d0ec4c576c36fe7a4c6cd460e}{update}} (float delta\+Time) override
+\item 
+\Hypertarget{classColliderComponent_a828af0962274e6c46abba3cb6b5eae55}\label{classColliderComponent_a828af0962274e6c46abba3cb6b5eae55} 
+void {\bfseries collision\+Physics} ()
+\item 
+void \mbox{\hyperlink{classColliderComponent_a9f223eea930d7a2258a86ff208f48bba}{draw}} (size\+\_\+t e\+\_\+index, \mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&batch, \mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&window) override
+\item 
+std\+::string \mbox{\hyperlink{classColliderComponent_aa4474b793047ebd1c029f8291b7ac00c}{Get\+Component\+Name}} () override
+\item 
+\Hypertarget{classColliderComponent_a156deda21ecbd6dcd5f4edf1d2bf95cc}\label{classColliderComponent_a156deda21ecbd6dcd5f4edf1d2bf95cc} 
+void {\bfseries add\+Collision\+Group} (Group g)
+\item 
+\Hypertarget{classColliderComponent_a4962e98ac8aa3581625bc2e49a011694}\label{classColliderComponent_a4962e98ac8aa3581625bc2e49a011694} 
+void {\bfseries remove\+Collision\+Group} (Group g)
 \item 
 \Hypertarget{classColliderComponent_a2c21b3d4e0cfbf4c7b143c85c981ac33}\label{classColliderComponent_a2c21b3d4e0cfbf4c7b143c85c981ac33} 
 {\bfseries Collider\+Component} (\mbox{\hyperlink{classManager}{Manager}} \texorpdfstring{$\ast$}{*}manager, glm\+::vec3 box\+Collider\+\_\+size)
@@ -60,7 +82,7 @@ virtual void {\bfseries show\+GUI} (std\+::vector$<$ \mbox{\hyperlink{classBaseC
 \Hypertarget{classColliderComponent_a186cb5762bfe54d50b270f34e6901e17}\label{classColliderComponent_a186cb5762bfe54d50b270f34e6901e17} 
 glm\+::vec3 {\bfseries box\+\_\+collider} = glm\+::vec3(0.\+0f)
 \item 
-\Hypertarget{classColliderComponent_a9e8630c262f3fecfd657e6cc303f0b78}\label{classColliderComponent_a9e8630c262f3fecfd657e6cc303f0b78} 
+\Hypertarget{classColliderComponent_ab7b8f61744842460004996d55a5f1713}\label{classColliderComponent_ab7b8f61744842460004996d55a5f1713} 
 \mbox{\hyperlink{classTransformComponent}{Transform\+Component}} \texorpdfstring{$\ast$}{*} {\bfseries transform} = nullptr
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classComponent}{Component}}}
@@ -81,7 +103,17 @@ Component\+ID {\bfseries id} = 0u
 \Hypertarget{classColliderComponent_a9f223eea930d7a2258a86ff208f48bba}\label{classColliderComponent_a9f223eea930d7a2258a86ff208f48bba} 
 \index{ColliderComponent@{ColliderComponent}!draw@{draw}}
 \index{draw@{draw}!ColliderComponent@{ColliderComponent}}
-\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Collider\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{e\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classColliderComponent_a9f223eea930d7a2258a86ff208f48bba}\label{classColliderComponent_a9f223eea930d7a2258a86ff208f48bba} 
+\index{ColliderComponent@{ColliderComponent}!draw@{draw}}
+\index{draw@{draw}!ColliderComponent@{ColliderComponent}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Collider\+Component\+::draw (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{e\+\_\+index,  }\item[{\mbox{\hyperlink{classPlaneModelRenderer}{Plane\+Model\+Renderer}} \&}]{batch,  }\item[{\mbox{\hyperlink{classTazGraphEngine_1_1Window}{Taz\+Graph\+Engine\+::\+Window}} \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -91,7 +123,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classColliderComponent_aa4474b793047ebd1c029f8291b7ac00c}\label{classColliderComponent_aa4474b793047ebd1c029f8291b7ac00c} 
 \index{ColliderComponent@{ColliderComponent}!GetComponentName@{GetComponentName}}
 \index{GetComponentName@{GetComponentName}!ColliderComponent@{ColliderComponent}}
-\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::string Collider\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classColliderComponent_aa4474b793047ebd1c029f8291b7ac00c}\label{classColliderComponent_aa4474b793047ebd1c029f8291b7ac00c} 
+\index{ColliderComponent@{ColliderComponent}!GetComponentName@{GetComponentName}}
+\index{GetComponentName@{GetComponentName}!ColliderComponent@{ColliderComponent}}
+\doxysubsubsection{\texorpdfstring{GetComponentName()}{GetComponentName()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily std\+::string Collider\+Component\+::\+Get\+Component\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -101,7 +143,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classColliderComponent_a9c0c763d047f6c0d62429cce48011093}\label{classColliderComponent_a9c0c763d047f6c0d62429cce48011093} 
 \index{ColliderComponent@{ColliderComponent}!init@{init}}
 \index{init@{init}!ColliderComponent@{ColliderComponent}}
-\doxysubsubsection{\texorpdfstring{init()}{init()}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Collider\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classColliderComponent_a9c0c763d047f6c0d62429cce48011093}\label{classColliderComponent_a9c0c763d047f6c0d62429cce48011093} 
+\index{ColliderComponent@{ColliderComponent}!init@{init}}
+\index{init@{init}!ColliderComponent@{ColliderComponent}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Collider\+Component\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -111,7 +163,17 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 \Hypertarget{classColliderComponent_ad680854d0ec4c576c36fe7a4c6cd460e}\label{classColliderComponent_ad680854d0ec4c576c36fe7a4c6cd460e} 
 \index{ColliderComponent@{ColliderComponent}!update@{update}}
 \index{update@{update}!ColliderComponent@{ColliderComponent}}
-\doxysubsubsection{\texorpdfstring{update()}{update()}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Collider\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
+
+\Hypertarget{classColliderComponent_ad680854d0ec4c576c36fe7a4c6cd460e}\label{classColliderComponent_ad680854d0ec4c576c36fe7a4c6cd460e} 
+\index{ColliderComponent@{ColliderComponent}!update@{update}}
+\index{update@{update}!ColliderComponent@{ColliderComponent}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily void Collider\+Component\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
@@ -120,6 +182,7 @@ Reimplemented from \mbox{\hyperlink{classBaseComponent}{Base\+Component}}.
 
 
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
+/mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/build/\+App\+Dir/\+Taz\+Graph\+Engine/src/\+GECS/\+Components/\+Empty/\+Util/Collider\+Component.\+h\item 
 /mnt/c/\+Users/lefte/\+Mujin/\+Masters\+Thesis/\+Taz/\+Taz\+Graph/\+Taz\+Graph\+Engine/src/\+GECS/\+Components/\+Empty/\+Util/Collider\+Component.\+h\end{DoxyCompactItemize}

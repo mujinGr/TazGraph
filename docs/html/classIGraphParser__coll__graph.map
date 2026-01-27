@@ -1,0 +1,7 @@
+<map id="IGraphParser" name="IGraphParser">
+<area shape="rect" id="Node000001" title="Abstract base class for all map parsers." alt="" coords="5,181,111,207"/>
+<area shape="rect" id="Node000002" href="$structThreader.html" title=" " alt="" coords="18,93,98,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="61,133,61,181,55,181,55,133"/>
+<area shape="rect" id="Node000003" href="$structTaskQueue.html" title=" " alt="" coords="11,5,105,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="61,45,61,93,55,93,55,45"/>
+</map>
