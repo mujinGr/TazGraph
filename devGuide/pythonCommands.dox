@@ -26,28 +26,27 @@ TazGraphEngine/src/DataManager/DataManager.h
 ```
 
 #Save/Load Python state
-Using python, we can also save the state of envirnoment in .pkl format by executing:
+Using python, we can also save the state of envirnoment in .mar format by executing:
 ```cpp
 
-import pickle
+# Save functions
+def my_function():
+    return 4
 
-def my_object():
-    return 4;
+def add_numbers(x, y):
+    return x + y
 
-
-with open("state.pkl", "wb") as f:
-    pickle.dump(my_object, f)
-
+save_functions("functions.mar", 
+               my_function=my_function,
+               add_numbers=add_numbers)
 
 ```
 
 To load, do:
 ```cpp
 
-with open("state.pkl", "rb") as f:
-    my_object = pickle.load(f)
-
-print(my_object());
+loaded_names = load_functions_to_globals("functions.mar")
+print(f"Loaded: {loaded_names}")
 
 ```
 */

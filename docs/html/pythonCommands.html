@@ -88,18 +88,18 @@ $(function() {
 <div class="ttc" id="aclassPythonEngineCommands_html"><div class="ttname"><a href="classPythonEngineCommands.html">PythonEngineCommands</a></div><div class="ttdef"><b>Definition</b> PythonEngineCommands.h:8</div></div>
 </div><!-- fragment --><p> If you need to add function related to control of simdump simulation go to: </p><div class="fragment"><div class="line">TazGraphEngine/src/<a class="code hl_class" href="classDataManager.html">DataManager</a>/<a class="code hl_class" href="classDataManager.html">DataManager</a>.h </div>
 <div class="ttc" id="aclassDataManager_html"><div class="ttname"><a href="classDataManager.html">DataManager</a></div><div class="ttdef"><b>Definition</b> DataManager.h:28</div></div>
-</div><!-- fragment --><p>#Save/Load Python state Using python, we can also save the state of envirnoment in .pkl format by executing: </p><div class="fragment"><div class="line"><span class="keyword">import</span> pickle</div>
+</div><!-- fragment --><p>#Save/Load Python state Using python, we can also save the state of envirnoment in .mar format by executing: </p><div class="fragment"><div class="line"><span class="preprocessor"># Save functions</span></div>
+<div class="line">def my_function():</div>
+<div class="line">    return 4</div>
 <div class="line"> </div>
-<div class="line">def my_object():</div>
-<div class="line">    return 4;</div>
+<div class="line">def add_numbers(x, y):</div>
+<div class="line">    return x + y</div>
 <div class="line"> </div>
-<div class="line"> </div>
-<div class="line">with open(<span class="stringliteral">&quot;state.pkl&quot;</span>, <span class="stringliteral">&quot;wb&quot;</span>) as f:</div>
-<div class="line">    pickle.dump(my_object, f)</div>
-</div><!-- fragment --><p>To load, do: </p><div class="fragment"><div class="line">with open(<span class="stringliteral">&quot;state.pkl&quot;</span>, <span class="stringliteral">&quot;rb&quot;</span>) as f:</div>
-<div class="line">    my_object = pickle.load(f)</div>
-<div class="line"> </div>
-<div class="line">print(my_object());</div>
+<div class="line">save_functions(<span class="stringliteral">&quot;functions.mar&quot;</span>, </div>
+<div class="line">               my_function=my_function,</div>
+<div class="line">               add_numbers=add_numbers)</div>
+</div><!-- fragment --><p>To load, do: </p><div class="fragment"><div class="line">loaded_names = load_functions_to_globals(<span class="stringliteral">&quot;functions.mar&quot;</span>)</div>
+<div class="line">print(f&quot;Loaded: {loaded_names}<span class="stringliteral">&quot;)</span></div>
 </div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

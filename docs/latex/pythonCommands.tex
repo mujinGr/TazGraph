@@ -25,26 +25,26 @@ You can add more at
 \end{DoxyCode}
 
 
-\#\+Save/\+Load Python state Using python, we can also save the state of envirnoment in .pkl format by executing\+: 
+\#\+Save/\+Load Python state Using python, we can also save the state of envirnoment in .mar format by executing\+: 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\textcolor{keyword}{import}\ pickle}
+\DoxyCodeLine{\textcolor{preprocessor}{\#\ Save\ functions}}
+\DoxyCodeLine{def\ my\_function():}
+\DoxyCodeLine{\ \ \ \ return\ 4}
 \DoxyCodeLine{}
-\DoxyCodeLine{def\ my\_object():}
-\DoxyCodeLine{\ \ \ \ return\ 4;}
+\DoxyCodeLine{def\ add\_numbers(x,\ y):}
+\DoxyCodeLine{\ \ \ \ return\ x\ +\ y}
 \DoxyCodeLine{}
-\DoxyCodeLine{}
-\DoxyCodeLine{with\ open(\textcolor{stringliteral}{"{}state.pkl"{}},\ \textcolor{stringliteral}{"{}wb"{}})\ as\ f:}
-\DoxyCodeLine{\ \ \ \ pickle.dump(my\_object,\ f)}
+\DoxyCodeLine{save\_functions(\textcolor{stringliteral}{"{}functions.mar"{}},\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ my\_function=my\_function,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ add\_numbers=add\_numbers)}
 
 \end{DoxyCode}
 
 
 To load, do\+: 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{with\ open(\textcolor{stringliteral}{"{}state.pkl"{}},\ \textcolor{stringliteral}{"{}rb"{}})\ as\ f:}
-\DoxyCodeLine{\ \ \ \ my\_object\ =\ pickle.load(f)}
-\DoxyCodeLine{}
-\DoxyCodeLine{print(my\_object());}
+\DoxyCodeLine{loaded\_names\ =\ load\_functions\_to\_globals(\textcolor{stringliteral}{"{}functions.mar"{}})}
+\DoxyCodeLine{print(f"{}Loaded:\ \{loaded\_names\}\textcolor{stringliteral}{"{})}}
 
 \end{DoxyCode}
  
